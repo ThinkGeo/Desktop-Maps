@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.DisplayThinkGeoCloudVectorMaps"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ThikGeoWpf="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf">
+    <Grid>
+        <ThikGeoWpf:MapView x:Name="Map" Loaded="Map_Loaded"></ThikGeoWpf:MapView>
+        <StackPanel  Width="200" Opacity="0.95" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="5">
+            <RadioButton Content="Default" Margin="5 5 5 0" IsChecked="True" Checked="RadioButton_Checked"/>
+            <RadioButton Content="Light" Margin="5 0" Checked="RadioButton_Checked"/>
+            <RadioButton Content="Dark" Margin="5 0"  Checked="RadioButton_Checked"/>
+            <RadioButton Content="TransparentBackground" Margin="5 0"  Checked="RadioButton_Checked"/>
+            <RadioButton Content="CustomizedByStyleJson" Margin="5 0 5 5"  Checked="RadioButton_Checked"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

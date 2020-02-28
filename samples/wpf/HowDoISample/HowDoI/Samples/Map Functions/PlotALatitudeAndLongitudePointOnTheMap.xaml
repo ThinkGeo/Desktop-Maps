@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.PlotALatitudeAndLongitudePointOnTheMap"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:uc1="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf">
+    <Grid>
+        <uc1:MapView x:Name="mapView" Loaded="MapView_Loaded"></uc1:MapView>
+        <StackPanel Width="200" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="8" Opacity="0.95">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                    <TextBlock Text="Longitude:" Width="100" VerticalAlignment="Center"></TextBlock>
+                    <TextBox x:Name="tbLon" Text="-10606588" IsReadOnly="True" Width="80"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Latitude:" Width="100" VerticalAlignment="Center"></TextBlock>
+                    <TextBox x:Name="tbLat" Text="4715285" IsReadOnly="True" Width="80"></TextBox>
+                </StackPanel>
+                <Button Content="Plot" Margin="0 5 0 0" Click="Button_Click"></Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

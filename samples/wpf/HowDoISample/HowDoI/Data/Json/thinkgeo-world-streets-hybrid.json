@@ -1,0 +1,3601 @@
+{
+  "id": "thinkgeo-world-streets-hybrid",
+  "version": 1.3,
+  "owner": "ThinkGeo LLC",
+  "time": "2018/06/09",
+  "variables": {
+    "@naturalAndSports": "#6de464",
+    "@tourism": "#f9cf54",
+    "@transportation": "#2dc1e7",
+    "@cultural": "#ade0fb",
+    "@industrial": "#544757",
+    "@shop": "#44ec8a",
+    "@eat": "#ff8845",
+    "@entertainment": "#51ecd5",
+    "@medical": "#f77171",
+    "@commonService": "#e885f3",
+    "@agriculture": "#3a3f32",
+    "@ice": "#4e535a",
+    "@wood": "#3e4d37",
+    "@grassland": "#142a12",
+    "@scrub": "#404e38",
+    "@rock": "#514b3a",
+    "@wetland": "#394a4d",
+    "@park": "#2f4f25",
+    "@pitch": "#1d3318",
+    "@swimmingPool": "#266d79",
+    "@sand": "#535046",
+    "@cemetery": "#474018",
+    "@crops": "#1f3525",
+    "@swamps": "#1e3832",
+    "@trees": "#192c20",
+    "@tundra": "#324345",
+    "@countryFill": "#3a3a3a",
+    "@urbanArea": "#343434",
+    "@water": "#192a2f",
+    "@waterLabels": "#77aad7",
+    "@farmLabels": "#999999",
+    "@roadFill": "#ffffff",
+    "@roadFillPartial": "rgba(255, 255, 255, 0.35)",
+    "@roadOutline": "#363636",
+    "@motorwayFill": "#b4841c",
+    "@motorwayFillBright": "#e1aa35",
+    "@motorwayOutline": "#534104",
+    "@motorwayFillTunnel": "#ddd",
+    "@motorwayTunnelOutline": "#b3b3b3",
+    "@primaryFill": "#ffffff",
+    "@primaryOutline": "#666666",
+    "@trunkFill": "#ffffff",
+    "@trunkOutline": "#666666",
+    "@secondaryFill": "#505050",
+    "@secondaryOutline": "#303030",
+    "@linkFill": "#636363",
+    "@roadTrack": "#484848",
+    "@cycleway": "#5a5a5a",
+    "@roadShieldMotorway": "#202020",
+    "@roadShieldTrunk": "#404040",
+    "@rail": "#363636",
+    "@railOther": "#00ff00",
+    "@railSubway": "#ed3773",
+    "@aerowayLevel1": "#3a3c3f",
+    "@aerowayLevel3": "#44464b",
+    "@aerowayLevel5": "#4a4e52",
+    "@adminLabelLevel7": "#525150",
+    "@adminLabelLevel5": "#6a6a69",
+    "@adminLabelLevel3": "#8c8b86",
+    "@adminLabelLevel2": "#a8a5a2",
+    "@adminLabelLevel1": "#c1c1be",
+    "@adminLabelLevel0": "#e0e0e0",
+    "@grayLevel0": "#ffffff",
+    "@grayLevel1": "#cccccc",
+    "@grayLevel2": "#cccccc",
+    "@grayLevel3": "#999999",
+    "@grayLevel4": "#808080",
+    "@grayLevel5": "#444444",
+    "@grayLevel6": "#333333",
+    "@buildingShadow": "#333333",
+    "@buildingOutline": "#383838",
+    "@buildingFill": "#424242",
+    "@buildingName": "#d2d2d2",
+    "@haloSolid": "#000000",
+    "@haloTransp50": "rgba(0, 0, 0, 0.7)",
+    "@haloTransp35": "rgba(0, 0, 0, 0.4)",
+    "@name": "name_en",
+    "@roadName": "name"
+  },
+  "styles": [
+    {
+      "id": "marine_name",
+      "filter": "layerName='marine_name'",
+      "text-wrap-width": 20,
+      "text-content": "@name",
+      "text-fill-color": "@waterLabels",
+      "text-opacity": 0.8,
+      "text-halo-color": "@haloTransp50",
+      "text-halo-radius": 2,
+      "style": [
+        {
+          "filter": "class=0",
+          "style": [
+            {
+              "filter": "zoom>=1;zoom<=3",
+              "text-halo-radius": 1,
+              "text-font": "oblique 600 12px Arial, Helvetica, sans-serif"
+            },
+            {
+              "filter": "zoom>=4;zoom<=5",
+              "text-font": "oblique 600 16px Arial, Helvetica, sans-serif"
+            },
+            {
+              "filter": "zoom>=6;zoom<=10",
+              "text-halo-radius": 2,
+              "text-font": "oblique 600 20px Arial, Helvetica, sans-serif"
+            }
+          ]
+        },
+        {
+          "filter": "class='1,2,3,4'",
+          "text-font": "oblique 200 10px Arial, Helvetica, sans-serif",
+          "style": [
+            {
+              "filter": "zoom>=2;zoom<=3",
+              "text-halo-radius": 1,
+              "text-font": "oblique 500 10px Arial, Helvetica, sans-serif"
+            },
+            {
+              "filter": "zoom>=4;zoom<=5",
+              "text-font": "oblique 500 12px Arial, Helvetica, sans-serif"
+            },
+            {
+              "filter": "zoom>=6;zoom<=10",
+              "text-halo-radius": 2,
+              "text-font": "oblique 600 16px Arial, Helvetica, sans-serif"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "country_boundary",
+      "filter": "layerName='admin_boundary';admin_level=2",
+      "style": [
+        {
+          "filter": "disputed=1",
+          "style": [
+            {
+              "filter": "zoom=1",
+              "line-width": 1,
+              "line-color": "@adminLabelLevel0"
+            },
+            {
+              "filter": "zoom>=2;zoom<=3",
+              "line-width": 3,
+              "line-color": "@haloTransp35"
+            },
+            {
+              "filter": "zoom>=4;zoom<=19",
+              "line-width": 5,
+              "line-color": "@haloTransp35"
+            }
+          ]
+        },
+        {
+          "filter": "disputed=0",
+          "line-width": 1,
+          "style": [
+            {
+              "filter": "zoom=1",
+              "line-color": "@adminLabelLevel0"
+            },
+            {
+              "filter": "zoom>=2;zoom<=10",
+              "line-color": "@adminLabelLevel1",
+              "line-dasharray": "3,3"
+            },
+            {
+              "filter": "zoom>=11;zoom<=19",
+              "line-width": 5,
+              "line-color": "@haloTransp35"
+            }
+          ]
+        },
+        {
+          "filter": "disputed=1;zoom>=4;zoom<=19",
+          "line-width": 1,
+          "line-color": "@adminLabelLevel3"
+        },
+        {
+          "filter": "disputed=1;zoom>=2;zoom<=3",
+          "line-width": 1,
+          "line-color": "@adminLabelLevel1"
+        },
+        {
+          "filter": "disputed=0;zoom>=11;zoom<=19",
+          "line-width": 3,
+          "line-color": "@adminLabelLevel3",
+          "line-dasharray": "8,6"
+        }
+      ]
+    },
+    {
+      "id": "province_boundary",
+      "filter": "layerName='admin_boundary';admin_level=4",
+      "line-width": 1,
+      "line-color": "@grayLevel1",
+      "line-opacity": 0.25,
+      "style": [
+        {
+          "filter": "scalerank=0",
+          "style": [
+            {
+              "filter": "zoom>=3;zoom<=4"
+            },
+            {
+              "filter": "zoom=5",
+              "line-width": 2
+            },
+            {
+              "filter": "zoom>=6;zoom<=8",
+              "line-width": 4,
+              "line-color": "@haloSolid",
+              "line-opacity": 0.35
+            }
+          ]
+        },
+        {
+          "filter": "scalerank=1",
+          "style": [
+            {
+              "filter": "zoom>=4;zoom<=8"
+            }
+          ]
+        },
+        {
+          "filter": "scalerank=2",
+          "style": [
+            {
+              "filter": "zoom>=5;zoom<=8"
+            }
+          ]
+        },
+        {
+          "filter": "zoom>=9",
+          "style": [
+            {
+              "line-color": "@adminLabelLevel3",
+              "line-opacity": 0.5,
+              "line-width": 2,
+              "line-dasharray": "8,4,2,4"
+            }
+          ]
+        },
+        {
+          "filter": "scalerank=0;zoom>=6;zoom<=8",
+          "line-width": 2,
+          "line-opacity": 0.5,
+          "line-color": "@grayLevel1"
+        }
+      ]
+    },
+    {
+      "id": "country_name",
+      "filter": "layerName='admin_name'",
+      "text-wrap-width": 30,
+      "text-halo-color": "@haloTransp50",
+      "text-halo-radius": 4,
+      "text-fill-color": "@adminLabelLevel0",
+      "text-spacing": 10,
+      "style": [
+        {
+          "filter": "class='country'",
+          "text-content": "@name",
+          "style": [
+            {
+              "filter": "labelrank=0",
+              "text-wrap-width": 120,
+              "style": [
+                {
+                  "filter": "zoom=1;",
+                  "text-font": "600 16px Arial, Helvetica, sans-serif"
+                },
+                {
+                  "filter": "zoom=2;",
+                  "text-font": "600 18px Arial, Helvetica, sans-serif"
+                },
+                {
+                  "filter": "zoom=3",
+                  "text-font": "600 24px Arial, Helvetica, sans-serif",
+                  "text-opacity": 0.8
+                },
+                {
+                  "filter": "zoom=4",
+                  "text-font": "600 30px Arial, Helvetica, sans-serif",
+                  "text-opacity": 0.5
+                },
+                {
+                  "filter": "zoom=5",
+                  "text-font": "600 36px Arial, Helvetica, sans-serif",
+                  "text-opacity": 0.5
+                }
+              ]
+            },
+            {
+              "filter": "labelrank=1",
+              "style": [
+                {
+                  "filter": "zoom>=1;zoom<=2;",
+                  "text-font": "500 11px Arial, Helvetica, sans-serif"
+                },
+                {
+                  "filter": "zoom=3",
+                  "text-font": "600 14px Arial, Helvetica, sans-serif"
+                },
+                {
+                  "filter": "zoom=4",
+                  "text-font": "600 22px Arial, Helvetica, sans-serif"
+                },
+                {
+                  "filter": "zoom=5",
+                  "text-font": "600 30px Arial, Helvetica, sans-serif"
+                }
+              ]
+            },
+            {
+              "filter": "labelrank=2",
+              "style": [
+                {
+                  "filter": "zoom=2",
+                  "text-font": "500 11px Arial, Helvetica, sans-serif"
+                },
+                {
+                  "filter": "zoom=3",
+                  "text-font": "600 12px Arial, Helvetica, sans-serif"
+                },
+                {
+                  "filter": "zoom=4",
+                  "text-font": "600 15px Arial, Helvetica, sans-serif"
+                },
+                {
+                  "filter": "zoom=5",
+                  "text-font": "600 24px Arial, Helvetica, sans-serif"
+                }
+              ]
+            },
+            {
+              "filter": "labelrank>=3;labelrank<=4",
+              "style": [
+                {
+                  "filter": "zoom=3",
+                  "text-font": "600 10px Arial, Helvetica, sans-serif"
+                },
+                {
+                  "filter": "zoom=4",
+                  "text-font": "600 13px Arial, Helvetica, sans-serif"
+                },
+                {
+                  "filter": "zoom=5",
+                  "text-font": "600 16px Arial, Helvetica, sans-serif"
+                }
+              ]
+            },
+            {
+              "filter": "labelrank>=5;labelrank<=6",
+              "style": [
+                {
+                  "filter": "zoom>=4;zoom<=5",
+                  "text-font": "500 12px Arial, Helvetica, sans-serif"
+                }
+              ]
+            },
+            {
+              "filter": "labelrank>=7",
+              "style": [
+                {
+                  "filter": "zoom=5",
+                  "text-font": "500 12px Arial, Helvetica, sans-serif"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "state_name",
+      "filter": "layerName='admin_name'",
+      "style": [
+        {
+          "filter": "class='state'",
+          "text-content": "@name",
+          "text-fill-color": "@adminLabelLevel1",
+          "text-wrap-width": 30,
+          "text-halo-color": "@haloTransp50",
+          "text-halo-radius": 2,
+          "style": [
+            {
+              "filter": "labelrank=0",
+              "style": [
+                {
+                  "filter": "zoom=3",
+                  "text-halo-radius": 1,
+                  "text-interval-distance": 10,
+                  "text-letter-case": "uppercase",
+                  "text-font": "500 9px Arial, Helvetica, sans-serif"
+                },
+                {
+                  "filter": "zoom=4",
+                  "text-opacity": 0.75,
+                  "text-letter-case": "uppercase",
+                  "text-font": "500 12px Arial, Helvetica, sans-serif"
+                },
+                {
+                  "filter": "zoom=5",
+                  "text-opacity": 0.75,
+                  "text-letter-case": "uppercase",
+                  "text-font": "500 18px Arial, Helvetica, sans-serif"
+                },
+                {
+                  "filter": "zoom>=6;zoom<=7",
+                  "text-opacity": 0.75,
+                  "text-letter-case": "uppercase",
+                  "text-font": "500 26px Arial, Helvetica, sans-serif"
+                }
+              ]
+            },
+            {
+              "filter": "labelrank=1",
+              "style": [
+                {
+                  "filter": "zoom=5",
+                  "text-fill-color": "@adminLabelLevel3",
+                  "text-font": "small-caps 500 12px Arial, Helvetica, sans-serif"
+                },
+                {
+                  "filter": "zoom>=6;zoom<=7",
+                  "text-fill-color": "@adminLabelLevel3",
+                  "text-font": "small-caps 500 18px Arial, Helvetica, sans-serif"
+                }
+              ]
+            },
+            {
+              "filter": "labelrank=2",
+              "style": [
+                {
+                  "filter": "zoom=6",
+                  "text-font": "small-caps 500 12px Arial, Helvetica, sans-serif"
+                },
+                {
+                  "filter": "zoom=7",
+                  "text-font": "small-caps 500 14px Arial, Helvetica, sans-serif"
+                }
+              ]
+            },
+            {
+              "filter": "labelrank>=3;labelrank<=4",
+              "style": [
+                {
+                  "text-font": "small-caps 500 11px Arial, Helvetica, sans-serif",
+                  "filter": "zoom>=6;zoom<=7"
+                }
+              ]
+            },
+            {
+              "filter": "labelrank>=5",
+              "style": [
+                {
+                  "filter": "zoom>=6;zoom<=7",
+                  "text-font": "small-caps 500 10px Arial, Helvetica, sans-serif"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "building",
+      "filter": "layerName='building'",
+      "style": [
+        {
+          "filter": "zoom>=18;zoom<=19",
+          "polygon-fill-color": "@buildingFill",
+          "polygon-opacity": 0,
+          "polygon-outline-color": "@grayLevel0",
+          "polygon-outline-width": 1,
+          "polygon-outline-opacity": 0.35
+        }
+      ]
+    },
+    {
+      "id": "waterway",
+      "filter": "layerName='waterway'",
+      "line-color": "@water",
+      "style": [
+        {
+          "filter": "zoom>=2;zoom<=11",
+          "line-width": 1
+        }
+      ]
+    },
+    {
+      "id": "road_number",
+      "filter": "layerName='road';ref=~'^((?!;).)*$'",
+      "text-content": "ref",
+      "text-halo-radius": 1,
+      "text-force-horizontal-for-line": true,
+      "text-mask-type": "RoundedCorners",
+      "text-mask-outline-width": "2",
+      "style": [
+        {
+          "filter": "class='motorway'",
+          "text-font": "bold 9px Arial, Helvetica, sans-serif",
+          "text-fill-color": "#ffce99",
+          "text-mask-color": "@roadShieldMotorway",
+          "text-mask-outline-color": "#996833",
+          "text-mask-margin": "1",
+          "style": [
+            {
+              "filter": "zoom>=7;zoom<=12",
+              "text-spacing": 200
+            },
+            {
+              "filter": "zoom>=13;zoom<=16",
+              "text-spacing": 500
+            }
+          ]
+        },
+        {
+          "filter": "class='trunk'",
+          "text-font": "bold 8px Arial, Helvetica, sans-serif",
+          "text-fill-color": "#caf494",
+          "text-mask-color": "@roadShieldTrunk",
+          "text-mask-outline-color": "#6c9933",
+          "text-mask-margin": "1",
+          "style": [
+            {
+              "filter": "zoom>=7;zoom<=16",
+              "text-spacing": 500
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "road",
+      "filter": "layerName='road'",
+      "z-index-atrribute-name": "layer",
+      "style": [
+        {
+          "filter": "zoom>=5;zoom<=6",
+          "line-color": "@motorwayFill",
+          "line-opacity": 0.7,
+          "line-width": 1
+        },
+        {
+          "filter": "class='motorway'",
+          "line-cap": "butt",
+          "line-color": "@motorwayFill",
+          "style": [
+            {
+              "filter": "zoom>=7;zoom<=8",
+              "line-width": 1
+            },
+            {
+              "filter": "zoom=9",
+              "line-width": 2,
+              "line-color": "@motorwayFillBright"
+            },
+            {
+              "filter": "zoom=10",
+              "line-width": 3,
+              "line-color": "@motorwayFillBright"
+            },
+            {
+              "filter": "zoom=11",
+              "line-width": 3,
+              "line-color": "@motorwayFillBright",
+              "line-opacity": 0.7
+            },
+            {
+              "line-color": "@motorwayOutline",
+              "line-opacity": 0.5,
+              "style": [
+                {
+                  "filter": "zoom=12;",
+                  "line-width": 5,
+                  "style": [
+                    {
+                      "filter": "tunnel=1",
+                      "line-color": "@motorwayFillTunnel"
+                    },
+                    {}
+                  ]
+                },
+                {
+                  "filter": "zoom=13;",
+                  "line-width": 6,
+                  "style": [
+                    {
+                      "filter": "tunnel=1",
+                      "line-color": "@motorwayFillTunnel"
+                    },
+                    {}
+                  ]
+                },
+                {
+                  "filter": "zoom=14;",
+                  "line-width": 8,
+                  "style": [
+                    {
+                      "filter": "tunnel=1",
+                      "line-color": "@motorwayFillTunnel"
+                    },
+                    {}
+                  ]
+                },
+                {
+                  "filter": "zoom=15;",
+                  "line-width": 12,
+                  "style": [
+                    {
+                      "filter": "tunnel=1",
+                      "line-color": "@motorwayFillTunnel",
+                      "line-opacity": 0.3
+                    },
+                    {}
+                  ]
+                },
+                {
+                  "filter": "zoom=16;",
+                  "line-width": 16,
+                  "style": [
+                    {
+                      "filter": "tunnel=1",
+                      "line-color": "@motorwayFillTunnel",
+                      "line-opacity": 0.2
+                    },
+                    {}
+                  ]
+                },
+                {
+                  "filter": "zoom=17;",
+                  "line-width": 26,
+                  "style": [
+                    {
+                      "filter": "tunnel=1",
+                      "line-color": "@motorwayFillTunnel",
+                      "line-opacity": 0.2
+                    },
+                    {}
+                  ]
+                },
+                {
+                  "filter": "zoom=18;",
+                  "line-width": 38,
+                  "style": [
+                    {
+                      "filter": "tunnel=1",
+                      "line-color": "@motorwayFillTunnel",
+                      "line-opacity": 0.2
+                    },
+                    {}
+                  ]
+                },
+                {
+                  "filter": "zoom=19;",
+                  "line-width": 60,
+                  "style": [
+                    {
+                      "filter": "tunnel=1",
+                      "line-color": "@motorwayFillTunnel",
+                      "line-opacity": 0.2
+                    },
+                    {}
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "filter": "class='trunk'",
+          "line-cap": "butt",
+          "line-color": "@trunkFill",
+          "style": [
+            {
+              "filter": "zoom=7",
+              "line-width": 1,
+              "line-color": "@motorwayFill"
+            },
+            {
+              "filter": "zoom>=8;zoom<=9",
+              "line-width": 1,
+              "line-opacity": 0.5
+            },
+            {
+              "filter": "zoom>=10;zoom<=11;",
+              "line-width": 2,
+              "line-opacity": 0.5
+            },
+            {
+              "filter": "zoom=12;",
+              "line-width": 4,
+              "line-color": "@trunkFill",
+              "line-opacity": 0.5
+            },
+            {
+              "filter": "zoom>=13;zoom<=14",
+              "line-width": 5,
+              "line-opacity": 0.5
+            },
+            {
+              "filter": "zoom=15",
+              "line-width": 10,
+              "line-opacity": 0.5
+            },
+            {
+              "filter": "zoom=16;",
+              "line-width": 14,
+              "line-opacity": 0.5
+            },
+            {
+              "filter": "zoom=17;",
+              "line-width": 18,
+              "line-opacity": 0.5
+            },
+            {
+              "filter": "zoom>=18;zoom<=19;",
+              "line-width": 22,
+              "line-opacity": 0.5
+            }
+          ]
+        },
+        {
+          "filter": "class='primary'",
+          "line-cap": "butt",
+          "line-color": "@primaryFill",
+          "style": [
+            {
+              "filter": "zoom=8",
+              "line-color": "@roadFill",
+              "line-opacity": 0.15,
+              "line-width": 1
+            },
+            {
+              "filter": "zoom=9",
+              "line-color": "@roadFill",
+              "line-opacity": 0.4,
+              "line-width": 2
+            },
+            {
+              "filter": "zoom>=10;zoom<=11",
+              "line-color": "@roadFill",
+              "line-opacity": 0.4,
+              "line-width": 3
+            },
+            {
+              "filter": "zoom=12",
+              "line-width": 3,
+              "line-opacity": 0.4
+            },
+            {
+              "filter": "zoom=13",
+              "line-width": 4,
+              "line-opacity": 0.4
+            },
+            {
+              "filter": "zoom=14",
+              "line-width": 6,
+              "line-opacity": 0.3
+            },
+            {
+              "filter": "zoom=15",
+              "line-width": 14,
+              "line-opacity": 0.3
+            },
+            {
+              "filter": "zoom=16",
+              "line-width": 18,
+              "line-opacity": 0.3
+            },
+            {
+              "filter": "zoom=17",
+              "line-width": 24,
+              "line-opacity": 0.3
+            },
+            {
+              "filter": "zoom=18;",
+              "line-width": 28,
+              "line-opacity": 0.25
+            },
+            {
+              "filter": "zoom=19",
+              "line-width": 36,
+              "line-opacity": 0.25
+            }
+          ]
+        },
+        {
+          "filter": "class='secondary'",
+          "line-cap": "butt",
+          "line-color": "@roadFill",
+          "style": [
+            {
+              "filter": "zoom=10",
+              "line-width": 1,
+              "line-opacity": 0.2
+            },
+            {
+              "filter": "zoom=11",
+              "line-width": 2,
+              "line-opacity": 0.5
+            },
+            {
+              "filter": "zoom=12",
+              "line-width": 2,
+              "line-opacity": 0.5
+            },
+            {
+              "filter": "zoom=13",
+              "line-width": 3,
+              "line-opacity": 0.35
+            },
+            {
+              "filter": "zoom=14",
+              "line-width": 6,
+              "line-opacity": 0.35
+            },
+            {
+              "filter": "zoom=15",
+              "line-width": 8,
+              "line-opacity": 0.35
+            },
+            {
+              "filter": "zoom=16;",
+              "line-width": 14,
+              "line-opacity": 0.35
+            },
+            {
+              "filter": "zoom=17;",
+              "line-width": 20,
+              "line-opacity": 0.35
+            },
+            {
+              "filter": "zoom=18;",
+              "line-width": 26,
+              "line-opacity": 0.35
+            },
+            {
+              "filter": "zoom=19",
+              "line-width": 32,
+              "line-opacity": 0.35
+            }
+          ]
+        },
+        {
+          "filter": "class='tertiary'",
+          "line-cap": "butt",
+          "line-color": "@roadFill",
+          "style": [
+            {
+              "filter": "zoom=11",
+              "line-width": 1,
+              "line-color": "@roadFillPartial",
+              "line-opacity": 0.7
+            },
+            {
+              "filter": "zoom=12;",
+              "line-width": 2,
+              "line-opacity": 0.35
+            },
+            {
+              "filter": "zoom=13;",
+              "line-width": 3,
+              "line-opacity": 0.35
+            },
+            {
+              "filter": "zoom=14;",
+              "line-width": 5,
+              "line-opacity": 0.35
+            },
+            {
+              "filter": "zoom=15;",
+              "line-width": 8,
+              "line-opacity": 0.35
+            },
+            {
+              "filter": "zoom=16;",
+              "line-width": 12,
+              "line-opacity": 0.35
+            },
+            {
+              "filter": "zoom=17;",
+              "line-width": 16,
+              "line-opacity": 0.35
+            },
+            {
+              "filter": "zoom=18;",
+              "line-width": 24,
+              "line-opacity": 0.35
+            },
+            {
+              "filter": "zoom=19",
+              "line-width": 30,
+              "line-opacity": 0.35
+            }
+          ]
+        },
+        {
+          "filter": "class='residential,living_street,unclassified'",
+          "line-cap": "butt",
+          "line-color": "@roadFill",
+          "style": [
+            {
+              "filter": "zoom=13",
+              "line-color": "@roadFill",
+              "line-width": 1,
+              "line-opacity": 0.35
+            },
+            {
+              "filter": "zoom=14",
+              "line-width": 2,
+              "line-opacity": 0.35
+            },
+            {
+              "filter": "zoom=15",
+              "line-width": 3,
+              "line-opacity": 0.35
+            },
+            {
+              "filter": "zoom=16",
+              "line-width": 5,
+              "line-opacity": 0.3
+            },
+            {
+              "filter": "zoom=17",
+              "line-width": 10,
+              "line-opacity": 0.25
+            },
+            {
+              "filter": "zoom=18",
+              "line-width": 20,
+              "line-opacity": 0.25
+            },
+            {
+              "filter": "zoom=19",
+              "line-width": 36,
+              "line-opacity": 0.2
+            }
+          ]
+        },
+        {
+          "filter": "class='service,pedestrian'",
+          "line-cap": "butt",
+          "line-color": "@roadFill",
+          "style": [
+            {
+              "filter": "zoom=13",
+              "line-width": 1,
+              "line-opacity": 0.5
+            },
+            {
+              "filter": "zoom=14",
+              "line-width": 1,
+              "line-opacity": 0.5
+            },
+            {
+              "filter": "zoom>=15;zoom<=16",
+              "line-width": 3,
+              "line-opacity": 0.35
+            },
+            {
+              "filter": "zoom=17",
+              "line-width": 4,
+              "line-opacity": 0.35
+            },
+            {
+              "filter": "zoom=18",
+              "line-width": 8,
+              "line-opacity": 0.25
+            },
+            {
+              "filter": "zoom=19",
+              "line-width": 12,
+              "line-opacity": 0.2
+            }
+          ]
+        },
+        {
+          "filter": "class='track'",
+          "line-cap": "butt",
+          "style": [
+            {
+              "filter": "zoom>=14;zoom<=16;",
+              "line-color": "@roadTrack",
+              "line-dasharray": "8,3,3,3",
+              "line-width": 1.4
+            },
+            {
+              "filter": "zoom>=17",
+              "line-color": "@roadTrack",
+              "line-dasharray": "12,5,5,5",
+              "line-width": 2
+            }
+          ]
+        },
+        {
+          "filter": "class='road'",
+          "line-cap": "butt",
+          "line-color": "@roadOutline",
+          "style": [
+            {
+              "filter": "zoom>=14;zoom<=16;",
+              "line-width": 4
+            },
+            {
+              "filter": "zoom>=17",
+              "line-width": 8
+            }
+          ]
+        },
+        {
+          "filter": "class='construction'",
+          "line-cap": "butt",
+          "style": [
+            {
+              "filter": "zoom>=18;zoom<=19;",
+              "line-color": "@grayLevel6",
+              "line-width": 1,
+              "line-dasharray": "10,5"
+            }
+          ]
+        },
+        {
+          "filter": "class='path'",
+          "line-cap": "butt",
+          "style": [
+            {
+              "filter": "zoom>=18;zoom<=19;",
+              "line-color": "@roadOutline",
+              "line-width": 4
+            }
+          ]
+        },
+        {
+          "filter": "class='footway'",
+          "line-cap": "butt",
+          "style": [
+            {
+              "filter": "zoom>=17;zoom<=19;bridge=1",
+              "line-color": "@roadTrack",
+              "line-width": 6
+            },
+            {
+              "filter": "zoom>=17;zoom<=19;tunnel=1",
+              "line-color": "@roadTrack",
+              "line-dasharray": "10,3",
+              "line-width": 6
+            },
+            {
+              "filter": "zoom>=17;zoom<=19;tunnel=0;bridge=0",
+              "line-color": "@roadFill",
+              "line-opacity": 0.45,
+              "line-dasharray": "8,5",
+              "line-width": 5
+            }
+          ]
+        },
+        {
+          "filter": "class='steps'",
+          "line-cap": "butt",
+          "style": [
+            {
+              "filter": "zoom>=18;zoom<=19;",
+              "line-color": "@roadTrack",
+              "line-width": 6
+            }
+          ]
+        },
+        {
+          "filter": "class='bridleway'",
+          "line-cap": "butt",
+          "style": [
+            {
+              "filter": "zoom>=18;zoom<=19;",
+              "line-color": "@roadTrack",
+              "line-width": 2,
+              "line-dasharray": "5,5"
+            }
+          ]
+        },
+        {
+          "filter": "class='cycleway'",
+          "line-cap": "butt",
+          "style": [
+            {
+              "filter": "zoom>=18;zoom<=19;",
+              "line-color": "@cycleway",
+              "line-width": 1,
+              "line-dasharray": "5,5"
+            }
+          ]
+        },
+        {
+          "filter": "class='raceway'",
+          "line-cap": "butt",
+          "style": [
+            {
+              "filter": "zoom>=18;zoom<=19;",
+              "line-color": "@grayLevel5",
+              "line-width": 6
+            }
+          ]
+        },
+        {
+          "filter": "class='motorway_link'",
+          "line-cap": "butt",
+          "line-color": "@motorwayFillBright",
+          "style": [
+            {
+              "filter": "zoom>=13;zoom<=14;",
+              "line-width": 2
+            },
+            {
+              "filter": "zoom=15;",
+              "line-color": "@motorwayOutline",
+              "line-opacity": 0.5,
+              "line-width": 6
+            },
+            {
+              "filter": "zoom=16;",
+              "line-color": "@motorwayOutline",
+              "line-opacity": 0.5,
+              "line-width": 8
+            },
+            {
+              "filter": "zoom=17;",
+              "line-color": "@motorwayOutline",
+              "line-opacity": 0.35,
+              "line-width": 12
+            },
+            {
+              "filter": "zoom>=18;zoom<=19",
+              "line-color": "@motorwayOutline",
+              "line-opacity": 0.25,
+              "line-width": 14
+            }
+          ]
+        },
+        {
+          "filter": "class='trunk_link'",
+          "line-cap": "butt",
+          "line-color": "@trunkFill",
+          "style": [
+            {
+              "filter": "zoom=14;",
+              "line-width": 2,
+              "line-opacity": 0.2
+            },
+            {
+              "filter": "zoom=15;",
+              "line-width": 6,
+              "line-opacity": 0.3
+            },
+            {
+              "filter": "zoom=16;",
+              "line-width": 8,
+              "line-opacity": 0.4
+            },
+            {
+              "filter": "zoom=17;",
+              "line-width": 12,
+              "line-opacity": 0.4
+            },
+            {
+              "filter": "zoom>=18;zoom<=19",
+              "line-width": 14,
+              "line-opacity": 0.4
+            }
+          ]
+        },
+        {
+          "filter": "class='primary_link'",
+          "line-cap": "butt",
+          "line-color": "@roadFill",
+          "style": [
+            {
+              "filter": "zoom=14;",
+              "line-opacity": 0.2,
+              "line-width": 2
+            },
+            {
+              "filter": "zoom=15",
+              "line-opacity": 0.2,
+              "line-width": 6
+            },
+            {
+              "filter": "zoom=16;",
+              "line-opacity": 0.25,
+              "line-width": 8
+            },
+            {
+              "filter": "zoom=17;",
+              "line-opacity": 0.25,
+              "line-width": 10
+            },
+            {
+              "filter": "zoom>=18;zoom<=19",
+              "line-opacity": 0.25,
+              "line-width": 12
+            }
+          ]
+        },
+        {
+          "filter": "class='secondary_link, tertiary_link'",
+          "line-cap": "butt",
+          "line-color": "@roadFill",
+          "style": [
+            {
+              "filter": "zoom=14;",
+              "line-width": 2,
+              "line-opacity": 0.25
+            },
+            {
+              "filter": "zoom>=15;zoom<=16",
+              "line-width": 6,
+              "line-opacity": 0.25
+            },
+            {
+              "filter": "zoom=17;",
+              "line-width": 10,
+              "line-opacity": 0.25
+            },
+            {
+              "filter": "zoom>=18;zoom<=19",
+              "line-width": 12,
+              "line-opacity": 0.25
+            }
+          ]
+        },
+        {
+          "line-width": 3,
+          "line-color": "@motorwayFillBright",
+          "line-opacity": 0.5,
+          "filter": "class='motorway';zoom=12;",
+          "line-cap": "butt"
+        },
+        {
+          "filter": "class='motorway';zoom=12;;tunnel=1",
+          "line-width": 5,
+          "line-color": "@motorwayTunnelOutline",
+          "line-opacity": 0.5,
+          "line-cap": "butt"
+        },
+        {
+          "line-width": 4,
+          "line-color": "@motorwayFillBright",
+          "line-opacity": 0.5,
+          "filter": "class='motorway';zoom=13;",
+          "line-cap": "butt"
+        },
+        {
+          "filter": "class='motorway';zoom=13;;tunnel=1",
+          "line-width": 5,
+          "line-color": "@motorwayTunnelOutline",
+          "line-opacity": 0.5,
+          "line-cap": "butt"
+        },
+        {
+          "line-width": 6,
+          "line-color": "@motorwayFillBright",
+          "line-opacity": 0.5,
+          "filter": "class='motorway';zoom=14;",
+          "line-cap": "butt"
+        },
+        {
+          "filter": "class='motorway';zoom=14;;tunnel=1",
+          "line-width": 7,
+          "line-color": "@motorwayTunnelOutline",
+          "line-opacity": 0.5,
+          "line-cap": "butt"
+        },
+        {
+          "line-width": 10,
+          "line-color": "@motorwayFillBright",
+          "line-opacity": 0.5,
+          "filter": "class='motorway';zoom=15;",
+          "line-cap": "butt"
+        },
+        {
+          "filter": "class='motorway';zoom=15;;tunnel=1",
+          "line-width": 10,
+          "line-color": "@motorwayTunnelOutline",
+          "line-opacity": 0.5,
+          "line-cap": "butt"
+        },
+        {
+          "line-width": 14,
+          "line-color": "@motorwayFillBright",
+          "line-opacity": 0.5,
+          "filter": "class='motorway';zoom=16;",
+          "line-cap": "butt"
+        },
+        {
+          "filter": "class='motorway';zoom=16;;tunnel=1",
+          "line-width": 14,
+          "line-color": "@motorwayTunnelOutline",
+          "line-opacity": 0.5,
+          "line-cap": "butt"
+        },
+        {
+          "line-width": 22,
+          "line-color": "@motorwayFillBright",
+          "line-opacity": 0.35,
+          "filter": "class='motorway';zoom=17;",
+          "line-cap": "butt"
+        },
+        {
+          "filter": "class='motorway';zoom=17;;tunnel=1",
+          "line-width": 24,
+          "line-color": "@motorwayTunnelOutline",
+          "line-opacity": 0.5,
+          "line-cap": "butt"
+        },
+        {
+          "line-width": 34,
+          "line-color": "@motorwayFillBright",
+          "line-opacity": 0.25,
+          "filter": "class='motorway';zoom=18;",
+          "line-cap": "butt"
+        },
+        {
+          "filter": "class='motorway';zoom=18;;tunnel=1",
+          "line-width": 36,
+          "line-color": "@motorwayTunnelOutline",
+          "line-opacity": 0.5,
+          "line-cap": "butt"
+        },
+        {
+          "line-width": 56,
+          "line-color": "@motorwayFillBright",
+          "line-opacity": 0.25,
+          "filter": "class='motorway';zoom=19;",
+          "line-cap": "butt"
+        },
+        {
+          "filter": "class='motorway';zoom=19;;tunnel=1",
+          "line-width": 56,
+          "line-color": "@motorwayTunnelOutline",
+          "line-opacity": 0.5,
+          "line-cap": "butt"
+        },
+        {
+          "filter": "class='service,pedestrian';zoom=19",
+          "line-width": 10,
+          "line-color": "@roadFill",
+          "line-opacity": 0,
+          "line-cap": "butt"
+        },
+        {
+          "filter": "class='service,pedestrian';zoom=18",
+          "line-width": 6,
+          "line-color": "@roadFill",
+          "line-opacity": 0,
+          "line-cap": "butt"
+        },
+        {
+          "filter": "class='service,pedestrian';zoom=17",
+          "line-width": 2,
+          "line-color": "@roadFill",
+          "line-opacity": 0,
+          "line-cap": "butt"
+        },
+        {
+          "filter": "class='service,pedestrian';zoom>=15;zoom<=16",
+          "line-width": 1,
+          "line-color": "@roadFill",
+          "line-opacity": 0,
+          "line-cap": "butt"
+        },
+        {
+          "filter": "class='road';zoom>=17",
+          "line-width": 6,
+          "line-color": "@roadFill",
+          "line-cap": "butt"
+        },
+        {
+          "filter": "class='road';zoom>=14;zoom<=16;",
+          "line-width": 2,
+          "line-color": "@roadFill",
+          "line-cap": "butt"
+        },
+        {
+          "filter": "class='path';zoom>=18;zoom<=19;",
+          "line-width": 2,
+          "line-color": "@roadFill",
+          "line-cap": "butt"
+        },
+        {
+          "filter": "class='footway';zoom>=17;zoom<=19;tunnel=1",
+          "line-dasharray": "10,3",
+          "line-width": 4,
+          "line-color": "@roadFill",
+          "line-cap": "butt"
+        },
+        {
+          "filter": "class='footway';zoom>=17;zoom<=19;tunnel=1",
+          "line-width": 1,
+          "line-dasharray": "5,5",
+          "line-color": "@roadTrack",
+          "line-cap": "butt"
+        },
+        {
+          "filter": "class='footway';zoom>=17;zoom<=19;bridge=1",
+          "line-width": 4,
+          "line-color": "@roadFill",
+          "line-cap": "butt"
+        },
+        {
+          "filter": "class='footway';zoom>=17;zoom<=19;bridge=1",
+          "line-width": 1,
+          "line-dasharray": "5,5",
+          "line-color": "@roadTrack",
+          "line-cap": "butt"
+        },
+        {
+          "filter": "class='steps';zoom>=18;zoom<=19;",
+          "line-width": 4,
+          "line-color": "@roadFill",
+          "line-cap": "butt"
+        },
+        {
+          "filter": "class='steps';zoom>=18;zoom<=19;",
+          "line-width": 4,
+          "line-dasharray": "1,5",
+          "line-color": "@roadTrack",
+          "line-cap": "butt"
+        },
+        {
+          "filter": "class='motorway_link';zoom>=18;zoom<=19",
+          "line-width": 10,
+          "line-color": "@motorwayFillBright",
+          "line-opacity": 0.25,
+          "line-cap": "butt"
+        },
+        {
+          "filter": "class='motorway_link';zoom=17;",
+          "line-width": 8,
+          "line-color": "@motorwayFillBright",
+          "line-opacity": 0.35,
+          "line-cap": "butt"
+        },
+        {
+          "filter": "class='motorway_link';zoom=16;",
+          "line-width": 6,
+          "line-color": "@motorwayFillBright",
+          "line-opacity": 0.5,
+          "line-cap": "butt"
+        },
+        {
+          "filter": "class='motorway_link';zoom=15;",
+          "line-width": 4,
+          "line-color": "@motorwayFillBright",
+          "line-opacity": 0.5,
+          "line-cap": "butt"
+        }
+      ]
+    },
+    {
+      "id": "housenumber",
+      "filter": "layerName='housenumber'",
+      "style": [
+        {
+          "filter": "zoom>=18;zoom<=19;",
+          "text-content": "housenumber",
+          "text-fill-color": "@adminLabelLevel0",
+          "text-font": "12px sans-serif",
+          "text-halo-color": "@haloTransp50",
+          "text-placement-type": "default",
+          "text-halo-radius": 3
+        }
+      ]
+    },
+    {
+      "id": "place_popular",
+      "filter": "layerName='place'",
+      "text-wrap-width": 50,
+      "style": [
+        {
+          "filter": "class='city'",
+          "shield-icon-type": "symbol",
+          "shield-icon-symbol-type": "circle",
+          "shield-icon-color": "@grayLevel0",
+          "shield-name": "@name",
+          "shield-dy": -12,
+          "shield-fill": "@grayLevel0",
+          "shield-halo-fill": "@haloSolid",
+          "shield-halo-radius": 2,
+          "shield-icon-size": 4,
+          "style": [
+            {
+              "filter": "zoom>=3;zoom<=4",
+              "shield-font": "600 12px Arial, Helvetica, sans-serif"
+            },
+            {
+              "filter": "zoom=5",
+              "shield-font": "600 14px Arial, Helvetica, sans-serif"
+            },
+            {
+              "filter": "zoom>=6;zoom<=7",
+              "shield-font": "600 16px Arial, Helvetica, sans-serif"
+            },
+            {
+              "filter": "population>=80000;population<1000000|population=0",
+              "style": [
+                {
+                  "filter": "zoom=8",
+                  "shield-font": "600 13px Arial, Helvetica, sans-serif"
+                },
+                {
+                  "text-content": "@name",
+                  "text-fill-color": "@grayLevel0",
+                  "text-halo-color": "@haloSolid",
+                  "text-halo-radius": 3,
+                  "style": [
+                    {
+                      "filter": "zoom>=9;zoom<=10",
+                      "text-font": "600 13px Arial, Helvetica, sans-serif"
+                    },
+                    {
+                      "filter": "zoom>=11;zoom<=13",
+                      "text-font": "600 15px Arial, Helvetica, sans-serif"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "filter": "population>=1000000",
+              "style": [
+                {
+                  "filter": "zoom=8",
+                  "shield-font": "600 16px Arial, Helvetica, sans-serif"
+                },
+                {
+                  "text-content": "@name",
+                  "text-fill-color": "@grayLevel0",
+                  "text-halo-color": "@haloSolid",
+                  "text-halo-radius": 3,
+                  "style": [
+                    {
+                      "filter": "zoom>=9;zoom<=10",
+                      "text-font": "600 16px Arial, Helvetica, sans-serif"
+                    },
+                    {
+                      "filter": "zoom>=11;zoom<=13",
+                      "text-font": "600 20px Arial, Helvetica, sans-serif"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "filter": "class='town'",
+          "shield-icon-type": "symbol",
+          "shield-icon-symbol-type": "circle",
+          "shield-icon-color": "@grayLevel0",
+          "shield-name": "@name",
+          "shield-dy": -12,
+          "shield-fill": "@grayLevel1",
+          "shield-halo-fill": "@haloTransp50",
+          "shield-halo-radius": 2,
+          "shield-icon-size": 4,
+          "text-halo-radius": 3,
+          "text-halo-color": "@haloTransp50",
+          "style": [
+            {
+              "filter": "zoom>=5;zoom<=6;",
+              "shield-font": "600 13px Arial, Helvetica, sans-serif"
+            },
+            {
+              "filter": "zoom=7;",
+              "shield-font": "600 14px Arial, Helvetica, sans-serif"
+            },
+            {
+              "text-content": "@name",
+              "text-fill-color": "@grayLevel3",
+              "text-halo-color": "@haloTransp50",
+              "text-halo-radius": 3,
+              "style": [
+                {
+                  "filter": "population>=1000;population<=100000;zoom=8|population=0;zoom=8",
+                  "text-font": "small-caps 500 12px Arial, Helvetica, sans-serif",
+                  "text-fill-color": "@adminLabelLevel1"
+                },
+                {
+                  "filter": "population>=1000;population<=100000;zoom>=9;zoom<=10|population=0;zoom>=9;zoom<=10",
+                  "text-font": "small-caps 500 12px Arial, Helvetica, sans-serif",
+                  "text-fill-color": "@grayLevel0",
+                  "text-opacity": 0.85
+                },
+                {
+                  "filter": "population>=100;zoom>=11;zoom<=13|population=0;zoom>=11;zoom<=13",
+                  "text-font": "small-caps 500 14px Arial, Helvetica, sans-serif",
+                  "text-fill-color": "@grayLevel0",
+                  "text-opacity": 0.85
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "place_others",
+      "filter": "layerName='place'",
+      "text-wrap-width": 50,
+      "style": [
+        {
+          "filter": "class='county'",
+          "shield-halo-fill": "@haloTransp50",
+          "shield-halo-radius": 2,
+          "style": [
+            {
+              "filter": "zoom>=5;zoom<=7",
+              "shield-icon-type": "symbol",
+              "shield-icon-symbol-type": "square",
+              "shield-icon-size": 5,
+              "shield-icon-color": "@grayLevel3",
+              "shield-name": "@name",
+              "shield-font": "200 13px Arial, Helvetica, sans-serif",
+              "shield-dy": -12,
+              "shield-fill": "@grayLevel1"
+            },
+            {
+              "filter": "population>=100000;population<=500000|population=0",
+              "text-content": "@name",
+              "text-fill-color": "@grayLevel1",
+              "text-halo-color": "@haloTransp50",
+              "text-halo-radius": 3,
+              "style": [
+                {
+                  "filter": "zoom>=8;zoom<=10",
+                  "text-font": "500 12px Arial, Helvetica, sans-serif"
+                },
+                {
+                  "filter": "zoom>=11;zoom<=13",
+                  "text-font": "500 14px Arial, Helvetica, sans-serif"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "filter": "class='suburb';population>=10000;population<=100000|class='suburb';population=0;",
+          "text-content": "@name",
+          "text-halo-color": "@haloTransp35",
+          "text-halo-radius": 5,
+          "text-fill-color": "@grayLevel0",
+          "style": [
+            {
+              "filter": "zoom>10;zoom<=12",
+              "text-font": "600 11px Arial, Helvetica, sans-serif"
+            },
+            {
+              "filter": "zoom>=13;zoom<=14",
+              "text-font": "600 13px Arial, Helvetica, sans-serif",
+              "text-fill-color": "@grayLevel0"
+            }
+          ]
+        },
+        {
+          "filter": "class='farm';zoom>=15",
+          "text-content": "@name",
+          "text-fill-color": "@farmLabels",
+          "text-halo-color": "@haloTransp35",
+          "text-font": "600 14px Arial, Helvetica, sans-serif"
+        },
+        {
+          "filter": "class='village';population>=200;population<=10000;zoom>=10|class='village';population=0;zoom>=10",
+          "text-content": "@name",
+          "text-halo-color": "@haloTransp35",
+          "text-halo-radius": 5,
+          "text-fill-color": "@adminLabelLevel0",
+          "style": [
+            {
+              "filter": "zoom>10;zoom<=14",
+              "text-font": "small-caps 300 12px Arial, Helvetica, sans-serif"
+            },
+            {
+              "filter": "zoom>14;zoom<=19",
+              "text-font": "small-caps 300 13px Arial, Helvetica, sans-serif"
+            }
+          ]
+        },
+        {
+          "filter": "class='neighbourhood'",
+          "text-content": "@name",
+          "text-halo-color": "@haloTransp35",
+          "text-halo-radius": 5,
+          "text-fill-color": "@grayLevel0",
+          "style": [
+            {
+              "filter": "zoom>=14;zoom<=15",
+              "text-font": "small-caps 600 16px Arial, Helvetica, sans-serif"
+            },
+            {
+              "filter": "zoom=16",
+              "text-font": "small-caps 600 24px Arial, Helvetica, sans-serif"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "poi",
+      "filter": "layerName='poi'",
+      "text-content": "@name",
+      "text-halo-color": "@haloTransp50",
+      "text-halo-radius": 4,
+      "text-wrap-width": 50,
+      "text-offset-y": 12,
+      "text-base-line": "top",
+      "text-font": "600 11px Arial",
+      "text-spacing": 0,
+      "text-base-point-style": {
+        "point-mask-type": "circle",
+        "point-outline-width": 3,
+        "point-outline-color": "#000000",
+        "point-size": 17,
+        "point-fill-color": "@naturalAndSports",
+        "point-glyph-font-name": "vectormap-icons",
+        "point-type": "glyph",
+        "point-mask-color": "rgba(0,0,0,0.5)"
+      },
+      "style": [
+        {
+          "filter": "class='airport'",
+          "style": [
+            {
+              "filter": "zoom>=10;zoom<=13",
+              "text-fill-color": "@transportation",
+              "text-base-point-style": {
+                "point-glyph-content": "",
+                "point-fill-color": "@transportation"
+              }
+            }
+          ]
+        },
+        {
+          "filter": "class='national_park'",
+          "style": [
+            {
+              "filter": "labelrank=0;zoom=10|labelrank<=1;zoom=11|labelrank<=2;zoom=12|labelrank<=3;zoom=13|labelrank<=4;zoom=14|labelrank<=5;zoom=15|labelrank<=6;zoom=16|labelrank<=7;zoom=17|labelrank<=9;zoom=18|labelrank<=9;zoom=19",
+              "text-fill-color": "@naturalAndSports",
+              "text-base-point-style": {
+                "point-glyph-content": "",
+                "point-fill-color": "@naturalAndSports"
+              }
+            }
+          ]
+        },
+        {
+          "filter": "class='park'",
+          "style": [
+            {
+              "filter": "labelrank=0;zoom>=10|labelrank<=1;zoom>=11;zoom<=13|labelrank<=2;zoom=14|labelrank<=2;zoom=15|labelrank<=2;zoom=16|labelrank<=7;zoom=17|labelrank<=9;zoom=18|labelrank<=9;zoom=19",
+              "text-fill-color": "@naturalAndSports",
+              "text-base-point-style": {
+                "point-glyph-content": "",
+                "point-fill-color": "@naturalAndSports"
+              }
+            }
+          ]
+        },
+        {
+          "filter": "class='university'",
+          "style": [
+            {
+              "filter": "labelrank<=1;zoom=12|labelrank<=1;zoom=13|labelrank<=3;zoom=14|labelrank<=5;zoom=15|labelrank<=6;zoom=16|labelrank<=7;zoom=17|labelrank<=9;zoom=18|labelrank<=9;zoom=19",
+              "text-fill-color": "@cultural",
+              "text-base-point-style": {
+                "point-glyph-content": "",
+                "point-fill-color": "@cultural"
+              }
+            }
+          ]
+        },
+        {
+          "filter": "class='station'",
+          "style": [
+            {
+              "filter": "labelrank<=2;zoom=12|labelrank<=3;zoom=13|labelrank<=4;zoom=14|labelrank<=5;zoom=15|labelrank<=6;zoom=16|labelrank<=7;zoom=17|labelrank<=9;zoom=18|labelrank<=9;zoom=19",
+              "text-fill-color": "@transportation",
+              "text-base-point-style": {
+                "point-glyph-content": "",
+                "point-fill-color": "@transportation"
+              }
+            }
+          ]
+        },
+        {
+          "filter": "class='college,arts_centre,theatre,golf_course,golf,sports_centre'",
+          "style": [
+            {
+              "filter": "labelrank<=2;zoom=13|labelrank<=3;zoom=14|labelrank<=5;zoom=15|labelrank<=6;zoom=16|labelrank<=7;zoom=17|labelrank<=9;zoom=18|labelrank<=9;zoom=19",
+              "style": [
+                {
+                  "filter": "class='college,arts_centre'",
+                  "text-fill-color": "@cultural",
+                  "style": [
+                    {
+                      "filter": "class='college'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@cultural"
+                      }
+                    },
+                    {
+                      "filter": "class='arts_centre'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@cultural"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "filter": "class='grave_yard'",
+                  "text-fill-color": "@commonService"
+                },
+                {
+                  "filter": "class='golf_course,golf,sports_centre'",
+                  "text-fill-color": "@naturalAndSports",
+                  "style": [
+                    {
+                      "filter": "class='golf_course'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    },
+                    {
+                      "filter": "class='golf'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    },
+                    {
+                      "filter": "class='sports_centre'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "filter": "class='theatre'",
+                  "text-fill-color": "@entertainment",
+                  "text-base-point-style": {
+                    "point-glyph-content": "",
+                    "point-fill-color": "@entertainment"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "filter": "class='library'",
+          "style": [
+            {
+              "filter": "labelrank<=2;zoom=14|labelrank<=4;zoom=15|labelrank<=5;zoom=16|labelrank<=7;zoom=17|labelrank<=9;zoom=18|labelrank<=9;zoom=19",
+              "style": [
+                {
+                  "filter": "class='library'",
+                  "text-fill-color": "@cultural",
+                  "text-base-point-style": {
+                    "point-glyph-content": "",
+                    "point-fill-color": "@cultural"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "filter": "class='bar,biergarden,cafe,fast_food,restaurant,fuel,bank,hospital,cinema,supermarket,food_court'",
+          "style": [
+            {
+              "filter": "labelrank<=3;zoom=14|labelrank<=6;zoom=15|labelrank<=8;zoom=16|labelrank<=9;zoom=17|labelrank<=10;zoom=18|labelrank<=10;zoom=19",
+              "style": [
+                {
+                  "filter": "class='bar,biergarden,cafe,fast_food,food_court,restaurant'",
+                  "text-fill-color": "@eat",
+                  "style": [
+                    {
+                      "filter": "class='bar'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@eat"
+                      }
+                    },
+                    {
+                      "filter": "class='biergarden'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@eat"
+                      }
+                    },
+                    {
+                      "filter": "class='cafe'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@eat"
+                      }
+                    },
+                    {
+                      "filter": "class='fast_food'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@eat"
+                      }
+                    },
+                    {
+                      "filter": "class='food_court'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@eat"
+                      }
+                    },
+                    {
+                      "filter": "class='restaurant'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@eat"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "filter": "class='bank'",
+                  "text-fill-color": "@commonService",
+                  "text-base-point-style": {
+                    "point-glyph-content": "",
+                    "point-fill-color": "@commonService"
+                  }
+                },
+                {
+                  "filter": "class='cinema'",
+                  "text-fill-color": "@entertainment",
+                  "text-base-point-style": {
+                    "point-glyph-content": "",
+                    "point-fill-color": "@entertainment"
+                  }
+                },
+                {
+                  "filter": "class='hospital'",
+                  "text-fill-color": "@medical",
+                  "text-base-point-style": {
+                    "point-glyph-content": "",
+                    "point-fill-color": "@medical"
+                  }
+                },
+                {
+                  "filter": "class='fuel'",
+                  "text-fill-color": "@transportation",
+                  "text-base-point-style": {
+                    "point-glyph-content": "",
+                    "point-fill-color": "@transportation"
+                  }
+                },
+                {
+                  "filter": "class='supermarket'",
+                  "text-fill-color": "@shop",
+                  "text-base-point-style": {
+                    "point-glyph-content": "",
+                    "point-fill-color": "@shop"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "filter": "class='kindergarden,school,taxi,clinic,dentist,pharmacy,social_facility,veterinary,community_centre,courthouse,fire_station,embassy,marketplace,place_of_worship,police,prison,townhall,toilets,garden,miniature_golf,playground,water_park,swimming_pool,fitness_centre,attraction,camp_site,hostel,motel,theme_park,viewpoint,zoo,shelter,pub,fountain,casino,bicycle_rental,car_rental,bicycle_parking,ruins,memorial,monument,castle,battlefield,marina,water_tower,cave_entrance,motorcycle,garden_centre,cricket,climbing,canoe,baseball,picnic_site,artwork,coniferous,mixed,deciduous,plant,recycling,post_office,nursing_home,ice_cream,toll_booth,wreck,windmill,crane,estate_agent,video,toys,tobacco,pet,optician,newsagent,musical_instrument,mobile_phone,laundry,kiosk,jewelry,hifi,hearing_aids,hairdresser,gift,greengrocer,florist,doityourself,department_store,copyshop,convenience,confectionery,computer,clothes,car_repair,car_parts,car,butcher,books,bicycle,bakery,alcohol,tennis,soccer,shooting,motor,ice_stock,horse_racing,baseball,gymnastics,archery,chalet,caravan_site,sikh,shinto,jain,muslim,hindu,christian,buddhist,jewish,pizza,mineshaft,hydro,gas,solar,wind,swimming,grave_yard,information'",
+          "style": [
+            {
+              "filter": "labelrank<=2;zoom=14|labelrank<=2;zoom=15|labelrank<=3;zoom=16|labelrank<=7;zoom=17|labelrank<=9;zoom=18|labelrank<=9;zoom=19",
+              "style": [
+                {
+                  "filter": "class='bar,biergarden,cafe,fast_food,food_court,restaurant,pub,ice_cream,greengrocer,confectionery,butcher,bakery,alcohol,pizza'",
+                  "text-fill-color": "@eat",
+                  "style": [
+                    {
+                      "filter": "class='pub'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@eat"
+                      }
+                    },
+                    {
+                      "filter": "class='ice_cream'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@eat"
+                      }
+                    },
+                    {
+                      "filter": "class='greengrocer'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@eat"
+                      }
+                    },
+                    {
+                      "filter": "class='confectionery'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@eat"
+                      }
+                    },
+                    {
+                      "filter": "class='butcher'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@eat"
+                      }
+                    },
+                    {
+                      "filter": "class='bakery'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@eat"
+                      }
+                    },
+                    {
+                      "filter": "class='alcohol'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@eat"
+                      }
+                    },
+                    {
+                      "filter": "class='pizza'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@eat"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "filter": "class='kindergarden,school,courthouse,embassy,place_of_worship,police,prison,townhall,ruins,memorial,monument,castle,battlefield,artwork,wreck,books,sikh,shinto,jain,muslim,hindu,christian,buddhist,jewish'",
+                  "text-fill-color": "@cultural",
+                  "style": [
+                    {
+                      "filter": "class='kindergarden'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@cultural"
+                      }
+                    },
+                    {
+                      "filter": "class='school'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@cultural"
+                      }
+                    },
+                    {
+                      "filter": "class='courthouse'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@cultural"
+                      }
+                    },
+                    {
+                      "filter": "class='embassy'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@cultural"
+                      }
+                    },
+                    {
+                      "filter": "class='place_of_worship'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@cultural"
+                      }
+                    },
+                    {
+                      "filter": "class='police'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@cultural"
+                      }
+                    },
+                    {
+                      "filter": "class='prison'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@cultural"
+                      }
+                    },
+                    {
+                      "filter": "class='townhall'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@cultural"
+                      }
+                    },
+                    {
+                      "filter": "class='ruins'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@cultural"
+                      }
+                    },
+                    {
+                      "filter": "class='memorial'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@cultural"
+                      }
+                    },
+                    {
+                      "filter": "class='monument'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@cultural"
+                      }
+                    },
+                    {
+                      "filter": "class='castle'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@cultural"
+                      }
+                    },
+                    {
+                      "filter": "class='battlefield'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@cultural"
+                      }
+                    },
+                    {
+                      "filter": "class='artwork'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@cultural"
+                      }
+                    },
+                    {
+                      "filter": "class='wreck'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@cultural"
+                      }
+                    },
+                    {
+                      "filter": "class='books'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@cultural"
+                      }
+                    },
+                    {
+                      "filter": "class='sikh'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@cultural"
+                      }
+                    },
+                    {
+                      "filter": "class='shinto'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@cultural"
+                      }
+                    },
+                    {
+                      "filter": "class='jain'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@cultural"
+                      }
+                    },
+                    {
+                      "filter": "class='muslim'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@cultural"
+                      }
+                    },
+                    {
+                      "filter": "class='hindu'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@cultural"
+                      }
+                    },
+                    {
+                      "filter": "class='christian'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@cultural"
+                      }
+                    },
+                    {
+                      "filter": "class='buddhist'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@cultural"
+                      }
+                    },
+                    {
+                      "filter": "class='jewish'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@cultural"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "filter": "class='fuel,taxi,bicycle_rental,car_rental,bicycle_parking,marina,water_tower,motorcycle,canoe,toll_booth,car_repair,car,car_parts,bicycle'",
+                  "text-fill-color": "@transportation",
+                  "style": [
+                    {
+                      "filter": "class='taxi'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@transportation"
+                      }
+                    },
+                    {
+                      "filter": "class='bicycle_rental'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@transportation"
+                      }
+                    },
+                    {
+                      "filter": "class='car_rental'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@transportation"
+                      }
+                    },
+                    {
+                      "filter": "class='bicycle_parking'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@transportation"
+                      }
+                    },
+                    {
+                      "filter": "class='marina'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@transportation"
+                      }
+                    },
+                    {
+                      "filter": "class='water_tower'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@transportation"
+                      }
+                    },
+                    {
+                      "filter": "class='motorcycle'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@transportation"
+                      }
+                    },
+                    {
+                      "filter": "class='canoe'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    },
+                    {
+                      "filter": "class='toll_booth'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@transportation"
+                      }
+                    },
+                    {
+                      "filter": "class='car_repair'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@transportation"
+                      }
+                    },
+                    {
+                      "filter": "class='car'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@transportation"
+                      }
+                    },
+                    {
+                      "filter": "class='car_parts'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@transportation"
+                      }
+                    },
+                    {
+                      "filter": "class='bicycle'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@transportation"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "filter": "class='bank,social_facility,community_centre,fire_station,toilets,shelter,recycling,post_office,optician,newsagent,laundry,kiosk,hairdresser,copyshop,convenience,information'",
+                  "text-fill-color": "@commonService",
+                  "style": [
+                    {
+                      "filter": "class='social_facility'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@commonService"
+                      }
+                    },
+                    {
+                      "filter": "class='community_centre'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@commonService"
+                      }
+                    },
+                    {
+                      "filter": "class='fire_station'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@commonService"
+                      }
+                    },
+                    {
+                      "filter": "class='toilets'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@commonService"
+                      }
+                    },
+                    {
+                      "filter": "class='shelter'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@commonService"
+                      }
+                    },
+                    {
+                      "filter": "class='recycling'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@commonService"
+                      }
+                    },
+                    {
+                      "filter": "class='post_office'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@commonService"
+                      }
+                    },
+                    {
+                      "filter": "class='optician'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@commonService"
+                      }
+                    },
+                    {
+                      "filter": "class='newsagent'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@commonService"
+                      }
+                    },
+                    {
+                      "filter": "class='laundry'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@commonService"
+                      }
+                    },
+                    {
+                      "filter": "class='kiosk'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@commonService"
+                      }
+                    },
+                    {
+                      "filter": "class='hairdresser'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@commonService"
+                      }
+                    },
+                    {
+                      "filter": "class='copyshop'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@commonService"
+                      }
+                    },
+                    {
+                      "filter": "class='convenience'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@commonService"
+                      }
+                    },
+                    {
+                      "filter": "class='information'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@commonService"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "filter": "class='hospital,clinic,dentist,pharmacy,veterinary,nursing_home,hearing_aids'",
+                  "text-fill-color": "@medical",
+                  "style": [
+                    {
+                      "filter": "class='clinic'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@medical"
+                      }
+                    },
+                    {
+                      "filter": "class='dentist'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@medical"
+                      }
+                    },
+                    {
+                      "filter": "class='pharmacy'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@medical"
+                      }
+                    },
+                    {
+                      "filter": "class='veterinary'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@medical"
+                      }
+                    },
+                    {
+                      "filter": "class='nursing_home'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@medical"
+                      }
+                    },
+                    {
+                      "filter": "class='hearing_aids'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@medical"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "filter": "class='casino'",
+                  "text-fill-color": "@entertainment",
+                  "text-base-point-style": {
+                    "point-glyph-content": "",
+                    "point-fill-color": "@entertainment"
+                  }
+                },
+                {
+                  "filter": "class='marketplace,estate_agent,video,toys,tobacco,supermarket,pet,musical_instrument,mobile_phone,jewelry,hifi,gift,doityourself,department_store,computer'",
+                  "text-fill-color": "@shop",
+                  "style": [
+                    {
+                      "filter": "class='marketplace'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@shop"
+                      }
+                    },
+                    {
+                      "filter": "class='estate_agent'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@shop"
+                      }
+                    },
+                    {
+                      "filter": "class='video'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@shop"
+                      }
+                    },
+                    {
+                      "filter": "class='toys'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@shop"
+                      }
+                    },
+                    {
+                      "filter": "class='tobacco'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@shop"
+                      }
+                    },
+                    {
+                      "filter": "class='pet'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@shop"
+                      }
+                    },
+                    {
+                      "filter": "class='musical_instrument'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@shop"
+                      }
+                    },
+                    {
+                      "filter": "class='mobile_phone'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@shop"
+                      }
+                    },
+                    {
+                      "filter": "class='jewelry'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@shop"
+                      }
+                    },
+                    {
+                      "filter": "class='hifi'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@shop"
+                      }
+                    },
+                    {
+                      "filter": "class='gift'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@shop"
+                      }
+                    },
+                    {
+                      "filter": "class='doityourself'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@shop"
+                      }
+                    },
+                    {
+                      "filter": "class='department_store'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@shop"
+                      }
+                    },
+                    {
+                      "filter": "class='computer'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@shop"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "filter": "class='garden,grave_yard,miniature_golf,playground,water_park,swimming_pool,fitness_centre,camp_site,theme_park,cave_entrance,garden_centre,cricket,climbing,baseball,picnic_site,coniferous,mixed,deciduous,florist,tennis,soccer,shooting,motor,ice_stock,horse_racing,gymnastics,archery,caravan_site,swimming'",
+                  "text-fill-color": "@naturalAndSports",
+                  "style": [
+                    {
+                      "filter": "class='grave_yard'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    },
+                    {
+                      "filter": "class='garden'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    },
+                    {
+                      "filter": "class='miniature_golf'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    },
+                    {
+                      "filter": "class='playground'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    },
+                    {
+                      "filter": "class='water_park'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    },
+                    {
+                      "filter": "class='swimming_pool'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    },
+                    {
+                      "filter": "class='fitness_centre'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    },
+                    {
+                      "filter": "class='camp_site'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    },
+                    {
+                      "filter": "class='theme_park'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    },
+                    {
+                      "filter": "class='cave_entrance'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    },
+                    {
+                      "filter": "class='garden_centre'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    },
+                    {
+                      "filter": "class='cricket'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    },
+                    {
+                      "filter": "class='climbing'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    },
+                    {
+                      "filter": "class='baseball'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    },
+                    {
+                      "filter": "class='picnic_site'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    },
+                    {
+                      "filter": "class='coniferous'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    },
+                    {
+                      "filter": "class='mixed'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    },
+                    {
+                      "filter": "class='deciduous'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    },
+                    {
+                      "filter": "class='florist'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    },
+                    {
+                      "filter": "class='tennis'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    },
+                    {
+                      "filter": "class='soccer'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    },
+                    {
+                      "filter": "class='shooting'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    },
+                    {
+                      "filter": "class='motor'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    },
+                    {
+                      "filter": "class='ice_stock'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    },
+                    {
+                      "filter": "class='horse_racing'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    },
+                    {
+                      "filter": "class='gymnastics'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    },
+                    {
+                      "filter": "class='archery'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    },
+                    {
+                      "filter": "class='caravan_site'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    },
+                    {
+                      "filter": "class='swimming'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@naturalAndSports"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "filter": "class='attraction,hostel,motel,viewpoint,zoo,fountain,chalet'",
+                  "text-fill-color": "@tourism",
+                  "style": [
+                    {
+                      "filter": "class='attraction'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@tourism"
+                      }
+                    },
+                    {
+                      "filter": "class='hostel'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@tourism"
+                      }
+                    },
+                    {
+                      "filter": "class='motel'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@tourism"
+                      }
+                    },
+                    {
+                      "filter": "class='viewpoint'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@tourism"
+                      }
+                    },
+                    {
+                      "filter": "class='zoo'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@tourism"
+                      }
+                    },
+                    {
+                      "filter": "class='fountain'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@cultural"
+                      }
+                    },
+                    {
+                      "filter": "class='chalet'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@tourism"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "filter": "class='plant,windmill,crane,mineshaft,hydro,solar,gas,wind'",
+                  "text-fill-color": "@industrial",
+                  "style": [
+                    {
+                      "filter": "class='plant'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@industrial"
+                      }
+                    },
+                    {
+                      "filter": "class='windmill'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@industrial"
+                      }
+                    },
+                    {
+                      "filter": "class='crane'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@industrial"
+                      }
+                    },
+                    {
+                      "filter": "class='mineshaft'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@industrial"
+                      }
+                    },
+                    {
+                      "filter": "class='hydro'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@industrial"
+                      }
+                    },
+                    {
+                      "filter": "class='solar'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@industrial"
+                      }
+                    },
+                    {
+                      "filter": "class='gas'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@industrial"
+                      }
+                    },
+                    {
+                      "filter": "class='wind'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@industrial"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "filter": "class='parking'",
+          "style": [
+            {
+              "filter": "labelrank<=2;zoom>=14;zoom<=16|labelrank<=7;zoom=17|labelrank<=9;zoom=18|labelrank<=9;zoom=19",
+              "text-fill-color": "@transportation",
+              "text-base-point-style": {
+                "point-glyph-content": "",
+                "point-fill-color": "@transportation"
+              }
+            }
+          ]
+        },
+        {
+          "filter": "class='hotel'",
+          "style": [
+            {
+              "filter": "labelrank<=3;zoom>=14;zoom<=15|labelrank<=6;zoom=16|labelrank<=7;zoom=17|labelrank<=9;zoom=18|labelrank<=9;zoom=19",
+              "text-fill-color": "@tourism",
+              "text-base-point-style": {
+                "point-fill-color": "@tourism",
+                "point-glyph-content": ""
+              }
+            }
+          ]
+        },
+        {
+          "filter": "class='museum,bus_station'",
+          "style": [
+            {
+              "filter": "labelrank<=6;zoom=16|labelrank<=7;zoom=17|labelrank<=9;zoom=18|labelrank<=9;zoom=19",
+              "style": [
+                {
+                  "filter": "class='museum'",
+                  "text-fill-color": "@cultural",
+                  "text-base-point-style": {
+                    "point-glyph-content": "",
+                    "point-fill-color": "@cultural"
+                  }
+                },
+                {
+                  "filter": "class='bus_station'",
+                  "text-fill-color": "@transportation",
+                  "text-base-point-style": {
+                    "point-glyph-content": "",
+                    "point-fill-color": "@transportation"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "filter": "class='private'",
+          "style": [
+            {
+              "filter": "labelrank<=7;zoom=17|labelrank<=9;zoom=18|labelrank<=9;zoom=19",
+              "text-fill-color": "@commonService",
+              "text-base-point-style": {
+                "point-glyph-content": "",
+                "point-fill-color": "@commonService"
+              }
+            }
+          ]
+        },
+        {
+          "filter": "class='lighthouse,traffic_signals'",
+          "style": [
+            {
+              "filter": "zoom>=18",
+              "style": [
+                {
+                  "filter": "class='lighthouse,traffic_signals'",
+                  "text-fill-color": "@transportation",
+                  "style": [
+                    {
+                      "filter": "class='lighthouse'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@transportation"
+                      }
+                    },
+                    {
+                      "filter": "class='traffic_signals'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@transportation"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "filter": "class='atm,bench,bbq,clock,drinking_water,post_box,telephone,vending_machine,block,bollard,cattle_grid,gate,lift_gate,kissing_gate,stile,anticlockwise,clockwise,guidepost,map,bus_stop,slipway,peak,subway_entrance,tram_stop,weir,sub_station,waste_disposal'",
+          "style": [
+            {
+              "filter": "labelrank=9;zoom>=18;zoom<=19",
+              "style": [
+                {
+                  "filter": "class='atm,bench,clock,drinking_water,post_box,telephone,waste_disposal,,'",
+                  "text-fill-color": "@commonService",
+                  "style": [
+                    {
+                      "filter": "class='atm'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@commonService"
+                      }
+                    },
+                    {
+                      "filter": "class='bench'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@commonService"
+                      }
+                    },
+                    {
+                      "filter": "class='clock'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@commonService"
+                      }
+                    },
+                    {
+                      "filter": "class='drinking_water'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@commonService"
+                      }
+                    },
+                    {
+                      "filter": "class='post_box'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@commonService"
+                      }
+                    },
+                    {
+                      "filter": "class='telephone'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@commonService"
+                      }
+                    },
+                    {
+                      "filter": "class='waste_disposal'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@commonService"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "filter": "class='bbq'",
+                  "text-fill-color": "@eat",
+                  "text-base-point-style": {
+                    "point-glyph-content": "",
+                    "point-fill-color": "@eat"
+                  }
+                },
+                {
+                  "filter": "class='vending_machine'",
+                  "text-fill-color": "@shop",
+                  "text-base-point-style": {
+                    "point-glyph-content": "",
+                    "point-fill-color": "@shop"
+                  }
+                },
+                {
+                  "filter": "class='block,bollard,cattle_grid,gate,lift_gate,kissing_gate,stile,anticlockwise,clockwise,guidepost,map,bus_stop,slipway,subway_entrance,tram_stop,weir'",
+                  "text-fill-color": "@transportation",
+                  "style": [
+                    {
+                      "filter": "class='block'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@transportation"
+                      }
+                    },
+                    {
+                      "filter": "class='bollard'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@transportation"
+                      }
+                    },
+                    {
+                      "filter": "class='cattle_grid'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@transportation"
+                      }
+                    },
+                    {
+                      "filter": "class='gate'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@transportation"
+                      }
+                    },
+                    {
+                      "filter": "class='lift_gate'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@transportation"
+                      }
+                    },
+                    {
+                      "filter": "class='kissing_gate'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@transportation"
+                      }
+                    },
+                    {
+                      "filter": "class='stile'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@transportation"
+                      }
+                    },
+                    {
+                      "filter": "class='anticlockwise'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@transportation"
+                      }
+                    },
+                    {
+                      "filter": "class='clockwise'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@transportation"
+                      }
+                    },
+                    {
+                      "filter": "class='guidepost'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@transportation"
+                      }
+                    },
+                    {
+                      "filter": "class='map'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@transportation"
+                      }
+                    },
+                    {
+                      "filter": "class='bus_stop'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@transportation"
+                      }
+                    },
+                    {
+                      "filter": "class='slipway'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@transportation"
+                      }
+                    },
+                    {
+                      "filter": "class='subway_entrance'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@transportation"
+                      }
+                    },
+                    {
+                      "filter": "class='tram_stop'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@transportation"
+                      }
+                    },
+                    {
+                      "filter": "class='weir'",
+                      "text-base-point-style": {
+                        "point-glyph-content": "",
+                        "point-fill-color": "@transportation"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "filter": "class='peak'",
+                  "text-fill-color": "@naturalAndSports",
+                  "text-base-point-style": {
+                    "point-fill-color": "@naturalAndSports",
+                    "point-glyph-content": ""
+                  }
+                },
+                {
+                  "filter": "class='sub_station'",
+                  "text-fill-color": "@industrial",
+                  "text-base-point-style": {
+                    "point-glyph-content": "",
+                    "point-fill-color": "@industrial"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "motorway_name",
+      "filter": "layerName='road_name';class='motorway'",
+      "text-content": "@roadName",
+      "text-fill-color": "@grayLevel0",
+      "text-halo-radius": 4,
+      "text-halo-color": "@haloTransp50",
+      "text-max-char-angle-delta": 1,
+      "style": [
+        {
+          "filter": "zoom=12",
+          "text-font": "600 12px Arial, Helvetica, sans-serif"
+        },
+        {
+          "filter": "zoom>=13;zoom<=14",
+          "text-font": "600 13px Arial, Helvetica, sans-serif"
+        },
+        {
+          "filter": "zoom>=15;zoom<=17",
+          "text-font": "600 16px Arial, Helvetica, sans-serif"
+        },
+        {
+          "filter": "zoom>=18;zoom<=19",
+          "text-halo-radius": 5,
+          "text-font": "600 18px Arial, Helvetica, sans-serif"
+        }
+      ]
+    },
+    {
+      "id": "trunk_name",
+      "filter": "layerName='road_name';class='trunk'",
+      "text-content": "@roadName",
+      "text-fill-color": "@grayLevel0",
+      "text-halo-radius": 4,
+      "text-halo-color": "@haloTransp50",
+      "style": [
+        {
+          "filter": "zoom=12",
+          "text-font": "600 12px Arial, Helvetica, sans-serif"
+        },
+        {
+          "filter": "zoom>=13;zoom<=14",
+          "text-font": "600 13px Arial, Helvetica, sans-serif"
+        },
+        {
+          "filter": "zoom>=15;zoom<=17",
+          "text-font": "600 15px Arial, Helvetica, sans-serif"
+        },
+        {
+          "filter": "zoom>=18;zoom<=19",
+          "text-font": "600 16px Arial, Helvetica, sans-serif"
+        }
+      ]
+    },
+    {
+      "id": "primary_name",
+      "filter": "layerName='road_name';class='primary'",
+      "text-content": "@roadName",
+      "text-halo-radius": 4,
+      "text-halo-color": "@haloTransp50",
+      "text-fill-color": "@grayLevel0",
+      "text-max-char-angle-delta": 1,
+      "style": [
+        {
+          "filter": "zoom=13",
+          "text-font": "600 11px Arial, Helvetica, sans-serif"
+        },
+        {
+          "filter": "zoom>=14;zoom<=16",
+          "text-font": "600 13px Arial, Helvetica, sans-serif"
+        },
+        {
+          "filter": "zoom=17",
+          "text-font": "600 14px Arial, Helvetica, sans-serif"
+        },
+        {
+          "filter": "zoom>=18;zoom<=19",
+          "text-font": "600 16px Arial, Helvetica, sans-serif"
+        }
+      ]
+    },
+    {
+      "id": "secondary_name",
+      "filter": "layerName='road_name';class='secondary'",
+      "text-content": "@roadName",
+      "text-halo-radius": 4,
+      "text-halo-color": "@haloTransp50",
+      "text-fill-color": "@grayLevel0",
+      "text-max-char-angle-delta": 0.6,
+      "style": [
+        {
+          "filter": "zoom>=12;zoom<=13",
+          "text-font": "500 11px Arial, Helvetica, sans-serif"
+        },
+        {
+          "filter": "zoom>=14;zoom<=16",
+          "text-font": "500 12px Arial, Helvetica, sans-serif"
+        },
+        {
+          "filter": "zoom>=17;zoom<=17",
+          "text-font": "500 13px Arial, Helvetica, sans-serif"
+        },
+        {
+          "filter": "zoom>=18;zoom<=19",
+          "text-font": "500 15px Arial, Helvetica, sans-serif"
+        }
+      ]
+    },
+    {
+      "id": "tertiary_name",
+      "filter": "layerName='road_name';class='tertiary'",
+      "text-content": "@roadName",
+      "text-max-char-angle-delta": 0,
+      "text-halo-radius": 4,
+      "text-halo-color": "@haloTransp50",
+      "text-fill-color": "@grayLevel0",
+      "style": [
+        {
+          "filter": "zoom=13",
+          "text-fill-color": "@grayLevel0",
+          "text-font": "600 11px Arial, Helvetica, sans-serif"
+        },
+        {
+          "filter": "zoom=14",
+          "text-font": "500 12px Arial, Helvetica, sans-serif"
+        },
+        {
+          "filter": "zoom>=15;zoom<=17",
+          "text-font": "12px Arial, Helvetica, sans-serif"
+        },
+        {
+          "filter": "zoom>=18;zoom<=19",
+          "text-font": "14px Arial, Helvetica, sans-serif"
+        }
+      ]
+    },
+    {
+      "id": "residential_name",
+      "filter": "layerName='road_name';class='residential'",
+      "text-content": "@roadName",
+      "text-halo-radius": 4,
+      "text-halo-color": "@haloTransp50",
+      "text-fill-color": "@grayLevel0",
+      "style": [
+        {
+          "filter": "zoom>=15;zoom<=16",
+          "text-max-char-angle-delta": 0.15,
+          "text-fill-color": "@grayLevel2",
+          "text-font": "11px Arial, Helvetica, sans-serif"
+        },
+        {
+          "filter": "zoom=17",
+          "text-max-char-angle-delta": 1,
+          "text-font": "12px Arial, Helvetica, sans-serif"
+        },
+        {
+          "filter": "zoom>=18;zoom<=19",
+          "text-font": "13px Arial, Helvetica, sans-serif"
+        }
+      ]
+    },
+    {
+      "id": "pedestrian_name",
+      "filter": "layerName='road_name';class='pedestrian'",
+      "text-content": "@roadName",
+      "text-halo-radius": 4,
+      "text-halo-color": "@haloTransp50",
+      "text-fill-color": "@grayLevel0",
+      "text-max-char-angle-delta": 1,
+      "style": [
+        {
+          "filter": "zoom>=16;zoom<=17",
+          "text-fill-color": "@grayLevel3",
+          "text-font": "11px Arial, Helvetica, sans-serif"
+        },
+        {
+          "filter": "zoom>=18;zoom<=19",
+          "text-font": "12px Arial, Helvetica, sans-serif"
+        }
+      ]
+    },
+    {
+      "id": "otherroad_name",
+      "filter": "layerName='road_name';class='road,raceway,unclassified,cycleway, bridleway, path, track'",
+      "text-content": "@roadName",
+      "text-halo-radius": 4,
+      "text-halo-color": "@haloTransp50",
+      "text-fill-color": "@grayLevel0",
+      "text-max-char-angle-delta": 2,
+      "style": [
+        {
+          "filter": "zoom=17;",
+          "text-font": "12px Arial, Helvetica, sans-serif"
+        },
+        {
+          "filter": "zoom>=18;zoom<=19",
+          "text-font": "14px Arial, Helvetica, sans-serif"
+        }
+      ]
+    },
+    {
+      "id": "road_oneway",
+      "filter": "oneway=1;layerName='road'",
+      "style": [
+        {
+          "filter": "zoom=15;class='primary'",
+          "line-direction-image-uri": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAFCAYAAABIHbx0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABOSURBVChTYzAxMSEKX758efulS5essMmBMFZBbPjKlSv/ofgo0FBfdHkUDpJighhoWAOyXhSD8GEkQw5fvXrVCV0ehYMPAw3YjTuMTBgA4r93NU8NzhcAAAAASUVORK5CYII="
+        },
+        {
+          "filter": "zoom>=16;zoom<=19;",
+          "style": [
+            {
+              "filter": "class!='motorway,motorway_link'",
+              "line-direction-image-uri": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAFCAYAAABIHbx0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABISURBVChTY6ivrycK////fzsQW2GTA2Gsgtgw0BAYOArEvujyKByIOqJBA7JeFIPwYahmEDgMxE7o8igcfBioeTcQ4wijegYAQdC9YX5WhhEAAAAASUVORK5CYII="
+            },
+            {
+              "line-direction-image-uri": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAFCAYAAABIHbx0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABISURBVChTY6ivrycK////fzsQW2GTA2Gsgtgw0BAYOArEvujyKByIOqJBA7JeFIPwYahmEDgMxE7o8igcfBioeTcQ4wijegYAQdC9YX5WhhEAAAAASUVORK5CYII="
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "water_name",
+      "filter": "layerName='water_name'",
+      "text-content": "@name",
+      "text-fill-color": "@waterLabels",
+      "text-halo-color": "@haloTransp50",
+      "text-halo-radius": 3,
+      "text-wrap-width": 30,
+      "style": [
+        {
+          "filter": "zoom=10;class=0",
+          "text-font": "oblique 500 10px Arial, Helvetica, sans-serif"
+        },
+        {
+          "filter": "zoom>=10;zoom<=12;class=0",
+          "text-font": "oblique 500 12px Arial, Helvetica, sans-serif"
+        },
+        {
+          "filter": "zoom>=13;zoom<=14;class=0",
+          "text-font": "oblique 500 13px Arial, Helvetica, sans-serif"
+        },
+        {
+          "filter": "zoom>=15;zoom<=17;class=0",
+          "text-font": "oblique 500 15px Arial, Helvetica, sans-serif"
+        },
+        {
+          "filter": "zoom>=18;zoom<=19",
+          "text-font": "oblique 500 18px Arial, Helvetica, sans-serif"
+        }
+      ]
+    },
+    {
+      "id": "waterway_name",
+      "filter": "layerName='waterway'",
+      "text-content": "@roadName",
+      "text-max-char-angle-delta": 0.4,
+      "text-halo-radius": 4,
+      "text-halo-color": "@haloTransp50",
+      "text-fill-color": "@waterLabels",
+      "style": [
+        {
+          "filter": "zoom>=13;zoom<=15;class=0",
+          "text-font": "500 11px Arial, Helvetica, sans-serif"
+        },
+        {
+          "filter": "zoom>=16;zoom<=17;class=0",
+          "text-font": "500 14px Arial, Helvetica, sans-serif"
+        },
+        {
+          "filter": "zoom>=18;zoom<=19",
+          "text-font": "16px Arial, Helvetica, sans-serif"
+        }
+      ]
+    },
+    {
+      "id": "building_name",
+      "filter": "layerName='building_name'",
+      "text-content": "@name",
+      "text-fill-color": "@buildingName",
+      "text-halo-radius": 3,
+      "text-placement-type": "default",
+      "text-halo-color": "@haloTransp50",
+      "style": [
+        {
+          "filter": "zoom=15;class!='yes'",
+          "text-wrap-width": 40,
+          "text-font": "11px Arial, Helvetica, sans-serif"
+        },
+        {
+          "filter": "zoom>=16;zoom<=17",
+          "text-wrap-width": 40,
+          "text-font": "11px Arial, Helvetica, sans-serif"
+        },
+        {
+          "filter": "zoom>=18;zoom<=19",
+          "text-wrap-width": 60,
+          "text-font": "13px Arial, Helvetica, sans-serif"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "worldstreets_source",
+      "url": "http://54.177.171.109/v1/world-streets/v2/{z}/{x}/{y}.mvt",
+      "type": "MVT"
+    },
+    {
+      "id": "worldstreets_source_test",
+      "urls": [
+        "https://cloud1.thinkgeo.com/api/v1/maps/vector/streets/3857/{z}/{x}/{y}.pbf",
+        "https://cloud2.thinkgeo.com/api/v1/maps/vector/streets/3857/{z}/{x}/{y}.pbf",
+        "https://cloud3.thinkgeo.com/api/v1/maps/vector/streets/3857/{z}/{x}/{y}.pbf",
+        "https://cloud4.thinkgeo.com/api/v1/maps/vector/streets/3857/{z}/{x}/{y}.pbf",
+        "https://cloud5.thinkgeo.com/api/v1/maps/vector/streets/3857/{z}/{x}/{y}.pbf",
+        "https://cloud6.thinkgeo.com/api/v1/maps/vector/streets/3857/{z}/{x}/{y}.pbf"
+      ],
+      "type": "MVT"
+    }
+  ],
+  "layers": [
+    {
+      "id": "worldstreets_layers",
+      "source": "worldstreets_source_test",
+      "styles": [
+        "country",
+        "urban",
+        "landcover",
+        "water",
+        "waterway",
+        "building",
+        "country_boundary",
+        "province_boundary",
+        "aeroway",
+        "road",
+        "railway",
+        "country_name",
+        "state_name",
+        "place_popular",
+        "place_others",
+        "marine_name",
+        "poi",
+        "road_number",
+        "motorway_name",
+        "trunk_name",
+        "primary_name",
+        "secondary_name",
+        "tertiary_name",
+        "residential_name",
+        "pedestrian_name",
+        "otherroad_name",
+        "road_oneway",
+        "water_name",
+        "waterway_name",
+        "building_name",
+        "housenumber"
+      ]
+    }
+  ]
+}

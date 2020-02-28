@@ -1,0 +1,12 @@
+SHIP REPORTING SYSTEM:
+The following vessels entering or departing any U.S. port of place and in transit through the
+reporting area are required to report into the System: all vessels 300 gross tons or greater 
+and all vessels in the event of a developing emergency.The following vessels in transit through 
+the reporting area should report into the System: all vessels 300 gross tons or greater, fishing 
+vessels,and all vessels in the event of a developing emergency. See IMO SN.1, Circ. 273.
+Information concerning the Ship Reporting System is also published in the U.S. Coast Pilot 7,
+Chapters 2 and 14, and updated through Notices to Mariners. Information may also be obtained
+at the Office of the Commander, 14th Coast Guard District in Honolulu, or at the Office of the 
+District Engineer, Corps of Engineers, in Honolulu.
+
+END OF FILE
