@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.ChangeTheLabelPlacementForPoints"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:uc1="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+    xmlns:uc2="clr-namespace:ThinkGeo.UI.Wpf.HowDoI">
+    <Grid>
+        <uc1:MapView x:Name="mapView" Loaded="MapView_Loaded"></uc1:MapView>
+        <StackPanel Width="200" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="8" Opacity="0.95">
+            <TextBlock x:Name="InstructionLabel" Margin="0,0,0,5" TextWrapping="Wrap" Text="Change The Label Placement For Points"></TextBlock>
+            <ComboBox Height="23" Name="cbxPointPlacement" SelectionChanged="cbxPointPlacement_SelectedIndexChanged">
+                <ComboBoxItem>UpperLeft</ComboBoxItem>
+                <ComboBoxItem>UpperCenter</ComboBoxItem>
+                <ComboBoxItem>UpperRight</ComboBoxItem>
+                <ComboBoxItem>CenterRight</ComboBoxItem>
+                <ComboBoxItem ClipToBounds="False" IsSelected="True">Center</ComboBoxItem>
+                <ComboBoxItem>CenterLeft</ComboBoxItem>
+                <ComboBoxItem>LowerLeft</ComboBoxItem>
+                <ComboBoxItem>LowerCenter</ComboBoxItem>
+                <ComboBoxItem>LowerRight</ComboBoxItem>
+            </ComboBox>
+        </StackPanel>
+    </Grid>
+</UserControl>

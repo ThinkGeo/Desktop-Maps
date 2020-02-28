@@ -1,0 +1,8 @@
+﻿<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.LoadSqliteFeatureLayer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:uc1="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf">
+    <Grid>
+        <uc1:MapView x:Name="mapView" Loaded="mapView_Loaded"></uc1:MapView>
+    </Grid>
+</UserControl>

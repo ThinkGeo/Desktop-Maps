@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.DisplayFeatureLayerAtCertainScale"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:uc1="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf">
+    <Grid>
+        <uc1:MapView x:Name="mapView" Loaded="MapView_Loaded"></uc1:MapView>
+        <StackPanel Width="200" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="8" Opacity="0.95">
+            <StackPanel Orientation="Horizontal">
+                <Button Margin="4" x:Name="btnLow" Width="55" Click="btnLow_Click">Low</Button>
+                <Button Margin="4" x:Name="btnNormal" Width="55" Click="btnNormal_Click">Normal</Button>
+                <Button Margin="4" x:Name="btnHigh" Width="55" Click="btnHigh_Click">High</Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

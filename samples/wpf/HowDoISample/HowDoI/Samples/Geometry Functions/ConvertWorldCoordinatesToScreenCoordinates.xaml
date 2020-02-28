@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.ConvertWorldCoordinatesToScreenCoordinates"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:uc1="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf">
+    <Grid>
+        <uc1:MapView x:Name="mapView" Loaded="MapView_Loaded"></uc1:MapView>
+        <StackPanel Width="200" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="8" Opacity="0.95">
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                <Label Width="100">Longitude:</Label>
+                <TextBox x:Name="longitudeTextBox" IsReadOnly="True" Width="100">-95.2806</TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                <Label Width="100">Latitude:</Label>
+                <TextBox x:Name="latitudeTextBox" IsReadOnly="True" Width="100">38.9554</TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                <Label Width="100">Screen Position:</Label>
+                <TextBox IsReadOnly="True"   Width="100" x:Name="screenPositionTextBox"></TextBox>
+            </StackPanel>
+            <Button Click="convertButton_Click">Convert</Button>
+        </StackPanel>
+    </Grid>
+</UserControl>
