@@ -374,5 +374,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             PagePrinterLayer pagePrinterLayer = (PagePrinterLayer)printerInteractiveOverlay.PrinterLayers["PageLayer"];
             return pagePrinterLayer.GetPosition(unit); ;
         }
+
+        private void btnPrint_Click(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine("printing...");
+        }
     }
 }

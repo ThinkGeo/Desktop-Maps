@@ -2,7 +2,9 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:uc1="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf">
-    <Grid>
+    <Grid MinHeight="300" MinWidth="400">
         <uc1:MapView x:Name="mapView" MapUnit="Meter" Loaded="MapView_Loaded" Background="#6996ad"></uc1:MapView>
+        <Button x:Name="btnPrint" Content="Print" Margin="0,10,10,0" Height="20" VerticalAlignment="Top" HorizontalAlignment="Right" Width="50" Click="btnPrint_Click"/>
+
     </Grid>
 </UserControl>
