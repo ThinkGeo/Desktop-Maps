@@ -106,6 +106,7 @@
     <PackageReference Include="ThinkGeo.Oracle" Version="12.2.3" />
     <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="12.2.3" />
     <PackageReference Include="ThinkGeo.PostgreSql" Version="12.2.3" />
+    <PackageReference Include="ThinkGeo.Printers" Version="12.2.2" />
     <PackageReference Include="ThinkGeo.SqlServer" Version="12.2.3" />
     <PackageReference Include="ThinkGeo.UI.Wpf" Version="12.2.3" />
     <PackageReference Include="ThinkGeo.UnmanagedGeoTiff" Version="12.2.3" />
@@ -116,10 +117,6 @@
     <None Update="samples.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Samples\" />
   </ItemGroup>
 
   <ItemGroup>
