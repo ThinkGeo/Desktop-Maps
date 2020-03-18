@@ -278,6 +278,9 @@
     <Compile Update="Samples\Overlay\AddAdditionalCustomPropertiesAndMethods.xaml.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Update="Samples\Overlay\PrintingMaps.xaml.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Update="Samples\Overlay\TileDowloadProgress.xaml.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>

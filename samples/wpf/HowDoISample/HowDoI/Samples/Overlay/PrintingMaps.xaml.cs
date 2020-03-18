@@ -4,6 +4,7 @@ using System.Data;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
@@ -49,7 +50,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.ZoomLevelSet = new PrinterZoomLevelSet(mapView.MapUnit, PrinterHelper.GetPointsPerGeographyUnit(mapView.MapUnit));
 
             // Here we set the background color to gray so there is contrast with the white page
-            mapView.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColors.LightGray);
+            mapView.Background = Brushes.LightGray;
 
             // Create the PrinterInteractiveOverlay to contain all of the PrinterLayers.
             // The interactive overlay allows the layers to be interacted with
@@ -65,7 +66,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             printerOverlay.PrinterLayers.Add("PageLayer", pagePrinterLayer);
 
             // Get the pages extent, slightly scale it up, and then set that as the default current extent
-            mapView.CurrentExtent = RectangleShape.ScaleUp(pagePrinterLayer.GetPosition(), 10).GetBoundingBox();
+            mapView.CurrentExtent = pagePrinterLayer.GetPosition().GetBoundingBox();
 
             // Set the minimum sscale of the map to the last zoom level
             mapView.MinimumScale = mapView.ZoomLevelSet.ZoomLevel20.Scale;
@@ -79,7 +80,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             LabelPrinterLayer titleLabelPrinterLayer = new LabelPrinterLayer();
             //Setup the text and the font..
             titleLabelPrinterLayer.Text = "Tarrant County Parcels";
-            titleLabelPrinterLayer.Font = new GeoFont("Arial", 8, DrawingFontStyles.Bold);
+            titleLabelPrinterLayer.Font = new GeoFont("Verdana", 8);
             titleLabelPrinterLayer.TextBrush = new GeoSolidBrush(GeoColors.Black);
 
             // Set the title position so that is it centered on the page.                     
