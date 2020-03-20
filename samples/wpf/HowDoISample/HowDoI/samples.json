@@ -82,7 +82,7 @@
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.PrintingMaps",
         "title": "Printing Maps",
-        "description": "Shows how to print maps.",
+        "description": "This sample shows how to print a map of parcel data with added adornments, legends, and data overlays.",
         "source": "Samples/Overlay/PrintingMaps"
       }
     ]
