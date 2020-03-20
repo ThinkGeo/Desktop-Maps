@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Drawing;
+using System.Drawing.Printing;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -50,7 +52,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.ZoomLevelSet = new PrinterZoomLevelSet(mapView.MapUnit, PrinterHelper.GetPointsPerGeographyUnit(mapView.MapUnit));
 
             // Here we set the background color to gray so there is contrast with the white page
-            mapView.Background = Brushes.LightGray;
+            mapView.Background = System.Windows.Media.Brushes.White;
 
             // Create the PrinterInteractiveOverlay to contain all of the PrinterLayers.
             // The interactive overlay allows the layers to be interacted with
@@ -63,6 +65,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // arrange all of the other layer on top of.
             PagePrinterLayer pagePrinterLayer = new PagePrinterLayer(PrinterPageSize.AnsiA, PrinterOrientation.Portrait);
             pagePrinterLayer.Open();
+            pagePrinterLayer.BackgroundMask = new AreaStyle(new GeoPen(GeoColors.LightGray, 1), GeoBrushes.White);
             printerOverlay.PrinterLayers.Add("PageLayer", pagePrinterLayer);
 
             // Get the pages extent, slightly scale it up, and then set that as the default current extent
@@ -132,16 +135,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             //Creates a value style for the parcel type (residential 1, commercial 2, industrial 3).
             ValueStyle typeValueStyle = new ValueStyle();
             typeValueStyle.ColumnName = "PARCELTYPE";
-            typeValueStyle.ValueItems.Add(new ValueItem("1", new AreaStyle(new GeoPen(GeoColors.Black), new GeoSolidBrush(GeoColors.LightGreen))));
-            typeValueStyle.ValueItems.Add(new ValueItem("2", new AreaStyle(new GeoPen(GeoColors.Black), new GeoSolidBrush(GeoColors.LightPink))));
-            typeValueStyle.ValueItems.Add(new ValueItem("3", new AreaStyle(new GeoPen(GeoColors.Black), new GeoSolidBrush(GeoColors.LightBlue))));
+            typeValueStyle.ValueItems.Add(new ValueItem("1", new AreaStyle(new GeoPen(GeoColors.Black), new GeoSolidBrush(GeoColors.PastelGreen))));
+            typeValueStyle.ValueItems.Add(new ValueItem("2", new AreaStyle(new GeoPen(GeoColors.Black), new GeoSolidBrush(GeoColors.PastelOrange))));
+            typeValueStyle.ValueItems.Add(new ValueItem("3", new AreaStyle(new GeoPen(GeoColors.Black), new GeoSolidBrush(GeoColors.PastelBlue))));
             parcelsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(typeValueStyle);
 
             //Creates a value style for affected parcels by new proposal
             ValueStyle affectedValueStyle = new ValueStyle();
             affectedValueStyle.ColumnName = "AFFECTED";
-            affectedValueStyle.ValueItems.Add(new ValueItem("YES", new AreaStyle(new GeoPen(GeoColors.Red, 4), new GeoSolidBrush(GeoColors.Transparent))));
-            affectedValueStyle.ValueItems.Add(new ValueItem("D", new AreaStyle(new GeoPen(GeoColors.Orange, 4), new GeoSolidBrush(GeoColors.Transparent))));
+            affectedValueStyle.ValueItems.Add(new ValueItem("YES", new AreaStyle(new GeoPen(GeoColors.DarkGreen, 4), new GeoSolidBrush(GeoColors.Transparent))));
+            affectedValueStyle.ValueItems.Add(new ValueItem("D", new AreaStyle(new GeoPen(GeoColors.DarkRed, 4), new GeoSolidBrush(GeoColors.Transparent))));
             parcelsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(affectedValueStyle);
 
             //Creates a text style to display tax id of parcels
@@ -165,20 +168,21 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             titleLegendItem.TextStyle = new TextStyle("Parcel Types", new GeoFont("Arial", 10, DrawingFontStyles.Bold), new GeoSolidBrush(GeoColors.Black));
 
             LegendItem legendItem1 = new LegendItem();
-            legendItem1.ImageStyle = new AreaStyle(new GeoPen(GeoColors.Black), new GeoSolidBrush(GeoColors.LightGreen));
+            legendItem1.ImageStyle = new AreaStyle(new GeoPen(GeoColors.Black), new GeoSolidBrush(GeoColors.PastelGreen));
             legendItem1.TextStyle = new TextStyle("Residential", new GeoFont("Arial", 8), new GeoSolidBrush(GeoColors.Black));
 
             LegendItem legendItem2 = new LegendItem();
-            legendItem2.ImageStyle = new AreaStyle(new GeoPen(GeoColors.Black), new GeoSolidBrush(GeoColors.LightPink));
+            legendItem2.ImageStyle = new AreaStyle(new GeoPen(GeoColors.Black), new GeoSolidBrush(GeoColors.PastelRed));
             legendItem2.TextStyle = new TextStyle("Industrial", new GeoFont("Arial", 8), new GeoSolidBrush(GeoColors.Black));
 
             LegendItem legendItem3 = new LegendItem();
-            legendItem3.ImageStyle = new AreaStyle(new GeoPen(GeoColors.Black), new GeoSolidBrush(GeoColors.LightBlue));
-            legendItem3.TextStyle = new TextStyle("Industrial", new GeoFont("Arial", 8), new GeoSolidBrush(GeoColors.Black));
+            legendItem3.ImageStyle = new AreaStyle(new GeoPen(GeoColors.Black), new GeoSolidBrush(GeoColors.PastelBlue));
+            legendItem3.TextStyle = new TextStyle("Commerial", new GeoFont("Arial", 8), new GeoSolidBrush(GeoColors.Black));
 
             LegendAdornmentLayer legendAdornmentLayer = new LegendAdornmentLayer();
-            legendAdornmentLayer.Height = 130;
-            legendAdornmentLayer.Width = 140;
+            legendAdornmentLayer.BackgroundMask = new AreaStyle(new GeoPen(GeoColors.Black, 1), GeoBrushes.White);
+            legendAdornmentLayer.Height = 250;
+            legendAdornmentLayer.Width = 250;
 
             legendAdornmentLayer.Title = titleLegendItem;
             legendAdornmentLayer.LegendItems.Add(legendItem1);
@@ -187,7 +191,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             LegendPrinterLayer legendPrinterLayer = new LegendPrinterLayer(legendAdornmentLayer);
 
-            legendPrinterLayer.SetPosition(2, 1, -2.9, 3.9, PrintingUnit.Inch);
+            legendPrinterLayer.SetPosition(2, 1.2, -2.9, 3.8, PrintingUnit.Inch);
 
             PrinterInteractiveOverlay printerInteractiveOverlay = (PrinterInteractiveOverlay)mapView.InteractiveOverlays["PrintPreviewOverlay"];
             printerInteractiveOverlay.PrinterLayers.Add("LegendPrinterLayer1", legendPrinterLayer);
@@ -200,14 +204,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             titleLegendItem.TextStyle = new TextStyle("New Proposal", new GeoFont("Arial", 10, DrawingFontStyles.Bold), new GeoSolidBrush(GeoColors.Black));
 
             LegendItem legendItem1 = new LegendItem();
-            legendItem1.ImageStyle = new AreaStyle(new GeoPen(GeoColors.Red, 4), new GeoSolidBrush(GeoColors.Transparent));
+            legendItem1.ImageStyle = new AreaStyle(new GeoPen(GeoColors.DarkGreen, 4), new GeoSolidBrush(GeoColors.Transparent));
             legendItem1.TextStyle = new TextStyle("Approved", new GeoFont("Arial", 8), new GeoSolidBrush(GeoColors.Black));
 
             LegendItem legendItem2 = new LegendItem();
-            legendItem2.ImageStyle = new AreaStyle(new GeoPen(GeoColors.Orange, 4), new GeoSolidBrush(GeoColors.Transparent));
+            legendItem2.ImageStyle = new AreaStyle(new GeoPen(GeoColors.DarkRed, 4), new GeoSolidBrush(GeoColors.Transparent));
             legendItem2.TextStyle = new TextStyle("In Discussion", new GeoFont("Arial", 8), new GeoSolidBrush(GeoColors.Black));
 
             LegendAdornmentLayer legendAdornmentLayer = new LegendAdornmentLayer();
+            legendAdornmentLayer.BackgroundMask = new AreaStyle(new GeoPen(GeoColors.Black, 1), GeoBrushes.White);
             legendAdornmentLayer.Height = 100;
             legendAdornmentLayer.Width = 140;
 
@@ -236,7 +241,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Set the title position so that is it centered on the page one inch from the top and to the left                       
             gridTitleLabelPrinterLayer.PrinterWrapMode = PrinterWrapMode.AutoSizeText;
-            gridTitleLabelPrinterLayer.SetPosition(3, 0.2, new PointShape(-2.25, pageBoundingbox.GetCenterPoint().Y - 2.9), PrintingUnit.Inch);
+            gridTitleLabelPrinterLayer.SetPosition(3, 0.5, new PointShape(-2.25, pageBoundingbox.GetCenterPoint().Y - 2.9), PrintingUnit.Inch);
 
             //Find the PrinterInteractiveOverlay so we can add the new LabelPrinterLayer
             PrinterInteractiveOverlay printerInteractiveOverlay = (PrinterInteractiveOverlay)mapView.InteractiveOverlays["PrintPreviewOverlay"];
@@ -290,8 +295,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Set the title position so that is it centered on the page one inch from the top and to the right                       
             gridTitleLabelPrinterLayer.PrinterWrapMode = PrinterWrapMode.AutoSizeText;
-            gridTitleLabelPrinterLayer.SetPosition(3, 0.2, new PointShape(2.25, pageBoundingbox.GetCenterPoint().Y - 2.9), PrintingUnit.Inch);
-            //titleLabelPrinterLayer.SetPosition(
+            gridTitleLabelPrinterLayer.SetPosition(3, 0.5, new PointShape(2.25, pageBoundingbox.GetCenterPoint().Y - 2.9), PrintingUnit.Inch);
 
             // Find the PrinterInteractiveOverlay so we can add the new LabelPrinterLayer
             PrinterInteractiveOverlay printerInteractiveOverlay = (PrinterInteractiveOverlay)mapView.InteractiveOverlays["PrintPreviewOverlay"];
@@ -378,7 +382,36 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private void btnPrint_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("printing...");
+            PrinterInteractiveOverlay printerInteractiveOverlay = (PrinterInteractiveOverlay)mapView.InteractiveOverlays["PrintPreviewOverlay"];
+            PagePrinterLayer pagePrinterLayer = printerInteractiveOverlay.PrinterLayers["PageLayer"] as PagePrinterLayer;
+
+            PrintDocument printDocument = new PrintDocument();
+            printDocument.DefaultPageSettings.Landscape = true;
+            if (pagePrinterLayer.Orientation == PrinterOrientation.Portrait)
+            {
+                printDocument.DefaultPageSettings.Landscape = false;
+            }
+
+            printDocument.DefaultPageSettings.PaperSize = new PaperSize("AnsiA", 850, 1100);
+
+            PrinterGeoCanvas printerGeoCanvas = new PrinterGeoCanvas();
+            printerGeoCanvas.DrawingArea = new Rectangle(0, 0, Convert.ToInt32(printDocument.DefaultPageSettings.PrintableArea.Width), Convert.ToInt32(printDocument.DefaultPageSettings.PrintableArea.Height));
+            printerGeoCanvas.BeginDrawing(printDocument, pagePrinterLayer.GetBoundingBox(), mapView.MapUnit);
+
+            // Loop through all of the PrintingLayer in the PrinterInteractiveOverlay and print all of the
+            // except for the PagePrinterLayer                
+            Collection<SimpleCandidate> labelsInAllLayers = new Collection<SimpleCandidate>();
+            foreach (PrinterLayer printerLayer in printerInteractiveOverlay.PrinterLayers)
+            {
+                printerLayer.IsDrawing = true;
+                if (!(printerLayer is PagePrinterLayer))
+                {
+                    printerLayer.Draw(printerGeoCanvas, labelsInAllLayers);
+                }
+                printerLayer.IsDrawing = false;
+            }
+
+            printerGeoCanvas.EndDrawing();
         }
     }
 }

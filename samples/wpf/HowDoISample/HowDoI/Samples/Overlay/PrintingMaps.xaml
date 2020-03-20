@@ -4,7 +4,6 @@
     xmlns:uc1="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf">
     <Grid MinHeight="300" MinWidth="400">
         <uc1:MapView x:Name="mapView" MapUnit="Meter" Loaded="MapView_Loaded" Background="#6996ad"></uc1:MapView>
-        <Button x:Name="btnPrint" Content="Print" Margin="0,10,10,0" Height="20" VerticalAlignment="Top" HorizontalAlignment="Right" Width="50" Click="btnPrint_Click"/>
-
+        <Button x:Name="btnPrint" Content="Print Map" Margin="0,10,10,0" Height="40" VerticalAlignment="Top" HorizontalAlignment="Right" Width="80" Click="btnPrint_Click" Foreground="#FFDDDDDD" Background="#FF252526" BorderBrush="#FF3E3E42"/>
     </Grid>
 </UserControl>
