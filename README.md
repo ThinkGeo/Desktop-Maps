@@ -45,7 +45,7 @@ xmlns:uc1="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
 Add the control to `MainWindow.xaml` file inside the Grid element.
 
 ```xml
-<uc1:MapView x:Name="mapView" Loaded="MapViewLoaded"></uc1:MapView>
+<uc1:MapView x:Name="mapView" Loaded="mapView_Loaded"></uc1:MapView>
 ```
 
 ### Step 4: Add Namespaces and the MapViewLoaded Event to `MainWindow.xaml.cs` ###
@@ -57,31 +57,29 @@ using ThinkGeo.Core;
 using ThinkGeo.UI.Wpf;
 ```
 
-Setup the `OnMapLoaded` event which will run when the map control is finsihed being loaded.
+Setup the `mapView_Loaded` event which will run when the map control is finsihed being loaded.
 
 ```csharp
-        private void MapViewLoaded(object sender, RoutedEventArgs e)
-        {
-        }
+private void mapView_Loaded(object sender, RoutedEventArgs e)
+{
+    // Set the Map Unit.
+    mapView.MapUnit = GeographyUnit.Meter;
+}
 ```
 
 ### Step 5: Add the Background World Overlay ###
 
-Add the code below to the `MapViewLoaded` event of the `MainWindow.xaml.cs`.
+Add the code below to the `mapView_Loaded` event of the `MainWindow.xaml.cs`.
 
 ```csharp
-            // Set the Map Unit.
-            mapView.MapUnit = GeographyUnit.Meter;
- 
-            // Add a background layer
-            var backgroundOverlay = new LayerOverlay();
-            backgroundOverlay.Layers.Add(new BackgroundLayer(new GeoSolidBrush(GeoColor.FromHtml("#F0EEE8"))));
- 
-            // Add a base map overlay.
-            var cloudRasterBaseMapOverlay = new ThinkGeoCloudRasterMapsOverlay("USlbIyO5uIMja2y0qoM21RRM6NBXUad4hjK3NBD6pD0~", "f6OJsvCDDzmccnevX55nL7nXpPDXXKANe5cN6czVjCH0s8jhpCH-2A~~", ThinkGeoCloudRasterMapsMapType.Light);
-            mapView.Overlays.Add(cloudRasterBaseMapOverlay);
- 
-            mapView.CurrentExtent = new RectangleShape(-20000000, 20000000, 20000000, -20000000);
+  // Set the Map Unit.
+  mapView.MapUnit = GeographyUnit.Meter;
+
+  // Add a base map overlay.
+  var cloudVectorBaseMapOverlay = new ThinkGeoCloudVectorMapsOverlay("USlbIyO5uIMja2y0qoM21RRM6NBXUad4hjK3NBD6pD0~", "f6OJsvCDDzmccnevX55nL7nXpPDXXKANe5cN6czVjCH0s8jhpCH-2A~~", ThinkGeoCloudVectorMapsMapType.Light);
+  mapView.Overlays.Add(cloudVectorBaseMapOverlay);
+
+  mapView.CurrentExtent = new RectangleShape(-20000000, 20000000, 20000000, -20000000);
 ```
 
 ### Step 5: Run the Sample & Register for Your Free Evaluation ###
