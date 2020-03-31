@@ -29,14 +29,14 @@ We will begin by creating a .NET Core WPF project in your favorite editor.  Next
 
 ### Step 2: Add NuGet Packages ###
 
-You will need to install the **ThinkGeo.UI.Wpf** NuGet package.  How you do this will vary base on which editor you choose.  Below is an exmaple of how to install NuGet packages in Visual Studio.
+You will need to install the **ThinkGeo.UI.Wpf** NuGet package.  We highly suggest you use your editors's built in NuGet package manager if possible.  In the case you don't have one you can use the dotnet CLI as shown below.  
 
 [How to install NuGet packages in Visual Studio](https://docs.microsoft.com/en-us/nuget/quickstart/)
 
-Install the ThinkGeo.UI.Wpf NuGet Package
+If you're not using an IDE you can [install it via the the dotnet CLI](https://docs.microsoft.com/en-us/nuget/consume-packages/install-use-packages-dotnet-cli) from inside your project folder where the .prj file exists.
 
 ```shell
-$ Intall-Package Thinkgeo.DesktopMaps
+dotnet add package ThinkGeo.UI.Wpf
 ```
 ### Step 3: Add the Map Control to the `MainWindow.xaml` ###
 
