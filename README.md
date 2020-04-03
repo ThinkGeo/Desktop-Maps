@@ -84,13 +84,19 @@ Add the code below to the `mapView_Loaded` event of the `MainWindow.xaml.cs`.
 
 ### Step 5: Run the Sample & Register for Your Free Evaluation ###
 
-Run application
+The first time you run your application, you will be presented with ThinkGeo's Product Center which will create and manage your licenses for all of ThinkGeo's products. Create a new account to begin a 60-day free evaluation. 
 
-Starting Evaluation
+1. Run the application in Debug mode.
 
-[link](URL)
+1. Click the "Create a new Account?" link.
 
-![image](imageURL)
+1. Fill out your name, email address, password and company name and click register.
+
+1. Check your email and click the "Active Your Account" link.
+
+1. Return to Product Center and login using the credentials your just created and hit "Continue Debugging" button.
+
+You should now see your map with our Cloud Maps layer!
 
 ### Step 6: Add a Point Data Layer ###
 
