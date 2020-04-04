@@ -2,11 +2,11 @@
 
 ## Repository Layout
 
-`api-docs`: An offline version the API documentation HTML pages.
+`/api-docs`: An offline version the API documentation HTML pages.
 
-`hero-app`: A real world application that shows off many of this products features along with best practices.
+`/hero-app`: A real world application that shows off many of this products features along with best practices.
 
-`samples`: A collection of feature by feature samples.  We suggest you start with the [How Do I Sample](samples/wpf/HowDoISample/HowDoI) as it shows dozens of features in one easy to navigate app. 
+`/samples`: A collection of feature by feature samples.  We suggest you start with the [How Do I Sample](samples/wpf/HowDoISample/HowDoI) as it shows dozens of features in one easy to navigate app. 
 
 ## Quick Start: Display a Simple Map
 
@@ -129,7 +129,7 @@ Style the points.
 Make the map zoom into an area based on the extent of the data we added above. 
 
 ```csharp
-   // Set the extent of capitalLayer for the map. 
+   // Set the extent of capitalLayer for the ap. 
     mapView.CurrentExtent = capitalLayer.GetBoundingBox();
 ```
 
