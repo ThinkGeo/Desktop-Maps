@@ -8,6 +8,10 @@
 
 `/samples`: A collection of feature by feature samples.  We suggest you start with the [How Do I Sample](samples/wpf/HowDoISample/HowDoI) as it shows dozens of features in one easy to navigate app. 
 
+`/.assets`: Any assets needed for the readme.md.
+
+`README.md`: A quick start guide to show you how to quickly get up and running. 
+
 ## Quick Start: Display a Simple Map
 
 This section will introduce you to getting a nice looking map up and running with some external data and styling.  After reviewing this we strongly recommend that you open the [How Do I Sample](samples/wpf/HowDoISample/HowDoI).  It's packed with dozens of examples covering nearly everything you can do with the control.
