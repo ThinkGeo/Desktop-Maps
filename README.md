@@ -2,11 +2,15 @@
 
 ## Repository Layout
 
-`api-docs`: An offline version the API documentation HTML pages.
+`/api-docs`: An offline version the API documentation HTML pages.
 
-`hero-app`: A real world application that shows off many of this products features along with best practices.
+`/hero-app`: A real world application that shows off many of this products features along with best practices.
 
-`samples`: A collection of feature by feature samples.  We suggest you start with the [How Do I Sample](samples/wpf/HowDoISample/HowDoI) as it shows dozens of features in one easy to navigate app. 
+`/samples`: A collection of feature by feature samples.  We suggest you start with the [How Do I Sample](samples/wpf/HowDoISample/HowDoI) as it shows dozens of features in one easy to navigate app. 
+
+`/.assets`: Any assets needed for the readme.md.
+
+`README.md`: A quick start guide to show you how to quickly get up and running. 
 
 ## Quick Start: Display a Simple Map
 
@@ -14,7 +18,7 @@ This section will introduce you to getting a nice looking map up and running wit
 
 We will begin by creating a .NET Core WPF project in your favorite editor.  Next we will walk you through adding the required packages and getting a map on the default form.  Next we will add some code to show a nice looking background map and finally add some custom which will be styled and labeled.  After reading this you will be in a good position to look over the [How Do I Sample](samples/wpf/HowDoISample/HowDoI) and explore our other features.
 
-![alt text](quickstart_shapefile_pointstyle_screenshot.png "Simple Map")
+![alt text](.assets/quickstart_shapefile_pointstyle_screenshot.png "Simple Map")
 
 ### Step 1: Setup a New Project ###
 
@@ -129,7 +133,7 @@ Style the points.
 Make the map zoom into an area based on the extent of the data we added above. 
 
 ```csharp
-   // Set the extent of capitalLayer for the map. 
+   // Set the extent of capitalLayer for the ap. 
     mapView.CurrentExtent = capitalLayer.GetBoundingBox();
 ```
 
