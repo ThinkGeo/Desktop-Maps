@@ -93,8 +93,8 @@ namespace NauticalChartsViewer
             map.ZoomLevelSet = new ThinkGeoCloudMapsZoomLevelSet();
 
             // Please input your ThinkGeo Cloud Client ID / Client Secret to enable the background map. 
-            //ThinkGeoCloudRasterMapsOverlay baseOverlay = new ThinkGeoCloudRasterMapsOverlay("ThinkGeo Cloud Client ID", "ThinkGeo Cloud Client Secret");
-            //map.Overlays.Add(ThinkGeoCloudMapsOverlayName, baseOverlay);
+            ThinkGeoCloudRasterMapsOverlay baseOverlay = new ThinkGeoCloudRasterMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~");
+            map.Overlays.Add(ThinkGeoCloudMapsOverlayName, baseOverlay);
 
             InitBoundingBoxPreviewOverlay(map);
         }
