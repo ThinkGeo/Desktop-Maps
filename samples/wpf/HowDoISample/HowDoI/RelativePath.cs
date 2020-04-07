@@ -7,8 +7,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         // This ThinkGeo Cloud test key is exclusively for demonstration purposes and is limited to requesting base map 
         // tiles only. Do not use it in your own applications, as it may be restricted or disabled without prior notice. 
         // Please visit https://cloud.thinkgeo.com to create a free key for your own use.
-        public static string ThinkGeoCloudId { get; } = "USlbIyO5uIMja2y0qoM21RRM6NBXUad4hjK3NBD6pD0~";
-        public static string ThinkGeoCloudSecret { get; } = "f6OJsvCDDzmccnevX55nL7nXpPDXXKANe5cN6czVjCH0s8jhpCH-2A~~";
+        public static string ThinkGeoCloudId { get; } = "itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~";
+        public static string ThinkGeoCloudSecret { get; } = "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~";
         static SampleHelper()
         {
             Root = @"../../../Data";
