@@ -17,8 +17,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             Map1.MapUnit = GeographyUnit.Meter;
             Map1.ZoomLevelSet = new ThinkGeoCloudMapsZoomLevelSet();
 
-            ThinkGeoCloudRasterMapsOverlay worldOverlay = new ThinkGeoCloudRasterMapsOverlay(SampleHelper.ThinkGeoCloudId, SampleHelper.ThinkGeoCloudSecret);
-            Map1.Overlays.Add(worldOverlay);
+            // Create background world map with vector tile requested from ThinkGeo Cloud Service. 
+            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay(SampleHelper.ThinkGeoCloudId, SampleHelper.ThinkGeoCloudSecret, ThinkGeoCloudVectorMapsMapType.Light);
+            Map1.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             PopupOverlay popupOverlay = new PopupOverlay();
             Map1.Overlays.Add(popupOverlay);
