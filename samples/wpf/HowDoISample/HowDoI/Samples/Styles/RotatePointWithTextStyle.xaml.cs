@@ -36,8 +36,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             mapView.MapUnit = GeographyUnit.Meter;
 
-            ThinkGeoCloudRasterMapsOverlay thinkGeoCloudMapsOverlay = new ThinkGeoCloudRasterMapsOverlay(SampleHelper.ThinkGeoCloudId, SampleHelper.ThinkGeoCloudSecret, ThinkGeoCloudRasterMapsMapType.Dark);
-            mapView.Overlays.Add(thinkGeoCloudMapsOverlay);
+            // Create background world map with vector tile requested from ThinkGeo Cloud Service. 
+            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay(SampleHelper.ThinkGeoCloudId, SampleHelper.ThinkGeoCloudSecret, ThinkGeoCloudVectorMapsMapType.Light);
+            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             ShapeFileFeatureLayer shapeFileFeatureLayer = new ShapeFileFeatureLayer(SampleHelper.Get("FriscoSchools.shp"));
             // CustomColumnFetch event is raised every time the layer is fetching a column which doesn't exist. 
