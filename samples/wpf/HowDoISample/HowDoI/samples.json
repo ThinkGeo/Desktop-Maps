@@ -78,6 +78,12 @@
         "title": "Add additional custom properties and methods",
         "description": "Choose the items to add additional custom properties And methods.",
         "source": "Samples/Overlay/AddAdditionalCustomPropertiesAndMethods"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.PrintingMaps",
+        "title": "Printing Maps",
+        "description": "This sample shows how to print a map of parcel data with added adornments, legends, and data overlays.",
+        "source": "Samples/Overlay/PrintingMaps"
       }
     ]
   },

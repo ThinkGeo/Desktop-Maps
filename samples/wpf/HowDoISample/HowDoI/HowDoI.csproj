@@ -119,10 +119,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Samples\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Resource.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -279,6 +275,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Update="Samples\Overlay\AddAdditionalCustomPropertiesAndMethods.xaml.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Update="Samples\Overlay\PrintingMaps.xaml.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Update="Samples\Overlay\TileDowloadProgress.xaml.cs">
