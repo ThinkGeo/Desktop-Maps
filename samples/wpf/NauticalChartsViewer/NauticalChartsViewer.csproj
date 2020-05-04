@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="NauticalCharts.ico" />
+    <None Remove="NauticalCharts.ico"  />
     <None Remove="Resource\Image\aerial.png" />
     <None Remove="Resource\Image\all_layers.png" />
     <None Remove="Resource\Image\base_layers.png" />
