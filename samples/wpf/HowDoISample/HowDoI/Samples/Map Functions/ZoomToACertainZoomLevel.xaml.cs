@@ -17,8 +17,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.ZoomLevelSet = new ThinkGeoCloudMapsZoomLevelSet();
             mapView.CurrentExtent = new RectangleShape(-610949, 15475775, 4818826, 5637066);
 
-            ThinkGeoCloudRasterMapsOverlay worldMapKitDesktopOverlay = new ThinkGeoCloudRasterMapsOverlay(SampleHelper.ThinkGeoCloudId, SampleHelper.ThinkGeoCloudSecret);
-            mapView.Overlays.Add(worldMapKitDesktopOverlay);
+            // Create background world map with vector tile requested from ThinkGeo Cloud Service. 
+            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay(SampleHelper.ThinkGeoCloudId, SampleHelper.ThinkGeoCloudSecret, ThinkGeoCloudVectorMapsMapType.Light);
+            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             mapView.Refresh();
         }

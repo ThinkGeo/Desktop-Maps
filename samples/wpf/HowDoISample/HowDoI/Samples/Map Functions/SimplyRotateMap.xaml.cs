@@ -20,7 +20,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             Map1.ZoomLevelSet = new ThinkGeoCloudMapsZoomLevelSet();
             Map1.CurrentExtent = new RectangleShape(-10775293.1819701, 3866499.57476108, -10774992.2111729, 3866281.90838096);
 
-            var thinkGeoCloudVectorFeatureLayer = new ThinkGeoCloudVectorMapsLayer(SampleHelper.ThinkGeoCloudId, SampleHelper.ThinkGeoCloudSecret, ThinkGeoCloudVectorMapsMapType.Default);
+            var thinkGeoCloudVectorFeatureLayer = new ThinkGeoCloudVectorMapsLayer(SampleHelper.ThinkGeoCloudId, SampleHelper.ThinkGeoCloudSecret, ThinkGeoCloudVectorMapsMapType.Light);
             LayerOverlay layerOverlay = new LayerOverlay
             {
                 TileWidth = 512,

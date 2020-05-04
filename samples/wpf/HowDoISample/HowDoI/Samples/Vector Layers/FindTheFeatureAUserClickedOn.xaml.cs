@@ -21,8 +21,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.CurrentExtent = new RectangleShape(-14833496.0849081, 32062644.1224434, 14126965.1917795, -26821163.932136);
             mapView.ZoomLevelSet = new ThinkGeoCloudMapsZoomLevelSet();
 
-            ThinkGeoCloudRasterMapsOverlay ThinkGeoCloudRasterMapsOverlay = new ThinkGeoCloudRasterMapsOverlay(SampleHelper.ThinkGeoCloudId, SampleHelper.ThinkGeoCloudSecret);
-            mapView.Overlays.Add(ThinkGeoCloudRasterMapsOverlay);
+            // Create background world map with vector tile requested from ThinkGeo Cloud Service. 
+            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay(SampleHelper.ThinkGeoCloudId, SampleHelper.ThinkGeoCloudSecret, ThinkGeoCloudVectorMapsMapType.Light);
+            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             ShapeFileFeatureLayer worldLayer = new ShapeFileFeatureLayer(SampleHelper.Get("Countries02_3857.shp"));
             worldLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.Transparent, GeoColor.FromArgb(100, GeoColors.Green));

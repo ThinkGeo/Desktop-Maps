@@ -1,0 +1,186 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="NauticalCharts.ico"  />
+    <None Remove="Resource\Image\aerial.png" />
+    <None Remove="Resource\Image\all_layers.png" />
+    <None Remove="Resource\Image\base_layers.png" />
+    <None Remove="Resource\Image\blank_map.png" />
+    <None Remove="Resource\Image\busy.png" />
+    <None Remove="Resource\Image\clear.png" />
+    <None Remove="Resource\Image\contourtext.png" />
+    <None Remove="Resource\Image\dayblackback.png" />
+    <None Remove="Resource\Image\daybright.png" />
+    <None Remove="Resource\Image\daywhiteback.png" />
+    <None Remove="Resource\Image\dusk.png" />
+    <None Remove="Resource\Image\graticule.png" />
+    <None Remove="Resource\Image\hybird.png" />
+    <None Remove="Resource\Image\Hydrography.ico" />
+    <None Remove="Resource\Image\identify.png" />
+    <None Remove="Resource\Image\layers.png" />
+    <None Remove="Resource\Image\lighthouse.png" />
+    <None Remove="Resource\Image\lighthouse_text.png" />
+    <None Remove="Resource\Image\nationalsymboltext.png" />
+    <None Remove="Resource\Image\night.png" />
+    <None Remove="Resource\Image\nosymboltext.png" />
+    <None Remove="Resource\Image\other_layers.png" />
+    <None Remove="Resource\Image\pan.png" />
+    <None Remove="Resource\Image\PaperChart.png" />
+    <None Remove="Resource\Image\plainboundaries.png" />
+    <None Remove="Resource\Image\simplified.png" />
+    <None Remove="Resource\Image\soundingtext.png" />
+    <None Remove="Resource\Image\standard_layers.png" />
+    <None Remove="Resource\Image\street.png" />
+    <None Remove="Resource\Image\symbolizedboundaries.png" />
+    <None Remove="Resource\Image\symboltext.png" />
+    <None Remove="Resource\Menus.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommonServiceLocator" Version="2.0.5" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
+    <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
+    <PackageReference Include="System.ComponentModel.Composition" Version="4.7.0" />
+    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="12.2.6" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="12.2.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="NauticalCharts.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Image\aerial.png" />
+    <Resource Include="Resource\Image\all_layers.png" />
+    <Resource Include="Resource\Image\base_layers.png" />
+    <Resource Include="Resource\Image\blank_map.png" />
+    <Resource Include="Resource\Image\busy.png" />
+    <Resource Include="Resource\Image\clear.png" />
+    <Resource Include="Resource\Image\contourtext.png" />
+    <Resource Include="Resource\Image\dayblackback.png" />
+    <Resource Include="Resource\Image\daybright.png" />
+    <Resource Include="Resource\Image\daywhiteback.png" />
+    <Resource Include="Resource\Image\dusk.png" />
+    <Resource Include="Resource\Image\graticule.png" />
+    <Resource Include="Resource\Image\hybird.png" />
+    <Resource Include="Resource\Image\Hydrography.ico" />
+    <Resource Include="Resource\Image\identify.png" />
+    <Resource Include="Resource\Image\layers.png" />
+    <Resource Include="Resource\Image\lighthouse.png" />
+    <Resource Include="Resource\Image\lighthouse_text.png" />
+    <Resource Include="Resource\Image\nationalsymboltext.png" />
+    <Resource Include="Resource\Image\night.png" />
+    <Resource Include="Resource\Image\nosymboltext.png" />
+    <Resource Include="Resource\Image\other_layers.png" />
+    <Resource Include="Resource\Image\pan.png" />
+    <Resource Include="Resource\Image\PaperChart.png" />
+    <Resource Include="Resource\Image\plainboundaries.png" />
+    <Resource Include="Resource\Image\simplified.png" />
+    <Resource Include="Resource\Image\soundingtext.png" />
+    <Resource Include="Resource\Image\standard_layers.png" />
+    <Resource Include="Resource\Image\street.png" />
+    <Resource Include="Resource\Image\symbolizedboundaries.png" />
+    <Resource Include="Resource\Image\symboltext.png" />
+    <Resource Include="Resource\Menus.xml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="SampleData\Chicago\US4IL10A.TXT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleData\Chicago\US4IL10B.TXT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleData\Chicago\US4IL10C.TXT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleData\Chicago\US4IL10D.TXT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleData\Chicago\US4IL10M.000">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleData\Chicago\US4IL10M.001">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleData\Chicago\US4IL10M.hyr">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleData\Chicago\US4IL10M.ids">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleData\Chicago\US4IL10M.idx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09A.TXT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09B.TXT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09C.TXT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09D.TXT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09E.TXT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09F.TXT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09G.TXT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09M.000">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09M.001">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09M.002">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09M.003">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09M.004">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09M.005">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09M.006">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09M.007">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09M.008">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09M.009">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09M.hyr">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09M.ids">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09M.idx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

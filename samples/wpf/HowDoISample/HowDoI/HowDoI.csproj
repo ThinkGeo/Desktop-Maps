@@ -101,25 +101,22 @@
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
     <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="ThinkGeo.Ecw" Version="12.2.3" />
-    <PackageReference Include="ThinkGeo.MrSid" Version="12.2.3" />
-    <PackageReference Include="ThinkGeo.Oracle" Version="12.2.3" />
-    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="12.2.3" />
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="12.2.3" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="12.2.3" />
-    <PackageReference Include="ThinkGeo.UI.Wpf" Version="12.2.3" />
-    <PackageReference Include="ThinkGeo.UnmanagedGeoTiff" Version="12.2.3" />
-    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="12.2.3" />
+    <PackageReference Include="ThinkGeo.Ecw" Version="12.2.6" />
+    <PackageReference Include="ThinkGeo.MrSid" Version="12.2.6" />
+    <PackageReference Include="ThinkGeo.Oracle" Version="12.2.6" />
+    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="12.2.6" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="12.2.6" />
+    <PackageReference Include="ThinkGeo.Printers" Version="12.2.6" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="12.2.6" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="12.2.6" />
+    <PackageReference Include="ThinkGeo.UnmanagedGeoTiff" Version="12.2.6" />
+    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="12.2.6" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="samples.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Samples\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -279,6 +276,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Update="Samples\Overlay\AddAdditionalCustomPropertiesAndMethods.xaml.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Update="Samples\Overlay\PrintingMaps.xaml.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Update="Samples\Overlay\TileDowloadProgress.xaml.cs">

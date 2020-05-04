@@ -2,13 +2,11 @@
 
 ## Repository Layout
 
-`/api-docs`: An offline version the API documentation HTML pages.
-
-`/hero-app`: A real world application that shows off many of this products features along with best practices.
+`/docs`: An offline version the API documentation HTML pages.
 
 `/samples`: A collection of feature by feature samples.  We suggest you start with the [How Do I Sample](samples/wpf/HowDoISample/HowDoI) as it shows dozens of features in one easy to navigate app.
 
-`/.assets`: Any assets needed for the readme.md.
+`/assets`: Any assets needed for the readme.md.
 
 `README.md`: A quick start guide to show you how to quickly get up and running.
 
@@ -18,7 +16,7 @@ This section will introduce you to getting a nice looking map up and running wit
 
 We will begin by creating a .NET Core WPF project in your favorite editor.  Next we will walk you through adding the required packages and getting a map on the default form.  Next we will add some code to show a nice looking background map and finally add some custom which will be styled and labeled.  After reading this you will be in a good position to look over the [How Do I Sample](samples/wpf/HowDoISample/HowDoI) and explore our other features.
 
-![alt text](.assets/quickstart_shapefile_pointstyle_screenshot.png "Simple Map")
+![alt text](assets/quickstart_shapefile_pointstyle_screenshot.png "Simple Map")
 
 ### Step 1: Setup a New Project
 
@@ -96,7 +94,7 @@ You should now see your map with our Cloud Maps layer!
 
 Now that you have a basic setup, you can add custom data to the map. Depending on the data, this can be complex or quite simple. We'll be going over the simple basics of adding custom data, with a pitfall or two to help you better understand how our framework can help you get around these issues.
 
-Download the [WorldCapitals.zip](.assets/WorldCapitals.zip) shapefile data and unzip it in your project under a new folder called `AppData`. Make sure that the files are set to copy to the build output directory. From there, we can add the shapefile to the map.
+Download the [WorldCapitals.zip](assets/WorldCapitals.zip) shapefile data and unzip it in your project under a new folder called `AppData`. Make sure that the files are set to copy to the build output directory. From there, we can add the shapefile to the map.
 
 ```csharp
     // Add a shapefile layer with point style.

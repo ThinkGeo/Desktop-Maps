@@ -11,7 +11,7 @@
         x:Name="Main"
         Loaded="MainWindow_OnLoaded"
         d:DataContext="{d:DesignInstance {x:Type local:MainWindowViewModel}, IsDesignTimeCreatable=True}"
-        Title="MainWindow" Height="800" Width="1680">
+        Title="MainWindow" Height="900" Width="1200">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <DataTemplate x:Key="MenuGroup" DataType="local:MenuViewModel">
