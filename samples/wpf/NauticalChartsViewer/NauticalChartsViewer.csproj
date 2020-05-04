@@ -49,8 +49,8 @@
     <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
     <PackageReference Include="System.ComponentModel.Composition" Version="4.7.0" />
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="12.*" />
-    <PackageReference Include="ThinkGeo.UI.Wpf" Version="12.*" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="12.2.6" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="12.2.6" />
   </ItemGroup>
 
   <ItemGroup>
