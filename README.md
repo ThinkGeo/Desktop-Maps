@@ -4,19 +4,19 @@
 
 `/docs`: An offline version the API documentation HTML pages.
 
-`/samples`: A collection of feature by feature samples.  We suggest you start with the [How Do I Sample](samples/wpf/HowDoISample/HowDoI) as it shows dozens of features in one easy to navigate app.
+`/samples`: A collection of feature by feature samples.  We suggest you start with the [How Do I Sample](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/samples/wpf/HowDoISample) as it shows dozens of features in one easy to navigate app.
 
 `/assets`: Any assets needed for the readme.md.
 
 `README.md`: A quick start guide to show you how to quickly get up and running.
 
-## Quick Start: Display a Simple Map
+## Quick Start: Display a Simple Map using WPF
 
-This section will introduce you to getting a nice looking map up and running with some external data and styling.  After reviewing this we strongly recommend that you open the [How Do I Sample](samples/wpf/HowDoISample/HowDoI).  It's packed with dozens of examples covering nearly everything you can do with the control.
+This section will introduce you to getting a nice looking map up and running with some external data and styling.  After reviewing this we strongly recommend that you open the [How Do I Sample](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/samples/wpf/HowDoISample).  It's packed with dozens of examples covering nearly everything you can do with the control.
 
-We will begin by creating a .NET Core WPF project in your favorite editor.  Next we will walk you through adding the required packages and getting a map on the default form.  Next we will add some code to show a nice looking background map and finally add some custom which will be styled and labeled.  After reading this you will be in a good position to look over the [How Do I Sample](samples/wpf/HowDoISample/HowDoI) and explore our other features.
+We will begin by creating a .NET Core WPF project in your favorite editor.  Next we will walk you through adding the required packages and getting a map on the default form.  Next we will add some code to show a nice looking background map and finally add some custom which will be styled and labeled.  After reading this you will be in a good position to look over the [How Do I Sample](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/samples/wpf/HowDoISample) and explore our other features.
 
-![alt text](assets/quickstart_shapefile_pointstyle_screenshot.png "Simple Map")
+![alt text](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/assets/quickstart_shapefile_pointstyle_screenshot.png "Simple Map")
 
 ### Step 1: Setup a New Project
 
@@ -24,7 +24,7 @@ We will begin by creating a .NET Core WPF project in your favorite editor.  Next
 
 ### Step 2: Add NuGet Packages
 
-You will need to install the **ThinkGeo.UI.Wpf** NuGet package.  We highly suggest you use your editors [built in NuGet package manager](https://docs.microsoft.com/en-us/nuget/quickstart/) if possible.  If you're not using an IDE you can [install it via the the dotnet CLI](https://docs.microsoft.com/en-us/nuget/consume-packages/install-use-packages-dotnet-cli) from inside your project folder where where your project file exists.
+You will need to install the **ThinkGeo.UI.Wpf** NuGet package.  We highly suggest you use your editors [built in NuGet package manager](https://docs.microsoft.com/en-us/nuget/quickstart/install-and-use-a-package-in-visual-studio) if possible.  If you're not using an IDE you can [install it via the the dotnet CLI](https://docs.microsoft.com/en-us/nuget/consume-packages/install-use-packages-dotnet-cli) from inside your project folder where where your project file exists.
 
 ```shell
 dotnet add package ThinkGeo.UI.Wpf
@@ -78,7 +78,7 @@ Add the code below to the `mapView_Loaded` event of the `MainWindow.xaml.cs`.
     mapView.CurrentExtent = new RectangleShape(-20000000, 20000000, 20000000, -20000000);
 ```
 
-### Step 5: Run the Sample & Register for Your Free Evaluation
+### Step 6: Run the Sample & Register for Your Free Evaluation
 
 The first time you run your application, you will be presented with ThinkGeo's Product Center which will create and manage your licenses for all of ThinkGeo's products. Create a new account to begin a 60-day free evaluation.
 
@@ -90,11 +90,11 @@ The first time you run your application, you will be presented with ThinkGeo's P
 
 You should now see your map with our Cloud Maps layer!
 
-### Step 6: Add a Point Data Layer
+### Step 7: Add a Point Data Layer
 
 Now that you have a basic setup, you can add custom data to the map. Depending on the data, this can be complex or quite simple. We'll be going over the simple basics of adding custom data, with a pitfall or two to help you better understand how our framework can help you get around these issues.
 
-Download the [WorldCapitals.zip](assets/WorldCapitals.zip) shapefile data and unzip it in your project under a new folder called `AppData`. Make sure that the files are set to copy to the build output directory. From there, we can add the shapefile to the map.
+Download the [WorldCapitals.zip](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/assets/WorldCapitals.zip) shapefile data and unzip it in your project under a new folder called `AppData`. Make sure that the files are set to copy to the build output directory. From there, we can add the shapefile to the map.
 
 ```csharp
     // Add a shapefile layer with point style.
@@ -106,7 +106,7 @@ Download the [WorldCapitals.zip](assets/WorldCapitals.zip) shapefile data and un
     mapView.Overlays.Add(customDataOverlay);
 ```
 
-### Step 7: Add Styling and Labeling to the Points
+### Step 8: Add Styling and Labeling to the Points
 
 We won't be able to see the points until a style is defined for it. Adding a style though is very straightforward, but extremely extensible and powerful.
 
@@ -123,7 +123,7 @@ We won't be able to see the points until a style is defined for it. Adding a sty
     capitalLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 ```
 
-### Step 8: Reprojecting the Data
+### Step 9: Reprojecting the Data
 
 If you run the app now, you'll notice that there is just a single point shape in the center of the map! This is because the data is in a completely different projection from the map. We can easily fix that, though, by adding a `ProjectionConverter` to the layer from Decimal Degrees(4326) to Spherical Mercator(3857).
 
@@ -134,7 +134,7 @@ If you run the app now, you'll notice that there is just a single point shape in
 
 Now, the data shows up properly on the map!
 
-### Step 9: Zoom Into the Data
+### Step 10: Zoom Into the Data
 
 Now, we can make the map zoom into an area based on the extent of the data we added above. In order to do that, we must first open the layer for spatial queries to be made.
 
@@ -154,4 +154,4 @@ You now know the basics of using the ThinkGeo Map controls and are able to get s
 1. A Map has many layers. A Layer correlates one-to-one with a single data source and typically of one type (point, polygon, line etc).
 1. A FeatureLayer can have several ZoomLevels. ZoomLevels help to define ranges (upper and lower) of when a Layer should be shown or hidden.
 
-You are now in a great position to look over the [How Do I Sample](samples/wpf/HowDoISample/HowDoI) and explore our other features.
+You are now in a great position to look over the [How Do I Sample](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/samples/wpf/HowDoISample) and explore our other features.
