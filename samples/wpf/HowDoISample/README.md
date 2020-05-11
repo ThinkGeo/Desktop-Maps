@@ -2,25 +2,32 @@
 
 ### Description
 
-The “How Do I?” samples collection is a comprehensive set containing dozens of interactive samples. Available in C#, these samples are designed to hit all the highlights of Map Suite, from simply adding a layer to a map to performing spatial queries and applying a thematic style. Consider this collection your “encyclopedia” of all the Map Suite basics and a great starting place for new users.
+The “How Do I?” samples collection is a comprehensive set containing dozens of interactive samples. Available in C#, these samples are designed to hit all the highlights of ThinkGeo UI, from simply adding a layer to a map to performing spatial queries and applying a thematic style. Consider this collection your “encyclopedia” of all the ThinkGeo UI basics and a great starting place for new users.
 
-Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/thinkgeo_desktop_for_wpf) for the details.
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/master/samples/wpf/HowDoISample/Screenshot.gif)
 
-![Screenshot](https://github.com/ThinkGeo/HowDoISample-ForWpf/blob/master/Screenshot.gif)
+### Requirements
 
-### About the Code
+This sample makes use of the following NuGet packages:
 
-Working...
+[ThinkGeo Core](https://www.nuget.org/packages/ThinkGeo.Core)
 
-### Getting Help
+[ThinkGeo UI for Wpf](https://www.nuget.org/packages/ThinkGeo.UI.Wpf)
 
-[ThinkGeo Desktop for Wpf Wiki Resources](http://wiki.thinkgeo.com/wiki/thinkgeo_desktop_for_wpf)
+### ThinkGeo UI for Wpf Resources
 
-[ThinkGeo Desktop for Wpf Product Description](https://thinkgeo.com/ui-controls#desktop-platforms)
+[ThinkGeo UI for Wpf - Quickstart and API Docs](https://docs.thinkgeo.com/products/desktop-maps/v12.0/quickstart/)
 
-[ThinkGeo Community Site](http://community.thinkgeo.com/)
+[ThinkGeo UI for Wpf - Additional Wiki Resources](https://wiki.thinkgeo.com/wiki/thinkgeo_desktop_for_wpf)
 
-[ThinkGeo Web Site](http://www.thinkgeo.com)
+[ThinkGeo UI for Wpf - Product Page](https://www.thinkgeo.com/desktop-maps)
+
+### Additional Resources
+
+[ThinkGeo Community Forums](http://community.thinkgeo.com/)
+
+[ThinkGeo Website](https://www.thinkgeo.com/)
 
 ### About ThinkGeo
+
 ThinkGeo is a GIS (Geographic Information Systems) company founded in 2004 and located in Frisco, TX. Our clients are in more than 40 industries including agriculture, energy, transportation, government, engineering, software development, and defense.
