@@ -13,6 +13,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="HowDoI\**" />
+    <EmbeddedResource Remove="HowDoI\**" />
+    <None Remove="HowDoI\**" />
+    <Page Remove="HowDoI\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="HowDoI.csproj.DotSettings" />
     <None Remove="Resources\AQUA.png" />
     <None Remove="Resources\AQUABLANK.png" />
