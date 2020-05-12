@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="NauticalChartsViewer\**" />
+    <EmbeddedResource Remove="NauticalChartsViewer\**" />
+    <None Remove="NauticalChartsViewer\**" />
+    <Page Remove="NauticalChartsViewer\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="NauticalCharts.ico" />
     <None Remove="Resource\Image\aerial.png" />
     <None Remove="Resource\Image\all_layers.png" />
