@@ -1,0 +1,202 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:ThinkGeo.MapSuite.VehicleTracking">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/MapSuiteVehicleTracking;component/MapTools/OverlaySwitcher.xaml"></ResourceDictionary>
+    </ResourceDictionary.MergedDictionaries>
+    
+    <Thickness x:Key="TitleMargin" Left="5" Top="0" Right="0" Bottom="0" />
+    <!--BaseStyles-->
+    <Style x:Key="ControlFont" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="#000000" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+    <Style x:Key="explanText" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="9.5" />
+        <Setter Property="FontWeight" Value="Regular" />
+    </Style>
+
+    <!--Main Form Styles-->
+    <Style x:Key="fileset"
+           TargetType="{x:Type Border}">
+        <Setter Property="BorderBrush"
+                Value="LightGray" />
+        <Setter Property="BorderThickness"
+                Value="1" />
+        <Setter Property="CornerRadius"
+                Value="5" />
+        <Setter Property="Padding"
+                Value="5 5 5 5" />
+        <Setter Property="Margin"
+                Value="0 5 0 10" />
+    </Style>
+    <Style x:Key="headerText2"
+           BasedOn="{StaticResource ControlFont}"
+           TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize"
+                Value="14" />
+        <Setter Property="TextWrapping"
+                Value="Wrap" />
+        <Setter Property="TextAlignment"
+                Value="Center" />
+        <Setter Property="VerticalAlignment"
+                Value="Center" />
+        <Setter Property="Foreground"
+                Value="White" />
+        <Setter Property="FontWeight"
+                Value="SemiBold" />
+    </Style>
+    <Style x:Key="headerBanner"
+           TargetType="{x:Type Border}">
+        <Setter Property="Background"
+                Value="#0092da" />
+        <Setter Property="Height"
+                Value="26" />
+        <Setter Property="Margin"
+                Value="0 5 0 10" />
+        <Setter Property="Padding"
+                Value="5 5 5 5" />
+    </Style>
+    <Thickness x:Key="normalMargin" Left="0" Top="0" Right="15" Bottom="0" />
+    <Thickness x:Key="editButtonMargin" Left="5" Top="0" Right="5" Bottom="0" />
+    <Style x:Key="sampleBody" TargetType="Grid">
+        <Setter Property="Margin"  Value="0 0 0 0" />
+    </Style>
+    <Style x:Key="h3" BasedOn="{StaticResource ControlFont}" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontWeight" Value="Normal" />
+    </Style>
+    <Style x:Key="h4" BasedOn="{StaticResource ControlFont}" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="Regular" />
+    </Style>
+    <Style x:Key="bodyText" BasedOn="{StaticResource ControlFont}" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontWeight" Value="Regular" />
+    </Style>
+    <Style x:Key="bodyText1" BasedOn="{StaticResource ControlFont}" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Margin" Value="0" />
+    </Style>
+    <Style x:Key="warningBodyText1" BasedOn="{StaticResource bodyText1}" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="Red" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Style.Triggers>
+            <Trigger Property="Text" Value="On">
+                <Setter Property="Foreground" Value="Black" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <ControlTemplate x:Key="newAutoRefreshTemplate">
+        <Image Stretch="None" Cursor="Hand" Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Content}" RenderOptions.BitmapScalingMode="NearestNeighbor" RenderOptions.EdgeMode="Aliased" >
+            <Image.Resources>
+                <DropShadowBitmapEffect x:Key="shadowEffect" Color="#fe6f3f"
+                                                Opacity="0.75"
+                                                ShadowDepth="0" />
+            </Image.Resources>
+            <Image.RenderTransform>
+                <RotateTransform CenterX="14" CenterY="14" />
+            </Image.RenderTransform>
+            <Image.Style>
+                <Style TargetType="Image">
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BitmapEffect" Value="{StaticResource shadowEffect}" />
+                        </Trigger>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IsChecked}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <!-- If is checked, rotate the image-->
+                                <BeginStoryboard x:Name="rotateStoryboard">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Angle" To="360" Duration="0:0:1.5" From="0" RepeatBehavior="Forever"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <Setter Property="BitmapEffect" Value="{StaticResource shadowEffect}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IsChecked}" Value="False">
+                            <DataTrigger.EnterActions>
+                                <!-- If isn't checked, stop rotating the image-->
+                                <RemoveStoryboard BeginStoryboardName="rotateStoryboard" />
+                            </DataTrigger.EnterActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Image.Style>
+        </Image>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="imageButtonTemplate">
+        <Border x:Name="border">
+            <Border.Resources>
+                <Style TargetType="Border">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IsChecked}" Value="True">
+                            <Setter Property="Background" Value="#33DE510B" />
+                            <Setter Property="BorderBrush" Value="#FF888888" />
+                            <Setter Property="BorderThickness" Value="1" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Resources>
+            <Image Cursor="Hand" ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent},Path=ToolTip}" Stretch="None" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="NearestNeighbor" RenderOptions.EdgeMode="Aliased" >
+                <Image.Resources>
+                    <DropShadowBitmapEffect x:Key="shadowEffect" Color="#fe6f3f"
+                                                Opacity="0.75"
+                                                ShadowDepth="0" />
+                    <FormatConvertedBitmap x:Key="grayedImage"
+                                  Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Content}"
+                                  DestinationFormat="Gray32Float" />
+                    <Style TargetType="Image">
+                        <Style.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Source" Value="{DynamicResource grayedImage}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="True">
+                                <Setter Property="Source" Value="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Content}" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BitmapEffect" Value="{StaticResource shadowEffect}" />
+                            </Trigger>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IsChecked}" Value="True">
+                                <Setter Property="BitmapEffect" Value="{StaticResource shadowEffect}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Resources>
+            </Image>
+        </Border>
+    </ControlTemplate>
+    <Style x:Key="collapseExpandEffect" TargetType="Grid">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding ElementName=PanelToggleButton,Path=IsChecked}" Value="True">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ElementName=PanelToggleButton,Path=IsChecked}" Value="False">
+                <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <ControlTemplate x:Key="collapseExpandTemplate">
+        <Image Stretch="None">
+            <Image.Style>
+                <Style TargetType="Image">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IsChecked}" Value="False">
+                            <Setter Property="Source" Value="/Image/collapse.gif" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IsChecked}" Value="True">
+                            <Setter Property="Source" Value="/Image/expand.gif" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Image.Style>
+        </Image>
+    </ControlTemplate>
+</ResourceDictionary>

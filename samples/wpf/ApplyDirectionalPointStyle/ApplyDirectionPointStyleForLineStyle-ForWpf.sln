@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29503.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplyDirectionPointStyleForLineStyle-ForWpf", "ApplyDirectionPointStyleForLineStyle-ForWpf\ApplyDirectionPointStyleForLineStyle-ForWpf.csproj", "{AD05F98D-1341-44CA-ADD6-1D2DC0C6D6F5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		PRODUCTION|Any CPU = PRODUCTION|Any CPU
+		PRODUCTION|x86 = PRODUCTION|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AD05F98D-1341-44CA-ADD6-1D2DC0C6D6F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD05F98D-1341-44CA-ADD6-1D2DC0C6D6F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD05F98D-1341-44CA-ADD6-1D2DC0C6D6F5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AD05F98D-1341-44CA-ADD6-1D2DC0C6D6F5}.Debug|x86.Build.0 = Debug|Any CPU
+		{AD05F98D-1341-44CA-ADD6-1D2DC0C6D6F5}.PRODUCTION|Any CPU.ActiveCfg = Release|Any CPU
+		{AD05F98D-1341-44CA-ADD6-1D2DC0C6D6F5}.PRODUCTION|Any CPU.Build.0 = Release|Any CPU
+		{AD05F98D-1341-44CA-ADD6-1D2DC0C6D6F5}.PRODUCTION|x86.ActiveCfg = Release|Any CPU
+		{AD05F98D-1341-44CA-ADD6-1D2DC0C6D6F5}.PRODUCTION|x86.Build.0 = Release|Any CPU
+		{AD05F98D-1341-44CA-ADD6-1D2DC0C6D6F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD05F98D-1341-44CA-ADD6-1D2DC0C6D6F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD05F98D-1341-44CA-ADD6-1D2DC0C6D6F5}.Release|x86.ActiveCfg = Release|Any CPU
+		{AD05F98D-1341-44CA-ADD6-1D2DC0C6D6F5}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A597964D-CA76-4D1B-A4F8-0FDFC2111348}
+	EndGlobalSection
+EndGlobal

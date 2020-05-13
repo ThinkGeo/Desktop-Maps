@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E1325C68-AC80-4425-9519-EA0E58B713FB}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DisplayFileGeoDatabase</RootNamespace>
+    <AssemblyName>DisplayFileGeoDatabase</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GeoAPI, Version=1.7.4.0, Culture=neutral, PublicKeyToken=a1a0da7def465678">
+      <HintPath>..\packages\MapSuiteDependency-GeoAPI.10.6.0\lib\net45\GeoAPI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
+      <HintPath>..\packages\MapSuiteDependency-MicrosoftSqlServerTypes.10.6.0\lib\net45\Microsoft.SqlServer.Types.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NetTopologySuite, Version=1.14.0.0, Culture=neutral, PublicKeyToken=f580a05016ebada1">
+      <HintPath>..\packages\MapSuiteDependency-NetTopologySuite.10.6.0\lib\net45\NetTopologySuite.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+      <HintPath>..\packages\MapSuiteDependency-NewtonsoftJson.10.6.0\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PowerCollections, Version=1.0.0.0, Culture=neutral, PublicKeyToken=2573bf8a1bdddcd5">
+      <HintPath>..\packages\MapSuiteDependency-NetTopologySuite.10.6.0\lib\net45\PowerCollections.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SkiaSharp, Version=1.68.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756">
+      <HintPath>..\packages\MapSuiteDependency-SkiaSharp.10.6.0\lib\net45\SkiaSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="ThinkGeo.Cloud.Client, Version=10.0.0.0, Culture=neutral, PublicKeyToken=0828af5241fb4207">
+      <HintPath>..\packages\ThinkGeo.Cloud.Client.10.6.0\lib\net45\ThinkGeo.Cloud.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ThinkGeo.MapSuite, Version=10.0.0.0, Culture=neutral, PublicKeyToken=0828af5241fb4207">
+      <HintPath>..\packages\ThinkGeo.MapSuite.10.6.7\lib\net45\ThinkGeo.MapSuite.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ThinkGeo.MapSuite.Layers.FileGeoDatabase, Version=10.0.0.0, Culture=neutral, PublicKeyToken=0828af5241fb4207">
+      <HintPath>..\packages\ThinkGeo.MapSuite.Layers.FileGeoDatabase.10.6.0\lib\net45\ThinkGeo.MapSuite.Layers.FileGeoDatabase.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ThinkGeo.MapSuite.ProductCenter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=0828af5241fb4207">
+      <HintPath>..\packages\ThinkGeo.MapSuite.ProductCenter.10.6.0\lib\net45\ThinkGeo.MapSuite.ProductCenter.exe</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ThinkGeo.MapSuite.WinForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=0828af5241fb4207">
+      <HintPath>..\packages\MapSuiteDesktopForWinForms-BareBone.10.6.12\lib\net45\ThinkGeo.MapSuite.WinForms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="AppData\Shapes.gdb\a00000001.freelist" />
+    <None Include="AppData\Shapes.gdb\a00000001.gdbindexes" />
+    <None Include="AppData\Shapes.gdb\a00000001.gdbtable" />
+    <None Include="AppData\Shapes.gdb\a00000001.gdbtablx" />
+    <None Include="AppData\Shapes.gdb\a00000001.TablesByName.atx" />
+    <None Include="AppData\Shapes.gdb\a00000002.gdbtable" />
+    <None Include="AppData\Shapes.gdb\a00000002.gdbtablx" />
+    <None Include="AppData\Shapes.gdb\a00000003.gdbindexes" />
+    <None Include="AppData\Shapes.gdb\a00000003.gdbtable" />
+    <None Include="AppData\Shapes.gdb\a00000003.gdbtablx" />
+    <None Include="AppData\Shapes.gdb\a00000004.CatItemsByPhysicalName.atx" />
+    <None Include="AppData\Shapes.gdb\a00000004.CatItemsByType.atx" />
+    <None Include="AppData\Shapes.gdb\a00000004.FDO_UUID.atx" />
+    <None Include="AppData\Shapes.gdb\a00000004.freelist" />
+    <None Include="AppData\Shapes.gdb\a00000004.gdbindexes" />
+    <None Include="AppData\Shapes.gdb\a00000004.gdbtable" />
+    <None Include="AppData\Shapes.gdb\a00000004.gdbtablx" />
+    <None Include="AppData\Shapes.gdb\a00000004.spx" />
+    <None Include="AppData\Shapes.gdb\a00000005.CatRelsByDestinationID.atx" />
+    <None Include="AppData\Shapes.gdb\a00000005.CatRelsByOriginID.atx" />
+    <None Include="AppData\Shapes.gdb\a00000005.CatRelsByType.atx" />
+    <None Include="AppData\Shapes.gdb\a00000005.FDO_UUID.atx" />
+    <None Include="AppData\Shapes.gdb\a00000005.freelist" />
+    <None Include="AppData\Shapes.gdb\a00000005.gdbindexes" />
+    <None Include="AppData\Shapes.gdb\a00000005.gdbtable" />
+    <None Include="AppData\Shapes.gdb\a00000005.gdbtablx" />
+    <None Include="AppData\Shapes.gdb\a00000006.CatRelTypesByBackwardLabel.atx" />
+    <None Include="AppData\Shapes.gdb\a00000006.CatRelTypesByDestItemTypeID.atx" />
+    <None Include="AppData\Shapes.gdb\a00000006.CatRelTypesByForwardLabel.atx" />
+    <None Include="AppData\Shapes.gdb\a00000006.CatRelTypesByName.atx" />
+    <None Include="AppData\Shapes.gdb\a00000006.CatRelTypesByOriginItemTypeID.atx" />
+    <None Include="AppData\Shapes.gdb\a00000006.CatRelTypesByUUID.atx" />
+    <None Include="AppData\Shapes.gdb\a00000006.gdbindexes" />
+    <None Include="AppData\Shapes.gdb\a00000006.gdbtable" />
+    <None Include="AppData\Shapes.gdb\a00000006.gdbtablx" />
+    <None Include="AppData\Shapes.gdb\a00000007.CatItemTypesByName.atx" />
+    <None Include="AppData\Shapes.gdb\a00000007.CatItemTypesByParentTypeID.atx" />
+    <None Include="AppData\Shapes.gdb\a00000007.CatItemTypesByUUID.atx" />
+    <None Include="AppData\Shapes.gdb\a00000007.gdbindexes" />
+    <None Include="AppData\Shapes.gdb\a00000007.gdbtable" />
+    <None Include="AppData\Shapes.gdb\a00000007.gdbtablx" />
+    <None Include="AppData\Shapes.gdb\a00000012.gdbindexes" />
+    <None Include="AppData\Shapes.gdb\a00000012.gdbtable" />
+    <None Include="AppData\Shapes.gdb\a00000012.gdbtablx" />
+    <None Include="AppData\Shapes.gdb\a00000012.spx" />
+    <None Include="AppData\Shapes.gdb\a00000013.gdbindexes" />
+    <None Include="AppData\Shapes.gdb\a00000013.gdbtable" />
+    <None Include="AppData\Shapes.gdb\a00000013.gdbtablx" />
+    <None Include="AppData\Shapes.gdb\a00000013.spx" />
+    <None Include="AppData\Shapes.gdb\a00000014.gdbindexes" />
+    <None Include="AppData\Shapes.gdb\a00000014.gdbtable" />
+    <None Include="AppData\Shapes.gdb\a00000014.gdbtablx" />
+    <None Include="AppData\Shapes.gdb\a00000014.spx" />
+    <None Include="AppData\Shapes.gdb\a00000026.gdbindexes" />
+    <None Include="AppData\Shapes.gdb\a00000026.gdbtable" />
+    <None Include="AppData\Shapes.gdb\a00000026.gdbtablx" />
+    <None Include="AppData\Shapes.gdb\a00000026.spx" />
+    <None Include="AppData\Shapes.gdb\a00000027.gdbindexes" />
+    <None Include="AppData\Shapes.gdb\a00000027.gdbtable" />
+    <None Include="AppData\Shapes.gdb\a00000027.gdbtablx" />
+    <None Include="AppData\Shapes.gdb\a00000027.spx" />
+    <None Include="AppData\Shapes.gdb\a00000028.gdbindexes" />
+    <None Include="AppData\Shapes.gdb\a00000028.gdbtable" />
+    <None Include="AppData\Shapes.gdb\a00000028.gdbtablx" />
+    <None Include="AppData\Shapes.gdb\a00000028.spx" />
+    <None Include="AppData\Shapes.gdb\a0000002d.gdbindexes" />
+    <None Include="AppData\Shapes.gdb\a0000002d.gdbtable" />
+    <None Include="AppData\Shapes.gdb\a0000002d.gdbtablx" />
+    <None Include="AppData\Shapes.gdb\a0000002d.spx" />
+    <None Include="AppData\Shapes.gdb\a0000002e.gdbindexes" />
+    <None Include="AppData\Shapes.gdb\a0000002e.gdbtable" />
+    <None Include="AppData\Shapes.gdb\a0000002e.gdbtablx" />
+    <None Include="AppData\Shapes.gdb\a0000002e.spx" />
+    <None Include="AppData\Shapes.gdb\a0000002f.gdbindexes" />
+    <None Include="AppData\Shapes.gdb\a0000002f.gdbtable" />
+    <None Include="AppData\Shapes.gdb\a0000002f.gdbtablx" />
+    <None Include="AppData\Shapes.gdb\a0000002f.spx" />
+    <None Include="AppData\Shapes.gdb\a00000030.gdbindexes" />
+    <None Include="AppData\Shapes.gdb\a00000030.gdbtable" />
+    <None Include="AppData\Shapes.gdb\a00000030.gdbtablx" />
+    <None Include="AppData\Shapes.gdb\a00000030.spx" />
+    <None Include="AppData\Shapes.gdb\a00000031.gdbindexes" />
+    <None Include="AppData\Shapes.gdb\a00000031.gdbtable" />
+    <None Include="AppData\Shapes.gdb\a00000031.gdbtablx" />
+    <None Include="AppData\Shapes.gdb\a00000031.spx" />
+    <None Include="AppData\Shapes.gdb\gdb" />
+    <None Include="AppData\Shapes.gdb\timestamps" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\MapSuiteDependency-EsriFileGeoDatabase.10.6.0\build\net45\MapSuiteDependency-EsriFileGeoDatabase.targets" Condition="Exists('..\packages\MapSuiteDependency-EsriFileGeoDatabase.10.6.0\build\net45\MapSuiteDependency-EsriFileGeoDatabase.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\MapSuiteDependency-EsriFileGeoDatabase.10.6.0\build\net45\MapSuiteDependency-EsriFileGeoDatabase.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MapSuiteDependency-EsriFileGeoDatabase.10.6.0\build\net45\MapSuiteDependency-EsriFileGeoDatabase.targets'))" />
+    <Error Condition="!Exists('..\packages\MapSuiteDependency-SkiaSharp.10.6.0\build\net45\MapSuiteDependency-SkiaSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MapSuiteDependency-SkiaSharp.10.6.0\build\net45\MapSuiteDependency-SkiaSharp.targets'))" />
+    <Error Condition="!Exists('..\packages\ThinkGeo.MapSuite.10.6.7\build\net45\ThinkGeo.MapSuite.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ThinkGeo.MapSuite.10.6.7\build\net45\ThinkGeo.MapSuite.targets'))" />
+    <Error Condition="!Exists('..\packages\ThinkGeo.MapSuite.Layers.FileGeoDatabase.10.6.0\build\net45\ThinkGeo.MapSuite.Layers.FileGeoDatabase.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ThinkGeo.MapSuite.Layers.FileGeoDatabase.10.6.0\build\net45\ThinkGeo.MapSuite.Layers.FileGeoDatabase.targets'))" />
+  </Target>
+  <Import Project="..\packages\MapSuiteDependency-SkiaSharp.10.6.0\build\net45\MapSuiteDependency-SkiaSharp.targets" Condition="Exists('..\packages\MapSuiteDependency-SkiaSharp.10.6.0\build\net45\MapSuiteDependency-SkiaSharp.targets')" />
+  <Import Project="..\packages\ThinkGeo.MapSuite.10.6.7\build\net45\ThinkGeo.MapSuite.targets" Condition="Exists('..\packages\ThinkGeo.MapSuite.10.6.7\build\net45\ThinkGeo.MapSuite.targets')" />
+  <Import Project="..\packages\ThinkGeo.MapSuite.Layers.FileGeoDatabase.10.6.0\build\net45\ThinkGeo.MapSuite.Layers.FileGeoDatabase.targets" Condition="Exists('..\packages\ThinkGeo.MapSuite.Layers.FileGeoDatabase.10.6.0\build\net45\ThinkGeo.MapSuite.Layers.FileGeoDatabase.targets')" />
+</Project>

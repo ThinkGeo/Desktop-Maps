@@ -1,0 +1,17 @@
+<Case>
+  <TypeName>TopologyValidation.LinesMustBeCoveredByFeatureClassOfLinesTopologyTestCase</TypeName>
+  <ID>8b887f3c-5c55-4380-8fa5-a4e22d0f7f5f</ID>
+  <Name>Lines Must Be Covered By Feature Class Of Lines</Name>
+  <Description>Lines Must Be Covered By Feature Class Of Lines Topology Test Case. Created at 4:55:03 PM Saturday, August 25, 2012.</Description>
+  <Input>
+    <FirstInputShapes>
+      <WKT>LINESTRING(0 0,100 0,100 100,0 100)</WKT>
+    </FirstInputShapes>
+    <SecondInputShapes>
+      <WKT>LINESTRING(0 -50,50 0,100 0,100 150)</WKT>
+    </SecondInputShapes>
+  </Input>
+  <Output>
+    <WKT>MULTILINESTRING((100 100,0 100),(50 0,0 0))</WKT>
+  </Output>
+</Case>

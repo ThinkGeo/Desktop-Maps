@@ -1,0 +1,18 @@
+<Case>
+  <TypeName>TopologyValidation.LinesMustNotHavePseudonodesTopologyTestCase</TypeName>
+  <ID>9ffb9b51-7c4a-46e0-a31a-0a5e9e4c3e01</ID>
+  <Name>Lines Must Not Have Pseudonodes</Name>
+  <Description>Lines Must Not Have Pseudonodes Topology Test Case. Created at 5:12:10 PM Saturday, August 25, 2012.</Description>
+  <Input>
+    <WKT>LINESTRING(0 0,50 0,50 50,0 0)</WKT>
+    <WKT>LINESTRING(-50 0,-50 50)</WKT>
+    <WKT>LINESTRING(-100 0,-50 50)</WKT>
+    <WKT>LINESTRING(-50 -50,-50 -100)</WKT>
+    <WKT>LINESTRING(-100 -50,-50 -100)</WKT>
+    <WKT>LINESTRING(-50 -100,0 -100)</WKT>
+  </Input>
+  <Output>
+    <WKT>POINT(-50 50)</WKT>
+    <WKT>POINT(-50 50)</WKT>
+  </Output>
+</Case>

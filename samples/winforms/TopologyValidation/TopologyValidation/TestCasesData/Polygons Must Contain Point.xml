@@ -1,0 +1,20 @@
+<Case>
+  <TypeName>TopologyValidation.PolygonsMustContainPointTopologyTestCase</TypeName>
+  <ID>e06c32f7-42f2-4354-8687-f0d1554c92c3</ID>
+  <Name>Polygons Must Contain Point</Name>
+  <Description>Polygons Must Contain Point Topology Test Case. Created at 10:29:27 AM Monday, August 27, 2012.</Description>
+  <Input>
+    <FirstInputShapes>
+      <WKT>POINT(62.2048836313699 127.491324643618)</WKT>
+      <WKT>POINT(-25.3603132159188 105.793753743405)</WKT>
+      <WKT>POINT(100 0)</WKT>
+    </FirstInputShapes>
+    <SecondInputShapes>
+      <WKT>POLYGON((0 0,100 0,100 100,0 100,0 0))</WKT>
+      <WKT>POLYGON((-46.6704274929138 127.878781266836,-40.8585781446424 73.6348540163036,29.2710706578321 73.6348540163036,35.0829200061035 118.579822309602,-46.6704274929138 127.878781266836))</WKT>
+    </SecondInputShapes>
+  </Input>
+  <Output>
+    <WKT>POLYGON((0 0,100 0,100 100,0 100,0 0))</WKT>
+  </Output>
+</Case>

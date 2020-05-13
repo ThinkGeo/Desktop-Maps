@@ -1,0 +1,44 @@
+﻿<Window x:Class="ThinkGeoCloudColor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ThinkGeoCloudColor"
+        xmlns:mapsuite="clr-namespace:ThinkGeo.MapSuite.Wpf;assembly=ThinkGeo.MapSuite.Wpf"
+        mc:Ignorable="d"
+        Title="ThinkGeoCloudColor Sample" Height="768" Width="1024" Loaded="Window_Loaded">
+
+    <Window.Resources>
+        <local:BoolToVisibleOrHidden x:Key="BoolToVisConverter"/>
+    </Window.Resources>
+
+    <Grid>
+        <mapsuite:WpfMap x:Name="map"></mapsuite:WpfMap>
+        <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Width="240" Height="180" Margin="11">
+
+        </Grid>
+        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Right" Margin="11" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+            <TextBlock Margin="8 3 11 3">
+                <Label>Category:</Label>
+                <ComboBox x:Name="cboColorType" Width="100">
+                        <ComboBoxItem IsSelected="True">Hue</ComboBoxItem>
+                        <ComboBoxItem>Triad</ComboBoxItem>
+                        <ComboBoxItem>Tetrad</ComboBoxItem>
+                        <ComboBoxItem>Quality</ComboBoxItem>
+                        <ComboBoxItem>Analogous</ComboBoxItem>
+                        <ComboBoxItem>Contrasting</ComboBoxItem>
+                        <ComboBoxItem>Complementary</ComboBoxItem>
+                    </ComboBox>
+            </TextBlock>
+            <RadioButton Margin="11 3" GroupName="BaseColor">Random Color</RadioButton>
+            <TextBlock Margin="11 3">
+                <RadioButton x:Name="rdoSpecificColor" IsChecked="True" GroupName="BaseColor">
+                    <Run Text="Specific Color:"></Run>
+                </RadioButton>
+                <TextBox x:Name="txtSpecificColor" Padding="0" Visibility="{Binding IsChecked, Converter={StaticResource BoolToVisConverter}, ElementName=rdoSpecificColor}" Height="17">#AB2567</TextBox>
+            </TextBlock>
+
+            <Button Margin="11 3 11 11" Click="GenerateClick">Generate</Button>
+        </StackPanel>
+    </Grid>
+</Window>

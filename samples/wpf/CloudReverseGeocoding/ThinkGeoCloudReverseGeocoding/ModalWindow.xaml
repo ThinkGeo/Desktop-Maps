@@ -1,0 +1,56 @@
+﻿<Window x:Class="PlaceSearchWorldReverseGeocoding.ModalWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PlaceSearchWorldReverseGeocoding"
+        mc:Ignorable="d"
+        Title="Authentication Settings" Height="266.4" Width="400" ResizeMode="NoResize">
+    <Grid  x:Name="ApiKeyPanel"  >
+        <Grid.Resources>
+            <Style TargetType="TextBox">
+                <Setter Property="Margin" Value="20,25,20,5"/>
+            </Style>
+            <Style TargetType="Label">
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="Width" Value="100"/>
+                <Setter Property="Margin" Value="0,4,5,0"/>
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+            </Style>
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="44.554"/>
+            <ColumnDefinition Width="133.446"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Border Background="White" Grid.RowSpan="3" Grid.ColumnSpan="3" BorderThickness="1,0,0,1" BorderBrush="{x:Static SystemColors.ActiveBorderBrush}"/>
+
+        <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Grid.Column="0" TextWrapping="WrapWithOverflow" Margin="20,6">To run this sample locally, you'll need to enter your own API Key and API Secret. Get one today by logging in or signing up for your free account at <Hyperlink Click="NavigateToGisServer">ThinkGeo's GIS Cloud</Hyperlink>.</TextBlock>
+
+        <Label Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Content="ThinkGeo GIS Server API Key:" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="txtApiKey" Grid.Row="1" Grid.ColumnSpan="3"></TextBox>
+        <Label Grid.Row="2" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Content="ThinkGeo GIS Server API Secret:"  Grid.ColumnSpan="2" />
+        <TextBox x:Name="txtApiSecret" Grid.Row="2" Grid.ColumnSpan="3"></TextBox>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,20,0">
+            <StackPanel.Resources>
+                <Style TargetType="ToggleButton">
+                    <Setter Property="Width" Value="80" />
+                    <Setter Property="Height" Value="24" />
+                    <Setter Property="Margin" Value="2" />
+                </Style>
+            </StackPanel.Resources>
+            <ToggleButton Name="setApiKey" Click="SetApiKey_Click">OK</ToggleButton>
+            <ToggleButton Name="cancel" Click="Cancel_Click">Cancel</ToggleButton>
+        </StackPanel>
+
+    </Grid>
+</Window>

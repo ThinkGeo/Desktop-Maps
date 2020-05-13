@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.TrackAndEditShapesInRotateWorld"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:uc1="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf">
+    <Grid>
+        <uc1:MapView x:Name="mapView" Loaded="MapView_Loaded" ></uc1:MapView>
+        <Border CornerRadius="4" BorderBrush="Gray" BorderThickness="1"  Background="#33ffffff" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80 4 4 4">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel.Resources>
+                    <Style x:Key="bt" TargetType="Button">
+                        <Setter Property="Width" Value="30"></Setter>
+                        <Setter Property="Margin" Value="2"></Setter>
+                    </Style>
+                </StackPanel.Resources>
+                <Button Style="{StaticResource bt}" x:Name="btnTrackNormal" Click="button_Click">
+                    <Image Source="/Resources/Normal.png" />
+                </Button>
+                <Button Style="{StaticResource bt}" x:Name="btnTrackPoint" Click="button_Click">
+                    <Image Source="/Resources/Point.png" />
+                </Button>
+                <Button Style="{StaticResource bt}" x:Name="btnTrackLine" Click="button_Click">
+                    <Image Source="/Resources/Line.png" />
+                </Button>
+                <Button Style="{StaticResource bt}" x:Name="btnTrackRectangle" Click="button_Click">
+                    <Image Source="/Resources/Rectangle.png" />
+                </Button>
+                <Button Style="{StaticResource bt}" x:Name="btnTrackSquare" Click="button_Click">
+                    <Image Source="/Resources/Square.png" />
+                </Button>
+                <Button Style="{StaticResource bt}" x:Name="btnTrackPolygon" Click="button_Click">
+                    <Image Source="/Resources/Polygon.png" />
+                </Button>
+                <Button Style="{StaticResource bt}" x:Name="btnTrackCircle" Click="button_Click">
+                    <Image Source="/Resources/Circle.png" />
+                </Button>
+                <Button Style="{StaticResource bt}" x:Name="btnTrackEllipse" Click="button_Click">
+                    <Image Source="/Resources/Ellipse.png" />
+                </Button>
+                <Button Style="{StaticResource bt}" x:Name="btnTrackEdit" Click="button_Click">
+                    <Image Source="/Resources/Edit.gif" />
+                </Button>
+                <Button Style="{StaticResource bt}" x:Name="btnTrackDelete" Click="button_Click">
+                    <Image Source="/Resources/Delete.png" />
+                </Button>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

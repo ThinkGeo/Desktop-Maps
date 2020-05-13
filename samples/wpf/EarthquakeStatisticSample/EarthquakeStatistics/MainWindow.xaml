@@ -1,0 +1,266 @@
+﻿<Window x:Class="ThinkGeo.MapSuite.EarthquakeStatistics.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:ThinkGeo.MapSuite.EarthquakeStatistics"
+        xmlns:wpf="clr-namespace:ThinkGeo.MapSuite.Wpf;assembly=ThinkGeo.MapSuite.Wpf"
+        xmlns:wpfDesktop="clr-namespace:ThinkGeo.MapSuite.Wpf;assembly=ThinkGeo.MapSuite.Wpf"
+        Title="US Earthquake Statistics"
+        Height="675"
+        Width="1155"
+        WindowState="Maximized"
+        Loaded="MainWindow_Loaded"
+        Icon="/Image/MapSuite.ico">
+    <Window.Resources>
+        <local:TrackModeToImageUriConverter x:Key="TrackModeToImageUriConverter" />
+        <local:TrackModeToToolTipConverter x:Key="TrackModeToToolTipConverter" />
+        <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <local:NameToImageUriConverter x:Key="NameToImageUriConverter" />
+    </Window.Resources>
+
+    <Grid Style="{StaticResource SampleBody}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Border BorderThickness="0,0,0,5" Padding="10" CornerRadius="2" KeyboardNavigation.TabNavigation="Local" KeyboardNavigation.DirectionalNavigation="Contained" KeyboardNavigation.TabIndex="2">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStop Offset="0" Color="#ffffff" />
+                            <GradientStop Offset="0.4" Color="#fafafa" />
+                            <GradientStop Offset="0.55" Color="#f2f2f2" />
+                            <GradientStop Offset="0.6" Color="#f0f0f0" />
+                            <GradientStop Offset="0.9" Color="#e2e2e2" />
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.BorderBrush>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStop Offset="0.85" Color="#5c707d" />
+                            <GradientStop Offset="1" Color="#305c707d" />
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Border.BorderBrush>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource ControlFont}" Margin="{StaticResource TitleMargin}">
+                        <Run FontSize="16">Map Suite</Run>
+                        <Run FontSize="20">US Earthquake Statistics</Run>
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0" Grid.Row="0" Margin="5 0 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="5" />
+                </Grid.ColumnDefinitions>
+                <Grid x:Name="gridDockPanel" Margin="0 0 0 10">
+                    <Grid.Resources>
+                        <Style TargetType="Grid">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=CollapseToggleButton,Path=IsChecked}" Value="true">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Resources>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Style="{StaticResource H4}" Text="Display Type:" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="0 10 0 10"/>
+                        <ListBox Grid.Row="1" BorderThickness="0" ItemsSource="{Binding DisplayTypes}" SelectedItem="{Binding SelectedFeatureLayer,Mode=TwoWay}"  Margin="0 0 0 10">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border CornerRadius="5" Margin="5" BorderThickness="1" BorderBrush="LightGray">
+                                        <RadioButton Template="{StaticResource ImageButtonTemplate}" GroupName="Styles"
+                                            ToolTip="{Binding Name}"                                            
+                                            IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}"
+                                            Content="{Binding Name,Converter={StaticResource NameToImageUriConverter}}" />
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                <Border x:Name="ItemPanel" Background="Transparent">
+                                                    <ContentPresenter />
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                        </ListBox>
+                        <Border Grid.Row="2" Style="{StaticResource HeaderBanner}">
+                            <TextBlock Style="{StaticResource HeaderText}" Text="Earthquake Information Explorer"></TextBlock>
+                        </Border>
+
+                        <StackPanel Grid.Row="3"  Width="300">
+                            <TextBlock Style="{StaticResource BodyText}" Text="Query Tool:" Margin="0 0 0 5"></TextBlock>
+                            <Border Style="{StaticResource RoundBorderStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <ListBox x:Name="MapModesListBox" ItemsSource="{Binding MapControlModes}" BorderThickness="0" SelectedItem="{Binding SelectedMapMode,Mode=OneWay}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <RadioButton Template="{StaticResource ImageButtonTemplate}" Margin="{StaticResource TitleImageRadioButtonMargin}" 
+                                                             IsChecked="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ListBoxItem},Path=IsSelected}" 
+                                                             Content="{Binding Path=.,Converter={StaticResource TrackModeToImageUriConverter}}" Command="{Binding ElementName=MapModesListBox,Path=DataContext.ChangMapModeCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},Path=DataContext}"
+                                                             ToolTip="{Binding .,Converter={StaticResource TrackModeToToolTipConverter}}" />
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                        <ListBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal" />
+                                            </ItemsPanelTemplate>
+                                        </ListBox.ItemsPanel>
+                                        <ListBox.ItemContainerStyle>
+                                            <Style TargetType="ListBoxItem">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                            <Border x:Name="ItemPanel" Background="Transparent">
+                                                                <ContentPresenter />
+                                                            </Border>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </ListBox.ItemContainerStyle>
+                                    </ListBox>
+                                    <Button Template="{StaticResource ImageButtonTemplate}" Content="/Image/clear.png" Margin="{StaticResource TitleImageRadioButtonMargin}" ToolTip="Clear Selection"
+                                       Command="{Binding ClearAllCommand}" />
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="4" >
+                            <TextBlock Style="{StaticResource BodyText}" Text="Query Configuration:" Margin="0 15 0 5"></TextBlock>
+                            <Border Style="{StaticResource RoundBorderStyle}">
+                                <Grid>
+                                    <Grid.Resources>
+                                        <sys:Int32 x:Key="RangeSliderWidth">213</sys:Int32>
+                                    </Grid.Resources>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Grid.Row="0" Style="{StaticResource BodyText}" Text="Magnitude:" Margin="0 7 5 5"></TextBlock>
+                                    <StackPanel Grid.Row="1" Margin="0 0 10 10">
+                                        <local:RangeSliderBar StartValue="{Binding QueryFilter.StartMagnitudeRange,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                              EndValue="{Binding QueryFilter.EndMagnitudeRange,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                              Maximum="{Binding QueryFilter.MagnitudeRangeMaximum,Mode=OneTime}"
+                                              Minimum="{Binding QueryFilter.MagnitudeRangeMinimum,Mode=OneTime}"
+                                              SliderWidth="{StaticResource RangeSliderWidth}"
+                                               />
+                                    </StackPanel>
+
+                                    <TextBlock Grid.Row="2" Style="{StaticResource BodyText}" Text="Depth of Hypocenter(Km):" Margin="0 7 5 5"></TextBlock>
+                                    <StackPanel Grid.Row="3" Margin="0 0 10 10">
+                                        <local:RangeSliderBar Minimum="{Binding QueryFilter.DepthRangeMinimum,Mode=OneTime}"
+                                              StartValue="{Binding QueryFilter.StartDepthRange,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                              Maximum="{Binding QueryFilter.DepthRangeMaximum,Mode=OneTime}"
+                                              EndValue="{Binding QueryFilter.EndDepthRange,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                              SliderWidth="{StaticResource RangeSliderWidth}"
+                                              SliderTickFrequency="10" />
+                                    </StackPanel>
+
+                                    <TextBlock Grid.Row="4" Style="{StaticResource BodyText}" Text="Date(Year):" Margin="0 7 5 5"></TextBlock>
+                                    <StackPanel Grid.Row="5" Margin="0 0 10 10">
+                                        <local:RangeSliderBar StartValue="{Binding QueryFilter.StartYearRange,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                              EndValue="{Binding QueryFilter.EndYearRange,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                              Maximum="{Binding QueryFilter.YearRangeMaximum,Mode=OneTime}"
+                                              Minimum="{Binding QueryFilter.YearRangeMinimum,Mode=OneTime}"
+                                              SliderWidth="{StaticResource RangeSliderWidth}"
+                                              SliderTickFrequency="25" />
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+                <ToggleButton x:Name="CollapseToggleButton" 
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Cursor="Hand" Template="{StaticResource ToggleButtonTemplate}" Background="Transparent" BorderBrush="Transparent" Content="/Image/Collapse.gif" Tag="/Image/Expand.gif" />
+                <Rectangle Grid.Row="0" Grid.Column="2">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="#5c707d" Offset="0" />
+                            <GradientStop Color="#305c707d" Offset="1" />
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <wpfDesktop:WpfMap x:Name="wpfMap" Grid.Row="0" Panel.ZIndex="-1" />
+                <Grid  Grid.Row="0"
+                    Visibility="{Binding IsBusy,Converter={StaticResource BoolToVisibilityConverter}}"
+                    Background="#30D6D6D6">
+                    <local:LoadingImageUserControl Visibility="{Binding IsBusy,Converter={StaticResource BoolToVisibilityConverter}}" />
+                </Grid>
+                <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch">
+                    <GridSplitter.Background>
+                        <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
+                            <GradientStop Color="#5c707d" Offset="0" />
+                            <GradientStop Color="#305c707d" Offset="1" />
+                        </LinearGradientBrush>
+                    </GridSplitter.Background>
+                </GridSplitter>
+                <local:QueryResultUserControl Grid.Row="2" />
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Border BorderBrush="Gray" BorderThickness="0 1 0 0">
+                <StatusBar Height="30">
+                    <StatusBarItem  HorizontalContentAlignment="Stretch">
+                        <Grid HorizontalAlignment="Right">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding CoordinateX,StringFormat=X:{0:N2}}" HorizontalAlignment="Right" Width="95" VerticalAlignment="Center" Grid.Column="0" />
+                            <TextBlock Text="{Binding CoordinateY,StringFormat=Y:{0:N2}}" VerticalAlignment="Center" Width="100" Grid.Column="2" />
+                        </Grid>
+                    </StatusBarItem>
+                </StatusBar>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

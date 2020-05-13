@@ -1,0 +1,64 @@
+﻿<Window x:Class="PrintPreview.DataGridPrinterLayerProperty"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        
+        xmlns:wfi="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
+        xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+        
+        Title="DataGridPrinterLayerProperty" Height="515" Width="570" ShowInTaskbar="False" Loaded="Window_Loaded">
+    <Grid>
+        <GroupBox Margin="0,0,0,147">
+            <Grid Height="312" HorizontalAlignment="Left" Margin="12,12,0,0" Name="grid1" VerticalAlignment="Top" Width="532">
+                <Label Content="ColumnName" Height="28" HorizontalAlignment="Left" Margin="6,6,0,0" Name="label1" VerticalAlignment="Top" />
+                <TextBox Height="23" Name="txtColumnName" HorizontalAlignment="Left" Margin="95,6,0,0"  VerticalAlignment="Top" Width="139" DataContext="{Binding}" />
+                <Button Content="Add" Height="23" HorizontalAlignment="Left" Margin="240,6,0,0" Name="btnAdd" VerticalAlignment="Top" Width="51" Click="btnAdd_Click" />
+                <ComboBox Height="23" HorizontalAlignment="Left" Margin="344,6,0,0" Name="cbxColumns" VerticalAlignment="Top" Width="120" />
+                <Button Content="Remove" Height="23" HorizontalAlignment="Left" Margin="470,5,0,0" Name="button1" VerticalAlignment="Top" Width="51" Click="button1_Click" />
+                <wfi:WindowsFormsHost Margin="6,35,7,6" Name="wfh">
+                    <wf:DataGridView x:Name="dv" > </wf:DataGridView> 
+                </wfi:WindowsFormsHost>
+            </Grid>
+        </GroupBox>
+        <GroupBox Height="105" HorizontalAlignment="Left" Margin="6,335,0,0" Name="groupBox1" VerticalAlignment="Top" Width="128" Header="Resize Mode">
+            <Grid>
+                <RadioButton Content="Fixed" Height="16" HorizontalAlignment="Left" Margin="7,6,0,0" Name="rbtnResizeFixed" VerticalAlignment="Top" />
+                <RadioButton Content="Maintain Ratio" Height="16" HorizontalAlignment="Left" Margin="7,28,0,0" Name="rbtnResizeMaintainRaio" VerticalAlignment="Top" />
+                <RadioButton Content="Reshape" Height="16" HorizontalAlignment="Left" Margin="6,50,0,0" Name="rbtnReshape" VerticalAlignment="Top" />
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Drag Mode" Height="105" HorizontalAlignment="Left" Margin="140,335,0,0" Name="groupBox2" VerticalAlignment="Top" Width="122">
+            <Grid>
+                <RadioButton Content="Fixed" Height="16" HorizontalAlignment="Left" Margin="10,10,0,0" Name="rbtnDragFixed" VerticalAlignment="Top" />
+                <RadioButton Content="Draggable" Height="16" HorizontalAlignment="Left" Margin="10,28,0,0" Name="rbtnDraggable" VerticalAlignment="Top" />
+            </Grid>
+        </GroupBox>
+        <Button Content="OK" Height="23" HorizontalAlignment="Left" Margin="461,441,0,0" Name="btnOk" VerticalAlignment="Top" Width="75" Click="btnOk_Click" />
+        <GroupBox Header="Font &amp; Color" Height="105" HorizontalAlignment="Left" Margin="272,335,0,0" Name="groupBox3" VerticalAlignment="Top" Width="257">
+            <Grid>
+                <Label Content="Sample" Height="67" HorizontalAlignment="Left" Margin="6,9,0,0" Name="lbFontSample" VerticalAlignment="Top" Width="122" />
+                <ComboBox DataContext="{Binding}" Height="23" HorizontalAlignment="Left" Margin="168,10,0,0" Name="cbxFontSize" SelectionChanged="Font_SelectionChanged" VerticalAlignment="Top" Width="71">
+                    <ComboBoxItem Content="8" />
+                    <ComboBoxItem Content="10" IsSelected="True" />
+                    <ComboBoxItem Content="12" />
+                    <ComboBoxItem Content="14" />
+                    <ComboBoxItem Content="16" />
+                    <ComboBoxItem Content="18" />
+                    <ComboBoxItem Content="20" />
+                    <ComboBoxItem Content="22" />
+                    <ComboBoxItem Content="24" />
+                    <ComboBoxItem Content="26" />
+                    <ComboBoxItem Content="28" />
+                    <ComboBoxItem Content="30" />
+                </ComboBox>
+                <Label Content="Size" Height="28" HorizontalAlignment="Left" Margin="133,7,0,0" Name="label2" VerticalAlignment="Top" />
+                <ComboBox DataContext="{Binding}" Height="23" HorizontalAlignment="Left" Margin="170,43,0,0" Name="cbxFontName" SelectionChanged="Font_SelectionChanged" VerticalAlignment="Top" Width="71">
+                    <ComboBoxItem Content="Arial" IsSelected="True" />
+                    <ComboBoxItem Content="System" />
+                    <ComboBoxItem Content="Tahoma" />
+                    <ComboBoxItem Content="Times New Roman" />
+                </ComboBox>
+                <Label Content="Font Name" Height="28" HorizontalAlignment="Left" Margin="95,41,0,0" Name="label3" VerticalAlignment="Top" />
+            </Grid>
+        </GroupBox>
+    </Grid>
+</Window>

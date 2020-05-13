@@ -1,0 +1,17 @@
+<Case>
+  <TypeName>TopologyValidation.LinesMustNotIntersectOrTouchInteriorTopologyTestCase</TypeName>
+  <ID>2672de34-a702-4c32-a8c9-1e663e872910</ID>
+  <Name>Lines Must Not Intersect Or TouchInterior</Name>
+  <Description>Lines Must Not Intersect Or TouchInterior Topology Test Case. Created at 5:14:04 PM Saturday, August 25, 2012.</Description>
+  <Input>
+    <WKT>LINESTRING(0 0,100 0,100 100)</WKT>
+    <WKT>LINESTRING(0 -50,30 0,60 0,100 50)</WKT>
+    <WKT>LINESTRING(20 50,20 -50)</WKT>
+  </Input>
+  <Output>
+    <WKT>LINESTRING(60 0,30 0)</WKT>
+    <WKT>MULTIPOINT(100 50)</WKT>
+    <WKT>POINT(20.0000000000003 5.32907051820075E-13)</WKT>
+    <WKT>POINT(20.0000000000003 -16.6666666666667)</WKT>
+  </Output>
+</Case>

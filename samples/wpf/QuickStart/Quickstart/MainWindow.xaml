@@ -1,0 +1,13 @@
+﻿<Window x:Class="Quickstart.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Quickstart"
+        mc:Ignorable="d"
+        xmlns:uc1="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+        Title="MainWindow" Height="660" Width="960">
+    <Grid>
+        <uc1:MapView Name="Map1" Loaded="Map1_Loaded"/>
+    </Grid>
+</Window>

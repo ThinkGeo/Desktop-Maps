@@ -1,0 +1,14 @@
+<Case>
+  <TypeName>TopologyValidation.LinesMustNotHaveDanglesTopologyTestCase</TypeName>
+  <ID>09654aed-d561-429e-b581-365cff3c53d6</ID>
+  <Name>Lines Must Not Have Dangles</Name>
+  <Description>Lines Must Not Have Dangles Topology Test Case. Created at 5:05:48 PM Saturday, August 25, 2012.</Description>
+  <Input>
+    <WKT>LINESTRING(0 0,100 0,100 100,20 100)</WKT>
+    <WKT>LINESTRING(0 0,-50 0,-50 100,0 100)</WKT>
+  </Input>
+  <Output>
+    <WKT>POINT(20 100)</WKT>
+    <WKT>POINT(0 100)</WKT>
+  </Output>
+</Case>

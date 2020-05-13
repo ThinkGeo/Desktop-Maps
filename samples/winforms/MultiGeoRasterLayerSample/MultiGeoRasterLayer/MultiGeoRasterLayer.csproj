@@ -1,0 +1,389 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A48121B5-C1BB-4F54-BC5F-768C02C67A05}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MultiGeoRasterLayer</RootNamespace>
+    <AssemblyName>MultiGeoRasterLayer</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GeoAPI, Version=1.7.4.0, Culture=neutral, PublicKeyToken=a1a0da7def465678, processorArchitecture=MSIL">
+      <HintPath>..\packages\MapSuiteDependency-GeoAPI.10.4.0\lib\net45\GeoAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\MapSuiteDependency-MicrosoftSqlServerTypes.10.4.0\lib\net45\Microsoft.SqlServer.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="NetTopologySuite, Version=1.14.0.0, Culture=neutral, PublicKeyToken=f580a05016ebada1, processorArchitecture=MSIL">
+      <HintPath>..\packages\MapSuiteDependency-NetTopologySuite.10.4.0\lib\net45\NetTopologySuite.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\MapSuiteDependency-NewtonsoftJson.10.4.0\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PowerCollections, Version=1.0.0.0, Culture=neutral, PublicKeyToken=2573bf8a1bdddcd5, processorArchitecture=MSIL">
+      <HintPath>..\packages\MapSuiteDependency-NetTopologySuite.10.4.0\lib\net45\PowerCollections.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="ThinkGeo.Cloud.Client, Version=10.4.0.0, Culture=neutral, PublicKeyToken=0828af5241fb4207, processorArchitecture=MSIL">
+      <HintPath>..\packages\ThinkGeo.Cloud.Client.10.4.2\lib\net45\ThinkGeo.Cloud.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="ThinkGeo.MapSuite, Version=10.0.0.0, Culture=neutral, PublicKeyToken=0828af5241fb4207, processorArchitecture=MSIL">
+      <HintPath>..\packages\ThinkGeo.MapSuite.10.4.0\lib\net45\ThinkGeo.MapSuite.dll</HintPath>
+    </Reference>
+    <Reference Include="ThinkGeo.MapSuite.Layers.NativeImage, Version=10.0.0.0, Culture=neutral, PublicKeyToken=0828af5241fb4207, processorArchitecture=MSIL">
+      <HintPath>..\packages\ThinkGeo.MapSuite.Layers.NativeImage.10.4.0\lib\net45\ThinkGeo.MapSuite.Layers.NativeImage.dll</HintPath>
+    </Reference>
+    <Reference Include="ThinkGeo.MapSuite.ProductCenter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=0828af5241fb4207, processorArchitecture=MSIL">
+      <HintPath>..\packages\ThinkGeo.MapSuite.ProductCenter.10.4.0\lib\net45\ThinkGeo.MapSuite.ProductCenter.exe</HintPath>
+    </Reference>
+    <Reference Include="ThinkGeo.MapSuite.WinForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=0828af5241fb4207, processorArchitecture=MSIL">
+      <HintPath>..\packages\MapSuiteDesktopForWinForms-BareBone.10.4.1\lib\net45\ThinkGeo.MapSuite.WinForms.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MultiGeoRasterLayer.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="data\1.jgw" />
+    <None Include="data\10.jgw" />
+    <None Include="data\100.jgw" />
+    <None Include="data\101.jgw" />
+    <None Include="data\102.jgw" />
+    <None Include="data\103.jgw" />
+    <None Include="data\104.jgw" />
+    <None Include="data\105.jgw" />
+    <None Include="data\106.jgw" />
+    <None Include="data\107.jgw" />
+    <None Include="data\108.jgw" />
+    <None Include="data\109.jgw" />
+    <None Include="data\11.jgw" />
+    <None Include="data\110.jgw" />
+    <None Include="data\111.jgw" />
+    <None Include="data\112.jgw" />
+    <None Include="data\113.jgw" />
+    <None Include="data\114.jgw" />
+    <None Include="data\115.jgw" />
+    <None Include="data\116.jgw" />
+    <None Include="data\117.jgw" />
+    <None Include="data\118.jgw" />
+    <None Include="data\119.jgw" />
+    <None Include="data\12.jgw" />
+    <None Include="data\120.jgw" />
+    <None Include="data\121.jgw" />
+    <None Include="data\122.jgw" />
+    <None Include="data\123.jgw" />
+    <None Include="data\124.jgw" />
+    <None Include="data\125.jgw" />
+    <None Include="data\126.jgw" />
+    <None Include="data\127.jgw" />
+    <None Include="data\128.jgw" />
+    <None Include="data\13.jgw" />
+    <None Include="data\14.jgw" />
+    <None Include="data\15.jgw" />
+    <None Include="data\16.jgw" />
+    <None Include="data\17.jgw" />
+    <None Include="data\18.jgw" />
+    <None Include="data\19.jgw" />
+    <None Include="data\2.jgw" />
+    <None Include="data\20.jgw" />
+    <None Include="data\21.jgw" />
+    <None Include="data\22.jgw" />
+    <None Include="data\23.jgw" />
+    <None Include="data\24.jgw" />
+    <None Include="data\25.jgw" />
+    <None Include="data\26.jgw" />
+    <None Include="data\27.jgw" />
+    <None Include="data\28.jgw" />
+    <None Include="data\29.jgw" />
+    <None Include="data\3.jgw" />
+    <None Include="data\30.jgw" />
+    <None Include="data\31.jgw" />
+    <None Include="data\32.jgw" />
+    <None Include="data\33.jgw" />
+    <None Include="data\34.jgw" />
+    <None Include="data\35.jgw" />
+    <None Include="data\36.jgw" />
+    <None Include="data\37.jgw" />
+    <None Include="data\38.jgw" />
+    <None Include="data\39.jgw" />
+    <None Include="data\4.jgw" />
+    <None Include="data\40.jgw" />
+    <None Include="data\41.jgw" />
+    <None Include="data\42.jgw" />
+    <None Include="data\43.jgw" />
+    <None Include="data\44.jgw" />
+    <None Include="data\45.jgw" />
+    <None Include="data\46.jgw" />
+    <None Include="data\47.jgw" />
+    <None Include="data\48.jgw" />
+    <None Include="data\49.jgw" />
+    <None Include="data\5.jgw" />
+    <None Include="data\50.jgw" />
+    <None Include="data\51.jgw" />
+    <None Include="data\52.jgw" />
+    <None Include="data\53.jgw" />
+    <None Include="data\54.jgw" />
+    <None Include="data\55.jgw" />
+    <None Include="data\56.jgw" />
+    <None Include="data\57.jgw" />
+    <None Include="data\58.jgw" />
+    <None Include="data\59.jgw" />
+    <None Include="data\6.jgw" />
+    <None Include="data\60.jgw" />
+    <None Include="data\61.jgw" />
+    <None Include="data\62.jgw" />
+    <None Include="data\63.jgw" />
+    <None Include="data\64.jgw" />
+    <None Include="data\65.jgw" />
+    <None Include="data\66.jgw" />
+    <None Include="data\67.jgw" />
+    <None Include="data\68.jgw" />
+    <None Include="data\69.jgw" />
+    <None Include="data\7.jgw" />
+    <None Include="data\70.jgw" />
+    <None Include="data\71.jgw" />
+    <None Include="data\72.jgw" />
+    <None Include="data\73.jgw" />
+    <None Include="data\74.jgw" />
+    <None Include="data\75.jgw" />
+    <None Include="data\76.jgw" />
+    <None Include="data\77.jgw" />
+    <None Include="data\78.jgw" />
+    <None Include="data\79.jgw" />
+    <None Include="data\8.jgw" />
+    <None Include="data\80.jgw" />
+    <None Include="data\81.jgw" />
+    <None Include="data\82.jgw" />
+    <None Include="data\83.jgw" />
+    <None Include="data\84.jgw" />
+    <None Include="data\85.jgw" />
+    <None Include="data\86.jgw" />
+    <None Include="data\87.jgw" />
+    <None Include="data\88.jgw" />
+    <None Include="data\89.jgw" />
+    <None Include="data\9.jgw" />
+    <None Include="data\90.jgw" />
+    <None Include="data\91.jgw" />
+    <None Include="data\92.jgw" />
+    <None Include="data\93.jgw" />
+    <None Include="data\94.jgw" />
+    <None Include="data\95.jgw" />
+    <None Include="data\96.jgw" />
+    <None Include="data\97.jgw" />
+    <None Include="data\98.jgw" />
+    <None Include="data\99.jgw" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="data\1.jpg" />
+    <Content Include="data\10.jpg" />
+    <Content Include="data\100.jpg" />
+    <Content Include="data\101.jpg" />
+    <Content Include="data\102.jpg" />
+    <Content Include="data\103.jpg" />
+    <Content Include="data\104.jpg" />
+    <Content Include="data\105.jpg" />
+    <Content Include="data\106.jpg" />
+    <Content Include="data\107.jpg" />
+    <Content Include="data\108.jpg" />
+    <Content Include="data\109.jpg" />
+    <Content Include="data\11.jpg" />
+    <Content Include="data\110.jpg" />
+    <Content Include="data\111.jpg" />
+    <Content Include="data\112.jpg" />
+    <Content Include="data\113.jpg" />
+    <Content Include="data\114.jpg" />
+    <Content Include="data\115.jpg" />
+    <Content Include="data\116.jpg" />
+    <Content Include="data\117.jpg" />
+    <Content Include="data\118.jpg" />
+    <Content Include="data\119.jpg" />
+    <Content Include="data\12.jpg" />
+    <Content Include="data\120.jpg" />
+    <Content Include="data\121.jpg" />
+    <Content Include="data\122.jpg" />
+    <Content Include="data\123.jpg" />
+    <Content Include="data\124.jpg" />
+    <Content Include="data\125.jpg" />
+    <Content Include="data\126.jpg" />
+    <Content Include="data\127.jpg" />
+    <Content Include="data\128.jpg" />
+    <Content Include="data\13.jpg" />
+    <Content Include="data\14.jpg" />
+    <Content Include="data\15.jpg" />
+    <Content Include="data\16.jpg" />
+    <Content Include="data\17.jpg" />
+    <Content Include="data\18.jpg" />
+    <Content Include="data\19.jpg" />
+    <Content Include="data\2.jpg" />
+    <Content Include="data\20.jpg" />
+    <Content Include="data\21.jpg" />
+    <Content Include="data\22.jpg" />
+    <Content Include="data\23.jpg" />
+    <Content Include="data\24.jpg" />
+    <Content Include="data\25.jpg" />
+    <Content Include="data\26.jpg" />
+    <Content Include="data\27.jpg" />
+    <Content Include="data\28.jpg" />
+    <Content Include="data\29.jpg" />
+    <Content Include="data\3.jpg" />
+    <Content Include="data\30.jpg" />
+    <Content Include="data\31.jpg" />
+    <Content Include="data\32.jpg" />
+    <Content Include="data\33.jpg" />
+    <Content Include="data\34.jpg" />
+    <Content Include="data\35.jpg" />
+    <Content Include="data\36.jpg" />
+    <Content Include="data\37.jpg" />
+    <Content Include="data\38.jpg" />
+    <Content Include="data\39.jpg" />
+    <Content Include="data\4.jpg" />
+    <Content Include="data\40.jpg" />
+    <Content Include="data\41.jpg" />
+    <Content Include="data\42.jpg" />
+    <Content Include="data\43.jpg" />
+    <Content Include="data\44.jpg" />
+    <Content Include="data\45.jpg" />
+    <Content Include="data\46.jpg" />
+    <Content Include="data\47.jpg" />
+    <Content Include="data\48.jpg" />
+    <Content Include="data\49.jpg" />
+    <Content Include="data\5.jpg" />
+    <Content Include="data\50.jpg" />
+    <Content Include="data\51.jpg" />
+    <Content Include="data\52.jpg" />
+    <Content Include="data\53.jpg" />
+    <Content Include="data\54.jpg" />
+    <Content Include="data\55.jpg" />
+    <Content Include="data\56.jpg" />
+    <Content Include="data\57.jpg" />
+    <Content Include="data\58.jpg" />
+    <Content Include="data\59.jpg" />
+    <Content Include="data\6.jpg" />
+    <Content Include="data\60.jpg" />
+    <Content Include="data\61.jpg" />
+    <Content Include="data\62.jpg" />
+    <Content Include="data\63.jpg" />
+    <Content Include="data\64.jpg" />
+    <Content Include="data\65.jpg" />
+    <Content Include="data\66.jpg" />
+    <Content Include="data\67.jpg" />
+    <Content Include="data\68.jpg" />
+    <Content Include="data\69.jpg" />
+    <Content Include="data\7.jpg" />
+    <Content Include="data\70.jpg" />
+    <Content Include="data\71.jpg" />
+    <Content Include="data\72.jpg" />
+    <Content Include="data\73.jpg" />
+    <Content Include="data\74.jpg" />
+    <Content Include="data\75.jpg" />
+    <Content Include="data\76.jpg" />
+    <Content Include="data\77.jpg" />
+    <Content Include="data\78.jpg" />
+    <Content Include="data\79.jpg" />
+    <Content Include="data\8.jpg" />
+    <Content Include="data\80.jpg" />
+    <Content Include="data\81.jpg" />
+    <Content Include="data\82.jpg" />
+    <Content Include="data\83.jpg" />
+    <Content Include="data\84.jpg" />
+    <Content Include="data\85.jpg" />
+    <Content Include="data\86.jpg" />
+    <Content Include="data\87.jpg" />
+    <Content Include="data\88.jpg" />
+    <Content Include="data\89.jpg" />
+    <Content Include="data\9.jpg" />
+    <Content Include="data\90.jpg" />
+    <Content Include="data\91.jpg" />
+    <Content Include="data\92.jpg" />
+    <Content Include="data\93.jpg" />
+    <Content Include="data\94.jpg" />
+    <Content Include="data\95.jpg" />
+    <Content Include="data\96.jpg" />
+    <Content Include="data\97.jpg" />
+    <Content Include="data\98.jpg" />
+    <Content Include="data\99.jpg" />
+    <Content Include="data\referenceFile.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\ThinkGeo.MapSuite.10.4.0\build\net45\ThinkGeo.MapSuite.targets" Condition="Exists('..\packages\ThinkGeo.MapSuite.10.4.0\build\net45\ThinkGeo.MapSuite.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\ThinkGeo.MapSuite.10.4.0\build\net45\ThinkGeo.MapSuite.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ThinkGeo.MapSuite.10.4.0\build\net45\ThinkGeo.MapSuite.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

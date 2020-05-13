@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DemographicMap>
+  <Category name="Population" icon="Image/Demograph_Population.png">
+    <item>
+      <columnName>Population</columnName>
+      <alias>Population</alias>
+      <legendTitle>Population</legendTitle>
+    </item>
+  </Category>
+  <Category name="Population Density" icon="Image/DemoGraph_PopDensity.png">
+    <item>
+      <columnName>PopDensity</columnName>
+      <alias>Population Density</alias>
+      <legendTitle>Population Density ( People / sq.mi. )</legendTitle>
+    </item>
+  </Category>
+  <Category name="Gender" icon="Image/Demograph_Gender.png">
+    <item>
+      <columnName>Female</columnName>
+      <alias>Female</alias>
+      <legendTitle>Female Population Percentage</legendTitle>
+    </item>
+    <item>
+      <columnName>Male</columnName>
+      <alias>Male</alias>
+      <legendTitle>Male Population Percentage</legendTitle>
+    </item>
+  </Category>
+  <Category name="Total Land Area" icon="Image/Demograph_LandArea.png">
+    <item>
+      <columnName>AREALAND</columnName>
+      <alias>Total Land Area</alias>
+      <legendTitle>Total Land Area ( sq.mi. )</legendTitle>
+    </item>
+  </Category>
+  <Category name="Total Water Area" icon="Image/Demograph_WaterArea.png">
+    <item>
+      <columnName>AREAWATR</columnName>
+      <alias>Total Water Area</alias>
+      <legendTitle>Total Water Area ( sq.mi. )</legendTitle>
+    </item>
+  </Category>
+  <Category name="Race and Ethnicity" icon="Image/Demograph_Nationality.png">
+    <item>
+      <columnName>Indian</columnName>
+      <alias>American Indian</alias>
+      <legendTitle>American Indian Population Percentage</legendTitle>
+    </item>
+    <item>
+      <columnName>Asian</columnName>
+      <alias>Asian</alias>
+      <legendTitle>Asian Population Percentage</legendTitle>
+    </item>
+    <item>
+      <columnName>Black</columnName>
+      <alias>Black</alias>
+      <legendTitle>Black Population Percentage</legendTitle>
+    </item>
+    <item>
+      <columnName>MultiRace</columnName>
+      <alias>Multiracial</alias>
+      <legendTitle>Multiracial Population Percentage</legendTitle>
+    </item>
+    <item>
+      <columnName>Islander</columnName>
+      <alias>Native Pacific Islander</alias>
+      <legendTitle>Native Pacific Islander Population Percentage</legendTitle>
+    </item>
+    <item>
+      <columnName>White</columnName>
+      <alias>White</alias>
+      <legendTitle>White Population Percentage</legendTitle>
+    </item>
+    <item>
+      <columnName>Other</columnName>
+      <alias>Other</alias>
+      <legendTitle>Other Population Percentage</legendTitle>
+    </item>
+  </Category>
+  <Category name="Age" icon="Image/Demograph_Age.png">
+    <item>
+      <columnName>Under5</columnName>
+      <alias>&lt;= 5</alias>
+      <legendTitle>&lt;= 5 Years old Population Percentage</legendTitle>
+    </item>
+    <item>
+      <columnName>5to9</columnName>
+      <alias>5 ~ 10</alias>
+      <legendTitle>5 ~ 10 Years old Population Percentage</legendTitle>
+    </item>
+    <item>
+      <columnName>10to14</columnName>
+      <alias>10 ~ 15</alias>
+      <legendTitle>10 ~ 15 Years old Population Percentage</legendTitle>
+    </item>
+    <item>
+      <columnName>15to17</columnName>
+      <alias>15 ~ 18</alias>
+      <legendTitle>15 ~ 18 Years old Population Percentage</legendTitle>
+    </item>
+    <item>
+      <columnName>18to24</columnName>
+      <alias>18 ~ 25</alias>
+      <legendTitle>18 ~ 25 Years old Population Percentage</legendTitle>
+    </item>
+    <item>
+      <columnName>25to34</columnName>
+      <alias>25 ~ 35</alias>
+      <legendTitle>25 ~ 35 Years old Population Percentage</legendTitle>
+    </item>
+    <item>
+      <columnName>35to44</columnName>
+      <alias>35 ~ 45</alias>
+      <legendTitle>35 ~ 45 Years old Population Percentage</legendTitle>
+    </item>
+    <item>
+      <columnName>45to54</columnName>
+      <alias>45 ~ 55</alias>
+      <legendTitle>45 ~ 55 Years old Population Percentage</legendTitle>
+    </item>
+    <item>
+      <columnName>55to64</columnName>
+      <alias>55 ~ 65</alias>
+      <legendTitle>55 ~ 65 Years old Population Percentage</legendTitle>
+    </item>
+    <item>
+      <columnName>65to74</columnName>
+      <alias>65 ~ 75</alias>
+      <legendTitle>65 ~ 75 Years old Population Percentage</legendTitle>
+    </item>
+    <item>
+      <columnName>75to84</columnName>
+      <alias>75 ~ 85</alias>
+      <legendTitle>75 ~ 85 Years old Population Percentage</legendTitle>
+    </item>
+    <item>
+      <columnName>over85</columnName>
+      <alias>&gt;= 85</alias>
+      <legendTitle>&gt;= 85 Years old Population Percentage</legendTitle>
+    </item>
+  </Category>
+  <Category name="Custom Data" icon="Image/Demograph_CustomData.png">
+  </Category>
+</DemographicMap>

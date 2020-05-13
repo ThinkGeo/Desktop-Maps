@@ -1,0 +1,67 @@
+﻿<Window xmlns:Wpf="clr-namespace:ThinkGeo.MapSuite.Wpf;assembly=ThinkGeo.MapSuite.Wpf" x:Class="ThinkGeoMBTilesMapsSample_ForWpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ThinkGeoMBTilesMapsSample_ForWpf"
+        mc:Ignorable="d"
+        Title="ThinkGeo MBtiles Online Sample" Height="768" Width="1024" Loaded="Window_Loaded">
+    <Grid>
+        <Wpf:WpfMap Name="wpfMap" />
+        <Grid  Margin="0,10,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="315">
+            <Border BorderBrush="#cfcfcf" BorderThickness="1" CornerRadius="4">
+                <Border.Background>
+                    <LinearGradientBrush EndPoint="0.504,1.391" StartPoint="0.505,-0.257">
+                        <GradientStop Color="#fafafa" Offset="0"/>
+                        <GradientStop Color="#ECECEC" Offset="0.7"/>
+                        <GradientStop Color="#e7e7e7" Offset="0.95"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.Effect>
+                    <DropShadowEffect Color="Gray" BlurRadius="4" Opacity="0.6"/>
+                </Border.Effect>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="25"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0">
+                        <TextBlock Text="Control Panel" Margin="6" FontSize="12" FontWeight="Bold"/>
+                    </StackPanel>
+
+                    <Border Grid.Row="1" BorderBrush="#cfcfcf" Background="White" BorderThickness="0,1,0,1">
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Select Map Type"  FontSize="12" FontWeight="Bold"/>
+                            <RadioButton Grid.Row="1" GroupName="mapType" x:Name="radioButtonLight" Margin="20,2,2,2" Checked="RadioButtonLight_Checked"  IsChecked="True"  Content="ThinkGeo World Streets Light"  />
+                            <RadioButton Grid.Row="2" GroupName="mapType" x:Name="radioButtionDark" Margin="20,2,2,2" Checked="RadioButtionDark_Checked"  Content="ThinkGeo World Streets Dark"  />
+                            <RadioButton Grid.Row="3" GroupName="mapType" x:Name="radioButtionMuteblue" Margin="20,2,2,2"  Checked="RadioButtionMuteblue_Checked"  Content="Muteblue" />
+                        </Grid>
+                    </Border>
+                    <Border  Grid.Row="2" BorderBrush="#cfcfcf" Background="White" BorderThickness="0,1,0,1">
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Tile Cache Property"  FontSize="12" FontWeight="Bold"/>
+                            <CheckBox Grid.Row="1" x:Name="chkDisableRasterCache" Margin="20,2,2,2" Checked="ChkDisableRasterCache_Checked"  Unchecked="ChkDisableRasterCache_Checked"  IsChecked="False"  Content="Disable Image Tile Cache"  />
+                        </Grid>
+                    </Border>
+                    <StackPanel Grid.Row="4"/>
+                </Grid>
+            </Border>
+        </Grid>
+
+    </Grid>
+</Window>

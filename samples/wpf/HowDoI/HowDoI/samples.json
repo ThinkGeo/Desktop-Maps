@@ -1,0 +1,710 @@
+[
+  {
+    "title": "Map Functions",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayASimpleMap",
+        "title": "Display a simple map",
+        "description": "This sample shows how to display a simple map.",
+        "source": "Samples/Map Functions/DisplayASimpleMap"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ZoomInAndOutOfTheMap",
+        "title": "Zoom in and out of the map",
+        "description": "This sample shows how to zoom in and out map.",
+        "source": "Samples/Map Functions/ZoomInAndOutOfTheMap"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.PanAroundTheMap",
+        "title": "Pan around the map",
+        "description": "This sample pans around the map.",
+        "source": "Samples/Map Functions/PanAroundTheMap"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.PlotALatitudeAndLongitudePointOnTheMap",
+        "title": "Plot a point on the map",
+        "description": "This sample shows how to plot a point on the map.",
+        "source": "Samples/Map Functions/PlotALatitudeAndLongitudePointOnTheMap"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.SimplyRotateMap",
+        "title": "Simply rotate a map",
+        "description": "The map by default can be rotated by dragging the map with holding the Alt key. This sample shows how to customize it with different keys. (leftAlt + Right Mouse Button Dragging).",
+        "source": "Samples/Map Functions/SimplyRotateMap"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.TrackAndEditShapesInRotateWorld",
+        "title": "Track and edit shapes in rotated world",
+        "description": "Rotate the map (Alt+left Dragging) and then track and edit shapes in the rotated world.",
+        "source": "Samples/Map Functions/TrackAndEditShapesInRotateWorld"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ZoomToACertainScale",
+        "title": "Zoom to a certain scale",
+        "description": "This sample simply shows how to change the scale by selecting from the combox.",
+        "source": "Samples/Map Functions/ZoomToACertainScale"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ZoomToACertainZoomLevel",
+        "title": "Zoom to a certain zoom level",
+        "description": "This sample simply shows how to change the zoom level by selecting from the combox.",
+        "source": "Samples/Map Functions/ZoomToACertainZoomLevel"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ZoomToAFeatureOrFeatures",
+        "title": "Zoom to a feature or set of features",
+        "description": "This sample simply shows how to zoom to a feature or set of features.",
+        "source": "Samples/Map Functions/ZoomToAFeatureOrFeatures"
+      }
+    ]
+  },
+  {
+    "title": "Overlay",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UsingTileCache",
+        "title": "Using tile cache",
+        "description": "This sample shows how to use tile cache.",
+        "source": "Samples/Overlay/UsingTileCache"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.TileDowloadProgress",
+        "title": "Tile download progress",
+        "description": "This sample shows how to track tiles download progress.",
+        "source": "Samples/Overlay/TileDowloadProgress"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.AddAdditionalCustomPropertiesAndMethods",
+        "title": "Add additional custom properties and methods",
+        "description": "Choose the items to add additional custom properties And methods.",
+        "source": "Samples/Overlay/AddAdditionalCustomPropertiesAndMethods"
+      }
+    ]
+  },
+  {
+    "title": "Raster Layers",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayASatelliteImage",
+        "title": "Display a satellite image",
+        "description": "This sample shows how to display a satellite image.",
+        "source": "Samples/Raster Layers/DisplayASatelliteImage"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.LoadAGeoTiffImage",
+        "title": "Load a GeoTiff image",
+        "description": "This sample shows how to load a GeoTiff image.",
+        "source": "Samples/Raster Layers/LoadAGeoTiffImage"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.LoadAnEcwImage",
+        "title": "Load an ECW image",
+        "description": "This sample shows how to display an ECW image.",
+        "source": "Samples/Raster Layers/LoadAnEcwImage"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.LoadAMrSidImage",
+        "title": "Load a MrSid image",
+        "description": "This sample shows how to load a MrSid image.",
+        "source": "Samples/Raster Layers/LoadAMrSidImage"
+      }
+    ]
+  },
+  {
+    "title": "Vector Layers",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.AddMyOwnCustomDataToAFeatureLayer",
+        "title": "Add my own custom data in a FeatureLayer",
+        "description": "This sample shows how to use the custom data as label text in a Feature layer.",
+        "source": "Samples/Vector Layers/AddMyOwnCustomDataToAFeatureLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateAnOsmBuildingOnlineFeatureLayer",
+        "title": "Create an OsmBuildingOnlineFeatureLayer",
+        "description": "This sample simply create an OsmBuildingOnlineFeatureLayer.",
+        "source": "Samples/Vector Layers/CreateAnOsmBuildingOnlineFeatureLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateAGpxFeatureLayer",
+        "title": "Create a GpxFeatureLayer",
+        "description": "This sample simply create a gpx feature layer.",
+        "source": "Samples/Vector Layers/CreateAGpxFeatureLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateAnInMemoryFeatureLayer",
+        "title": "Create an InMemoryFeatureLayer",
+        "description": "This sample simply adds an InMemoryFeatureLayer.",
+        "source": "Samples/Vector Layers/CreateAnInMemoryFeatureLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateAnInMemoryGridFeatureLayer",
+        "title": "Create an InMemoryGridFeatureLayer",
+        "description": "This sample simply adds an InMemoryGridFeatureLayer.",
+        "source": "Samples/Vector Layers/CreateAnInMemoryGridFeatureLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateANoaaWeatherStationFeatureLayer",
+        "title": "Create a NoaaWeatherStationFeatureLayer",
+        "description": "This sample simply adds a NoaaWeatherStationFeatureLayer.",
+        "source": "Samples/Vector Layers/CreateANoaaWeatherStationFeatureLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateANoaaWeatherWarningsFeatureLayer",
+        "title": "Create a NoaaWeatherWarningsFeatureLayer",
+        "description": "This sample simply adds a NoaaWeatherWarningsFeatureLayer.",
+        "source": "Samples/Vector Layers/CreateANoaaWeatherWarningsFeatureLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateASpatialIndexForAShapeFileFeatureLayer",
+        "title": "Create a spatial index for a ShapeFileFeatureLayer",
+        "description": "This sample simply create a spatial index for a shapefile feature layer.",
+        "source": "Samples/Vector Layers/CreateASpatialIndexForAShapeFileFeatureLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateATinyGeoFeatureLayer",
+        "title": "Create a TinyGeoFeatureLayer",
+        "description": "This sample simply create a TinyGeoFeatureLayer.",
+        "source": "Samples/Vector Layers/CreateATinyGeoFeatureLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateAUsgsDemFeatureLayer",
+        "title": "Create a UsgsDemFeatureLayer",
+        "description": "This sample simply create a UsgsDemFeatureLayer.",
+        "source": "Samples/Vector Layers/CreateAUsgsDemFeatureLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ChangeTheLookOfAFeatureLayer",
+        "title": "Change the look of a feature layer",
+        "description": "This sample shows how to change the style of a feature layer.",
+        "source": "Samples/Vector Layers/ChangeTheLookOfAFeatureLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayThinkGeoMBTilesMaps",
+        "title": "Display ThinkGeo MBTiles maps",
+        "description": "This sample shows how to display ThinkGeo MBTiles maps.",
+        "source": "Samples/Vector Layers/DisplayThinkGeoMBTilesMaps"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayThinkGeoWorldStreetsMaps",
+        "title": "Display ThinkGeo mbTiles world streets maps",
+        "description": "This sample shows how to display ThinkGeo mbTiles world streets maps by StyleJson files.",
+        "source": "Samples/Vector Layers/DisplayThinkGeoWorldStreetsMaps"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayAShapeFileSimpleMap",
+        "title": "Display a shapeFile simple map by StyleJson",
+        "description": "This sample shows how to display shapefile maps by StyleJson file.",
+        "source": "Samples/Vector Layers/DisplayAShapeFileSimpleMap"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayFeatureLayerAtCertainScale",
+        "title": "Display feature layer at certain scale",
+        "description": "This sample shows how to display a feature layer at certain scale.",
+        "source": "Samples/Vector Layers/DisplayFeatureLayerAtCertainScale"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.FindTheFeatureAUserClickedOn",
+        "title": "Find the Feature(s) a user clicked on",
+        "description": "This sample shows how to find the feature a user clicked on.",
+        "source": "Samples/Vector Layers/FindTheFeatureAUserClickedOn"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.FindFeaturesWithinDistance",
+        "title": "Find features within distance",
+        "description": "Select the distance (km):",
+        "source": "Samples/Vector Layers/FindFeaturesWithinDistance"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.FindFeaturesCountInAFeatureLayer",
+        "title": "Find features count in a feature layer",
+        "description": "This sample simply shows how to get the count of features in a feature layer.",
+        "source": "Samples/Vector Layers/FindFeaturesCountInAFeatureLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.FindOutColumnDataInAFeatureLayer",
+        "title": "Find out column data in a FeatureLayer",
+        "description": "This sample simply shows how to find out column data in a feature layer by clicking on the map.",
+        "source": "Samples/Vector Layers/FindOutColumnDataInAFeatureLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.FourColorMap",
+        "title": "Four Color Map",
+        "description": "This sample shows how to display a feature layer which is colored using four colors.",
+        "source": "Samples/Vector Layers/FourColorMap"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.GetAllFeaturesFromAFeatureLayer",
+        "title": "Get all features from a FeatureLayer",
+        "description": "This sample simply shows how to get all the features from a feature layer.",
+        "source": "Samples/Vector Layers/GetAllFeaturesFromAFeatureLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.GetAColumnDataInAFeatureLayer",
+        "title": "Get a column data in a FeatureLayer",
+        "description": "This sample simply shows how to get a column data in a feature layer.",
+        "source": "Samples/Vector Layers/GetAColumnDataInAFeatureLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.HighlightAFeatureOnTheMap",
+        "title": "Hightlight a feature on the map",
+        "description": "This sample shows how to highlight a feature on the map.",
+        "source": "Samples/Vector Layers/HighlightAFeatureOnTheMap"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.LoadAShapeFileFeatureLayer",
+        "title": "Load a shape file feature layer",
+        "description": "This sample shows how to load a ShapeFile feature layer.",
+        "source": "Samples/Vector Layers/LoadAShapeFileFeatureLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.LoadTabFileFeatureLayer",
+        "title": "Load TabFileFeatureLayer",
+        "description": "This sample shows how to display TabFile maps by TabFeatureLayer.",
+        "source": "Samples/Vector Layers/LoadTabFileFeatureLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.LoadAMapFromStreams",
+        "title": "Load a map from streams",
+        "description": "This sample shows how to load a Map from a stream data.",
+        "source": "Samples/Vector Layers/LoadAMapFromStreams"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.RefreshPointsRandomly",
+        "title": "Refresh points randomly",
+        "description": "Add Points into map and choose the interval to refresh the Points' position and color.",
+        "source": "Samples/Vector Layers/RefreshPointsRandomly"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.SpatialQueryAFeatureLayer",
+        "title": "Spatial query a feature layer",
+        "description": "Choose SpatialQuery Type:",
+        "source": "Samples/Vector Layers/SpatialQueryAFeatureLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ShowTemporaryShapeOnTheMap",
+        "title": "Show temporary shape on the map",
+        "description": "This sample shows temporary shape on the map.",
+        "source": "Samples/Vector Layers/ShowTemporaryShapeOnTheMap"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.HideOrShowAFeatureLayer",
+        "title": "Hide or show a feature layer",
+        "description": "This sample simply hides or shows a feature layer.",
+        "source": "Samples/Vector Layers/HideOrShowAFeatureLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.StopCertainFeaturesFromDrawing",
+        "title": "Stop certain features from drawing",
+        "description": "This sample simply shows how to skip drawing the countries with a  population of less than 10 millions people.",
+        "source": "Samples/Vector Layers/StopCertainFeaturesFromDrawing"
+      }
+    ]
+  },
+  {
+    "title": "Web Based Layers",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayThinkGeoCloudRasterMaps",
+        "title": "Display ThinkGeo cloud raster maps",
+        "description": "This sample shows how to display ThinkGeo cloud raster maps.",
+        "source": "Samples/Web Based Layers/DisplayThinkGeoCloudRasterMaps"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayThinkGeoCloudVectorMaps",
+        "title": "Display ThinkGeo cloud vector maps",
+        "description": "This sample shows how to display ThinkGeo cloud vector maps.",
+        "source": "Samples/Web Based Layers/DisplayThinkGeoCloudVectorMaps"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.LoadAWmsImage",
+        "title": "Load a Wms image",
+        "description": "This sample shows how to load a Wms image.",
+        "source": "Samples/Web Based Layers/LoadAWmsImage"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.LoadAWmtsImageWithProjection",
+        "title": "Load a Wmts image with projection",
+        "description": "This sample shows how to load a Wmts image with projection.",
+        "source": "Samples/Web Based Layers/LoadAWmtsImageWithProjection"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UseBingMapsLayer",
+        "title": "Use BingMapsLayer",
+        "description": "This sample shows how to display Bing maps by BingMapsLayer.",
+        "source": "Samples/Web Based Layers/UseBingMapsLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UseGoogleMapsLayer",
+        "title": "Use GoogleMapsLayer",
+        "description": "This sample shows how to display Google maps by GoogleMapsLayer.",
+        "source": "Samples/Web Based Layers/UseGoogleMapsLayer"
+      }
+    ]
+  },
+  {
+    "title": "Database Layers",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.LoadAPostgreSqlFeatureLayer",
+        "title": "Load a PostgreSqlFeatureLayer",
+        "description": "To use the PostgreSqlFeatureLayer functions, you have to reference ThinkGeo.PostgreSql.nupkg.",
+        "source": "Samples/Database Layers/LoadAPostgreSqlFeatureLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.LoadGeoDatabaseFeatureLayer",
+        "title": "Load GeoDatabaseFeatureLayer",
+        "description": "To use the PersonalGeoDatabaseFeatureLayer functions, you have to reference ThinkGeo.PersonalGeoDatabase.nupkg.",
+        "source": "Samples/Database Layers/LoadGeoDatabaseFeatureLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.LoadAnOracleFeatureLayer",
+        "title": "Load an OracleFeatureLayer",
+        "description": "This sample simply shows how to add a Oracle Feature Layer.",
+        "source": "Samples/Database Layers/LoadAnOracleFeatureLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.LoadSqlServerFeatureLayer",
+        "title": "Load a SqlServerFeatureLayer",
+        "description": "This sample simply shows how to add a SqlServer Feature Layer.",
+        "source": "Samples/Database Layers/LoadSqlServerFeatureLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.LoadSqliteFeatureLayer",
+        "title": "Load a SqliteFeatureLayer",
+        "description": "This sample simply shows how to add a Sqlite Feature Layer.",
+        "source": "Samples/Database Layers/LoadSqliteFeatureLayer"
+      }
+    ]
+  },
+  {
+    "title": "Other Layers",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.LoadAGridFeatureLayer",
+        "title": "Load a GridFeatureLayer",
+        "description": "This sample simply adds a grid feature layer.",
+        "source": "Samples/Other Layers/LoadAGridFeatureLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateARestrictionLayer",
+        "title": "Create a restriction layer",
+        "description": "You can see only Africa because we have added a RestrictionLayer and its mode is ShowZones.",
+        "source": "Samples/Other Layers/CreateARestrictionLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateAScaleLineAdornmentLayer",
+        "title": "Create a ScaleLine adornment layer",
+        "description": "This sample simply create a scale line adornment layer and selete the combo box to change its position.",
+        "source": "Samples/Other Layers/CreateAScaleLineAdornmentLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateAGraticuleAdornmentLayer",
+        "title": "Create a GraticuleAdornmentLayer",
+        "description": "This sample simply adds a GraticuleAdornmentLayer.",
+        "source": "Samples/Other Layers/CreateAGraticuleAdornmentLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateAMapShapeLayer",
+        "title": "Create a mapShape layer",
+        "description": "This sample simply create a map shape layer.",
+        "source": "Samples/Other Layers/CreateAMapShapeLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayIsoLines",
+        "title": "Display IsoLines",
+        "description": "This sample simply display IsoLines.",
+        "source": "Samples/Other Layers/DisplayIsoLines"
+      }
+    ]
+  },
+  {
+    "title": "Styles",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DrawUsingFleeBooleanStyle",
+        "title": "Draw using FleeBoolean style",
+        "description": "To use the FleeBooleanStyle functions, you have to reference ThinkGeo.PostgreSql.nupkg.",
+        "source": "Samples/Styles/DrawUsingFleeBooleanStyle"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DrawAndLabelANiceLookingRoad",
+        "title": "Draw and label a nice looking road",
+        "description": "This sample simply shows how to draw and label a nice looking road.",
+        "source": "Samples/Styles/DrawAndLabelANiceLookingRoad"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DrawAndLabelPointsOfInterests",
+        "title": "Draw and label points of interests",
+        "description": "This sample simply shows how to draw and label points of interests.",
+        "source": "Samples/Styles/DrawAndLabelPointsOfInterests"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ChangeTheLabelPlacementForPoints",
+        "title": "Change the label placement for points",
+        "description": "This sample shows how to change the label placement for points.",
+        "source": "Samples/Styles/ChangeTheLabelPlacementForPoints"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DrawAndLabelWaterFeatures",
+        "title": "Draw and label water features",
+        "description": "This sample simply shows how to draw and label water features.",
+        "source": "Samples/Styles/DrawAndLabelWaterFeatures"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DrawCurvedLabels",
+        "title": "Draw curved labels",
+        "description": "This sample simply shows how to draw and do curved labels.",
+        "source": "Samples/Styles/DrawCurvedLabels"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ChangeTheLabelPosition",
+        "title": "Change the label position",
+        "description": "This sample simply shows how to change the label position.",
+        "source": "Samples/Styles/ChangeTheLabelPosition"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.LoadAHeatLayer",
+        "title": "Load HeatStyle",
+        "description": "This sample simply adds a heat layer.",
+        "source": "Samples/Styles/LoadAHeatLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UseCustomFontSymbolWithPointStyle",
+        "title": "Use Custom Font Symbol With PointStyle",
+        "description": "This sample simply use custom font symbol with pointStyle.",
+        "source": "Samples/Styles/UseCustomFontSymbolWithPointStyle"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.LoadClusterPointStyle",
+        "title": "Load ClusterPointStyle",
+        "description": "This sample simply draws cluster point style.",
+        "source": "Samples/Styles/LoadClusterPointStyle"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.RotatePointWithTextStyle",
+        "title": "Rotate point with Text style",
+        "description": "This sample simply rotates point with text style.",
+        "source": "Samples/Styles/RotatePointWithTextStyle"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DrawDirectionPointStyleWithLineStyle",
+        "title": "Draw direction point style with LineStyle",
+        "description": "This sample simply draws point style with line style.",
+        "source": "Samples/Styles/DrawDirectionPointStyleWithLineStyle"
+      }
+    ]
+  },
+  {
+    "title": "Projection",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UseADifferentProjectionForAFeatureLayer",
+        "title": "Use a different projection for a feature layer",
+        "description": "This sample simply shows how to use a different project to the map.",
+        "source": "Samples/Projection/UseADifferentProjectionForAFeatureLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UseRotationProjectionForAFeatureLayer",
+        "title": "Use rotation projection for a feature layer",
+        "description": "This sample simply shows how to use rotation project to the map.",
+        "source": "Samples/Projection/UseRotationProjectionForAFeatureLayer"
+      }
+    ]
+  },
+  {
+    "title": "Geometry Functions",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DetermineWhereUserClickInWorldCoordinate",
+        "title": "Determine where user click in world coordinate",
+        "description": "This sample shows how to find where a user click in world coordinate.",
+        "source": "Samples/Geometry Functions/DetermineWhereUserClickInWorldCoordinate"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ConvertScreenCoordinatesToWorldCoordinates",
+        "title": "Convert to world coordinates",
+        "description": "Tip: Click to pick the screen position.",
+        "source": "Samples/Geometry Functions/ConvertScreenCoordinatesToWorldCoordinates"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ConvertWorldCoordinatesToScreenCoordinates",
+        "title": "Convert to screen coordinates",
+        "description": "Tip: Click the button from convert world coordinates to screen coordinates.",
+        "source": "Samples/Geometry Functions/ConvertWorldCoordinatesToScreenCoordinates"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.EfficientlyMoveAPlaneImage",
+        "title": "Efficiently move a plane image",
+        "description": "This sample shows how to efficiently move a plane image on the map.",
+        "source": "Samples/Geometry Functions/EfficientlyMoveAPlaneImage"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.MoveAFeature",
+        "title": "Move a feature",
+        "description": "This sample simply moves a feature.",
+        "source": "Samples/Geometry Functions/MoveAFeature"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ScaleUpAndDownAFeature",
+        "title": "Scale up and down a feature",
+        "description": "This sample simply scale a feature up and down.",
+        "source": "Samples/Geometry Functions/ScaleUpAndDownAFeature"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.FindTheDistanceBetweenTwoFeatures",
+        "title": "Find the distance between two features",
+        "description": "This sample shows how to find the distance between two features.",
+        "source": "Samples/Geometry Functions/FindTheDistanceBetweenTwoFeatures"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.FindUnionBetweenFeatures",
+        "title": "Find union between features",
+        "description": "This sample shows how to find union between features.",
+        "source": "Samples/Geometry Functions/FindUnionBetweenFeatures"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.FindDifferenceBetweenTwoFeatures",
+        "title": "Find difference between two features",
+        "description": "This sample shows how to find difference between two features.",
+        "source": "Samples/Geometry Functions/FindDifferenceBetweenTwoFeatures"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.FindShortestLineBetweenTwoFeatures",
+        "title": "Find shortest line between two features",
+        "description": "This sample gets shortest line between two features.",
+        "source": "Samples/Geometry Functions/FindShortestLineBetweenTwoFeatures"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateABufferAroundAFeature",
+        "title": "Create a buffer around a feature",
+        "description": "This sample creates a buffer around a feature.",
+        "source": "Samples/Geometry Functions/CreateABufferAroundAFeature"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DetermineTheAreaOfAnAreaFeature",
+        "title": "Determine the area of an area feature",
+        "description": "This sample simply shows getting the area of a feature by clicking on map and select a country.",
+        "source": "Samples/Geometry Functions/DetermineTheAreaOfAnAreaFeature"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DetermineTheLengthOfALineFeature",
+        "title": "Determine the length of a line feature",
+        "description": "This sample simply shows clicking on map and select a nearest road.",
+        "source": "Samples/Geometry Functions/DetermineTheLengthOfALineFeature"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DetermineTheEnvelopeOfAFeature",
+        "title": "Determine the envelope of a feature",
+        "description": "This sample simply determines the envelope of a feature.",
+        "source": "Samples/Geometry Functions/DetermineTheEnvelopeOfAFeature"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ConvertAFeatureToAndFromWkb",
+        "title": "Convert a feature to&from Wkb",
+        "description": "This sample simply converts a feature to and from Wkb.",
+        "source": "Samples/Geometry Functions/ConvertAFeatureToAndFromWkb"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.FindAFeatureFromItsId",
+        "title": "Find a feature from its id",
+        "description": "This sample finds a feature from its id.",
+        "source": "Samples/Geometry Functions/FindAFeatureFromItsId"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UseMapSimplification",
+        "title": "Use map simplification",
+        "description": "This sample shows how to use map simplification.",
+        "source": "Samples/Geometry Functions/UseMapSimplification"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.AddFeaturesFromAFeatureLayer",
+        "title": "Add features from a feature layer",
+        "description": "This sample shows how to add features from a feature layer.",
+        "source": "Samples/Geometry Functions/AddFeaturesFromAFeatureLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DeleteFeaturesFromAFeatureLayer",
+        "title": "Delete features from a feature layer",
+        "description": "This sample shows how to delete features from a feature layer.",
+        "source": "Samples/Geometry Functions/DeleteFeaturesFromAFeatureLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.EditFeaturesFromAFeatureLayer",
+        "title": "Edit features from a feature layer",
+        "description": "This sample shows how to edit features from a feature layer.",
+        "source": "Samples/Geometry Functions/EditFeaturesFromAFeatureLayer"
+      }
+    ]
+  },
+  {
+    "title": "Markers And Popups",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.AddPopups",
+        "title": "Add a popup overlay",
+        "description": "This sample shows how to add popups on the map.",
+        "source": "Samples/Markers And Popups/AddPopups"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.AddSimpleMarkers",
+        "title": "Add simple markers on the map",
+        "description": "This sample shows how to add markers by click event on the map.",
+        "source": "Samples/Markers And Popups/AddSimpleMarkers"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.AddLabelOnMarkers",
+        "title": "Add label on markers",
+        "description": "This sample shows how to add label on markers. Click on the map to add a marker where is clicked.",
+        "source": "Samples/Markers And Popups/AddLabelOnMarkers"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.AddAnInMemoryMarkerOverlay",
+        "title": "Add an InMemoryMarkerOverlay",
+        "description": "This sample shows how to add an InMemoryMarkerOverlay and set its styles. Mouse hover to show its tooltip.",
+        "source": "Samples/Markers And Popups/AddAnInMemoryMarkerOverlay"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.AddAFeatureSourceMarkerOverlay",
+        "title": "Add a FeatureSource marker overlay",
+        "description": "This sample shows how to add an FeatureSourceMarkerOverlay and set its styles. Mouse hover to show its tooltip.",
+        "source": "Samples/Markers And Popups/AddAFeatureSourceMarkerOverlay"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UseDraggableMarker",
+        "title": "Use draggable marker",
+        "description": "This sample shows how to drag a marker around.",
+        "source": "Samples/Markers And Popups/UseDraggableMarker"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DragToCopyAMarker",
+        "title": "Drag to copy a marker",
+        "description": "\r\n        This sample shows how to drag to copy a new marker and drag around.\r\n\r\n        Tips: Shift + Drag to copy a marker on the map.\r\n      ",
+        "source": "Samples/Markers And Popups/DragToCopyAMarker"
+      }
+    ]
+  },
+  {
+    "title": "Map Tools",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.MouseCoordinate",
+        "title": "Add a mouse coordinate",
+        "description": "This sample shows how to add a mouse coordinate map tool on the bottom right.",
+        "source": "Samples/Map Tools/MouseCoordinate"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ChangeDefaultLogo",
+        "title": "Change default logo",
+        "description": "This sample shows how to change the default logo map tool.",
+        "source": "Samples/Map Tools/ChangeDefaultLogo"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.PanZoomBar",
+        "title": "Add a pan zoom bar",
+        "description": "\r\n        This sample shows how to add a pan zoom bar on the map.\r\n\r\n        Tips: A level number displays next to the drag handler on the bar during dragging when tracking level is enabled.\r\n      ",
+        "source": "Samples/Map Tools/PanZoomBar"
+      }
+    ]
+  }
+]

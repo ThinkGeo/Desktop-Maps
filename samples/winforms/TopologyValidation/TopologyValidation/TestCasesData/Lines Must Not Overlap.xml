@@ -1,0 +1,14 @@
+<Case>
+  <TypeName>TopologyValidation.LinesMustNotOverlapTopologyTestCase</TypeName>
+  <ID>34a6581a-7a5d-4e88-a420-be2e9dd4773e</ID>
+  <Name>Lines Must Not Overlap</Name>
+  <Description>Lines Must Not Overlap Topology Test Case. Created at 5:15:13 PM Saturday, August 25, 2012.</Description>
+  <Input>
+    <WKT>LINESTRING(0 0,100 0,100 100)</WKT>
+    <WKT>LINESTRING(0 -50,30 0,60 0,100 50)</WKT>
+    <WKT>LINESTRING(20 50,20 -50)</WKT>
+  </Input>
+  <Output>
+    <WKT>LINESTRING(60 0,30 0)</WKT>
+  </Output>
+</Case>

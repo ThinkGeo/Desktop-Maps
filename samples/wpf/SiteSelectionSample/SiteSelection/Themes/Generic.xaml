@@ -1,0 +1,8 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/SiteSelection;component/themes/imagecheckboxstyle.xaml" />
+        <ResourceDictionary Source="/SiteSelection;component/themes/imagebuttonstyle.xaml" />
+        <ResourceDictionary Source="/SiteSelection;component/themes/generalstyles.xaml" />
+        <ResourceDictionary Source="/SiteSelection;component/MapTools/OverlaySwitcher.xaml"></ResourceDictionary>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

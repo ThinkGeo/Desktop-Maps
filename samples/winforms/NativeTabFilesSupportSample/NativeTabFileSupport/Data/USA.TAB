@@ -1,0 +1,42 @@
+!table
+!version 300
+!charset WindowsLatin1
+
+Definition Table
+  Type NATIVE Charset "WindowsLatin1"
+  Fields 27
+    State_Name Char (20) ;
+    State Char (2) ;
+    Fips_Code Char (2) ;
+    Pop_1990 Decimal (10, 0) ;
+    Pop_2000 Decimal (10, 0) ;
+    Num_Hh_1990 Decimal (10, 0) ;
+    Num_Hh_2000 Integer ;
+    Med_Inc_1990 Decimal (10, 0) ;
+    Med_Inc_2000 Float ;
+    Pop_Urban_2000 Integer ;
+    Pop_Rural_2000 Integer ;
+    Pop_Male Decimal (10, 0) ;
+    Pop_Female Decimal (10, 0) ;
+    Pop_Cauc Decimal (10, 0) ;
+    Pop_Black Decimal (10, 0) ;
+    Pop_Native Decimal (10, 0) ;
+    Pop_Asian Decimal (10, 0) ;
+    Pop_Other Decimal (10, 0) ;
+    Sales_1990 Decimal (10, 0) ;
+    AmerIndianAlaskaNat_2000 Decimal (10, 0) ;
+    AsianHawaiianAlone_2000 Decimal (10, 0) ;
+    Pop_Black_2000 Decimal (10, 0) ;
+    Pop_Cauc_Alone_2000 Decimal (10, 0) ;
+    Pop_Asian_Alone_2000 Decimal (10, 0) ;
+    Area_in_Miles_2000 Decimal (10, 0) ;
+    Area_in_Km_2000 Decimal (10, 0) ;
+    URL Char (35) ;
+ReadOnly
+begin_metadata
+"\ActiveObject" = ""
+"\ActiveObject\Expr" = "URL"
+"\ActiveObject\Mode" = "HOTLINK_MODE_BOTH"
+"\ActiveObject\Relative" = "TRUE"
+"\IsReadOnly" = "FALSE"
+end_metadata

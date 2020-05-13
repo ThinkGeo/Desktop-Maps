@@ -1,0 +1,18 @@
+<Case>
+  <TypeName>TopologyValidation.LinesEndPointMustBeCoveredByPointsTopologyTestCase</TypeName>
+  <ID>a2d76301-c8bd-4eb6-b4cd-b628bd2dd073</ID>
+  <Name>Lines End Point Must Be Covered By Points</Name>
+  <Description>Lines End Point Must Be Covered By Points Topology Test Case. Created at 9:50:19 AM Tuesday, September 04, 2012.</Description>
+  <Input>
+    <FirstInputShapes>
+      <WKT>POINT(0 0)</WKT>
+      <WKT>POINT(100 100)</WKT>
+    </FirstInputShapes>
+    <SecondInputShapes>
+      <WKT>LINESTRING(0 0,100 0,100 50)</WKT>
+    </SecondInputShapes>
+  </Input>
+  <Output>
+    <WKT>POINT(100 50)</WKT>
+  </Output>
+</Case>

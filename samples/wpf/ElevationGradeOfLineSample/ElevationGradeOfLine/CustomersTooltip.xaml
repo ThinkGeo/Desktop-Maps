@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="ThinkGeo.MapSuite.DebugSamples.CustomersTooltip"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ThinkGeo.MapSuite.DebugSamples"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             mc:Ignorable="d" 
+             Background="#CC555555" BorderThickness="2" Padding="20 10" BorderBrush="AntiqueWhite"
+             d:DataContext="{d:DesignInstance local:CustomersTooltip}">
+    <ItemsControl ItemsSource="{Binding Data.Points}" Grid.IsSharedSizeScope="True" Height="Auto" Width="Auto">
+        <ItemsControl.ItemTemplate>
+            <DataTemplate DataType="{x:Type lvc:DataPointViewModel}">
+                <Grid Margin="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" SharedSizeGroup="Elevation"/>
+                        <RowDefinition Height="Auto" SharedSizeGroup="Longitude"/>
+                        <RowDefinition Height="Auto" SharedSizeGroup="Latitude"/>
+                        <RowDefinition Height="Auto" SharedSizeGroup="Distance"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Width="Auto" Height="Auto" Margin="1 0 0 0" Text="{Binding ChartPoint.Instance.(local:ChartInformation.Elevation), StringFormat=Elevation: {0} (m)}" Foreground="White" HorizontalAlignment="Left" />
+                    <TextBlock Grid.Row="1" Width="Auto" Height="Auto" Margin="1 0 0 0" Text="{Binding ChartPoint.Instance.(local:ChartInformation.Longitude), StringFormat=Longitude: {0}}" Foreground="White" HorizontalAlignment="Left" />
+                    <TextBlock Grid.Row="2" Width="Auto" Height="Auto" Margin="1 0 0 0" Text="{Binding ChartPoint.Instance.(local:ChartInformation.Latitude), StringFormat=Latitude: {0}}" Foreground="White" HorizontalAlignment="Left" />
+                    <TextBlock Grid.Row="3" Width="Auto" Height="Auto" Margin="1 0 0 0" Text="{Binding ChartPoint.Instance.(local:ChartInformation.Distance), StringFormat=Distance: {0} (km)}" Foreground="White" HorizontalAlignment="Left" />
+                </Grid>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
+</UserControl>

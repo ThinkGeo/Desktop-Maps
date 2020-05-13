@@ -1,0 +1,12 @@
+﻿<Window x:Class="GoogleMapToGeodetic.TestWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+          xmlns:my="clr-namespace:ThinkGeo.MapSuite.Wpf;assembly=ThinkGeo.MapSuite.Wpf"
+    Title="Code Community-Google Map to Geodetic" Height="640" Width="800"
+        Loaded="Window_Loaded" >
+    <Grid>
+        <my:WpfMap Name="wpfMap1" MouseMove="wpfMap1_MouseMove" />
+        <TextBox Name="textBox1" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
+        <Button HorizontalAlignment="Right" Name="Button1" VerticalAlignment="Bottom" Click="Button1_Click">To ThinkGeo Cloud Map</Button>
+    </Grid>
+</Window>

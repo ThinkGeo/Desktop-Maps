@@ -1,0 +1,15 @@
+﻿<Window x:Class="MapLoadingProgress.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wpf="clr-namespace:ThinkGeo.MapSuite.Wpf;assembly=ThinkGeo.MapSuite.Wpf"
+        xmlns:local="clr-namespace:MapLoadingProgress"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="800">
+    <Grid>
+        <wpf:WpfMap x:Name="map" Loaded="map_Loaded"/>
+        <ProgressBar x:Name="loadingProgressBar" Width="200" Height="20" Maximum="100" Visibility="Hidden"></ProgressBar>
+        <TextBlock x:Name="loadingProgressTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    </Grid>
+</Window>

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2002
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RenderingPointsPerformanceTest", "RenderingPointsPerformanceTest\RenderingPointsPerformanceTest.csproj", "{9EE99BA2-C6F0-41EC-9E36-27C404F219CE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9EE99BA2-C6F0-41EC-9E36-27C404F219CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EE99BA2-C6F0-41EC-9E36-27C404F219CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EE99BA2-C6F0-41EC-9E36-27C404F219CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EE99BA2-C6F0-41EC-9E36-27C404F219CE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C23D6DC2-7B0B-4976-B06C-6C8BBE7475D9}
+	EndGlobalSection
+EndGlobal

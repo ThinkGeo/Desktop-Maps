@@ -1,0 +1,24 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LabelingFlightLines"
+        xmlns:WpfDesktopEdition="clr-namespace:ThinkGeo.MapSuite.Wpf;assembly=ThinkGeo.MapSuite.Wpf" x:Class="LabelingFlightLines.MainWindow"
+        mc:Ignorable="d"
+        Title="Labeling Flight Lines" Height="768" Width="1024" Loaded="WindowLoaded">
+    <Grid>
+        <WpfDesktopEdition:WpfMap Grid.Column="1" Name="map"/>
+        <StackPanel Grid.Column="0" Width="160" Height="Auto" HorizontalAlignment="Right" VerticalAlignment="Top" Name="flightsInfoPanel" Margin="0,5,5,0" Background="LightGray" Opacity="0.7">
+            <Label FontWeight="Bold">Flights Info:</Label>
+            <TextBlock Margin="5,5,5,5" TextWrapping="Wrap" FontWeight="Light">Click a radio button to show information popups for a flight.</TextBlock>
+            <ItemsControl Name="FlightsList" BorderThickness="0" Background="LightGray" Margin="5,5,5,5">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <RadioButton GroupName="FlightsGroup" Margin="2" Checked="DisplayFlightsPopup" Content="{Binding Key}" DataContext="{Binding}"></RadioButton>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </Grid>
+</Window>

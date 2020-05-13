@@ -1,0 +1,62 @@
+﻿<Window x:Class="FourColorMap.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wpf="clr-namespace:ThinkGeo.MapSuite.Wpf;assembly=ThinkGeo.MapSuite.Wpf"
+        xmlns:local="clr-namespace:FourColorMap"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="768" Width="1024">
+    <Window.Resources>
+        <Style x:Key="HeaderBorder">
+            <Setter Property="Border.BorderThickness" Value="0,0,0,5" />
+            <Setter Property="Border.Padding" Value="10"/>
+            <Setter Property="Border.Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStop Offset="0" Color="#ffffff" />
+                            <GradientStop Offset="0.4" Color="#fafafa" />
+                            <GradientStop Offset="0.55" Color="#f2f2f2" />
+                            <GradientStop Offset="0.6" Color="#f0f0f0" />
+                            <GradientStop Offset="0.9" Color="#e2e2e2" />
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Border.BorderBrush">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStop Offset="0.85" Color="#5c707d" />
+                            <GradientStop Offset="1" Color="#305c707d" />
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" Style="{StaticResource HeaderBorder}">
+            <TextBlock VerticalAlignment="Center" >
+                        <Run FontSize="16">Map Suite</Run>
+                        <Run FontSize="20">Four Color Map</Run>
+            </TextBlock>
+        </Border>
+        <Grid Grid.Row="1">
+            <wpf:WpfMap x:Name="map" Loaded="LoadMap"/>
+            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Right" Margin="10">
+                <CheckBox Content="Show Four Color Map" Click="FourColorMapCheckBoxClick"></CheckBox>
+            </StackPanel>
+            <StackPanel Name="progressPanel" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden">
+                <ProgressBar Height="20px" Width="250px" IsIndeterminate="True" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10 0"></ProgressBar>
+                <Label Content="Rrocessing four-colors features, it will take long time base on your features count." VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

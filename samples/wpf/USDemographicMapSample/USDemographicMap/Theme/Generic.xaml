@@ -1,0 +1,183 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:ThinkGeo.MapSuite.USDemographicMap">
+    <local:BooleanToVisibilityConverter x:Key="BoolToVisibility" />
+    <Thickness x:Key="TitleMargin" Left="5" Top="0" Right="0" Bottom="0" />
+    <!--BaseStyles-->
+    <Style x:Key="ControlFont" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="#000000" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+
+    <!--Main Form Styles-->
+    <Style x:Key="body" TargetType="Grid">
+        <Setter Property="Margin"  Value="10 10 10 10" />
+    </Style>
+    <Style x:Key="sampleBody" TargetType="Grid">
+        <Setter Property="Margin"  Value="0 0 0 0" />
+    </Style>
+    <Style x:Key="h1" BasedOn="{StaticResource ControlFont}" TargetType="{x:Type TextBlock}">
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="FontSize" Value="30" />
+        <Setter Property="FontWeight" Value="Regular" />
+    </Style>
+    <Style x:Key="h2" BasedOn="{StaticResource ControlFont}" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="26" />
+        <Setter Property="FontWeight" Value="Regular" />
+    </Style>
+    <Style x:Key="h3" BasedOn="{StaticResource ControlFont}" TargetType="{x:Type Run}">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontWeight" Value="Normal" />
+    </Style>
+    <Style x:Key="h4" BasedOn="{StaticResource ControlFont}" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="Regular" />
+    </Style>
+    <Style x:Key="bodyHeaderText" BasedOn="{StaticResource ControlFont}" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="Foreground" Value="DarkSlateBlue" />
+    </Style>
+    <Style x:Key="bodyHeaderText1" BasedOn="{StaticResource ControlFont}" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="DarkSlateGray" />
+    </Style>
+    <Style x:Key="bodyHeaderText2" BasedOn="{StaticResource ControlFont}" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="Foreground" Value="Black" />
+    </Style>
+    <Style x:Key="CategoryHeaderText" BasedOn="{StaticResource ControlFont}" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Margin" Value="10 0 0 0" />
+    </Style>
+    <Style x:Key="bodyText" BasedOn="{StaticResource ControlFont}" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="Regular" />
+        <Setter Property="Margin" Value="0 10 20 10" />
+    </Style>
+    <Style x:Key="bodyText1" BasedOn="{StaticResource ControlFont}" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Margin" Value="0" />
+    </Style>
+    <Style x:Key="grayBodyText1" BasedOn="{StaticResource bodyText}" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="#999ca4" />
+    </Style>
+    <Style x:Key="grayBodyText2" BasedOn="{StaticResource bodyText}" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="#878787" />
+    </Style>
+
+    <!--Image Buttons/tiles-->
+    <Thickness x:Key="TitleImageButtonMargin" Left="10" Top="0" Right="0" Bottom="0" />
+    <Thickness x:Key="PieChartImageButtonMargin" Left="0" Top="0" Right="10" Bottom="0" />
+
+    <!--Image Style-->
+    <Style x:Key="msImage" TargetType="Image">
+        <Setter Property="Stretch" Value="None" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="RenderOptions.BitmapScalingMode" Value="NearestNeighbor" />
+    </Style>
+
+    <!--CheckBox-->
+    <Style x:Key="msCheckBox" TargetType="CheckBox">
+        <Setter Property="Margin" Value="20 0 0 0"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="ToolTip" Value="Select to include this data point in the map's pie charts."/>
+    </Style>
+
+    <!--ComboBox-->
+    <Style x:Key="ColorSelectBox" TargetType="{x:Type ComboBox}">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="MinWidth" Value="60" />
+        <Setter Property="UIElement.SnapsToDevicePixels" Value="True" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
+        <Setter Property="TextElement.Foreground" Value="Black" />
+        <Setter Property="FrameworkElement.FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="BorderBrush" Value="#a17977" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="Width" Value="150" />
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Grid Margin="0 2 0 2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Rectangle Grid.Column="0" Width="30" Height="20" Fill="White" Stroke="Gray" StrokeThickness="1" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        <Rectangle Grid.Column="0" Width="26" Height="16" Fill="{Binding ColorBrush}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        <TextBlock Grid.Column="2" Text="{Binding ColorName}" Style="{StaticResource bodyText1}" FontSize="14" VerticalAlignment="Center" />
+                    </Grid>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <ControlTemplate x:Key="ToggleButtonTemplate">
+        <Image Cursor="Hand" ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent},Path=ToolTip}" Stretch="None" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="NearestNeighbor" RenderOptions.EdgeMode="Aliased" >
+            <Image.Resources>
+                <Style TargetType="Image">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IsChecked}" Value="True">
+                            <Setter Property="Source" Value="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Tag}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IsChecked}" Value="false">
+                            <Setter Property="Source" Value="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Content}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Image.Resources>
+        </Image>
+    </ControlTemplate>
+    <ControlTemplate x:Key="ImageButtonTemplate" TargetType="Button">
+        <Grid>
+            <Image Stretch="None" 
+                   SnapsToDevicePixels="True"
+                   RenderOptions.BitmapScalingMode ="NearestNeighbor"
+                   Visibility="Visible" >
+                <Image.Resources>
+                    <Style TargetType="Image">
+                        <Setter Property="Cursor" Value="Hand" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="BitmapEffect">
+                                    <Setter.Value>
+                                        <DropShadowBitmapEffect Color="#FE6F3F" Opacity="0.75" ShadowDepth="0" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IsEnabled}" Value="True">
+                                <Setter Property="Source" Value="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Content}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IsEnabled}" Value="false">
+                                <Setter Property="Source" Value="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Tag}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Resources>
+            </Image>
+        </Grid>
+    </ControlTemplate>
+</ResourceDictionary>

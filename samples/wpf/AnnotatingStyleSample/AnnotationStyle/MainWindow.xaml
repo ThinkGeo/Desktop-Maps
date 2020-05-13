@@ -1,0 +1,74 @@
+﻿<Window x:Class="ThinkGeo.Sample.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:tg="clr-namespace:ThinkGeo.MapSuite.Wpf;assembly=ThinkGeo.MapSuite.Wpf"
+        xmlns:tgs="clr-namespace:ThinkGeo.Samples"
+        mc:Ignorable="d"
+        Icon="Resources/thinkgeo_icon_transparent.ico"
+        Title="Annotation Style - ThinkGeo Wpf Sample" Height="768" Width="1024" Background="#cccccc" Loaded="Window_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="81"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="35"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1" x:Name="ContentGrid" Background="White" Margin="8 8 8 8">
+            <Border  BorderBrush="White" BorderThickness="4">
+                <Grid x:Name="MainContent">
+                    <tg:WpfMap x:Name="mapView" />
+
+                    <ContentControl Width="290" Height="140" Opacity="0.8"
+                                          HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,5,0">
+                        <ContentControl.Template>
+                            <ControlTemplate>
+                                <Border Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" BorderBrush="#ff7cabc5" BorderThickness="1">
+                                    <Border.Background>
+                                        <LinearGradientBrush EndPoint="0.504,1.391" StartPoint="0.505,-0.257">
+                                            <GradientStop Color="#fafafa" Offset="0" />
+                                            <GradientStop Color="#ECECEC" Offset="0.7" />
+                                            <GradientStop Color="#e7e7e7" Offset="0.95" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="Gray" BlurRadius="4" Opacity="0.6"></DropShadowEffect>
+                                    </Border.Effect>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="25"></RowDefinition>
+                                            <RowDefinition Height="*"></RowDefinition>
+                                            <RowDefinition Height="Auto"></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <StackPanel Grid.Row="0" Background="#ffd5e6f5">
+                                            <TextBlock Text="Details" Margin="6" FontSize="12" FontWeight="Bold"></TextBlock>
+                                        </StackPanel>
+
+                                        <Border Grid.Row="1" BorderBrush="#cfcfcf" Background="White" BorderThickness="0,1,0,1">
+                                            <StackPanel Margin="4">
+                                                <Grid Margin="5">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="50"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock TextWrapping="Wrap" FontWeight="DemiBold" Grid.Row="0" Margin="0,0,0,-11" Grid.RowSpan="3">
+                                This sample demonstrates how to use AnnotationStyle to display and edit a feature depending on the value of a specific property in its data source.
+                                                    </TextBlock>
+                                                </Grid>
+                                            </StackPanel>
+                                        </Border>
+
+                                        <Button Grid.Row="2" Margin="6" Click="EditAnnotationClicked">Edit</Button>
+                                    </Grid>
+                                </Border>
+                            </ControlTemplate>
+                        </ContentControl.Template>
+                    </ContentControl>
+                </Grid>
+            </Border>
+        </Grid>
+        <tgs:Banner Grid.Row="0" HorizontalAlignment="Stretch" x:Name="sampleBanner1" VerticalAlignment="Top" Height="81" />
+        <tgs:Footer Grid.Row="2" HorizontalAlignment="Stretch" Margin="12,0" x:Name="sampleFooter1" VerticalAlignment="Top" MinWidth="978" />
+    </Grid>
+</Window>

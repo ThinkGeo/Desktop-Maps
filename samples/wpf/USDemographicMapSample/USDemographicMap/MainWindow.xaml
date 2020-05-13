@@ -1,0 +1,369 @@
+﻿<Window x:Class="ThinkGeo.MapSuite.USDemographicMap.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:ThinkGeo.MapSuite.USDemographicMap"
+        xmlns:wpf="clr-namespace:ThinkGeo.MapSuite.Wpf;assembly=ThinkGeo.MapSuite.Wpf"
+        Title="US Demographic Map" Height="675" Width="1155" WindowState="Maximized" Icon="/MapSuiteUSDemographicMap;Component/Image/MapSuite.ico" Loaded="Window_Loaded">
+    <Window.Resources>
+        <ResourceDictionary>
+            <Style x:Key="ColumnItemList" TargetType="ListBox">
+                <Style.Resources>
+                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource ColumnDataSelectionItem}" />
+                </Style.Resources>
+                <Setter Property="SelectionMode" Value="Single"/>
+                <Setter Property="Margin" Value="20 5 0 0" />
+                <Setter Property="ItemsSource" Value="{Binding Columns}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <StackPanel IsItemsHost="True" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="ItemTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <Grid Width="250" Margin="0 3 0 3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding Alias}" Style="{StaticResource bodyText1}" />
+
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center" Orientation="Horizontal">
+                                    <Button Width="20" ToolTip="Present the data in Value Circles."
+                                            Template="{StaticResource ImageButtonTemplate}"
+                                            Margin="{StaticResource TitleImageButtonMargin}" VerticalAlignment="Center" Click="ValueCirclesClick"
+                                            Content="/MapSuiteUSDemographicMap;Component/Image/valueCircle.png" 
+                                            Tag="/MapSuiteUSDemographicMap;Component/Image/valueCircle_Disable.png" />
+                                    <Button Width="20" ToolTip="Present the data in Thematic Colors."
+                                            Template="{StaticResource ImageButtonTemplate}"
+                                            Margin="{StaticResource TitleImageButtonMargin}" VerticalAlignment="Center" Click="ThematicColorsClick"
+                                            Content="/MapSuiteUSDemographicMap;Component/Image/thematic.png" 
+                                            Tag="/MapSuiteUSDemographicMap;Component/Image/thematic_Disable.png" />
+                                    <Button Width="20" ToolTip="Present the data with Dot Density."
+                                            Template="{StaticResource ImageButtonTemplate}"
+                                            Margin="{StaticResource TitleImageButtonMargin}" VerticalAlignment="Center" Click="DotDensityClick"
+                                            Content="/MapSuiteUSDemographicMap;Component/Image/dotdensity.png" 
+                                            Tag="/MapSuiteUSDemographicMap;Component/Image/dotdensity_Disable.png" />
+                                </StackPanel>
+
+                                <CheckBox Grid.Column="2" Click="ColumnCheckBox_Click" Style="{StaticResource msCheckBox}"
+                                          IsChecked="{Binding IsSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding CheckBoxVisiblity}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Style="{StaticResource sampleBody}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Border BorderThickness="0,0,0,5" Padding="10" CornerRadius="2" KeyboardNavigation.TabNavigation="Local"
+                            KeyboardNavigation.DirectionalNavigation="Contained" KeyboardNavigation.TabIndex="2">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <LinearGradientBrush.GradientStops>
+                        <GradientStop Offset="0" Color="#ffffff" />
+                        <GradientStop Offset="0.4" Color="#fafafa" />
+                        <GradientStop Offset="0.55" Color="#f2f2f2" />
+                        <GradientStop Offset="0.6" Color="#f0f0f0" />
+                        <GradientStop Offset="0.9" Color="#e2e2e2" />
+                    </LinearGradientBrush.GradientStops>
+                </LinearGradientBrush>
+            </Border.Background>
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <LinearGradientBrush.GradientStops>
+                        <GradientStop Offset="0.85" Color="#5c707d" />
+                        <GradientStop Offset="1" Color="#305c707d" />
+                    </LinearGradientBrush.GradientStops>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Style="{StaticResource ControlFont}" Margin="{StaticResource TitleMargin}">
+                    <Run FontSize="16">Map Suite</Run>
+                    <Run FontSize="20">US Demographic Map</Run>
+                </TextBlock>
+            </StackPanel>
+        </Border>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="5" />
+                </Grid.ColumnDefinitions>
+                <Grid x:Name="gridDockPanel" HorizontalAlignment="Left">
+                    <Grid.Resources>
+                        <Style TargetType="Grid">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=CollapseToggleButton,Path=IsChecked}" Value="true">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Resources>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <TextBlock 
+                       Style="{StaticResource h4}"
+                       Text="Select data for display:"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                       Width="290"
+                       Margin="5 0 0 0"
+                       TextWrapping="Wrap" />
+                        </Grid>
+                        <Border Grid.Row="1" BorderBrush="LightGray" BorderThickness="1" CornerRadius="5" Margin="5 10 0 0">
+                            <ListBox Margin="5 5 5 5"
+                                     BorderBrush="Transparent" SelectionMode="Single"
+                                     ItemsSource="{Binding CategoryList}" SelectedItem="{Binding SelectedCategory,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                <ListBox.Resources>
+                                    <Style BasedOn="{StaticResource CategoryDataSelectionItem}" TargetType="{x:Type ListBoxItem}"/>
+                                </ListBox.Resources>
+                                <ListBox.ItemTemplateSelector>
+                                    <local:CategoryItemTemplateSelector>
+                                        <local:CategoryItemTemplateSelector.DefaultDataTemplate>
+                                            <DataTemplate>
+                                                <Grid Width="280">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="45" />
+                                                        <RowDefinition Height="auto" />
+                                                    </Grid.RowDefinitions>
+                                                    <Border BorderBrush="LightGray" Grid.Row="0" BorderThickness="0 0 0 1">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="auto" />
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="auto" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Image Grid.Column="0" Source="{Binding CategoryImage}" Style="{StaticResource msImage}" />
+                                                            <TextBlock Text="{Binding Title}" Grid.Column="1" Style="{StaticResource CategoryHeaderText}" />
+                                                            <Button Template="{StaticResource ImageButtonTemplate}"
+                                                                    Margin="{StaticResource PieChartImageButtonMargin}"
+                                                                    Visibility="{Binding RelativeSource={RelativeSource FindAncestor,
+                                                                    AncestorType={x:Type ListBoxItem}}, Path=IsSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,
+                                                                    Converter={StaticResource BoolToVisibility}}"
+                                                                    Height="20" Width="20" Grid.Column="2"
+                                                                    VerticalAlignment="Center" ToolTip="Display pie charts on the map representing the breakdown of all data points selected below."
+                                                                    IsEnabled="{Binding CanUsePieView,Mode=TwoWay}"
+                                                                    Click="PieChartClick"
+                                                                    Content="/MapSuiteUSDemographicMap;Component/Image/pie.png"
+                                                                    Tag="/MapSuiteUSDemographicMap;Component/Image/pie_Disable.png" />
+                                                        </Grid>
+                                                    </Border>
+                                                    <ListBox Grid.Row="1" Visibility="{Binding RelativeSource={RelativeSource FindAncestor,
+                                        AncestorType={x:Type ListBoxItem}}, Path=IsSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,
+                                        Converter={StaticResource BoolToVisibility}}" Style="{StaticResource ColumnItemList}" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </local:CategoryItemTemplateSelector.DefaultDataTemplate>
+                                        <local:CategoryItemTemplateSelector.CustomDataTemplate>
+                                            <DataTemplate>
+                                                <Grid Width="280">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="45" />
+                                                        <RowDefinition Height="auto" />
+                                                    </Grid.RowDefinitions>
+                                                    <Border BorderBrush="LightGray" Grid.Row="0" BorderThickness="0 0 0 1">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="auto" />
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="auto" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Image Grid.Column="0" Source="{Binding CategoryImage}"  Style="{StaticResource msImage}" />
+                                                            <TextBlock Text="{Binding Title}" Grid.Column="1" Style="{StaticResource CategoryHeaderText}" />
+                                                            <Button Template="{StaticResource ImageButtonTemplate}" 
+                                                                Margin="{StaticResource PieChartImageButtonMargin}"
+                                                                                Visibility="{Binding RelativeSource={RelativeSource FindAncestor,
+                                                                                AncestorType={x:Type ListBoxItem}}, Path=IsSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,
+                                                                                Converter={StaticResource BoolToVisibility}}"
+                                                                                Height="20" Width="20" Grid.Column="2"
+                                                                                VerticalAlignment="Center" ToolTip="Display pie charts on the map representing the breakdown of all data points selected below."
+                                                                                IsEnabled="{Binding CanUsePieView,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                                Click="PieChartClick"
+                                                                                Content="/MapSuiteUSDemographicMap;Component/Image/pie.png"
+                                                                                Tag="/MapSuiteUSDemographicMap;Component/Image/pie_Disable.png" />
+                                                        </Grid>
+                                                    </Border>
+                                                    <Grid Grid.Row="1" Margin="0 5 0 0" Visibility="{Binding RelativeSource={RelativeSource FindAncestor,
+                                        AncestorType={x:Type ListBoxItem}}, Path=IsSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,
+                                        Converter={StaticResource BoolToVisibility}}">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto" />
+                                                            <RowDefinition Height="auto" />
+                                                        </Grid.RowDefinitions>
+                                                        <StackPanel Grid.Row="0" HorizontalAlignment="Left" Orientation="Horizontal">
+                                                            <TextBox Width="180" IsEnabled="False" Text="{Binding CustomDataFilePathName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                                            <Button Margin="10 0 0 0" Content="Browse" Width="80" Click="BrowseCustomDataClick" />
+                                                        </StackPanel>
+                                                        <ListBox Grid.Row="1" Style="{StaticResource ColumnItemList}" />
+                                                    </Grid>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </local:CategoryItemTemplateSelector.CustomDataTemplate>
+                                    </local:CategoryItemTemplateSelector>
+                                </ListBox.ItemTemplateSelector>
+                            </ListBox>
+                        </Border>
+                        <Grid Grid.Row="2" Margin="5 10 0 10" VerticalAlignment="Top">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="35"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="140"/>
+                                    <ColumnDefinition Width="150"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Style="{StaticResource bodyHeaderText2}" Text="{Binding DisplayColorText}"/>
+                                <ComboBox x:Name="cmbSelectColor" Grid.Row="0" Grid.Column="1"  Style="{StaticResource ColorSelectBox}" SelectedItem="{Binding SelectedColorItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                            ItemsSource="{Binding GeoColorList}" />
+                                <Grid Visibility="{Binding ThematicVisibility}" Grid.Row="1" Grid.ColumnSpan="2">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="35"/>
+                                        <RowDefinition Height="35"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="140"/>
+                                        <ColumnDefinition Width="150"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock VerticalAlignment="Center" Grid.Row="0" Grid.Column="0"  Style="{StaticResource bodyHeaderText2}" Text="Display End Color:" />
+                                    <ComboBox Grid.Row="0" Grid.Column="1"  Style="{StaticResource ColorSelectBox}" SelectedItem="{Binding SelectedEndColorItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                ItemsSource="{Binding GeoColorList}" />
+                                    <TextBlock VerticalAlignment="Center" Grid.Row="1" Grid.Column="0"  Style="{StaticResource bodyHeaderText2}" Text="ColorWheelDirection:" />
+                                    <ComboBox Grid.Row="1" Grid.Column="1" Style="{StaticResource ColorSelectBox}"
+                                                ItemsSource="{Binding ColorWheelDirections}"
+                                                SelectedItem="{Binding SelectedColorWheelDirection,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" >
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding .}" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </Grid>
+                            </Grid>
+                            <Grid Visibility="{Binding DotDensityVisibility}" Grid.Row="2" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" VerticalAlignment="Top" Margin="0 13 0 0" Style="{StaticResource bodyHeaderText2}" Text="DotDensity Unit:" />
+                                <Grid Grid.Column="1"
+                                      Width="170"
+                                      Margin="0 10 0 0"
+                                      HorizontalAlignment="Left">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="2" />
+                                        <RowDefinition Height="auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Slider Grid.Row="0"
+                                            Grid.ColumnSpan="3"
+                                            Maximum="5"
+                                            Minimum="1"
+                                            Value="3"
+                                            Width="160"
+                                            HorizontalAlignment="Right"
+                                            Focusable="False"
+                                            x:Name="sldDotDensityDemographicStyleDotsCount"
+                                            IsSnapToTickEnabled="True"
+                                            TickPlacement="BottomRight"
+                                            Thumb.DragCompleted="DotDensityStyleDotsCountSlider_DragCompleted"
+                                            ButtonBase.Click="DotDensityStyleDotsCountSlider_Click"
+                                            ValueChanged="DotDensityStyleDotsCountSlider_ValueChanged" />
+                                    <TextBlock Grid.Row="2"
+                                               Grid.Column="0"
+                                               Style="{StaticResource bodyText1}"
+                                               FontSize="10"
+                                               Text="Fewer dots" />
+                                    <TextBlock Grid.Row="2"
+                                               Grid.Column="2"
+                                               Style="{StaticResource bodyText1}"
+                                               FontSize="10"
+                                               Text="More dots" />
+                                </Grid>
+                            </Grid>
+                            <Grid Visibility="{Binding ValueCircleVisibility}" Grid.Row="2" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0"
+                                           Style="{StaticResource bodyHeaderText2}"
+                                           Text="MAGNIFICATION:"
+                                           VerticalAlignment="Bottom"
+                                           Margin="0 0 0 3" />
+                                <Slider x:Name="sldValueCircleDemographicStyleRadius"
+                                        Grid.Column="1"
+                                        Margin="0 10 0 0"
+                                        Width="160"
+                                        Maximum="5"
+                                        Minimum="1"
+                                        Value="3"
+                                        Focusable="False"
+                                        IsSnapToTickEnabled="True"
+                                        TickPlacement="BottomRight"
+                                        ValueChanged="ValueCircleStyleRadiusSlider_ValueChanged"
+                                        Thumb.DragCompleted="ValueCircleStyleRadiusSlider_DragCompleted"
+                                        ButtonBase.Click="ValueCircleStyleRadiusSlider_Click" />
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <ToggleButton x:Name="CollapseToggleButton" Content="/Image/Collapse.gif" Tag="/Image/Expand.gif" Template="{StaticResource ToggleButtonTemplate}" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Cursor="Hand" Background="Transparent"  BorderBrush="Transparent" />
+                <Rectangle Grid.Row="0" Grid.Column="2">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="#5c707d" Offset="0"></GradientStop>
+                            <GradientStop Color="#305c707d" Offset="1"></GradientStop>
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Grid>
+            <wpf:WpfMap x:Name="wpfMap" Grid.Column="1" Panel.ZIndex="-1"/>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Border BorderBrush="Gray" BorderThickness="0 1 0 0">
+                <StatusBar Height="30">
+                    <StatusBarItem  HorizontalContentAlignment="Stretch">
+                        <Grid HorizontalAlignment="Right">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding CoordinateX,StringFormat=X:{0:N6}}"  HorizontalAlignment="Right" Width="75" VerticalAlignment="Center" Grid.Column="0"/>
+                            <TextBlock Text="{Binding CoordinateY,StringFormat=Y:{0:N6}}" VerticalAlignment="Center" Width="75" Grid.Column="2" />
+                        </Grid>
+                    </StatusBarItem>
+                </StatusBar>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

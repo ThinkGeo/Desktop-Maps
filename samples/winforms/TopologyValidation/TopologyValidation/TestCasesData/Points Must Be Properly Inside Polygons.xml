@@ -1,0 +1,20 @@
+<Case>
+  <TypeName>TopologyValidation.PointsMustBeProperlyInsidePolygonsTopologyTestCase</TypeName>
+  <ID>60ad3780-c377-4ad5-bf5e-bc7fc6f99245</ID>
+  <Name>Points Must Be Properly Inside Polygons</Name>
+  <Description>Points Must Be Properly Inside Polygons Topology Test Case. Created at 5:21:01 PM Saturday, August 25, 2012.</Description>
+  <Input>
+    <FirstInputShapes>
+      <WKT>POINT(0 0)</WKT>
+      <WKT>POINT(50 50)</WKT>
+      <WKT>POINT(150 0)</WKT>
+    </FirstInputShapes>
+    <SecondInputShapes>
+      <WKT>POLYGON((0 0,100 0,100 100,0 100,0 0))</WKT>
+    </SecondInputShapes>
+  </Input>
+  <Output>
+    <WKT>POINT(0 0)</WKT>
+    <WKT>POINT(150 0)</WKT>
+  </Output>
+</Case>

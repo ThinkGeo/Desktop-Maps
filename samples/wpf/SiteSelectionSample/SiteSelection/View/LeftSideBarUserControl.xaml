@@ -1,0 +1,111 @@
+﻿<UserControl x:Class="ThinkGeo.MapSuite.SiteSelection.LeftSideBarUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ThinkGeo.MapSuite.SiteSelection"
+             mc:Ignorable="d"
+             d:DesignHeight="800" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <local:BoolToVisibilityConvertor x:Key="BoolToVisibilityConvertor" />
+            <local:CreateAreaModeToBoolConvertor x:Key="CreateAreaModeToBoolConvertor" />
+            <local:DistanceUnitToTextConvertor x:Key="DistanceUnitToTextConvertor" />
+            <local:TrackModeToBoolConvertor x:Key="TrackModeToBoolConvertor"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Margin="5 10 5 10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
+            <StackPanel>
+                <TextBlock Text="Highlight points of this type:" 
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center" 
+                       Margin="0 0 0 10"
+                       Style="{StaticResource h4}" />
+                <Border  Grid.Row="1" Style="{StaticResource fileset}">
+                    <StackPanel>
+                        <ComboBox x:Name="LbxCategory" SelectedValue="Medical Facilities"
+                          Text="Medical Facilities" Style="{StaticResource msComboBox}"
+                          ItemsSource="{Binding CandidatePoiLayers}"
+                          SelectedItem="{Binding SelectedCandidatePoiLayer,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <ComboBox x:Name="lbxSubType" SelectedValue="HOSP"
+                          Text="HOSP" Style="{StaticResource msComboBox}"
+                          ItemsSource="{Binding CandidatePoiTypes}"
+                          SelectedItem="{Binding SelectedCandidatePoiType,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <TextBlock Style="{StaticResource h4}" Text="Place the center pin on the map to highlight points of interest within a specified area around where you clicked:" TextWrapping="Wrap" Margin="0 10 0 10"></TextBlock>
+            <Border Grid.Row="3" Style="{StaticResource fileset}">
+                <StackPanel Orientation="Horizontal">
+                    <local:ImageCheckBox Style="{StaticResource TitleImageCheckBox}" ToolTip="Switch current map to pan mode." CheckImageSource="/MapSuiteSiteSelection;component/Image/pan.png"
+                                         IsChecked="{Binding MapControlTrackMode,Converter={StaticResource TrackModeToBoolConvertor},ConverterParameter=Pan,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    <local:ImageCheckBox Style="{StaticResource TitleImageCheckBox}" ToolTip="Place the center pin on the map." CheckImageSource="/MapSuiteSiteSelection;component/Image/drawPoint.png"
+                                         IsChecked="{Binding MapControlTrackMode,Converter={StaticResource TrackModeToBoolConvertor},ConverterParameter=DrawPoint,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                    <local:ImageButton x:Name="btnClearAll" Style="{StaticResource TitleImageButton}" ToolTip="Reset your selection."
+                                       Command="{Binding ClearAllCommand}" ImageSource="/MapSuiteSiteSelection;component/Image/clear.png" />
+                </StackPanel>
+            </Border>
+
+            <TextBlock Style="{StaticResource h4}" Text="Area Type:" Margin="0 10 0 10"></TextBlock>
+            <Border  Grid.Row="1" Style="{StaticResource fileset}">
+                <StackPanel x:Name="queriedResut" IsEnabled="{Binding QueryEnabled,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                    <RadioButton x:Name="rbtRouteArea" Style="{StaticResource msRadioButton}" IsChecked="{Binding CreateAreasMode,Converter={StaticResource CreateAreaModeToBoolConvertor},ConverterParameter=Route}"
+                                 GroupName="ServiceAreaCfg" VerticalContentAlignment="Center" Content="Service Area"/>
+                    <StackPanel Orientation="Horizontal" Margin="15 0 0 0" IsEnabled="{Binding CanSetBufferProperty,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                Visibility="{Binding IsChecked,ElementName=rbtRouteArea,Converter={StaticResource BoolToVisibilityConvertor}}">
+                        <TextBlock Style="{StaticResource bodyTextWithDisable}" Text="Service Area in"></TextBlock>
+                        <TextBox Style="{StaticResource msTextBox}" Width="50" Height="25" Text="{Binding DrivingTimeInMinutes,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                        <TextBlock Style="{StaticResource bodyTextWithDisable}" Text="Minutes driving"></TextBlock>
+                    </StackPanel>
+                    <RadioButton x:Name="rbtBufferArea" Style="{StaticResource msRadioButton}" IsChecked="{Binding CreateAreasMode,Converter={StaticResource CreateAreaModeToBoolConvertor},ConverterParameter=Buffer}"
+                                 Content="Buffered Area" GroupName="ServiceAreaCfg" VerticalContentAlignment="Center"></RadioButton>
+                    <StackPanel Orientation="Horizontal" Margin="15 0 0 0" IsEnabled="{Binding CanSetBufferProperty,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                Visibility="{Binding IsChecked,ElementName=rbtBufferArea,Converter={StaticResource BoolToVisibilityConvertor}}">
+                        <TextBlock Style="{StaticResource bodyTextWithDisable}" Text="Buffer Distance:"></TextBlock>
+                        <TextBox Style="{StaticResource msTextBox}" Width="60" Height="25" Text="{Binding Distance,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                        <ComboBox Width="90" Height="25" SelectedItem="{Binding BufferDistanceUnit,Mode=TwoWay,Converter={StaticResource DistanceUnitToTextConvertor},UpdateSourceTrigger=PropertyChanged}">
+                            <ComboBoxItem Content="Miles" IsSelected="True" />
+                            <ComboBoxItem Content="Kilometers" />
+                        </ComboBox>
+                    </StackPanel>
+                    <Button x:Name="btnApplyToMap" Content="Apply" Width="90" Height="25" Margin="0 0 2 0" VerticalContentAlignment="Center" 
+                            HorizontalAlignment="Right" Command="{Binding ApplySettingsCommand}"/>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="5" Style="{StaticResource headerBanner}">
+                <TextBlock Style="{StaticResource headerText2}" Text="Pertential Similar Sites"></TextBlock>
+            </Border>
+        </StackPanel>
+        <ListView Grid.Row="1" ItemsSource="{Binding QueryResult}" SelectedItem="{Binding SelectedHistory,Mode=TwoWay}"
+                  Margin="0 10 0 10" Visibility="{Binding QueryResultVisibility,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+            <ListView.View>
+                <GridView x:Name="GridView">
+                    <GridViewColumn Width="36"
+                                        Header="">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <local:ImageButton x:Name="btnZoomTo" Visibility="{Binding IsDisplayZoomTo,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,Converter={StaticResource BoolToVisibilityConvertor}}"
+                                                               Command="{Binding ZoomToFeatureCommand}" Style="{StaticResource TitleImageButton}" ImageSource="/MapSuiteSiteSelection;component/Image/Find.png" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="220"
+                                                DisplayMemberBinding="{Binding Name}"
+                                                Header="Name" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</UserControl>

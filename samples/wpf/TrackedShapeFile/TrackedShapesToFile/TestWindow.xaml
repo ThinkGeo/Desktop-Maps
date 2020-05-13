@@ -1,0 +1,18 @@
+﻿<Window x:Class="TrackedShapesToFile.TestWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+          xmlns:my="clr-namespace:ThinkGeo.MapSuite.Wpf;assembly=ThinkGeo.MapSuite.Wpf"
+    Title="Code Community-Tracked Shapes to File" Height="640" Width="800"
+        Loaded="Window_Loaded" >
+    <Grid>
+        <my:WpfMap Name="wpfMap1" MouseMove="wpfMap1_MouseMove" />
+        <TextBox Grid.Row="1" Name="textBox1" VerticalAlignment="Bottom" Grid.ColumnSpan="5" HorizontalAlignment="Left"/>
+        
+        <GroupBox Height="78" Margin="0,12,12,0" Name="groupBox1" VerticalAlignment="Top" Background="LightGray" HorizontalAlignment="Right" Width="184">
+            <Grid Height="63" Width="167">
+                <RadioButton Margin="18,6,58,0" GroupName="TrackMode" Name="radioButtonTrackLine" VerticalAlignment="Top" IsChecked="True" Checked="radioButtonTrackLine_Checked">Track Line</RadioButton>
+                <RadioButton Margin="18,0,58,6" GroupName="TrackMode" Name="radioButtonTrackPolygon" VerticalAlignment="Bottom" Checked="radioButtonTrackPolygon_Checked">Track Polygon</RadioButton>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</Window>

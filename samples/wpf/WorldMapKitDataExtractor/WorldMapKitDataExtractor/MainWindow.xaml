@@ -1,0 +1,208 @@
+﻿<Window x:Class="WorldMapKitDataExtractor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WorldMapKitDataExtractor"
+        Icon="/Resource/logo.png"
+        mc:Ignorable="d"
+        ResizeMode="CanMinimize"
+        Title="World Map Kit Data Extractor" Height="552.1" Width="810" Loaded="Window_Loaded">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="145"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="50"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="41"/>
+            <RowDefinition Height="238"/>
+            <RowDefinition Height="Auto" MinHeight="17"/>
+            <RowDefinition Height="Auto" MinHeight="43"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Grid.ColumnSpan="3">
+            <Border BorderThickness="0,0,0,5" Padding="10" CornerRadius="2" KeyboardNavigation.TabNavigation="Local"
+                    KeyboardNavigation.DirectionalNavigation="Contained" KeyboardNavigation.TabIndex="2">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStop Offset="0" Color="#ffffff" />
+                            <GradientStop Offset="0.4" Color="#fafafa" />
+                            <GradientStop Offset="0.55" Color="#f2f2f2" />
+                            <GradientStop Offset="0.6" Color="#f0f0f0" />
+                            <GradientStop Offset="0.9" Color="#e2e2e2" />
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.BorderBrush>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStop Offset="0.85" Color="#5c707d" />
+                            <GradientStop Offset="1" Color="#305c707d" />
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Border.BorderBrush>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" >
+                        <Run FontSize="16">Map Suite</Run>
+                        <Run FontSize="20">World Map Kit Data Extractor</Run>
+                    </TextBlock>
+                    <Line X2="2" />
+                </StackPanel>
+            </Border>
+        </Grid>
+        <Label Grid.Row="1" Grid.Column="0" Content="Input Database:" Margin="3"/>
+        <TextBox Grid.Row="1" Grid.Column="1" x:Name="txtInputDatabase" Margin="5,5"/>
+        <Button Grid.Row="1" Grid.Column="2" x:Name="btnInputDatabase" Content="..." Margin="8,5" Click="btnInputDatabase_Click" />
+        <Label Grid.Row="2" Grid.Column="0" Content="Input Database Srid:" Margin="3" />
+        <TextBox Grid.Row="2" Grid.Column="1" x:Name="txtInputDatabaseSrid" Margin="5,5" Text="i.e. 4326 or 3857"/>
+        <Label Grid.Row="3"  Grid.Column="0" Content="Output Database:" Margin="3"/>
+        <TextBox Grid.Row="3" Grid.Column="1" x:Name="txtOutputDatabase" Margin="5,5"/>
+        <Button Grid.Row="3"  Grid.Column="2"  x:Name="btnOutputDatabase" Content="..." Click="btnOutputDatabase_Click" Margin="8,5"/>
+        <CheckBox Grid.Row="4" Grid.Column="1" x:Name="chkPreserveCountryLevelData"  VerticalContentAlignment="Center" Content="Preserve Country-Level Data for ZoomLevel                to ZoomLevel"  HorizontalAlignment="Left" Margin="5,6,0,5" IsChecked="False" Width="414"/>
+        <Line Grid.Row="5" Grid.ColumnSpan="3" Stretch="Fill" Stroke="Gray" X2="1" />
+        <Label Grid.Row="6" Grid.Column="0" Content="Boundary Type:" Margin="3"/>
+        <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal" Margin="5,9,5,17" VerticalAlignment="Center" Height="16">
+            <RadioButton Name="rbtnBoundingBox" Content="BoundingBox" IsChecked="True" GroupName="ExtractorType" Checked="ExtractorTypeChanged"/>
+            <RadioButton Name="rbtnShapeFile" Content="ShapeFile" Margin="10,0,0,0" GroupName="ExtractorType" Checked="ExtractorTypeChanged"/>
+        </StackPanel>
+        <StackPanel Name="shapeFilePanel" Grid.Row="7" Grid.ColumnSpan="3" Margin="0,0,0,5" Visibility="Hidden">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="145"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="50"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Content="Shape File:" Margin="3"/>
+                <TextBox Grid.Row="0" Grid.Column="1" x:Name="txtShapeFile" Margin="5,5"/>
+                <Button Grid.Row="0" Grid.Column="2" x:Name="btnOpenShapeFile" Content="..." Click="btnOpenShapeFile_Click" Margin="8,5"/>
+                <Label Grid.Row="1" Grid.Column="0" Content="Shape File Srid:" Margin="3" />
+                <TextBox Grid.Row="1" Grid.Column="1" x:Name="shapeFileSrid" Margin="5,5" Text="i.e. 4326 or 3857"/>
+                <Label Grid.Row="2" Grid.Column="0" Content="Features:" Margin="3"/>
+                <DataGrid Grid.Row="2" Grid.Column="1" Name="featureTable" SelectionMode="Extended" Margin="5,5" Height="120" >
+                </DataGrid>
+            </Grid>
+        </StackPanel>
+        <StackPanel Name="boundingBoxPanel" Grid.Row="7" Grid.ColumnSpan="3" Margin="0,0,0,5" Visibility="Visible">
+            <Grid Height="233">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="29*"/>
+                    <RowDefinition Height="191*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="145"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="50"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Content="Bounding Box Srid:" />
+                <TextBox Grid.Row="0" Grid.Column="1" Text="i.e. 4326 or 3857" x:Name="boundarySrid" Margin="5,5"/>
+                <Grid Grid.Row="1" Grid.Column="1" Margin="5,5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110*"/>
+                        <ColumnDefinition Width="110*"/>
+                        <ColumnDefinition Width="90*"/>
+                        <ColumnDefinition Width="90*"/>
+                        <ColumnDefinition Width="40*"/>
+                    </Grid.ColumnDefinitions>
+                    <Rectangle Grid.Row="0" Grid.Column="0" Stroke="Gray" Fill="Transparent"/>
+                    <Rectangle Grid.Row="0" Grid.Column="1" Stroke="Gray" Fill="Transparent"/>
+                    <Rectangle Grid.Row="0" Grid.Column="2" Stroke="Gray" Fill="Transparent"/>
+                    <Rectangle Grid.Row="0" Grid.Column="3" Stroke="Gray" Fill="Transparent"/>
+                    <Rectangle Grid.Row="0" Grid.Column="4" Stroke="Gray" Fill="Transparent"/>
+                    <Rectangle Grid.Row="1" Grid.Column="0" Stroke="Gray" Fill="Transparent"/>
+                    <Rectangle Grid.Row="1" Grid.Column="1" Stroke="Gray" Fill="Transparent"/>
+                    <Rectangle Grid.Row="1" Grid.Column="2" Stroke="Gray" Fill="Transparent"/>
+                    <Rectangle Grid.Row="1" Grid.Column="3" Stroke="Gray" Fill="Transparent"/>
+                    <Rectangle Grid.Row="1" Grid.Column="4" Stroke="Gray" Fill="Transparent"/>
+                    <Rectangle Grid.Row="2" Grid.Column="0" Stroke="Gray" Fill="Transparent"/>
+                    <Rectangle Grid.Row="2" Grid.Column="1" Stroke="Gray" Fill="Transparent"/>
+                    <Rectangle Grid.Row="2" Grid.Column="2" Stroke="Gray" Fill="Transparent"/>
+                    <Rectangle Grid.Row="2" Grid.Column="3" Stroke="Gray" Fill="Transparent"/>
+                    <Rectangle Grid.Row="2" Grid.Column="4" Stroke="Gray" Fill="Transparent"/>
+                    <Rectangle Grid.Row="3" Grid.Column="0" Stroke="Gray" Fill="Transparent"/>
+                    <Rectangle Grid.Row="3" Grid.Column="1" Stroke="Gray" Fill="Transparent"/>
+                    <Rectangle Grid.Row="3" Grid.Column="2" Stroke="Gray" Fill="Transparent"/>
+                    <Rectangle Grid.Row="3" Grid.Column="3" Stroke="Gray" Fill="Transparent"/>
+                    <Rectangle Grid.Row="3" Grid.Column="4" Stroke="Gray" Fill="Transparent"/>
+                    <Rectangle Grid.Row="4" Grid.Column="0" Stroke="Gray" Fill="Transparent"/>
+                    <Rectangle Grid.Row="4" Grid.Column="1" Stroke="Gray" Fill="Transparent"/>
+                    <Rectangle Grid.Row="4" Grid.Column="2" Stroke="Gray" Fill="Transparent"/>
+                    <Rectangle Grid.Row="4" Grid.Column="3" Stroke="Gray" Fill="Transparent"/>
+                    <Rectangle Grid.Row="4" Grid.Column="4" Stroke="Gray" Fill="Transparent"/>
+                    <Rectangle Grid.Row="5" Grid.Column="0" Stroke="Gray" Fill="Transparent"/>
+                    <Rectangle Grid.Row="5" Grid.Column="1" Stroke="Gray" Fill="Transparent"/>
+                    <Rectangle Grid.Row="5" Grid.Column="2" Stroke="Gray" Fill="Transparent"/>
+                    <Rectangle Grid.Row="5" Grid.Column="3" Stroke="Gray" Fill="Transparent"/>
+                    <Rectangle Grid.Row="5" Grid.Column="4" Stroke="Gray" Fill="Transparent"/>
+
+                    <Label Grid.Row="0" Grid.Column="0" Content="Upper Left Point (X, Y)" Margin="3" />
+                    <Label Grid.Row="0" Grid.Column="1" Content="Lower Right Point (X, Y)" Margin="3" />
+                    <Label Grid.Row="0" Grid.Column="2" Content="Starting ZoomLevel" Margin="3" />
+                    <Label Grid.Row="0" Grid.Column="3" Content="Ending ZoomLevel" Margin="3" />
+                    <Label Grid.Row="0" Grid.Column="4" Content="Enable" Margin="3" />
+
+                    <TextBox Grid.Row="1" Grid.Column="0" x:Name="txtUpperLeft1" Text="-104.4, 45.93" Margin="5,5" />
+                    <TextBox Grid.Row="1" Grid.Column="1" x:Name="txtLowerRight1" Text="-96.4, 42.3" Margin="5,5" />
+                    <ComboBox Grid.Row="1" Grid.Column="2" x:Name="cmbStartZoomLevel1" Margin="5,5" />
+                    <ComboBox Grid.Row="1" Grid.Column="3" x:Name="cmbEndZoomLevel1" Margin="5,5" />
+                    <CheckBox Grid.Row="1" Grid.Column="4" x:Name="chkEnable1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="2" Grid.Column="0" x:Name="txtUpperLeft2" Margin="5,5" />
+                    <TextBox Grid.Row="2" Grid.Column="1" x:Name="txtLowerRight2" Margin="5,5" />
+                    <ComboBox Grid.Row="2" Grid.Column="2" x:Name="cmbStartZoomLevel2" Margin="5,5" />
+                    <ComboBox Grid.Row="2" Grid.Column="3" x:Name="cmbEndZoomLevel2" Margin="5,5" />
+                    <CheckBox Grid.Row="2" Grid.Column="4" x:Name="chkEnable2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="3" Grid.Column="0" x:Name="txtUpperLeft3" Margin="5,5" />
+                    <TextBox Grid.Row="3" Grid.Column="1" x:Name="txtLowerRight3" Margin="5,5" />
+                    <ComboBox Grid.Row="3" Grid.Column="2" x:Name="cmbStartZoomLevel3" Margin="5,5" />
+                    <ComboBox Grid.Row="3" Grid.Column="3" x:Name="cmbEndZoomLevel3" Margin="5,5" />
+                    <CheckBox Grid.Row="3" Grid.Column="4" x:Name="chkEnable3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="4" Grid.Column="0" x:Name="txtUpperLeft4" Margin="5,5" />
+                    <TextBox Grid.Row="4" Grid.Column="1" x:Name="txtLowerRight4" Margin="5,5" />
+                    <ComboBox Grid.Row="4" Grid.Column="2" x:Name="cmbStartZoomLevel4" Margin="5,5" />
+                    <ComboBox Grid.Row="4" Grid.Column="3" x:Name="cmbEndZoomLevel4" Margin="5,5" />
+                    <CheckBox Grid.Row="4" Grid.Column="4" x:Name="chkEnable4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="5" Grid.Column="0" x:Name="txtUpperLeft5" Margin="5,5" />
+                    <TextBox Grid.Row="5" Grid.Column="1" x:Name="txtLowerRight5" Margin="5,5" />
+                    <ComboBox Grid.Row="5" Grid.Column="2" x:Name="cmbStartZoomLevel5" Margin="5,5" />
+                    <ComboBox Grid.Row="5" Grid.Column="3" x:Name="cmbEndZoomLevel5" Margin="5,5" />
+                    <CheckBox Grid.Row="5" Grid.Column="4" x:Name="chkEnable5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                </Grid>
+            </Grid>
+        </StackPanel>
+        <Line Grid.Row="8" Grid.ColumnSpan="3" Stretch="Fill" Stroke="Gray" X2="1"/>
+        <StackPanel Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="3" Margin="3,8,5,0" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Name="lblStatus" Content="Status:" Grid.ColumnSpan="3" HorizontalAlignment="Left"></Label>
+                <Button Grid.Column="1" x:Name="btnOk" Content="_OK" Click="btnOk_Click" Margin="5,0,3,0"/>
+                <Button Grid.Column="2" x:Name="btnCancel" Content="_Close" Click="btnCancel_Click" Margin="5,0,3,0"/>
+            </Grid>
+        </StackPanel>
+        <ComboBox x:Name="cmbCountryStartZoomLevel" Grid.Column="1" HorizontalAlignment="Left" Margin="259,2,0,3" Grid.Row="4" VerticalAlignment="Center" Width="44"/>
+        <ComboBox x:Name="cmbCountryEndZoomLevel" Grid.Column="1" HorizontalAlignment="Left" Margin="384,2,0,3" Grid.Row="4" VerticalAlignment="Center" Width="44"/>
+    </Grid>
+</Window>

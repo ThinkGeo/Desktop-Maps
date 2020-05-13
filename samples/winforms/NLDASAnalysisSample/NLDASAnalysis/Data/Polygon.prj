@@ -1,0 +1,9 @@
+Projection     GEOGRAPHIC
+Datum          WGS84
+Zunits         NO
+Units          DD
+Xshift         0.000000
+Yshift         0.000000
+Parameters
+0 0 0.00000 /* longitude of center of projection
+

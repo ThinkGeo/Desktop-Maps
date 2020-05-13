@@ -1,0 +1,74 @@
+﻿<Window x:Class="ThinkGeoCloudGeocoding.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:uc1="clr-namespace:ThinkGeo.MapSuite.Wpf;assembly=ThinkGeo.MapSuite.Wpf"
+        xmlns:UC="clr-namespace:ThinkGeoCloudGeocoding.UserControls"
+        xmlns:local="clr-namespace:ThinkGeoCloudGeocoding"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="800" Width="1200" Loaded="Window_Loaded">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"></ColumnDefinition>
+            <ColumnDefinition Width="5"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+
+            <Grid  Name="ParametersBorder" Margin="5,2,0,5" Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"></RowDefinition>
+                    <RowDefinition Height="25"></RowDefinition>
+                    <RowDefinition Height="25"></RowDefinition>
+                    <RowDefinition Height="25"></RowDefinition>
+                    <RowDefinition Height="25"></RowDefinition>
+                    <RowDefinition Height="25"></RowDefinition>
+                    <RowDefinition Height="25"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Input search text to the below textbox" FontSize="13" Margin="5,0,0,0" FontWeight="Bold"></TextBlock>
+
+                <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="txtSearchText" Margin="3,0,0,0" Padding="0,3,0,3" Grid.Column="0"  FontSize="15" >8501 Wade, Frisco TX 75034</TextBox>
+                    <Button x:Name="btnSearch" Background="Transparent" BorderThickness="0" Grid.Column="0" HorizontalAlignment="Right" Width="25" Height="25" Click="BtnSearch_Click">
+                        <Image x:Name="searchImage" Grid.Column="0" HorizontalAlignment="Right" Source="Resources\search.png" ></Image>
+                    </Button>
+                </Grid>
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Margin="3,5,5,0" TextWrapping="Wrap" Text="Max Results" FontSize="13"></TextBlock>
+                <TextBox Grid.Row="2" Grid.Column="1" Name="txtMaxResults"  Text="10" FontSize="12" Margin="5,5,0,0" Height="20" Width="80" HorizontalAlignment="Left"/>
+
+                <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"  FontSize="13">SearchMode</TextBlock>
+                <ComboBox Grid.Row="3" Grid.Column="1" x:Name="cmbSearchMode" SelectedIndex="1"   Width="80"  FontSize="12"  Height="23" Margin="5,0,0,0" HorizontalAlignment="Left" >
+                    <ComboBoxItem Content="Extract"/>
+                    <ComboBoxItem Content="Fuzzy"/>
+                </ComboBox>
+
+                <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"  FontSize="13">Location Type</TextBlock>
+                <ComboBox Grid.Row="4" Grid.Column="1" x:Name="cmbLocationType" Width="80"  FontSize="12"  Height="23" HorizontalAlignment="Left" Margin="5,0,0,0"  >
+
+                </ComboBox>
+                <TextBlock Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Name="txbSearchResultDescription" >Find 0 results</TextBlock>
+
+                <ListBox Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Name="lsbLocations" SelectionChanged="LsbLocations_SelectionChanged" Visibility="Hidden" >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <UC:LocationViewItem></UC:LocationViewItem>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+        </Grid>
+
+        <uc1:WpfMap x:Name="WpfMap" Grid.Column="2"></uc1:WpfMap>
+
+    </Grid>
+</Window>

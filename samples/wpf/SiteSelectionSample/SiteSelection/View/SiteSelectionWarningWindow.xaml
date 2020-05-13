@@ -1,0 +1,19 @@
+﻿<Window x:Class="ThinkGeo.MapSuite.SiteSelection.SiteSelectionWarningWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Warning" Height="175" Width="467" ResizeMode="NoResize"
+        Icon="/MapSuiteSiteSelection;component/Image/MapSuite.ico" >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Margin="10 7 10 0">
+            <Image Stretch="None" Source="/MapSuiteSiteSelection;component/Image/warning.png" Margin="0 0 10 0"/>
+            <TextBlock TextWrapping="Wrap" Width="385" VerticalAlignment="Center" Text="Please note that this sample map is only able to analyze service areas within the Frisco, TX city limits, which are indicated by a dashed red line.  Click inside that boundary for best results."/>
+        </StackPanel>
+        <Separator Grid.Row="1" Margin="0 8 0 8"/>
+        <Button IsCancel="True" Grid.Row="2" Content="Ok" Width="80" Margin="0 0 6 8" HorizontalAlignment="Right"/>
+    </Grid>
+</Window>

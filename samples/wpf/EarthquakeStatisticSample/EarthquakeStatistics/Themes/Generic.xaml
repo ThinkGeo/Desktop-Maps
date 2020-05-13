@@ -1,0 +1,8 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:ThinkGeo.MapSuite.EarthquakeStatistics">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/EarthquakeStatistics;component/Themes/GeneralStyles.xaml" />
+        <ResourceDictionary Source="/EarthquakeStatistics;component/MapTools/OverlaySwitcher.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

@@ -1,0 +1,75 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ArcGISServerRestLayer"
+        xmlns:WpfDesktopEdition="clr-namespace:ThinkGeo.MapSuite.Wpf;assembly=ThinkGeo.MapSuite.Wpf" 
+        x:Class="ArcGISServerRestLayer.MainWindow"
+        mc:Ignorable="d"
+        Title="ArcGISServerRestLayer" Height="800" Width="1000" Loaded="Window_Loaded" Icon="MS.ico">
+    <Grid>
+
+        <WpfDesktopEdition:WpfMap Name="wpfMap1" Margin="10" />
+        <Grid Height="207" Margin="0,10,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="315">
+            <Border BorderBrush="#cfcfcf" BorderThickness="1" CornerRadius="4">
+                <Border.Background>
+                    <LinearGradientBrush EndPoint="0.504,1.391" StartPoint="0.505,-0.257">
+                        <GradientStop Color="#fafafa" Offset="0"/>
+                        <GradientStop Color="#ECECEC" Offset="0.7"/>
+                        <GradientStop Color="#e7e7e7" Offset="0.95"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.Effect>
+                    <DropShadowEffect Color="Gray" BlurRadius="4" Opacity="0.6"></DropShadowEffect>
+                </Border.Effect>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="25"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <!--header-->
+                    <StackPanel Grid.Row="0">
+                        <TextBlock Text="Instructions" Margin="6" FontSize="12" FontWeight="Bold"></TextBlock>
+                    </StackPanel>
+
+                    <Border Grid.Row="1" BorderBrush="#cfcfcf" Background="White" BorderThickness="0,1,0,1">
+                        <StackPanel Margin="4">
+                            <StackPanel>
+                                <Label >
+                                    <TextBlock TextWrapping="Wrap" Text="This sample uses the ArcGISServerRestLayer to show all US counties with a population > 50,000.  This feature is new to MapSuite WebEdition 9.0 and allows you to easily access maps via the ArcGIS Server REST API."></TextBlock>
+                                </Label>
+                            </StackPanel>
+                            <ContentControl >
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="20"></RowDefinition>
+                                        <RowDefinition Height="25"></RowDefinition>
+                                        <RowDefinition Height="25"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"></ColumnDefinition>
+                                        <ColumnDefinition Width="100"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"  >
+                                        <TextBlock TextWrapping="Wrap" Text="Use the text box below to filter by county population:"></TextBlock>
+                                    </Label>
+                                    <TextBox Name="txtPopulationFilter" Grid.Row="2" Grid.Column="0" > > 50000</TextBox>
+                                    <Button Name="btnSubmitQuery"  Grid.Row="2" Grid.Column="1" Width="90"  Click="btnSubmitQuery_Click">Submit Query</Button>
+                                </Grid>
+                            </ContentControl>
+                        </StackPanel>
+                    </Border>
+
+                    <!--footer-->
+                    <StackPanel Grid.Row="2">
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

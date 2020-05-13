@@ -1,0 +1,29 @@
+﻿<Window x:Class="Overlays.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wpf="clr-namespace:ThinkGeo.MapSuite.Wpf;assembly=ThinkGeo.MapSuite.Wpf"
+        xmlns:local="clr-namespace:Overlays"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="768" Width="1024">
+    <Grid>
+        <wpf:WpfMap x:Name="map" Margin="10"/>
+        <StackPanel Margin="0,20,20,0" HorizontalAlignment="Right" VerticalAlignment="Top">
+            <Grid Background="#CCFFFFFF">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Grid.Row="0" Content="Base Map:" Margin="5"></Label>
+                <ComboBox Name="cboBaseMaps" Grid.Column="1" Grid.Row="0" Width="150" Margin="5" IsReadOnly="True" DisplayMemberPath="Key" SelectedValuePath="Key" SelectedValue="{Binding SelectedBaseMap}" SelectedIndex="2" ItemsSource="{Binding BaseMaps}"></ComboBox>
+                <Label Grid.Column="0" Grid.Row="1" Content="Map Type:" Margin="5"></Label>
+                <ComboBox Grid.Column="1" Grid.Row="1" Width="150" Margin="5" IsReadOnly="True" SelectedValue="{Binding SelectedMapType}" ItemsSource="{Binding ElementName=cboBaseMaps, Path=SelectedItem.Value}"></ComboBox>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Window>

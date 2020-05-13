@@ -1,0 +1,9 @@
+﻿<Window x:Class="ApplyDirectionPointStyleForLineStyle_ForWpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:uc1="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+        Title="MainWindow" Height="600" Width="800">
+    <Grid>
+        <uc1:MapView Name="mapView" Loaded="mapView_Loaded"></uc1:MapView>
+    </Grid>
+</Window>

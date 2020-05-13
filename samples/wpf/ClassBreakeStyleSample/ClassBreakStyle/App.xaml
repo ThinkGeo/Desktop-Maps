@@ -1,0 +1,11 @@
+﻿<Application x:Class="ClassBreakStyleSample.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:tg2="clr-namespace:ClassBreakStyleSample"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <tg2:TextToValueConverter x:Key="TextToValueConverter"/>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

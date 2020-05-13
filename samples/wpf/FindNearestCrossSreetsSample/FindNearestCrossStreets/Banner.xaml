@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="RedisenceSearch.Banner"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+             d:DesignHeight="81"
+             d:DesignWidth="1024"
+             mc:Ignorable="d">
+    <!--  header  -->
+    <Grid Grid.Row="0" Background="#26688e">
+        <Image Name="imageBanner"
+               Height="81"
+               HorizontalAlignment="Stretch"
+               VerticalAlignment="Top"
+               DataContext="{Binding}"
+               Source="Resources/masthead_top_blue_1px.png"
+               Stretch="Fill" />
+        <Image Name="imageBannerText"
+               Width="415"
+               Height="81"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Source="Resources/masthead_top_blue_text.png"
+               Stretch="None" />
+        <Image x:Name="adsRotatorImage"
+               Width="468"
+               Height="60"
+               Margin="0 0 20 0"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Center"
+               Source="Resources/bannerad_offline.png" />
+        <WindowsFormsHost x:Name="AdRotatorHost"
+                          Width="468"
+                          Height="60"
+                          Margin="0 0 20 0"
+                          HorizontalAlignment="Right"
+                          VerticalAlignment="Center"
+                          Visibility="Collapsed">
+            <wf:WebBrowser x:Name="adsRotatorBrowser"
+                           IsWebBrowserContextMenuEnabled="False"
+                           ScrollBarsEnabled="False" />
+        </WindowsFormsHost>
+        <Label Name="label1"
+               Height="28"
+               Margin="8,53,0,0"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Content="How do I finding nearest cross streets via Geocoder?"
+               FontWeight="Bold" />
+    </Grid>
+</UserControl>

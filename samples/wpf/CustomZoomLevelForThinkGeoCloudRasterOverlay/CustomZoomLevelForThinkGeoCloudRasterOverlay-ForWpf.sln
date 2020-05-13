@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29503.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomZoomLevelForThinkGeoCloudRasterOverlay", "CustomZoomLevelForThinkGeoCloudRasterOverlay\CustomZoomLevelForThinkGeoCloudRasterOverlay.csproj", "{F1861EEC-0039-4A1A-A973-7AD73B6E43ED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		PRODUCTION|Any CPU = PRODUCTION|Any CPU
+		PRODUCTION|x86 = PRODUCTION|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F1861EEC-0039-4A1A-A973-7AD73B6E43ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1861EEC-0039-4A1A-A973-7AD73B6E43ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1861EEC-0039-4A1A-A973-7AD73B6E43ED}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F1861EEC-0039-4A1A-A973-7AD73B6E43ED}.Debug|x86.Build.0 = Debug|Any CPU
+		{F1861EEC-0039-4A1A-A973-7AD73B6E43ED}.PRODUCTION|Any CPU.ActiveCfg = Release|Any CPU
+		{F1861EEC-0039-4A1A-A973-7AD73B6E43ED}.PRODUCTION|Any CPU.Build.0 = Release|Any CPU
+		{F1861EEC-0039-4A1A-A973-7AD73B6E43ED}.PRODUCTION|x86.ActiveCfg = Release|Any CPU
+		{F1861EEC-0039-4A1A-A973-7AD73B6E43ED}.PRODUCTION|x86.Build.0 = Release|Any CPU
+		{F1861EEC-0039-4A1A-A973-7AD73B6E43ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1861EEC-0039-4A1A-A973-7AD73B6E43ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1861EEC-0039-4A1A-A973-7AD73B6E43ED}.Release|x86.ActiveCfg = Release|Any CPU
+		{F1861EEC-0039-4A1A-A973-7AD73B6E43ED}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1A2BA557-E24E-4FD6-8631-3D1294406A65}
+	EndGlobalSection
+EndGlobal

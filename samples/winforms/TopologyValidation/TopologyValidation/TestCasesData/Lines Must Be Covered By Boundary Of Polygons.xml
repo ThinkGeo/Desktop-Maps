@@ -1,0 +1,18 @@
+<Case>
+  <TypeName>TopologyValidation.LinesMustBeCoveredByBoundaryOfPolygonsTopologyTestCase</TypeName>
+  <ID>e6130550-71d6-4298-9330-5ee00a41bff0</ID>
+  <Name>Lines Must Be Covered By Boundary Of Polygons</Name>
+  <Description>Lines Must Be Covered By Boundary Of Polygons Topology Test Case. Created at 4:49:00 PM Saturday, August 25, 2012.</Description>
+  <Input>
+    <FirstInputShapes>
+      <WKT>LINESTRING(-50 0,150 0)</WKT>
+      <WKT>LINESTRING(0 100,100 100)</WKT>
+    </FirstInputShapes>
+    <SecondInputShapes>
+      <WKT>POLYGON((0 0,100 0,100 100,0 100,0 0))</WKT>
+    </SecondInputShapes>
+  </Input>
+  <Output>
+    <WKT>MULTILINESTRING((150 0,100 0),(0 0,-50 0))</WKT>
+  </Output>
+</Case>

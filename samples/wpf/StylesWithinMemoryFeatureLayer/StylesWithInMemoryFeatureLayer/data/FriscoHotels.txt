@@ -1,0 +1,11 @@
+NAME,ADDRESS,ROOMS,LONGITUDE,LATITUDE
+Westin Stonebriar Resort, 1549 Legacy Dr,301,-10780246.28,3907442.08
+Holiday Inn,3400 Parkwood Blvd,120,-10777541.22,3909687.82
+Comfort Suites,9700 Dallas Pkwy,109,-10780112.70,3916281.35
+Hilton Garden Inn,7550 Gaylord Pkwy,102,-10777864.04,3908863.89
+Aloft Frisco,3202 Parkwood Dr,136,-10777463.29,3909275.84
+Sheraton Stonebriar Hotel,5444 State Highway 121,119,-10780290.81,3906950.47
+Holiday Inn Express,4220 Preston Rd,61,-10776227.65,3910458.64
+Embassy Suites & Conference,7600 John Q. Hammons Dr,330,-10777730.46,3908571.54
+Homewood Suites,3240 Parkwood Boulevard,117,-10777429.90,3909448.60
+Hampton Inn & Suites,3199 Parkwood Blvd,105,-10777685.93,3909289.13

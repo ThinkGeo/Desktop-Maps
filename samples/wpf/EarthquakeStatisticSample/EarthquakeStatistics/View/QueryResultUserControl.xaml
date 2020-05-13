@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="ThinkGeo.MapSuite.EarthquakeStatistics.QueryResultUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ThinkGeo.MapSuite.EarthquakeStatistics"
+             mc:Ignorable="d" Background="Transparent"
+             d:DesignHeight="500" d:DesignWidth="300">
+    <Border BorderThickness="0 1 0 0" VerticalAlignment="Stretch">
+        <Grid Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Style="{StaticResource BodyText}" Text="Query Result" Margin="0 15 0 5" />
+            <ListView x:Name="ResultListView" ItemsSource="{Binding FilteredQueryResults}" SelectedItem="{Binding SelectedEarthquake,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                      SelectionMode="Single" VerticalAlignment="Stretch" Grid.Row="1">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="36"
+                                        Header="">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Template="{StaticResource ImageButtonTemplate}" Command="{Binding ZoomToFeatureCommand}" CommandParameter="{Binding ElementName=ResultListView,Path=DataContext}" 
+                                                       Margin="{StaticResource ImageButtonMargin}" Content="/Image/find.png" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="100"
+                                        DisplayMemberBinding="{Binding Year}"
+                                        Header="Year" />
+                        <GridViewColumn Width="100"
+                                        DisplayMemberBinding="{Binding Longitude}"
+                                        Header="Longitude" />
+                        <GridViewColumn Width="100"
+                                        DisplayMemberBinding="{Binding Latitude}"
+                                        Header="Latitude" />
+                        <GridViewColumn Width="100"
+                                        DisplayMemberBinding="{Binding DepthInKilometer}"
+                                        Header="Depth(KM)" />
+                        <GridViewColumn Width="150"
+                                        DisplayMemberBinding="{Binding Magnitude}"
+                                        Header="Magnitude" />
+                        <GridViewColumn Width="500"
+                                        DisplayMemberBinding="{Binding Location}"
+                                        Header="Location" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+    </Border>
+</UserControl>

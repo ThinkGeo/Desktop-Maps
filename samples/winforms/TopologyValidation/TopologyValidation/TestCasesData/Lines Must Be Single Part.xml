@@ -1,0 +1,13 @@
+<Case>
+  <TypeName>TopologyValidation.LinesMustBeSinglePartTopologyTestCase</TypeName>
+  <ID>25db18e6-9dac-4ed4-bc27-2998b470ec4e</ID>
+  <Name>Lines Must Be Single Part</Name>
+  <Description>Lines Must Be Single Part Topology Test Case. Created at 5:04:24 PM Saturday, August 25, 2012.</Description>
+  <Input>
+    <WKT>MULTILINESTRING((0 0,100 0),(100 100,0 100))</WKT>
+    <WKT>MULTILINESTRING((0 -50,100 -50,100 -100,0 -100))</WKT>
+  </Input>
+  <Output>
+    <WKT>MULTILINESTRING((0 0,100 0),(100 100,0 100))</WKT>
+  </Output>
+</Case>

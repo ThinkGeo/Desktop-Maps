@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HowDoI", "HowDoI\HowDoI.csproj", "{7E575B3C-75B5-4A7E-83C1-FFAE169F7C42}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+		RoutingFull|Any CPU = RoutingFull|Any CPU
+		RoutingFull|x86 = RoutingFull|x86
+		RunTime|Any CPU = RunTime|Any CPU
+		RunTime|x86 = RunTime|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7E575B3C-75B5-4A7E-83C1-FFAE169F7C42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E575B3C-75B5-4A7E-83C1-FFAE169F7C42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E575B3C-75B5-4A7E-83C1-FFAE169F7C42}.Debug|x86.ActiveCfg = Debug|x86
+		{7E575B3C-75B5-4A7E-83C1-FFAE169F7C42}.Debug|x86.Build.0 = Debug|x86
+		{7E575B3C-75B5-4A7E-83C1-FFAE169F7C42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E575B3C-75B5-4A7E-83C1-FFAE169F7C42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E575B3C-75B5-4A7E-83C1-FFAE169F7C42}.Release|x86.ActiveCfg = Release|x86
+		{7E575B3C-75B5-4A7E-83C1-FFAE169F7C42}.Release|x86.Build.0 = Release|x86
+		{7E575B3C-75B5-4A7E-83C1-FFAE169F7C42}.RoutingFull|Any CPU.ActiveCfg = RoutingFull|Any CPU
+		{7E575B3C-75B5-4A7E-83C1-FFAE169F7C42}.RoutingFull|Any CPU.Build.0 = RoutingFull|Any CPU
+		{7E575B3C-75B5-4A7E-83C1-FFAE169F7C42}.RoutingFull|x86.ActiveCfg = RoutingFull|x86
+		{7E575B3C-75B5-4A7E-83C1-FFAE169F7C42}.RoutingFull|x86.Build.0 = RoutingFull|x86
+		{7E575B3C-75B5-4A7E-83C1-FFAE169F7C42}.RunTime|Any CPU.ActiveCfg = RunTime|Any CPU
+		{7E575B3C-75B5-4A7E-83C1-FFAE169F7C42}.RunTime|Any CPU.Build.0 = RunTime|Any CPU
+		{7E575B3C-75B5-4A7E-83C1-FFAE169F7C42}.RunTime|x86.ActiveCfg = RunTime|x86
+		{7E575B3C-75B5-4A7E-83C1-FFAE169F7C42}.RunTime|x86.Build.0 = RunTime|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

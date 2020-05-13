@@ -1,0 +1,17 @@
+<Case>
+  <TypeName>TopologyValidation.PolygonsBoundaryMustBeCoveredByLinesTopologyTestCase</TypeName>
+  <ID>80778837-642e-47e4-93df-ad74ca37ff79</ID>
+  <Name>Polygons Boundary Must Be Covered By Lines</Name>
+  <Description>Polygons Boundary Must Be Covered By Lines Topology Test Case. Created at 10:22:36 AM Monday, August 27, 2012.</Description>
+  <Input>
+    <FirstInputShapes>
+      <WKT>LINESTRING(-50 0,100 0,100 150)</WKT>
+    </FirstInputShapes>
+    <SecondInputShapes>
+      <WKT>POLYGON((0 0,100 0,100 100,0 100,0 0))</WKT>
+    </SecondInputShapes>
+  </Input>
+  <Output>
+    <WKT>LINESTRING(100 100,0 100,0 0)</WKT>
+  </Output>
+</Case>

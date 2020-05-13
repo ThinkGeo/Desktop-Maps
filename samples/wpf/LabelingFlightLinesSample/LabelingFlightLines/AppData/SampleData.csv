@@ -1,0 +1,12 @@
+Airline,Flight Number,Date,Flight Time,Origin Address,Origin Location,Origin City,Origin State,Origin Zip,Origin Country,Destination Address,Destination Location,Destination City,Destination State,Destination Zip,Destination Country
+United Airlines,241-1,9/16/2016,2,6000 N Terminal Pkwy ,33.6407 -84.4277,Atlanta,GA,30320,United States,10000 W O'Hare Ave,41.9742 -87.9073,Chicago,IL,60666,United States
+United Airlines,241-2,9/16/2016,2,6000 N Terminal Pkwy,33.6407 -84.4277,Atlanta,GA,30320,United States,10000 W O'Hare Ave,41.9742 -87.9073,Chicago,IL,60666,United States
+United Airlines,241-3,9/16/2016,2,6000 N Terminal Pkwy,33.6407 -84.4277,Atlanta,GA,30320,United States,10000 W O'Hare Ave,41.9742 -87.9073,Chicago,IL,60666,United States
+American Airlines,292-1,9/16/2016,5,1 World Way,33.9416 -118.4085,Los Angeles,CA,90045,United States,New York,40.6413 -73.7781,New York,NY,11430,United States
+American Airlines,292-2,9/16/2016,5.1,1 World Way,33.9416 -118.4085,Los Angeles,CA,90045,United States,New York,40.6413 -73.7781,New York,NY,11430,United States
+American Airlines,118-1,9/16/2016,5,1 World Way,33.9416 -118.4085,Los Angeles,CA,90045,United States,New York,40.6413 -73.7781,New York,NY,11430,United States
+American Airlines,50-1,10/2/2016,8,International Pkwy,32.8998 -97.0403,DFW Airport ,TX,75261,United States,TW6,51.4700 -0.4543,London,,,United Kingdom
+American Airlines,50-2,10/2/2016,7.8,International Pkwy ,32.8998 -97.0403,DFW Airport ,TX,75261,United States,TW6,51.4700 -0.4543,London,,,United Kingdom
+American Airlines,50-3,10/2/2016,8.2,International Pkwy,32.8998 -97.0403,DFW Airport ,TX,75261,United States,TW6,51.4700 -0.4543,London,,,United Kingdom
+American Airlines,50-4,10/2/2016,8,International Pkwy,32.8998 -97.0403,DFW Airport ,TX,75261,United States,TW6,51.470 -0.4543,London,,,United Kingdom
+American Airlines,44-1,10/3/2016,7,New York,40.6413 -73.7781,New York,NY,11430,United States,95700 Roissy-en-France,49.0097 2.5479,Paris,,,France

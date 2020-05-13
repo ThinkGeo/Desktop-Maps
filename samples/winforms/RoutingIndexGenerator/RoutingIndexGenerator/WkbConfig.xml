@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<FileType>
+  <Name>WKB File(*.wkb)|*.wkb</Name>
+  <DatabaseProvider TableName="osm_road_linestring" FeatureIdColumn="id" GeometryColumnName="geometry">
+  </DatabaseProvider>
+  <RequiredColumns>
+    osm_id,oneway,highway,name
+  </RequiredColumns>
+  <!-- 0: fastest 1: shortest -->
+  <RoutingIndexType>0</RoutingIndexType>
+  <OneWayDefinitions>
+    <IdentifierColumn ColumnName="oneway" ColumnValue="yes" />
+    <IndicatorColumn ColumnName="oneway" StartEndColumnValue="yes" EndStartColumnValue="" />
+  </OneWayDefinitions>
+  <ClosedRoadDefinitions>
+    <ClosedRoadColumn ColumnName="" ColumnValue="" />
+  </ClosedRoadDefinitions>
+  <SpeedDefinitions>
+    <SpeedColumn ColumnName="highway"></SpeedColumn>
+    <!-- 0: KilometersPerHour 2: MilesPerHour-->
+    <SpeedUnit>0</SpeedUnit>
+    <DefaultSpeed>50</DefaultSpeed>
+    <RoadType>
+      <Item Name="motorway" Mph="70" Kph="110" />
+      <Item Name="trunk" Mph="60" Kph="100" />
+      <Item Name="primary" Mph="50" Kph="80" />
+      <Item Name="motorway_link" Mph="45" Kph="70" />
+      <Item Name="trunk_link" Mph="45" Kph="70" />
+      <Item Name="secondary" Mph="40" Kph="60" />
+      <Item Name="unclassified" Mph="40" Kph="60" />
+      <Item Name="primary_link" Mph="40" Kph="60" />
+      <Item Name="secondary_link" Mph="35" Kph="50" />
+      <Item Name="tertiary" Mph="35" Kph="50" />
+      <Item Name="road" Mph="30" Kph="45" />
+      <Item Name="tertiary_link" Mph="30" Kph="45" />
+      <Item Name="residential" Mph="20" Kph="30" />
+      <Item Name="living_street" Mph="15" Kph="20" />
+      <Item Name="service" Mph="15" Kph="20" />
+      <Item Name="bridleway" Mph="5" Kph="10" />
+      <Item Name="bus_guideway" Mph="5" Kph="10" />
+      <Item Name="cycleway" Mph="5" Kph="10" />
+      <Item Name="escape" Mph="5" Kph="10" />
+      <Item Name="footway" Mph="5" Kph="10" />
+      <Item Name="path" Mph="5" Kph="10" />
+      <Item Name="pedestrian" Mph="5" Kph="10" />
+      <Item Name="raceway" Mph="5" Kph="10" />
+      <Item Name="steps" Mph="5" Kph="10" />
+      <Item Name="track" Mph="5" Kph="10" />
+    </RoadType>
+  </SpeedDefinitions>
+</FileType>

@@ -1,0 +1,12 @@
+<Case>
+  <TypeName>TopologyValidation.LinesMustNotSelfIntersectTopologyTestCase</TypeName>
+  <ID>78a8f1ca-563e-4b28-b48e-14a23efaf89f</ID>
+  <Name>Lines Must Not Self Intersect</Name>
+  <Description>Lines Must Not Self Intersect Topology Test Case. Created at 5:17:12 PM Saturday, August 25, 2012.</Description>
+  <Input>
+    <WKT>LINESTRING(26.7616504093477 77.1219636252664,25.9867371629115 26.3651459836964,69.3818789633377 30.6271688390954,-20.1206010000414 70.5352010305588)</WKT>
+  </Input>
+  <Output>
+    <WKT>POINT(26.3447787741657 49.8168715208476)</WKT>
+  </Output>
+</Case>

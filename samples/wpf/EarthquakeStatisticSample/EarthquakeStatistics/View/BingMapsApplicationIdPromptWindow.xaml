@@ -1,0 +1,32 @@
+﻿<Window x:Class="ThinkGeo.MapSuite.EarthquakeStatistics.BingMapsApplicationIdPromptWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Input Key Window" Height="136" Width="501"
+        ResizeMode="NoResize"
+        Icon="/Image/MapSuite.ico">
+    <Grid Margin="6 7 6 8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Bing Maps Application Key: " />
+        <TextBox x:Name="ApplicationIdTextBlock" Grid.Row="0" Grid.Column="1" />
+        <TextBlock Grid.Row="1" Grid.Column="1" Margin="0 8 0 8" Style="{StaticResource ExplainText}">
+                Don't have a Bing Maps Appliction Key?
+                <Hyperlink Click="Hyperlink_Click">
+                    <TextBlock Style="{StaticResource ExplainText}">Create One now</TextBlock>
+                </Hyperlink>
+            </TextBlock>
+        <Separator Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="{StaticResource SeparatorMargin}" />
+        <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" Orientation="Horizontal">
+            <Button Content="OK" Style="{StaticResource NormalButtonStyle}" Click="OKClick" />
+            <Button Content="Cancel" Style="{StaticResource NormalButtonStyle}" IsCancel="True" />
+        </StackPanel>
+    </Grid>
+</Window>
