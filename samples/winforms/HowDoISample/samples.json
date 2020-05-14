@@ -50,12 +50,6 @@
         "source": "Samples/Overlay/UsingTileCache"
       },
       {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.TileDowloadProgress",
-        "title": "Tile download progress",
-        "description": "This sample shows how to track tiles download progress.",
-        "source": "Samples/Overlay/TileDowloadProgress"
-      },
-      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.AddAdditionalCustomPropertiesAndMethods",
         "title": "Add additional custom properties and methods",
         "description": "Choose the items to add additional custom properties And methods.",
@@ -66,12 +60,6 @@
   {
     "title": "Raster Layers",
     "children": [
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayASatelliteImage",
-        "title": "Display a satellite image",
-        "description": "This sample shows how to display a satellite image.",
-        "source": "Samples/Raster Layers/DisplayASatelliteImage"
-      },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.LoadAGeoTiffImage",
         "title": "Load a GeoTiff image",

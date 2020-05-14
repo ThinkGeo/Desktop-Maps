@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
-using ThinkGeo.Core; using ThinkGeo.UI.WinForms;
+using ThinkGeo.Core;
+using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
@@ -11,69 +12,36 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void LoadAnEcwImage_Load(object sender, EventArgs e)
+        private void Form_Load(object sender, EventArgs e)
         {
-            winformsMap1.MapUnit = GeographyUnit.DecimalDegree;
-            winformsMap1.CurrentExtent = new RectangleShape(-118.098, 84.3, 118.098, -84.3);
-            winformsMap1.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColors.ShallowOcean);
+            mapView.MapUnit = GeographyUnit.DecimalDegree;
 
-            EcwRasterLayer ecwImageLayer = new EcwRasterLayer(SampleHelper.Get("World.ecw"));
-            ecwImageLayer.UpperThreshold = double.MaxValue;
-            ecwImageLayer.LowerThreshold = 0;
-
+            EcwRasterLayer ecwImageLayer = new EcwRasterLayer("SampleData/World.ecw");
             LayerOverlay imageOverlay = new LayerOverlay();
             imageOverlay.Layers.Add("EcwImageLayer", ecwImageLayer);
-            winformsMap1.Overlays.Add(imageOverlay);
-
-            winformsMap1.Refresh();
+            mapView.Overlays.Add(imageOverlay);
+           
+            mapView.CurrentExtent = new RectangleShape(-118.098, 84.3, 118.098, -84.3);
         }
-
-        private MapView winformsMap1;
 
         #region Component Designer generated code
 
-        private System.ComponentModel.IContainer components = null;
+        private MapView mapView;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            this.winformsMap1 = new ThinkGeo.UI.WinForms.MapView();
+            this.mapView = new ThinkGeo.UI.WinForms.MapView();
             this.SuspendLayout();
             //
-            // winformsMap1
+            // mapView
             //
-            this.winformsMap1.BackColor = System.Drawing.Color.White;
-            this.winformsMap1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.winformsMap1.Location = new System.Drawing.Point(0, 0);
-            this.winformsMap1.Name = "winformsMap1";
-            this.winformsMap1.Size = new System.Drawing.Size(740, 528);
-            this.winformsMap1.TabIndex = 0;
-            this.winformsMap1.Text = "winformsMap1";
+            this.mapView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mapView.Location = new System.Drawing.Point(0, 0);
+            this.Controls.Add(this.mapView);
             //
-            // LoadAnEcwImage
+            // UserControl
             //
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.winformsMap1);
-            this.Name = "LoadAnEcwImage";
-            this.Size = new System.Drawing.Size(740, 528);
-            this.Load += new System.EventHandler(this.LoadAnEcwImage_Load);
+            this.Load += new System.EventHandler(this.Form_Load);
             this.ResumeLayout(false);
         }
 

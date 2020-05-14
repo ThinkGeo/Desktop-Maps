@@ -13,32 +13,32 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void AddAdditionalCustomPropertiesAndMethods_Load(object sender, EventArgs e)
         {
-            winformsMap1.MapUnit = GeographyUnit.DecimalDegree;
+            mapView.MapUnit = GeographyUnit.Meter;
 
-            winformsMap1.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColors.ShallowOcean);
-
-            AdministrationShapeFileLayer worldLayer = new AdministrationShapeFileLayer(SampleHelper.Get("Countries02.shp"), SecurityLevel.AverageUsageLevel1);
-            worldLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            AdministrationShapeFileLayer worldLayer = new AdministrationShapeFileLayer("SampleData/Countries02.shp", SecurityLevel.AverageUsageLevel1);
             worldLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(255, 233, 232, 214), GeoColor.FromArgb(255, 118, 138, 69));
+            worldLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            // Converts the layer from Decimal Degree projection to Spherical Mercator which is the projection the base map is using. 
+            worldLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(Projection.GetDecimalDegreesProjString(), Projection.GetSphericalMercatorProjString());
 
-            AdministrationShapeFileLayer statesLayer = new AdministrationShapeFileLayer(SampleHelper.Get("USStates.shp"), SecurityLevel.AverageUsageLevel2);
+            AdministrationShapeFileLayer statesLayer = new AdministrationShapeFileLayer("SampleData/states.shp", SecurityLevel.AverageUsageLevel2);
             statesLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(255, 233, 232, 214), GeoColor.FromArgb(255, 156, 155, 154), 2);
             statesLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle.OutlinePen.LineJoin = DrawingLineJoin.Round;
             statesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            // Converts the layer from Decimal Degree projection to Spherical Mercator which is the projection the base map is using. 
+            statesLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(Projection.GetDecimalDegreesProjString(), Projection.GetSphericalMercatorProjString());
 
             LayerOverlay worldOverlay = new LayerOverlay();
             worldOverlay.Layers.Add("WorldLayer", worldLayer);
             worldOverlay.Layers.Add("StatesLayer", statesLayer);
-            winformsMap1.Overlays.Add("WorldOverlay", worldOverlay);
+            mapView.Overlays.Add("WorldOverlay", worldOverlay);
 
-            winformsMap1.CurrentExtent = new RectangleShape(-177.39584350585937, 83.113876342773437, -52.617362976074219, 14.550546646118164);
-
-            winformsMap1.Refresh();
+            mapView.CurrentExtent = new RectangleShape(-15612805, 7675440, -5819082, 1746373);
         }
 
         private void cbxSecurityLevel_SelectedIndexChanged(object sender, EventArgs e)
         {
-            foreach (Layer layer in ((LayerOverlay)winformsMap1.Overlays[0]).Layers)
+            foreach (Layer layer in ((LayerOverlay)mapView.Overlays[0]).Layers)
             {
                 layer.IsVisible = true;
                 SecurityLevel securityLevel = ((AdministrationShapeFileLayer)layer).SecurityLevel;
@@ -53,14 +53,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 }
             }
 
-            winformsMap1.Refresh(winformsMap1.Overlays["WorldOverlay"]);
+            mapView.Refresh(mapView.Overlays["WorldOverlay"]);
         }
 
         #region Component Designer generated code
 
         private GroupBox gbxFunctions;
         private ComboBox cbxSecurityLevel;
-        private MapView winformsMap1;
+        private MapView mapView;
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             this.gbxFunctions = new System.Windows.Forms.GroupBox();
             this.cbxSecurityLevel = new System.Windows.Forms.ComboBox();
-            this.winformsMap1 = new ThinkGeo.UI.WinForms.MapView();
+            this.mapView = new ThinkGeo.UI.WinForms.MapView();
             this.gbxFunctions.SuspendLayout();
             this.SuspendLayout();
             //
@@ -116,20 +116,20 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             //
             // winformsMap1
             //
-            this.winformsMap1.BackColor = System.Drawing.Color.White;
-            this.winformsMap1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.winformsMap1.Location = new System.Drawing.Point(0, 0);
-            this.winformsMap1.Name = "winformsMap1";
-            this.winformsMap1.Size = new System.Drawing.Size(740, 528);
-            this.winformsMap1.TabIndex = 4;
-            this.winformsMap1.Text = "winformsMap1";
+            this.mapView.BackColor = System.Drawing.Color.White;
+            this.mapView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mapView.Location = new System.Drawing.Point(0, 0);
+            this.mapView.Name = "winformsMap1";
+            this.mapView.Size = new System.Drawing.Size(740, 528);
+            this.mapView.TabIndex = 4;
+            this.mapView.Text = "winformsMap1";
             //
             // AddAdditionalCustomPropertiesAndMethods
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.gbxFunctions);
-            this.Controls.Add(this.winformsMap1);
+            this.Controls.Add(this.mapView);
             this.Name = "AddAdditionalCustomPropertiesAndMethods";
             this.Size = new System.Drawing.Size(740, 528);
             this.Load += new System.EventHandler(this.AddAdditionalCustomPropertiesAndMethods_Load);

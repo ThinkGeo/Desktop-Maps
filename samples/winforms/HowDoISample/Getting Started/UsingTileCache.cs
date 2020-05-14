@@ -14,31 +14,31 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void DisplayMap_Load(object sender, EventArgs e)
         {
-            winformsMap1.MapUnit = GeographyUnit.DecimalDegree;
-            winformsMap1.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColors.ShallowOcean);
+            mapView.MapUnit = GeographyUnit.Meter;
 
-            ShapeFileFeatureLayer worldLayer = new ShapeFileFeatureLayer(SampleHelper.Get("Countries02.shp"));
-            worldLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(255, 233, 232, 214), GeoColor.FromArgb(255, 118, 138, 69));
+            ShapeFileFeatureLayer worldLayer = new ShapeFileFeatureLayer("SampleData/Countries02.shp");
+            worldLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.LightYellow, GeoColor.FromArgb(100, GeoColors.Green));
             worldLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
+            // Converts the layer from Decimal Degree projection to Spherical Mercator which is the projection the base map is using. 
+            worldLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(Projection.GetDecimalDegreesProjString(), Projection.GetSphericalMercatorProjString());
 
             LayerOverlay staticOverlay = new LayerOverlay();
             staticOverlay.Layers.Add("WorldLayer", worldLayer);
-            winformsMap1.Overlays.Add(staticOverlay);
+            mapView.Overlays.Add(staticOverlay);
 
             FileRasterTileCache bitmapTileCache = new FileRasterTileCache();
-            bitmapTileCache.CacheDirectory = Path.Combine(Path.GetTempPath(), "ThinkGeo", "TileCaches", "UsingTileCache-WinForms");
+            bitmapTileCache.CacheDirectory = Path.Combine(Path.GetTempPath(), "ThinkGeo", "UsingTileCache-WinForms");
             bitmapTileCache.CacheId = "World02CachedTiles";
-            bitmapTileCache.TileAccessMode = TileAccessMode.ReadOnly;
             bitmapTileCache.ImageFormat = RasterTileFormat.Png;
 
             staticOverlay.TileCache = bitmapTileCache;
 
-            winformsMap1.CurrentExtent = new RectangleShape(-143.4, 109.3, 116.7, -76.3);
+            mapView.CurrentExtent = new RectangleShape(-15612805, 7675440, -5819082, 1746373);
 
-            winformsMap1.Refresh();
         }
 
-        private MapView winformsMap1;
+        private MapView mapView;
 
         #region Component Designer generated code
 
@@ -66,40 +66,40 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             ThinkGeo.UI.WinForms.EditInteractiveOverlay editInteractiveOverlay1 = new ThinkGeo.UI.WinForms.EditInteractiveOverlay();
             ThinkGeo.UI.WinForms.ExtentInteractiveOverlay extentInteractiveOverlay1 = new ThinkGeo.UI.WinForms.ExtentInteractiveOverlay();
             ThinkGeo.UI.WinForms.TrackInteractiveOverlay trackInteractiveOverlay1 = new ThinkGeo.UI.WinForms.TrackInteractiveOverlay();
-            this.winformsMap1 = new ThinkGeo.UI.WinForms.MapView();
+            this.mapView = new ThinkGeo.UI.WinForms.MapView();
             this.SuspendLayout();
             //
             // winformsMap1
             //
-            this.winformsMap1.BackColor = System.Drawing.Color.Gray;
-            this.winformsMap1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mapView.BackColor = System.Drawing.Color.Gray;
+            this.mapView.Dock = System.Windows.Forms.DockStyle.Fill;
             editInteractiveOverlay1.IsVisible = true;
             editInteractiveOverlay1.Name = null;
-            this.winformsMap1.EditOverlay = editInteractiveOverlay1;
+            this.mapView.EditOverlay = editInteractiveOverlay1;
             extentInteractiveOverlay1.IsVisible = true;
             extentInteractiveOverlay1.Name = null;
-            this.winformsMap1.ExtentOverlay = extentInteractiveOverlay1;
-            this.winformsMap1.Location = new System.Drawing.Point(0, 0);
-            this.winformsMap1.MapUnit = GeographyUnit.DecimalDegree;
-            this.winformsMap1.MaximumScale = 80000000000000;
-            this.winformsMap1.MinimumScale = 200;
-            this.winformsMap1.Name = "winformsMap1";
-            this.winformsMap1.MapResizeMode = MapResizeMode.PreserveScale;
-            this.winformsMap1.Size = new System.Drawing.Size(740, 528);
-            this.winformsMap1.TabIndex = 0;
-            this.winformsMap1.Text = "winformsMap1";
+            this.mapView.ExtentOverlay = extentInteractiveOverlay1;
+            this.mapView.Location = new System.Drawing.Point(0, 0);
+            this.mapView.MapUnit = GeographyUnit.DecimalDegree;
+            this.mapView.MaximumScale = 80000000000000;
+            this.mapView.MinimumScale = 200;
+            this.mapView.Name = "winformsMap1";
+            this.mapView.MapResizeMode = MapResizeMode.PreserveScale;
+            this.mapView.Size = new System.Drawing.Size(740, 528);
+            this.mapView.TabIndex = 0;
+            this.mapView.Text = "winformsMap1";
             trackInteractiveOverlay1.IsVisible = true;
             trackInteractiveOverlay1.Name = null;
             trackInteractiveOverlay1.TrackMode = ThinkGeo.UI.WinForms.TrackMode.None;
-            this.winformsMap1.TrackOverlay = trackInteractiveOverlay1;
+            this.mapView.TrackOverlay = trackInteractiveOverlay1;
             // this.winformsMap1.ZoomLevelSnapping = ThinkGeo.UI.WinForms.ZoomLevelSnappingMode.Default;
-            this.winformsMap1.ExtentOverlay.ZoomPercentage = 40;
+            this.mapView.ExtentOverlay.ZoomPercentage = 40;
             //
             // DisplayShapeMap
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.winformsMap1);
+            this.Controls.Add(this.mapView);
             this.Name = "DisplayShapeMap";
             this.Size = new System.Drawing.Size(740, 528);
             this.Load += new System.EventHandler(this.DisplayMap_Load);
