@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Forms;
-using ThinkGeo.Core; using ThinkGeo.UI.WinForms;
+using ThinkGeo.Core; 
+using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
@@ -12,16 +13,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void ZoomToACertainScale_Load(object sender, EventArgs e)
+        private void Form_Load(object sender, EventArgs e)
         {
-            winformsMap1.MapUnit = GeographyUnit.DecimalDegree;
-            winformsMap1.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColors.ShallowOcean);
+            mapView.MapUnit = GeographyUnit.Meter;
+            mapView.CurrentExtent = new RectangleShape(-15612805, 7675440, -5819082, 1746373);
 
-            ThinkGeoCloudRasterMapsOverlay thinkGeoCloudRasterMapsOverlay = new ThinkGeoCloudRasterMapsOverlay(SampleHelper.ThinkGeoCloudId, SampleHelper.ThinkGeoCloudSecret);
-            winformsMap1.Overlays.Add(thinkGeoCloudRasterMapsOverlay);
-
-            winformsMap1.CurrentExtent = new RectangleShape(-139.2, 92.4, 120.9, -93.2);
-            winformsMap1.Refresh();
+            ThinkGeoCloudVectorMapsOverlay ThinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay(SampleHelper.ThinkGeoCloudId, SampleHelper.ThinkGeoCloudSecret);
+            mapView.Overlays.Add(ThinkGeoCloudVectorMapsOverlay);
         }
 
         private void cmbScale_SelectedIndexChanged(object sender, EventArgs e)
@@ -29,30 +27,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Zoom to a certain scale.
             string zoomLevelScale = cmbScale.SelectedItem.ToString();
             double scale = Convert.ToDouble(zoomLevelScale.Split(':')[1], CultureInfo.InvariantCulture);
-            winformsMap1.ZoomToScale(scale);
-
-            winformsMap1.Refresh();
+            mapView.ZoomToScale(scale);
         }
 
         #region Component Designer generated code
 
-        private System.ComponentModel.IContainer components = null;
         private GroupBox groupBox1;
-        private MapView winformsMap1;
+        private MapView mapView;
         private ComboBox cmbScale;
-
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
 
         /// <summary>
         /// Required method for Designer support - do not modify
@@ -62,7 +44,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cmbScale = new System.Windows.Forms.ComboBox();
-            this.winformsMap1 = new ThinkGeo.UI.WinForms.MapView();
+            this.mapView = new ThinkGeo.UI.WinForms.MapView();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             //
@@ -96,25 +78,20 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.cmbScale.TabIndex = 0;
             this.cmbScale.SelectedIndexChanged += new System.EventHandler(this.cmbScale_SelectedIndexChanged);
             //
-            // winformsMap1
+            // mapView
             //
-            this.winformsMap1.BackColor = System.Drawing.Color.White;
-            this.winformsMap1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.winformsMap1.Location = new System.Drawing.Point(0, 0);
-            this.winformsMap1.Name = "winformsMap1";
-            this.winformsMap1.Size = new System.Drawing.Size(740, 528);
-            this.winformsMap1.TabIndex = 2;
-            this.winformsMap1.Text = "winformsMap1";
+            this.mapView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mapView.Location = new System.Drawing.Point(0, 0);
             //
             // ZoomToACertainScale
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.winformsMap1);
+            this.Controls.Add(this.mapView);
             this.Name = "ZoomToACertainScale";
             this.Size = new System.Drawing.Size(740, 528);
-            this.Load += new System.EventHandler(this.ZoomToACertainScale_Load);
+            this.Load += new System.EventHandler(this.Form_Load);
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
         }

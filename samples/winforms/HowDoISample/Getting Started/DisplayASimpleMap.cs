@@ -12,7 +12,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void DisplayMap_Load(object sender, EventArgs e)
+        private void Form_Load(object sender, EventArgs e)
         {
             mapView.MapUnit = GeographyUnit.Meter;
             mapView.CurrentExtent = new RectangleShape(-15612805, 7675440, -5819082, 1746373);
@@ -21,29 +21,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(ThinkGeoCloudVectorMapsOverlay);
         }
 
-        private MapView mapView;
-
         #region Component Designer generated code
 
-        private System.ComponentModel.IContainer components = null;
+        private MapView mapView;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
             this.mapView = new ThinkGeo.UI.WinForms.MapView();
@@ -53,17 +34,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             //
             this.mapView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mapView.Location = new System.Drawing.Point(0, 0);
-            this.mapView.MapResizeMode = MapResizeMode.PreserveScale;
-            this.mapView.Dock = DockStyle.Fill;
-            //
-            // DisplayASimpleMap
-            //
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.mapView);
-            this.Name = "DisplayASimpleMap";
-            this.Size = new System.Drawing.Size(740, 528);
-            this.Load += new System.EventHandler(this.DisplayMap_Load);
+            //
+            // UserControl
+            //
+            this.Load += new System.EventHandler(this.Form_Load);
             this.ResumeLayout(false);
         }
 

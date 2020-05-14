@@ -14,32 +14,33 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void ZoomToAFeatureOrFeatures_Load(object sender, EventArgs e)
         {
-            winformsMap1.MapUnit = GeographyUnit.DecimalDegree;
-            winformsMap1.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColors.ShallowOcean);
+            mapView.MapUnit = GeographyUnit.Meter;
 
-            ShapeFileFeatureLayer worldLayer = new ShapeFileFeatureLayer(SampleHelper.Get("Countries02.shp"));
+            ThinkGeoCloudVectorMapsOverlay ThinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay(SampleHelper.ThinkGeoCloudId, SampleHelper.ThinkGeoCloudSecret);
+            mapView.Overlays.Add(ThinkGeoCloudVectorMapsOverlay);
+
+            ShapeFileFeatureLayer worldLayer = new ShapeFileFeatureLayer("SampleData/Countries02.shp");
             worldLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.Transparent, GeoColor.FromArgb(100, GeoColors.Green));
             worldLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            ThinkGeoCloudRasterMapsOverlay thinkGeoCloudRasterMapsOverlay = new ThinkGeoCloudRasterMapsOverlay(SampleHelper.ThinkGeoCloudId, SampleHelper.ThinkGeoCloudSecret);
-            winformsMap1.Overlays.Add(thinkGeoCloudRasterMapsOverlay);
+            // Converts the layer from Decimal Degree projection to Spherical Mercator which is the projection the base map is using. 
+            worldLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(Projection.GetDecimalDegreesProjString(), Projection.GetSphericalMercatorProjString());
 
             LayerOverlay staticOverlay = new LayerOverlay();
             staticOverlay.Layers.Add("WorldLayer", worldLayer);
-            winformsMap1.Overlays.Add(staticOverlay);
+            mapView.Overlays.Add(staticOverlay);
 
-            winformsMap1.CurrentExtent = new RectangleShape(-139.2, 92.4, 120.9, -93.2);
-            winformsMap1.Refresh();
+            mapView.CurrentExtent = new RectangleShape(-15612805, 7675440, -5819082, 1746373);
         }
 
         private void btnOneFeature_Click(object sender, EventArgs e)
         {
-            FeatureLayer worldLayer = winformsMap1.FindFeatureLayer("WorldLayer");
+            FeatureLayer worldLayer = mapView.FindFeatureLayer("WorldLayer");
             worldLayer.Open();
-            winformsMap1.CurrentExtent = worldLayer.FeatureSource.GetBoundingBoxById("137");
+            mapView.CurrentExtent = worldLayer.FeatureSource.GetBoundingBoxById("137"); // For Mexico
             worldLayer.Close();
 
-            winformsMap1.Refresh();
+            mapView.Refresh();
         }
 
         private void btnMultipleFeatures_Click(object sender, EventArgs e)
@@ -49,34 +50,18 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             featureIDs.Add("6");   // For Canada
             featureIDs.Add("137"); // For Mexico
 
-            FeatureLayer worldLayer = winformsMap1.FindFeatureLayer("WorldLayer");
+            FeatureLayer worldLayer = mapView.FindFeatureLayer("WorldLayer");
             worldLayer.Open();
-            Collection<Feature> features = worldLayer.FeatureSource.GetFeaturesByIds(featureIDs, new string[0]);
+            Collection<Feature> features = worldLayer.FeatureSource.GetFeaturesByIds(featureIDs, ReturningColumnsType.NoColumns);
             worldLayer.Close();
 
-            winformsMap1.CurrentExtent = MapUtil.GetBoundingBoxOfItems(features);
-
-            winformsMap1.Refresh();
+            mapView.CurrentExtent = MapUtil.GetBoundingBoxOfItems(features);
+            mapView.Refresh();
         }
 
-        private MapView winformsMap1;
+        private MapView mapView;
 
         #region Component Designer generated code
-
-        private System.ComponentModel.IContainer components = null;
-
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
 
         /// <summary>
         /// Required method for Designer support - do not modify
@@ -87,7 +72,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.btnMultipleFeatures = new System.Windows.Forms.Button();
             this.btnOneFeature = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.winformsMap1 = new ThinkGeo.UI.WinForms.MapView();
+            this.mapView = new ThinkGeo.UI.WinForms.MapView();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             //
@@ -125,20 +110,20 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             //
             // winformsMap1
             //
-            this.winformsMap1.BackColor = System.Drawing.Color.White;
-            this.winformsMap1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.winformsMap1.Location = new System.Drawing.Point(0, 0);
-            this.winformsMap1.Name = "winformsMap1";
-            this.winformsMap1.Size = new System.Drawing.Size(740, 528);
-            this.winformsMap1.TabIndex = 8;
-            this.winformsMap1.Text = "winformsMap1";
+            this.mapView.BackColor = System.Drawing.Color.White;
+            this.mapView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mapView.Location = new System.Drawing.Point(0, 0);
+            this.mapView.Name = "winformsMap1";
+            this.mapView.Size = new System.Drawing.Size(740, 528);
+            this.mapView.TabIndex = 8;
+            this.mapView.Text = "winformsMap1";
             //
             // ZoomToAFeatureOrFeatures
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.winformsMap1);
+            this.Controls.Add(this.mapView);
             this.Name = "ZoomToAFeatureOrFeatures";
             this.Size = new System.Drawing.Size(740, 528);
             this.Load += new System.EventHandler(this.ZoomToAFeatureOrFeatures_Load);

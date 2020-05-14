@@ -1,0 +1,324 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup />
+  <ItemGroup>
+    <Compile Update="Data Providers\CreateAnInMemoryFeatureLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Data Providers\CreateASpatialIndexForAShapeFileFeatureLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Data Providers\LoadAGridFeatureLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Data Providers\LoadAHeatLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Data Providers\LoadAMapFromStreams.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Data Providers\LoadAnOracleFeatureLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Data Providers\LoadMsSql2008FeatureLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Data Providers\LoadWfsFeatureLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Dynamic Shapes\EfficientlyMoveAPlaneImage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Dynamic Shapes\HighlightAFeatureOnTheMap.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Dynamic Shapes\RefreshPointsRandomly.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Dynamic Shapes\ShowTemporaryShapesOnTheMap.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Editing Feature Layers\AddFeaturesFromAFeatureLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Editing Feature Layers\DeleteFeaturesFromAFeatureLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Editing Feature Layers\EditFeaturesFromAFeatureLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Editing Feature Layers\TrackAndEditShapes.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Extending MapSuite\AddAdditionalCustomPropertiesAndMethods.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Extending MapSuite\AddEventInOleDbFeatureLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Extending MapSuite\DrawUsingFleeBooleanStyle.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Extending MapSuite\LoadAPostgreSqlFeatureLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Extending MapSuite\LoadGdalRasterLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Extending MapSuite\LoadGeoDatabaseFeatureLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Extending MapSuite\LoadTabFileFeatureLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Extending MapSuite\UseMicrosoftMapsLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Feature Layers\AddMyOwnCustomDataToAFeatureLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Feature Layers\ChangeTheLookOfAFeatureLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Feature Layers\DisplayFeatureLayerAtCertainScale.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Feature Layers\StopCertainFeaturesFromDrawing.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Features\ConvertAFeatureToAndFromWkb.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Features\ConvertAFeatureToAndFromWkt.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Features\CreateABufferAroundAFeature.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Features\CreateAGroupOfColorsInHueFamily.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Features\CreateAGroupOfColorsInQualityFamily.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Features\DetermineTheAreaOfAnAreaFeature.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Features\DetermineTheEnvelopeOfAFeature.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Features\DetermineTheLengthOfALineFeature.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Features\FindAFeatureFromItsId.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Features\FindDifferenceBetweenTwoFeatures.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Features\FindShortestLineBetweenTwoFeatures.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Features\FindTheDistanceBetweenTwoFeatures.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Features\FindUnionBetweenTwoFeatures.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Features\GetDynamicDistanceBetweenTwoPoints.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Features\MoveAFeature.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Features\ScaleUpAndDownAFeature.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Features\UseMapSimplification.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Getting Started\DisplayAMarker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Getting Started\DisplayASimpleMap.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Getting Started\FindTheFeatureAUserClickedOn.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Getting Started\HideOrShowAFeatureLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Getting Started\LoadAShapeFileFeatureLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Getting Started\PlotALatLonPoint.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Getting Started\UsingTileCache.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Labeling\ChangeTheLabelPlacementForPoints.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Labeling\ChangeTheLabelPosition.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Labeling\DrawAndLabelANiceLookingRoad.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Labeling\DrawAndLabelPointsOfInterests.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Labeling\DrawAndLabelWaterFeatures.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Labeling\DrawCurvedLabels.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Markers and Popus\AddAFeatureSourceMarkerOverlay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Markers and Popus\AddAnInMemoryMarkerOverlay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Markers and Popus\AddLabelOnMarkers.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Markers and Popus\AddSimpleMarkers.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Markers and Popus\DragToCopyAMarker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Markers and Popus\UseDraggableMarker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Moving Around The Map\CreateAGraticuleAdornmentLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Moving Around The Map\CreateARestrictionLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Moving Around The Map\CreateAScaleLineAdornmentLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Moving Around The Map\ZoomToACertainScale.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Moving Around The Map\ZoomToACertainZoomLevel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Moving Around The Map\ZoomToAFeatureOrFeatures.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Projection\UseADifferentProjectionForAFeatureLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Projection\UseRotationProjectionForAFeatureLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Querying Feature Layers\FindFeaturesCountInAFeatureLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Querying Feature Layers\FindFeaturesWithinDistance.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Querying Feature Layers\FindOutColumnDataInAFeatureLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Querying Feature Layers\GetAColumnDataInAFeatureLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Querying Feature Layers\GetAllFeaturesFromAFeatureLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Querying Feature Layers\SpatialQueryAFeatureLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Querying Feature Layers\SqlQueryAFeatureLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Samples.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Satellite Image\DisplayASatelliteImage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Satellite Image\HideOrShowAnImageLayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Satellite Image\LoadAMrSidImage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Satellite Image\LoadAnEcwImage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Satellite Image\LoadAStandardImageWithWorldFile.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Satellite Image\LoadAWmsImage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Screen &amp; World Coordinates\ConvertScreenCoordinatesToWorldCoordinates.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Screen &amp; World Coordinates\ConvertWorldCoordinatesToScreenCoordinates.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Screen &amp; World Coordinates\DetermineWhereUserClickInWorldCoordinate.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Styles\ChangeTheFillColorAndOutlineOfAArea.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Styles\ChangeTheWidthOrColorOfALine.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Styles\ConvertAGeoColorToAndFromOleWin32HtmlArgbColors.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Styles\DrawAFeatureBasedOnAValue.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Styles\DrawAPointUsingABitmap.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Styles\DrawAPointUsingASymbol.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Styles\DrawFeaturesBasedExternalData.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Styles\DrawFeaturesBasedOnDotDensity.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Styles\DrawFeaturesBasedOnValues.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Styles\DrawFeaturesBasedRegularExpression.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Styles\DrawThematicFeatures.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Styles\DrawUsingPredefinedCommonStyle.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Styles\GetAGroupOfColorsInHueFamily.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Styles\GetAGroupOfColorsInQualityFamily.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Styles\UseGeographicAndStandardColors.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Styles\UseHueFamilyAreaStyle.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Styles\UseQualityFamilyAreaStyle.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>

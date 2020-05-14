@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
-using ThinkGeo.Core; using ThinkGeo.UI.WinForms;
+using ThinkGeo.Core; 
+using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
@@ -13,22 +14,17 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void ZoomToACertainZoomLevel_Load(object sender, EventArgs e)
         {
-            winformsMap1.MapUnit = GeographyUnit.DecimalDegree;
-            winformsMap1.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColors.ShallowOcean);
+            mapView.MapUnit = GeographyUnit.Meter;
+            mapView.CurrentExtent = new RectangleShape(-15612805, 7675440, -5819082, 1746373);
 
-            ThinkGeoCloudRasterMapsOverlay thinkGeoCloudRasterMapsOverlay = new ThinkGeoCloudRasterMapsOverlay(SampleHelper.ThinkGeoCloudId, SampleHelper.ThinkGeoCloudSecret);
-            winformsMap1.Overlays.Add(thinkGeoCloudRasterMapsOverlay);
-
-            winformsMap1.CurrentExtent = new RectangleShape(-5.4882521385258514, 79.90134747181304, 43.288252138525863, 45.0986525281869);
-            winformsMap1.Refresh();
+            ThinkGeoCloudVectorMapsOverlay ThinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay(SampleHelper.ThinkGeoCloudId, SampleHelper.ThinkGeoCloudSecret);
+            mapView.Overlays.Add(ThinkGeoCloudVectorMapsOverlay);
         }
 
         private void cmbZoomLevel_SelectedIndexChanged(object sender, EventArgs e)
         {
             double scale = GetScaleFromZoomLevelSet(cmbZoomLevel.SelectedIndex);
-            winformsMap1.ZoomToScale(scale);
-
-            winformsMap1.Refresh();
+            mapView.ZoomToScale(scale);
         }
 
         private static double GetScaleFromZoomLevelSet(int comboboxIndex)
@@ -41,39 +37,30 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 case 0:
                     scale = zoomLevelSet.ZoomLevel10.Scale;
                     break;
-
                 case 1:
                     scale = zoomLevelSet.ZoomLevel09.Scale;
                     break;
-
                 case 2:
                     scale = zoomLevelSet.ZoomLevel08.Scale;
                     break;
-
                 case 3:
                     scale = zoomLevelSet.ZoomLevel07.Scale;
                     break;
-
                 case 4:
                     scale = zoomLevelSet.ZoomLevel06.Scale;
                     break;
-
                 case 5:
                     scale = zoomLevelSet.ZoomLevel05.Scale;
                     break;
-
                 case 6:
                     scale = zoomLevelSet.ZoomLevel04.Scale;
                     break;
-
                 case 7:
                     scale = zoomLevelSet.ZoomLevel03.Scale;
                     break;
-
                 case 8:
                     scale = zoomLevelSet.ZoomLevel02.Scale;
                     break;
-
                 default:
                     break;
             }
@@ -83,23 +70,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         #region Component Designer generated code
 
-        private System.ComponentModel.IContainer components = null;
         private GroupBox groupBox1;
-        private MapView winformsMap1;
+        private MapView mapView;
         private ComboBox cmbZoomLevel;
-
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
 
         /// <summary>
         /// Required method for Designer support - do not modify
@@ -109,7 +82,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cmbZoomLevel = new System.Windows.Forms.ComboBox();
-            this.winformsMap1 = new ThinkGeo.UI.WinForms.MapView();
+            this.mapView = new ThinkGeo.UI.WinForms.MapView();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             //
@@ -146,22 +119,17 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             cmbZoomLevel.SelectedIndex = 5;
             this.cmbZoomLevel.SelectedIndexChanged += new System.EventHandler(this.cmbZoomLevel_SelectedIndexChanged);
             //
-            // winformsMap1
+            // mapView
             //
-            this.winformsMap1.BackColor = System.Drawing.Color.White;
-            this.winformsMap1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.winformsMap1.Location = new System.Drawing.Point(0, 0);
-            this.winformsMap1.Name = "winformsMap1";
-            this.winformsMap1.Size = new System.Drawing.Size(740, 528);
-            this.winformsMap1.TabIndex = 2;
-            this.winformsMap1.Text = "winformsMap1";
+            this.mapView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mapView.Location = new System.Drawing.Point(0, 0);
             //
             // ZoomToACertainZoomLevel
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.winformsMap1);
+            this.Controls.Add(this.mapView);
             this.Name = "ZoomToACertainZoomLevel";
             this.Size = new System.Drawing.Size(740, 528);
             this.Load += new System.EventHandler(this.ZoomToACertainZoomLevel_Load);

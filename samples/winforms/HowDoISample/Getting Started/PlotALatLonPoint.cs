@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Forms;
-using ThinkGeo.Core; using ThinkGeo.UI.WinForms;
+using ThinkGeo.Core; 
+using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public partial class PlotALatitudeAndLongitudePointOnTheMap : UserControl
+    public partial class PlotALatLonPoint : UserControl
     {
-        public PlotALatitudeAndLongitudePointOnTheMap()
+        public PlotALatLonPoint()
         {
             InitializeComponent();
         }
 
-        private void PlotALatitudeAndLongitudePointOnTheMap_Load(object sender, EventArgs e)
+        private void Form_Load(object sender, EventArgs e)
         {
             mapView.MapUnit = GeographyUnit.Meter;
 
@@ -22,7 +23,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InMemoryFeatureLayer pointLayer = new InMemoryFeatureLayer();
             pointLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.White, 8, GeoColors.Red, 1);
             pointLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-            pointLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 3857);
+            // Converts the layer from Decimal Degree projection to Spherical Mercator which is the projection the base map is using. 
+            pointLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(Projection.GetDecimalDegreesProjString(), Projection.GetSphericalMercatorProjString());
 
             LayerOverlay pointOverlay = new LayerOverlay();
             pointOverlay.TileType = TileType.SingleTile;
@@ -50,32 +52,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         #region Component Designer generated code
 
-        private Label lblCoordinate;
-        private Button btnPloat;
         private GroupBox groupBox1;
         private Label label1;
+        private Label label2;
         private TextBox txtLatitude;
         private TextBox txtLongitude;
-        private Label label2;
+        private Button btnPloat;
         private MapView mapView;
 
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
-
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
 
         /// <summary>
         /// Required method for Designer support - do not modify
@@ -83,7 +67,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblCoordinate = new System.Windows.Forms.Label();
             this.btnPloat = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtLongitude = new System.Windows.Forms.TextBox();
@@ -93,15 +76,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView = new ThinkGeo.UI.WinForms.MapView();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
-            //
-            // lblCoordinate
-            //
-            this.lblCoordinate.AutoSize = true;
-            this.lblCoordinate.Location = new System.Drawing.Point(204, 234);
-            this.lblCoordinate.Name = "lblCoordinate";
-            this.lblCoordinate.Size = new System.Drawing.Size(0, 13);
-            this.lblCoordinate.TabIndex = 6;
-            this.lblCoordinate.Visible = false;
             //
             // btnPloat
             //
@@ -115,6 +89,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             //
             // groupBox1
             //
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.txtLongitude);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txtLatitude);
@@ -167,20 +142,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             //
             this.mapView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mapView.Location = new System.Drawing.Point(0, 0);
-            this.mapView.MapResizeMode = MapResizeMode.PreserveScale;
-            this.mapView.Size = new System.Drawing.Size(740, 528);
-            this.mapView.TabIndex = 0;
             //
-            // PlotALatitudeAndLongitudePointOnTheMap
+            // UserControl
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.lblCoordinate);
             this.Controls.Add(this.mapView);
-            this.Name = "PlotALatitudeAndLongitudePointOnTheMap";
+            this.Name = "PlotALatLonPoint";
             this.Size = new System.Drawing.Size(740, 528);
-            this.Load += new System.EventHandler(this.PlotALatitudeAndLongitudePointOnTheMap_Load);
+            this.Load += new System.EventHandler(this.Form_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

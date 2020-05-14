@@ -1,41 +1,23 @@
 [
   {
-    "title": "Map Functions",
+    "title": "Getting Started",
     "children": [
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayASimpleMap",
         "title": "Display a simple map",
-        "description": "This sample shows how to display a simple map.",
+        "description": "This sample shows how to display a simple map. Double left/right click to zoom in/out, hold Shift key to track zoom in, hold Alt key to rotate.",
         "source": "Samples/Map Functions/DisplayASimpleMap"
       },
       {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.ZoomInAndOutOfTheMap",
-        "title": "Zoom in and out of the map",
-        "description": "This sample shows how to zoom in and out map.",
-        "source": "Samples/Map Functions/ZoomInAndOutOfTheMap"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.PanAroundTheMap",
-        "title": "Pan around the map",
-        "description": "This sample pans around the map.",
-        "source": "Samples/Map Functions/PanAroundTheMap"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.PlotALatitudeAndLongitudePointOnTheMap",
+        "id": "ThinkGeo.UI.WinForms.HowDoI.PlotALatLonPoint",
         "title": "Plot a point on the map",
         "description": "This sample shows how to plot a Lat/Lon point on the map.",
-        "source": "Samples/Map Functions/PlotALatitudeAndLongitudePointOnTheMap"
+        "source": "Samples/Map Functions/PlotALatLonPointOnTheMap"
       },
       {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.SimplyRotateMap",
-        "title": "Simply rotate a map",
-        "description": "The map by default can be rotated by dragging the map with holding the Alt key. This sample shows how to customize it with different keys. (leftAlt + Right Mouse Button Dragging).",
-        "source": "Samples/Map Functions/SimplyRotateMap"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.TrackAndEditShapesInRotateWorld",
-        "title": "Track and edit shapes in rotated world",
-        "description": "Rotate the map (Alt+left Dragging) and then track and edit shapes in the rotated world.",
+        "id": "ThinkGeo.UI.WinForms.HowDoI.TrackAndEditShapes",
+        "title": "Track and edit shapes",
+        "description": "This sample shows how to track and edit shapes",
         "source": "Samples/Map Functions/TrackAndEditShapesInRotateWorld"
       },
       {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
-using ThinkGeo.Core; using ThinkGeo.UI.WinForms;
+using ThinkGeo.Core; 
+using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
@@ -11,16 +12,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void TrackAndEditShapes_Load(object sender, EventArgs e)
+        private void Form_Load(object sender, EventArgs e)
         {
-            winformsMap1.MapUnit = GeographyUnit.DecimalDegree;
-            winformsMap1.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColors.ShallowOcean);
+            mapView.MapUnit = GeographyUnit.Meter;
+            mapView.CurrentExtent = new RectangleShape(-15612805, 7675440, -5819082, 1746373);
 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay(SampleHelper.ThinkGeoCloudId, SampleHelper.ThinkGeoCloudSecret);
-            winformsMap1.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
-
-            winformsMap1.CurrentExtent = new RectangleShape(-139.2, 92.4, 120.9, -93.2);
-            winformsMap1.Refresh();
+            ThinkGeoCloudVectorMapsOverlay ThinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay(SampleHelper.ThinkGeoCloudId, SampleHelper.ThinkGeoCloudSecret);
+            mapView.Overlays.Add(ThinkGeoCloudVectorMapsOverlay);
         }
 
         private void button_Click(object sender, EventArgs e)
@@ -31,63 +29,63 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 switch (button.Name)
                 {
                     case "btnTrackNormal":
-                        winformsMap1.TrackOverlay.TrackMode = TrackMode.None;
+                        mapView.TrackOverlay.TrackMode = TrackMode.None;
                         break;
 
                     case "btnTrackPoint":
-                        winformsMap1.TrackOverlay.TrackMode = TrackMode.Point;
+                        mapView.TrackOverlay.TrackMode = TrackMode.Point;
                         break;
 
                     case "btnTrackLine":
-                        winformsMap1.TrackOverlay.TrackMode = TrackMode.Line;
+                        mapView.TrackOverlay.TrackMode = TrackMode.Line;
                         break;
 
                     case "btnTrackRectangle":
-                        winformsMap1.TrackOverlay.TrackMode = TrackMode.Rectangle;
+                        mapView.TrackOverlay.TrackMode = TrackMode.Rectangle;
                         break;
 
                     case "btnTrackSquare":
-                        winformsMap1.TrackOverlay.TrackMode = TrackMode.Square;
+                        mapView.TrackOverlay.TrackMode = TrackMode.Square;
                         break;
 
                     case "btnTrackPolygon":
-                        winformsMap1.TrackOverlay.TrackMode = TrackMode.Polygon;
+                        mapView.TrackOverlay.TrackMode = TrackMode.Polygon;
                         break;
 
                     case "btnTrackCircle":
-                        winformsMap1.TrackOverlay.TrackMode = TrackMode.Circle;
+                        mapView.TrackOverlay.TrackMode = TrackMode.Circle;
                         break;
 
                     case "btnTrackEllipse":
-                        winformsMap1.TrackOverlay.TrackMode = TrackMode.Ellipse;
+                        mapView.TrackOverlay.TrackMode = TrackMode.Ellipse;
                         break;
 
                     case "btnTrackEdit":
-                        winformsMap1.TrackOverlay.TrackMode = TrackMode.None;
-                        foreach (Feature feature in winformsMap1.TrackOverlay.TrackShapeLayer.InternalFeatures)
+                        mapView.TrackOverlay.TrackMode = TrackMode.None;
+                        foreach (Feature feature in mapView.TrackOverlay.TrackShapeLayer.InternalFeatures)
                         {
-                            winformsMap1.EditOverlay.EditShapesLayer.InternalFeatures.Add(feature);
+                            mapView.EditOverlay.EditShapesLayer.InternalFeatures.Add(feature);
                         }
-                        winformsMap1.EditOverlay.CalculateAllControlPoints();
-                        winformsMap1.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
+                        mapView.EditOverlay.CalculateAllControlPoints();
+                        mapView.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
 
-                        winformsMap1.Refresh(new Overlay[] { winformsMap1.EditOverlay, winformsMap1.TrackOverlay });
+                        mapView.Refresh(new Overlay[] { mapView.EditOverlay, mapView.TrackOverlay });
                         break;
 
                     case "btnTrackDelete":
-                        int lastIndex = winformsMap1.EditOverlay.EditShapesLayer.InternalFeatures.Count - 1;
+                        int lastIndex = mapView.EditOverlay.EditShapesLayer.InternalFeatures.Count - 1;
 
                         if (lastIndex >= 0)
                         {
-                            winformsMap1.EditOverlay.EditShapesLayer.InternalFeatures.RemoveAt(lastIndex);
-                            winformsMap1.EditOverlay.CalculateAllControlPoints();
+                            mapView.EditOverlay.EditShapesLayer.InternalFeatures.RemoveAt(lastIndex);
+                            mapView.EditOverlay.CalculateAllControlPoints();
                         }
 
-                        winformsMap1.Refresh(winformsMap1.EditOverlay);
+                        mapView.Refresh(mapView.EditOverlay);
                         break;
 
                     default:
-                        winformsMap1.TrackOverlay.TrackMode = TrackMode.None;
+                        mapView.TrackOverlay.TrackMode = TrackMode.None;
                         break;
                 }
             }
@@ -106,21 +104,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private Button btnTrackEllipse;
         private Button btnTrackEdit;
         private Button btnTrackDelete;
-        private System.ComponentModel.IContainer components = null;
-        private MapView winformsMap1;
-
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        private MapView mapView;
 
         /// <summary>
         /// Required method for Designer support - do not modify
@@ -140,7 +124,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             btnTrackEdit = new Button();
             btnTrackDelete = new Button();
 
-            this.winformsMap1 = new ThinkGeo.UI.WinForms.MapView();
+            this.mapView = new ThinkGeo.UI.WinForms.MapView();
             this.SuspendLayout();
             //
             // groupBox1
@@ -253,28 +237,21 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.btnTrackDelete.TabIndex = 9;
             this.btnTrackDelete.UseVisualStyleBackColor = false;
             btnTrackDelete.Click += new EventHandler(button_Click);
-
             //
-            // winformsMap1
+            // mapView
             //
-            this.winformsMap1.BackColor = System.Drawing.Color.White;
-            this.winformsMap1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.winformsMap1.Location = new System.Drawing.Point(0, 0);
-            this.winformsMap1.Name = "winformsMap1";
-            this.winformsMap1.Size = new System.Drawing.Size(740, 528);
-            this.winformsMap1.TabIndex = 0;
-            this.winformsMap1.Text = "winformsMap1";
+            this.mapView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mapView.Location = new System.Drawing.Point(0, 0);
+            this.Controls.Add(this.mapView);
             //
-            // DisplayShapeMap
+            // Track/Edit Shape
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox1);
-
-            this.Controls.Add(this.winformsMap1);
-            this.Name = "DisplayShapeMap";
+            this.Controls.Add(this.mapView);
             this.Size = new System.Drawing.Size(740, 528);
-            this.Load += new System.EventHandler(this.TrackAndEditShapes_Load);
+            this.Load += new System.EventHandler(this.Form_Load);
             this.ResumeLayout(false);
         }
 
