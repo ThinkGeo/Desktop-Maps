@@ -19,7 +19,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.ZoomLevelSet = new OpenStreetMapsZoomLevelSet();
 
             string userAgent = string.Empty;
-            userAgent = "abc";
             if (userAgent== string.Empty)
             {
                 MessageBox.Show("A user agent is required for displaying Open Street Maps");
