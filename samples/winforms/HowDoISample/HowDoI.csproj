@@ -7,9 +7,18 @@
     <UseWPF>true</UseWPF>
     <RootNamespace>ThinkGeo.UI.WinForms.HowDoI</RootNamespace>
     <AssemblyName>ThinkGeo.UI.WinForms.HowDoI</AssemblyName>
+    <Platforms>AnyCPU;x64;x86</Platforms>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netcoreapp3.0\ThinkGeo.UI.Desktop.HowDoI.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <DocumentationFile>bin\Release\netcoreapp3.0\ThinkGeo.UI.Desktop.HowDoI.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DocumentationFile>bin\Release\netcoreapp3.0\ThinkGeo.UI.Desktop.HowDoI.xml</DocumentationFile>
   </PropertyGroup>
 
@@ -18,8 +27,26 @@
     <DocumentationFile></DocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net451|x86'">
     <PlatformTarget>x64</PlatformTarget>
+    <DocumentationFile />
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net451|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DocumentationFile />
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|x64'">
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
@@ -36,6 +63,7 @@
     <PackageReference Include="ThinkGeo.PostgreSql" Version="13.0.0-beta087" />
     <PackageReference Include="ThinkGeo.SqlServer" Version="13.0.0-beta086" />
     <PackageReference Include="ThinkGeo.UI.WinForms" Version="13.0.0-beta005" />
+    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="12.2.7" />
   </ItemGroup>
 
   <ItemGroup>
@@ -54,6 +82,18 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Web Based Layer\DisplayAndReprojectWmtsMap.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Web Based Layer\DisplayWMSMap.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Web Based Layer\DisplayThinkGeoCloudRasterMaps - Copy.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Web Based Layer\PlotALatLonPoint.cs">
+      <SubType>UserControl</SubType>
     </Compile>
   </ItemGroup>
 
@@ -218,6 +258,9 @@
     <None Update="SampleData\states.shx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="SampleData\thinkgeo-world-streets-cobalt.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="SampleData\World.ecw">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -239,21 +282,6 @@
     <None Update="samples.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Other Layers\CreateAScaleLineAdornmentLayer.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Web Based Layers\DisplayThinkGeoCloudRasterMaps.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Web Based Layers\DisplayThinkGeoCloudVectorMaps.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Vector Layers\DisplayThinkGeoMBTilesMaps.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">

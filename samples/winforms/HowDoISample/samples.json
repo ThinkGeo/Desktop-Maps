@@ -287,31 +287,31 @@
         "source": "Samples/Web Based Layers/DisplayThinkGeoCloudVectorMaps"
       },
       {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.LoadAWmsImage",
-        "title": "Load a Wms image",
-        "description": "This sample shows how to load a Wms image.",
+        "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayWMSMap",
+        "title": "Load WMS map",
+        "description": "This sample shows how to load a WMS map.",
         "source": "Samples/Web Based Layers/LoadAWmsImage"
       },
       {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.LoadAWmtsImageWithProjection",
-        "title": "Load a Wmts image with projection",
-        "description": "This sample shows how to load a Wmts image with projection.",
+        "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayAndReprojectWmtsMap",
+        "title": "Display and Reproject a WMTS map.",
+        "description": "This sample shows how to display and Reprject a WMTS map.",
         "source": "Samples/Web Based Layers/LoadAWmtsImageWithProjection"
       },
       {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.UseBingMapsLayer",
-        "title": "Use BingMapsLayer",
+        "id": "ThinkGeo.UI.WinForms.HowDoI.UseBingMaps",
+        "title": "Use BingMaps",
         "description": "This sample shows how to display Bing maps by BingMapsLayer.",
         "source": "Samples/Web Based Layers/UseBingMapsLayer"
       },
       {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.UseGoogleMapsLayer",
-        "title": "Use GoogleMapsLayer",
+        "id": "ThinkGeo.UI.WinForms.HowDoI.UseGoogleMaps",
+        "title": "Use GoogleMaps",
         "description": "This sample shows how to display Google maps by GoogleMapsLayer.",
         "source": "Samples/Web Based Layers/UseGoogleMapsLayer"
       },
       {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.UseOpenStreetMapLayer",
+        "id": "ThinkGeo.UI.WinForms.HowDoI.UseOpenStreetMap",
         "title": "Use OpenStreetMapLayer",
         "description": "This sample shows how to display OpenStreet map by OpenStreetMapLayer",
         "source": "Samples/Web Based Layers/UseOpenStreetMapLayer"
