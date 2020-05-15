@@ -1,5 +1,16 @@
 [
   {
+    "title": "Displaying Layers",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector.ShapefileLayer",
+        "title": "Display a Shapefile Layer",
+        "description": "This sample shows how to display a shapefile layer.",
+        "source": "Samples/DisplayingLayers/Vector/ShapefileLayer"
+      }
+    ]
+  },
+  {
     "title": "Map Functions",
     "children": [
       {
