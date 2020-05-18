@@ -20,10 +20,178 @@
         "source": "Samples/DisplayingLayers/Vector/ShapefileLayer"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector.Placeholder",
-        "title": "<VECTOR_PLACEHOLDER_TITLE>",
+        "id": "ThinkGeo.UI.Wpf.HowDoI.FileGeoDatabaseLayer",
+        "title": "Display a FileGeoDatabase Layer",
         "description": "<VECTOR_PLACEHOLDER_DESCRIPTION>",
-        "source": "Samples/DisplayingLayers/Vector/Placeholder"
+        "source": "Samples/DisplayingLayers/Vector/FileGeoDatabaseLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.SQLiteLayer",
+        "title": "Display a SQLite Layer",
+        "description": "<VECTOR_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/Vector/SQLiteLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.TinyGeoLayer",
+        "title": "Display a TinyGeo Layer",
+        "description": "<VECTOR_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/Vector/TinyGeoLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.S57Layer",
+        "title": "Display a S57 (Nautical Charts) Layer",
+        "description": "<VECTOR_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/Vector/S57Layer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.GPXLayer",
+        "title": "Display a GPX Layer",
+        "description": "<VECTOR_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/Vector/GPXLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.TABLayer",
+        "title": "Display a TAB Layer",
+        "description": "<VECTOR_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/Vector/TABLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.KMLLayer",
+        "title": "Display a KML Layer",
+        "description": "<VECTOR_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/Vector/KMLLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ISOLineLayer",
+        "title": "Display an ISOLine Layer",
+        "description": "<VECTOR_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/Vector/ISOLineLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.InMemoryLayer",
+        "title": "Display an InMemory Layer",
+        "description": "<VECTOR_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/Vector/InMemoryLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.GraticuleLayer",
+        "title": "Display a Graticule Layer",
+        "description": "<VECTOR_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/Vector/GraticuleLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.PostgresLayer",
+        "title": "Display a Postgres Layer",
+        "description": "<Database_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/Database/PostgresLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.MySQLLayer",
+        "title": "Display a MySQL Layer",
+        "description": "<Database_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/Database/MySQLLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.OracleLayer",
+        "title": "Display an Oracle Layer",
+        "description": "<Database_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/Database/OracleLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.SQLServerLayer",
+        "title": "Display a SQL Server Layer",
+        "description": "<Database_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/Database/SQLServerLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.NOAARadarLayer",
+        "title": "Display a NOAA Radar Layer",
+        "description": "<WebServices_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/WebServices/NOAARadarLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.NOAAWeatherStationLayer",
+        "title": "Display a NOAA Weather Station Layer",
+        "description": "<WebServices_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/WebServices/NOAAWeatherStationLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.NOAAWeatherWarningLayer",
+        "title": "Display a NOAA Weather Warning Layer",
+        "description": "<WebServices_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/WebServices/NOAAWeatherWarningLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CloudMapsRasterLayer",
+        "title": "Display a Cloud Maps Raster Layer",
+        "description": "<WebServices_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/WebServices/CloudMapsRasterLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CloudMapsVectorLayer",
+        "title": "Display a Cloud Maps Vector Layer",
+        "description": "<WebServices_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/WebServices/CloudMapsVectorLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.BingMapLayer",
+        "title": "Display a Bing Map Layer",
+        "description": "<WebServices_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/WebServices/BingMapLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.GoogleMapLayer",
+        "title": "Display a Google Map Layer",
+        "description": "<WebServices_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/WebServices/GoogleMapLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.OpenStreetMapLayer",
+        "title": "Display an OpenStreetMap Layer",
+        "description": "<WebServices_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/WebServices/OpenStreetMapLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.WMSLayer",
+        "title": "Display a WMS Layer",
+        "description": "<WebServices_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/WebServices/WMSLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ECWLayer",
+        "title": "Display an ECW Layer",
+        "description": "<RASTER_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/Raster/ECWLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.GeoTiffLayer",
+        "title": "Display a GeoTiff Layer",
+        "description": "<RASTER_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/Raster/GeoTiffLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.MrSidLayer",
+        "title": "Display a MrSid Layer",
+        "description": "<RASTER_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/Raster/MrSidLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ESRIGridLayer",
+        "title": "Display a ESRI Grid Layer",
+        "description": "<RASTER_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/Raster/ESRIGridLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CommonRasterLayers",
+        "title": "Display Common Raster Layers",
+        "description": "<RASTER_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/Raster/CommonRasterLayers"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.JPEG2000Layer",
+        "title": "Display a JPEG2000 Layer",
+        "description": "<RASTER_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/Raster/JPEG2000Layer"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Raster.Placeholder",
