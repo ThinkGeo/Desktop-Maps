@@ -153,10 +153,94 @@
     <Compile Update="Samples\DisplayingLayers\Database\Placeholder.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Samples\DisplayingLayers\Raster\CommonRasterLayers.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\Raster\ESRIGridLayer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\Raster\JPEG2000Layer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\Raster\MrSidLayer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\Raster\GeoTiffLayer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Samples\DisplayingLayers\Raster\Placeholder.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\Vector\Placeholder.xaml.cs">
+    <Compile Update="Samples\DisplayingLayers\Database\SQLServerLayer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\Database\OracleLayer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\Database\MySQLLayer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\Database\PostgresLayer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\Raster\ECWLayer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\Vector\GraticuleLayer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\Vector\InMemoryLayer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\Vector\ISOLineLayer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\Vector\KMLLayer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\Vector\TABLayer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\Vector\GPXLayer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\Vector\S57Layer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\Vector\TinyGeoLayer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\Database\SQLiteLayer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\Vector\FileGeoDatabaseLayer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\WebServices\WMSLayer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\WebServices\OpenStreetMapLayer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\WebServices\GoogleMapLayer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\WebServices\BingMapLayer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\WebServices\CloudMapsVectorLayer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\WebServices\CloudMapsRasterLayer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\WebServices\NOAAWeatherWarningLayer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\WebServices\NOAAWeatherStationLayer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\WebServices\NOAARadarLayer.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\DisplayingLayers\WebServices\Placeholder.xaml.cs">
@@ -526,10 +610,94 @@
     <Page Update="Samples\DisplayingLayers\Database\Placeholder.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Samples\DisplayingLayers\Raster\CommonRasterLayers.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\Raster\ESRIGridLayer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\Raster\JPEG2000Layer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\Raster\MrSidLayer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\Raster\GeoTiffLayer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Samples\DisplayingLayers\Raster\Placeholder.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\Vector\Placeholder.xaml">
+    <Page Update="Samples\DisplayingLayers\Database\SQLServerLayer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\Database\OracleLayer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\Database\MySQLLayer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\Database\PostgresLayer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\Raster\ECWLayer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\Vector\GraticuleLayer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\Vector\InMemoryLayer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\Vector\ISOLineLayer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\Vector\KMLLayer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\Vector\TABLayer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\Vector\GPXLayer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\Vector\S57Layer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\Vector\TinyGeoLayer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\Database\SQLiteLayer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\Vector\FileGeoDatabaseLayer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\WebServices\WMSLayer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\WebServices\OpenStreetMapLayer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\WebServices\GoogleMapLayer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\WebServices\BingMapLayer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\WebServices\CloudMapsVectorLayer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\WebServices\CloudMapsRasterLayer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\WebServices\NOAAWeatherWarningLayer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\WebServices\NOAAWeatherStationLayer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\WebServices\NOAARadarLayer.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\DisplayingLayers\WebServices\Placeholder.xaml">

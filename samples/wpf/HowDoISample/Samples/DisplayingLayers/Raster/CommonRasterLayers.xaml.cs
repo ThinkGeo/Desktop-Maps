@@ -2,14 +2,14 @@
 using System.Windows.Controls;
 using ThinkGeo.UI.Wpf;
 
-namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector
+namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Interaction logic for Placeholder.xaml
     /// </summary>
-    public partial class Placeholder : UserControl
+    public partial class CommonRasterLayers : UserControl
     {
-        public Placeholder()
+        public CommonRasterLayers()
         {
             InitializeComponent();
         }
