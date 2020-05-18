@@ -18,6 +18,30 @@
         "title": "Display a Shapefile Layer",
         "description": "This sample shows how to display a shapefile layer.",
         "source": "Samples/DisplayingLayers/Vector/ShapefileLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector.Placeholder",
+        "title": "<VECTOR_PLACEHOLDER_TITLE>",
+        "description": "<VECTOR_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/Vector/Placeholder"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Raster.Placeholder",
+        "title": "<RASTER_PLACEHOLDER_TITLE>",
+        "description": "<RASTER_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/Raster/Placeholder"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Database.Placeholder",
+        "title": "<DATABASE_PLACEHOLDER_TITLE>",
+        "description": "<DATABASE_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/Database/Placeholder"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.WebServices.Placeholder",
+        "title": "<WEBSERVICES_PLACEHOLDER_TITLE>",
+        "description": "<WEBSERVICES_PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/DisplayingLayers/WebServices/Placeholder"
       }
     ]
   },

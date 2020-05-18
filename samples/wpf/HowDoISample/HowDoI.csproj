@@ -150,6 +150,18 @@
     <Compile Update="Samples\Database Layers\LoadSqlServerFeatureLayer.xaml.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Update="Samples\DisplayingLayers\Database\Placeholder.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\Raster\Placeholder.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\Vector\Placeholder.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\WebServices\Placeholder.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Samples\Geometry Functions\AddFeaturesFromAFeatureLayer.xaml.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
@@ -510,6 +522,18 @@
     </Page>
     <Page Update="Samples\Database Layers\LoadSqlServerFeatureLayer.xaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\Database\Placeholder.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\Raster\Placeholder.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\Vector\Placeholder.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\WebServices\Placeholder.xaml">
+      <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\Geometry Functions\AddFeaturesFromAFeatureLayer.xaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
