@@ -1,5 +1,16 @@
 [
   {
+    "title": "Setting The Map Extent",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.SettingMapExtent.Placeholder",
+        "title": "<PLACEHOLDER_TITLE>",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/SettingMapExtent/Placeholder"
+      }
+    ]
+  },
+  {
     "title": "Displaying Layers",
     "children": [
       {
@@ -7,6 +18,94 @@
         "title": "Display a Shapefile Layer",
         "description": "This sample shows how to display a shapefile layer.",
         "source": "Samples/DisplayingLayers/Vector/ShapefileLayer"
+      }
+    ]
+  },
+  {
+    "title": "Using Overlays",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UsingOverlays.Placeholder",
+        "title": "<PLACEHOLDER_TITLE>",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/UsingOverlays/Placeholder"
+      }
+    ]
+  },
+  {
+    "title": "Creating Styles",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CreatingStyles.Placeholder",
+        "title": "<PLACEHOLDER_TITLE>",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/CreatingStyles/Placeholder"
+      }
+    ]
+  },
+  {
+    "title": "Projecting Data",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ProjectingData.Placeholder",
+        "title": "<PLACEHOLDER_TITLE>",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/ProjectingData/Placeholder"
+      }
+    ]
+  },
+  {
+    "title": "Performing Geometric Operations",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.PerformingGeometricOperations.Placeholder",
+        "title": "<PLACEHOLDER_TITLE>",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/PerformingGeometricOperations/Placeholder"
+      }
+    ]
+  },
+  {
+    "title": "Using Query Tools",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools.Placeholder",
+        "title": "<PLACEHOLDER_TITLE>",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/UsingQueryTools/Placeholder"
+      }
+    ]
+  },
+  {
+    "title": "Topological Validation",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation.Placeholder",
+        "title": "<PLACEHOLDER_TITLE>",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/TopologicalValidation/Placeholder"
+      }
+    ]
+  },
+  {
+    "title": "Using Cloud Maps Services",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices.Placeholder",
+        "title": "<PLACEHOLDER_TITLE>",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/UsingCloudMapsServices/Placeholder"
+      }
+    ]
+  },
+  {
+    "title": "Interpolation",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.Interpolation.Placeholder",
+        "title": "<PLACEHOLDER_TITLE>",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/Interpolation/Placeholder"
       }
     ]
   },

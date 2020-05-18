@@ -132,6 +132,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
+    <Compile Update="Samples\CreatingStyles\Placeholder.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Samples\Database Layers\LoadAnOracleFeatureLayer.xaml.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
@@ -206,6 +209,9 @@
     </Compile>
     <Compile Update="Samples\Geometry Functions\UseMapSimplification.xaml.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Update="Samples\Interpolation\Placeholder.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\Map Functions\DisplayASimpleMap.xaml.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -294,6 +300,12 @@
     <Compile Update="Samples\Overlay\UsingTileCache.xaml.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Update="Samples\PerformingGeometricOperations\Placeholder.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\ProjectingData\Placeholder.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Samples\Projection\UseADifferentProjectionForAFeatureLayer.xaml.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
@@ -347,6 +359,18 @@
     </Compile>
     <Compile Update="Samples\Styles\UseCustomFontSymbolWithPointStyle.xaml.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Update="Samples\TopologicalValidation\Placeholder.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\UsingCloudMapsServices\Placeholder.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\UsingOverlays\Placeholder.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\UsingQueryTools\Placeholder.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\Vector Layers\AddMyOwnCustomDataToAFeatureLayer.xaml.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -469,6 +493,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Samples\CreatingStyles\Placeholder.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Samples\Database Layers\LoadAnOracleFeatureLayer.xaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Page>
@@ -543,6 +570,9 @@
     </Page>
     <Page Update="Samples\Geometry Functions\UseMapSimplification.xaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Update="Samples\Interpolation\Placeholder.xaml">
+      <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\Map Functions\DisplayASimpleMap.xaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -628,6 +658,12 @@
     <Page Update="Samples\Overlay\UsingTileCache.xaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Page>
+    <Page Update="Samples\PerformingGeometricOperations\Placeholder.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\ProjectingData\Placeholder.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Samples\Projection\UseADifferentProjectionForAFeatureLayer.xaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Page>
@@ -681,6 +717,18 @@
     </Page>
     <Page Update="Samples\Styles\UseCustomFontSymbolWithPointStyle.xaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Update="Samples\TopologicalValidation\Placeholder.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingCloudMapsServices\Placeholder.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingOverlays\Placeholder.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingQueryTools\Placeholder.xaml">
+      <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\Vector Layers\AddMyOwnCustomDataToAFeatureLayer.xaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
