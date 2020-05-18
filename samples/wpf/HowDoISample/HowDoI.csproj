@@ -150,9 +150,6 @@
     <Compile Update="Samples\Database Layers\LoadSqlServerFeatureLayer.xaml.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\Database\Placeholder.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Samples\DisplayingLayers\Raster\CommonRasterLayers.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -166,9 +163,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\DisplayingLayers\Raster\GeoTiffLayer.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Samples\DisplayingLayers\Raster\Placeholder.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\DisplayingLayers\Database\SQLServerLayer.xaml.cs">
@@ -241,9 +235,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\DisplayingLayers\WebServices\NOAARadarLayer.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Samples\DisplayingLayers\WebServices\Placeholder.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\Geometry Functions\AddFeaturesFromAFeatureLayer.xaml.cs">
@@ -607,9 +598,6 @@
     <Page Update="Samples\Database Layers\LoadSqlServerFeatureLayer.xaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Page>
-    <Page Update="Samples\DisplayingLayers\Database\Placeholder.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Samples\DisplayingLayers\Raster\CommonRasterLayers.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -623,9 +611,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\DisplayingLayers\Raster\GeoTiffLayer.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\DisplayingLayers\Raster\Placeholder.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\DisplayingLayers\Database\SQLServerLayer.xaml">
@@ -698,9 +683,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\DisplayingLayers\WebServices\NOAARadarLayer.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\DisplayingLayers\WebServices\Placeholder.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\Geometry Functions\AddFeaturesFromAFeatureLayer.xaml">

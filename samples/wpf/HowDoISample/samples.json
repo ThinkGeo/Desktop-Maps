@@ -192,24 +192,6 @@
         "title": "Display a JPEG2000 Layer",
         "description": "<RASTER_PLACEHOLDER_DESCRIPTION>",
         "source": "Samples/DisplayingLayers/Raster/JPEG2000Layer"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Raster.Placeholder",
-        "title": "<RASTER_PLACEHOLDER_TITLE>",
-        "description": "<RASTER_PLACEHOLDER_DESCRIPTION>",
-        "source": "Samples/DisplayingLayers/Raster/Placeholder"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Database.Placeholder",
-        "title": "<DATABASE_PLACEHOLDER_TITLE>",
-        "description": "<DATABASE_PLACEHOLDER_DESCRIPTION>",
-        "source": "Samples/DisplayingLayers/Database/Placeholder"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.WebServices.Placeholder",
-        "title": "<WEBSERVICES_PLACEHOLDER_TITLE>",
-        "description": "<WEBSERVICES_PLACEHOLDER_DESCRIPTION>",
-        "source": "Samples/DisplayingLayers/WebServices/Placeholder"
       }
     ]
   },
