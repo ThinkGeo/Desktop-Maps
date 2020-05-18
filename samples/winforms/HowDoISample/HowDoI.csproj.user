@@ -71,7 +71,7 @@
     <Compile Update="Extending MapSuite\LoadTabFileFeatureLayer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Extending MapSuite\UseMicrosoftMapsLayer.cs">
+    <Compile Update="Display Online Map\UseBingMaps.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Feature Layers\AddMyOwnCustomDataToAFeatureLayer.cs">
@@ -242,22 +242,16 @@
     <Compile Update="Samples.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Satellite Image\DisplayASatelliteImage.cs">
+    <Compile Update="Display Offline Map\HideOrShowAnImageLayer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Satellite Image\HideOrShowAnImageLayer.cs">
+    <Compile Update="Display Offline Map\LoadAMrSidImage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Satellite Image\LoadAMrSidImage.cs">
+    <Compile Update="Display Offline Map\LoadAnEcwImage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Satellite Image\LoadAnEcwImage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Satellite Image\LoadAStandardImageWithWorldFile.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Satellite Image\LoadAWmsImage.cs">
+    <Compile Update="Display Offline Map\LoadAStandardImageWithWorldFile.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Screen &amp; World Coordinates\ConvertScreenCoordinatesToWorldCoordinates.cs">
@@ -320,5 +314,22 @@
     <Compile Update="Styles\UseQualityFamilyAreaStyle.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="Display Online Map\DisplayThinkGeoCloudRasterMaps.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Display Online Map\DisplayThinkGeoCloudVectorMaps.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Display Online Map\UseOpenStreetMap.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Display Online Map\UseGoogleMaps.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

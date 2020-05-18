@@ -46,7 +46,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|x64'">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
@@ -62,7 +62,7 @@
     <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="13.0.0-beta086" />
     <PackageReference Include="ThinkGeo.PostgreSql" Version="13.0.0-beta087" />
     <PackageReference Include="ThinkGeo.SqlServer" Version="13.0.0-beta086" />
-    <PackageReference Include="ThinkGeo.UI.WinForms" Version="13.0.0-beta005" />
+    <PackageReference Include="ThinkGeo.UI.WinForms" Version="13.0.0-beta006" />
     <PackageReference Include="ThinkGeo.UnmanagedProj" Version="12.2.7" />
   </ItemGroup>
 
@@ -75,6 +75,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Display Offline Map\DisplayThinkGeoCloudOfflineMaps.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Display Online Map\DisplayNoaaWeatherStation.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Display Online Map\DisplayNoaaWeatherWarnings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="Markers and Popus\AddPopups.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -83,10 +92,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Update="Web Based Layer\DisplayAndReprojectWmtsMap.cs">
+    <Compile Update="Display Online Map\DisplayAndReprojectWMTSMap.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Web Based Layer\DisplayWMSMap.cs">
+    <Compile Update="Display Online Map\DisplayWMSMap.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Web Based Layer\DisplayThinkGeoCloudRasterMaps - Copy.cs">
@@ -243,6 +252,9 @@
     <None Update="SampleData\MajorCities_3857.shx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="SampleData\NewYorkCity.mbtiles">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="SampleData\states.dbf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -259,6 +271,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="SampleData\thinkgeo-world-streets-cobalt.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleData\thinkgeo-world-streets-dark.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleData\thinkgeo-world-streets-light.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="SampleData\World.ecw">
