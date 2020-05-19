@@ -10,27 +10,46 @@
         <ThinkGeoUI:MapView x:Name="mapView" Loaded="MapView_Loaded" Grid.Column="0" />
 
         <StackPanel Grid.Column="1" Margin="8" >
-            <Label Content="Pan Strength"/>
-            <TextBox x:Name="Strength" Text="20"/>
+            <Grid x:Name="panButtonGrid">
+                <Button x:Name="panNorth" Click="Pan_Click" Grid.Column="2" Grid.Row="0" >
+                    <Image Source="/Resources/North.gif" Stretch="None"></Image>
+                </Button>
+                <Button x:Name="panWest" Click="Pan_Click" Grid.Column="1" Grid.Row="1" >
+                    <Image Source="/Resources/West.gif" Stretch="None"></Image>
+                </Button>
+                <Button x:Name="panEast" Click="Pan_Click" Grid.Column="3" Grid.Row="1" >
+                    <Image Source="/Resources/East.gif" Stretch="None"></Image>
+                </Button>
+                <Button x:Name="panSouth" Click="Pan_Click" Grid.Column="2" Grid.Row="2" >
+                    <Image Source="/Resources/South.gif" Stretch="None"></Image>
+                </Button>
+                
+                <!-- Pan Button Grid Layout -->
+                <Grid.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Width" Value="24"></Setter>
+                        <Setter Property="Height" Value="24"></Setter>
+                    </Style>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+            </Grid>
 
-            <Label Content="Pan Direction"/>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="UpperLeft" Content="↖" Click="Pan_Click" ></Button>
-                <Button x:Name="Up" Content="↑" Click="Pan_Click" ></Button>
-                <Button x:Name="UpperRight" Content="↗" Click="Pan_Click" ></Button>
-            </StackPanel>
-
-
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="Left" Content="←" Click="Pan_Click" ></Button>
-                <Button x:Name="Right" Content="→" Click="Pan_Click" ></Button>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="LowerLeft" Content="↙" Click="Pan_Click" ></Button>
-                <Button x:Name="Down" Content="↓" Click="Pan_Click" ></Button>
-                <Button x:Name="LowerRight" Content="↘" Click="Pan_Click" ></Button>
-            </StackPanel>
+            <DockPanel x:Name="percentagePanel">                
+                <Label Content="Percentage" DockPanel.Dock="Left"/>
+                <Slider x:Name="panPercentage" Maximum="100" Value="50" AutoToolTipPlacement="TopLeft"></Slider>
+                <TextBox Text="{Binding ElementName=panPercentage, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right"></TextBox>
+            </DockPanel>
         </StackPanel>
 
         <!-- Grid Layout -->
