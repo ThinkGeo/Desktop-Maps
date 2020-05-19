@@ -411,6 +411,12 @@
     <Compile Update="Samples\Raster Layers\LoadAnEcwImage.xaml.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Update="Samples\SettingMapExtent\BasicNavigation.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\SettingMapExtent\SetMapExtent.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Samples\Styles\ChangeTheLabelPlacementForPoints.xaml.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
@@ -855,6 +861,12 @@
     </Page>
     <Page Update="Samples\Raster Layers\LoadAnEcwImage.xaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Update="Samples\SettingMapExtent\BasicNavigation.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\SettingMapExtent\SetMapExtent.xaml">
+      <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\Styles\ChangeTheLabelPlacementForPoints.xaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

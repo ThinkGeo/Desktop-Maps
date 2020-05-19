@@ -2,14 +2,14 @@
 using System.Windows.Controls;
 using ThinkGeo.UI.Wpf;
 
-namespace ThinkGeo.UI.Wpf.HowDoI.SettingMapExtent
+namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Interaction logic for Placeholder.xaml
     /// </summary>
-    public partial class Placeholder : UserControl
+    public partial class RotateMap : UserControl
     {
-        public Placeholder()
+        public RotateMap()
         {
             InitializeComponent();
         }

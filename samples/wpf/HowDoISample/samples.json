@@ -3,10 +3,22 @@
     "title": "Setting The Map Extent",
     "children": [
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.SettingMapExtent.Placeholder",
-        "title": "<PLACEHOLDER_TITLE>",
+        "id": "ThinkGeo.UI.Wpf.HowDoI.BasicNavigation",
+        "title": "Basic Navigation",
         "description": "<PLACEHOLDER_DESCRIPTION>",
-        "source": "Samples/SettingMapExtent/Placeholder"
+        "source": "Samples/SettingMapExtent/BasicNavigation"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.SetMapExtent",
+        "title": "Set the Map Extent",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/SettingMapExtent/SetMapExtent"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.RotateMap",
+        "title": "Rotate the Map",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/SettingMapExtent/RotateMap"
       }
     ]
   },
