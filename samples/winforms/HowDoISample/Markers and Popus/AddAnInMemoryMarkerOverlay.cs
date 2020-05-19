@@ -23,7 +23,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(ThinkGeoCloudVectorMapsOverlay);
 
             FeatureSourceMarkerOverlay markerOverlay = new FeatureSourceMarkerOverlay(new InMemoryFeatureSource());
-            markerOverlay.ZoomLevelSet.ZoomLevel01.DefaultPointMarkerStyle.ImageSource = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Resources\AQUA.png", UriKind.Absolute));
+            markerOverlay.ZoomLevelSet.ZoomLevel01.DefaultPointMarkerStyle.ImageSource = new BitmapImage(new Uri(@"\Resources\AQUA.png", UriKind.RelativeOrAbsolute));
             markerOverlay.ZoomLevelSet.ZoomLevel01.DefaultPointMarkerStyle.Width = 20;
             markerOverlay.ZoomLevelSet.ZoomLevel01.DefaultPointMarkerStyle.Height = 34;
             markerOverlay.ZoomLevelSet.ZoomLevel01.DefaultPointMarkerStyle.YOffset = -17;

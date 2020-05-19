@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
 using System.Windows.Forms;
 using ThinkGeo.Core;
 using ThinkGeo.UI.WinForms;
@@ -20,7 +21,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             ThinkGeoMBTilesLayer thinkGeoMBTilesFeatureLayer = new ThinkGeoMBTilesLayer(@".\SampleData\NewYorkCity.mbtiles",
-              //  new Uri("https://cdn.thinkgeo.com/worldstreets-styles/4.0.0/light.json"));
+                //  new Uri("https://cdn.thinkgeo.com/worldstreets-styles/4.0.0/light.json"));
                 new Uri(Environment.CurrentDirectory + @"\SampleData\thinkgeo-world-streets-light.json"));
 
             layerOverlay = new LayerOverlay();
@@ -36,15 +37,15 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             ThinkGeoMBTilesLayer thinkGeoMBTilesFeatureLayer = (ThinkGeoMBTilesLayer)layerOverlay.Layers[0];
             if (radioButtonLight.Checked)
             {
-                thinkGeoMBTilesFeatureLayer.StyleJsonUri = new Uri(Environment.CurrentDirectory + @"\SampleData\thinkgeo-world-streets-light.json");
+                thinkGeoMBTilesFeatureLayer.StyleJsonUri = new Uri(Path.Combine(Environment.CurrentDirectory, "SampleData", "thinkgeo-world-streets-light.json"));
             }
             else if (radioButtonDark.Checked)
             {
-                thinkGeoMBTilesFeatureLayer.StyleJsonUri = new Uri(Environment.CurrentDirectory + @"\SampleData\thinkgeo-world-streets-dark.json");
+                thinkGeoMBTilesFeatureLayer.StyleJsonUri = new Uri(Path.Combine(Environment.CurrentDirectory, "SampleData", @"thinkgeo-world-streets-dark.json"));
             }
             else if (radioButtonCobalt.Checked)
             {
-                thinkGeoMBTilesFeatureLayer.StyleJsonUri = new Uri(Environment.CurrentDirectory + @"\SampleData\thinkgeo-world-streets-cobalt.json");
+                thinkGeoMBTilesFeatureLayer.StyleJsonUri = new Uri(Path.Combine(Environment.CurrentDirectory, "SampleData", @"thinkgeo-world-streets-cobalt.json"));
             }
             layerOverlay.Layers.Clear();
             layerOverlay.Layers.Add(thinkGeoMBTilesFeatureLayer);

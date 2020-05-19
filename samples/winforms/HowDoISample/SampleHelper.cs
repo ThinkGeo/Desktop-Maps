@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
@@ -11,7 +12,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         public static string ThinkGeoCloudSecret { get; } = "vtVao9zAcOj00UlGcK7U-efLANfeJKzlPuDB9nw7Bp4K4UxU_PdRDg~~";
         static SampleHelper()
         {
-            Root = @"../../../../../SampleData";
+            Root = Path.Combine(Environment.CurrentDirectory, @"SampleData");
         }
 
         public static string Root { get; set; }
@@ -82,7 +83,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         public static string Get(string relPath, DataFormat dataFormat)
         {
-            return $"{Root}/{dataFormat.ToString()}/{relPath}";
+            return Path.Combine(Root, dataFormat.ToString(), relPath);
         }
     }
 

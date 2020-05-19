@@ -23,7 +23,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             FeatureSourceMarkerOverlay markerOverlay = new FeatureSourceMarkerOverlay();
             markerOverlay.FeatureSource = new ShapeFileFeatureSource("SampleData/MajorCities_3857.shp");
-            markerOverlay.ZoomLevelSet.ZoomLevel01.DefaultPointMarkerStyle.ImageSource = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Resources\AQUA.png", UriKind.Absolute));
+            markerOverlay.ZoomLevelSet.ZoomLevel01.DefaultPointMarkerStyle.ImageSource = new BitmapImage(new Uri(@"\Resources\AQUA.png", UriKind.RelativeOrAbsolute));
             markerOverlay.ZoomLevelSet.ZoomLevel01.DefaultPointMarkerStyle.Width = 20;
             markerOverlay.ZoomLevelSet.ZoomLevel01.DefaultPointMarkerStyle.Height = 34;
             markerOverlay.ZoomLevelSet.ZoomLevel01.DefaultPointMarkerStyle.YOffset = -17;

@@ -42,6 +42,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private System.ComponentModel.IContainer components = null;
         private PictureBox pictureBox1;
+        private Npgsql.NpgsqlDataAdapter npgsqlDataAdapter1;
         private MapView winformsMap1 = new MapView();
 
         /// <summary>
@@ -64,11 +65,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private void InitializeComponent()
         {
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.npgsqlDataAdapter1 = new Npgsql.NpgsqlDataAdapter();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
-            //
+            // 
             // pictureBox1
-            //
+            // 
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Image = global::ThinkGeo.UI.WinForms.HowDoI.Properties.Resources.SpecialDataBaseResult;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
@@ -76,9 +78,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.pictureBox1.Size = new System.Drawing.Size(740, 528);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
-            //
+            // 
+            // npgsqlDataAdapter1
+            // 
+            this.npgsqlDataAdapter1.DeleteCommand = null;
+            this.npgsqlDataAdapter1.InsertCommand = null;
+            this.npgsqlDataAdapter1.SelectCommand = null;
+            this.npgsqlDataAdapter1.UpdateCommand = null;
+            // 
             // LoadMsSql2008FeatureLayer
-            //
+            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.pictureBox1);
@@ -87,6 +96,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.Load += new System.EventHandler(this.LoadAMSSQL2008FeatureLayer_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
+
         }
 
         #endregion Component Designer generated code

@@ -195,223 +195,223 @@
       }
     ]
   },
-  {
-    "title": "Vector Layers",
-    "children": [
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.AddMyOwnCustomDataToAFeatureLayer",
-        "title": "+Add my own custom data in a FeatureLayer",
-        "description": "This sample shows how to use the custom data as label text in a Feature layer.",
-        "source": "Samples/Vector Layers/AddMyOwnCustomDataToAFeatureLayer"
-      },
+  //{
+  //  "title": "Vector Layers",
+  //  "children": [
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.AddMyOwnCustomDataToAFeatureLayer",
+  //      "title": "+Add my own custom data in a FeatureLayer",
+  //      "description": "This sample shows how to use the custom data as label text in a Feature layer.",
+  //      "source": "Samples/Vector Layers/AddMyOwnCustomDataToAFeatureLayer"
+  //    },
 
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayAShapeFileSimpleMap",
-        "title": "*Display a shapeFile using StyleJSON",
-        "description": "This sample shows how to display shapefile maps by StyleJson file.",
-        "source": "Samples/Vector Layers/DisplayAShapeFileSimpleMap"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.CreateASpatialIndexForAShapeFileFeatureLayer",
-        "title": "-Create a spatial index for a ShapeFileFeatureLayer",
-        "description": "This sample simply create a spatial index for a shapefile feature layer.",
-        "source": "Samples/Vector Layers/CreateASpatialIndexForAShapeFileFeatureLayer"
-      },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayAShapeFileSimpleMap",
+  //      "title": "*Display a shapeFile using StyleJSON",
+  //      "description": "This sample shows how to display shapefile maps by StyleJson file.",
+  //      "source": "Samples/Vector Layers/DisplayAShapeFileSimpleMap"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.CreateASpatialIndexForAShapeFileFeatureLayer",
+  //      "title": "-Create a spatial index for a ShapeFileFeatureLayer",
+  //      "description": "This sample simply create a spatial index for a shapefile feature layer.",
+  //      "source": "Samples/Vector Layers/CreateASpatialIndexForAShapeFileFeatureLayer"
+  //    },
 
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.ChangeTheLookOfAFeatureLayer",
-        "title": "+Change the look of a feature layer",
-        "description": "This sample shows how to change the style of a feature layer.",
-        "source": "Samples/Vector Layers/ChangeTheLookOfAFeatureLayer"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayFeatureLayerAtCertainScale",
-        "title": "+Display feature layer at certain scale",
-        "description": "This sample shows how to display a feature layer at certain scale.",
-        "source": "Samples/Vector Layers/DisplayFeatureLayerAtCertainScale"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.FindTheFeatureAUserClickedOn",
-        "title": "+Find the Feature(s) a user clicked on",
-        "description": "This sample shows how to find the feature a user clicked on.",
-        "source": "Samples/Vector Layers/FindTheFeatureAUserClickedOn"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.FindFeaturesWithinDistance",
-        "title": "+Find features within distance",
-        "description": "Select the distance (km):",
-        "source": "Samples/Vector Layers/FindFeaturesWithinDistance"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.FindFeaturesCountInAFeatureLayer",
-        "title": "+Find features count in a feature layer",
-        "description": "This sample simply shows how to get the count of features in a feature layer.",
-        "source": "Samples/Vector Layers/FindFeaturesCountInAFeatureLayer"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.FindOutColumnDataInAFeatureLayer",
-        "title": "+Find out column data in a FeatureLayer",
-        "description": "This sample simply shows how to find out column data in a feature layer by clicking on the map.",
-        "source": "Samples/Vector Layers/FindOutColumnDataInAFeatureLayer"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.FourColorMap",
-        "title": "+Four Color Map",
-        "description": "This sample shows how to display a feature layer which is colored using four colors.",
-        "source": "Samples/Vector Layers/FourColorMap"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.GetAllFeaturesFromAFeatureLayer",
-        "title": "+Get all features from a FeatureLayer",
-        "description": "This sample simply shows how to get all the features from a feature layer.",
-        "source": "Samples/Vector Layers/GetAllFeaturesFromAFeatureLayer"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.GetAColumnDataInAFeatureLayer",
-        "title": "+Get a column data in a FeatureLayer",
-        "description": "This sample simply shows how to get a column data in a feature layer.",
-        "source": "Samples/Vector Layers/GetAColumnDataInAFeatureLayer"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.HighlightAFeatureOnTheMap",
-        "title": "+Hightlight a feature on the map",
-        "description": "This sample shows how to highlight a feature on the map.",
-        "source": "Samples/Vector Layers/HighlightAFeatureOnTheMap"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.RefreshPointsRandomly",
-        "title": "-Refresh points randomly",
-        "description": "Add Points into map and choose the interval to refresh the Points' position and color.",
-        "source": "Samples/Vector Layers/RefreshPointsRandomly"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.SpatialQueryAFeatureLayer",
-        "title": "+Spatial query a feature layer",
-        "description": "Choose SpatialQuery Type:",
-        "source": "Samples/Vector Layers/SpatialQueryAFeatureLayer"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.ShowTemporaryShapeOnTheMap",
-        "title": "-Show temporary shape on the map",
-        "description": "This sample shows temporary shape on the map.",
-        "source": "Samples/Vector Layers/ShowTemporaryShapeOnTheMap"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.HideOrShowAFeatureLayer",
-        "title": "+Hide or show a feature layer",
-        "description": "This sample simply hides or shows a feature layer.",
-        "source": "Samples/Vector Layers/HideOrShowAFeatureLayer"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.StopCertainFeaturesFromDrawing",
-        "title": "+Stop certain features from drawing",
-        "description": "This sample simply shows how to skip drawing the countries with a  population of less than 10 millions people.",
-        "source": "Samples/Vector Layers/StopCertainFeaturesFromDrawing"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.ZoomToACertainScale",
-        "title": "Zoom to a certain scale",
-        "description": "This sample simply shows how to change the scale by selecting from the combox.",
-        "source": "Samples/Map Functions/ZoomToACertainScale"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.ZoomToACertainZoomLevel",
-        "title": "Zoom to a certain zoom level",
-        "description": "This sample simply shows how to change the zoom level by selecting from the combox.",
-        "source": "Samples/Map Functions/ZoomToACertainZoomLevel"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.ZoomToAFeatureOrFeatures",
-        "title": "Zoom to a feature or set of features",
-        "description": "This sample simply shows how to zoom to a feature or set of features.",
-        "source": "Samples/Map Functions/ZoomToAFeatureOrFeatures"
-      }
-    ]
-  },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.ChangeTheLookOfAFeatureLayer",
+  //      "title": "+Change the look of a feature layer",
+  //      "description": "This sample shows how to change the style of a feature layer.",
+  //      "source": "Samples/Vector Layers/ChangeTheLookOfAFeatureLayer"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayFeatureLayerAtCertainScale",
+  //      "title": "+Display feature layer at certain scale",
+  //      "description": "This sample shows how to display a feature layer at certain scale.",
+  //      "source": "Samples/Vector Layers/DisplayFeatureLayerAtCertainScale"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.FindTheFeatureAUserClickedOn",
+  //      "title": "+Find the Feature(s) a user clicked on",
+  //      "description": "This sample shows how to find the feature a user clicked on.",
+  //      "source": "Samples/Vector Layers/FindTheFeatureAUserClickedOn"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.FindFeaturesWithinDistance",
+  //      "title": "+Find features within distance",
+  //      "description": "Select the distance (km):",
+  //      "source": "Samples/Vector Layers/FindFeaturesWithinDistance"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.FindFeaturesCountInAFeatureLayer",
+  //      "title": "+Find features count in a feature layer",
+  //      "description": "This sample simply shows how to get the count of features in a feature layer.",
+  //      "source": "Samples/Vector Layers/FindFeaturesCountInAFeatureLayer"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.FindOutColumnDataInAFeatureLayer",
+  //      "title": "+Find out column data in a FeatureLayer",
+  //      "description": "This sample simply shows how to find out column data in a feature layer by clicking on the map.",
+  //      "source": "Samples/Vector Layers/FindOutColumnDataInAFeatureLayer"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.FourColorMap",
+  //      "title": "+Four Color Map",
+  //      "description": "This sample shows how to display a feature layer which is colored using four colors.",
+  //      "source": "Samples/Vector Layers/FourColorMap"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.GetAllFeaturesFromAFeatureLayer",
+  //      "title": "+Get all features from a FeatureLayer",
+  //      "description": "This sample simply shows how to get all the features from a feature layer.",
+  //      "source": "Samples/Vector Layers/GetAllFeaturesFromAFeatureLayer"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.GetAColumnDataInAFeatureLayer",
+  //      "title": "+Get a column data in a FeatureLayer",
+  //      "description": "This sample simply shows how to get a column data in a feature layer.",
+  //      "source": "Samples/Vector Layers/GetAColumnDataInAFeatureLayer"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.HighlightAFeatureOnTheMap",
+  //      "title": "+Hightlight a feature on the map",
+  //      "description": "This sample shows how to highlight a feature on the map.",
+  //      "source": "Samples/Vector Layers/HighlightAFeatureOnTheMap"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.RefreshPointsRandomly",
+  //      "title": "-Refresh points randomly",
+  //      "description": "Add Points into map and choose the interval to refresh the Points' position and color.",
+  //      "source": "Samples/Vector Layers/RefreshPointsRandomly"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.SpatialQueryAFeatureLayer",
+  //      "title": "+Spatial query a feature layer",
+  //      "description": "Choose SpatialQuery Type:",
+  //      "source": "Samples/Vector Layers/SpatialQueryAFeatureLayer"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.ShowTemporaryShapeOnTheMap",
+  //      "title": "-Show temporary shape on the map",
+  //      "description": "This sample shows temporary shape on the map.",
+  //      "source": "Samples/Vector Layers/ShowTemporaryShapeOnTheMap"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.HideOrShowAFeatureLayer",
+  //      "title": "+Hide or show a feature layer",
+  //      "description": "This sample simply hides or shows a feature layer.",
+  //      "source": "Samples/Vector Layers/HideOrShowAFeatureLayer"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.StopCertainFeaturesFromDrawing",
+  //      "title": "+Stop certain features from drawing",
+  //      "description": "This sample simply shows how to skip drawing the countries with a  population of less than 10 millions people.",
+  //      "source": "Samples/Vector Layers/StopCertainFeaturesFromDrawing"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.ZoomToACertainScale",
+  //      "title": "Zoom to a certain scale",
+  //      "description": "This sample simply shows how to change the scale by selecting from the combox.",
+  //      "source": "Samples/Map Functions/ZoomToACertainScale"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.ZoomToACertainZoomLevel",
+  //      "title": "Zoom to a certain zoom level",
+  //      "description": "This sample simply shows how to change the zoom level by selecting from the combox.",
+  //      "source": "Samples/Map Functions/ZoomToACertainZoomLevel"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.ZoomToAFeatureOrFeatures",
+  //      "title": "Zoom to a feature or set of features",
+  //      "description": "This sample simply shows how to zoom to a feature or set of features.",
+  //      "source": "Samples/Map Functions/ZoomToAFeatureOrFeatures"
+  //    }
+  //  ]
+  //},
   {
     "title": "Styles",
     "children": [
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.CreateARestrictionLayer",
-        "title": "+Create a restriction layer",
+        "title": "Create a restriction layer",
         "description": "You can see only Africa because we have added a RestrictionLayer and its mode is ShowZones.",
         "source": "Samples/Other Layers/CreateARestrictionLayer"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayIsoLines",
-        "title": "+Display IsoLines",
+        "title": "Display IsoLines",
         "description": "This sample simply display IsoLines.",
         "source": "Samples/Other Layers/DisplayIsoLines"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DrawUsingFleeBooleanStyle",
-        "title": "+Draw using FleeBoolean style",
+        "title": "Draw using FleeBoolean style",
         "description": "To use the FleeBooleanStyle functions, you have to reference ThinkGeo.PostgreSql.nupkg.",
         "source": "Samples/Styles/DrawUsingFleeBooleanStyle"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DrawAndLabelANiceLookingRoad",
-        "title": "+Draw and label a nice looking road",
+        "title": "Draw and label a nice looking road",
         "description": "This sample simply shows how to draw and label a nice looking road.",
         "source": "Samples/Styles/DrawAndLabelANiceLookingRoad"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DrawAndLabelPointsOfInterests",
-        "title": "+Draw and label points of interests",
+        "title": "Draw and label points of interests",
         "description": "This sample simply shows how to draw and label points of interests.",
         "source": "Samples/Styles/DrawAndLabelPointsOfInterests"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.ChangeTheLabelPlacementForPoints",
-        "title": "+Change the label placement for points",
+        "title": "Change the label placement for points",
         "description": "This sample shows how to change the label placement for points.",
         "source": "Samples/Styles/ChangeTheLabelPlacementForPoints"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DrawAndLabelWaterFeatures",
-        "title": "+Draw and label water features",
+        "title": "Draw and label water features",
         "description": "This sample simply shows how to draw and label water features.",
         "source": "Samples/Styles/DrawAndLabelWaterFeatures"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DrawCurvedLabels",
-        "title": "+Draw curved labels",
+        "title": "Draw curved labels",
         "description": "This sample simply shows how to draw and do curved labels.",
         "source": "Samples/Styles/DrawCurvedLabels"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.ChangeTheLabelPosition",
-        "title": "+Change the label position",
+        "title": "Change the label position",
         "description": "This sample simply shows how to change the label position.",
         "source": "Samples/Styles/ChangeTheLabelPosition"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.LoadAHeatLayer",
-        "title": "+Load HeatStyle",
+        "title": "Load HeatStyle",
         "description": "This sample simply adds a heat layer.",
         "source": "Samples/Styles/LoadAHeatLayer"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.UseCustomFontSymbolWithPointStyle",
-        "title": "+Use Custom Font Symbol With PointStyle",
+        "title": "Use Custom Font Symbol With PointStyle",
         "description": "This sample simply use custom font symbol with pointStyle.",
         "source": "Samples/Styles/UseCustomFontSymbolWithPointStyle"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.LoadClusterPointStyle",
-        "title": "+Load ClusterPointStyle",
+        "title": "Load ClusterPointStyle",
         "description": "This sample simply draws cluster point style.",
         "source": "Samples/Styles/LoadClusterPointStyle"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.RotatePointWithTextStyle",
-        "title": "+Rotate point with Text style",
+        "title": "Rotate point with Text style",
         "description": "This sample simply rotates point with text style.",
         "source": "Samples/Styles/RotatePointWithTextStyle"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DrawDirectionPointStyleWithLineStyle",
-        "title": "+Draw direction point style with LineStyle",
+        "title": "Draw direction point style with LineStyle",
         "description": "This sample simply draws point style with line style.",
         "source": "Samples/Styles/DrawDirectionPointStyleWithLineStyle"
       }
@@ -422,143 +422,143 @@
     "children": [
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.UseADifferentProjectionForAFeatureLayer",
-        "title": "+Use a different projection for a feature layer",
+        "title": "Use a different projection for a feature layer",
         "description": "This sample simply shows how to use a different project to the map.",
         "source": "Samples/Projection/UseADifferentProjectionForAFeatureLayer"
       },
       {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.UseRotationProjectionForAFeatureLayer",
-        "title": "-Use rotation projection for a feature layer",
-        "description": "This sample simply shows how to use rotation project to the map.",
-        "source": "Samples/Projection/UseRotationProjectionForAFeatureLayer"
+        "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayAndReprojectWmtsMap",
+        "title": "Display and Reproject a WMTS map.",
+        "description": "This sample shows how to display and Reprject a WMTS map.",
+        "source": "Samples/Web Based Layers/LoadAWmtsImageWithProjection"
       }
     ]
   },
-  {
-    "title": "Geometry Functions",
-    "children": [
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.DetermineWhereUserClickInWorldCoordinate",
-        "title": "+Determine where user click in world coordinate",
-        "description": "This sample shows how to find where a user click in world coordinate.",
-        "source": "Samples/Geometry Functions/DetermineWhereUserClickInWorldCoordinate"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.ConvertScreenCoordinatesToWorldCoordinates",
-        "title": "+Convert to world coordinates",
-        "description": "Tip: Click to pick the screen position.",
-        "source": "Samples/Geometry Functions/ConvertScreenCoordinatesToWorldCoordinates"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.ConvertWorldCoordinatesToScreenCoordinates",
-        "title": "+Convert to screen coordinates",
-        "description": "Tip: Click the button from convert world coordinates to screen coordinates.",
-        "source": "Samples/Geometry Functions/ConvertWorldCoordinatesToScreenCoordinates"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.EfficientlyMoveAPlaneImage",
-        "title": "+Efficiently move a plane image",
-        "description": "This sample shows how to efficiently move a plane image on the map.",
-        "source": "Samples/Geometry Functions/EfficientlyMoveAPlaneImage"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.MoveAFeature",
-        "title": "+Move a feature",
-        "description": "This sample simply moves a feature.",
-        "source": "Samples/Geometry Functions/MoveAFeature"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.ScaleUpAndDownAFeature",
-        "title": "+Scale up and down a feature",
-        "description": "This sample simply scale a feature up and down.",
-        "source": "Samples/Geometry Functions/ScaleUpAndDownAFeature"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.FindTheDistanceBetweenTwoFeatures",
-        "title": "+Find the distance between two features",
-        "description": "This sample shows how to find the distance between two features.",
-        "source": "Samples/Geometry Functions/FindTheDistanceBetweenTwoFeatures"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.FindUnionBetweenFeatures",
-        "title": "+Find union between features",
-        "description": "This sample shows how to find union between features.",
-        "source": "Samples/Geometry Functions/FindUnionBetweenFeatures"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.FindDifferenceBetweenTwoFeatures",
-        "title": "+Find difference between two features",
-        "description": "This sample shows how to find difference between two features.",
-        "source": "Samples/Geometry Functions/FindDifferenceBetweenTwoFeatures"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.FindShortestLineBetweenTwoFeatures",
-        "title": "+Find shortest line between two features",
-        "description": "This sample gets shortest line between two features.",
-        "source": "Samples/Geometry Functions/FindShortestLineBetweenTwoFeatures"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.CreateABufferAroundAFeature",
-        "title": "+Create a buffer around a feature",
-        "description": "This sample creates a buffer around a feature.",
-        "source": "Samples/Geometry Functions/CreateABufferAroundAFeature"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.DetermineTheAreaOfAnAreaFeature",
-        "title": "+Determine the area of an area feature",
-        "description": "This sample simply shows getting the area of a feature by clicking on map and select a country.",
-        "source": "Samples/Geometry Functions/DetermineTheAreaOfAnAreaFeature"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.DetermineTheLengthOfALineFeature",
-        "title": "+Determine the length of a line feature",
-        "description": "This sample simply shows clicking on map and select a nearest road.",
-        "source": "Samples/Geometry Functions/DetermineTheLengthOfALineFeature"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.DetermineTheEnvelopeOfAFeature",
-        "title": "+Determine the envelope of a feature",
-        "description": "This sample simply determines the envelope of a feature.",
-        "source": "Samples/Geometry Functions/DetermineTheEnvelopeOfAFeature"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.ConvertAFeatureToAndFromWkb",
-        "title": "+Convert a feature to&from Wkb",
-        "description": "This sample simply converts a feature to and from Wkb.",
-        "source": "Samples/Geometry Functions/ConvertAFeatureToAndFromWkb"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.FindAFeatureFromItsId",
-        "title": "+Find a feature from its id",
-        "description": "This sample finds a feature from its id.",
-        "source": "Samples/Geometry Functions/FindAFeatureFromItsId"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.UseMapSimplification",
-        "title": "+Use map simplification",
-        "description": "This sample shows how to use map simplification.",
-        "source": "Samples/Geometry Functions/UseMapSimplification"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.AddFeaturesFromAFeatureLayer",
-        "title": "+Add features from a feature layer",
-        "description": "This sample shows how to add features from a feature layer.",
-        "source": "Samples/Geometry Functions/AddFeaturesFromAFeatureLayer"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.DeleteFeaturesFromAFeatureLayer",
-        "title": "+Delete features from a feature layer",
-        "description": "This sample shows how to delete features from a feature layer.",
-        "source": "Samples/Geometry Functions/DeleteFeaturesFromAFeatureLayer"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.EditFeaturesFromAFeatureLayer",
-        "title": "+Edit features from a feature layer",
-        "description": "This sample shows how to edit features from a feature layer.",
-        "source": "Samples/Geometry Functions/EditFeaturesFromAFeatureLayer"
-      }
-    ]
-  },
+  //{
+  //  "title": "Geometry Functions",
+  //  "children": [
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.DetermineWhereUserClickInWorldCoordinate",
+  //      "title": "+Determine where user click in world coordinate",
+  //      "description": "This sample shows how to find where a user click in world coordinate.",
+  //      "source": "Samples/Geometry Functions/DetermineWhereUserClickInWorldCoordinate"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.ConvertScreenCoordinatesToWorldCoordinates",
+  //      "title": "+Convert to world coordinates",
+  //      "description": "Tip: Click to pick the screen position.",
+  //      "source": "Samples/Geometry Functions/ConvertScreenCoordinatesToWorldCoordinates"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.ConvertWorldCoordinatesToScreenCoordinates",
+  //      "title": "+Convert to screen coordinates",
+  //      "description": "Tip: Click the button from convert world coordinates to screen coordinates.",
+  //      "source": "Samples/Geometry Functions/ConvertWorldCoordinatesToScreenCoordinates"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.EfficientlyMoveAPlaneImage",
+  //      "title": "+Efficiently move a plane image",
+  //      "description": "This sample shows how to efficiently move a plane image on the map.",
+  //      "source": "Samples/Geometry Functions/EfficientlyMoveAPlaneImage"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.MoveAFeature",
+  //      "title": "+Move a feature",
+  //      "description": "This sample simply moves a feature.",
+  //      "source": "Samples/Geometry Functions/MoveAFeature"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.ScaleUpAndDownAFeature",
+  //      "title": "+Scale up and down a feature",
+  //      "description": "This sample simply scale a feature up and down.",
+  //      "source": "Samples/Geometry Functions/ScaleUpAndDownAFeature"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.FindTheDistanceBetweenTwoFeatures",
+  //      "title": "+Find the distance between two features",
+  //      "description": "This sample shows how to find the distance between two features.",
+  //      "source": "Samples/Geometry Functions/FindTheDistanceBetweenTwoFeatures"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.FindUnionBetweenFeatures",
+  //      "title": "+Find union between features",
+  //      "description": "This sample shows how to find union between features.",
+  //      "source": "Samples/Geometry Functions/FindUnionBetweenFeatures"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.FindDifferenceBetweenTwoFeatures",
+  //      "title": "+Find difference between two features",
+  //      "description": "This sample shows how to find difference between two features.",
+  //      "source": "Samples/Geometry Functions/FindDifferenceBetweenTwoFeatures"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.FindShortestLineBetweenTwoFeatures",
+  //      "title": "+Find shortest line between two features",
+  //      "description": "This sample gets shortest line between two features.",
+  //      "source": "Samples/Geometry Functions/FindShortestLineBetweenTwoFeatures"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.CreateABufferAroundAFeature",
+  //      "title": "+Create a buffer around a feature",
+  //      "description": "This sample creates a buffer around a feature.",
+  //      "source": "Samples/Geometry Functions/CreateABufferAroundAFeature"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.DetermineTheAreaOfAnAreaFeature",
+  //      "title": "+Determine the area of an area feature",
+  //      "description": "This sample simply shows getting the area of a feature by clicking on map and select a country.",
+  //      "source": "Samples/Geometry Functions/DetermineTheAreaOfAnAreaFeature"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.DetermineTheLengthOfALineFeature",
+  //      "title": "+Determine the length of a line feature",
+  //      "description": "This sample simply shows clicking on map and select a nearest road.",
+  //      "source": "Samples/Geometry Functions/DetermineTheLengthOfALineFeature"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.DetermineTheEnvelopeOfAFeature",
+  //      "title": "+Determine the envelope of a feature",
+  //      "description": "This sample simply determines the envelope of a feature.",
+  //      "source": "Samples/Geometry Functions/DetermineTheEnvelopeOfAFeature"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.ConvertAFeatureToAndFromWkb",
+  //      "title": "+Convert a feature to&from Wkb",
+  //      "description": "This sample simply converts a feature to and from Wkb.",
+  //      "source": "Samples/Geometry Functions/ConvertAFeatureToAndFromWkb"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.FindAFeatureFromItsId",
+  //      "title": "+Find a feature from its id",
+  //      "description": "This sample finds a feature from its id.",
+  //      "source": "Samples/Geometry Functions/FindAFeatureFromItsId"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.UseMapSimplification",
+  //      "title": "+Use map simplification",
+  //      "description": "This sample shows how to use map simplification.",
+  //      "source": "Samples/Geometry Functions/UseMapSimplification"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.AddFeaturesFromAFeatureLayer",
+  //      "title": "+Add features from a feature layer",
+  //      "description": "This sample shows how to add features from a feature layer.",
+  //      "source": "Samples/Geometry Functions/AddFeaturesFromAFeatureLayer"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.DeleteFeaturesFromAFeatureLayer",
+  //      "title": "+Delete features from a feature layer",
+  //      "description": "This sample shows how to delete features from a feature layer.",
+  //      "source": "Samples/Geometry Functions/DeleteFeaturesFromAFeatureLayer"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.EditFeaturesFromAFeatureLayer",
+  //      "title": "+Edit features from a feature layer",
+  //      "description": "This sample shows how to edit features from a feature layer.",
+  //      "source": "Samples/Geometry Functions/EditFeaturesFromAFeatureLayer"
+  //    }
+  //  ]
+  //},
   {
     "title": "Markers and Popups",
     "children": [
@@ -640,22 +640,23 @@
         "source": "Samples/Other Layers/CreateAGraticuleAdornmentLayer"
       }
     ]
-  },
-  {
-    "title": "MISC",
-    "children": [
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.UsingTileCache",
-        "title": "Using tile cache",
-        "description": "This sample shows how to use tile cache.",
-        "source": "Samples/Overlay/UsingTileCache"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.AddAdditionalCustomPropertiesAndMethods",
-        "title": "Add additional custom properties and methods",
-        "description": "Choose the items to add additional custom properties And methods.",
-        "source": "Samples/Overlay/AddAdditionalCustomPropertiesAndMethods"
-      }
-    ]
   }
+  //,
+  //{
+  //  "title": "MISC",
+  //  "children": [
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.UsingTileCache",
+  //      "title": "Using tile cache",
+  //      "description": "This sample shows how to use tile cache.",
+  //      "source": "Samples/Overlay/UsingTileCache"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.AddAdditionalCustomPropertiesAndMethods",
+  //      "title": "Add additional custom properties and methods",
+  //      "description": "Choose the items to add additional custom properties And methods.",
+  //      "source": "Samples/Overlay/AddAdditionalCustomPropertiesAndMethods"
+  //    }
+  //  ]
+  //}
 ]

@@ -31,7 +31,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             SimpleMarkerOverlay markerOverlay = (SimpleMarkerOverlay)mapView.Overlays["MarkerOverlay"];
             Marker marker = new Marker(e.WorldLocation);
-            marker.ImageSource = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Resources\AQUA.png", UriKind.Absolute));
+            marker.ImageSource = new BitmapImage(new Uri(@"\Resources\AQUA.png", UriKind.RelativeOrAbsolute));
             marker.Width = 20;
             marker.Height = 34;
             marker.YOffset = -17;
