@@ -157,12 +157,12 @@
         "description": "To use the PostgreSqlFeatureLayer functions, you have to reference ThinkGeo.PostgreSql.nupkg.",
         "source": "Samples/Database Layers/LoadAPostgreSqlFeatureLayer"
       },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.LoadGeoDatabaseFeatureLayer",
-        "title": "Load a map from Personal GeoDatabase",
-        "description": "To use the PersonalGeoDatabaseFeatureLayer functions, you have to reference ThinkGeo.PersonalGeoDatabase.nupkg.",
-        "source": "Samples/Database Layers/LoadGeoDatabaseFeatureLayer"
-      },
+      //{
+      //  "id": "ThinkGeo.UI.WinForms.HowDoI.LoadGeoDatabaseFeatureLayer",
+      //  "title": "Load a map from Personal GeoDatabase",
+      //  "description": "To use the PersonalGeoDatabaseFeatureLayer functions, you have to reference ThinkGeo.PersonalGeoDatabase.nupkg.",
+      //  "source": "Samples/Database Layers/LoadGeoDatabaseFeatureLayer"
+      //},
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.LoadAnOracleFeatureLayer",
         "title": "Load a map from Oracle",
@@ -397,12 +397,12 @@
         "description": "This sample simply use custom font symbol with pointStyle.",
         "source": "Samples/Styles/UseCustomFontSymbolWithPointStyle"
       },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.LoadClusterPointStyle",
-        "title": "Load ClusterPointStyle",
-        "description": "This sample simply draws cluster point style.",
-        "source": "Samples/Styles/LoadClusterPointStyle"
-      },
+      //{
+      //  "id": "ThinkGeo.UI.WinForms.HowDoI.LoadClusterPointStyle",
+      //  "title": "Load ClusterPointStyle",
+      //  "description": "This sample simply draws cluster point style.",
+      //  "source": "Samples/Styles/LoadClusterPointStyle"
+      //},
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.RotatePointWithTextStyle",
         "title": "Rotate point with Text style",

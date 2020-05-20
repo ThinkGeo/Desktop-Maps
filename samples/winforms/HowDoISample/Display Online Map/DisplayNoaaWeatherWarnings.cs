@@ -34,7 +34,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             noaaWeatherStationOverlay.Layers.Add(noaaWeatherStationFeatureLayer);
 
             mapView.CurrentExtent = new RectangleShape(-14534042, 9147820, -4906645, 1270446);
-            mapView.Refresh();
         }
 
         #region Component Designer generated code

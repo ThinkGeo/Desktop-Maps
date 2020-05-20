@@ -55,6 +55,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Labeling\**" />
+    <EmbeddedResource Remove="Labeling\**" />
+    <None Remove="Labeling\**" />
+    <Page Remove="Labeling\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Getting Started\ZoomInAndOutOfTheMap.cs" />
   </ItemGroup>
 
@@ -573,6 +580,9 @@
     <None Update="SampleData\Json\mutedblue.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="SampleData\Json\thinkgeo-world-streets-cobalt.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="SampleData\Json\thinkgeo-world-streets-dark.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -609,7 +619,7 @@
     <None Update="SampleData\MrSid\World.sid">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="SampleData\NewYorkCity.mbtiles">
+    <None Update="SampleData\Mbtiles\NewYorkCity.mbtiles">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="SampleData\PersonalGeoDatabase\Austinstreets.mdb">
@@ -1017,15 +1027,6 @@
     <None Update="SampleData\Tab\HoustonMuniBdySamp_Boundary.TAB">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="SampleData\thinkgeo-world-streets-cobalt.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="SampleData\thinkgeo-world-streets-dark.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="SampleData\thinkgeo-world-streets-light.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="SampleData\TinyGeo\Frisco.tgeo">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -1060,9 +1061,4 @@
       <Version>4.7.0</Version>
     </PackageReference>
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Labeling\" />
-  </ItemGroup>
-
 </Project>
