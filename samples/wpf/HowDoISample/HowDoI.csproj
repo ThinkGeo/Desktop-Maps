@@ -390,7 +390,13 @@
     <Compile Update="Samples\PerformingGeometricOperations\Placeholder.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\ProjectingData\Placeholder.xaml.cs">
+	<Compile Update="Samples\ProjectingData\ProjectLatLonCoordinates.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\ProjectingData\SetLayerProjection.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\ProjectingData\SetMapProjection.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\Projection\UseADifferentProjectionForAFeatureLayer.xaml.cs">
@@ -453,16 +459,73 @@
     <Compile Update="Samples\Styles\UseCustomFontSymbolWithPointStyle.xaml.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="Samples\TopologicalValidation\Placeholder.xaml.cs">
+    <Compile Update="Samples\TopologicalValidation\LineValidation.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\UsingCloudMapsServices\Placeholder.xaml.cs">
+    <Compile Update="Samples\TopologicalValidation\PointValidation.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\TopologicalValidation\PolygonValidation.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\UsingCloudMapsServices\ColorUtilitiesCloudServices.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\UsingCloudMapsServices\ElevationCloudServices.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\UsingCloudMapsServices\GeocodingCloudServices.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\UsingCloudMapsServices\ProjectionCloudServices.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\UsingCloudMapsServices\ReverseGeocodingCloudServices.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+      <Compile Update="Samples\UsingCloudMapsServices\RoutingCloudServices.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+      <Compile Update="Samples\UsingCloudMapsServices\TimezoneCloudServices.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\UsingCloudMapsServices\WorldMapsQueryCloudServices.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\UsingOverlays\Placeholder.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\UsingQueryTools\Placeholder.xaml.cs">
+	<Compile Update="Samples\UsingQueryTools\Contains.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\UsingQueryTools\Crosses.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\UsingQueryTools\Disjoint.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\UsingQueryTools\Equals.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\UsingQueryTools\GetAllFeatureData.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\UsingQueryTools\GetDataFromFeature.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\UsingQueryTools\GetFeaturesWithinDistance.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\UsingQueryTools\Intersects.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\UsingQueryTools\Overlaps.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\UsingQueryTools\Touches.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\UsingQueryTools\Within.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\Vector Layers\AddMyOwnCustomDataToAFeatureLayer.xaml.cs">
@@ -841,7 +904,13 @@
     <Page Update="Samples\PerformingGeometricOperations\Placeholder.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\ProjectingData\Placeholder.xaml">
+	<Page Update="Samples\ProjectingData\ProjectLatLonCoordinates.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\ProjectingData\SetLayerProjection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\ProjectingData\SetMapProjection.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\Projection\UseADifferentProjectionForAFeatureLayer.xaml">
@@ -904,16 +973,73 @@
     <Page Update="Samples\Styles\UseCustomFontSymbolWithPointStyle.xaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Page>
-    <Page Update="Samples\TopologicalValidation\Placeholder.xaml">
+    <Page Update="Samples\TopologicalValidation\LineValidation.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingCloudMapsServices\Placeholder.xaml">
+    <Page Update="Samples\TopologicalValidation\PointValidation.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\TopologicalValidation\PolygonValidation.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingCloudMapsServices\ColorUtilitiesCloudServices.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingCloudMapsServices\ElevationCloudServices.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingCloudMapsServices\GeocodingCloudServices.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingCloudMapsServices\ProjectionCloudServices.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingCloudMapsServices\ReverseGeocodingCloudServices.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+      <Page Update="Samples\UsingCloudMapsServices\RoutingCloudServices.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+      <Page Update="Samples\UsingCloudMapsServices\TimezoneCloudServices.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingCloudMapsServices\WorldMapsQueryCloudServices.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\UsingOverlays\Placeholder.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingQueryTools\Placeholder.xaml">
+	<Page Update="Samples\UsingQueryTools\Contains.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingQueryTools\Crosses.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingQueryTools\Disjoint.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingQueryTools\Equals.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingQueryTools\GetAllFeatureData.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingQueryTools\GetDataFromFeature.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingQueryTools\GetFeaturesWithinDistance.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingQueryTools\Intersects.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingQueryTools\Overlaps.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingQueryTools\Touches.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingQueryTools\Within.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\Vector Layers\AddMyOwnCustomDataToAFeatureLayer.xaml">

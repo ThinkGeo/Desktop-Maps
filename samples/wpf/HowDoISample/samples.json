@@ -233,10 +233,22 @@
     "title": "Projecting Data",
     "children": [
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.ProjectingData.Placeholder",
-        "title": "<PLACEHOLDER_TITLE>",
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ProjectingData.SetMapProjection",
+        "title": "Setting the Projection of the Map",
         "description": "<PLACEHOLDER_DESCRIPTION>",
-        "source": "Samples/ProjectingData/Placeholder"
+        "source": "Samples/ProjectingData/"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ProjectingData.SetLayerProjection",
+        "title": "Setting the Projection of a Layer",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/ProjectingData/"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ProjectingData.ProjectLatLonCoordinates",
+        "title": "Projecting Lat/Lon Coordinates",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/ProjectingData/"
       }
     ]
   },
@@ -255,10 +267,70 @@
     "title": "Using Query Tools",
     "children": [
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools.Placeholder",
-        "title": "<PLACEHOLDER_TITLE>",
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools.Contains",
+        "title": "Check if Feature Contains",
         "description": "<PLACEHOLDER_DESCRIPTION>",
-        "source": "Samples/UsingQueryTools/Placeholder"
+        "source": "Samples/UsingQueryTools/Contains"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools.Crosses",
+        "title": "Check if Feature Crosses",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/UsingQueryTools/Crosses"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools.Disjoint",
+        "title": "Check if Features are Disjoint",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/UsingQueryTools/Disjoint"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools.Equals",
+        "title": "Check if Features are Equal",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/UsingQueryTools/Equals"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools.Intersects",
+        "title": "Check if Feature Intersects",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/UsingQueryTools/Intersects"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools.Overlaps",
+        "title": "Check if Feature Overlaps",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/UsingQueryTools/Overlaps"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools.Touches",
+        "title": "Check if Feature Touches",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/UsingQueryTools/Touches"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools.Within",
+        "title": "Check if Feature is Within Another Feature",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/UsingQueryTools/Within"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools.GetFeaturesWithinDistance",
+        "title": "Get Features Within a Distance",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/UsingQueryTools/GetFeaturesWithinDistance"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools.GetAllFeatureData",
+        "title": "Get Data from All Features",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/UsingQueryTools/GetAllFeatureData"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools.GetDataFromFeature",
+        "title": "Get Data from One Feature",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/UsingQueryTools/GetDataFromFeature"
       }
     ]
   },
@@ -266,10 +338,22 @@
     "title": "Topological Validation",
     "children": [
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation.Placeholder",
-        "title": "<PLACEHOLDER_TITLE>",
+        "id": "ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation.PointValidation",
+        "title": "Validate Point Topology",
         "description": "<PLACEHOLDER_DESCRIPTION>",
-        "source": "Samples/TopologicalValidation/Placeholder"
+        "source": "Samples/TopologicalValidation/PointValidation"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation.LineValidation",
+        "title": "Validate Line Topology",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/TopologicalValidation/LineValidation"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation.PolygonValidation",
+        "title": "Validate Polygon Topology",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/TopologicalValidation/PolygonValidation"
       }
     ]
   },
@@ -277,10 +361,52 @@
     "title": "Using Cloud Maps Services",
     "children": [
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices.Placeholder",
-        "title": "<PLACEHOLDER_TITLE>",
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices.RoutingCloudServices",
+        "title": "Routing",
         "description": "<PLACEHOLDER_DESCRIPTION>",
-        "source": "Samples/UsingCloudMapsServices/Placeholder"
+        "source": "Samples/UsingCloudMapsServices/RoutingCloudServices"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices.ElevationCloudServices",
+        "title": "Elevation",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/UsingCloudMapsServices/ElevationCloudServices"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices.GeocodingCloudServices",
+        "title": "Geocoding",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/UsingCloudMapsServices/GeocodingCloudServices"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices.ReverseGeocodingCloudServices",
+        "title": "Reverse Geocoding",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/UsingCloudMapsServices/ReverseGeocodingCloudServices"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices.ColorUtilitiesCloudServices",
+        "title": "Color Utilities",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/UsingCloudMapsServices/ColorUtilitiesCloudServices"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices.TimezoneCloudServices",
+        "title": "Timezone",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/UsingCloudMapsServices/TimezoneCloudServices"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices.ProjectionCloudServices",
+        "title": "Projection",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/UsingCloudMapsServices/ProjectionCloudServices"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices.WorldMapsQueryCloudServices",
+        "title": "World Maps Query",
+        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "source": "Samples/UsingCloudMapsServices/WorldMapsQueryCloudServices"
       }
     ]
   },
