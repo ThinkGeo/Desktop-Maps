@@ -68,14 +68,14 @@
   <ItemGroup>
     <PackageReference Include="NetTopologySuite" Version="2.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="ThinkGeo.Ecw" Version="13.0.0-beta086" />
-    <PackageReference Include="ThinkGeo.MrSid" Version="13.0.0-beta086" />
-    <PackageReference Include="ThinkGeo.Oracle" Version="13.0.0-beta086" />
-    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="13.0.0-beta086" />
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="13.0.0-beta087" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="13.0.0-beta086" />
-    <PackageReference Include="ThinkGeo.UI.WinForms" Version="13.0.0-beta006" />
-    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="12.2.7" />
+    <PackageReference Include="ThinkGeo.Ecw" Version="12.2.8" />
+    <PackageReference Include="ThinkGeo.MrSid" Version="12.2.8" />
+    <PackageReference Include="ThinkGeo.Oracle" Version="12.2.8" />
+    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="12.2.8" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="12.2.8" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="12.2.8" />
+    <PackageReference Include="ThinkGeo.UI.WinForms" Version="12.2.1" />
+    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="12.2.8" />
   </ItemGroup>
 
   <ItemGroup>

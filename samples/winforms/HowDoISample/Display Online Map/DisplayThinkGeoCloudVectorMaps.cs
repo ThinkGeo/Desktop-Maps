@@ -38,7 +38,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             else if (radioButtonCustomized.Checked)
             {
                 thinkGeoCloudVectorMapsOverlay.MapType = ThinkGeoCloudVectorMapsMapType.CustomizedByStyleJson;
-                thinkGeoCloudVectorMapsOverlay.StyleJsonUri = new Uri(Environment.CurrentDirectory + @"\SampleData\thinkgeo-world-streets-cobalt.json");
+                thinkGeoCloudVectorMapsOverlay.StyleJsonUri = new Uri(SampleHelper.Get("thinkgeo-world-streets-cobalt.json"));
             }
             thinkGeoCloudVectorMapsOverlay.Refresh();
         }
