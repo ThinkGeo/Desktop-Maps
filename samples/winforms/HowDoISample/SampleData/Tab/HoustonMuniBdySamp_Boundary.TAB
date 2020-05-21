@@ -1,0 +1,11 @@
+!table
+!version 300
+!charset WindowsLatin1
+
+Definition Table
+  Type NATIVE Charset "WindowsLatin1"
+  Fields 4
+    PLACENAME Char (40) Index 1 ;
+    STATE_FIPS Char (2) ;
+    CTY_FIPS Char (3) ;
+    PLACE Char (5) ;
