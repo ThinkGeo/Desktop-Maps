@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Text;
+using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
 
@@ -29,18 +31,43 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
             ProjectionConverter projectionConverter = new ProjectionConverter(2276, 3857);
             hotelsLayer.FeatureSource.ProjectionConverter = projectionConverter;
 
-            LayerOverlay hotealsOverlay = new LayerOverlay();
-            hotealsOverlay.Layers.Add("Frisco Hotels", hotelsLayer);
-            hotealsOverlay.TileType = TileType.MultiTile;
-            mapView.Overlays.Add(hotealsOverlay);
+            LayerOverlay hotelsOverlay = new LayerOverlay();
+            hotelsOverlay.Layers.Add("Frisco Hotels", hotelsLayer);
+            hotelsOverlay.TileType = TileType.MultiTile;
+            mapView.Overlays.Add(hotelsOverlay);
+
+            PopupOverlay popupOverlay = new PopupOverlay();
+            mapView.Overlays.Add(popupOverlay);
 
             hotelsLayer.Open();
             RectangleShape hotelsBoundingBox = hotelsLayer.GetBoundingBox();
+
+            var features = hotelsLayer.QueryTools.GetAllFeatures(ReturningColumnsType.AllColumns);
+
             hotelsLayer.Close();
+
+            foreach(Feature feature in features)
+            {
+                StringBuilder parkInfoString = new StringBuilder();
+
+                foreach (var column in feature.ColumnValues)
+                {
+                    parkInfoString.AppendLine(String.Format("{0}: {1}", column.Key, column.Value));
+                }
+
+                Popup popup = new Popup((PointShape)feature.GetShape());
+                popup.Content = parkInfoString.ToString();
+                popup.FontSize = 10d;
+                popup.FontFamily = new System.Windows.Media.FontFamily("Verdana");
+                popupOverlay.Popups.Add(popup);
+            }
 
             mapView.CurrentExtent = hotelsBoundingBox;
 
             mapView.Refresh();
+
+
+
         }
     }
 }

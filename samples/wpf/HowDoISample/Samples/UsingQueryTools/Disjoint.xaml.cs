@@ -11,15 +11,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
     /// </summary>
     public partial class Disjoint : UserControl
     {
-        private ShapeFileFeatureLayer parcelsLayer;
-        private InMemoryFeatureLayer queryShapeLayer;
-        private InMemoryFeatureLayer highlightedShapesLayer;
-
         public Disjoint()
         {
             InitializeComponent();
         }
-
         private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the Map Unit to meters (used in Spherical Mercator)
@@ -30,7 +25,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a feature layer to hold the Frisco parcels data
-            parcelsLayer = new ShapeFileFeatureLayer(@"../../../Data/FriscoLandRec/Parcels.shp");
+            ShapeFileFeatureLayer parcelsLayer = new ShapeFileFeatureLayer(@"../../../Data/FriscoLandRec/Parcels.shp");
 
             // Convert the Frisco shapefile from its native projection to Spherical Mercator, to match the map
             ProjectionConverter projectionConverter = new ProjectionConverter(2276, 3857);
@@ -44,16 +39,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
             mapView.CurrentExtent = new RectangleShape(-10784492.67, 3914751.61, -10783955.56, 3914454.73);
 
             // Create a layer to hold the feature we will perform the spatial query against
-            queryShapeLayer = new InMemoryFeatureLayer();
-            queryShapeLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(75, GeoColors.CadetBlue), GeoColors.DarkBlue);
-            queryShapeLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            InMemoryFeatureLayer queryFeatureLayer = new InMemoryFeatureLayer();
+            queryFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(75, GeoColors.CadetBlue), GeoColors.DarkBlue);
+            queryFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
             RectangleShape sampleShape = new RectangleShape(-10784306.88, 3914633.81, -10784208.14, 3914546.46);
-            queryShapeLayer.InternalFeatures.Add(new Feature(sampleShape));
+            queryFeatureLayer.InternalFeatures.Add(new Feature(sampleShape));
 
             // Create a layer to hold features found by the spatial query
-            highlightedShapesLayer = new InMemoryFeatureLayer();
-            highlightedShapesLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(90, GeoColors.GreenYellow), GeoColors.DarkGreen);
-            highlightedShapesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            InMemoryFeatureLayer highlightedFeaturesLayer = new InMemoryFeatureLayer();
+            highlightedFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(90, GeoColors.GreenYellow), GeoColors.DarkGreen);
+            highlightedFeaturesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Add each feature layer to it's own overlay
             // We do this so we can control and refresh/redraw each layer individually
@@ -63,14 +58,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
             mapView.Overlays.Add("Frisco Parcels Overlay", parcelsOverlay);
 
             LayerOverlay queryFeaturesOverlay = new LayerOverlay();
-            queryFeaturesOverlay.Layers.Add("Query Feature", queryShapeLayer);
+            queryFeaturesOverlay.Layers.Add("Query Feature", queryFeatureLayer);
             queryFeaturesOverlay.TileType = TileType.MultiTile;
             mapView.Overlays.Add("Query Features Overlay", queryFeaturesOverlay);
 
-            LayerOverlay highlightFeaturesOverlay = new LayerOverlay();
-            highlightFeaturesOverlay.Layers.Add("Highlighted Shapes", highlightedShapesLayer);
-            highlightFeaturesOverlay.TileType = TileType.MultiTile;
-            mapView.Overlays.Add("Highlighted Shapes Overlay", highlightFeaturesOverlay);
+            LayerOverlay highlightedFeaturesOverlay = new LayerOverlay();
+            highlightedFeaturesOverlay.Layers.Add("Highlighted Features", highlightedFeaturesLayer);
+            highlightedFeaturesOverlay.TileType = TileType.MultiTile;
+            mapView.Overlays.Add("Highlighted Features Overlay", highlightedFeaturesOverlay);
 
             // Add an event to handle new shapes that are drawn on the map
             mapView.TrackOverlay.TrackEnded += OnPolygonDrawn;
@@ -86,7 +81,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
         {
             // Perform the spatial query on features in the specified layer
             layer.Open();
-            var features = layer.FeatureSource.SpatialQuery(shape, QueryType.Disjoint, ReturningColumnsType.AllColumns);
+            var features = layer.QueryTools.GetFeaturesDisjointed(shape, ReturningColumnsType.AllColumns);
             layer.Close();
 
             return features;
@@ -94,28 +89,38 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
 
         private void HighlightQueriedFeatures(IEnumerable<Feature> features)
         {
+            // Find the layers we will be modifying in the MapView dictionary
+            LayerOverlay highlightedFeaturesOverlay = (LayerOverlay)mapView.Overlays["Highlighted Features Overlay"];
+            InMemoryFeatureLayer highlightedFeaturesLayer = (InMemoryFeatureLayer)highlightedFeaturesOverlay.Layers["Highlighted Features"];
+
             // Clear the currently highlighted features
-            highlightedShapesLayer.Open();
-            highlightedShapesLayer.InternalFeatures.Clear();
+            highlightedFeaturesLayer.Open();
+            highlightedFeaturesLayer.InternalFeatures.Clear();
 
             // Add new features to the layer
             foreach (var feature in features)
             {
-                highlightedShapesLayer.InternalFeatures.Add(feature);
+                highlightedFeaturesLayer.InternalFeatures.Add(feature);
             }
-            highlightedShapesLayer.Close();
+            highlightedFeaturesLayer.Close();
 
             // Refresh the overlay so the layer is redrawn
-            mapView.Refresh(mapView.Overlays["Highlighted Shapes Overlay"]);
+            highlightedFeaturesOverlay.Refresh();
         }
 
         private void OnPolygonDrawn(object sender, TrackEndedTrackInteractiveOverlayEventArgs e)
         {
+            // Find the layers we will be modifying in the MapView dictionary
+            LayerOverlay queryFeaturesOverlay = (LayerOverlay)mapView.Overlays["Query Features Overlay"];
+            InMemoryFeatureLayer queryFeatureLayer = (InMemoryFeatureLayer)queryFeaturesOverlay.Layers["Query Feature"];
+            LayerOverlay parcelsOverlay = (LayerOverlay)mapView.Overlays["Frisco Parcels Overlay"];
+            ShapeFileFeatureLayer parcelsLayer = (ShapeFileFeatureLayer)parcelsOverlay.Layers["Frisco Parcels"];
+
             // Clear the query shape layer and add the newly drawn shape
             var drawnShape = e.TrackShape;
-            queryShapeLayer.InternalFeatures.Clear();
-            queryShapeLayer.InternalFeatures.Add(new Feature(drawnShape));
-            mapView.Refresh(mapView.Overlays["Query Features Overlay"]);
+            queryFeatureLayer.InternalFeatures.Clear();
+            queryFeatureLayer.InternalFeatures.Add(new Feature(drawnShape));
+            queryFeaturesOverlay.Refresh();
 
             // Perform the spatial query using the drawn shape and highlight features that were found
             var queriedFeatures = PerformSpatialQuery(drawnShape, parcelsLayer);

@@ -8,8 +8,27 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <ThinkGeoUI:MapView x:Name="mapView" Loaded="MapView_Loaded"></ThinkGeoUI:MapView>
-        <Grid MinWidth="192" HorizontalAlignment="Right">
-            <Label Content="Sample Controls Goes Here" VerticalAlignment="Top"/>
-        </Grid>
+        <StackPanel Grid.Column="1" Margin="8" >
+            <Label HorizontalContentAlignment="Center">
+                <Label.Content>
+                    <AccessText TextWrapping="Wrap" Text="Click on a Feature to View Attributes"/>
+                </Label.Content>
+            </Label>
+        </StackPanel>
+
+        <!-- Grid Layout -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="200" />
+        </Grid.ColumnDefinitions>
     </Grid>
+    <UserControl.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
+            <Setter Property="FontSize" Value="14"></Setter>
+        </Style>
+        <Style TargetType="Grid">
+            <Setter Property="Background" Value="DimGray"></Setter>
+        </Style>
+    </UserControl.Resources>
 </UserControl>
