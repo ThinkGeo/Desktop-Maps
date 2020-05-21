@@ -5,20 +5,14 @@
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.BasicNavigation",
         "title": "Basic Navigation",
-        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "description": "Learn how to programmatically zoom, pan, and rotate the map control.",
         "source": "Samples/SettingMapExtent/BasicNavigation"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.SetMapExtent",
         "title": "Set the Map Extent",
-        "description": "<PLACEHOLDER_DESCRIPTION>",
+        "description": "Learn how to set the map extent using a variety of different methods.",
         "source": "Samples/SettingMapExtent/SetMapExtent"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.RotateMap",
-        "title": "Rotate the Map",
-        "description": "<PLACEHOLDER_DESCRIPTION>",
-        "source": "Samples/SettingMapExtent/RotateMap"
       }
     ]
   },

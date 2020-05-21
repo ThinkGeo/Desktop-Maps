@@ -10,7 +10,11 @@
         <ThinkGeoUI:MapView x:Name="mapView" Loaded="MapView_Loaded" Grid.Column="0" />
 
         <StackPanel Grid.Column="1" Margin="8" >
-            <Label Content="Pan Strength"/>
+            <Label Content="Zoom To Scale:" FontWeight="Bold"/>
+            <Label Content="Scale:"></Label>
+            <TextBox x:Name="zoomScale" Text="10000"></TextBox>
+            <Button x:Name="ZoomToScale" Content="Zoom To Scale" Click="ZoomToScale_Click"></Button>
+
         </StackPanel>
         
         <!-- Grid Layout -->
@@ -19,4 +23,13 @@
             <ColumnDefinition Width="200" />
         </Grid.ColumnDefinitions>
     </Grid>
+    <UserControl.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
+            <Setter Property="FontSize" Value="14"></Setter>
+        </Style>
+        <Style TargetType="Grid">
+            <Setter Property="Background" Value="DimGray"></Setter>
+        </Style>
+    </UserControl.Resources>
 </UserControl>
