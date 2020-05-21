@@ -22,23 +22,23 @@ namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector
             ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
             Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            ShapeFileFeatureLayer parksLayer = new ShapeFileFeatureLayer(@"../../../Data/FriscoPOI/Parks.shp");
-            parksLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-            parksLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.Purple, GeoColor.FromArgb(100, GeoColors.Green));
-
-            ProjectionConverter projectionConverter = new ProjectionConverter(2276, 3857);
-            parksLayer.FeatureSource.ProjectionConverter = projectionConverter;
-
             LayerOverlay parksOverlay = new LayerOverlay();
-            parksOverlay.Layers.Add("Frisco Parks", parksLayer);
-            parksOverlay.TileType = TileType.MultiTile;
             Map.Overlays.Add(parksOverlay);
 
+            ShapeFileFeatureLayer parksLayer = new ShapeFileFeatureLayer(@"../../../Data/FriscoPOI/Parks.shp");
+            parksLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
             parksLayer.Open();
-            RectangleShape parksBoundingBox = parksLayer.GetBoundingBox();
-            parksLayer.Close();
 
-            Map.CurrentExtent = parksBoundingBox;
+            var dashedPen = new GeoPen(GeoColors.Green, 5);
+            dashedPen.DashPattern.Add(1);
+            dashedPen.DashPattern.Add(1);
+
+            parksLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            parksLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = new AreaStyle(dashedPen, new GeoSolidBrush(GeoColors.Transparent));
+
+            parksOverlay.Layers.Add("Frisco Parks", parksLayer);
+
+            Map.CurrentExtent = parksLayer.GetBoundingBox();
 
             Map.Refresh();
         }

@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ThinkGeoUI:MapView x:Name="mapView" Loaded="MapView_Loaded"></ThinkGeoUI:MapView>
+        <ThinkGeoUI:MapView x:Name="mapView" Loaded="MapView_Loaded" CurrentExtentChanged="mapView_CurrentExtentChanged"></ThinkGeoUI:MapView>
         <Grid MinWidth="192" HorizontalAlignment="Right">
             <Label Content="Sample Controls Goes Here" VerticalAlignment="Top"/>
         </Grid>
