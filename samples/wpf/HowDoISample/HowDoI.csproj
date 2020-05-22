@@ -492,9 +492,6 @@
     <Compile Update="Samples\UsingCloudMapsServices\WorldMapsQueryCloudServices.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\UsingOverlays\Placeholder.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
 	<Compile Update="Samples\UsingQueryTools\Contains.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -1006,7 +1003,52 @@
     <Page Update="Samples\UsingCloudMapsServices\WorldMapsQueryCloudServices.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingOverlays\Placeholder.xaml">
+    <Page Update="Samples\UsingOverlays\DrawEditDeleteShapesUsingInteractiveOverlay.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingOverlays\GroupingLayersUsingLayerOverlay.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingOverlays\DisplayMouseCoordinateAdornment.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingOverlays\DisplayScaleBarAdornment.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingOverlays\DisplayLogoAdornment.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingOverlays\DisplayLegendAdornment.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingOverlays\PrintMapsUsingPrintOverlay.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingOverlays\CachingMapTiles.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingOverlays\DisplayCloudMapsRasterOverlay.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingOverlays\DisplayCloudMapsVectorOverlay.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingOverlays\DisplayBingMapsOverlay.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingOverlays\DisplayGoogleMapsOverlay.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingOverlays\DisplayOpenStreetMapOverlay.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingOverlays\DisplayWMSOverlay.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingOverlays\UsingMarkers.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingOverlays\UsingPopups.xaml">
       <SubType>Designer</SubType>
     </Page>
 	<Page Update="Samples\UsingQueryTools\Contains.xaml">

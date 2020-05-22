@@ -32,7 +32,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Load the Frisco data to a layer
             friscoCityBoundary = new ShapeFileFeatureLayer(@"../../../Data/FriscoMunBnd/City_ETJ.shp");
-
+            
             // Convert the Frisco shapefile from its native projection to Spherical Mercator, to match the map
             friscoCityBoundary.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
@@ -47,31 +47,57 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
+
+            // Populate Controls
+            friscoCityBoundary.Open();
+            featureIds.ItemsSource = friscoCityBoundary.FeatureSource.GetFeatureIds();
+            friscoCityBoundary.Close();
+            featureIds.SelectedIndex = 0;
         }
 
+        /// <summary>
+        /// Zoom to a scale programmatically. Note that the scales are bound by a ZoomLevelSet.
+        /// </summary>
         private void ZoomToScale_Click(object sender, RoutedEventArgs e)
         {
             mapView.ZoomToScale(Convert.ToDouble(zoomScale.Text));
         }
 
-        private void LayerExtent_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Set the map extent to fix a layer's bounding box
+        /// </summary>
+        private void LayerBoundingBox_Click(object sender, RoutedEventArgs e)
         {
-
+            mapView.CurrentExtent = friscoCityBoundary.GetBoundingBox();
+            mapView.Refresh();
         }
 
-        private void FeatureExtent_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Set the map extent to fix a feature's bounding box
+        /// </summary>
+        private void FeatureBoundingBox_Click(object sender, RoutedEventArgs e)
         {
-
+            var feature = friscoCityBoundary.FeatureSource.GetFeatureById(featureIds.SelectedItem.ToString(), ReturningColumnsType.NoColumns);
+            mapView.CurrentExtent = feature.GetBoundingBox();
+            mapView.Refresh();
         }
 
-        private void PanToLatLon_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Zoom to a lat/lon at a desired scale by converting the lat/lon to match the map's projection
+        /// </summary>
+        private void ZoomToLatLon_Click(object sender, RoutedEventArgs e)
         {
+            // Create a PointShape from the lat-lon
+            var latlonPoint = new PointShape(Convert.ToDouble(latitude.Text), Convert.ToDouble(longitude.Text));
 
-        }
+            // Convert the lat-lon projection to match the map
+            var projectionConverter = new ProjectionConverter(4326, 3857);
+            projectionConverter.Open();
+            var convertedPoint = (PointShape)projectionConverter.ConvertToExternalProjection(latlonPoint);
+            projectionConverter.Close();
 
-        private void PanToFeature_Click(object sender, RoutedEventArgs e)
-        {
-
+            // Zoom to the converted lat-lon at the desired scale
+            mapView.ZoomTo(convertedPoint, Convert.ToDouble(latlonScale.Text));
         }
     }
 }

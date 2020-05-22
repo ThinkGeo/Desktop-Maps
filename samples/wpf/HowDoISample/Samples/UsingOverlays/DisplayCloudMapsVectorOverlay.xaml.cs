@@ -3,14 +3,14 @@ using System.Windows.Controls;
 using ThinkGeo.Core;
 using ThinkGeo.UI.Wpf;
 
-namespace ThinkGeo.UI.Wpf.HowDoI.UsingOverlays
+namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Interaction logic for Placeholder.xaml
     /// </summary>
-    public partial class Placeholder : UserControl
+    public partial class DisplayCloudMapsVectorOverlay : UserControl
     {
-        public Placeholder()
+        public DisplayCloudMapsVectorOverlay()
         {
             InitializeComponent();
         }

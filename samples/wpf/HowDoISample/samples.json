@@ -11,7 +11,7 @@
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.SetMapExtent",
         "title": "Set the Map Extent",
-        "description": "Learn how to set the map extent using a variety of different methods.",
+        "description": "Learn how to set the map extent in a variety of different ways.",
         "source": "Samples/SettingMapExtent/SetMapExtent"
       }
     ]
@@ -205,10 +205,100 @@
     "title": "Using Overlays",
     "children": [
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.UsingOverlays.Placeholder",
-        "title": "<PLACEHOLDER_TITLE>",
-        "description": "<PLACEHOLDER_DESCRIPTION>",
-        "source": "Samples/UsingOverlays/Placeholder"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CachingMapTiles",
+        "title": "Caching Map Tiles",
+        "description": "Learn to cache map tiles using a file-based cache.",
+        "source": "Samples/UsingOverlays/CachingMapTiles"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayBingMapsOverlay",
+        "title": "Display Bing Maps Overlay",
+        "description": "Learn to render Bing Maps using the BingMapsOverlay. A Bing Maps API key is required.",
+        "source": "Samples/UsingOverlays/DisplayBingMapsOverlay"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayCloudMapsRasterOverlay",
+        "title": "Display Cloud Maps Raster Overlay",
+        "description": "Learn to render ThinkGeo Cloud Maps in raster format.",
+        "source": "Samples/UsingOverlays/DisplayCloudMapsRasterOverlay"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayCloudMapsVectorOverlay",
+        "title": "Display Cloud Maps Vector Overlay",
+        "description": "Learn to render ThinkGeo Cloud Maps in vector format.",
+        "source": "Samples/UsingOverlays/DisplayCloudMapsVectorOverlay"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayGoogleMapsOverlay",
+        "title": "Display Google Maps Overlay",
+        "description": "Learn to render Google Maps using the GoogleMapsOverlay. A Google Maps API key is required.",
+        "source": "Samples/UsingOverlays/DisplayGoogleMapsOverlay"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayLegendAdornment",
+        "title": "Display a Legend Adornment",
+        "description": "Learn to render and customize a map legend.",
+        "source": "Samples/UsingOverlays/DisplayLegendAdornment"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayLogoAdornment",
+        "title": "Display a Logo Adornment",
+        "description": "Learn to render a custom logo on the map.",
+        "source": "Samples/UsingOverlays/DisplayLogoAdornment"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMouseCoordinateAdornment",
+        "title": "Display a Mouse Coordinate Adornment",
+        "description": "Learn to render lat/lon info based on the mouse position on the map.",
+        "source": "Samples/UsingOverlays/DisplayMouseCoordinateAdornment"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayOpenStreetMapOverlay",
+        "title": "Display OpenStreetMap Overlay",
+        "description": "Learn to render OpenStreetMap using the OpenStreetMapOverlay.",
+        "source": "Samples/UsingOverlays/DisplayOpenStreetMapOverlay"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayScaleBarAdornment",
+        "title": "Display a ScaleBar Adornment",
+        "description": "Learn to render a ScaleBar in a variety of different of styles.",
+        "source": "Samples/UsingOverlays/DisplayScaleBarAdornment"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayWMSOverlay",
+        "title": "Display a WMS Overlay",
+        "description": "Learn to render a Web Map Service using the WMSOverlay.",
+        "source": "Samples/UsingOverlays/DisplayWMSOverlay"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DrawEditDeleteShapesUsingInteractiveOverlay",
+        "title": "Draw, Edit, or Delete Shapes Using the InteractiveOverlay",
+        "description": "Learn to draw, edit, or delete shapes using the InteractiveOverlay.",
+        "source": "Samples/UsingOverlays/DrawEditDeleteShapesUsingInteractiveOverlay"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.GroupingLayersUsingLayerOverlay",
+        "title": "Grouping Layers Using LayerOverlay",
+        "description": "Learn to group layers into logical groups using LayerOverlays.",
+        "source": "Samples/UsingOverlays/GroupingLayersUsingLayerOverlay"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.PrintMapsUsingPrintOverlay",
+        "title": "Print Maps Using PrintOverlay",
+        "description": "Learn to print maps using the PrintOverlay.",
+        "source": "Samples/UsingOverlays/PrintMapsUsingPrintOverlay"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UsingMarkers",
+        "title": "Using Markers",
+        "description": "Learn to add, edit, or remove markers on the map using the MarkerOverlay.",
+        "source": "Samples/UsingOverlays/UsingMarkerOverlay"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UsingPopups",
+        "title": "Using Popups",
+        "description": "Learn to add, edit, or remove popups on the map using the PopupOverlay.",
+        "source": "Samples/UsingOverlays/UsingPopups"
       }
     ]
   },

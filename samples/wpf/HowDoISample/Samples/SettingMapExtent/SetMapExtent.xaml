@@ -11,10 +11,42 @@
 
         <StackPanel Grid.Column="1" Margin="8" >
             <Label Content="Zoom To Scale:" FontWeight="Bold"/>
-            <Label Content="Scale:"></Label>
-            <TextBox x:Name="zoomScale" Text="10000"></TextBox>
+            <DockPanel>
+                <TextBox x:Name="zoomScale" Text="10000" DockPanel.Dock="Right" MinWidth="64"></TextBox>
+                <Label Content="Scale:"></Label>
+            </DockPanel>
             <Button x:Name="ZoomToScale" Content="Zoom To Scale" Click="ZoomToScale_Click"></Button>
 
+            <TextBlock></TextBlock>
+
+            <Label Content="Layer Bounding Box:" FontWeight="Bold"></Label>
+            <Button x:Name="layerBoundingBox" Content="Set Extent to Layer BBox" Click="LayerBoundingBox_Click"></Button>
+
+            <TextBlock></TextBlock>
+
+            <Label Content="Feature Bounding Box:" FontWeight="Bold"></Label>
+            <DockPanel>
+                <Label Content="FeatureID:"></Label>
+                <ComboBox x:Name="featureIds"></ComboBox>
+            </DockPanel>
+            <Button x:Name="featureBoundingBox" Content="Set Extent to Feature BBox" Click="FeatureBoundingBox_Click"></Button>
+
+            <TextBlock></TextBlock>
+
+            <Label Content="Lat/Lon:" FontWeight="Bold"></Label>
+            <DockPanel>
+                <TextBox x:Name="latitude" Text="-97" DockPanel.Dock="Right" MinWidth="64"></TextBox>
+                <Label Content="Latitude:"></Label>
+            </DockPanel>
+            <DockPanel>
+                <TextBox x:Name="longitude" Text="33" DockPanel.Dock="Right" MinWidth="64"></TextBox>
+                <Label Content="Longitude:"></Label>
+            </DockPanel>
+            <DockPanel>
+                <TextBox x:Name="latlonScale" Text="1000000" DockPanel.Dock="Right" MinWidth="64"></TextBox>
+                <Label Content="Scale:"></Label>
+            </DockPanel>
+            <Button x:Name="latlonZoom" Content="Pan to Lat/Lon" Click="ZoomToLatLon_Click"></Button>
         </StackPanel>
         
         <!-- Grid Layout -->
