@@ -8,8 +8,62 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <ThinkGeoUI:MapView x:Name="mapView" Loaded="MapView_Loaded"></ThinkGeoUI:MapView>
-        <Grid MinWidth="192" HorizontalAlignment="Right">
-            <Label Content="Sample Controls Goes Here" VerticalAlignment="Top"/>
-        </Grid>
+        <Label Grid.Column="1" Margin="11 8 11 3">
+            <Label.Content>
+                <AccessText HorizontalAlignment="Center" FontSize="16" TextWrapping="Wrap" FontWeight="Bold" Text="Generate and Apply a New Color Group"/>
+            </Label.Content>
+        </Label>
+        <TextBlock Grid.Column="1" Margin="11 80 11 3">
+                <Label FontSize="14">Category:</Label>
+                <ComboBox x:Name="cboColorType" Width="150" SelectionChanged="cboColorType_SelectionChanged">
+                        <ComboBoxItem IsSelected="True">Hue</ComboBoxItem>
+                        <ComboBoxItem>Triad</ComboBoxItem>
+                        <ComboBoxItem>Tetrad</ComboBoxItem>
+                        <ComboBoxItem>Quality</ComboBoxItem>
+                        <ComboBoxItem>Analogous</ComboBoxItem>
+                        <ComboBoxItem>Contrasting</ComboBoxItem>
+                        <ComboBoxItem>Complementary</ComboBoxItem>
+                    </ComboBox>
+        </TextBlock>
+        <TextBlock x:Name="txtColorCategoryDescription" TextWrapping="Wrap" Foreground="WhiteSmoke" Grid.Column="1" Margin="17 110 17 3"></TextBlock>
+        <Label Grid.Column="1" Margin="11 190 11 3">Base Color:</Label>
+        <StackPanel x:Name="generateColorPanel" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,224,11,0" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Width="222" Height="76">
+            <RadioButton x:Name="rdoRandomColor" Margin="11 3" GroupName="SelectedColor">Random Color</RadioButton>
+            <TextBlock Margin="11 3">
+                <RadioButton x:Name="rdoSpecificColor" GroupName="SelectedColor">
+                    <Run Text="Specific Color:"></Run>
+                </RadioButton>
+                <TextBox x:Name="txtSpecificColor">#AB2567</TextBox>
+            </TextBlock>
+            <TextBlock Margin="11 3">
+                <RadioButton x:Name="rdoDefaultColor" IsChecked="True" GroupName="SelectedColor">
+                    <Run Text="Default Color:"></Run>
+                </RadioButton>
+                <ComboBox x:Name="cboDefaultColor">
+                        <ComboBoxItem IsSelected="True">Red</ComboBoxItem>
+                        <ComboBoxItem>Orange</ComboBoxItem>
+                        <ComboBoxItem>Yellow</ComboBoxItem>
+                        <ComboBoxItem>Green</ComboBoxItem>
+                        <ComboBoxItem>Blue</ComboBoxItem>
+                        <ComboBoxItem>Purple</ComboBoxItem>
+                    </ComboBox>
+            </TextBlock>
+        </StackPanel>
+        <Button Grid.Column="1" VerticalAlignment="Top" Margin="17,321,11,0" Height="40" Click="btnGenerate_Click">Generate</Button>
+
+        <!-- Grid Layout -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="250" />
+        </Grid.ColumnDefinitions>
     </Grid>
+    <UserControl.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
+            <Setter Property="FontSize" Value="14"></Setter>
+        </Style>
+        <Style TargetType="Grid">
+            <Setter Property="Background" Value="DimGray"></Setter>
+        </Style>
+    </UserControl.Resources>
 </UserControl>
