@@ -110,12 +110,13 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="ThinkGeo.Ecw" Version="12.2.7" />
     <PackageReference Include="ThinkGeo.MrSid" Version="12.2.7" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="12.2.8" />
     <PackageReference Include="ThinkGeo.Oracle" Version="12.2.7" />
     <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="12.2.7" />
     <PackageReference Include="ThinkGeo.PostgreSql" Version="12.2.7" />
     <PackageReference Include="ThinkGeo.Printers" Version="12.2.7" />
     <PackageReference Include="ThinkGeo.SqlServer" Version="12.2.7" />
-    <PackageReference Include="ThinkGeo.UI.Wpf" Version="12.2.7" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="13.0.0-beta106" />
     <PackageReference Include="ThinkGeo.UnmanagedGeoTiff" Version="12.2.7" />
     <PackageReference Include="ThinkGeo.UnmanagedProj" Version="12.2.7" />
   </ItemGroup>

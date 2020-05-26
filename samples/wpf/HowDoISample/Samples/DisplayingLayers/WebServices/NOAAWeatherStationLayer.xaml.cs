@@ -39,6 +39,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             nOAAWeatherStationLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             weatherOverlay.Layers.Add(nOAAWeatherStationLayer);
+            //weatherOverlay.TileType = TileType.SingleTile;
+
+            mapView.CurrentExtent = new RectangleShape(-14927495.374917, 8262593.0543992, -6686622.84891633, 1827556.23117885);
 
             mapView.Refresh();
         }
@@ -47,12 +50,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             mapView.Dispatcher.Invoke(new RefreshWeatherStations(this.UpdateWeatherStations), new object[] { });
         }
-
-        private void mapView_CurrentExtentChanged(object sender, CurrentExtentChangedMapViewEventArgs e)
-        {
-            Debug.WriteLine(e.NewExtent.ToString());
-        }
-
         private void UpdateWeatherStations()
         {
             mapView.Refresh(mapView.Overlays["Weather"]);

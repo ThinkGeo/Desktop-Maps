@@ -26,8 +26,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             LayerOverlay parksOverlay = new LayerOverlay();
             mapView.Overlays.Add(parksOverlay);
 
-            TabFeatureLayer parksLayer = new TabFeatureLayer(@"../../../Data/Tab/HoustonMuniBdySamp_Boundary.TAB");
-            parksLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 3857);
+            TabFeatureLayer parksLayer = new TabFeatureLayer(@"../../../Data/City_ETJ.tab");
+            parksLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
             parksLayer.StylingType = TabStylingType.StandardStyling;
             parksLayer.Open();
 
