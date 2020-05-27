@@ -10,7 +10,16 @@
         <ThinkGeoUI:MapView x:Name="mapView" Loaded="MapView_Loaded" Grid.Column="0" />
 
         <StackPanel Grid.Column="1" Margin="4">
-            <Label Content="Sample Controls Goes Here" VerticalAlignment="Top"/>
+            <Label Content="Google Maps:" FontWeight="Bold"/>
+            <DockPanel>
+                <TextBox x:Name="googleApiKey" Text="GOOGLE_API_KEY" DockPanel.Dock="Right" Width="120"></TextBox>
+                <Label Content="API Key:"></Label>
+            </DockPanel>
+            <DockPanel>
+                <TextBox x:Name="googleSigningSecret" Text="GOOGLE_SIGNING_SECRET" DockPanel.Dock="Right" Width="120"></TextBox>
+                <Label Content="Secret:"></Label>
+            </DockPanel>
+            <Button x:Name="displayGoogleMaps" Content="Display Google Maps" Click="DisplayGoogleMaps_Click"></Button>
         </StackPanel>
 
         <!-- Grid Layout -->

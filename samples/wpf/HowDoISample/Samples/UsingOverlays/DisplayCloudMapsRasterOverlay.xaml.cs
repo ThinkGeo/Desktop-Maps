@@ -6,7 +6,7 @@ using ThinkGeo.UI.Wpf;
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Interaction logic for Placeholder.xaml
+    /// Learn to render ThinkGeo Cloud Maps in raster format.
     /// </summary>
     public partial class DisplayCloudMapsRasterOverlay : UserControl
     {
@@ -16,19 +16,28 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Setup the map with the ThinkGeo Cloud Maps overlay to show a basic map
+        /// Setup the map with a background overlay and set the map's extent to Frisco, Tx.
         /// </summary>
         private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
 
-            // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            // Add a simple background overlay
+            mapView.BackgroundOverlay.BackgroundBrush = GeoBrushes.AliceBlue;
 
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
+        }
+
+        /// <summary>
+        /// Create a ThinkGeo Cloud Maps raster overlay and add it to the map view.
+        /// </summary>
+        private void DisplayRasterCloudMaps_Click(object sender, RoutedEventArgs e)
+        {
+            var thinkGeoCloudRasterMapsOverlay = new ThinkGeoCloudRasterMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudRasterMapsMapType.Hybrid);
+            mapView.Overlays.Add(thinkGeoCloudRasterMapsOverlay);
+            mapView.Refresh();
         }
     }
 }

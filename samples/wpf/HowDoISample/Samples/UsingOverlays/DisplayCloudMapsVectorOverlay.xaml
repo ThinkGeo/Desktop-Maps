@@ -10,7 +10,16 @@
         <ThinkGeoUI:MapView x:Name="mapView" Loaded="MapView_Loaded" Grid.Column="0" />
 
         <StackPanel Grid.Column="1" Margin="4">
-            <Label Content="Sample Controls Goes Here" VerticalAlignment="Top"/>
+            <Label Content="Vector Cloud Maps:" FontWeight="Bold"/>
+            <DockPanel>
+                <TextBox x:Name="cloudMapsApiKey" Text="itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~" DockPanel.Dock="Right" Width="120"></TextBox>
+                <Label Content="API Key:"></Label>
+            </DockPanel>
+            <DockPanel>
+                <TextBox x:Name="cloudMapsSecretKey" Text="bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~" DockPanel.Dock="Right" Width="120"></TextBox>
+                <Label Content="Secret Key:"></Label>
+            </DockPanel>
+            <Button x:Name="displayVectorCloudMaps" Content="Display Vector Cloud Maps" Click="DisplayVectorCloudMaps_Click"></Button>
         </StackPanel>
 
         <!-- Grid Layout -->

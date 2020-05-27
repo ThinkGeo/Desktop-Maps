@@ -213,7 +213,7 @@
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayBingMapsOverlay",
         "title": "Display Bing Maps Overlay",
-        "description": "Learn to render Bing Maps using the BingMapsOverlay. A Bing Maps API key is required.",
+        "description": "Learn to render Bing Maps using the BingMapsOverlay. A valid Bing Maps ApplicationID is required.",
         "source": "Samples/UsingOverlays/DisplayBingMapsOverlay"
       },
       {
@@ -231,7 +231,7 @@
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayGoogleMapsOverlay",
         "title": "Display Google Maps Overlay",
-        "description": "Learn to render Google Maps using the GoogleMapsOverlay. A Google Maps API key is required.",
+        "description": "Learn to render Google Maps using the GoogleMapsOverlay. A Google Maps API key and secret is required.",
         "source": "Samples/UsingOverlays/DisplayGoogleMapsOverlay"
       },
       {

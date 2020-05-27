@@ -10,7 +10,8 @@
         <ThinkGeoUI:MapView x:Name="mapView" Loaded="MapView_Loaded" Grid.Column="0" />
 
         <StackPanel Grid.Column="1" Margin="4">
-            <Label Content="Sample Controls Goes Here" VerticalAlignment="Top"/>
+            <Label Content="Tile Caching"/>
+            <CheckBox x:Name="useCache" Content="Use Tile Cache" IsChecked="False" Checked="UseCache_Checked" Unchecked="UseCache_Unchecked"></CheckBox>
         </StackPanel>
 
         <!-- Grid Layout -->
@@ -19,9 +20,13 @@
             <ColumnDefinition Width="200" />
         </Grid.ColumnDefinitions>
     </Grid>
-    
+
     <UserControl.Resources>
         <Style TargetType="Label">
+            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
+            <Setter Property="FontSize" Value="14"></Setter>
+        </Style>
+        <Style TargetType="CheckBox">
             <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
             <Setter Property="FontSize" Value="14"></Setter>
         </Style>

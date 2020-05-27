@@ -10,7 +10,12 @@
         <ThinkGeoUI:MapView x:Name="mapView" Loaded="MapView_Loaded" Grid.Column="0" />
 
         <StackPanel Grid.Column="1" Margin="4">
-            <Label Content="Sample Controls Goes Here" VerticalAlignment="Top"/>
+            <Label Content="OpentStreetMaps:" FontWeight="Bold"/>
+            <DockPanel>
+                <TextBox x:Name="osmUserAgent" Text="DesktopMaps HowDoI" DockPanel.Dock="Right" Width="120"></TextBox>
+                <Label Content="User Agent:"></Label>
+            </DockPanel>
+            <Button x:Name="displayOsmMaps" Content="Display OSM Maps" Click="DisplayOsmMaps_Click"></Button>
         </StackPanel>
 
         <!-- Grid Layout -->
