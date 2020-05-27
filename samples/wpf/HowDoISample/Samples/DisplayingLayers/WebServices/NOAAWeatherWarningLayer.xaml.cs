@@ -29,9 +29,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             mapView.Overlays.Add("Noaa Weather Warning", noaaWeatherWarningsOverlay);
 
-            NoaaWeatherWarningsMonitor.WarningsUpdated += NoaaWeatherWarningsMonitor_WarningsUpdated;
-
             NoaaWeatherWarningsFeatureLayer noaaWeatherWarningsFeatureLayer = new NoaaWeatherWarningsFeatureLayer();
+
+            var featureSource = (NoaaWeatherWarningsFeatureSource)noaaWeatherWarningsFeatureLayer.FeatureSource;
+            featureSource.WarningsUpdated += FeatureSource_WarningsUpdated;
 
             noaaWeatherWarningsFeatureLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(new NoaaWeatherWarningsStyle());
             noaaWeatherWarningsFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
@@ -40,7 +41,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             mapView.CurrentExtent = new RectangleShape(-14534042, 9147820, -4906645, 1270446);
         }
-        private void NoaaWeatherWarningsMonitor_WarningsUpdated(object sender, WarningsUpdatedNoaaWeatherWarningsMonitorEventArgs e)
+
+        private void FeatureSource_WarningsUpdated(object sender, WarningsUpdatedNoaaWeatherWarningsFeatureSourceEventArgs e)
         {
             mapView.Dispatcher.Invoke(new RefreshWeatherWarning(this.UpdateWeatherWarning), new object[] { });
         }
