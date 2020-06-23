@@ -6,7 +6,7 @@ In today’s project, we show how to save a tracked shape to WKT (Well Known Tex
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_winforms) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/TrackedShapesToWKTSample-ForWinForms/blob/master/Screenshot.png)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/TrackedShapesToWKT/Screenshot.png)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

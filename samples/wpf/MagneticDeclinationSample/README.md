@@ -6,7 +6,7 @@ In today's WPF project, we show you how to add the Magnetic Declination or Magne
               
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/MagneticDeclinationSample-ForWpf/blob/master/ScreenShot.png)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/MagneticDeclinationSample/ScreenShot.png)
 
 ### Requirements
 

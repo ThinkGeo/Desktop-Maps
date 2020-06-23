@@ -5,7 +5,7 @@ In this sample we show you how to add robust printing support to your Map Suite 
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](Screenshot.gif)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/PrintMapWithMultiplePages/Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

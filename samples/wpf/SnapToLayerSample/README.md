@@ -7,7 +7,7 @@ This class allowed the snapping of the mouse pointer to the closest vertex of a 
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/SnapToLayerSample-ForWpf/blob/master/ScreenShot.png)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/SnapToLayerSample/ScreenShot.png)
 
 ### Requirements
 

@@ -5,7 +5,7 @@ This project shows how to implement aborting a trackshape with Esc key as you co
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_winforms) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/TrackOverlayWithEscSample-ForWinForms/blob/master/ScreenShot.png)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/TrackOverlayWithEsc/ScreenShot.png)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

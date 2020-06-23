@@ -8,7 +8,7 @@ ThinkGeo Cloud Vector Maps support would work in all of the Map Suite controls s
 
 Please refer to [Wiki](https://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](Screenshot.gif)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/SpatialQueryVectorMapsSample/Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

@@ -6,7 +6,7 @@ This sample shows how to create a customized raster layer for loading multiple f
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/MultipleJpeg2000RasterLayerSample-ForWpf/blob/master/Screenshot.png)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/MultipleJpeg2000RasterLayerSample/Screenshot.png)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

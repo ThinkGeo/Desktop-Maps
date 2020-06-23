@@ -8,7 +8,7 @@ Note that the **PointToValueRatio** is used to set how many people a dot is goin
               
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/MultipleDotDensityStylesSample-ForWpf/blob/master/ScreenShot.png)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/MultipleDotDensityStyleSample/ScreenShot.png)
 
 ### Requirements
 

@@ -6,7 +6,7 @@ In this WPF project, we show you how to highlight a feature when the user hovers
               
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/HighlightAtMouseHoverSample-ForWpf/blob/master/ScreenShot.png)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/HighlightAtMouseHoverSample/ScreenShot.png)
 
 ### Requirements
 

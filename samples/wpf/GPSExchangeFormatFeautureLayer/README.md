@@ -5,7 +5,7 @@ This sample demonstrates how to read GPS EXchange Format file(*.gpx) with Map Su
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/GPSExchangeFormatFeatureLayerSample-ForWpf/blob/master/Screenshot.png)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/GPSExchangeFormatFeautureLayer/Screenshot.png)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

@@ -6,7 +6,7 @@ In this Wpf project, we explore more capabilities of the PopupOverlay and its co
               
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/PopupOverlaySample-ForWpf/blob/master/ScreenShot.png)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/PopUpOverlaySample/ScreenShot.png)
 
 ### Requirements
 

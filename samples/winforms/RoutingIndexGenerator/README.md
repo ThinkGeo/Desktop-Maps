@@ -4,7 +4,7 @@
 
 The Map Suite Routing Index Generator is a utility that will allow you to generate routing index files (“.rtg” and “.rtx”) from World Streets .sqlite database. These routing index files will be used by the Map Suite Routing Extension in order to calculate routes and driving directions. This utility allows you to specify things that one-way road information, as well as configuring the road speed and type of routes you would like to calculate. It is easily extendable to allow you to add code to deal with other routing situations.
 
-![Screenshot](https://github.com/ThinkGeo/RoutingIndexGeneratorSample-ForWinForms/blob/master/Screenshot.png)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/RoutingIndexGenerator/Screenshot.png)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

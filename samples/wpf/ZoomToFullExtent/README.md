@@ -6,7 +6,7 @@ This is a simple project that shows how to set the current extent based on a col
               
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/ZoomToFullExtentWpfSample-ForWpf/blob/master/ScreenShot.png)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/ZoomToFullExtent/ScreenShot.png)
 
 ### Requirements
 

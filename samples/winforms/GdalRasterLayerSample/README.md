@@ -5,7 +5,7 @@ This sample demonstrates how you can load raster format data supported by Gdal.
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_winforms) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/GdalRasterLayerSample-ForWinForms/blob/master/Screenshot.png)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/GdalRasterLayerSample/Screenshot.png)
 
 ### About the Code
 ```csharp

@@ -5,7 +5,7 @@ The Jpeg2000 Sample template represents a .JP2 (JPEG2000) image type to be drawn
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_winforms) for the details.
 
-![Screenshot](https://raw.githubusercontent.com/ThinkGeo/Jpeg2000Sample-ForWinForms/master/ScreenShot.png)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/Jpeg2000Sample/ScreenShot.png)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

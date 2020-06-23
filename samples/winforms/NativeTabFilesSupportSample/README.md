@@ -8,7 +8,7 @@ This Code Community project demonstrates how to load and display a TAB file usin
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_winforms) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/NativeTabFileSupportSample-ForWinForms/blob/master/Screenshot.png)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/NativeTabFilesSupportSample/Screenshot.png)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

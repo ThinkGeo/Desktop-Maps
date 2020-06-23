@@ -6,7 +6,7 @@ In this Wpf sample, we show how to persist the tracked shapes by saving the WKT 
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](Screenshot.gif)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/TrackedShapeFile/Screenshot.gif)
 
 ### Requirements
 

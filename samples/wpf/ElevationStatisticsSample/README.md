@@ -8,7 +8,7 @@ This **Sample**   shows the elevation data of a road in the form of a line [char
  - **For line** - There are two ways to get the elevation data of the line. First, get the points on the line by setting the interval distance. The other, is to take the points by setting the number of points to be fetched. Then query the elevation data of the point.
  - **For polygon** - By setting the interval distance, clip the polygon to the grids and get all the center of the grids where the polygon is located. Now, determine whether the center points are within the surface or inside the surface (use improved arc-length method).
  
-![Screenshot](https://github.com/ThinkGeo/ElevationStatisticsSample-ForWpf/blob/master/Screenshot.png)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/ElevationStatisticsSample/Screenshot.png)
 
 
 ### Requirements

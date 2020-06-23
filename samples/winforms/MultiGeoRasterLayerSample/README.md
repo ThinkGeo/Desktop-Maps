@@ -8,7 +8,7 @@ This class show how to do that using JPEG images with its associating JGW world 
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_winforms) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/MultiGeoRasterLayerSample-ForWinForms/blob/master/Screenshot.png)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/MultiGeoRasterLayerSample/Screenshot.png)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

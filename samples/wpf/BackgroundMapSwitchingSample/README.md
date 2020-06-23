@@ -7,7 +7,7 @@ This sample shows you how to use these four different types of maps as backgroun
  - **Bing Maps**
  - **Google Maps**
 
-![Screenshot](Screenshot.gif)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/BackgroundMapSwitchingSample/Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Package.

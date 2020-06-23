@@ -5,7 +5,7 @@ As you probably already know, using the Map Suite API, you can easily display a 
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/ImageStyleSample-ForWpf/blob/master/Screenshot.png)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/ImageStyleSample/Screenshot.png)
 
 ### Requirements
 

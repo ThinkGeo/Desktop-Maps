@@ -3,7 +3,7 @@
 ### Description
 In this sample, we show how you can use Map Suite [Elevation SDK](https://thinkgeo.com/gisserver#feature) to get the elevation values of a specific line for your .NET application. It allows you to customize your query to get data as detailed as you need it to be. Draw elevation profiles for your  hiking or biking trip, contral the granularity of the response, sample elevation values at controllable intervals along a route should be shown up.
 
-![Screenshot](https://github.com/ThinkGeo/ElevationGradeOfLineSample-ForWpf/blob/master/Screenshot.png)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/ElevationGradeOfLineSample/Screenshot.png)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

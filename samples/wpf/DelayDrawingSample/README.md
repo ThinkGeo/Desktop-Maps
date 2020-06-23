@@ -5,7 +5,7 @@ This WPF project shows how to use the Delay Map Drawing feature to control wheth
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](Screenshot.gif)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/DelayDrawingSample/Screenshot.gif)
 
 ### Requirements
 

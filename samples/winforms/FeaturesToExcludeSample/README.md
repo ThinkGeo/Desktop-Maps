@@ -5,7 +5,7 @@ The purpose of this project is to show how to use the **FeatureIdsToExclude** co
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_winforms) for the details.
 
-![Screenshot](Screenshot.gif)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/FeaturesToExcludeSample/Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

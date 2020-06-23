@@ -6,7 +6,7 @@ In this project you will see how to use the AnnotationStyle to display and edit 
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/thinkgeo_desktop_for_wpf) for the details.
 
-![Screenshot](Screenshot.gif)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/AnnotatingStyleSample/Screenshot.gif)
 
 ### About the Code
 

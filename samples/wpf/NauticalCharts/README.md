@@ -7,7 +7,7 @@ This sample happens to be written for WPF but the Nautical Charts Package works 
 
 ThinkGeo uses a default style which can be easily modified. Nautical Charts Viewer provide the ability to switch the map between 5 modes: Day Bright, Day Black, Day White, Dusk and Night. It has 3 verbose mode of “All”, “Standard” and “Base”. It can switch boundaries between dashed line and triangles, it can show/hide different labeling, show different languages, etc. If you are a developer, dig in the code and you can see it’s as simple as creating a layer and set up the properties like following, and it can do more than it shows in this sample
 
-![Screenshot](Screenshot.gif)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/NauticalCharts/Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

@@ -6,7 +6,7 @@ This sample demonstrates how you can read data from an MsSql database, and you w
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/DisplayMsSqlDatabaseSample-ForWpf/blob/master/Screenshot.png)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/DisplayMsSQLDatabaseSample/Screenshot.png)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

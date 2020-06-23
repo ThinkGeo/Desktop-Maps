@@ -8,7 +8,7 @@ The sample code makes this straight forward to implement.
               
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/TouchEventsSample-ForWpf/blob/master/ScreenShot.png)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/TouchEventsSample/ScreenShot.png)
 
 ### Requirements
 

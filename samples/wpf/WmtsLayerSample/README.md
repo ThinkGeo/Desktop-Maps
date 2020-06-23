@@ -6,7 +6,7 @@ This project shows how to consume data from a WMTS Server using WmtsLayer. You w
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/WmtsLayerSample-ForWpf/blob/master/Screenshot.png)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/WmtsLayerSample/Screenshot.png)
 
 ### Requirements
 

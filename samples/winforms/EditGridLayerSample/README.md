@@ -15,7 +15,7 @@ We have dramatically improved the performance for GridFeatureLayer on MapSuite10
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_winforms) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/EditGridLayerSample-ForWinFoms/blob/master/Screenshot.png)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/EditGridLayerSample/Screenshot.png)
 
 ### Requirements
 

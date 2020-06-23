@@ -8,7 +8,7 @@ For more details including a list of topology cases that you can test, see [this
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_winforms) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/TopologyValidationSample-ForWinForms/blob/master/Screenshot.png)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/TopologyValidation/Screenshot.png)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

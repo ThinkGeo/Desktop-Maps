@@ -6,7 +6,7 @@ The "How Do I?" samples collection is a comprehensive set containing dozens of i
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_winforms) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/HowDoISample-ForWinForms/blob/master/Screenshot.png)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/HowDoI/Screenshot.png)
 
 ### Requirements
 

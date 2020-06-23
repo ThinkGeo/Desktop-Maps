@@ -7,7 +7,7 @@ In this Wpf project, we are showing a trick for getting the current extent of th
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](Screenshot.gif)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/GoogleMapToGeodeticSample/Screenshot.gif)
 
 ### Requirements
 

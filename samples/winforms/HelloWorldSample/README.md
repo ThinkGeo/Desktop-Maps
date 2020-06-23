@@ -5,7 +5,7 @@ This sample shows you how to get started building your first application with th
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_winforms) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/HelloWorldSample-ForWinForms/blob/master/Screenshot.png)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/HelloWorldSample/Screenshot.png)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

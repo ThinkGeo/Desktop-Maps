@@ -6,7 +6,7 @@ In this project you will see how to use the ClassBreakStyle to group and render 
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/thinkgeo_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/ClassBreakStyleSample-ForWpf/blob/master/Screenshot.png)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/ClassBreakeStyleSample/Screenshot.png)
 
 ### About the Code
 Use a ClassBreakStyle to colorize each state differently depending on the range into which its population falls.  This value is found in the states ShapeFile DBF in the column named "POP1990".

@@ -6,7 +6,7 @@ This sample will show you how to find the closest line between two features by u
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](Screenshot.gif)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/FindShortestLineAndSplittingLinesSample/Screenshot.gif)
 
 ### Requirements
 

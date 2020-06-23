@@ -7,7 +7,7 @@ This sample includes a map with MrSID as base overlay, the MrSID shows the image
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_winforms) for the details.
 
-![Screenshot](https://raw.githubusercontent.com/ThinkGeo/MrSidSample-ForWinForms/master/ScreenShot.png)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/MrSidSample/ScreenShot.png)
 
 **Known issue:** The screenshot is taken under Linux, but it not well tested, maybe sometimes runs to exception. 
 

@@ -6,7 +6,7 @@ Popup and marker need to use click events etc, so they inherit Control class. Si
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/PrintPopupAndMarkerSample-ForWpf/blob/master/Screenshot.png)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/PrintPopUpAndMarkerSample/Screenshot.png)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

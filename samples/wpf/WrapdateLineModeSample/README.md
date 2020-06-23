@@ -6,7 +6,7 @@ In this Wpf project, we show a new property of Overlay, WrapDatelineMode. This p
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](Screenshot.gif)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/WrapdateLineModeSample/Screenshot.gif)
 
 ### Requirements
 
