@@ -5,7 +5,7 @@ In the previous project, we showed how to center the map on a moving vehicle. Wh
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_winforms) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/CenteringOnMovingVehicleWithToleranceSample-ForWinForms/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Packages
