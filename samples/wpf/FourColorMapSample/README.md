@@ -2,14 +2,14 @@
 
 ### Description
 
-Any map can be colored using four colors in such a way that adjacent regions receive different colors. 
+Any map can be colored using four colors in such a way that adjacent regions receive different colors.
 The sample discover how to use ShapeFileFeatureLayer to get four color features, then use ValueStyle to render the four color map.
 
-At present, the four color map only supports polygon, and doesn't support point and line. 
+At present, the four color map only supports polygon, and doesn't support point and line.
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/FourColorMapSample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

@@ -6,12 +6,12 @@ In this project you will see how to use the AnnotationStyle to display and edit 
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/thinkgeo_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/AnnotationStyleSample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### About the Code
 
 ```csharp
-       
+
 protected override void DrawCore(IEnumerable<Feature> features, GeoCanvas canvas, Collection<SimpleCandidate> labelsInThisLayer, Collection<SimpleCandidate> labelsInAllLayers)
 {
     foreach (var feature in features)

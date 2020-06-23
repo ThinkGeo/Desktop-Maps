@@ -5,7 +5,7 @@ This example demonstrates how to get the zoom level of the map each time we chan
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_winforms) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/GetZoomLevelSample-ForWinForms/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Packages
@@ -23,8 +23,8 @@ partitionedZoomLevelSet.CustomZoomLevels.Add(new ZoomLevel(10000));
 partitionedZoomLevelSet.CustomZoomLevels.Add(new ZoomLevel(5000));
 partitionedZoomLevelSet.CustomZoomLevels.Add(new ZoomLevel(2500));
 partitionedZoomLevelSet.CustomZoomLevels.Add(new ZoomLevel(1000));
-partitionedZoomLevelSet.CustomZoomLevels.Add(new ZoomLevel(500));   
-partitionedZoomLevelSet.CustomZoomLevels.Add(new ZoomLevel(250));   
+partitionedZoomLevelSet.CustomZoomLevels.Add(new ZoomLevel(500));
+partitionedZoomLevelSet.CustomZoomLevels.Add(new ZoomLevel(250));
 winformsMap1.ZoomLevelSet = partitionedZoomLevelSet;
 
 Collection<ZoomLevel> zoomLevels = winformsMap1.ZoomLevelSet.GetZoomLevels();

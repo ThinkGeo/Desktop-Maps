@@ -6,7 +6,7 @@ The “How Do I?” samples collection is a comprehensive set containing dozens 
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/thinkgeo_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/HowDoISample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### About the Code
 

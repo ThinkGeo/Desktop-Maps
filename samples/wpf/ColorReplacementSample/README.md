@@ -1,11 +1,11 @@
 # Color Replacement Sample for Wpf
 
 ### Description
-In today’s WPF project, we show you how to replace a specific color in a raster image, with the advantage of new added API Color Mapping. For the example, in this project, the lake in Green can be replaced with blue.  
+In today’s WPF project, we show you how to replace a specific color in a raster image, with the advantage of new added API Color Mapping. For the example, in this project, the lake in Green can be replaced with blue.
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/ColorReplacementSample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Packages
@@ -51,8 +51,8 @@ This example makes use of the following APIs:
 - [ThinkGeo.MapSuite.Layers.NativeImageRasterLayer](http://wiki.thinkgeo.com/wiki/api/thinkgeo.mapsuite.layers.nativeimagerasterlayer)
 
 ### FAQ
-- __Q: How do I make background map work?__  
-A: Backgrounds for this sample are powered by ThinkGeo Cloud Maps and require a Client ID and Secret. These were sent to you via email when you signed up with ThinkGeo, or you can register now at https://cloud.thinkgeo.com. Once you get them, please update the code in method Window_Loaded() in MainWindow.xaml.cs.  
+- __Q: How do I make background map work?__
+A: Backgrounds for this sample are powered by ThinkGeo Cloud Maps and require a Client ID and Secret. These were sent to you via email when you signed up with ThinkGeo, or you can register now at https://cloud.thinkgeo.com. Once you get them, please update the code in method Window_Loaded() in MainWindow.xaml.cs.
 
 ### About Map Suite
 Map Suite is a set of powerful development components and services for the .Net Framework.

@@ -8,7 +8,7 @@ In this project, we show how to build your own InteractiveOverlay to emulate in 
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_winforms) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/TrackZoomInWithoutShiftKeySample-ForWinForms/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

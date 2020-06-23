@@ -3,10 +3,10 @@
 ### Description
 
 In this Wpf sample, we show how to persist the tracked shapes by saving the WKT (Well Known Text) to a file using the TrackEnded event. Also, you can see how to retrieve the WKT from files to create the features for the TrackShapeLayer of the TrackOverlay when loading the map. You will need the MapSuiteCore.dll and WpfDesktopEdition.dll references for this sample.
-              
+
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/TrackedShapesToFileSample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 

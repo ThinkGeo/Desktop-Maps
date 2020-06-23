@@ -3,10 +3,10 @@
 ### Description
 
 In this WPF project, you will learn how to place labels from a shapefile into a **SimpleMarkerOverlay**. Using the **DragMode** property of the **SimpleMarkerOverlay**, the user can then drag the labels to place them at the desired location for the most pleasing labeling effect. This project will be later completed to show how to save the state of the dragged labels from the **SimpleMarkerOverlay** and reload them.
-              
+
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/DraggableLabelsSample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

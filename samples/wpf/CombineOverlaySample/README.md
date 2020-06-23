@@ -2,11 +2,11 @@
 
 ### Description
 
-In today’s Wpf project, we show a technique of using a common FeatureSource for two different Overlays. From a physical shapefile representing cities, a regular LayerOverlay is used for the higher zoom levels while a FeatureSourceMarkerOverlay is used for the lower zoom levels. FeatureSourceMarkerOverlay is a Wpf specific overlay offering features for a better user experience such a Tooltips and ImageSource.              
+In today’s Wpf project, we show a technique of using a common FeatureSource for two different Overlays. From a physical shapefile representing cities, a regular LayerOverlay is used for the higher zoom levels while a FeatureSourceMarkerOverlay is used for the lower zoom levels. FeatureSourceMarkerOverlay is a Wpf specific overlay offering features for a better user experience such a Tooltips and ImageSource.
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/CombineOverlaySample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 
@@ -42,8 +42,8 @@ This example makes use of the following APIs:
 - [ThinkGeo.MapSuite.Layers.ShapeFileFeatureSource](http://wiki.thinkgeo.com/wiki/api/thinkgeo.mapsuite.layers.shapefilefeaturesource)
 
 ### FAQ
-- __Q: How do I make background map work?__  
-A: Backgrounds for this sample are powered by ThinkGeo Cloud Maps and require a Client ID and Secret. These were sent to you via email when you signed up with ThinkGeo, or you can register now at https://cloud.thinkgeo.com. Once you get them, please update the code in method Window_Loaded() in TestWindow .cs.  
+- __Q: How do I make background map work?__
+A: Backgrounds for this sample are powered by ThinkGeo Cloud Maps and require a Client ID and Secret. These were sent to you via email when you signed up with ThinkGeo, or you can register now at https://cloud.thinkgeo.com. Once you get them, please update the code in method Window_Loaded() in TestWindow .cs.
 
 ### About Map Suite
 Map Suite is a set of powerful development components and services for the .Net Framework.

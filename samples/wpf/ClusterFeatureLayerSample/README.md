@@ -1,11 +1,11 @@
 # Cluster Feature Layer Sample for Wpf
 
 ### Description
-The sample shows how to use ClusterFeatureLayer to render the specified column data as a pie chart. Allows users to compare data visually. 
+The sample shows how to use ClusterFeatureLayer to render the specified column data as a pie chart. Allows users to compare data visually.
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/ClusterFeatureLayerSample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

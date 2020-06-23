@@ -2,7 +2,7 @@
 
 ### Description
 1. In Map Suite, a shape (a shape object inherited from the BaseShape class such as PointShape, LineShape, etc) is heavier than a feature. You can treat a feature as a holder of a byte array (Well Known Binary), it’s lightweight and doesn’t have too many methods to manipulate its core data (Well Known Binary). Shape, however, is heavy, it provides all the info as well as methods against the data.  You can cast from a feature to a shape and vice versa.
- 
+
 1. To update a feature, usually, we need to convert a feature to a shape, update the shape and then convert it back to a feature. This will create a new shape and a new feature, which is more straightforward but the cost is high. Below is a method updating a point feature by adding 1 to its X and Y.
 
 ```csharp
@@ -35,7 +35,7 @@
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_winforms) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/RenderingPointsPerformanceTestSample-ForWinForms/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Package.
@@ -56,10 +56,10 @@ This sample makes use of the following NuGet Package.
             var x = testExtent.UpperLeftPoint.X + testExtent.Width * randomX;
             var randomY = random.NextDouble();
             var y = testExtent.LowerLeftPoint.Y + testExtent.Height * randomY;
-            
+
             pointFeatureLayer.InternalFeatures.Add(new Feature(x, y));
         }
-            
+
         layerOverlay.Layers.Add(pointFeatureLayer);
 ```
 
@@ -82,7 +82,7 @@ This sample makes use of the following NuGet Package.
                 simplifiedDrawingFeautres.Add(feature);
                 grids.Add($"{gridCol}-{gridRow}", true);
             }
-        } 
+        }
 ```
 
 ### Getting Help

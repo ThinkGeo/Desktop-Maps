@@ -5,7 +5,7 @@ In today’s project, we are going to see how to extend the TrackInteractiveOver
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_winforms) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/CustomTrackLineSample-ForWinForms/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Packages
@@ -18,7 +18,7 @@ class CustomTrackInteractiveOverlay : TrackInteractiveOverlay
 {
     protected override InteractiveResult MouseDownCore(InteractionArguments interactionArguments)
     {
-        
+
         if (interactionArguments.MouseButton != MapMouseButton.Right)
             return base.MouseDownCore(interactionArguments);
         else

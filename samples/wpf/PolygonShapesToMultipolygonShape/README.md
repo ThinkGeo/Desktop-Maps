@@ -3,10 +3,10 @@
 ### Description
 
 In this Wpf project, we show how to create a MultipolygonShape from various PolygonShapes. Since a collection of PolygonShapes cannot be directly cast to a MultipolygonShape, we show the technique to build a MultipolygonShape passing an IEnumerable of PolygonShape. This is a Wpf sample and you will need the references for MapSuiteCore.dll and WpfDesktopEdition.dll.
-              
+
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/PolygonShapesToMultipolygonShapeSample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 

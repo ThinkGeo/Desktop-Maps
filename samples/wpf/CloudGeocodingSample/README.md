@@ -2,13 +2,13 @@
 
 ### Description
 
-This **Sample**  demonstrates how you can use ThinkGeo Cloud Client to get a geographic location from ThinkGeo GIS Server by a street address. 
+This **Sample**  demonstrates how you can use ThinkGeo Cloud Client to get a geographic location from ThinkGeo GIS Server by a street address.
 
 ThinkGeo Cloud Client support would work in all of the Map Suite controls such as Wpf, Web, MVC, WebApi, Android and iOS.
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/ThinkGeoCloudGeocodingSample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

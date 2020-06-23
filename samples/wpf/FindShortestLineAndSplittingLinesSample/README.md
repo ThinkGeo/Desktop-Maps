@@ -2,11 +2,11 @@
 
 ### Description
 
-This sample will show you how to find the closest line between two features by using the GetShortestLineTo API and how to split a line at a given point using the GetLineOnALine API. These APIs can be very useful when doing spatial analysis and editing of features. This sample also allows you to dynamically alter the test features using the EditOverlay so you can try out different scenarios and see the results quickly. A MapShapes layer is used to display and style the individual results.         
+This sample will show you how to find the closest line between two features by using the GetShortestLineTo API and how to split a line at a given point using the GetLineOnALine API. These APIs can be very useful when doing spatial analysis and editing of features. This sample also allows you to dynamically alter the test features using the EditOverlay so you can try out different scenarios and see the results quickly. A MapShapes layer is used to display and style the individual results.
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/FindShortestLineAndSplittingLinesSample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 

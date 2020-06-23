@@ -8,7 +8,7 @@ This repo contains three projects.
 - BuildingStyle represents a style for building that is compatible with the other products such as WPF, WinForms and Web.
 - OsmBuildingOnlineServiceFeatureLayer represents the online data source of feature layer.
 
-![Build Preview](https://github.com/ThinkGeo/BuildingSamples-ForWpf/raw/master/Screenshot.gif)
+![Build Preview](Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

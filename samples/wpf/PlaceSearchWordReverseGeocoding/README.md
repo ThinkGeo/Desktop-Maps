@@ -1,9 +1,9 @@
 # Place search world reverse geocoding sample for Wpf
 
 ### Description
-In this sample, we show how you can use Map Suite [World Reverse Geocoding SDK](https://thinkgeo.com/gisserver#feature) to turn a geographic location into meaningful addresses. It ships with an optimized set of worldwide coverage of cities and towns, but any customized data can be supported as well. 
+In this sample, we show how you can use Map Suite [World Reverse Geocoding SDK](https://thinkgeo.com/gisserver#feature) to turn a geographic location into meaningful addresses. It ships with an optimized set of worldwide coverage of cities and towns, but any customized data can be supported as well.
 
-![Screenshot](https://github.com/ThinkGeo/PlaceSearchWorldReverseGeocodingSample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 
 ### What areas does the World Reverse Geocoding cover?

@@ -6,7 +6,7 @@ The Map Suite WPF CustomZoomLevelForThinkGeoCloudRasterOverlay sample will guide
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/CustomZoomLevelForThinkGeoCloudRasterOverlay-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### About the Code
 

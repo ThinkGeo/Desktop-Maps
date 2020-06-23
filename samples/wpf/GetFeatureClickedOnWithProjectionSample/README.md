@@ -4,13 +4,13 @@
 
 This WPF project shows a technique for finding the feature of a point, line or polygon-based layer that the user clicked on.  As with the earlier sample entitled "Get Feature Clicked On", in order to give the user the expected behavior, a buffer in screen coordinates needs to be set so that the selected feature is chosen within a constant distance in screen coordinates from where the user clicked on, regardless of the zoom level.  In addition, this sample also addresses a limitation of the earlier sample by showing the contrast between using the functions GetFeaturesNearestTo and GetFeaturesWithinDistanceOf.
 
-While the function GetFeaturesNearestTo as used in "Get Feature Clicked On" works quickly and is adequate in most cases, it is not guaranteed to get the closest feature.  In contrast, with the new function GetFeaturesWithinDistanceOf, you can loop through the features within a specified tolerance and get their exact distance.  While this approach requires some more code, it is guaranteed to get the closest feature in any case. 
+While the function GetFeaturesNearestTo as used in "Get Feature Clicked On" works quickly and is adequate in most cases, it is not guaranteed to get the closest feature.  In contrast, with the new function GetFeaturesWithinDistanceOf, you can loop through the features within a specified tolerance and get their exact distance.  While this approach requires some more code, it is guaranteed to get the closest feature in any case.
 
 This sample also demonstrates another aspect of distance queries. We have the layers projected to the Google Map projection from WGS84, and you'll notice that the aforementioned distance functions (GetFeaturesWithinDistanceOf and GetFeaturesWithinDistanceOf) work seamlessly without requiring the developer to worry whether the layers are projected or not.
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/GetFeatureClickedOnWithProjectionSample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

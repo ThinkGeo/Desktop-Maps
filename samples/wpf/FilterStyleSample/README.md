@@ -3,10 +3,10 @@
 ### Description
 
 This project outlines how to apply the FilterStyle to a layer's display. By using this style, the map will filter the features queried from the source file by checking if a specified column value fits the input condition. This effect can be applied to all the Map Suite products.
-              
+
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/FilterStyleSample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 

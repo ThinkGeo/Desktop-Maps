@@ -2,20 +2,20 @@
 
 ### Description
 
-This is a simple routing data viewer sample viewer which demonstrates how to use the RoutingEngine to get the shortest or fastest route in your Map Suite GIS applications. 
+This is a simple routing data viewer sample viewer which demonstrates how to use the RoutingEngine to get the shortest or fastest route in your Map Suite GIS applications.
 
 How to use this tool:
 
  1. **Load rtg data:**
   Click menu "**File->Load**" browse to a rtg file. You also require a shapefile for the routing source file in the same folder, otherwise it display message "Could not find shp file in the same folder where you seleted".
  2. **Start routing:**
-  Use left click for a start point and right click for an end point. If there is no route within **200** meters(you can modify this in source code), the explorer displays a message "There’s no road within 200 meters to where you clicked on".   
+  Use left click for a start point and right click for an end point. If there is no route within **200** meters(you can modify this in source code), the explorer displays a message "There’s no road within 200 meters to where you clicked on".
 
 This RoutingEngine supports routing in all of the Map Suite controls such as WinForms, Web, MVC and WebApi.
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/RoutingDataExplorerSample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

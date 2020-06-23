@@ -2,7 +2,7 @@
 
 ### Description
 
-This sample demonstrates how you can draw the map with Vector Tiles saved in *.MBTiles in your Map Suite GIS applications, with any style you want from [StyleJSON (Mapping Defination Grammar)](https://wiki.thinkgeo.com/wiki/thinkgeo_stylejson). It will show you how to use the XyzFileBitmapTileCache to improve the performance of map rendering. It supports have 3 built-in default map styles and more awasome styles from StyleJSON file you passed in, by 'Custom': 
+This sample demonstrates how you can draw the map with Vector Tiles saved in *.MBTiles in your Map Suite GIS applications, with any style you want from [StyleJSON (Mapping Defination Grammar)](https://wiki.thinkgeo.com/wiki/thinkgeo_stylejson). It will show you how to use the XyzFileBitmapTileCache to improve the performance of map rendering. It supports have 3 built-in default map styles and more awasome styles from StyleJSON file you passed in, by 'Custom':
 - Light
 - Dark
 - TransparentBackground
@@ -15,7 +15,7 @@ If you want the *.mbtile file of any area in the world, or you have any requirem
 
 Please refer to [Wiki](https://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/ThinkGeoMBTilesMapsSample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Packages
@@ -27,7 +27,7 @@ This sample makes use of the following NuGet Packages
 this.wpfMap.MapUnit = GeographyUnit.Meter;
 this.wpfMap.ZoomLevelSet = ThinkGeoMBTilesFeatureLayer.GetZoomLevelSet();
 
-// Create background world map with vector tile requested from loacl Database. 
+// Create background world map with vector tile requested from loacl Database.
 thinkGeoMBTilesFeatureLayer = new ThinkGeoMBTilesFeatureLayer("Data/tiles_Frisco.mbtiles", new Uri("Data/thinkgeo-world-streets-light.json", UriKind.Relative));
 
 layerOverlay = new LayerOverlay();

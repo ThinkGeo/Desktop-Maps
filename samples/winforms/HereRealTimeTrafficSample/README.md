@@ -7,11 +7,11 @@ Before running this sample, you need to config "AppId" and "AppCode" in App.Conf
 
 HERE Real-time Traffic provides the closest thing to a live depiction of the road. It identifies where, when and why traffic congestion occurs, and delivers up-to-the-minute information on the road conditions and incidents that could set a driver back.
 
-This HereRealTimeTrafficLayer is supported in all of the Map Suite controls such as WPF, Web, MVC and WebAPI. 
+This HereRealTimeTrafficLayer is supported in all of the Map Suite controls such as WPF, Web, MVC and WebAPI.
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_winforms) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/HereRealTimeTrafficSample-ForWinForms/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 

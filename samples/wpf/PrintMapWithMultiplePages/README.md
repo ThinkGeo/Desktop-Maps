@@ -1,11 +1,11 @@
 # Print Map With Multi Pages Sample for Wpf
 
 ### Description
-In this sample we show you how to add robust printing support to your Map Suite applications for the WPF. Using the code in this sample, you'll be able to build a Print Preview interface that lets your users interactively arrange items on a virtual page before printing the result to a printer, exporting to a PDF or to a bitmap image. The printing system also print maps with multi pages or print multi maps to one page. 
+In this sample we show you how to add robust printing support to your Map Suite applications for the WPF. Using the code in this sample, you'll be able to build a Print Preview interface that lets your users interactively arrange items on a virtual page before printing the result to a printer, exporting to a PDF or to a bitmap image. The printing system also print maps with multi pages or print multi maps to one page.
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/PrintMapWithMultiPagesSample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

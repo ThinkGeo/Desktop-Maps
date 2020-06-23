@@ -3,11 +3,11 @@
 ### Description
 
 In this Wpf project, we are showing a trick for getting the current extent of the map with Google Map as an image and displaying it on a map in decimal degrees unit. You may be in a situation where you want the details and accuracy of Google Map, especially the satellite view but want to have it displayed on your map in decimal degrees. In this sample, you will see how to get the Google Map image and create the accompanying world file for decimal degrees. Notice that we are realizing an affine transformation on the image to go to Geodetic as illustrated in the case 3
-              
+
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/GoogleMapToGeodeticSample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 

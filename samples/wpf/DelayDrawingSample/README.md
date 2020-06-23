@@ -1,11 +1,11 @@
 # Delay Drawing Sample for Wpf
 
 ### Description
-This WPF project shows how to use the Delay Map Drawing feature to control whether or not the layer is redrawn after a specified delay. This option is very helpful for anyone wanting to do something before actually refreshing the map - such as editing the elements, adding an animation, etc. 
-              
+This WPF project shows how to use the Delay Map Drawing feature to control whether or not the layer is redrawn after a specified delay. This option is very helpful for anyone wanting to do something before actually refreshing the map - such as editing the elements, adding an animation, etc.
+
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/DelayDrawingSample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 

@@ -3,10 +3,10 @@
 ### Description
 
 The purpose of this Wpf sample is to show how to edit the attributes of a feature of a shapefile. This sample is useful for anyone wanting to actualize the attributes part of its data by simply clicking on the desired feature on the map and updating its attributes in a textbox. You will find the editing part of the code in the **KeyDown** event of the textbox.
-              
+
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/EditAttributeOfShapefileSample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

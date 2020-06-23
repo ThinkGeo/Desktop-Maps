@@ -2,7 +2,7 @@
 
 ### Description
 
-This sample demonstrates how you can use ThinkGeo Cloud Client to get colors from ThinkGeo GIS Server. It supports 7 different colors: 
+This sample demonstrates how you can use ThinkGeo Cloud Client to get colors from ThinkGeo GIS Server. It supports 7 different colors:
 - Hue
 - Quality
 - Analogous
@@ -15,7 +15,7 @@ ThinkGeo Cloud Client support would work in all of the Map Suite controls such a
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/ThinkGeoCloudColorSample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

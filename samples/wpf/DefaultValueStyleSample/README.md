@@ -3,10 +3,10 @@
 ### Description
 
 In today’s Wpf project, we demonstrate the extensibility of ThinkGeo API by creating a custom Style. Inheriting from **ValueStyle**, we create a Default Value Style that handles the drawing of features that don’t have a value defined in the **ValueStyle**. Here we are using a point based layer with **PointStyle**. Note that the Default **ValueStyle** would also work with line and polygon based layers.
-              
+
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/DefaultValueStyleSample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 

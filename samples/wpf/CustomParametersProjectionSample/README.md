@@ -3,11 +3,11 @@
 ### Description
 
 In today’s Wpf project, we learn more about projection and how to handle a special case where the projection information in the PRJ file of a shapefile is not found as an EPSG or ESRI code in the spatial reference web site (www.spatial-reference.org). The strategy in this case is to build a proj4 string based on the parameters found in the PRJ file. Note that you must pay special attention to the false easting or northing parameters as they are always expressed in meters even if the projection is in another unit such as feet. For this example, we show how to convert from the local projection in Lambert Conformal Conic with regional specific parameters to Geodetic (WGS84) to match the World Map Kit.
-              
+
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/CustomParametersProjectionSample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

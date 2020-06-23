@@ -2,7 +2,7 @@
 
 ### Description
 
-This sample demonstrates how you can draw the map with Vector Tiles requested from ThinkGeo Cloud Services in your Map Suite GIS applications, with any style you want from [StyleJSON (Mapping Definition Grammar)](https://wiki.thinkgeo.com/wiki/thinkgeo_stylejson). It will show you how to use the XyzFileBitmapTileCache and XyzFileVectorTileCache to improve the performance of map rendering. It supports have 3 built-in default map styles and more awasome styles from StyleJSON file you passed in, by 'Custom': 
+This sample demonstrates how you can draw the map with Vector Tiles requested from ThinkGeo Cloud Services in your Map Suite GIS applications, with any style you want from [StyleJSON (Mapping Definition Grammar)](https://wiki.thinkgeo.com/wiki/thinkgeo_stylejson). It will show you how to use the XyzFileBitmapTileCache and XyzFileVectorTileCache to improve the performance of map rendering. It supports have 3 built-in default map styles and more awasome styles from StyleJSON file you passed in, by 'Custom':
 - Light
 - Dark
 - TransparentBackground
@@ -12,7 +12,7 @@ ThinkGeo Cloud Vector Maps support would work in all of the Map Suite controls s
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_winforms) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/ThinkGeoCloudVectorMapsSample-ForWinforms/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Packages
@@ -23,7 +23,7 @@ This sample makes use of the following NuGet Packages
 ```csharp
  this.winformsMap.MapUnit = GeographyUnit.Meter;
  this.winformsMap.ZoomLevelSet = ThinkGeoCloudVectorMapsOverlay.GetZoomLevelSet();
- // Create background world map with vector tile requested from ThinkGeo Cloud Service. 
+ // Create background world map with vector tile requested from ThinkGeo Cloud Service.
  this.thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay(cloudServiceClientId, cloudServiceClientSecret);
  this.winformsMap.Overlays.Add(this.thinkGeoCloudVectorMapsOverlay);
  // Create the overlay for satellite and overlap with trasparent_background as hybrid map.

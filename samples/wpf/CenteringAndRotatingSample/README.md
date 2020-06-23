@@ -3,10 +3,10 @@
 ### Description
 
 This project is the Wpf version of the services edition sample “Centering and Rotating On Moving Feature”, where we learn how to have the map always centered and rotated based on the location and direction of a moving vehicle. This issues addresses some issues you have to be aware of regarding both ShapeFileFeatureLayer and InMemoryFeatureLayer when applying rotation to the map.
-              
+
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/CenteringAndRotatingSample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

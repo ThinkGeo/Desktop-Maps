@@ -2,13 +2,13 @@
 
 ### Description
 
-This sample demonstrates how you can query the features of Vector Tiles requested from ThinkGeo Cloud Services in your Map Suite GIS applications, such as searching the nearest places to your clicked place or the roads in the area with a specific distance you specified. 
+This sample demonstrates how you can query the features of Vector Tiles requested from ThinkGeo Cloud Services in your Map Suite GIS applications, such as searching the nearest places to your clicked place or the roads in the area with a specific distance you specified.
 
 ThinkGeo Cloud Vector Maps support would work in all of the Map Suite controls such as Wpf, Web, MVC, WebApi, Android and iOS.
 
 Please refer to [Wiki](https://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/SpatialQueryThinkGeoVectorMapsSample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

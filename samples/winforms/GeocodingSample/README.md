@@ -8,7 +8,7 @@ The Map Suite Geocoder “How Do I?” solution offers a series of useful how-to
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_winforms) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/GeocodingSample-ForWinForms/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Packages
@@ -60,8 +60,8 @@ This example makes use of the following APIs:
 - [ThinkGeo.MapSuite.Shapes.RectangleShape](http://wiki.thinkgeo.com/wiki/api/thinkgeo.mapsuite.shapes.rectangleshape)
 
 ### FAQ
-- __Q: How do I make background map work?__  
-A: Backgrounds for this sample are powered by ThinkGeo Cloud Maps and require a Client ID and Secret. These were sent to you via email when you signed up with ThinkGeo, or you can register now at https://cloud.thinkgeo.com. Once you get them, please update the code in UserControl partial classes.  
+- __Q: How do I make background map work?__
+A: Backgrounds for this sample are powered by ThinkGeo Cloud Maps and require a Client ID and Secret. These were sent to you via email when you signed up with ThinkGeo, or you can register now at https://cloud.thinkgeo.com. Once you get them, please update the code in UserControl partial classes.
 
 ### About Map Suite
 Map Suite is a set of powerful development components and services for the .Net Framework.

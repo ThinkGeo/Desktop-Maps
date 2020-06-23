@@ -2,13 +2,13 @@
 
 ### Description
 
-This WPF project shows how to get a route between two adjacent roads, even if they don't intersect within an allowable tolerance. 
+This WPF project shows how to get a route between two adjacent roads, even if they don't intersect within an allowable tolerance.
 
-It’s based on Map Suite Geometry Topology module and does not require the Map Suite Routing Extension.  
-              
+It’s based on Map Suite Geometry Topology module and does not require the Map Suite Routing Extension.
+
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/AdjacentRoadSearchSample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 

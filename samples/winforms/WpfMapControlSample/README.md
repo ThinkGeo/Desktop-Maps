@@ -2,12 +2,12 @@
 
 ### Description
 
-The wpf map control supports multi-thread to render map, so it performs better than winforms map control. This sample demonstrates how you can use wpf map control in your winforms applications. 
+The wpf map control supports multi-thread to render map, so it performs better than winforms map control. This sample demonstrates how you can use wpf map control in your winforms applications.
 
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/UseWpfMapControlSample-ForWinforms/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Packages
@@ -26,7 +26,7 @@ public Form1()
 {
     InitializeComponent();
 
-    // Initialize the WpfMap object and add it to the ElementHost. 
+    // Initialize the WpfMap object and add it to the ElementHost.
     map = new WpfMap();
     elementHost1.Child = map;
 }
@@ -37,7 +37,7 @@ private void Form1_Load(object sender, EventArgs e)
     map.ZoomLevelSet = new ThinkGeoCloudMapsZoomLevelSet();
 
     ThinkGeoCloudRasterMapsOverlay thinkgeoBackgroundOverlay = new ThinkGeoCloudRasterMapsOverlay("ThinkGeoCloudClientId", "ThinkGeoCloudClientSecret");
-    // Set up the TileCache for the background overlay. 
+    // Set up the TileCache for the background overlay.
     thinkgeoBackgroundOverlay.TileCache = new XyzFileBitmapTileCache(".\\Cache");
     map.Overlays.Add(thinkgeoBackgroundOverlay);
 

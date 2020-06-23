@@ -3,10 +3,10 @@
 ### Description
 
 In this Wpf project, we show a new property of Overlay, WrapDatelineMode. This property that allows to continuously pan west or east with world map was already available in the dev branch. This concept was shown in the previous sample “WrapDatelineMode”. Now it is fully supported in Map Suite 5 and you can see in this sample how the behavior for the map in both Decimal Degrees (Lat/Long) and Spherical Mercator (Google Map/Bing map projection). In order to run this sample, you will need the latest release for Wpf with references to MapSuiteCore.dll and WpfDesktopEdition.dll.
-              
+
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/WrapDatelineModeSample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 
@@ -16,7 +16,7 @@ This sample makes use of the following NuGet Packages
 
 ### About the Code
 ```csharp
-class WrapDatelineProjection : Projection, IDisposable 
+class WrapDatelineProjection : Projection, IDisposable
 {
     protected override Vertex[] ConvertToExternalProjectionCore(double[] x, double[] y)
     {

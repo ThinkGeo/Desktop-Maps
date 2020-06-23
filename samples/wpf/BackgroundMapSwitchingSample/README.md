@@ -1,13 +1,13 @@
 # BackgroundMapSwitchingSample-ForWpf
 
 ### Description
-This sample shows you how to use these four different types of maps as background in Map Suite Desktop (WPF) Edition. 
+This sample shows you how to use these four different types of maps as background in Map Suite Desktop (WPF) Edition.
  - **ThinkGeo Cloud Maps**
  - **Open Street Map**
  - **Bing Maps**
  - **Google Maps**
 
-![Screenshot](https://github.com/ThinkGeo/BackgroundMapSwitchingSample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Package.
@@ -47,7 +47,7 @@ GoogleMapsOverlay googleMapsOverlay = new GoogleMapsOverlay();
 googleMapsOverlay.MapType = GoogleMapsMapType.Satellite;
 googleMapsOverlay.ClientId = "Place Google Maps ClientId Here";
 googleMapsOverlay.PrivateKey = "Place Google Maps PrivateKey Here";
-wpfMap1.Overlays.Add(googleMapsOverlay); 
+wpfMap1.Overlays.Add(googleMapsOverlay);
 ```
 
 ### Getting Help

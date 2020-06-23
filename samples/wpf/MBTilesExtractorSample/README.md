@@ -2,13 +2,13 @@
 
 ### Description
 
-The MBTiles Extractor allows you to create new smaller subsets from the MBTiles database. You simply specify the bounding box by tracking a rectangle shape on the map for the new area, then it will create a new SQLite database for that regions. 
+The MBTiles Extractor allows you to create new smaller subsets from the MBTiles database. You simply specify the bounding box by tracking a rectangle shape on the map for the new area, then it will create a new SQLite database for that regions.
 
 *.MBTile format can be supported in all of the Map Suite controls such as Wpf, Web, MVC, WebApi, Android and iOS.
 
 Please refer to [Wiki](https://wiki.thinkgeo.com/wiki/map_suite_desktop_for_wpf) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/MBTilesExtractorSample-ForWpf/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Packages

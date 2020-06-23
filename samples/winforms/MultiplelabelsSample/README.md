@@ -3,11 +3,11 @@
 ### Description
 
 This sample shows how you can display multiple labels for a given point or feature. You can do this by setting a single **TextStyle** or multiple **TextStyles**. If you use a single **TextStyle**, you can simply use a pattern like "[ColumnName1][ColumnName2]..." and when Map Suite displays the text it will combine the values of the columns in your pattern. If you use a different styling method, you will need to manually control the offset of each piece of text to avoid overlapping.
-              
+
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_winforms) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/MultipleLabelsSample-ForWinForms/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Packages
@@ -27,7 +27,7 @@ if (rbnSingleStyle.Checked)
 else
 {
     TextStyle primaryTextStyle = WorldStreetsTextStyles.Poi("[FENAME] [FETYPE]", 8, -12);
-    primaryTextStyle.XOffsetInPixel = 0;                
+    primaryTextStyle.XOffsetInPixel = 0;
 
     TextStyle secondaryTextStyle = WorldStreetsTextStyles.Poi("[FRADDL]-[TOADDL]", 8, -12);
     secondaryTextStyle.YOffsetInPixel =  15;

@@ -1,11 +1,11 @@
 # Drag Point Sample for WinForms
 
 ### Description
-In this project, we focus our attention on how to control the style of the control points. You will see how to override the **DrawCore** function of **EditInteractiveOverlay**. 
+In this project, we focus our attention on how to control the style of the control points. You will see how to override the **DrawCore** function of **EditInteractiveOverlay**.
 
 Please refer to [Wiki](http://wiki.thinkgeo.com/wiki/map_suite_desktop_for_winforms) for the details.
 
-![Screenshot](https://github.com/ThinkGeo/DragPointSample-ForWinForms/blob/master/Screenshot.gif)
+![Screenshot](Screenshot.gif)
 
 ### Requirements
 This sample makes use of the following NuGet Packages
@@ -24,7 +24,7 @@ class DragInteractiveOverlay : EditInteractiveOverlay
         EditShapesLayer.Draw(canvas, labelsInAllLayers);
         canvas.Flush();
 
-        //Draws the control points. 
+        //Draws the control points.
         ExistingControlPointsLayer.Open();
         Collection<Feature> controlPoints = ExistingControlPointsLayer.FeatureSource.GetAllFeatures(ReturningColumnsType.AllColumns);
 
