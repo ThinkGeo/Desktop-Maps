@@ -1,0 +1,97 @@
+﻿<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation.LineValidationSample"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ThinkGeoUI="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <ThinkGeoUI:MapView Grid.Column="0" Grid.Row="0" Grid.RowSpan="4" x:Name="mapView" Background="White" Loaded="MapView_Loaded"></ThinkGeoUI:MapView>
+        <Grid Grid.Column="1" Grid.Row="0">
+            <Label Grid.Column="1" Grid.Row="0">
+                <Label.Content>
+                    <AccessText HorizontalAlignment="Center" FontSize="17" TextWrapping="Wrap" Text="Line Validation Tests"/>
+                </Label.Content>
+            </Label>
+            <RadioButton Grid.Column="1" Grid.Row="1" x:Name="rdoCheckLineEndpointsMustTouchPoints" Checked="CheckLineEndpointsMustTouchPoints">Line Endpoints Must Touch Points</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="2" x:Name="rdoCheckLinesMustOverlapPolygonBoundaries" Checked="CheckLinesMustOverlapPolygonBoundaries">Lines Must Overlap Polygon Boundaries</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="3" x:Name="rdoCheckLinesMustOverlapLines" Checked="CheckLinesMustOverlapLines">Lines Must Overlap Lines</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="4" x:Name="rdoCheckLinesMustBeSinglePart" Checked="CheckLinesMustBeSinglePart">Lines Must Be Single Part</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="5" x:Name="rdoCheckLinesMustFormClosedPolygon" Checked="CheckLinesMustFormClosedPolygon">Lines Must Form Closed Polygons</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="6" x:Name="rdoCheckLinesMustNotHavePseudonodes" Checked="CheckLinesMustNotHavePseudonodes">Lines Must Not Have Pseudonodes</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="7" x:Name="rdoCheckLinesMustNotIntersect" Checked="CheckLinesMustNotIntersect">Lines Must Not Intersect</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="8" x:Name="rdoCheckLinesMustNotSelfIntersectOrTouch" Checked="CheckLinesMustNotSelfIntersectOrTouch">Lines Must Not Self-Intersect Or Touch</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="9" x:Name="rdoCheckLinesMustNotOverlap" Checked="CheckLinesMustNotOverlap">Lines Must Not Overlap</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="10" x:Name="rdoCheckLinesMustNotOverlapLines" Checked="CheckLinesMustNotOverlapLines">Lines Must Not Overlap With Lines</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="11" x:Name="rdoCheckLinesMustNotSelfIntersect" Checked="CheckLinesMustNotSelfIntersect">Lines Must Not Self-Intersect</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="12" x:Name="rdoCheckLinesMustNotSelfOverlap" Checked="CheckLinesMustNotSelfOverlap">Lines Must Not Self-Overlap</RadioButton>
+            <TextBlock Grid.Column="1" Grid.Row="13" x:Name="txtValidationInfo"></TextBlock>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="240" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="5" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+        </Grid>
+
+        <!-- Grid Layout -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+    </Grid>
+    <UserControl.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
+            <Setter Property="FontSize" Value="14"></Setter>
+        </Style>
+        <Style TargetType="Grid">
+            <Setter Property="Background" Value="DimGray"></Setter>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"></Setter>
+            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
+            <Setter Property="Margin" Value="0,15,0,0"></Setter>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="Margin" Value="0,10,0,0"></Setter>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Height" Value="22"></Setter>
+            <Setter Property="Margin" Value="0,10,0,0"></Setter>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Height" Value="20"></Setter>
+        </Style>
+        <Style TargetType="RadioButton">
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="Margin" Value="0,5,0,0"></Setter>
+            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
+        </Style>
+    </UserControl.Resources>
+</UserControl>

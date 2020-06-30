@@ -22,9 +22,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         }
 
         private void Samples_Load(object sender, EventArgs e)
-        {
-      
-
+        {            
             pnlOption.Resize += PnlOption_Resize;
 
             menus = JsonConvert.DeserializeObject<List<MenuModel>>(File.ReadAllText("samples.json"));

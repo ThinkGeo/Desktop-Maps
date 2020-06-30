@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.GoogleMapLayerSample"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ThinkGeoUI="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <ThinkGeoUI:MapView Grid.Column="0" Grid.Row="0" x:Name="mapView" Margin="0,0,0,-0.4"></ThinkGeoUI:MapView>
+        <Grid Grid.Column="1" Grid.Row="0">
+            <Label Grid.Column="1" Grid.Row="0" Content="Google API Key:" FontSize="16" FontWeight="Bold"></Label>
+            <TextBlock Grid.Column="1" Grid.Row="1">
+            <Hyperlink  NavigateUri="https://developers.google.com/maps/documentation/maps-static/get-api-key" RequestNavigate="Hyperlink_RequestNavigate">Sign up for a Google Maps Api Key</Hyperlink>
+            </TextBlock>
+            <Label Grid.Column="1" Grid.Row="2" Content="Client ID"></Label>
+            <TextBox Grid.Column="1" Grid.Row="3" Name ="txtClientId"></TextBox>
+            <Label Grid.Column="1" Grid.Row="4" Content="Private Key"></Label>
+            <TextBox Grid.Column="1" Grid.Row="5" Name ="txtPrivateKey"></TextBox>
+            <Button Grid.Column="1" Grid.Row="6" x:Name="btnActivate" Click="btnActivate_Click">Activate</Button>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="5" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+        </Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="240" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+    </Grid>
+    <UserControl.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
+            <Setter Property="FontSize" Value="14"></Setter>
+        </Style>
+        <Style TargetType="Grid">
+            <Setter Property="Background" Value="DimGray"></Setter>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Height" Value="20"></Setter>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Height" Value="22"></Setter>
+            <Setter Property="Margin" Value="0,10,0,0"></Setter>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Height" Value="20"></Setter>
+        </Style>
+        <Style TargetType="RadioButton">
+            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
+        </Style>
+        <Style TargetType="Hyperlink">
+            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
+            <Setter Property="FontSize" Value="14"></Setter>
+        </Style>
+    </UserControl.Resources>
+</UserControl>

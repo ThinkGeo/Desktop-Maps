@@ -17,49 +17,124 @@
     <EmbeddedResource Remove="HowDoI\**" />
     <None Remove="HowDoI\**" />
     <Page Remove="HowDoI\**" />
+    <Page Update="Samples\CreatingStyles\CreateLineStyleSample.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Update="Resource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Samples\CreatingStyles\CreateLineStyleSample.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>CreateLineStyleSample.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Samples\UsingCloudMapsServices\RoutingServiceAreaCloudServicesSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\UsingCloudMapsServices\RoutingTSPCloudServicesSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Update="Samples\CreatingStyles\CreateAreaStyleSample.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Update="Samples\CreatingStyles\CreateAreaStyleSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Update="Samples\CreatingStyles\CreateTextStyleSample.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Update="Samples\CreatingStyles\CreateTextStyleSample.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>CreateTextStyleSample.xaml</DependentUpon>
+    </Compile>
+    <Page Update="Samples\CreatingStyles\CreateFilterStyleSample.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Update="Samples\CreatingStyles\CreateFilterStyleSample.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>CreateFilterStyleSample.xaml</DependentUpon>
+    </Compile>
+    <Page Update="Samples\CreatingStyles\CreateHeatStyleSample.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Update="Samples\CreatingStyles\CreateHeatStyleSample.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>CreateHeatStyleSample.xaml</DependentUpon>
+    </Compile>
+    <Page Update="Samples\CreatingStyles\CreateClusterPointStyleSample.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Update="Samples\CreatingStyles\CreateClusterPointStyleSample.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>CreateClusterPointStyleSample.xaml</DependentUpon>
+    </Compile>
+    <Page Update="Samples\PerformingGeometricOperations\UnionShapesSample.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Update="Samples\PerformingGeometricOperations\UnionShapesSample.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>UnionShapesSample.xaml</DependentUpon>
+    </Compile>
+    <Page Update="Samples\PerformingGeometricOperations\SimplifyShapeSample.xaml">
+      <Generator></Generator>
+    </Page>
+    <Page Update="Samples\PerformingGeometricOperations\DifferenceShapesSample.xaml">
+      <Generator></Generator>
+    </Page>
+    <Page Update="Samples\PerformingGeometricOperations\RotateShapeSample.xaml">
+      <Generator></Generator>
+    </Page>
+    <Page Update="Samples\PerformingGeometricOperations\ScaleShapeSample.xaml">
+      <Generator></Generator>
+    </Page>
+    <Page Update="Samples\PerformingGeometricOperations\TranslateShapeSample.xaml">
+      <Generator></Generator>
+    </Page>
+    <Page Update="Samples\CreatingStyles\CreateValueStyleSample.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Update="Samples\CreatingStyles\CreateValueStyleSample.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>CreateValueStyleSample.xaml</DependentUpon>
+    </Compile>
+    <Page Update="Samples\CreatingStyles\CreateClassBreakStyleSample.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Update="Samples\CreatingStyles\CreateClassBreakStyleSample.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>CreateClassBreakStyleSample.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="HowDoI.csproj.DotSettings" />
     <None Remove="Resources\AQUA.png" />
     <None Remove="Resources\AQUABLANK.png" />
-    <None Remove="Resources\Circle.png" />
-    <None Remove="Resources\Delete.png" />
     <None Remove="Resources\East.gif" />
-    <None Remove="Resources\East.png" />
-    <None Remove="Resources\Edit.gif" />
-    <None Remove="Resources\Ellipse.png" />
-    <None Remove="Resources\Line.png" />
-    <None Remove="Resources\LinkButtonIconContactUs.png" />
-    <None Remove="Resources\LinkButtonIconDiscussionForums.png" />
-    <None Remove="Resources\LinkButtonIconFAQ.png" />
-    <None Remove="Resources\LinkButtonIconOnlineStore.png" />
-    <None Remove="Resources\LinkButtonIconProductInfo.png" />
-    <None Remove="Resources\LinkButtonIconTestimonials.png" />
-    <None Remove="Resources\MS.ico" />
-    <None Remove="Resources\MS50SampleAppsMastheadAdSpace.png" />
-    <None Remove="Resources\Normal.png" />
+    <None Remove="Resources\loading.gif" />
     <None Remove="Resources\North.gif" />
-    <None Remove="Resources\North.png" />
-    <None Remove="Resources\Point.png" />
-    <None Remove="Resources\Polygon.png" />
-    <None Remove="Resources\Rectangle.png" />
     <None Remove="Resources\South.gif" />
-    <None Remove="Resources\South.png" />
-    <None Remove="Resources\SpecialDataBaseResult.png" />
-    <None Remove="Resources\Square.png" />
-    <None Remove="Resources\TabButtonOff.png" />
-    <None Remove="Resources\TabButtonOn.png" />
-    <None Remove="Resources\ThinkGeoLogo.png" />
-    <None Remove="Resources\VirtualEarthResult.png" />
     <None Remove="Resources\West.gif" />
-    <None Remove="Resources\West.png" />
     <None Remove="Resources\ZoomIn.png" />
     <None Remove="Resources\ZoomOut.png" />
+    <None Remove="Theme\Images\favicon.ico" />
     <None Remove="Theme\Images\logo.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Theme\Images\favicon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Theme\Images\logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -68,39 +143,19 @@
   <ItemGroup>
     <Resource Include="Resources\AQUA.png" />
     <Resource Include="Resources\AQUABLANK.png" />
-    <Resource Include="Resources\Circle.png" />
-    <Resource Include="Resources\Delete.png" />
     <Resource Include="Resources\East.gif" />
-    <Resource Include="Resources\East.png" />
-    <Resource Include="Resources\Edit.gif" />
-    <Resource Include="Resources\Ellipse.png" />
-    <Resource Include="Resources\Line.png" />
-    <Resource Include="Resources\LinkButtonIconContactUs.png" />
-    <Resource Include="Resources\LinkButtonIconDiscussionForums.png" />
-    <Resource Include="Resources\LinkButtonIconFAQ.png" />
-    <Resource Include="Resources\LinkButtonIconOnlineStore.png" />
-    <Resource Include="Resources\LinkButtonIconProductInfo.png" />
-    <Resource Include="Resources\LinkButtonIconTestimonials.png" />
-    <Resource Include="Resources\MS.ico" />
-    <Resource Include="Resources\MS50SampleAppsMastheadAdSpace.png" />
-    <Resource Include="Resources\Normal.png" />
+    <Resource Include="Resources\loading.gif">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\North.gif" />
-    <Resource Include="Resources\North.png" />
-    <Resource Include="Resources\Point.png" />
-    <Resource Include="Resources\Polygon.png" />
-    <Resource Include="Resources\Rectangle.png" />
     <Resource Include="Resources\South.gif" />
-    <Resource Include="Resources\South.png" />
-    <Resource Include="Resources\SpecialDataBaseResult.png" />
-    <Resource Include="Resources\Square.png" />
-    <Resource Include="Resources\TabButtonOff.png" />
-    <Resource Include="Resources\TabButtonOn.png" />
-    <Resource Include="Resources\ThinkGeoLogo.png" />
-    <Resource Include="Resources\VirtualEarthResult.png" />
     <Resource Include="Resources\West.gif" />
-    <Resource Include="Resources\West.png" />
     <Resource Include="Resources\ZoomIn.png" />
     <Resource Include="Resources\ZoomOut.png" />
+    <None Remove="Resources\coyote_paw.png" />
+    <Resource Include="Resources\coyote_paw.png" />
+    <None Remove="Resources\hotel_icon.png" />
+    <Resource Include="Resources\hotel_icon.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -108,16 +163,19 @@
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
     <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="ThinkGeo.Ecw" Version="12.2.7" />
-    <PackageReference Include="ThinkGeo.MrSid" Version="12.2.7" />
-    <PackageReference Include="ThinkGeo.Oracle" Version="12.2.7" />
-    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="12.2.7" />
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="12.2.7" />
-    <PackageReference Include="ThinkGeo.Printers" Version="12.2.7" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="12.2.7" />
-    <PackageReference Include="ThinkGeo.UI.Wpf" Version="12.2.7" />
-    <PackageReference Include="ThinkGeo.UnmanagedGeoTiff" Version="12.2.7" />
-    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="12.2.7" />
+    <PackageReference Include="ThinkGeo.Ecw" Version="13.0.0-beta127" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="13.0.0-beta128" />
+    <PackageReference Include="ThinkGeo.MrSid" Version="13.0.0-beta126" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="13.0.0-beta129" />
+    <PackageReference Include="ThinkGeo.Oracle" Version="13.0.0-beta128" />
+    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="13.0.0-beta126" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="13.0.0-beta124" />
+    <PackageReference Include="ThinkGeo.Printers" Version="13.0.0-beta124" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="13.0.0-beta123" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="13.0.0-beta141" />
+    <PackageReference Include="ThinkGeo.UnmanagedGeoTiff" Version="13.0.0-beta127" />
+    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="13.0.0-beta125" />
+    <PackageReference Include="WpfAnimatedGif" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -127,337 +185,173 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Resource.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resource.resx</DependentUpon>
+    <Compile Update="Samples\CreatingStyles\CreatePointStyleSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Database Layers\LoadAnOracleFeatureLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\DisplayingLayers\Raster\CommonRasterLayersSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Database Layers\LoadAPostgreSqlFeatureLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\DisplayingLayers\Raster\ESRIGridLayerSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Database Layers\LoadGeoDatabaseFeatureLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\DisplayingLayers\Raster\JPEG2000LayerSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Database Layers\LoadSqliteFeatureLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\DisplayingLayers\Raster\MrSidLayerSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Database Layers\LoadSqlServerFeatureLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\DisplayingLayers\Raster\GeoTiffLayerSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Geometry Functions\AddFeaturesFromAFeatureLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\DisplayingLayers\Database\SQLServerLayerSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Geometry Functions\ConvertAFeatureToAndFromWkb.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\DisplayingLayers\Database\OracleLayerSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Geometry Functions\ConvertScreenCoordinatesToWorldCoordinates.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\DisplayingLayers\Database\PostgresLayerSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Geometry Functions\ConvertWorldCoordinatesToScreenCoordinates.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\DisplayingLayers\Raster\ECWLayerSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Geometry Functions\CreateABufferAroundAFeature.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\DisplayingLayers\Vector\GraticuleLayerSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Geometry Functions\DeleteFeaturesFromAFeatureLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\DisplayingLayers\Vector\InMemoryLayerSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Geometry Functions\DetermineTheAreaOfAnAreaFeature.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\DisplayingLayers\Vector\ISOLineLayerSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Geometry Functions\DetermineTheEnvelopeOfAFeature.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\DisplayingLayers\Vector\TABLayerSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Geometry Functions\DetermineTheLengthOfALineFeature.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\DisplayingLayers\Vector\GPXLayerSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Geometry Functions\DetermineWhereUserClickInWorldCoordinate.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\DisplayingLayers\Vector\S57LayerSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Geometry Functions\EditFeaturesFromAFeatureLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\DisplayingLayers\Vector\TinyGeoLayerSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Geometry Functions\EfficientlyMoveAPlaneImage.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\DisplayingLayers\Database\SQLiteLayerSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Geometry Functions\FindAFeatureFromItsId.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\DisplayingLayers\Vector\FileGeoDatabaseLayerSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Geometry Functions\FindDifferenceBetweenTwoFeatures.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\DisplayingLayers\WebServices\WMSLayerSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Geometry Functions\FindShortestLineBetweenTwoFeatures.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\DisplayingLayers\WebServices\OpenStreetMapLayerSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Geometry Functions\FindTheDistanceBetweenTwoFeatures.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\DisplayingLayers\WebServices\GoogleMapLayerSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Geometry Functions\FindUnionBetweenFeatures.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\DisplayingLayers\WebServices\BingMapLayerSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Geometry Functions\MoveAFeature.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\DisplayingLayers\WebServices\CloudMapsVectorLayerSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Geometry Functions\ScaleUpAndDownAFeature.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\DisplayingLayers\WebServices\CloudMapsRasterLayerSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Geometry Functions\UseMapSimplification.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\DisplayingLayers\WebServices\NOAAWeatherWarningLayerSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Map Functions\DisplayASimpleMap.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\DisplayingLayers\WebServices\NOAAWeatherStationLayerSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Map Functions\PanAroundTheMap.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\DisplayingLayers\WebServices\NOAARadarLayerSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Map Functions\PlotALatitudeAndLongitudePointOnTheMap.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\Interpolation\Placeholder.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Map Functions\SimplyRotateMap.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\PerformingGeometricOperations\BufferShapeSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Map Functions\TrackAndEditShapesInRotateWorld.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	<Compile Update="Samples\ProjectingData\ProjectLatLonCoordinatesSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Map Functions\ZoomInAndOutOfTheMap.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\ProjectingData\SetLayerProjectionSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Map Functions\ZoomToACertainScale.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\SettingMapExtent\BasicNavigationSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Map Functions\ZoomToACertainZoomLevel.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\SettingMapExtent\SetMapExtentSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Map Functions\ZoomToAFeatureOrFeatures.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\TopologicalValidation\LineValidationSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Map Tools\ChangeDefaultLogo.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\TopologicalValidation\PointValidationSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Map Tools\MouseCoordinate.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\TopologicalValidation\PolygonValidationSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Map Tools\PanZoomBar.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\UsingCloudMapsServices\ColorUtilitiesCloudServicesSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Markers And Popups\AddAFeatureSourceMarkerOverlay.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\UsingCloudMapsServices\ElevationCloudServicesSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Markers And Popups\AddAnInMemoryMarkerOverlay.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\UsingCloudMapsServices\GeocodingCloudServicesSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Markers And Popups\AddLabelOnMarkers.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\UsingCloudMapsServices\ProjectionCloudServicesSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Markers And Popups\AddPopups.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\UsingCloudMapsServices\ReverseGeocodingCloudServicesSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Markers And Popups\AddSimpleMarkers.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Compile Update="Samples\UsingCloudMapsServices\RoutingCloudServicesSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Markers And Popups\DragToCopyAMarker.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Compile Update="Samples\UsingCloudMapsServices\TimezoneCloudServicesSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Markers And Popups\UseDraggableMarker.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\UsingCloudMapsServices\WorldMapsQueryCloudServicesSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Other Layers\CreateAGraticuleAdornmentLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	<Compile Update="Samples\UsingQueryTools\ContainsSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Other Layers\CreateAMapShapeLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\UsingQueryTools\CrossesSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Other Layers\CreateARestrictionLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\UsingQueryTools\DisjointSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Other Layers\CreateAScaleLineAdornmentLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\UsingQueryTools\EqualsSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Other Layers\DisplayIsoLines.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\UsingQueryTools\GetAllFeatureDataSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Other Layers\LoadAGridFeatureLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\UsingQueryTools\GetDataFromFeatureSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Overlay\AddAdditionalCustomPropertiesAndMethods.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\UsingQueryTools\GetFeaturesWithinDistanceSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Overlay\PrintingMaps.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\UsingQueryTools\IntersectsSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Overlay\TileDowloadProgress.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\UsingQueryTools\OverlapsSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Overlay\UsingTileCache.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\UsingQueryTools\TouchesSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Projection\UseADifferentProjectionForAFeatureLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Projection\UseRotationProjectionForAFeatureLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Raster Layers\DisplayASatelliteImage.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Raster Layers\LoadAGeoTiffImage.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Raster Layers\LoadAMrSidImage.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Raster Layers\LoadAnEcwImage.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Styles\ChangeTheLabelPlacementForPoints.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Styles\ChangeTheLabelPosition.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Styles\DrawAndLabelANiceLookingRoad.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Styles\DrawAndLabelPointsOfInterests.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Styles\DrawAndLabelWaterFeatures.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Styles\DrawCurvedLabels.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Styles\DrawDirectionPointStyleWithLineStyle.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Styles\DrawUsingFleeBooleanStyle.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Styles\LoadAHeatLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Styles\LoadClusterPointStyle.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Styles\RotatePointWithTextStyle.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Styles\UseCustomFontSymbolWithPointStyle.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Vector Layers\AddMyOwnCustomDataToAFeatureLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Vector Layers\ChangeTheLookOfAFeatureLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Vector Layers\CreateAGpxFeatureLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Vector Layers\CreateAnInMemoryFeatureLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Vector Layers\CreateAnInMemoryGridFeatureLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Vector Layers\CreateANoaaWeatherStationFeatureLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Vector Layers\CreateANoaaWeatherWarningsFeatureLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Vector Layers\CreateAnOsmBuildingOnlineFeatureLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Vector Layers\CreateASpatialIndexForAShapeFileFeatureLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Vector Layers\CreateATinyGeoFeatureLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Vector Layers\CreateAUsgsDemFeatureLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Vector Layers\DisplayAShapeFileSimpleMap.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Vector Layers\DisplayFeatureLayerAtCertainScale.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Vector Layers\DisplayThinkGeoMBTilesMaps.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Vector Layers\DisplayThinkGeoWorldStreetsMaps.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Vector Layers\FindFeaturesCountInAFeatureLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Vector Layers\FindFeaturesWithinDistance.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Vector Layers\FindOutColumnDataInAFeatureLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Vector Layers\FindTheFeatureAUserClickedOn.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Vector Layers\FourColorMap.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Vector Layers\GetAColumnDataInAFeatureLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Vector Layers\GetAllFeaturesFromAFeatureLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Vector Layers\HideOrShowAFeatureLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Vector Layers\HighlightAFeatureOnTheMap.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Vector Layers\LoadAMapFromStreams.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Vector Layers\LoadAShapeFileFeatureLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Vector Layers\LoadTabFileFeatureLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Vector Layers\RefreshPointsRandomly.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Vector Layers\ShowTemporaryShapeOnTheMap.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Vector Layers\SpatialQueryAFeatureLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Vector Layers\StopCertainFeaturesFromDrawing.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Web Based Layers\DisplayThinkGeoCloudRasterMaps.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Web Based Layers\DisplayThinkGeoCloudVectorMaps.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Web Based Layers\LoadAWmsImage.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Web Based Layers\LoadAWmtsImageWithProjection.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Web Based Layers\UseBingMapsLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Samples\Web Based Layers\UseGoogleMapsLayer.xaml.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Update="Samples\UsingQueryTools\WithinSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
 
@@ -469,330 +363,232 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Samples\Database Layers\LoadAnOracleFeatureLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\CreatingStyles\CreatePointStyleSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Database Layers\LoadAPostgreSqlFeatureLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\DisplayingLayers\Raster\CommonRasterLayersSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Database Layers\LoadGeoDatabaseFeatureLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\DisplayingLayers\Raster\ESRIGridLayerSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Database Layers\LoadSqliteFeatureLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\DisplayingLayers\Raster\JPEG2000LayerSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Database Layers\LoadSqlServerFeatureLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\DisplayingLayers\Raster\MrSidLayerSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Geometry Functions\AddFeaturesFromAFeatureLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\DisplayingLayers\Raster\GeoTiffLayerSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Geometry Functions\ConvertAFeatureToAndFromWkb.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\DisplayingLayers\Database\SQLServerLayerSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Geometry Functions\ConvertScreenCoordinatesToWorldCoordinates.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\DisplayingLayers\Database\OracleLayerSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Geometry Functions\ConvertWorldCoordinatesToScreenCoordinates.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\DisplayingLayers\Database\PostgresLayerSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Geometry Functions\CreateABufferAroundAFeature.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\DisplayingLayers\Raster\ECWLayerSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Geometry Functions\DeleteFeaturesFromAFeatureLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\DisplayingLayers\Vector\GraticuleLayerSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Geometry Functions\DetermineTheAreaOfAnAreaFeature.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\DisplayingLayers\Vector\InMemoryLayerSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Geometry Functions\DetermineTheEnvelopeOfAFeature.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\DisplayingLayers\Vector\ISOLineLayerSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Geometry Functions\DetermineTheLengthOfALineFeature.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\DisplayingLayers\Vector\TABLayerSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Geometry Functions\DetermineWhereUserClickInWorldCoordinate.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\DisplayingLayers\Vector\GPXLayerSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Geometry Functions\EditFeaturesFromAFeatureLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\DisplayingLayers\Vector\S57LayerSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Geometry Functions\EfficientlyMoveAPlaneImage.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\DisplayingLayers\Vector\TinyGeoLayerSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Geometry Functions\FindAFeatureFromItsId.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\DisplayingLayers\Database\SQLiteLayerSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Geometry Functions\FindDifferenceBetweenTwoFeatures.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\DisplayingLayers\Vector\FileGeoDatabaseLayerSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Geometry Functions\FindShortestLineBetweenTwoFeatures.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\DisplayingLayers\WebServices\WMSLayerSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Geometry Functions\FindTheDistanceBetweenTwoFeatures.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\DisplayingLayers\WebServices\OpenStreetMapLayerSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Geometry Functions\FindUnionBetweenFeatures.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\DisplayingLayers\WebServices\GoogleMapLayerSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Geometry Functions\MoveAFeature.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\DisplayingLayers\WebServices\BingMapLayerSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Geometry Functions\ScaleUpAndDownAFeature.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\DisplayingLayers\WebServices\CloudMapsVectorLayerSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Geometry Functions\UseMapSimplification.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\DisplayingLayers\WebServices\CloudMapsRasterLayerSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Map Functions\DisplayASimpleMap.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\DisplayingLayers\WebServices\NOAAWeatherWarningLayerSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Map Functions\PanAroundTheMap.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\DisplayingLayers\WebServices\NOAAWeatherStationLayerSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Map Functions\PlotALatitudeAndLongitudePointOnTheMap.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\DisplayingLayers\WebServices\NOAARadarLayerSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Map Functions\SimplyRotateMap.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\Interpolation\Placeholder.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Map Functions\TrackAndEditShapesInRotateWorld.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\PerformingGeometricOperations\BufferShapeSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Map Functions\ZoomInAndOutOfTheMap.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	<Page Update="Samples\ProjectingData\ProjectLatLonCoordinatesSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Map Functions\ZoomToACertainScale.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\ProjectingData\SetLayerProjectionSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Map Functions\ZoomToACertainZoomLevel.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\SettingMapExtent\BasicNavigationSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Map Functions\ZoomToAFeatureOrFeatures.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\SettingMapExtent\SetMapExtentSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Map Tools\ChangeDefaultLogo.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\TopologicalValidation\LineValidationSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Map Tools\MouseCoordinate.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\TopologicalValidation\PointValidationSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Map Tools\PanZoomBar.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\TopologicalValidation\PolygonValidationSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Markers And Popups\AddAFeatureSourceMarkerOverlay.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingCloudMapsServices\ColorUtilitiesCloudServicesSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Markers And Popups\AddAnInMemoryMarkerOverlay.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingCloudMapsServices\ElevationCloudServicesSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Markers And Popups\AddLabelOnMarkers.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingCloudMapsServices\GeocodingCloudServicesSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Markers And Popups\AddPopups.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingCloudMapsServices\ProjectionCloudServicesSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Markers And Popups\AddSimpleMarkers.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingCloudMapsServices\ReverseGeocodingCloudServicesSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Markers And Popups\DragToCopyAMarker.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingCloudMapsServices\RoutingServiceAreaCloudServicesSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Markers And Popups\UseDraggableMarker.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingCloudMapsServices\RoutingTSPCloudServicesSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Other Layers\CreateAGraticuleAdornmentLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Page Update="Samples\UsingCloudMapsServices\RoutingCloudServicesSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Other Layers\CreateAMapShapeLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Page Update="Samples\UsingCloudMapsServices\TimezoneCloudServicesSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Other Layers\CreateARestrictionLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingCloudMapsServices\WorldMapsQueryCloudServicesSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Other Layers\CreateAScaleLineAdornmentLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingMapTools\DisplayMapPanZoomBarSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Other Layers\DisplayIsoLines.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingOverlays\DrawEditDeleteShapesUsingInteractiveOverlaySample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Other Layers\LoadAGridFeatureLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingOverlays\GroupingLayersUsingLayerOverlaySample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Overlay\AddAdditionalCustomPropertiesAndMethods.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingMapTools\DisplayMapMouseCoordinatesSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Overlay\TileDowloadProgress.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingMapTools\DisplayMapScaleLineSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Overlay\UsingTileCache.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingMapTools\DisplayMapLogoSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Projection\UseADifferentProjectionForAFeatureLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingOverlays\PrintMapsUsingPrintOverlaySample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Projection\UseRotationProjectionForAFeatureLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingOverlays\CachingMapTilesSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Raster Layers\DisplayASatelliteImage.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingOverlays\DisplayCloudMapsRasterOverlaySample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Raster Layers\LoadAGeoTiffImage.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingOverlays\DisplayCloudMapsVectorOverlaySample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Raster Layers\LoadAMrSidImage.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingOverlays\DisplayBingMapsOverlaySample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Raster Layers\LoadAnEcwImage.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingOverlays\DisplayGoogleMapsOverlaySample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Styles\ChangeTheLabelPlacementForPoints.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingOverlays\DisplayOpenStreetMapOverlaySample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Styles\ChangeTheLabelPosition.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingOverlays\DisplayWMSOverlaySample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Styles\DrawAndLabelANiceLookingRoad.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingOverlays\UsingMarkersSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Styles\DrawAndLabelPointsOfInterests.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingOverlays\UsingPopupsSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Styles\DrawAndLabelWaterFeatures.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	<Page Update="Samples\UsingQueryTools\ContainsSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Styles\DrawCurvedLabels.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingQueryTools\CrossesSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Styles\DrawDirectionPointStyleWithLineStyle.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingQueryTools\DisjointSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Styles\DrawUsingFleeBooleanStyle.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingQueryTools\EqualsSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Styles\LoadAHeatLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingQueryTools\GetAllFeatureDataSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Styles\LoadClusterPointStyle.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingQueryTools\GetDataFromFeatureSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Styles\RotatePointWithTextStyle.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingQueryTools\GetFeaturesWithinDistanceSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Styles\UseCustomFontSymbolWithPointStyle.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingQueryTools\IntersectsSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Vector Layers\AddMyOwnCustomDataToAFeatureLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingQueryTools\OverlapsSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Vector Layers\ChangeTheLookOfAFeatureLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingQueryTools\TouchesSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Vector Layers\CreateAGpxFeatureLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Page Update="Samples\UsingQueryTools\WithinSample.xaml">
+      <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Vector Layers\CreateAnInMemoryFeatureLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Vector Layers\CreateAnInMemoryGridFeatureLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Vector Layers\CreateANoaaWeatherStationFeatureLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Vector Layers\CreateANoaaWeatherWarningsFeatureLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Vector Layers\CreateAnOsmBuildingOnlineFeatureLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Vector Layers\CreateASpatialIndexForAShapeFileFeatureLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Vector Layers\CreateATinyGeoFeatureLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Vector Layers\CreateAUsgsDemFeatureLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Vector Layers\DisplayAShapeFileSimpleMap.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Vector Layers\DisplayFeatureLayerAtCertainScale.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Vector Layers\DisplayThinkGeoMBTilesMaps.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Vector Layers\DisplayThinkGeoWorldStreetsMaps.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Vector Layers\FindFeaturesCountInAFeatureLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Vector Layers\FindFeaturesWithinDistance.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Vector Layers\FindOutColumnDataInAFeatureLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Vector Layers\FindTheFeatureAUserClickedOn.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Vector Layers\FourColorMap.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Vector Layers\GetAColumnDataInAFeatureLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Vector Layers\GetAllFeaturesFromAFeatureLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Vector Layers\HideOrShowAFeatureLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Vector Layers\HighlightAFeatureOnTheMap.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Vector Layers\LoadAMapFromStreams.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Vector Layers\LoadAShapeFileFeatureLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Vector Layers\LoadTabFileFeatureLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Vector Layers\RefreshPointsRandomly.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Vector Layers\ShowTemporaryShapeOnTheMap.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Vector Layers\SpatialQueryAFeatureLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Vector Layers\StopCertainFeaturesFromDrawing.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Web Based Layers\DisplayThinkGeoCloudRasterMaps.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Web Based Layers\DisplayThinkGeoCloudVectorMaps.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Web Based Layers\LoadAWmsImage.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Web Based Layers\LoadAWmtsImageWithProjection.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Web Based Layers\UseBingMapsLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Update="Samples\Web Based Layers\UseGoogleMapsLayer.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\Csv\" />
   </ItemGroup>
 
 </Project>
