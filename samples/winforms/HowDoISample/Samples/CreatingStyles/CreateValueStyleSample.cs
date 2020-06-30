@@ -2,11 +2,16 @@
 using System.Windows.Forms;
 using ThinkGeo.Core;
 using ThinkGeo.UI.WinForms;
+using System.Collections.ObjectModel;
+
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public class CreateValueStyleSample : UserControl
     {
+        private readonly ShapeFileFeatureLayer friscoCrime = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco_Crime.shp");
+        private readonly LegendAdornmentLayer legend = new LegendAdornmentLayer();
+
         public CreateValueStyleSample()
         {
             InitializeComponent();
@@ -14,25 +19,78 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void Form_Load(object sender, EventArgs e)
         {
+            // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
 
-            // If want to know more srids, please refer Projections.rtf in Documentation folder.
-            ProjectionConverter proj4Projection = new ProjectionConverter(3857, 2163);
+            // Add Cloud Maps as a background overlay
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            ShapeFileFeatureLayer worldLayer = new ShapeFileFeatureLayer(SampleHelper.Get("Countries02_3857.shp"));
-            worldLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(255, 233, 232, 214), GeoColor.FromArgb(255, 118, 138, 69));
-            worldLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-            worldLayer.FeatureSource.ProjectionConverter = proj4Projection;
+            // Project the layer's data to match the projection of the map
+            friscoCrime.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
-            worldLayer.Open();
-            mapView.CurrentExtent = worldLayer.GetBoundingBox();
-            worldLayer.Close();
+            // Add friscoCrimeLayer to a LayerOverlay
+            var layerOverlay = new LayerOverlay();
+            layerOverlay.Layers.Add(friscoCrime);
 
-            LayerOverlay staticOverlay = new LayerOverlay();
-            staticOverlay.TileType = TileType.SingleTile;
-            staticOverlay.Layers.Add(new BackgroundLayer(new GeoSolidBrush(GeoColors.DeepOcean)));
-            staticOverlay.Layers.Add("WorldLayer", worldLayer);
-            mapView.Overlays.Add(staticOverlay);
+            // Setup the legend adornment
+            legend.Title = new LegendItem()
+            {
+                TextStyle = new TextStyle("Crime Categories", new GeoFont("Verdana", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
+            };
+            legend.Height = 600;
+            legend.Location = AdornmentLocation.LowerRight;
+            mapView.AdornmentOverlay.Layers.Add(legend);
+
+            AddValueStyle();
+
+            // Add layerOverlay to the mapView
+            mapView.Overlays.Add(layerOverlay);
+
+            // Set the map extent
+            mapView.CurrentExtent = new RectangleShape(-10780196.9469504, 3916119.49665258, -10776231.7761301, 3912703.71697007);
+        }
+
+
+        /// <summary>
+        /// Adds a ValueStyle to the friscoCrime layer that represents each OffenseGroup as a different color
+        /// </summary>
+        private void AddValueStyle()
+        {
+            // Get all the distinct OffenseGroups in the friscoCrime data
+            friscoCrime.Open();
+            var offenseGroups = friscoCrime.FeatureSource.GetDistinctColumnValues("OffenseGro");
+            friscoCrime.Close();
+
+            // Create a set of colors to represent each OffenseGroup using a spectrum starting from red
+            var colors = GeoColor.GetColorsInQualityFamily(GeoColors.Red, offenseGroups.Count);
+
+            // Create a ValueItem styled with a PointStyle to represent each instance of an OffenseGroup
+            var valueItems = new Collection<ValueItem>();
+            foreach (var offenseGroup in offenseGroups)
+            {
+                // Create a PointStyle to represent the OffenseGroup by selecting a color using the index of the OffenseGroup
+                var style = PointStyle.CreateSimpleCircleStyle(colors[offenseGroups.IndexOf(offenseGroup)], 10,
+                    GeoColors.Black, 2);
+
+                // Create a ValueItem that will house the pointStyle for the OffenseGroup
+                valueItems.Add(new ValueItem(offenseGroup.ColumnValue, style));
+
+                // Add a LegendItem to the legend adornment
+                var legendItem = new LegendItem()
+                {
+                    ImageStyle = style,
+                    TextStyle = new TextStyle(offenseGroup.ColumnValue, new GeoFont("Verdana", 10), GeoBrushes.Black)
+                };
+                legend.LegendItems.Add(legendItem);
+            }
+
+            // Create the ValueStyle that will use the previously created valueItems to style the data using the OffenseGroup column values
+            var valueStyle = new ValueStyle("OffenseGro", valueItems);
+
+            // Add the valueStyle to the friscoCrime layer's CustomStyles and apply the style to all ZoomLevels
+            friscoCrime.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(valueStyle);
+            friscoCrime.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
         }
 
         #region Component Designer generated code

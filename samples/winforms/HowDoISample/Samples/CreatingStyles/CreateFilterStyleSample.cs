@@ -7,6 +7,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public class CreateFilterStyleSample : UserControl
     {
+        private readonly ShapeFileFeatureLayer friscoCrimeLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco_Crime.shp");
+
         public CreateFilterStyleSample()
         {
             InitializeComponent();
@@ -14,25 +16,71 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void Form_Load(object sender, EventArgs e)
         {
+
+            // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
 
-            // If want to know more srids, please refer Projections.rtf in Documentation folder.
-            ProjectionConverter proj4Projection = new ProjectionConverter(3857, 2163);
+            // Add Cloud Maps as a background overlay
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            ShapeFileFeatureLayer worldLayer = new ShapeFileFeatureLayer(SampleHelper.Get("Countries02_3857.shp"));
-            worldLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(255, 233, 232, 214), GeoColor.FromArgb(255, 118, 138, 69));
-            worldLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-            worldLayer.FeatureSource.ProjectionConverter = proj4Projection;
+            // Set the map extent
+            mapView.CurrentExtent = new RectangleShape(-10780196.9469504, 3916119.49665258, -10776231.7761301, 3912703.71697007);
 
-            worldLayer.Open();
-            mapView.CurrentExtent = worldLayer.GetBoundingBox();
-            worldLayer.Close();
+            // Project the layer's data to match the projection of the map
+            friscoCrimeLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
-            LayerOverlay staticOverlay = new LayerOverlay();
-            staticOverlay.TileType = TileType.SingleTile;
-            staticOverlay.Layers.Add(new BackgroundLayer(new GeoSolidBrush(GeoColors.DeepOcean)));
-            staticOverlay.Layers.Add("WorldLayer", worldLayer);
-            mapView.Overlays.Add(staticOverlay);
+            // Add friscoCrimeLayer to a LayerOverlay
+            var layerOverlay = new LayerOverlay();
+            layerOverlay.Layers.Add(friscoCrimeLayer);
+
+            AddFilterStyle();
+
+            // Add layerOverlay to the mapView
+            mapView.Overlays.Add(layerOverlay);
+        }
+
+
+        /// <summary>
+        /// Adds a filter style to various categories of the Frisco Crime layer
+        /// </summary>
+        private void AddFilterStyle()
+        {
+            // Create a filter style based on the "Drugs" Offense Group 
+            var drugFilterStyle = new FilterStyle()
+            {
+                Conditions = { new FilterCondition("OffenseGro", "Drugs") },
+                Styles = {
+                    new PointStyle(PointSymbolType.Circle, 28, GeoBrushes.White,GeoPens.Red),
+                    new PointStyle(new GeoImage(@"../../../Resources/drugs_icon.png")) { ImageScale = .60 }
+                }
+            };
+
+            // Create a filter style based on the "Weapons" Offense Group 
+            var weaponFilterStyle = new FilterStyle()
+            {
+                Conditions = { new FilterCondition("OffenseGro", "Weapons") },
+                Styles = {
+                    new PointStyle(PointSymbolType.Circle, 28, GeoBrushes.White,GeoPens.Red),
+                    new PointStyle(new GeoImage(@"../../../Resources/weapon_icon.png")) { ImageScale = .25 }
+                }
+            };
+
+            // Create a filter style based on the "Vandalism" Offense Group 
+            var vandalismFilterStyle = new FilterStyle()
+            {
+                Conditions = { new FilterCondition("OffenseGro", "Vandalism") },
+                Styles = {
+                    new PointStyle(PointSymbolType.Circle, 28, GeoBrushes.White,GeoPens.Red),
+                    new PointStyle(new GeoImage(@"../../../Resources/vandalism_icon.png")) { ImageScale = .25 }
+                }
+            };
+
+            // Add the filter styles to the CustomStyles collection
+            friscoCrimeLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(drugFilterStyle);
+            friscoCrimeLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(weaponFilterStyle);
+            friscoCrimeLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(vandalismFilterStyle);
+            friscoCrimeLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
         }
 
         #region Component Designer generated code
