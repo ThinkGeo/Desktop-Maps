@@ -124,103 +124,16 @@
   <data name="AQUABLANK" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\aquablank.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Circle" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\circle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\delete.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="East" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\east.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="East1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\east.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Edit" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\edit.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Ellipse" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\ellipse.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Line" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\line.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="LinkButtonIconContactUs" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\linkbuttoniconcontactus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="LinkButtonIconDiscussionForums" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\linkbuttonicondiscussionforums.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="LinkButtonIconFAQ" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\linkbuttoniconfaq.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="LinkButtonIconOnlineStore" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\linkbuttonicononlinestore.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="LinkButtonIconProductInfo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\linkbuttoniconproductinfo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="LinkButtonIconTestimonials" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\linkbuttonicontestimonials.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\ms.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MS50SampleAppsMastheadAdSpace" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\ms50sampleappsmastheadadspace.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="North" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\north.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="North1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\north.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Point" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\point.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Polygon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\polygon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Rectangle" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\rectangle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="South" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\south.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="South1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\south.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SpecialDataBaseResult" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\specialdatabaseresult.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Square" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\square.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TabButtonOff" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\tabbuttonoff.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TabButtonOn" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\tabbuttonon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ThinkGeoLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\thinkgeologo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="VirtualEarthResult" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\virtualearthresult.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="West" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\west.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="West1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\west.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ZoomIn" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\zoomin.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ZoomOut" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\zoomout.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

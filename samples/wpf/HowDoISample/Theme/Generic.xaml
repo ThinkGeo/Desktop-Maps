@@ -588,7 +588,7 @@
 
     <Style x:Key="CodeViewer" TargetType="avalonedit:TextEditor">
         <Setter Property="Background" Value="#1d1e22"/>
-        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Foreground" Value="Black"/>
         <Setter Property="ShowLineNumbers" Value="True" />
         <Setter Property="HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="VerticalScrollBarVisibility" Value="Auto" />

@@ -1,0 +1,73 @@
+﻿<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.CalculateShortestLineBetweenShapesSample"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ThinkGeoUI="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <ThinkGeoUI:MapView Grid.Column="0" Grid.Row="0" x:Name="mapView" Loaded="MapView_Loaded" MapClick="MapView_OnMapClick"/>
+
+        <Grid Grid.Column="1" Grid.Row="0">
+            <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Content="Shortest Line Controls:" FontSize="16" FontWeight="Bold"/>
+
+            <TextBlock Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Text="Click on a Park (green) on the map to get the shortest line to the Frisco Stadium (blue)." TextWrapping="Wrap"></TextBlock>
+
+            <Label Grid.Column="1" Grid.Row="2" Content="Distance: "></Label>
+            <TextBox Grid.Column="2" Grid.Row="2" x:Name="distanceResult" IsReadOnly="True"></TextBox>
+
+            <!-- Controls Grid Layout -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="90" />
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="5" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+        </Grid>
+
+        <!-- Grid Layout -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+    </Grid>
+
+    <UserControl.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
+        </Style>
+        <Style TargetType="CheckBox">
+            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
+            <Setter Property="Margin" Value="4"></Setter>
+        </Style>
+        <Style TargetType="Grid">
+            <Setter Property="Background" Value="DimGray"></Setter>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Height" Value="20"></Setter>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Height" Value="22"></Setter>
+            <Setter Property="Margin" Value="0,10,0,0"></Setter>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Height" Value="20"></Setter>
+        </Style>
+        <Style TargetType="RadioButton">
+            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
+        </Style>
+    </UserControl.Resources>
+</UserControl>
