@@ -62,10 +62,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Getting Started\ZoomInAndOutOfTheMap.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="NetTopologySuite" Version="2.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="System.Data.OleDb" Version="5.0.0-preview.6.20305.6" />
@@ -160,104 +156,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Display Offline Map\CreateAGpxFeatureLayer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Display Offline Map\CreateAUsgsDemFeatureLayer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Display Offline Map\DisplayThinkGeoCloudOfflineMaps.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Display Offline Map\CreateATinyGeoFeatureLayer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Map Adornments\MouseCoordinate.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Map Adornments\ChangeDefaultLogo.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Map Adornments\PanZoomBar.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Style\DisplayIsoLines.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Style\DrawUsingFleeBooleanStyle.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Style\DrawAndLabelANiceLookingRoad.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Style\DrawAndLabelPointsOfInterests.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Style\DrawAndLabelWaterFeatures.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Style\DrawCurvedLabels.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Style\ChangeTheLabelPosition.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Style\LoadAHeatLayer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Style\UseCustomFontSymbolWithPointStyle.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Style\LoadClusterPointStyle.cs">
+    <Compile Update="Samples\CreatingStyles\StylingAcrossMultipleScales.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Style2\RotatePointWithTextStyle.cs" />
-    <Compile Update="Style\DrawDirectionPointStyleWithLineStyle.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Display Offline Map\LoadAPostgreSqlFeatureLayer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Display Offline Map\LoadGeoDatabaseFeatureLayer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Display Offline Map\LoadAnOracleFeatureLayer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Display Offline Map\LoadAMapFromStreams.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Display Offline Map\CreateAnInMemoryFeatureLayer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Display Offline Map\CreateAMapShapeLayer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Display Offline Map\LoadSqlServerFeatureLayer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Display Offline Map\LoadSqliteFeatureLayer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Display Online Map\DisplayNoaaWeatherStation.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Display Online Map\DisplayNoaaWeatherWarnings.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Markers and Popus\AddPopups.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Display Online Map\DisplayAndReprojectWMTSMap.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Display Online Map\DisplayWMSMap.cs">
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Properties\Settings.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -1061,5 +967,21 @@
     <PackageReference Include="System.Data.OleDb">
       <Version>4.7.0</Version>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Samples\DisplayingLayers\Database\" />
+    <Folder Include="Samples\DisplayingLayers\WebServices\" />
+    <Folder Include="Samples\DisplayingLayers\Vector\" />
+    <Folder Include="Samples\DisplayingLayers\Raster\" />
+    <Folder Include="Samples\Interpolation\" />
+    <Folder Include="Samples\UsingQueryTools\" />
+    <Folder Include="Samples\UsingOverlays\" />
+    <Folder Include="Samples\UsingMapTools\" />
+    <Folder Include="Samples\UsingCloudMapsServices\" />
+    <Folder Include="Samples\TopologicalValidation\" />
+    <Folder Include="Samples\SettingMapExtent\" />
+    <Folder Include="Samples\ProjectingData\" />
+    <Folder Include="Samples\PerformingGeometricOperations\" />
   </ItemGroup>
 </Project>
