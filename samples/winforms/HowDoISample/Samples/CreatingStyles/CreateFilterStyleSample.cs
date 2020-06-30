@@ -5,9 +5,9 @@ using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class CreateLineStyleSample : UserControl
+    public class CreateFilterStyleSample : UserControl
     {
-        public CreateLineStyleSample()
+        public CreateFilterStyleSample()
         {
             InitializeComponent();
         }

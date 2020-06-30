@@ -5,9 +5,9 @@ using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class CreateLineStyleSample : UserControl
+    public class CreateValueStyleSample : UserControl
     {
-        public CreateLineStyleSample()
+        public CreateValueStyleSample()
         {
             InitializeComponent();
         }
