@@ -29,7 +29,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Set the map background color
-            mapView.Background = new SolidColorBrush(Color.FromRgb(232, 232, 232));
+            mapView.Background = new SolidColorBrush(Color.FromRgb(234, 232, 226));
 
             // Project the layer's data to match the projection of the map
             hotelsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
