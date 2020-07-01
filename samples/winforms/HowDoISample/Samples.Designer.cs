@@ -169,8 +169,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer1.Location = new System.Drawing.Point(0, 84);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 103);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -228,7 +228,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.cSharpBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cSharpBrowser.Location = new System.Drawing.Point(0, 0);
             this.cSharpBrowser.Margin = new System.Windows.Forms.Padding(0);
-            this.cSharpBrowser.MinimumSize = new System.Drawing.Size(27, 25);
+            this.cSharpBrowser.MinimumSize = new System.Drawing.Size(36, 31);
             this.cSharpBrowser.Name = "cSharpBrowser";
             this.cSharpBrowser.ScrollBarsEnabled = false;
             this.cSharpBrowser.Size = new System.Drawing.Size(683, 123);
@@ -236,16 +236,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // pnlOption
             // 
-            this.pnlOption.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlOption.AutoSize = true;
-            this.pnlOption.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.pnlOption.BackColor = System.Drawing.Color.LightBlue;
+            this.pnlOption.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlOption.Location = new System.Drawing.Point(0, 0);
-            this.pnlOption.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlOption.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.pnlOption.Name = "pnlOption";
-            this.pnlOption.Size = new System.Drawing.Size(0, 0);
+            this.pnlOption.Size = new System.Drawing.Size(1335, 746);
             this.pnlOption.TabIndex = 8;
             // 
             // btnSource
@@ -269,9 +266,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Controls.Add(this.labelSampleDescription);
             this.panel1.Controls.Add(this.labelSampleName);
             this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1335, 84);
+            this.panel1.Size = new System.Drawing.Size(1780, 103);
             this.panel1.TabIndex = 9;
             // 
             // labelSampleDescription
@@ -303,6 +300,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.ClientSize = new System.Drawing.Size(1776, 964);
             this.Controls.Add(this.pnlTop);
             this.Controls.Add(this.splitContainer1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
