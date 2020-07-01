@@ -14,25 +14,23 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void Form_Load(object sender, EventArgs e)
         {
+            // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
 
-            // If want to know more srids, please refer Projections.rtf in Documentation folder.
-            ProjectionConverter proj4Projection = new ProjectionConverter(3857, 2163);
+            // Add a simple background overlay
+            mapView.BackgroundOverlay.BackgroundBrush = GeoBrushes.AliceBlue;
 
-            ShapeFileFeatureLayer worldLayer = new ShapeFileFeatureLayer(SampleHelper.Get("Countries02_3857.shp"));
-            worldLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(255, 233, 232, 214), GeoColor.FromArgb(255, 118, 138, 69));
-            worldLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-            worldLayer.FeatureSource.ProjectionConverter = proj4Projection;
+            // Set the map extent
+            mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
 
-            worldLayer.Open();
-            mapView.CurrentExtent = worldLayer.GetBoundingBox();
-            worldLayer.Close();
-
-            LayerOverlay staticOverlay = new LayerOverlay();
-            staticOverlay.TileType = TileType.SingleTile;
-            staticOverlay.Layers.Add(new BackgroundLayer(new GeoSolidBrush(GeoColors.DeepOcean)));
-            staticOverlay.Layers.Add("WorldLayer", worldLayer);
-            mapView.Overlays.Add(staticOverlay);
+            // Create a WmsOverlay and add it to the map.
+            WmsOverlay wmsOverlay = new WmsOverlay();
+            wmsOverlay.ServerUri = new Uri("http://ows.mundialis.de/services/service");
+            wmsOverlay.Parameters.Add("VERSION", "1.3.0");
+            wmsOverlay.Parameters.Add("LAYERS", "OSM-WMS");
+            wmsOverlay.Parameters.Add("STYLES", "default");
+            wmsOverlay.Parameters.Add("CRS", "EPSG:3857");  // Make sure to match the WMS CRS to the Map's projection
+            mapView.Overlays.Add(wmsOverlay);
         }
 
         #region Component Designer generated code

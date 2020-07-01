@@ -14,25 +14,30 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void Form_Load(object sender, EventArgs e)
         {
-            mapView.MapUnit = GeographyUnit.Meter;
+            // It is important to set the map unit first to either feet, meters or decimal degrees.
+            mapView.MapUnit = GeographyUnit.DecimalDegree;
 
-            // If want to know more srids, please refer Projections.rtf in Documentation folder.
-            ProjectionConverter proj4Projection = new ProjectionConverter(3857, 2163);
+            // Create a new overlay that will hold our new layer and add it to the map.
+            LayerOverlay chartOverlay = new LayerOverlay();
 
-            ShapeFileFeatureLayer worldLayer = new ShapeFileFeatureLayer(SampleHelper.Get("Countries02_3857.shp"));
-            worldLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(255, 233, 232, 214), GeoColor.FromArgb(255, 118, 138, 69));
-            worldLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-            worldLayer.FeatureSource.ProjectionConverter = proj4Projection;
+            // Currently this layer only works in single tile mode at the moment.
+            // If you use multi tile not all of the data may load in.
+            chartOverlay.TileType = TileType.SingleTile;
 
-            worldLayer.Open();
-            mapView.CurrentExtent = worldLayer.GetBoundingBox();
-            worldLayer.Close();
+            // Add the chart to the overlay for display
+            mapView.Overlays.Add(chartOverlay);
 
-            LayerOverlay staticOverlay = new LayerOverlay();
-            staticOverlay.TileType = TileType.SingleTile;
-            staticOverlay.Layers.Add(new BackgroundLayer(new GeoSolidBrush(GeoColors.DeepOcean)));
-            staticOverlay.Layers.Add("WorldLayer", worldLayer);
-            mapView.Overlays.Add(staticOverlay);
+            // Create the new layer.
+            NauticalChartsFeatureLayer nauticalLayer = new NauticalChartsFeatureLayer(@"../../../Data/S57/US1GC09M/US1GC09M.000");
+
+            // Add the layer to the overlay we created earlier.
+            chartOverlay.Layers.Add("Charts", nauticalLayer);
+
+            // Set the current extent to a portion of the data
+            mapView.CurrentExtent = new RectangleShape(-83.79534200990409, 25.87521424320395, -80.82463888490409, 23.90646424320395);
+
+            // Refresh the map.
+            mapView.Refresh();
         }
 
         #region Component Designer generated code

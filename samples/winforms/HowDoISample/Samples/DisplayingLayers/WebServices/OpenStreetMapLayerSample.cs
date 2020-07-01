@@ -14,25 +14,28 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void Form_Load(object sender, EventArgs e)
         {
+            // It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.Meter;
 
-            // If want to know more srids, please refer Projections.rtf in Documentation folder.
-            ProjectionConverter proj4Projection = new ProjectionConverter(3857, 2163);
+            // Set the zoom level set on the map to make sure its compatable with the OSM zoom levels.
+            mapView.ZoomLevelSet = new OpenStreetMapsZoomLevelSet();
 
-            ShapeFileFeatureLayer worldLayer = new ShapeFileFeatureLayer(SampleHelper.Get("Countries02_3857.shp"));
-            worldLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(255, 233, 232, 214), GeoColor.FromArgb(255, 118, 138, 69));
-            worldLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-            worldLayer.FeatureSource.ProjectionConverter = proj4Projection;
+            // Create a new overlay that will hold our new layer and add it to the map and set the tile size to match up with the OSM til size.
+            var layerOverlay = new LayerOverlay();
+            mapView.Overlays.Add(layerOverlay);
+            layerOverlay.TileWidth = 256;
+            layerOverlay.TileHeight = 256;
 
-            worldLayer.Open();
-            mapView.CurrentExtent = worldLayer.GetBoundingBox();
-            worldLayer.Close();
+            // Create the new layer and add it to the overlay.  We set the user agent to specify the requests are coming from our samples.
+            // You need to change this to your application so they can identify you for usage.
+            var openStreetMapLayer = new ThinkGeo.Core.OpenStreetMapLayer("ThinkGeo Samples/12.0 (http://thinkgeo.com/; system@thinkgeo.com)");
+            layerOverlay.Layers.Add(openStreetMapLayer);
 
-            LayerOverlay staticOverlay = new LayerOverlay();
-            staticOverlay.TileType = TileType.SingleTile;
-            staticOverlay.Layers.Add(new BackgroundLayer(new GeoSolidBrush(GeoColors.DeepOcean)));
-            staticOverlay.Layers.Add("WorldLayer", worldLayer);
-            mapView.Overlays.Add(staticOverlay);
+            // Set the current extent to a local area.
+            mapView.CurrentExtent = new RectangleShape(-10789388.4602951, 3923878.18083465, -10768258.7082788, 3906668.46719412);
+
+            // Refresh the map.
+            mapView.Refresh();
         }
 
         #region Component Designer generated code
