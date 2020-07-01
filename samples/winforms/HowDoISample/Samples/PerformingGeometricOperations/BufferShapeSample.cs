@@ -104,7 +104,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(1033, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(300, 751);
+            this.panel1.Size = new System.Drawing.Size(291, 751);
             this.panel1.TabIndex = 1;
             // 
             // label1
