@@ -57,7 +57,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             cityLimits.Close();
 
             // Add LayerOverlay to Map
-            mapView.Overlays.Add(layerOverlay);
+            mapView.Overlays.Add("layerOverlay", layerOverlay);
         }
 
         /// <summary>

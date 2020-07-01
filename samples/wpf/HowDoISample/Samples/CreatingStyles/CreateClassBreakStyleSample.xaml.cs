@@ -73,7 +73,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             for (int i = 0; i < classBreakIntervals.Count(); i++)
             {
                 // Create the classBreak using one of the intervals and colors defined above
-                var classBreak = new ClassBreak(classBreakIntervals[i], AreaStyle.CreateSimpleAreaStyle(new GeoColor(192, colors[i]), GeoColors.Transparent));
+                var classBreak = new ClassBreak(classBreakIntervals[i], AreaStyle.CreateSimpleAreaStyle(new GeoColor(192, colors[i]), GeoColors.White));
 
                 // Add the classBreak to the housingUnitsStyle ClassBreaks collection
                 housingUnitsStyle.ClassBreaks.Add(classBreak);

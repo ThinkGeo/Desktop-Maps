@@ -12,9 +12,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class UsingMarkersSample : UserControl
     {
-        private SimpleMarkerOverlay simpleMarkerOverlay;
-        private FeatureSourceMarkerOverlay hotelMarkers;
-
         public UsingMarkersSample()
         {
             InitializeComponent();
@@ -45,8 +42,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void AddSimpleMarkers()
         {
-            simpleMarkerOverlay = new SimpleMarkerOverlay();
-            mapView.Overlays.Add(simpleMarkerOverlay);
+            SimpleMarkerOverlay simpleMarkerOverlay = new SimpleMarkerOverlay();
+            mapView.Overlays.Add("simpleMarkerOverlay", simpleMarkerOverlay);
         }
 
         /// <summary>
@@ -55,7 +52,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void AddHotelMarkers()
         {
             // Create the FeatureSourceMarkerOverlay and load in Frisco Hotels as the feature source
-            hotelMarkers = new FeatureSourceMarkerOverlay()
+            FeatureSourceMarkerOverlay hotelMarkers = new FeatureSourceMarkerOverlay()
             {
                 FeatureSource = new ShapeFileFeatureSource(@"../../../Data/Shapefile/Hotels.shp")
             };
@@ -76,7 +73,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             hotelMarkers.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Add the hotelMarkers overlay to the map
-            mapView.Overlays.Add(hotelMarkers);
+            mapView.Overlays.Add("hotelMarkers", hotelMarkers);
         }
 
         /// <summary>
@@ -84,6 +81,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
         {
+            SimpleMarkerOverlay simpleMarkerOverlay = (SimpleMarkerOverlay)mapView.Overlays["simpleMarkerOverlay"];
+
             // Create a marker at the position the mouse was clicked
             var marker = new Marker(e.WorldLocation)
             {
@@ -103,6 +102,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void StaticMode_OnClick(object sender, RoutedEventArgs e)
         {
+            SimpleMarkerOverlay simpleMarkerOverlay = (SimpleMarkerOverlay)mapView.Overlays["simpleMarkerOverlay"];
             simpleMarkerOverlay.DragMode = MarkerDragMode.None;
         }
 
@@ -111,6 +111,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void DragMode_OnClick(object sender, RoutedEventArgs e)
         {
+            SimpleMarkerOverlay simpleMarkerOverlay = (SimpleMarkerOverlay)mapView.Overlays["simpleMarkerOverlay"];
             simpleMarkerOverlay.DragMode = MarkerDragMode.Drag;
         }
 
@@ -119,6 +120,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void CopyMode_OnClick(object sender, RoutedEventArgs e)
         {
+            SimpleMarkerOverlay simpleMarkerOverlay = (SimpleMarkerOverlay)mapView.Overlays["simpleMarkerOverlay"];
             simpleMarkerOverlay.DragMode = MarkerDragMode.CopyWithShiftKey;
         }
     }

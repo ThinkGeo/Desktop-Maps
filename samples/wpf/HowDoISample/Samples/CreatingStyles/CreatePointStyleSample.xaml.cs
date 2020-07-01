@@ -41,6 +41,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Add the overlay to the map
             mapView.Overlays.Add("hotels",layerOverlay);
+
+            pointSymbol.IsChecked = true;
         }
 
         /// <summary>

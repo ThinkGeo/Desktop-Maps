@@ -4,14 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:ThinkGeoUI="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"              
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <ThinkGeoUI:MapView Grid.Column="0" Grid.Row="0" x:Name="mapView" Loaded="MapView_Loaded"/>
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1" Grid.Row="0" Content="LayerOverlay Controls:" FontWeight="Bold" FontSize="16"/>
-            <CheckBox Grid.Column="1" Grid.Row="1" Content="Show POI Group" IsChecked="True" Checked="ShowPoiGroup_Checked" Unchecked="ShowPoiGroup_Unchecked"></CheckBox>
-            <CheckBox Grid.Column="1" Grid.Row="2" Content="Show Landuse Group" IsChecked="True" Checked="ShowLanduseGroup_Checked" Unchecked="ShowLanduseGroup_Unchecked"></CheckBox>
+            <CheckBox Grid.Column="1" Grid.Row="1" x:Name="ShowPoi" Content="Show POI Group"  Checked="ShowPoiGroup_Checked" Unchecked="ShowPoiGroup_Unchecked"></CheckBox>
+            <CheckBox Grid.Column="1" Grid.Row="2" x:Name="ShowLandUse" Content="Show Landuse Group"  Checked="ShowLanduseGroup_Checked" Unchecked="ShowLanduseGroup_Unchecked"></CheckBox>
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />

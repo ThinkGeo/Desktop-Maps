@@ -124,6 +124,7 @@
     <None Remove="Resources\loading.gif" />
     <None Remove="Resources\North.gif" />
     <None Remove="Resources\South.gif" />
+    <None Remove="Resources\ThinkGeoLogo.png" />
     <None Remove="Resources\West.gif" />
     <None Remove="Resources\ZoomIn.png" />
     <None Remove="Resources\ZoomOut.png" />
@@ -149,6 +150,9 @@
     </Resource>
     <Resource Include="Resources\North.gif" />
     <Resource Include="Resources\South.gif" />
+    <Resource Include="Resources\ThinkGeoLogo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\West.gif" />
     <Resource Include="Resources\ZoomIn.png" />
     <Resource Include="Resources\ZoomOut.png" />
