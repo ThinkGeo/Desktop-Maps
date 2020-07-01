@@ -984,6 +984,5 @@
     <Folder Include="Samples\TopologicalValidation\" />
     <Folder Include="Samples\SettingMapExtent\" />
     <Folder Include="Samples\ProjectingData\" />
-    <Folder Include="Samples\PerformingGeometricOperations\" />
   </ItemGroup>
 </Project>
