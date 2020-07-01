@@ -51,29 +51,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add("layerOverlay", layerOverlay);
         }
 
-        private void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
-        {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
-
-            ShapeFileFeatureLayer friscoParks = (ShapeFileFeatureLayer)layerOverlay.Layers["friscoParks"];
-            InMemoryFeatureLayer selectedAreaLayer = (InMemoryFeatureLayer)layerOverlay.Layers["selectedAreaLayer"];
-
-            // Query the friscoParks layer to get the first feature closest to the map click event
-            var feature = friscoParks.QueryTools.GetFeaturesNearestTo(e.WorldLocation, GeographyUnit.Meter, 1,
-                ReturningColumnsType.NoColumns).First();
-
-            // Show the selected feature on the map
-            selectedAreaLayer.InternalFeatures.Clear();
-            selectedAreaLayer.InternalFeatures.Add(feature);
-            layerOverlay.Refresh();
-
-            // Get the area of the first feature
-            var area = ((AreaBaseShape)feature.GetShape()).GetArea(GeographyUnit.Meter, AreaUnit.SquareKilometers);
-
-            // Display the selectedArea's area in the areaResult TextBox
-            areaResult.Text = $"{area:f3} sq km";
-        }
-
         private Panel panel1;
         private TextBox areaResult;
         private Label label3;
@@ -110,6 +87,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.RotatedAngle = 0F;
             this.mapView.Size = new System.Drawing.Size(1062, 646);
             this.mapView.TabIndex = 0;
+            this.mapView.MapClick += new System.EventHandler<ThinkGeo.Core.MapClickMapViewEventArgs>(this.mapView_MapClick);
             // 
             // panel1
             // 
@@ -181,5 +159,27 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         #endregion Component Designer generated code
 
+        private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        {
+            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
+
+            ShapeFileFeatureLayer friscoParks = (ShapeFileFeatureLayer)layerOverlay.Layers["friscoParks"];
+            InMemoryFeatureLayer selectedAreaLayer = (InMemoryFeatureLayer)layerOverlay.Layers["selectedAreaLayer"];
+
+            // Query the friscoParks layer to get the first feature closest to the map click event
+            var feature = friscoParks.QueryTools.GetFeaturesNearestTo(e.WorldLocation, GeographyUnit.Meter, 1,
+                ReturningColumnsType.NoColumns).First();
+
+            // Show the selected feature on the map
+            selectedAreaLayer.InternalFeatures.Clear();
+            selectedAreaLayer.InternalFeatures.Add(feature);
+            layerOverlay.Refresh();
+
+            // Get the area of the first feature
+            var area = ((AreaBaseShape)feature.GetShape()).GetArea(GeographyUnit.Meter, AreaUnit.SquareKilometers);
+
+            // Display the selectedArea's area in the areaResult TextBox
+            areaResult.Text = $"{area:f3} sq km";
+        }
     }
 }
