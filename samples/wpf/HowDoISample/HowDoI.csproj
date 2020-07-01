@@ -121,6 +121,8 @@
     <None Remove="Resources\AQUA.png" />
     <None Remove="Resources\AQUABLANK.png" />
     <None Remove="Resources\East.gif" />
+    <None Remove="Resources\generic-logo.jpg" />
+    <None Remove="Resources\generic-logo.png" />
     <None Remove="Resources\loading.gif" />
     <None Remove="Resources\North.gif" />
     <None Remove="Resources\South.gif" />
@@ -145,14 +147,13 @@
     <Resource Include="Resources\AQUA.png" />
     <Resource Include="Resources\AQUABLANK.png" />
     <Resource Include="Resources\East.gif" />
+    <Resource Include="Resources\generic-logo.png" />
     <Resource Include="Resources\loading.gif">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\North.gif" />
     <Resource Include="Resources\South.gif" />
-    <Resource Include="Resources\ThinkGeoLogo.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="Resources\ThinkGeoLogo.png" />
     <Resource Include="Resources\West.gif" />
     <Resource Include="Resources\ZoomIn.png" />
     <Resource Include="Resources\ZoomOut.png" />
