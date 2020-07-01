@@ -11,10 +11,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class CalculateLengthSample : UserControl
     {
-        private readonly ShapeFileFeatureLayer friscoTrails = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Hike_Bike.shp");
-        private readonly InMemoryFeatureLayer selectedLineLayer = new InMemoryFeatureLayer();
-        private readonly LayerOverlay layerOverlay = new LayerOverlay();
-
         public CalculateLengthSample()
         {
             InitializeComponent();
@@ -33,6 +29,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
+            ShapeFileFeatureLayer friscoTrails = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Hike_Bike.shp");
+            InMemoryFeatureLayer selectedLineLayer = new InMemoryFeatureLayer();
+            LayerOverlay layerOverlay = new LayerOverlay();
+
             // Project friscoTrails layer to Spherical Mercator to match the map projection
             friscoTrails.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
@@ -45,16 +45,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             selectedLineLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Add friscoTrails layer to a LayerOverlay
-            layerOverlay.Layers.Add(friscoTrails);
+            layerOverlay.Layers.Add("friscoTrails",friscoTrails);
 
             // Add selectedLineLayer to the layerOverlay
-            layerOverlay.Layers.Add(selectedLineLayer);
+            layerOverlay.Layers.Add("selectedLineLayer",selectedLineLayer);
 
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10782307.6877106, 3918904.87378907, -10774377.3460701, 3912073.31442403);
 
             // Add LayerOverlay to Map
-            mapView.Overlays.Add(layerOverlay);
+            mapView.Overlays.Add("layerOverlay", layerOverlay);
         }
 
         /// <summary>
@@ -62,6 +62,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
         {
+            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
+
+            ShapeFileFeatureLayer friscoTrails = (ShapeFileFeatureLayer)layerOverlay.Layers["friscoTrails"];
+            InMemoryFeatureLayer selectedLineLayer = (InMemoryFeatureLayer)layerOverlay.Layers["selectedLineLayer"];
+
             // Query the friscoTrails layer to get the first feature closest to the map click event
             var feature = friscoTrails.QueryTools.GetFeaturesNearestTo(e.WorldLocation, GeographyUnit.Meter, 1,
                 ReturningColumnsType.NoColumns).First();

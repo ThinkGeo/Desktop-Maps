@@ -1,21 +1,17 @@
-﻿﻿using System;
+﻿using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
 using ThinkGeo.UI.Wpf;
 
- namespace ThinkGeo.UI.Wpf.HowDoI
+namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to get the envelope of a shape
     /// </summary>
     public partial class GetEnvelopeSample : UserControl
     {
-        private readonly ShapeFileFeatureLayer cityLimits = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/FriscoCityLimits.shp");
-        private readonly InMemoryFeatureLayer envelopeLayer = new InMemoryFeatureLayer();
-        private readonly LayerOverlay layerOverlay = new LayerOverlay();
-
         public GetEnvelopeSample()
         {
             InitializeComponent();
@@ -34,6 +30,10 @@ using ThinkGeo.UI.Wpf;
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
+            ShapeFileFeatureLayer cityLimits = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/FriscoCityLimits.shp");
+            InMemoryFeatureLayer envelopeLayer = new InMemoryFeatureLayer();
+            LayerOverlay layerOverlay = new LayerOverlay();
+
             // Project cityLimits layer to Spherical Mercator to match the map projection
             cityLimits.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
@@ -46,10 +46,10 @@ using ThinkGeo.UI.Wpf;
             envelopeLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Add cityLimits to a LayerOverlay
-            layerOverlay.Layers.Add(cityLimits);
+            layerOverlay.Layers.Add("cityLimits", cityLimits);
 
             // Add envelopeLayer to the layerOverlay
-            layerOverlay.Layers.Add(envelopeLayer);
+            layerOverlay.Layers.Add("envelopeLayer", envelopeLayer);
 
             // Set the map extent to the cityLimits layer bounding box
             cityLimits.Open();
@@ -57,7 +57,7 @@ using ThinkGeo.UI.Wpf;
             cityLimits.Close();
 
             // Add LayerOverlay to Map
-            mapView.Overlays.Add(layerOverlay);
+            mapView.Overlays.Add("layerOverlay",layerOverlay);
         }
 
         /// <summary>
@@ -65,6 +65,11 @@ using ThinkGeo.UI.Wpf;
         /// </summary>
         private void ShapeEnvelope_OnClick(object sender, RoutedEventArgs e)
         {
+            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
+
+            ShapeFileFeatureLayer cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
+            InMemoryFeatureLayer envelopeLayer = (InMemoryFeatureLayer)layerOverlay.Layers["envelopeLayer"];
+
             // Query the cityLimits layer to get the first feature
             cityLimits.Open();
             var feature = cityLimits.QueryTools.GetAllFeatures(ReturningColumnsType.NoColumns).First();

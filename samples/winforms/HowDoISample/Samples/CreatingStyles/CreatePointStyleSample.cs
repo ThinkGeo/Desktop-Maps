@@ -35,6 +35,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(staticOverlay);
         }
 
+        private Panel panel1;
+
         #region Component Designer generated code
 
         private MapView mapView;
@@ -42,18 +44,50 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private void InitializeComponent()
         {
             this.mapView = new ThinkGeo.UI.WinForms.MapView();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.SuspendLayout();
-            //
+            // 
             // mapView
-            //
-            this.mapView.Dock = System.Windows.Forms.DockStyle.Fill;
+            // 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.mapView.BackColor = System.Drawing.Color.White;
+            this.mapView.CurrentScale = 0D;
             this.mapView.Location = new System.Drawing.Point(0, 0);
+            this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
+            this.mapView.MapUnit = ThinkGeo.Core.GeographyUnit.Meter;
+            this.mapView.Margin = new System.Windows.Forms.Padding(0);
+            this.mapView.MaximumScale = 1.7976931348623157E+308D;
+            this.mapView.MinimumScale = 200D;
+            this.mapView.Name = "mapView";
+            this.mapView.RestrictExtent = null;
+            this.mapView.RotatedAngle = 0F;
+            this.mapView.Size = new System.Drawing.Size(636, 619);
+            this.mapView.TabIndex = 0;
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.AutoSize = true;
+            this.panel1.BackColor = System.Drawing.Color.Gray;
+            this.panel1.Location = new System.Drawing.Point(636, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(240, 619);
+            this.panel1.TabIndex = 1;
+            // 
+            // CreatePointStyleSample
+            // 
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.mapView);
-            //
-            // UserControl
-            //
+            this.Name = "CreatePointStyleSample";
+            this.Size = new System.Drawing.Size(876, 619);
             this.Load += new System.EventHandler(this.Form_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion Component Designer generated code

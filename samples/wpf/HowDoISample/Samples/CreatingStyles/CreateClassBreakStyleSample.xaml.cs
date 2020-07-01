@@ -12,9 +12,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class CreateClassBreakStyleSample : UserControl
     {
-        private readonly ShapeFileFeatureLayer housingUnitsLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco 2010 Census Housing Units.shp");
-        private readonly LegendAdornmentLayer legend = new LegendAdornmentLayer();
-
         public CreateClassBreakStyleSample()
         {
             InitializeComponent();
@@ -32,6 +29,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
+            ShapeFileFeatureLayer housingUnitsLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco 2010 Census Housing Units.shp");
+            LegendAdornmentLayer legend = new LegendAdornmentLayer();
+
             // Setup the legend adornment
             legend.Title = new LegendItem()
             {
@@ -43,7 +43,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Project the layer's data to match the projection of the map
             housingUnitsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
-            AddClassBreakStyle();
+            AddClassBreakStyle(housingUnitsLayer, legend);
 
             // Add housingUnitsLayer to a LayerOverlay
             var layerOverlay = new LayerOverlay();
@@ -61,7 +61,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Adds a ClassBreakStyle to the housingUnitsLayer that changes colors based on the numerical value of the H_UNITS column as they fall within the range of a ClassBreak
         /// </summary>
-        private void AddClassBreakStyle()
+        private void AddClassBreakStyle(ShapeFileFeatureLayer layer, LegendAdornmentLayer legend)
         {
             // Create the ClassBreakStyle based on the H_UNITS numerical column
             var housingUnitsStyle = new ClassBreakStyle("H_UNITS");
@@ -88,8 +88,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
 
             // Add and apply the ClassBreakStyle to the housingUnitsLayer
-            housingUnitsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(housingUnitsStyle);
-            housingUnitsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(housingUnitsStyle);
+            layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
         }
     }
 }

@@ -10,9 +10,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class CreatePointStyleSample : UserControl
     {
-        private readonly ShapeFileFeatureLayer hotelsLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Hotels.shp");
-        private readonly LayerOverlay layerOverlay = new LayerOverlay();
-
         public CreatePointStyleSample()
         {
             InitializeComponent();
@@ -33,14 +30,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10778329.017082, 3909598.36751101, -10776250.8853871, 3907890.47766975);
 
+            ShapeFileFeatureLayer hotelsLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Hotels.shp");
+            LayerOverlay layerOverlay = new LayerOverlay();
+
             // Project the layer's data to match the projection of the map
             hotelsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
             // Add the layer to a layer overlay
-            layerOverlay.Layers.Add(hotelsLayer);
+            layerOverlay.Layers.Add("hotels",hotelsLayer);
 
             // Add the overlay to the map
-            mapView.Overlays.Add(layerOverlay);
+            mapView.Overlays.Add("hotels",layerOverlay);
         }
 
         /// <summary>
@@ -48,18 +48,24 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void PointSymbol_OnChecked(object sender, RoutedEventArgs e)
         {
-            // Create a point style
-            var pointStyle = new PointStyle(PointSymbolType.Circle, 12, GeoBrushes.Blue, new GeoPen(GeoBrushes.White, 2));
+            if (mapView.Overlays.Count > 0)
+            {
+                LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["hotels"];
+                ShapeFileFeatureLayer hotelsLayer = (ShapeFileFeatureLayer)layerOverlay.Layers["hotels"];
 
-            // Add the point style to the collection of custom styles for ZoomLevel 1.
-            hotelsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
-            hotelsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(pointStyle);
+                // Create a point style
+                var pointStyle = new PointStyle(PointSymbolType.Circle, 12, GeoBrushes.Blue, new GeoPen(GeoBrushes.White, 2));
 
-            // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the point style on every zoom level on the map. 
-            hotelsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+                // Add the point style to the collection of custom styles for ZoomLevel 1.
+                hotelsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
+                hotelsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(pointStyle);
 
-            // Refresh the layerOverlay to show the new style
-            layerOverlay.Refresh();
+                // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the point style on every zoom level on the map. 
+                hotelsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
+                // Refresh the layerOverlay to show the new style
+                layerOverlay.Refresh();
+            }
         }
 
         /// <summary>
@@ -67,6 +73,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void Icon_OnChecked(object sender, RoutedEventArgs e)
         {
+            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["hotels"];
+            ShapeFileFeatureLayer hotelsLayer = (ShapeFileFeatureLayer)layerOverlay.Layers["hotels"];
+
             // Create a point style
             var pointStyle = new PointStyle(new GeoImage(@"../../../Resources/hotel_icon.png"))
             {
@@ -90,6 +99,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void Symbol_Checked(object sender, RoutedEventArgs e)
         {
+            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["hotels"];
+            ShapeFileFeatureLayer hotelsLayer = (ShapeFileFeatureLayer)layerOverlay.Layers["hotels"];
+
             // Create a point style
             var symbolPointStyle = new PointStyle(new GeoFont("Verdana", 16, DrawingFontStyles.Bold), "@", GeoBrushes.Black)
             {

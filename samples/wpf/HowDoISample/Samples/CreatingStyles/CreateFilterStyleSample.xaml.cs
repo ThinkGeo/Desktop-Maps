@@ -10,8 +10,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class CreateFilterStyleSample : UserControl
     {
-        private readonly ShapeFileFeatureLayer friscoCrimeLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco_Crime.shp");
-
         public CreateFilterStyleSample()
         {
             InitializeComponent();
@@ -32,6 +30,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10780196.9469504, 3916119.49665258, -10776231.7761301, 3912703.71697007);
 
+            ShapeFileFeatureLayer friscoCrimeLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco_Crime.shp");
+
             // Project the layer's data to match the projection of the map
             friscoCrimeLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
@@ -39,7 +39,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var layerOverlay = new LayerOverlay();
             layerOverlay.Layers.Add(friscoCrimeLayer);
 
-            AddFilterStyle();
+            AddFilterStyle(friscoCrimeLayer);
 
             // Add layerOverlay to the mapView
             mapView.Overlays.Add(layerOverlay);
@@ -48,7 +48,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Adds a filter style to various categories of the Frisco Crime layer
         /// </summary>
-        private void AddFilterStyle()
+        private void AddFilterStyle(ShapeFileFeatureLayer layer)
         {
             // Create a filter style based on the "Drugs" Offense Group 
             var drugFilterStyle = new FilterStyle()
@@ -81,10 +81,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
 
             // Add the filter styles to the CustomStyles collection
-            friscoCrimeLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(drugFilterStyle);
-            friscoCrimeLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(weaponFilterStyle);
-            friscoCrimeLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(vandalismFilterStyle);
-            friscoCrimeLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(drugFilterStyle);
+            layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(weaponFilterStyle);
+            layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(vandalismFilterStyle);
+            layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
         }
     }
 }

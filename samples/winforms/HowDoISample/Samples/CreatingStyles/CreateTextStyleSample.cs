@@ -9,10 +9,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public class CreateTextStyleSample : UserControl
     {
-        private readonly ShapeFileFeatureLayer hotelsLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Hotels.shp");
-        private readonly ShapeFileFeatureLayer streetsLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Streets.shp");
-        private readonly ShapeFileFeatureLayer parksLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Parks.shp");
-
         public CreateTextStyleSample()
         {
             InitializeComponent();
@@ -24,7 +20,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Set the map background color            
-            mapView.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush( GeoColor.FromArgb(255, 232, 232, 232));
+            mapView.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColor.FromArgb(255, 232, 232, 232));
+
+            ShapeFileFeatureLayer hotelsLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Hotels.shp");
+            ShapeFileFeatureLayer streetsLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Streets.shp");
+            ShapeFileFeatureLayer parksLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Parks.shp");
 
             // Project the layer's data to match the projection of the map
             hotelsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
@@ -32,9 +32,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             parksLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
             // Add Styles to the layers
-            StyleHotelsLayer();
-            StyleStreetsLayer();
-            StyleParksLayer();
+            StyleHotelsLayer(hotelsLayer);
+            StyleStreetsLayer(streetsLayer);
+            StyleParksLayer(parksLayer);
 
             // Add layers to a layerOverlay
             var layerOverlay = new LayerOverlay();
@@ -55,7 +55,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// <summary>
         /// Adds a PointStyle and TextStyle to the Hotels Layer
         /// </summary>
-        private void StyleHotelsLayer()
+        private void StyleHotelsLayer(ShapeFileFeatureLayer layer)
         {
             var pointStyle = new PointStyle(PointSymbolType.Circle, 4, GeoBrushes.Brown, new GeoPen(GeoBrushes.DarkRed, 2));
             var textStyle = new TextStyle("NAME", new GeoFont("Segoe UI", 12, DrawingFontStyles.Bold), GeoBrushes.DarkRed)
@@ -66,16 +66,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 DrawingLevel = DrawingLevel.LabelLevel,
                 AllowLineCarriage = true
             };
-            hotelsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(pointStyle);
-            hotelsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(textStyle);
+            layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(pointStyle);
+            layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(textStyle);
 
-            hotelsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
         }
 
         /// <summary>
         /// Adds a LineStyle and TextStyle to the Streets Layer
         /// </summary>
-        private void StyleStreetsLayer()
+        private void StyleStreetsLayer(ShapeFileFeatureLayer layer)
         {
             var lineStyle = new LineStyle(new GeoPen(GeoBrushes.DimGray, 6), new GeoPen(GeoBrushes.WhiteSmoke, 4));
             var textStyle = new TextStyle("FULL_NAME", new GeoFont("Segoe UI", 12, DrawingFontStyles.Bold), GeoBrushes.MidnightBlue)
@@ -84,16 +84,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 HaloPen = new GeoPen(GeoBrushes.White, 2),
                 DrawingLevel = DrawingLevel.LabelLevel
             };
-            streetsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(lineStyle);
-            streetsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(textStyle);
+            layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(lineStyle);
+            layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(textStyle);
 
-            streetsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
         }
 
         /// <summary>
         /// Adds an AreaStyle and TextStyle to the Parks Layer
         /// </summary>
-        private void StyleParksLayer()
+        private void StyleParksLayer(ShapeFileFeatureLayer layer)
         {
             var areaStyle = new AreaStyle(GeoPens.DimGray, GeoBrushes.PastelGreen);
             var textStyle = new TextStyle("NAME", new GeoFont("Segoe UI", 12, DrawingFontStyles.Bold), GeoBrushes.DarkGreen)
@@ -103,10 +103,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 DrawingLevel = DrawingLevel.LabelLevel,
                 AllowLineCarriage = true
             };
-            parksLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(areaStyle);
-            parksLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(textStyle);
+            layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(areaStyle);
+            layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(textStyle);
 
-            parksLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
         }
 
         #region Component Designer generated code
