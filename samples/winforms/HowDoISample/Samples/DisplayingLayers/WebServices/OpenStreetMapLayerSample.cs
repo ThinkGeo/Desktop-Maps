@@ -38,6 +38,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Refresh();
         }
 
+
+
         #region Component Designer generated code
 
         private MapView mapView;
@@ -46,17 +48,31 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             this.mapView = new ThinkGeo.UI.WinForms.MapView();
             this.SuspendLayout();
-            //
+            // 
             // mapView
-            //
+            // 
+            this.mapView.BackColor = System.Drawing.Color.White;
+            this.mapView.CurrentScale = 0D;
             this.mapView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mapView.Location = new System.Drawing.Point(0, 0);
+            this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
+            this.mapView.MapUnit = ThinkGeo.Core.GeographyUnit.Unknown;
+            this.mapView.MaximumScale = 1.7976931348623157E+308D;
+            this.mapView.MinimumScale = 200D;
+            this.mapView.Name = "mapView";
+            this.mapView.RestrictExtent = null;
+            this.mapView.RotatedAngle = 0F;
+            this.mapView.Size = new System.Drawing.Size(1077, 610);
+            this.mapView.TabIndex = 0;
+            // 
+            // OpenStreetMapLayerSample
+            // 
             this.Controls.Add(this.mapView);
-            //
-            // UserControl
-            //
+            this.Name = "OpenStreetMapLayerSample";
+            this.Size = new System.Drawing.Size(1077, 610);
             this.Load += new System.EventHandler(this.Form_Load);
             this.ResumeLayout(false);
+
         }
 
         #endregion Component Designer generated code
