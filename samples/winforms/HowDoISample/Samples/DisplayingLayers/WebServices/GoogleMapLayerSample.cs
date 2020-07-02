@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 using ThinkGeo.Core;
 using ThinkGeo.UI.WinForms;
@@ -10,29 +11,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         public GoogleMapLayerSample()
         {
             InitializeComponent();
-        }
-
-        private void Form_Load(object sender, EventArgs e)
-        {
-            //mapView.MapUnit = GeographyUnit.Meter;
-
-            //// If want to know more srids, please refer Projections.rtf in Documentation folder.
-            //ProjectionConverter proj4Projection = new ProjectionConverter(3857, 2163);
-
-            //ShapeFileFeatureLayer worldLayer = new ShapeFileFeatureLayer(SampleHelper.Get("Countries02_3857.shp"));
-            //worldLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(255, 233, 232, 214), GeoColor.FromArgb(255, 118, 138, 69));
-            //worldLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-            //worldLayer.FeatureSource.ProjectionConverter = proj4Projection;
-
-            //worldLayer.Open();
-            //mapView.CurrentExtent = worldLayer.GetBoundingBox();
-            //worldLayer.Close();
-
-            //LayerOverlay staticOverlay = new LayerOverlay();
-            //staticOverlay.TileType = TileType.SingleTile;
-            //staticOverlay.Layers.Add(new BackgroundLayer(new GeoSolidBrush(GeoColors.DeepOcean)));
-            //staticOverlay.Layers.Add("WorldLayer", worldLayer);
-            //mapView.Overlays.Add(staticOverlay);
         }
 
         private Panel panel1;
@@ -174,7 +152,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.Controls.Add(this.mapView);
             this.Name = "GoogleMapLayerSample";
             this.Size = new System.Drawing.Size(1172, 568);
-            this.Load += new System.EventHandler(this.Form_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
@@ -215,11 +192,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Refresh();
         }
 
-        //private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
-        //{
-        //    Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
-        //    e.Handled = true;
-        //}
+        private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo("https://developers.google.com/maps/documentation/maps-static/get-api-key"));
+        }
 
     }
 }

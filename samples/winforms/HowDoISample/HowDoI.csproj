@@ -966,10 +966,5 @@
     <Folder Include="Samples\Interpolation\" />
     <Folder Include="Samples\UsingQueryTools\" />
     <Folder Include="Samples\UsingOverlays\" />
-    <Folder Include="Samples\UsingMapTools\" />
-    <Folder Include="Samples\UsingCloudMapsServices\" />
-    <Folder Include="Samples\TopologicalValidation\" />
-    <Folder Include="Samples\SettingMapExtent\" />
-    <Folder Include="Samples\ProjectingData\" />
   </ItemGroup>
 </Project>
