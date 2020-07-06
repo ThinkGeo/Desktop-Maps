@@ -89,7 +89,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.pnlTop.Controls.Add(this.label1);
             this.pnlTop.Controls.Add(this.pictureBox1);
             this.pnlTop.Location = new System.Drawing.Point(0, 0);
-            this.pnlTop.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlTop.Margin = new System.Windows.Forms.Padding(4);
             this.pnlTop.Name = "pnlTop";
             this.pnlTop.Size = new System.Drawing.Size(1776, 86);
             this.pnlTop.TabIndex = 8;
@@ -170,7 +170,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.splitContainer1.Location = new System.Drawing.Point(0, 103);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(5);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -195,7 +195,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.treeViewLeft.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.treeViewLeft.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(185)))), ((int)(((byte)(226)))));
             this.treeViewLeft.Location = new System.Drawing.Point(0, 0);
-            this.treeViewLeft.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.treeViewLeft.Margin = new System.Windows.Forms.Padding(4);
             this.treeViewLeft.Name = "treeViewLeft";
             this.treeViewLeft.ShowNodeToolTips = true;
             this.treeViewLeft.Size = new System.Drawing.Size(436, 880);
@@ -206,7 +206,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             this.splitContainerSampleSource.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.splitContainerSampleSource.Location = new System.Drawing.Point(0, 134);
-            this.splitContainerSampleSource.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitContainerSampleSource.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainerSampleSource.Name = "splitContainerSampleSource";
             // 
             // splitContainerSampleSource.Panel1
@@ -231,7 +231,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.cSharpBrowser.MinimumSize = new System.Drawing.Size(36, 31);
             this.cSharpBrowser.Name = "cSharpBrowser";
             this.cSharpBrowser.ScrollBarsEnabled = false;
-            this.cSharpBrowser.Size = new System.Drawing.Size(683, 123);
+            this.cSharpBrowser.Size = new System.Drawing.Size(512, 100);
             this.cSharpBrowser.TabIndex = 0;
             // 
             // pnlOption
@@ -240,7 +240,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.pnlOption.BackColor = System.Drawing.Color.LightBlue;
             this.pnlOption.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlOption.Location = new System.Drawing.Point(0, 0);
-            this.pnlOption.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.pnlOption.Margin = new System.Windows.Forms.Padding(5);
             this.pnlOption.Name = "pnlOption";
             this.pnlOption.Size = new System.Drawing.Size(1335, 746);
             this.pnlOption.TabIndex = 8;
@@ -251,7 +251,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.btnSource.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnSource.ForeColor = System.Drawing.Color.White;
             this.btnSource.Location = new System.Drawing.Point(5, 91);
-            this.btnSource.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSource.Margin = new System.Windows.Forms.Padding(4);
             this.btnSource.Name = "btnSource";
             this.btnSource.Size = new System.Drawing.Size(75, 36);
             this.btnSource.TabIndex = 10;
@@ -268,7 +268,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1780, 103);
+            this.panel1.Size = new System.Drawing.Size(1779, 103);
             this.panel1.TabIndex = 9;
             // 
             // labelSampleDescription
@@ -300,9 +300,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.ClientSize = new System.Drawing.Size(1776, 964);
             this.Controls.Add(this.pnlTop);
             this.Controls.Add(this.splitContainer1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "Samples";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

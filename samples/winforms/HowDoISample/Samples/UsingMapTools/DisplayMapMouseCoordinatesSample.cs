@@ -50,9 +50,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
-            this.mapView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mapView.Location = new System.Drawing.Point(0, 0);
             this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
             this.mapView.MaximumScale = 1.7976931348623157E+308D;
@@ -60,7 +62,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotatedAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(1296, 546);
+            this.mapView.Size = new System.Drawing.Size(993, 546);
             this.mapView.TabIndex = 0;
             // 
             // panel1
@@ -72,7 +74,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Controls.Add(this.displayMouseCoordinates);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.panel1.Location = new System.Drawing.Point(649, 0);
+            this.panel1.Location = new System.Drawing.Point(996, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(300, 546);
             this.panel1.TabIndex = 1;
@@ -104,7 +106,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.displayMouseCoordinates.Text = "Display Mouse Coordinates";
             this.displayMouseCoordinates.UseVisualStyleBackColor = true;
             this.displayMouseCoordinates.CheckedChanged += new System.EventHandler(this.displayMouseCoordinates_CheckedChanged);
-            this.displayMouseCoordinates.CheckStateChanged += new System.EventHandler(this.displayMouseCoordinates_CheckStateChanged);
             // 
             // label1
             // 
@@ -134,13 +135,18 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void displayMouseCoordinates_CheckedChanged(object sender, EventArgs e)
         {
-            mapView.MapTools.MouseCoordinate.IsEnabled = true;
+            CheckBox checkbox = sender as CheckBox;
 
-        }
+            if (checkbox.Checked == true)
+            {
+                mapView.MapTools.MouseCoordinate.IsEnabled = true;
 
-        private void displayMouseCoordinates_CheckStateChanged(object sender, EventArgs e)
-        {
-            mapView.MapTools.MouseCoordinate.IsEnabled = false;
+            }
+            else
+            {
+                mapView.MapTools.MouseCoordinate.IsEnabled = false;
+
+            }
         }
 
         /// <summary>
