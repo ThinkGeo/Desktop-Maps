@@ -75,7 +75,31 @@ namespace RoutingIndexGenerator
                     Collection<FeatureSourceColumn> sourceColumns = source.GetColumns();
                     foreach (var column in sourceColumns)
                     {
-                        dbfColumns.Add(new DbfColumn(column.ColumnName, (DbfColumnType)Enum.Parse(typeof(DbfColumnType), column.TypeName), column.MaxLength, 0));
+                        // Create the DBFColumns based on different cases in SQLite source
+                        DbfColumnType dbfColumnType = DbfColumnType.Null;
+                        int columnLength = 0;
+                        switch (column.TypeName.ToUpper())
+                        {
+                            case "INTEGER":
+                                dbfColumnType = DbfColumnType.Numeric;
+                                columnLength = 10;
+                                break;
+                            case "BLOB":
+                                continue;
+                            case "TEXT":
+                                dbfColumnType = DbfColumnType.Character;
+                                columnLength = 100;
+                                break;
+                            case "BIGINT":
+                                dbfColumnType = DbfColumnType.Numeric;
+                                columnLength = 20;
+                                break;
+                            default:
+                                break;
+
+                        }
+
+                        dbfColumns.Add(new DbfColumn(column.ColumnName, dbfColumnType, columnLength, 0));
                     }
                     ShapeFileFeatureSource.CreateShapeFile(ShapeFileType.Polyline, buildRtgParameter.SourceSegmentsFilePath, dbfColumns, Encoding.UTF8, OverwriteMode.Overwrite);
                     targetFeatureSource = new ShapeFileFeatureSource(buildRtgParameter.SourceSegmentsFilePath, GeoFileReadWriteMode.ReadWrite);
