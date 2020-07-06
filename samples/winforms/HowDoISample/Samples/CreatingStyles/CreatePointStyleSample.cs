@@ -75,7 +75,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotatedAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(902, 659);
+            this.mapView.Size = new System.Drawing.Size(843, 659);
             this.mapView.TabIndex = 0;
             // 
             // panel1
