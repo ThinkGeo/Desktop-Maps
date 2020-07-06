@@ -65,16 +65,17 @@
     <PackageReference Include="NetTopologySuite" Version="2.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="System.Data.OleDb" Version="5.0.0-preview.6.20305.6" />
-    <PackageReference Include="ThinkGeo.Ecw" Version="13.0.0-beta131" />
-    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="13.0.0-beta132" />
-    <PackageReference Include="ThinkGeo.MrSid" Version="13.0.0-beta130" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="13.0.0-beta133" />
-    <PackageReference Include="ThinkGeo.Oracle" Version="13.0.0-beta132" />
-    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="13.0.0-beta130" />
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="13.0.0-beta128" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="13.0.0-beta127" />
-    <PackageReference Include="ThinkGeo.UI.WinForms" Version="13.0.0-beta050" />
-    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="13.0.0-beta129" />
+    <PackageReference Include="ThinkGeo.Ecw" Version="13.0.0-beta132" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="13.0.0-beta133" />
+    <PackageReference Include="ThinkGeo.MrSid" Version="13.0.0-beta131" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="13.0.0-beta134" />
+    <PackageReference Include="ThinkGeo.Oracle" Version="13.0.0-beta133" />
+    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="13.0.0-beta131" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="13.0.0-beta129" />
+    <PackageReference Include="ThinkGeo.Printers" Version="13.0.0-beta129" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="13.0.0-beta128" />
+    <PackageReference Include="ThinkGeo.UI.WinForms" Version="13.0.0-beta051" />
+    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="13.0.0-beta130" />
   </ItemGroup>
 
   <ItemGroup>

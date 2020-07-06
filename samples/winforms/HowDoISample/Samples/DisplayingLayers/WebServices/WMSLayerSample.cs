@@ -55,14 +55,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
-            this.mapView.Location = new System.Drawing.Point(0, 0);
+            this.mapView.Location = new System.Drawing.Point(4, 0);
             this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
             this.mapView.MaximumScale = 1.7976931348623157E+308D;
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotatedAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(942, 611);
+            this.mapView.Size = new System.Drawing.Size(962, 611);
             this.mapView.TabIndex = 0;
             // 
             // panel1
@@ -73,9 +73,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Controls.Add(this.radioButton2);
             this.panel1.Controls.Add(this.radioButton1);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(948, 0);
+            this.panel1.Location = new System.Drawing.Point(965, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(302, 611);
+            this.panel1.Size = new System.Drawing.Size(285, 611);
             this.panel1.TabIndex = 1;
             // 
             // radioButton2
@@ -111,7 +111,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(17, 14);
+            this.label1.Location = new System.Drawing.Point(15, 10);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(162, 25);
             this.label1.TabIndex = 0;
