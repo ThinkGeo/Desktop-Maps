@@ -16,7 +16,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void Form_Load(object sender, EventArgs e)
         {
-
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
 
@@ -27,6 +26,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10780196.9469504, 3916119.49665258, -10776231.7761301, 3912703.71697007);
 
+            ShapeFileFeatureLayer friscoCrimeLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco_Crime.shp");
+
             // Project the layer's data to match the projection of the map
             friscoCrimeLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
@@ -34,7 +35,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var layerOverlay = new LayerOverlay();
             layerOverlay.Layers.Add(friscoCrimeLayer);
 
-            AddFilterStyle();
+            AddFilterStyle(friscoCrimeLayer);
 
             // Add layerOverlay to the mapView
             mapView.Overlays.Add(layerOverlay);
@@ -44,7 +45,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// <summary>
         /// Adds a filter style to various categories of the Frisco Crime layer
         /// </summary>
-        private void AddFilterStyle()
+        private void AddFilterStyle(ShapeFileFeatureLayer layer)
         {
             // Create a filter style based on the "Drugs" Offense Group 
             var drugFilterStyle = new FilterStyle()
@@ -77,10 +78,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             };
 
             // Add the filter styles to the CustomStyles collection
-            friscoCrimeLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(drugFilterStyle);
-            friscoCrimeLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(weaponFilterStyle);
-            friscoCrimeLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(vandalismFilterStyle);
-            friscoCrimeLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(drugFilterStyle);
+            layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(weaponFilterStyle);
+            layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(vandalismFilterStyle);
+            layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
         }
 
         #region Component Designer generated code
@@ -91,17 +92,30 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             this.mapView = new ThinkGeo.UI.WinForms.MapView();
             this.SuspendLayout();
-            //
+            // 
             // mapView
-            //
+            // 
+            this.mapView.BackColor = System.Drawing.Color.White;
+            this.mapView.CurrentScale = 0D;
             this.mapView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mapView.Location = new System.Drawing.Point(0, 0);
+            this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
+            this.mapView.MaximumScale = 1.7976931348623157E+308D;
+            this.mapView.MinimumScale = 200D;
+            this.mapView.Name = "mapView";
+            this.mapView.RestrictExtent = null;
+            this.mapView.RotatedAngle = 0F;
+            this.mapView.Size = new System.Drawing.Size(1175, 567);
+            this.mapView.TabIndex = 0;
+            // 
+            // CreateFilterStyleSample
+            // 
             this.Controls.Add(this.mapView);
-            //
-            // UserControl
-            //
+            this.Name = "CreateFilterStyleSample";
+            this.Size = new System.Drawing.Size(1175, 567);
             this.Load += new System.EventHandler(this.Form_Load);
             this.ResumeLayout(false);
+
         }
 
         #endregion Component Designer generated code

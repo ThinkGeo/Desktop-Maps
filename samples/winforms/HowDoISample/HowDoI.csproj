@@ -65,16 +65,16 @@
     <PackageReference Include="NetTopologySuite" Version="2.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="System.Data.OleDb" Version="5.0.0-preview.6.20305.6" />
-    <PackageReference Include="ThinkGeo.Ecw" Version="13.0.0-beta128" />
-    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="13.0.0-beta129" />
-    <PackageReference Include="ThinkGeo.MrSid" Version="13.0.0-beta127" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="13.0.0-beta130" />
-    <PackageReference Include="ThinkGeo.Oracle" Version="13.0.0-beta129" />
-    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="13.0.0-beta127" />
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="13.0.0-beta125" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="13.0.0-beta124" />
-    <PackageReference Include="ThinkGeo.UI.WinForms" Version="13.0.0-beta047" />
-    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="13.0.0-beta126" />
+    <PackageReference Include="ThinkGeo.Ecw" Version="13.0.0-beta131" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="13.0.0-beta132" />
+    <PackageReference Include="ThinkGeo.MrSid" Version="13.0.0-beta130" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="13.0.0-beta133" />
+    <PackageReference Include="ThinkGeo.Oracle" Version="13.0.0-beta132" />
+    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="13.0.0-beta130" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="13.0.0-beta128" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="13.0.0-beta127" />
+    <PackageReference Include="ThinkGeo.UI.WinForms" Version="13.0.0-beta050" />
+    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="13.0.0-beta129" />
   </ItemGroup>
 
   <ItemGroup>
@@ -965,6 +965,5 @@
     <Folder Include="Samples\DisplayingLayers\Raster\" />
     <Folder Include="Samples\Interpolation\" />
     <Folder Include="Samples\UsingQueryTools\" />
-    <Folder Include="Samples\UsingOverlays\" />
   </ItemGroup>
 </Project>

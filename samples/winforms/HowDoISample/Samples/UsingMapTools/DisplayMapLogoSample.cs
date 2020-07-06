@@ -52,7 +52,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mapView.Location = new System.Drawing.Point(0, 0);
             this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
-            this.mapView.MapUnit = ThinkGeo.Core.GeographyUnit.Meter;
             this.mapView.MaximumScale = 1.7976931348623157E+308D;
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";

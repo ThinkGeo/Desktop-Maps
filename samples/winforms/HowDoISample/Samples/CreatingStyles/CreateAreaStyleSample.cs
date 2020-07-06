@@ -26,6 +26,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
 
+            ShapeFileFeatureLayer friscoSubdivisions;
+
             // Create a layer with polygon data
             friscoSubdivisions = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Parks.shp");
 
@@ -40,22 +42,22 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(layerOverlay);
 
             // Add the area style to the historicSites layer
-            AddAreaStyle();
+            AddAreaStyle(friscoSubdivisions);
         }
 
         /// <summary>
         /// Create a areaStyle and add it to the Historic Sites layer
         /// </summary>
-        private void AddAreaStyle()
+        private void AddAreaStyle(ShapeFileFeatureLayer layer)
         {
             // Create a area style
             var areaStyle = new AreaStyle(GeoPens.DimGray, new GeoSolidBrush(new GeoColor(128, GeoColors.ForestGreen)));
 
             // Add the area style to the collection of custom styles for ZoomLevel 1. 
-            friscoSubdivisions.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(areaStyle);
+            layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(areaStyle);
 
             // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the area style on every zoom level on the map. 
-            friscoSubdivisions.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
         }
 
         #region Component Designer generated code
@@ -66,17 +68,30 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             this.mapView = new ThinkGeo.UI.WinForms.MapView();
             this.SuspendLayout();
-            //
+            // 
             // mapView
-            //
+            // 
+            this.mapView.BackColor = System.Drawing.Color.White;
+            this.mapView.CurrentScale = 0D;
             this.mapView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mapView.Location = new System.Drawing.Point(0, 0);
+            this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
+            this.mapView.MaximumScale = 1.7976931348623157E+308D;
+            this.mapView.MinimumScale = 200D;
+            this.mapView.Name = "mapView";
+            this.mapView.RestrictExtent = null;
+            this.mapView.RotatedAngle = 0F;
+            this.mapView.Size = new System.Drawing.Size(1281, 643);
+            this.mapView.TabIndex = 0;
+            // 
+            // CreateAreaStyleSample
+            // 
             this.Controls.Add(this.mapView);
-            //
-            // UserControl
-            //
+            this.Name = "CreateAreaStyleSample";
+            this.Size = new System.Drawing.Size(1281, 643);
             this.Load += new System.EventHandler(this.Form_Load);
             this.ResumeLayout(false);
+
         }
 
         #endregion Component Designer generated code

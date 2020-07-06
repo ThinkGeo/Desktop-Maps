@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Windows.Media;
 using ThinkGeo.Core;
 using ThinkGeo.UI.WinForms;
 
@@ -23,7 +24,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
-
+            mapView.MapTools.MouseCoordinate.IsEnabled = true;
         }
 
 
@@ -54,7 +55,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mapView.Location = new System.Drawing.Point(0, 0);
             this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
-            this.mapView.MapUnit = ThinkGeo.Core.GeographyUnit.Meter;
             this.mapView.MaximumScale = 1.7976931348623157E+308D;
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
@@ -72,7 +72,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Controls.Add(this.displayMouseCoordinates);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.panel1.Location = new System.Drawing.Point(996, 0);
+            this.panel1.Location = new System.Drawing.Point(649, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(300, 546);
             this.panel1.TabIndex = 1;
@@ -80,11 +80,17 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // coordinateType
             // 
             this.coordinateType.FormattingEnabled = true;
+            this.coordinateType.Items.AddRange(new object[] {
+            "(lat), (lon)",
+            "(lon), (lat)",
+            "(degrees), (minutes), (seconds)",
+            "(custom)"});
             this.coordinateType.Location = new System.Drawing.Point(3, 107);
             this.coordinateType.Name = "coordinateType";
             this.coordinateType.Size = new System.Drawing.Size(294, 28);
             this.coordinateType.TabIndex = 2;
             this.coordinateType.Text = "(lat), (lon)";
+            this.coordinateType.SelectedIndexChanged += new System.EventHandler(this.coordinateType_SelectedIndexChanged);
             // 
             // displayMouseCoordinates
             // 
@@ -137,13 +143,23 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapTools.MouseCoordinate.IsEnabled = false;
         }
 
-         private void CoordinateType_SelectionChanged()
+        /// <summary>
+        /// Event handler that formats the MouseCoordinates to use WorldCoordinates and changes the Foreground color to red.
+        /// Other modifications to the display of the MouseCoordinates can be safely done here.
+        /// </summary>
+        private void MouseCoordinate_CustomMouseCoordinateFormat(object sender, CustomFormattedMouseCoordinateMapToolEventArgs e)
         {
-            switch (((ComboBoxItem)coordinateType.SelectedItem).Content)
+           ((MouseCoordinateMapTool)sender).Foreground = new SolidColorBrush(Colors.Red);
+            e.Result = $"X: {e.WorldCoordinate.X.ToString("N0")}, Y: {e.WorldCoordinate.Y.ToString("N0")}";
+        }
+
+        private void coordinateType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (coordinateType.Text)
             {
                 case "(lat), (lon)":
                     // Set to Lat, Lon format
-                    mapView.MapTools.MouseCoordinate.MouseCoordinateType = MouseCoordinateType.LatitudeLongitude;                    
+                    mapView.MapTools.MouseCoordinate.MouseCoordinateType = MouseCoordinateType.LatitudeLongitude;
                     break;
                 case "(lon), (lat)":
                     // Set to Lon, Lat format
@@ -162,14 +178,5 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
         }
 
-        /// <summary>
-        /// Event handler that formats the MouseCoordinates to use WorldCoordinates and changes the Foreground color to red.
-        /// Other modifications to the display of the MouseCoordinates can be safely done here.
-        /// </summary>
-        private void MouseCoordinate_CustomMouseCoordinateFormat(object sender, CustomFormattedMouseCoordinateMapToolEventArgs e)
-        {
-            ((MouseCoordinateMapTool)sender).Foreground = new SolidColorBrush(Colors.Red);
-            e.Result = $"X: {e.WorldCoordinate.X.ToString("N0")}, Y: {e.WorldCoordinate.Y.ToString("N0")}";
-        }
     }
 }
