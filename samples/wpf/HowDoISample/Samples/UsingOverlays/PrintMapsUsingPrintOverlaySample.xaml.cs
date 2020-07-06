@@ -36,7 +36,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void PrintMap_OnClick(object sender, RoutedEventArgs e)
         {
-            PrinterInteractiveOverlay printerOverlay = (PrinterInteractiveOverlay)mapView.Overlays["printerOverlay"];
+            PrinterInteractiveOverlay printerOverlay = (PrinterInteractiveOverlay)mapView.InteractiveOverlays["printerOverlay"];
             PagePrinterLayer pageLayer = (PagePrinterLayer)printerOverlay.PrinterLayers["pageLayer"];
 
             // Create a printDocument that matches the size of our pageLayer
