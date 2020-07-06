@@ -42,21 +42,23 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             this.mapView = new ThinkGeo.UI.WinForms.MapView();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.lblCloudMapsLink = new System.Windows.Forms.LinkLabel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.cloudMapsApiKey = new System.Windows.Forms.TextBox();
-            this.cloudMapsSecretKey = new System.Windows.Forms.TextBox();
             this.displayVectorCloudMaps = new System.Windows.Forms.Button();
+            this.cloudMapsSecretKey = new System.Windows.Forms.TextBox();
+            this.cloudMapsApiKey = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.lblCloudMapsLink = new System.Windows.Forms.LinkLabel();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // mapView
             // 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
-            this.mapView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mapView.Location = new System.Drawing.Point(0, 0);
             this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
             this.mapView.MaximumScale = 1.7976931348623157E+308D;
@@ -64,7 +66,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotatedAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(1329, 553);
+            this.mapView.Size = new System.Drawing.Size(1025, 553);
             this.mapView.TabIndex = 0;
             // 
             // panel1
@@ -82,17 +84,55 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Size = new System.Drawing.Size(301, 553);
             this.panel1.TabIndex = 1;
             // 
-            // label1
+            // displayVectorCloudMaps
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.label1.Location = new System.Drawing.Point(22, 14);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(186, 25);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Vector Cloud Maps:";
+            this.displayVectorCloudMaps.Location = new System.Drawing.Point(3, 168);
+            this.displayVectorCloudMaps.Name = "displayVectorCloudMaps";
+            this.displayVectorCloudMaps.Size = new System.Drawing.Size(295, 31);
+            this.displayVectorCloudMaps.TabIndex = 6;
+            this.displayVectorCloudMaps.Text = "Update";
+            this.displayVectorCloudMaps.UseVisualStyleBackColor = true;
+            this.displayVectorCloudMaps.Click += new System.EventHandler(this.displayVectorCloudMaps_Click);
+            // 
+            // cloudMapsSecretKey
+            // 
+            this.cloudMapsSecretKey.Location = new System.Drawing.Point(131, 128);
+            this.cloudMapsSecretKey.Name = "cloudMapsSecretKey";
+            this.cloudMapsSecretKey.Size = new System.Drawing.Size(167, 22);
+            this.cloudMapsSecretKey.TabIndex = 5;
+            this.cloudMapsSecretKey.Text = "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~";
+            // 
+            // cloudMapsApiKey
+            // 
+            this.cloudMapsApiKey.Location = new System.Drawing.Point(131, 93);
+            this.cloudMapsApiKey.Name = "cloudMapsApiKey";
+            this.cloudMapsApiKey.Size = new System.Drawing.Size(167, 22);
+            this.cloudMapsApiKey.TabIndex = 4;
+            this.cloudMapsApiKey.Text = "itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.label3.Location = new System.Drawing.Point(25, 128);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(105, 20);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "Secrete Key:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.label2.Location = new System.Drawing.Point(25, 93);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(73, 20);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "API Key:";
             // 
             // lblCloudMapsLink
             // 
@@ -109,55 +149,17 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.lblCloudMapsLink.Text = "Sing up for a Cloud Maps account";
             this.lblCloudMapsLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblCloudMapsLink_LinkClicked);
             // 
-            // label2
+            // label1
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.label2.Location = new System.Drawing.Point(25, 93);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(73, 20);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "API Key:";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.label3.Location = new System.Drawing.Point(25, 128);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(105, 20);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "Secrete Key:";
-            // 
-            // cloudMapsApiKey
-            // 
-            this.cloudMapsApiKey.Location = new System.Drawing.Point(131, 93);
-            this.cloudMapsApiKey.Name = "cloudMapsApiKey";
-            this.cloudMapsApiKey.Size = new System.Drawing.Size(167, 22);
-            this.cloudMapsApiKey.TabIndex = 4;
-            this.cloudMapsApiKey.Text = "itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~";
-            // 
-            // cloudMapsSecretKey
-            // 
-            this.cloudMapsSecretKey.Location = new System.Drawing.Point(131, 128);
-            this.cloudMapsSecretKey.Name = "cloudMapsSecretKey";
-            this.cloudMapsSecretKey.Size = new System.Drawing.Size(167, 22);
-            this.cloudMapsSecretKey.TabIndex = 5;
-            this.cloudMapsSecretKey.Text = "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~";
-            // 
-            // displayVectorCloudMaps
-            // 
-            this.displayVectorCloudMaps.Location = new System.Drawing.Point(3, 168);
-            this.displayVectorCloudMaps.Name = "displayVectorCloudMaps";
-            this.displayVectorCloudMaps.Size = new System.Drawing.Size(295, 31);
-            this.displayVectorCloudMaps.TabIndex = 6;
-            this.displayVectorCloudMaps.Text = "Update";
-            this.displayVectorCloudMaps.UseVisualStyleBackColor = true;
-            this.displayVectorCloudMaps.Click += new System.EventHandler(this.displayVectorCloudMaps_Click);
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.label1.Location = new System.Drawing.Point(22, 14);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(186, 25);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Vector Cloud Maps:";
             // 
             // DisplayCloudMapsVectorOverlaySample
             // 

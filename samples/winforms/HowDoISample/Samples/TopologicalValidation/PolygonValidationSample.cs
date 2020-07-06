@@ -73,6 +73,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             this.mapView = new ThinkGeo.UI.WinForms.MapView();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.txtValidationInfo = new System.Windows.Forms.TextBox();
             this.rdoCheckPolygonsMustNotOverlapPolygons = new System.Windows.Forms.RadioButton();
             this.rdoCheckPolygonsMustNotOverlap = new System.Windows.Forms.RadioButton();
             this.rdoCheckIfPolygonsHaveGaps = new System.Windows.Forms.RadioButton();
@@ -83,24 +84,24 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.rdoCheckIfPolygonBoundariesOverlapLines = new System.Windows.Forms.RadioButton();
             this.rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtValidationInfo = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // mapView
             // 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
-            this.mapView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mapView.Location = new System.Drawing.Point(0, 0);
             this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
-            this.mapView.MapUnit = ThinkGeo.Core.GeographyUnit.Meter;
             this.mapView.MaximumScale = 1.7976931348623157E+308D;
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotatedAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(1329, 718);
+            this.mapView.Size = new System.Drawing.Size(848, 718);
             this.mapView.TabIndex = 0;
             // 
             // panel1
@@ -123,6 +124,15 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(478, 718);
             this.panel1.TabIndex = 1;
+            // 
+            // txtValidationInfo
+            // 
+            this.txtValidationInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtValidationInfo.Location = new System.Drawing.Point(3, 308);
+            this.txtValidationInfo.Multiline = true;
+            this.txtValidationInfo.Name = "txtValidationInfo";
+            this.txtValidationInfo.Size = new System.Drawing.Size(472, 170);
+            this.txtValidationInfo.TabIndex = 10;
             // 
             // rdoCheckPolygonsMustNotOverlapPolygons
             // 
@@ -260,15 +270,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label1.Size = new System.Drawing.Size(228, 25);
             this.label1.TabIndex = 0;
             this.label1.Text = "Polygon Validation Tests";
-            // 
-            // txtValidationInfo
-            // 
-            this.txtValidationInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtValidationInfo.Location = new System.Drawing.Point(3, 308);
-            this.txtValidationInfo.Multiline = true;
-            this.txtValidationInfo.Name = "txtValidationInfo";
-            this.txtValidationInfo.Size = new System.Drawing.Size(472, 170);
-            this.txtValidationInfo.TabIndex = 10;
             // 
             // PolygonValidationSample
             // 

@@ -960,10 +960,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Samples\DisplayingLayers\Database\" />
-    <Folder Include="Samples\DisplayingLayers\Vector\" />
-    <Folder Include="Samples\DisplayingLayers\Raster\" />
     <Folder Include="Samples\Interpolation\" />
-    <Folder Include="Samples\UsingQueryTools\" />
   </ItemGroup>
 </Project>

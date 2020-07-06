@@ -74,35 +74,36 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             this.mapView = new ThinkGeo.UI.WinForms.MapView();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.translateX = new System.Windows.Forms.TextBox();
-            this.translateY = new System.Windows.Forms.TextBox();
-            this.offsetTranslateShape = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.translateAngle = new System.Windows.Forms.TextBox();
-            this.translateDistance = new System.Windows.Forms.TextBox();
             this.degreeTranslateShape = new System.Windows.Forms.Button();
+            this.translateDistance = new System.Windows.Forms.TextBox();
+            this.translateAngle = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.offsetTranslateShape = new System.Windows.Forms.Button();
+            this.translateY = new System.Windows.Forms.TextBox();
+            this.translateX = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // mapView
             // 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
-            this.mapView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mapView.Location = new System.Drawing.Point(0, 0);
             this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
-            this.mapView.MapUnit = ThinkGeo.Core.GeographyUnit.Meter;
             this.mapView.MaximumScale = 1.7976931348623157E+308D;
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotatedAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(1113, 607);
+            this.mapView.Size = new System.Drawing.Size(811, 607);
             this.mapView.TabIndex = 0;
             // 
             // panel1
@@ -127,89 +128,34 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Size = new System.Drawing.Size(299, 607);
             this.panel1.TabIndex = 1;
             // 
-            // label1
+            // degreeTranslateShape
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(16, 18);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(185, 25);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Translate By Offset:";
+            this.degreeTranslateShape.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.degreeTranslateShape.Location = new System.Drawing.Point(3, 320);
+            this.degreeTranslateShape.Name = "degreeTranslateShape";
+            this.degreeTranslateShape.Size = new System.Drawing.Size(293, 35);
+            this.degreeTranslateShape.TabIndex = 11;
+            this.degreeTranslateShape.Text = "Translate";
+            this.degreeTranslateShape.UseVisualStyleBackColor = true;
+            this.degreeTranslateShape.Click += new System.EventHandler(this.degreeTranslateShape_Click);
             // 
-            // label2
+            // translateDistance
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(19, 64);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(131, 20);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Translate X (m):";
+            this.translateDistance.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.translateDistance.Location = new System.Drawing.Point(192, 269);
+            this.translateDistance.Name = "translateDistance";
+            this.translateDistance.Size = new System.Drawing.Size(100, 27);
+            this.translateDistance.TabIndex = 10;
+            this.translateDistance.Text = "1000";
             // 
-            // label3
+            // translateAngle
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(19, 97);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(130, 20);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Translate Y (m):";
-            // 
-            // translateX
-            // 
-            this.translateX.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.translateX.Location = new System.Drawing.Point(192, 64);
-            this.translateX.Name = "translateX";
-            this.translateX.Size = new System.Drawing.Size(100, 27);
-            this.translateX.TabIndex = 3;
-            this.translateX.Text = "1000";
-            // 
-            // translateY
-            // 
-            this.translateY.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.translateY.Location = new System.Drawing.Point(192, 97);
-            this.translateY.Name = "translateY";
-            this.translateY.Size = new System.Drawing.Size(100, 27);
-            this.translateY.TabIndex = 4;
-            this.translateY.Text = "1000";
-            // 
-            // offsetTranslateShape
-            // 
-            this.offsetTranslateShape.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.offsetTranslateShape.Location = new System.Drawing.Point(3, 143);
-            this.offsetTranslateShape.Name = "offsetTranslateShape";
-            this.offsetTranslateShape.Size = new System.Drawing.Size(293, 32);
-            this.offsetTranslateShape.TabIndex = 5;
-            this.offsetTranslateShape.Text = "Translate";
-            this.offsetTranslateShape.UseVisualStyleBackColor = true;
-            this.offsetTranslateShape.Click += new System.EventHandler(this.offsetTranslateShape_Click);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(16, 194);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(253, 25);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "Translate By Degree Angle:";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(19, 233);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(56, 20);
-            this.label5.TabIndex = 7;
-            this.label5.Text = "Angle:";
+            this.translateAngle.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.translateAngle.Location = new System.Drawing.Point(192, 233);
+            this.translateAngle.Name = "translateAngle";
+            this.translateAngle.Size = new System.Drawing.Size(100, 27);
+            this.translateAngle.TabIndex = 9;
+            this.translateAngle.Text = "120";
             // 
             // label6
             // 
@@ -222,34 +168,89 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label6.TabIndex = 8;
             this.label6.Text = "Distance (m):";
             // 
-            // translateAngle
+            // label5
             // 
-            this.translateAngle.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.translateAngle.Location = new System.Drawing.Point(192, 233);
-            this.translateAngle.Name = "translateAngle";
-            this.translateAngle.Size = new System.Drawing.Size(100, 27);
-            this.translateAngle.TabIndex = 9;
-            this.translateAngle.Text = "120";
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.White;
+            this.label5.Location = new System.Drawing.Point(19, 233);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(56, 20);
+            this.label5.TabIndex = 7;
+            this.label5.Text = "Angle:";
             // 
-            // translateDistance
+            // label4
             // 
-            this.translateDistance.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.translateDistance.Location = new System.Drawing.Point(192, 269);
-            this.translateDistance.Name = "translateDistance";
-            this.translateDistance.Size = new System.Drawing.Size(100, 27);
-            this.translateDistance.TabIndex = 10;
-            this.translateDistance.Text = "1000";
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.White;
+            this.label4.Location = new System.Drawing.Point(16, 194);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(253, 25);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "Translate By Degree Angle:";
             // 
-            // degreeTranslateShape
+            // offsetTranslateShape
             // 
-            this.degreeTranslateShape.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.degreeTranslateShape.Location = new System.Drawing.Point(3, 320);
-            this.degreeTranslateShape.Name = "degreeTranslateShape";
-            this.degreeTranslateShape.Size = new System.Drawing.Size(293, 35);
-            this.degreeTranslateShape.TabIndex = 11;
-            this.degreeTranslateShape.Text = "Translate";
-            this.degreeTranslateShape.UseVisualStyleBackColor = true;
-            this.degreeTranslateShape.Click += new System.EventHandler(this.degreeTranslateShape_Click);
+            this.offsetTranslateShape.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.offsetTranslateShape.Location = new System.Drawing.Point(3, 143);
+            this.offsetTranslateShape.Name = "offsetTranslateShape";
+            this.offsetTranslateShape.Size = new System.Drawing.Size(293, 32);
+            this.offsetTranslateShape.TabIndex = 5;
+            this.offsetTranslateShape.Text = "Translate";
+            this.offsetTranslateShape.UseVisualStyleBackColor = true;
+            this.offsetTranslateShape.Click += new System.EventHandler(this.offsetTranslateShape_Click);
+            // 
+            // translateY
+            // 
+            this.translateY.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.translateY.Location = new System.Drawing.Point(192, 97);
+            this.translateY.Name = "translateY";
+            this.translateY.Size = new System.Drawing.Size(100, 27);
+            this.translateY.TabIndex = 4;
+            this.translateY.Text = "1000";
+            // 
+            // translateX
+            // 
+            this.translateX.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.translateX.Location = new System.Drawing.Point(192, 64);
+            this.translateX.Name = "translateX";
+            this.translateX.Size = new System.Drawing.Size(100, 27);
+            this.translateX.TabIndex = 3;
+            this.translateX.Text = "1000";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(19, 97);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(130, 20);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Translate Y (m):";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(19, 64);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(131, 20);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Translate X (m):";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(16, 18);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(185, 25);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Translate By Offset:";
             // 
             // TranslateShapeSample
             // 

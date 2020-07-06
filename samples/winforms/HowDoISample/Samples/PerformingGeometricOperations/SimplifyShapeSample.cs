@@ -65,27 +65,28 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             this.mapView = new ThinkGeo.UI.WinForms.MapView();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.tolerance = new System.Windows.Forms.TextBox();
             this.simplifyShape = new System.Windows.Forms.Button();
+            this.tolerance = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // mapView
             // 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
-            this.mapView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mapView.Location = new System.Drawing.Point(0, 0);
             this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
-            this.mapView.MapUnit = ThinkGeo.Core.GeographyUnit.Meter;
             this.mapView.MaximumScale = 1.7976931348623157E+308D;
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotatedAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(1147, 603);
+            this.mapView.Size = new System.Drawing.Size(844, 603);
             this.mapView.TabIndex = 0;
             // 
             // panel1
@@ -102,16 +103,25 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Size = new System.Drawing.Size(300, 603);
             this.panel1.TabIndex = 1;
             // 
-            // label1
+            // simplifyShape
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(15, 19);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(164, 25);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Simplify Controls:";
+            this.simplifyShape.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.simplifyShape.Location = new System.Drawing.Point(3, 96);
+            this.simplifyShape.Name = "simplifyShape";
+            this.simplifyShape.Size = new System.Drawing.Size(294, 34);
+            this.simplifyShape.TabIndex = 3;
+            this.simplifyShape.Text = "Simplify";
+            this.simplifyShape.UseVisualStyleBackColor = true;
+            this.simplifyShape.Click += new System.EventHandler(this.simplifyShape_Click);
+            // 
+            // tolerance
+            // 
+            this.tolerance.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tolerance.Location = new System.Drawing.Point(134, 56);
+            this.tolerance.Name = "tolerance";
+            this.tolerance.Size = new System.Drawing.Size(151, 27);
+            this.tolerance.TabIndex = 2;
+            this.tolerance.Text = "500";
             // 
             // label2
             // 
@@ -124,25 +134,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label2.TabIndex = 1;
             this.label2.Text = "Tolerance (m):";
             // 
-            // tolerance
+            // label1
             // 
-            this.tolerance.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tolerance.Location = new System.Drawing.Point(134, 56);
-            this.tolerance.Name = "tolerance";
-            this.tolerance.Size = new System.Drawing.Size(151, 27);
-            this.tolerance.TabIndex = 2;
-            this.tolerance.Text = "500";
-            // 
-            // simplifyShape
-            // 
-            this.simplifyShape.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.simplifyShape.Location = new System.Drawing.Point(3, 96);
-            this.simplifyShape.Name = "simplifyShape";
-            this.simplifyShape.Size = new System.Drawing.Size(294, 34);
-            this.simplifyShape.TabIndex = 3;
-            this.simplifyShape.Text = "Simplify";
-            this.simplifyShape.UseVisualStyleBackColor = true;
-            this.simplifyShape.Click += new System.EventHandler(this.simplifyShape_Click);
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(15, 19);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(164, 25);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Simplify Controls:";
             // 
             // SimplifyShapeSample
             // 

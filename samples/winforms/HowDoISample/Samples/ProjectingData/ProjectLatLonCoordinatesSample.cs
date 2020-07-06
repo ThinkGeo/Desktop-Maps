@@ -116,27 +116,28 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProjectLatLonCoordinatesSample));
             this.mapView = new ThinkGeo.UI.WinForms.MapView();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.reprojectAndDisplayFeature = new System.Windows.Forms.Button();
-            this.txtWKT = new System.Windows.Forms.TextBox();
             this.reprojectAndDisplayMultipleFeatures = new System.Windows.Forms.Button();
+            this.txtWKT = new System.Windows.Forms.TextBox();
+            this.reprojectAndDisplayFeature = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // mapView
             // 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
-            this.mapView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mapView.Location = new System.Drawing.Point(0, 0);
             this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
-            this.mapView.MapUnit = ThinkGeo.Core.GeographyUnit.Meter;
             this.mapView.MaximumScale = 1.7976931348623157E+308D;
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotatedAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(1244, 587);
+            this.mapView.Size = new System.Drawing.Size(940, 587);
             this.mapView.TabIndex = 0;
             // 
             // panel1
@@ -151,28 +152,17 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Size = new System.Drawing.Size(301, 587);
             this.panel1.TabIndex = 1;
             // 
-            // label1
+            // reprojectAndDisplayMultipleFeatures
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(20, 19);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(219, 50);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Reproject Features and \r\nCoordinates";
-            // 
-            // reprojectAndDisplayFeature
-            // 
-            this.reprojectAndDisplayFeature.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.reprojectAndDisplayFeature.ForeColor = System.Drawing.Color.Black;
-            this.reprojectAndDisplayFeature.Location = new System.Drawing.Point(3, 72);
-            this.reprojectAndDisplayFeature.Name = "reprojectAndDisplayFeature";
-            this.reprojectAndDisplayFeature.Size = new System.Drawing.Size(295, 32);
-            this.reprojectAndDisplayFeature.TabIndex = 1;
-            this.reprojectAndDisplayFeature.Text = "Reproject and Display a Feature";
-            this.reprojectAndDisplayFeature.UseVisualStyleBackColor = true;
-            this.reprojectAndDisplayFeature.Click += new System.EventHandler(this.reprojectAndDisplayFeature_Click);
+            this.reprojectAndDisplayMultipleFeatures.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.reprojectAndDisplayMultipleFeatures.ForeColor = System.Drawing.Color.Black;
+            this.reprojectAndDisplayMultipleFeatures.Location = new System.Drawing.Point(3, 402);
+            this.reprojectAndDisplayMultipleFeatures.Name = "reprojectAndDisplayMultipleFeatures";
+            this.reprojectAndDisplayMultipleFeatures.Size = new System.Drawing.Size(295, 34);
+            this.reprojectAndDisplayMultipleFeatures.TabIndex = 3;
+            this.reprojectAndDisplayMultipleFeatures.Text = "Reproject And Display Multiple Features";
+            this.reprojectAndDisplayMultipleFeatures.UseVisualStyleBackColor = true;
+            this.reprojectAndDisplayMultipleFeatures.Click += new System.EventHandler(this.reprojectAndDisplayMultipleFeatures_Click);
             // 
             // txtWKT
             // 
@@ -186,17 +176,28 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.txtWKT.TabIndex = 2;
             this.txtWKT.Text = resources.GetString("txtWKT.Text");
             // 
-            // reprojectAndDisplayMultipleFeatures
+            // reprojectAndDisplayFeature
             // 
-            this.reprojectAndDisplayMultipleFeatures.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.reprojectAndDisplayMultipleFeatures.ForeColor = System.Drawing.Color.Black;
-            this.reprojectAndDisplayMultipleFeatures.Location = new System.Drawing.Point(3, 402);
-            this.reprojectAndDisplayMultipleFeatures.Name = "reprojectAndDisplayMultipleFeatures";
-            this.reprojectAndDisplayMultipleFeatures.Size = new System.Drawing.Size(295, 34);
-            this.reprojectAndDisplayMultipleFeatures.TabIndex = 3;
-            this.reprojectAndDisplayMultipleFeatures.Text = "Reproject And Display Multiple Features";
-            this.reprojectAndDisplayMultipleFeatures.UseVisualStyleBackColor = true;
-            this.reprojectAndDisplayMultipleFeatures.Click += new System.EventHandler(this.reprojectAndDisplayMultipleFeatures_Click);
+            this.reprojectAndDisplayFeature.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.reprojectAndDisplayFeature.ForeColor = System.Drawing.Color.Black;
+            this.reprojectAndDisplayFeature.Location = new System.Drawing.Point(3, 72);
+            this.reprojectAndDisplayFeature.Name = "reprojectAndDisplayFeature";
+            this.reprojectAndDisplayFeature.Size = new System.Drawing.Size(295, 32);
+            this.reprojectAndDisplayFeature.TabIndex = 1;
+            this.reprojectAndDisplayFeature.Text = "Reproject and Display a Feature";
+            this.reprojectAndDisplayFeature.UseVisualStyleBackColor = true;
+            this.reprojectAndDisplayFeature.Click += new System.EventHandler(this.reprojectAndDisplayFeature_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(20, 19);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(219, 50);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Reproject Features and \r\nCoordinates";
             // 
             // ProjectLatLonCoordinatesSample
             // 
