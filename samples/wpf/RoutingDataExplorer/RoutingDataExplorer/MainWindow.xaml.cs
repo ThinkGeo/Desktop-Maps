@@ -49,8 +49,11 @@ namespace RoutingDataExplorer
             map.MouseMove -= Map_MouseMove;
             map.MouseMove += Map_MouseMove;
 
+            string thinkGeoCloudId = "USlbIyO5uIMja2y0qoM21RRM6NBXUad4hjK3NBD6pD0~";
+            string thinkGeoCloudSecret = "f6OJsvCDDzmccnevX55nL7nXpPDXXKANe5cN6czVjCH0s8jhpCH-2A~~";
+
             // Please input your ThinkGeo Cloud Client ID / Client Secret to enable the background map.
-            ThinkGeoCloudRasterMapsOverlay baseOverlay = new ThinkGeoCloudRasterMapsOverlay("ThinkGeo Cloud Client ID", "ThinkGeo Cloud Client Secret");
+            ThinkGeoCloudRasterMapsOverlay baseOverlay = new ThinkGeoCloudRasterMapsOverlay(thinkGeoCloudId, thinkGeoCloudSecret);
             map.Overlays.Add(baseOverlay);
 
             LayerOverlay layerOverlay = new LayerOverlay();
