@@ -205,6 +205,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panPercentage.Size = new System.Drawing.Size(215, 56);
             this.panPercentage.TabIndex = 6;
             this.panPercentage.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.panPercentage.Value = 50;
             // 
             // label2
             // 

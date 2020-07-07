@@ -90,9 +90,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             this.mapView = new ThinkGeo.UI.WinForms.MapView();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.lsbHotels = new System.Windows.Forms.ListBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -126,16 +126,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Size = new System.Drawing.Size(302, 665);
             this.panel1.TabIndex = 1;
             // 
-            // label1
+            // lsbHotels
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(12, 17);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(243, 25);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Frisco Hotels Feature Data";
+            this.lsbHotels.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.lsbHotels.FormattingEnabled = true;
+            this.lsbHotels.ItemHeight = 20;
+            this.lsbHotels.Location = new System.Drawing.Point(15, 108);
+            this.lsbHotels.Name = "lsbHotels";
+            this.lsbHotels.Size = new System.Drawing.Size(268, 444);
+            this.lsbHotels.TabIndex = 2;
+            this.lsbHotels.SelectedIndexChanged += new System.EventHandler(this.lsbHotels_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -148,16 +148,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label2.TabIndex = 1;
             this.label2.Text = "Select a hotel from the list to zoom to\r\nthat location";
             // 
-            // lsbHotels
+            // label1
             // 
-            this.lsbHotels.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.lsbHotels.FormattingEnabled = true;
-            this.lsbHotels.ItemHeight = 20;
-            this.lsbHotels.Location = new System.Drawing.Point(15, 108);
-            this.lsbHotels.Name = "lsbHotels";
-            this.lsbHotels.Size = new System.Drawing.Size(268, 444);
-            this.lsbHotels.TabIndex = 2;
-            this.lsbHotels.SelectedIndexChanged += new System.EventHandler(this.lsbHotels_SelectedIndexChanged);
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(12, 17);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(243, 25);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Frisco Hotels Feature Data";
             // 
             // GetAllFeatureDataSample
             // 

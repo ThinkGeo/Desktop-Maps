@@ -621,7 +621,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.cboDefaultColor.FormattingEnabled = true;
             this.cboDefaultColor.Location = new System.Drawing.Point(174, 288);
             this.cboDefaultColor.Name = "cboDefaultColor";
-            this.cboDefaultColor.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.cboDefaultColor.Size = new System.Drawing.Size(121, 24);
             this.cboDefaultColor.TabIndex = 9;
             this.cboDefaultColor.Text = "Red";

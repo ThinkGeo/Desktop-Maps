@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media.Imaging;
 using ThinkGeo.Core;
 using ThinkGeo.UI.WinForms;
 
@@ -14,33 +16,86 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void Form_Load(object sender, EventArgs e)
         {
-            mapView.MapUnit = GeographyUnit.Meter;
+            //// Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
+            //ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            //mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            // If want to know more srids, please refer Projections.rtf in Documentation folder.
-            ProjectionConverter proj4Projection = new ProjectionConverter(3857, 2163);
+            //// Set the map's unit of measurement to meters (Spherical Mercator)
+            //mapView.MapUnit = GeographyUnit.Meter;
 
-            ShapeFileFeatureLayer worldLayer = new ShapeFileFeatureLayer(SampleHelper.Get("Countries02_3857.shp"));
-            worldLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(255, 233, 232, 214), GeoColor.FromArgb(255, 118, 138, 69));
-            worldLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-            worldLayer.FeatureSource.ProjectionConverter = proj4Projection;
+            //// Create a marker overlay to display the geocoded locations that will be generated, and add it to the map
+            //MarkerOverlay geocodedLocationsOverlay = new SimpleMarkerOverlay();
+            //mapView.Overlays.Add("Geocoded Locations Overlay", geocodedLocationsOverlay);
 
-            worldLayer.Open();
-            mapView.CurrentExtent = worldLayer.GetBoundingBox();
-            worldLayer.Close();
+            //// Set the map extent to Frisco, TX
+            //mapView.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
 
-            LayerOverlay staticOverlay = new LayerOverlay();
-            staticOverlay.TileType = TileType.SingleTile;
-            staticOverlay.Layers.Add(new BackgroundLayer(new GeoSolidBrush(GeoColors.DeepOcean)));
-            staticOverlay.Layers.Add("WorldLayer", worldLayer);
-            mapView.Overlays.Add(staticOverlay);
+            //// Initialize the GeocodingCloudClient using our ThinkGeo Cloud credentials
+            //geocodingCloudClient = new GeocodingCloudClient("FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~", "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~");
+
+            //cboSearchType.SelectedIndex = 0;
+            //cboLocationType.SelectedIndex = 0;
+        }
+
+        //private async Task<CloudGeocodingResult> PerformGeocodingQuery()
+        //{
+        //    // Show a loading graphic to let users know the request is running
+        //    loadingImage.Visibility = Visibility.Visible;
+
+        //    CloudGeocodingOptions options = new CloudGeocodingOptions();
+
+        //    // Set up the CloudGeocodingOptions object based on the parameters set in the UI
+        //    options.MaxResults = int.Parse(txtMaxResults.Text);
+        //    options.SearchMode = ((ComboBoxItem)cboSearchType.SelectedItem).Content.ToString() == "Fuzzy" ? CloudGeocodingSearchMode.FuzzyMatch : CloudGeocodingSearchMode.ExactMatch;
+        //    options.LocationType = (CloudGeocodingLocationType)Enum.Parse(typeof(CloudGeocodingLocationType), ((ComboBoxItem)cboLocationType.SelectedItem).Content.ToString());
+        //    options.ResultProjectionInSrid = 3857;
+
+        //    // Run the geocode
+        //    string searchString = txtSearchString.Text.Trim();
+        //    CloudGeocodingResult searchResult = await geocodingCloudClient.SearchAsync(searchString, options);
+
+        //    // Hide the loading graphic
+        //    loadingImage.Visibility = Visibility.Hidden;
+
+        //    return searchResult;
+        //}
+
+        /// <summary>
+        /// Update the UI based on the results of a Cloud Geocoding Query
+        /// </summary>
+        private void UpdateSearchResultsOnUI(CloudGeocodingResult searchResult)
+        {
+            //// Clear the locations list and existing location markers on the map
+            //SimpleMarkerOverlay geocodedLocationOverlay = (SimpleMarkerOverlay)mapView.Overlays["Geocoded Locations Overlay"];
+            //geocodedLocationOverlay.Markers.Clear();
+            //lsbLocations.ItemsSource = null;
+            //geocodedLocationOverlay.Refresh();
+
+            //// Update the UI with the number of results found and the list of locations found
+            //txtSearchResultsDescription.Text = $"Found {searchResult.Locations.Count} matching locations.";
+            //lsbLocations.ItemsSource = searchResult.Locations;
+            //if (searchResult.Locations.Count > 0)
+            //{
+            //    lsbLocations.Visibility = Visibility.Visible;
+            //    lsbLocations.SelectedIndex = 0;
+            //}
         }
 
         private Panel panel1;
         private Label label4;
         private Label label3;
-        private TextBox textBox1;
+        private TextBox txtSearchString;
         private Label label2;
         private Label label1;
+        private TextBox txtSearchTypeDescription;
+        private ComboBox cboSearchType;
+        private TextBox txtMaxResults;
+        private ListBox lsbLocations;
+        private TextBox txtSearchResultsDescription;
+        private Button btnSearch;
+        private TextBox txtLocationTypeDescription;
+        private ComboBox cboLocationType;
+        private Label label5;
 
         #region Component Designer generated code
 
@@ -50,11 +105,20 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             this.mapView = new ThinkGeo.UI.WinForms.MapView();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.txtSearchTypeDescription = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtSearchString = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtMaxResults = new System.Windows.Forms.TextBox();
+            this.cboSearchType = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.cboLocationType = new System.Windows.Forms.ComboBox();
+            this.txtLocationTypeDescription = new System.Windows.Forms.TextBox();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.txtSearchResultsDescription = new System.Windows.Forms.TextBox();
+            this.lsbLocations = new System.Windows.Forms.ListBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -80,9 +144,18 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
+            this.panel1.Controls.Add(this.lsbLocations);
+            this.panel1.Controls.Add(this.txtSearchResultsDescription);
+            this.panel1.Controls.Add(this.btnSearch);
+            this.panel1.Controls.Add(this.txtLocationTypeDescription);
+            this.panel1.Controls.Add(this.cboLocationType);
+            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.cboSearchType);
+            this.panel1.Controls.Add(this.txtMaxResults);
+            this.panel1.Controls.Add(this.txtSearchTypeDescription);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.textBox1);
+            this.panel1.Controls.Add(this.txtSearchString);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(943, 0);
@@ -90,48 +163,156 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Size = new System.Drawing.Size(301, 532);
             this.panel1.TabIndex = 1;
             // 
-            // label1
+            // txtSearchTypeDescription
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(17, 18);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(46, 17);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "label1";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(17, 49);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(46, 17);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "label2";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(3, 70);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(295, 22);
-            this.textBox1.TabIndex = 2;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(20, 110);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(46, 17);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "label3";
+            this.txtSearchTypeDescription.BackColor = System.Drawing.Color.Gray;
+            this.txtSearchTypeDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtSearchTypeDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.txtSearchTypeDescription.ForeColor = System.Drawing.Color.White;
+            this.txtSearchTypeDescription.Location = new System.Drawing.Point(3, 167);
+            this.txtSearchTypeDescription.Multiline = true;
+            this.txtSearchTypeDescription.Name = "txtSearchTypeDescription";
+            this.txtSearchTypeDescription.Size = new System.Drawing.Size(295, 43);
+            this.txtSearchTypeDescription.TabIndex = 5;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(20, 140);
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label4.ForeColor = System.Drawing.Color.White;
+            this.label4.Location = new System.Drawing.Point(20, 128);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(46, 17);
+            this.label4.Size = new System.Drawing.Size(108, 20);
             this.label4.TabIndex = 4;
-            this.label4.Text = "label4";
+            this.label4.Text = "Search Type:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(20, 98);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(148, 20);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "Maximum Results:";
+            // 
+            // txtSearchString
+            // 
+            this.txtSearchString.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
+            this.txtSearchString.ForeColor = System.Drawing.Color.Black;
+            this.txtSearchString.Location = new System.Drawing.Point(3, 70);
+            this.txtSearchString.Name = "txtSearchString";
+            this.txtSearchString.Size = new System.Drawing.Size(295, 23);
+            this.txtSearchString.TabIndex = 2;
+            this.txtSearchString.Text = "6101 Frisco Square Blvd, Frisco, TX 75034";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(17, 49);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(104, 20);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Search Text:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(17, 18);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(97, 25);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "GeoCode";
+            // 
+            // txtMaxResults
+            // 
+            this.txtMaxResults.Location = new System.Drawing.Point(174, 99);
+            this.txtMaxResults.Name = "txtMaxResults";
+            this.txtMaxResults.Size = new System.Drawing.Size(124, 22);
+            this.txtMaxResults.TabIndex = 6;
+            this.txtMaxResults.Text = "10";
+            // 
+            // cboSearchType
+            // 
+            this.cboSearchType.FormattingEnabled = true;
+            this.cboSearchType.Location = new System.Drawing.Point(174, 128);
+            this.cboSearchType.Name = "cboSearchType";
+            this.cboSearchType.Size = new System.Drawing.Size(124, 24);
+            this.cboSearchType.TabIndex = 7;
+            this.cboSearchType.SelectedIndexChanged += new System.EventHandler(this.cboSearchType_SelectedIndexChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label5.ForeColor = System.Drawing.Color.White;
+            this.label5.Location = new System.Drawing.Point(20, 213);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(114, 20);
+            this.label5.TabIndex = 8;
+            this.label5.Text = "Location Type";
+            // 
+            // cboLocationType
+            // 
+            this.cboLocationType.FormattingEnabled = true;
+            this.cboLocationType.Location = new System.Drawing.Point(174, 216);
+            this.cboLocationType.Name = "cboLocationType";
+            this.cboLocationType.Size = new System.Drawing.Size(124, 24);
+            this.cboLocationType.TabIndex = 9;
+            this.cboLocationType.SelectedIndexChanged += new System.EventHandler(this.cboLocationType_SelectedIndexChanged);
+            // 
+            // txtLocationTypeDescription
+            // 
+            this.txtLocationTypeDescription.BackColor = System.Drawing.Color.Gray;
+            this.txtLocationTypeDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtLocationTypeDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.txtLocationTypeDescription.ForeColor = System.Drawing.Color.White;
+            this.txtLocationTypeDescription.Location = new System.Drawing.Point(7, 246);
+            this.txtLocationTypeDescription.Multiline = true;
+            this.txtLocationTypeDescription.Name = "txtLocationTypeDescription";
+            this.txtLocationTypeDescription.Size = new System.Drawing.Size(294, 38);
+            this.txtLocationTypeDescription.TabIndex = 10;
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.btnSearch.Location = new System.Drawing.Point(3, 291);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(295, 30);
+            this.btnSearch.TabIndex = 11;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            // 
+            // txtSearchResultsDescription
+            // 
+            this.txtSearchResultsDescription.BackColor = System.Drawing.Color.Gray;
+            this.txtSearchResultsDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtSearchResultsDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.txtSearchResultsDescription.Location = new System.Drawing.Point(3, 328);
+            this.txtSearchResultsDescription.Multiline = true;
+            this.txtSearchResultsDescription.Name = "txtSearchResultsDescription";
+            this.txtSearchResultsDescription.Size = new System.Drawing.Size(295, 44);
+            this.txtSearchResultsDescription.TabIndex = 12;
+            // 
+            // lsbLocations
+            // 
+            this.lsbLocations.BackColor = System.Drawing.Color.Gray;
+            this.lsbLocations.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lsbLocations.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.lsbLocations.ForeColor = System.Drawing.Color.White;
+            this.lsbLocations.FormattingEnabled = true;
+            this.lsbLocations.ItemHeight = 20;
+            this.lsbLocations.Location = new System.Drawing.Point(3, 384);
+            this.lsbLocations.Name = "lsbLocations";
+            this.lsbLocations.Size = new System.Drawing.Size(295, 140);
+            this.lsbLocations.TabIndex = 13;
+            this.lsbLocations.SelectedIndexChanged += new System.EventHandler(this.lsbLocations_SelectedIndexChanged);
             // 
             // GeocodingCloudServicesSample
             // 
@@ -146,6 +327,143 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
+
         #endregion Component Designer generated code
+
+        private async void btnSearch_Click(object sender, EventArgs e)
+        {
+            //// Perform some simple validation on the input text boxes
+            //if (ValidateSearchParameters())
+            //{
+            //    // Run the Cloud Geocoding query
+            //    CloudGeocodingResult searchResult = await PerformGeocodingQuery();
+
+            //    // Handle an error returned from the geocoding service
+            //    if (searchResult.Exception != null)
+            //    {
+            //        MessageBox.Show(searchResult.Exception.Message, "Error");
+            //        return;
+            //    }
+
+            //    // Update the UI based on the results
+            //    UpdateSearchResultsOnUI(searchResult);
+            //}
+
+        }
+
+        private void lsbLocations_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Get the selected location
+            var chosenLocation = lsbLocations.SelectedItem as CloudGeocodingLocation;
+            if (chosenLocation != null)
+            {
+                // Get the MarkerOverlay from the MapView
+                SimpleMarkerOverlay geocodedLocationOverlay = (SimpleMarkerOverlay)mapView.Overlays["Geocoded Locations Overlay"];
+
+                // Clear the existing markers and add a new marker at the chosen location
+                geocodedLocationOverlay.Markers.Clear();
+                geocodedLocationOverlay.Markers.Add(CreateNewMarker(chosenLocation.LocationPoint));
+
+                // Center the map on the chosen location
+                mapView.CurrentExtent = chosenLocation.BoundingBox;
+                ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
+                mapView.ZoomToScale(standardZoomLevelSet.ZoomLevel18.Scale);
+                mapView.Refresh();
+            }
+        }
+
+        private void cboSearchType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //var comboBoxContent = (cboSearchType.SelectedItem as ComboBoxItem).Content;
+
+            //if (comboBoxContent != null)
+            //{
+            //    switch (comboBoxContent.ToString())
+            //    {
+            //        case "Fuzzy":
+            //            txtSearchTypeDescription.Text = "(Returns both exact and approximate matches for the search address)";
+            //            break;
+            //        case "Exact":
+            //            txtSearchTypeDescription.Text = "(Only returns exact matches for the search address)";
+            //            break;
+            //        default:
+            //            break;
+            //    }
+            //}
+
+        }
+
+        private void cboLocationType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //var comboBoxContent = (cboLocationType.SelectedItem as ComboBoxItem).Content;
+
+            //if (comboBoxContent != null)
+            //{
+            //    switch (comboBoxContent.ToString())
+            //    {
+            //        case "Default":
+            //            txtLocationTypeDescription.Text = "(Searches for any matches to the search string)";
+            //            break;
+            //        case "Address":
+            //            txtLocationTypeDescription.Text = "(Searches for addresses matching the search string)";
+            //            break;
+            //        case "Street":
+            //            txtLocationTypeDescription.Text = "(Searches for streets matching the search string)";
+            //            break;
+            //        case "City":
+            //            txtLocationTypeDescription.Text = "(Searches for cities matching the search string)";
+            //            break;
+            //        case "County":
+            //            txtLocationTypeDescription.Text = "(Searches for counties matching the search string)";
+            //            break;
+            //        case "ZipCode":
+            //            txtLocationTypeDescription.Text = "(Searches for zip codes matching the search string)";
+            //            break;
+            //        case "State":
+            //            txtLocationTypeDescription.Text = "(Searches for states matching the search string)";
+            //            break;
+            //        default:
+            //            break;
+            //    }
+            //}
+
+        }
+        private bool ValidateSearchParameters()
+        {
+            // Check if the address text box is empty
+            if (string.IsNullOrWhiteSpace(txtSearchString.Text))
+            {
+                txtSearchString.Focus();
+                MessageBox.Show("Please enter an address to search", "Error");
+                return false;
+            }
+
+            // Check if the 'Max Results' text box has a valid value
+            if (string.IsNullOrWhiteSpace(txtMaxResults.Text) || !(int.TryParse(txtMaxResults.Text, out int result) && result > 0 && result < 101))
+            {
+                txtMaxResults.Focus();
+                MessageBox.Show("Please enter a number between 1 - 100", "Error");
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Create a new map marker using preloaded image assets
+        /// </summary>
+        private Marker CreateNewMarker(PointShape point)
+        {
+            return new Marker(point)
+            {
+                ImageSource = new BitmapImage(new Uri("/Resources/AQUA.png", UriKind.RelativeOrAbsolute)),
+                Width = 20,
+                Height = 34,
+                YOffset = -17
+            };
+        }
     }
+
+
+
 }
