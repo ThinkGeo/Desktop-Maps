@@ -42,7 +42,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 treeNodes[i] = new TreeNode(menus[i].Title);
                 foreach (MenuModel subMenu in menus[i].Children)
                 {
-                    treeNodes[i].Nodes.Add(new TreeNode(subMenu.Title));
+                    TreeNode treeNode = new TreeNode(subMenu.Title);                   
+                    treeNodes[i].Nodes.Add(treeNode);
                 }
             }
             return treeNodes;
@@ -188,6 +189,15 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private void linkLabelSupport_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://community.thinkgeo.com/");
+        }
+
+        private void treeViewLeft_BeforeSelect(object sender, TreeViewCancelEventArgs e)
+        {
+            MenuModel selectedNode = GetMenuModelByTitle(menus, e.Node.Text);
+            if (selectedNode.Id == null)
+            {
+                e.Cancel = true;
+            }
         }
     }
 }

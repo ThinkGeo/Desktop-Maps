@@ -42,10 +42,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.splitContainerSampleSource = new System.Windows.Forms.SplitContainer();
             this.cSharpBrowser = new System.Windows.Forms.WebBrowser();
             this.pnlOption = new System.Windows.Forms.Panel();
+            this.btnSource = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.labelSampleDescription = new System.Windows.Forms.Label();
             this.labelSampleName = new System.Windows.Forms.Label();
-            this.btnSource = new System.Windows.Forms.Button();
             this.pnlTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -158,6 +158,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.treeViewLeft.ShowNodeToolTips = true;
             this.treeViewLeft.Size = new System.Drawing.Size(345, 880);
             this.treeViewLeft.TabIndex = 6;
+            this.treeViewLeft.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewLeft_BeforeSelect);
             this.treeViewLeft.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewLeft_AfterSelect);
             // 
             // splitContainerSampleSource
@@ -204,6 +205,20 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.pnlOption.Size = new System.Drawing.Size(1426, 880);
             this.pnlOption.TabIndex = 8;
             // 
+            // btnSource
+            // 
+            this.btnSource.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(102)))), ((int)(((byte)(102)))));
+            this.btnSource.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnSource.ForeColor = System.Drawing.Color.White;
+            this.btnSource.Location = new System.Drawing.Point(5, 91);
+            this.btnSource.Margin = new System.Windows.Forms.Padding(4);
+            this.btnSource.Name = "btnSource";
+            this.btnSource.Size = new System.Drawing.Size(114, 36);
+            this.btnSource.TabIndex = 10;
+            this.btnSource.Text = "Source";
+            this.btnSource.UseVisualStyleBackColor = false;
+            this.btnSource.Click += new System.EventHandler(this.btnSource_Click);
+            // 
             // panel1
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -214,7 +229,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1426, 94);
+            this.panel1.Size = new System.Drawing.Size(1425, 94);
             this.panel1.TabIndex = 9;
             // 
             // labelSampleDescription
@@ -237,20 +252,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.labelSampleName.Size = new System.Drawing.Size(187, 25);
             this.labelSampleName.TabIndex = 8;
             this.labelSampleName.Text = "labelSampleName";
-            // 
-            // btnSource
-            // 
-            this.btnSource.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(102)))), ((int)(((byte)(102)))));
-            this.btnSource.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnSource.ForeColor = System.Drawing.Color.White;
-            this.btnSource.Location = new System.Drawing.Point(5, 91);
-            this.btnSource.Margin = new System.Windows.Forms.Padding(4);
-            this.btnSource.Name = "btnSource";
-            this.btnSource.Size = new System.Drawing.Size(114, 36);
-            this.btnSource.TabIndex = 10;
-            this.btnSource.Text = "Source";
-            this.btnSource.UseVisualStyleBackColor = false;
-            this.btnSource.Click += new System.EventHandler(this.btnSource_Click);
             // 
             // Samples
             // 

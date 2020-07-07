@@ -100,6 +100,7 @@
     <None Remove="Resources\LinkButtonIconProductInfo.png" />
     <None Remove="Resources\LinkButtonIconTestimonials.png" />
     <None Remove="Resources\loading.gif" />
+    <None Remove="Resources\logo.ico" />
     <None Remove="Resources\logo.png" />
     <None Remove="Resources\MS.ico" />
     <None Remove="Resources\MS50SampleAppsMastheadAdSpace.png" />
@@ -135,6 +136,7 @@
     <Resource Include="Resources\generic-logo.png" />
     <Resource Include="Resources\hotel_icon.png" />
     <Resource Include="Resources\loading.gif" />
+    <Resource Include="Resources\logo.ico" />
     <Resource Include="Resources\logo.png" />
     <Resource Include="Resources\North.gif" />
     <Resource Include="Resources\South.gif" />
