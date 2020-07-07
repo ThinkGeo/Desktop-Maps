@@ -104,20 +104,19 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
-            this.mapView.Location = new System.Drawing.Point(0, 0);
+            this.mapView.Location = new System.Drawing.Point(11, 0);
             this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
+            this.mapView.Margin = new System.Windows.Forms.Padding(0);
             this.mapView.MaximumScale = 1.7976931348623157E+308D;
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotatedAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(950, 634);
+            this.mapView.Size = new System.Drawing.Size(939, 634);
             this.mapView.TabIndex = 0;
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.latlonScale);
             this.panel1.Controls.Add(this.longitude);
@@ -137,6 +136,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.zoomScale);
             this.panel1.Controls.Add(this.label1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel1.Location = new System.Drawing.Point(953, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(302, 634);
@@ -332,6 +332,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // SetMapExtentSample
             // 
+            this.AutoSize = true;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.mapView);
             this.Name = "SetMapExtentSample";
