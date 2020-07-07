@@ -137,7 +137,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // txtValidationInfo
             // 
-            this.txtValidationInfo.Location = new System.Drawing.Point(24, 391);
+            this.txtValidationInfo.BackColor = System.Drawing.Color.Gray;
+            this.txtValidationInfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtValidationInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.txtValidationInfo.ForeColor = System.Drawing.Color.White;
+            this.txtValidationInfo.Location = new System.Drawing.Point(22, 390);
             this.txtValidationInfo.Multiline = true;
             this.txtValidationInfo.Name = "txtValidationInfo";
             this.txtValidationInfo.Size = new System.Drawing.Size(328, 287);
