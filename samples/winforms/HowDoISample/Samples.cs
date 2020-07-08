@@ -11,18 +11,17 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public partial class Samples : Form
     {
-        private readonly string mainFolder = ((new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory)).Parent).FullName + "\\";
+        private readonly string mainFolder = ((new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory)).Parent.Parent.Parent).FullName + "\\";
         private const string preStart = "<body oncontextmenu='return false;'><div class='divbody'><pre name='code' class='c-sharp:nocontrols'>";
         private const string preEndFormat = "</pre></div><link type='text/css' rel='stylesheet' href='{0}\\SyntaxHighlighter\\SyntaxHighlighter.css'></link><script language='javascript' src='{0}\\SyntaxHighlighter\\shCore.js'></script><script language='javascript' src='{0}\\SyntaxHighlighter/shBrushCSharp.js'></script><script language='javascript' src='{0}\\SyntaxHighlighter\\shBrushXml.js'></script><script language='javascript'>dp.SyntaxHighlighter.HighlightAll('code');</script></body>";
         List<MenuModel> menus;
-
         public Samples()
         {
             InitializeComponent();
         }
 
         private void Samples_Load(object sender, EventArgs e)
-        {            
+        {
             pnlOption.Resize += PnlOption_Resize;
 
             menus = JsonConvert.DeserializeObject<List<MenuModel>>(File.ReadAllText("samples.json"));
@@ -42,7 +41,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 treeNodes[i] = new TreeNode(menus[i].Title);
                 foreach (MenuModel subMenu in menus[i].Children)
                 {
-                    TreeNode treeNode = new TreeNode(subMenu.Title);                   
+                    TreeNode treeNode = new TreeNode(subMenu.Title);
                     treeNodes[i].Nodes.Add(treeNode);
                 }
             }
@@ -92,17 +91,17 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
             var userControlType = Type.GetType(selectedNode.Id);
             UserControl currentUserControl = (UserControl)Activator.CreateInstance(userControlType);
-         
+
             currentUserControl.Size = pnlOption.Size;
             pnlOption.Controls.Clear();
             pnlOption.Controls.Add(currentUserControl);
-        
+
             this.labelSampleName.Text = selectedNode.Title;
             this.labelSampleDescription.Text = selectedNode.Description;
 
-            //string uri = GetHtmlPath(selectedNode.Source + ".cs");
-            //Uri webUri = new Uri(@uri);
-            //cSharpBrowser.Url = webUri;
+            string uri = GetHtmlPath(selectedNode.Source + ".cs");
+            Uri webUri = new Uri(@uri);
+            cSharpBrowser.Url = webUri;            
         }
 
         private string GetHtmlPath(string filename)
@@ -197,6 +196,126 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             if (selectedNode.Id == null)
             {
                 e.Cancel = true;
+            }
+        }
+
+        private void txtSearch_KeyUp(object sender, KeyEventArgs e)
+        {
+            //  When you type into the search bar and hit enter we find all of the samples via the JSON
+            // and see what samples match the various key words entered.  Then we restrict the tree view
+            // to only the samples that match
+            if (e.KeyCode == Keys.Enter)
+            {
+                //if (txtSearch.Text == "")
+                if(true == true)
+                {
+                    treeViewLeft.CollapseAll();
+
+                    foreach (TreeNode item in treeViewLeft.Nodes)
+                    {
+                        ResetTreeviewItemsColor(item);
+                    }
+                }
+                else
+                {
+                    treeViewLeft.CollapseAll();
+
+                    foreach (TreeNode item in treeViewLeft.Nodes)
+                        EnableTreeviewItems(item);
+                }
+            }
+        }
+
+        private void ResetTreeviewItemsColor(TreeNode item)
+        {
+            // Enable just the tree view items that match the search criteria
+            item.BackColor = Color.FromArgb(0, 45, 48, 53);           
+
+            foreach (TreeNode subItem in item.Nodes)
+            {
+                ResetTreeviewItemsColor(subItem);
+
+                if (subItem.Nodes.Count > 0)
+                    ResetTreeviewItemsColor(subItem);
+            }
+        }
+
+        private void EnableTreeviewItems(TreeNode item)
+        {
+            // Enable just the tree view items that match the search criteria
+            item.Collapse(false);
+
+            EnableMatchingTreeNodes(item);
+
+            foreach (TreeNode subItem in item.Nodes)
+            {
+                EnableMatchingTreeNodes(subItem);
+
+                if (subItem.Nodes.Count > 0)
+                    EnableTreeviewItems(subItem);
+            }
+        }
+
+        private void EnableMatchingTreeNodes(TreeNode item)
+        {
+            // Enable just the tree view items that match the search criteria
+            string[] searchTerms = new string[] { }; // txtSearch.Text.Split(' ');
+
+            MenuModel menuModel = GetMenuModelByTitle(menus, item.Text);
+
+            if (menuModel != null)
+            {
+                bool foundAllSearchTerms = false;
+
+                foreach (var searchTerm in searchTerms)
+                {
+                    bool searchTermFound = false;
+
+                    if (menuModel.Title.ToLower().Contains(searchTerm.ToLower()))
+                    {
+                        searchTermFound = true;
+                        foundAllSearchTerms = true;
+                    }
+                    if (menuModel.Description != null)
+                    {
+                        if (menuModel.Description.ToLower().Contains(searchTerm.ToLower()))
+                        {
+                            searchTermFound = true;
+                            foundAllSearchTerms = true;
+                        }
+                    }
+                    if (!searchTermFound)
+                    {
+                        foundAllSearchTerms = false;
+                        break;
+                    }
+                }
+
+                if (foundAllSearchTerms)
+                {
+                    item.Expand();
+                    item.BackColor = Color.White;
+                    ExpandParents(item);
+                }
+            }
+        }
+
+        private void ExpandParents(TreeNode item)
+        {
+            // Given a tree node we walk up the parents and expand them
+            TreeNode parent = (TreeNode)item.Parent;
+
+            while (parent != null)
+            {
+                parent.Expand();
+                if (parent.Parent is TreeNode)
+                {
+                    parent = (TreeNode)parent.Parent;
+                }
+                else
+                {
+                    parent = null;
+                }
             }
         }
     }
