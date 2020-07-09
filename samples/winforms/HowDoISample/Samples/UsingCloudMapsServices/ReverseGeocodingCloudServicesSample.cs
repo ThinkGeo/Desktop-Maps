@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Forms;
 using ThinkGeo.Core;
 using ThinkGeo.UI.WinForms;
@@ -75,6 +77,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private TextBox txtCoordinates;
         private Label label2;
         private Label label1;
+        private ListBox lsbRoads;
+        private ListBox lsbPlaces;
         private ListBox lsbAddresses;
 
         #region Component Designer generated code
@@ -87,8 +91,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1 = new System.Windows.Forms.Panel();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.nearbyAddressesTabItem = new System.Windows.Forms.TabPage();
+            this.lsbAddresses = new System.Windows.Forms.ListBox();
             this.nearbyRoadsTabItem = new System.Windows.Forms.TabPage();
+            this.lsbRoads = new System.Windows.Forms.ListBox();
             this.nearbyPlacesTabItem = new System.Windows.Forms.TabPage();
+            this.lsbPlaces = new System.Windows.Forms.ListBox();
             this.txtSearchResultsBestMatch = new System.Windows.Forms.TextBox();
             this.btnSearch = new System.Windows.Forms.Button();
             this.txtLocationCategoriesDescription = new System.Windows.Forms.TextBox();
@@ -101,10 +108,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.txtCoordinates = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.lsbAddresses = new System.Windows.Forms.ListBox();
             this.panel1.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.nearbyAddressesTabItem.SuspendLayout();
+            this.nearbyRoadsTabItem.SuspendLayout();
+            this.nearbyPlacesTabItem.SuspendLayout();
             this.SuspendLayout();
             // 
             // mapView
@@ -170,8 +178,19 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.nearbyAddressesTabItem.Text = "Address";
             this.nearbyAddressesTabItem.UseVisualStyleBackColor = true;
             // 
+            // lsbAddresses
+            // 
+            this.lsbAddresses.FormattingEnabled = true;
+            this.lsbAddresses.ItemHeight = 16;
+            this.lsbAddresses.Location = new System.Drawing.Point(0, 6);
+            this.lsbAddresses.Name = "lsbAddresses";
+            this.lsbAddresses.Size = new System.Drawing.Size(285, 180);
+            this.lsbAddresses.TabIndex = 4;
+            this.lsbAddresses.SelectedIndexChanged += new System.EventHandler(this.lsbAddresses_SelectedIndexChanged);
+            // 
             // nearbyRoadsTabItem
             // 
+            this.nearbyRoadsTabItem.Controls.Add(this.lsbRoads);
             this.nearbyRoadsTabItem.Location = new System.Drawing.Point(4, 25);
             this.nearbyRoadsTabItem.Name = "nearbyRoadsTabItem";
             this.nearbyRoadsTabItem.Padding = new System.Windows.Forms.Padding(3);
@@ -180,8 +199,19 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.nearbyRoadsTabItem.Text = "Road";
             this.nearbyRoadsTabItem.UseVisualStyleBackColor = true;
             // 
+            // lsbRoads
+            // 
+            this.lsbRoads.FormattingEnabled = true;
+            this.lsbRoads.ItemHeight = 16;
+            this.lsbRoads.Location = new System.Drawing.Point(-1, 3);
+            this.lsbRoads.Name = "lsbRoads";
+            this.lsbRoads.Size = new System.Drawing.Size(285, 180);
+            this.lsbRoads.TabIndex = 3;
+            this.lsbRoads.SelectedIndexChanged += new System.EventHandler(this.lsbAddresses_SelectedIndexChanged);
+            // 
             // nearbyPlacesTabItem
             // 
+            this.nearbyPlacesTabItem.Controls.Add(this.lsbPlaces);
             this.nearbyPlacesTabItem.Location = new System.Drawing.Point(4, 25);
             this.nearbyPlacesTabItem.Name = "nearbyPlacesTabItem";
             this.nearbyPlacesTabItem.Padding = new System.Windows.Forms.Padding(3);
@@ -189,6 +219,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.nearbyPlacesTabItem.TabIndex = 2;
             this.nearbyPlacesTabItem.Text = "Place";
             this.nearbyPlacesTabItem.UseVisualStyleBackColor = true;
+            // 
+            // lsbPlaces
+            // 
+            this.lsbPlaces.FormattingEnabled = true;
+            this.lsbPlaces.ItemHeight = 16;
+            this.lsbPlaces.Location = new System.Drawing.Point(-1, 6);
+            this.lsbPlaces.Name = "lsbPlaces";
+            this.lsbPlaces.Size = new System.Drawing.Size(285, 180);
+            this.lsbPlaces.TabIndex = 3;
+            this.lsbPlaces.SelectedIndexChanged += new System.EventHandler(this.lsbAddresses_SelectedIndexChanged);
             // 
             // txtSearchResultsBestMatch
             // 
@@ -226,10 +266,15 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // cboLocationCategories
             // 
             this.cboLocationCategories.FormattingEnabled = true;
+            this.cboLocationCategories.Items.AddRange(new object[] {
+            "All",
+            "Common",
+            "None"});
             this.cboLocationCategories.Location = new System.Drawing.Point(171, 200);
             this.cboLocationCategories.Name = "cboLocationCategories";
             this.cboLocationCategories.Size = new System.Drawing.Size(127, 24);
             this.cboLocationCategories.TabIndex = 8;
+            this.cboLocationCategories.Text = "All";
             this.cboLocationCategories.SelectedIndexChanged += new System.EventHandler(this.cboLocationCategories_SelectedIndexChanged);
             // 
             // txtMaxResults
@@ -245,7 +290,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.txtSearchRadius.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.txtSearchRadius.Location = new System.Drawing.Point(171, 135);
             this.txtSearchRadius.Name = "txtSearchRadius";
-            this.txtSearchRadius.Size = new System.Drawing.Size(127, 26);
+            this.txtSearchRadius.Size = new System.Drawing.Size(127, 23);
             this.txtSearchRadius.TabIndex = 6;
             this.txtSearchRadius.Text = "400";
             // 
@@ -256,7 +301,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label5.ForeColor = System.Drawing.Color.White;
             this.label5.Location = new System.Drawing.Point(21, 200);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(90, 20);
+            this.label5.Size = new System.Drawing.Size(76, 17);
             this.label5.TabIndex = 5;
             this.label5.Text = "Categorys:";
             // 
@@ -267,7 +312,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Location = new System.Drawing.Point(21, 167);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(143, 20);
+            this.label4.Size = new System.Drawing.Size(118, 17);
             this.label4.TabIndex = 4;
             this.label4.Text = "Maximum Radius:";
             // 
@@ -278,16 +323,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label3.ForeColor = System.Drawing.Color.White;
             this.label3.Location = new System.Drawing.Point(21, 135);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(129, 20);
+            this.label3.Size = new System.Drawing.Size(108, 17);
             this.label3.TabIndex = 3;
             this.label3.Text = "Search Results:";
             // 
             // txtCoordinates
             // 
             this.txtCoordinates.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.txtCoordinates.Location = new System.Drawing.Point(3, 89);
+            this.txtCoordinates.Location = new System.Drawing.Point(24, 89);
             this.txtCoordinates.Name = "txtCoordinates";
-            this.txtCoordinates.Size = new System.Drawing.Size(295, 26);
+            this.txtCoordinates.Size = new System.Drawing.Size(274, 23);
             this.txtCoordinates.TabIndex = 2;
             this.txtCoordinates.Text = "3915241.03,-10779570.57";
             // 
@@ -298,7 +343,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(21, 66);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(73, 20);
+            this.label2.Size = new System.Drawing.Size(62, 17);
             this.label2.TabIndex = 1;
             this.label2.Text = "Location";
             // 
@@ -309,18 +354,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(21, 15);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(280, 40);
+            this.label1.Size = new System.Drawing.Size(236, 34);
             this.label1.TabIndex = 0;
             this.label1.Text = "Click on the Map or enter a Location\r\nto Reverse Geocode";
-            // 
-            // lsbAddresses
-            // 
-            this.lsbAddresses.FormattingEnabled = true;
-            this.lsbAddresses.ItemHeight = 16;
-            this.lsbAddresses.Location = new System.Drawing.Point(3, 3);
-            this.lsbAddresses.Name = "lsbAddresses";
-            this.lsbAddresses.Size = new System.Drawing.Size(285, 180);
-            this.lsbAddresses.TabIndex = 2;
             // 
             // ReverseGeocodingCloudServicesSample
             // 
@@ -333,6 +369,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.PerformLayout();
             this.tabControl.ResumeLayout(false);
             this.nearbyAddressesTabItem.ResumeLayout(false);
+            this.nearbyRoadsTabItem.ResumeLayout(false);
+            this.nearbyPlacesTabItem.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -359,146 +397,239 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void cboLocationCategories_SelectedIndexChanged(object sender, EventArgs e)
         {
+            var comboBoxContent = cboLocationCategories.SelectedItem.ToString();
 
+            if (comboBoxContent != null)
+            {
+                switch (comboBoxContent)
+                {
+                    case "All":
+                        txtLocationCategoriesDescription.Text = "(Includes all available location types in the search)";
+                        break;
+                    case "Common":
+                        txtLocationCategoriesDescription.Text = "(Includes only commonly-used 'Place' types in the search)";
+                        break;
+                    case "None":
+                        txtLocationCategoriesDescription.Text = "(Only the best matching result will be returned)";
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         private async void PerformReverseGeocode()
         {
-            // Perform some simple validation on the input text boxes
-            //if (ValidateSearchParameters())
-            //{
-            //    CloudReverseGeocodingOptions options = new CloudReverseGeocodingOptions();
+            //Perform some simple validation on the input text boxes
+            if (ValidateSearchParameters())
+            {
+                CloudReverseGeocodingOptions options = new CloudReverseGeocodingOptions();
 
-            //    // Set up the CloudReverseGeocodingOptions object based on the parameters set in the UI
-            //    string[] coordinates = txtCoordinates.Text.Split(',');
-            //    double lat = double.Parse(coordinates[0].Trim());
-            //    double lon = double.Parse(coordinates[1].Trim());
-            //    int searchRadius = int.Parse(txtSearchRadius.Text);
-            //    DistanceUnit searchRadiusDistanceUnit = DistanceUnit.Meter;
-            //    int pointProjectionInSrid = 3857;
-            //    PointShape searchPoint = new PointShape(lon, lat);
-            //    options.MaxResults = int.Parse(txtMaxResults.Text);
+                // Set up the CloudReverseGeocodingOptions object based on the parameters set in the UI
+                string[] coordinates = txtCoordinates.Text.Split(',');
+                double lat = double.Parse(coordinates[0].Trim());
+                double lon = double.Parse(coordinates[1].Trim());
+                int searchRadius = int.Parse(txtSearchRadius.Text);
+                DistanceUnit searchRadiusDistanceUnit = DistanceUnit.Meter;
+                int pointProjectionInSrid = 3857;
+                PointShape searchPoint = new PointShape(lon, lat);
+                options.MaxResults = int.Parse(txtMaxResults.Text);
 
-            //    switch (((ComboBoxItem)cboLocationCategories.SelectedItem).Content.ToString())
-            //    {
-            //        case "All":
-            //            options.LocationCategories = CloudLocationCategories.All;
-            //            break;
-            //        case "Common":
-            //            options.LocationCategories = CloudLocationCategories.Common;
-            //            break;
-            //        case "None":
-            //            options.LocationCategories = CloudLocationCategories.None;
-            //            break;
-            //        default:
-            //            options.LocationCategories = CloudLocationCategories.All;
-            //            break;
-            //    }
+                switch (cboLocationCategories.SelectedItem.ToString())
+                {
+                    case "All":
+                        options.LocationCategories = CloudLocationCategories.All;
+                        break;
+                    case "Common":
+                        options.LocationCategories = CloudLocationCategories.Common;
+                        break;
+                    case "None":
+                        options.LocationCategories = CloudLocationCategories.None;
+                        break;
+                    default:
+                        options.LocationCategories = CloudLocationCategories.All;
+                        break;
+                }
 
-                // Show a loading graphic to let users know the request is running
-                //loadingImage.Visibility = Visibility.Visible;
+               // Show a loading graphic to let users know the request is running
+               // loadingImage.Visibility = Visibility.Visible;
 
-                // Run the reverse geocode
-                //CloudReverseGeocodingResult searchResult = await reverseGeocodingCloudClient.SearchPointAsync(lon, lat, pointProjectionInSrid, searchRadius, searchRadiusDistanceUnit, options);
+               // Run the reverse geocode
+                CloudReverseGeocodingResult searchResult = await reverseGeocodingCloudClient.SearchPointAsync(lon, lat, pointProjectionInSrid, searchRadius, searchRadiusDistanceUnit, options);
 
-                // Hide the loading graphic
-                //loadingImage.Visibility = Visibility.Hidden;
+               // Hide the loading graphic
+               // loadingImage.Visibility = Visibility.Hidden;
 
-                // Handle an exception returned from the service
-                //if (searchResult.Exception != null)
-                //{
-                //    MessageBox.Show(searchResult.Exception.Message, "Error");
-                //    return;
-                //}
+               // Handle an exception returned from the service
+                if (searchResult.Exception != null)
+                {
+                    MessageBox.Show(searchResult.Exception.Message, "Error");
+                    return;
+                }
 
                 // Update the UI
-                //DisplaySearchResults(searchPoint, searchRadius, searchResult);
+                DisplaySearchResults(searchPoint, searchRadius, searchResult);
             }
         }
 
-        //private void DisplaySearchResults(PointShape searchPoint, int searchRadius, CloudReverseGeocodingResult searchResult)
-        //{
-        //    // Get the 'Search Radius' layer from the MapView
-        //    InMemoryFeatureLayer searchRadiusFeatureLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Search Radius");
+        private void DisplaySearchResults(PointShape searchPoint, int searchRadius, CloudReverseGeocodingResult searchResult)
+        {
+            // Get the 'Search Radius' layer from the MapView
+            InMemoryFeatureLayer searchRadiusFeatureLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Search Radius");
 
-        //    // Clear the existing features and add new features showing the area that was searched by the reverse geocode
-        //    searchRadiusFeatureLayer.Clear();
-        //    searchRadiusFeatureLayer.InternalFeatures.Add(new Feature(new EllipseShape(searchPoint, searchRadius)));
-        //    searchRadiusFeatureLayer.InternalFeatures.Add(new Feature(searchPoint));
+            // Clear the existing features and add new features showing the area that was searched by the reverse geocode
+            searchRadiusFeatureLayer.Clear();
+            searchRadiusFeatureLayer.InternalFeatures.Add(new Feature(new EllipseShape(searchPoint, searchRadius)));
+            searchRadiusFeatureLayer.InternalFeatures.Add(new Feature(searchPoint));
 
-        //    // Get the 'Result Feature' layer and clear it
-        //    InMemoryFeatureLayer selectedResultItemFeatureLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Result Feature Geometry");
-        //    selectedResultItemFeatureLayer.Clear();
+            // Get the 'Result Feature' layer and clear it
+            InMemoryFeatureLayer selectedResultItemFeatureLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Result Feature Geometry");
+            selectedResultItemFeatureLayer.Clear();
 
-        //    // If a match was found for the geocode, update the UI
-        //    if (searchResult?.BestMatchLocation != null)
-        //    {
-        //        // Get the 'Best Match' PopupOverlay from the MapView and clear it
-        //        PopupOverlay bestMatchPopupOverlay = (PopupOverlay)mapView.Overlays["Best Match Popup Overlay"];
-        //        bestMatchPopupOverlay.Popups.Clear();
+            // If a match was found for the geocode, update the UI
+            if (searchResult?.BestMatchLocation != null)
+            {
+                // Get the 'Best Match' PopupOverlay from the MapView and clear it
+                PopupOverlay bestMatchPopupOverlay = (PopupOverlay)mapView.Overlays["Best Match Popup Overlay"];
+                bestMatchPopupOverlay.Popups.Clear();
 
-        //        // Get the location of the 'Best Match' found within the search radius
-        //        PointShape bestMatchLocation = searchResult.BestMatchLocation.LocationFeature.GetShape().GetClosestPointTo(searchPoint, GeographyUnit.Meter);
-        //        if (bestMatchLocation == null)
-        //        {
-        //            bestMatchLocation = searchResult.BestMatchLocation.LocationFeature.GetShape().GetCenterPoint();
-        //        }
+                // Get the location of the 'Best Match' found within the search radius
+                PointShape bestMatchLocation = searchResult.BestMatchLocation.LocationFeature.GetShape().GetClosestPointTo(searchPoint, GeographyUnit.Meter);
+                if (bestMatchLocation == null)
+                {
+                    bestMatchLocation = searchResult.BestMatchLocation.LocationFeature.GetShape().GetCenterPoint();
+                }
 
-        //        // Create a popup to display the best match, and add it to the PopupOverlay
-        //        Popup bestMatchPopup = new Popup(bestMatchLocation);
-        //        bestMatchPopup.Content = "Best Match: " + searchResult.BestMatchLocation.Address;
-        //        bestMatchPopup.FontSize = 10d;
-        //        bestMatchPopup.FontFamily = new System.Windows.Media.FontFamily("Verdana");
-        //        bestMatchPopupOverlay.Popups.Add(bestMatchPopup);
+                // Create a popup to display the best match, and add it to the PopupOverlay
+                Popup bestMatchPopup = new Popup(bestMatchLocation);
+                bestMatchPopup.Content = "Best Match: " + searchResult.BestMatchLocation.Address;
+                bestMatchPopup.FontSize = 10d;
+                bestMatchPopup.FontFamily = new System.Windows.Media.FontFamily("Verdana");
+                bestMatchPopupOverlay.Popups.Add(bestMatchPopup);
 
-        //        // Sort the locations found into three groups (Addresses, Places, Roads) based on their LocationCategory
-        //        Collection<CloudReverseGeocodingLocation> nearbyLocations = new Collection<CloudReverseGeocodingLocation>(searchResult.NearbyLocations);
-        //        Collection<CloudReverseGeocodingLocation> nearbyAddresses = new Collection<CloudReverseGeocodingLocation>();
-        //        Collection<CloudReverseGeocodingLocation> nearbyPlaces = new Collection<CloudReverseGeocodingLocation>();
-        //        Collection<CloudReverseGeocodingLocation> nearbyRoads = new Collection<CloudReverseGeocodingLocation>();
-        //        foreach (CloudReverseGeocodingLocation foundLocation in nearbyLocations)
-        //        {
-        //            if (foundLocation.LocationCategory.ToLower().Contains("addresspoint"))
-        //            {
-        //                nearbyAddresses.Add(foundLocation);
-        //            }
-        //            else if (nameof(CloudLocationCategories.Aeroway).Equals(foundLocation.LocationCategory)
-        //                || nameof(CloudLocationCategories.Road).Equals(foundLocation.LocationCategory)
-        //                || nameof(CloudLocationCategories.Rail).Equals(foundLocation.LocationCategory)
-        //                || nameof(CloudLocationCategories.Waterway).Equals(foundLocation.LocationCategory))
-        //            {
-        //                nearbyRoads.Add(foundLocation);
-        //            }
-        //            else if (!nameof(CloudLocationCategories.Intersection).Equals(foundLocation.LocationCategory))
-        //            {
-        //                nearbyPlaces.Add(foundLocation);
-        //            }
-        //        }
+                // Sort the locations found into three groups (Addresses, Places, Roads) based on their LocationCategory
+                Collection<CloudReverseGeocodingLocation> nearbyLocations = new Collection<CloudReverseGeocodingLocation>(searchResult.NearbyLocations);
+                Collection<CloudReverseGeocodingLocation> nearbyAddresses = new Collection<CloudReverseGeocodingLocation>();
+                Collection<CloudReverseGeocodingLocation> nearbyPlaces = new Collection<CloudReverseGeocodingLocation>();
+                Collection<CloudReverseGeocodingLocation> nearbyRoads = new Collection<CloudReverseGeocodingLocation>();
+                foreach (CloudReverseGeocodingLocation foundLocation in nearbyLocations)
+                {
+                    if (foundLocation.LocationCategory.ToLower().Contains("addresspoint"))
+                    {
+                        nearbyAddresses.Add(foundLocation);
+                    }
+                    else if (nameof(CloudLocationCategories.Aeroway).Equals(foundLocation.LocationCategory)
+                        || nameof(CloudLocationCategories.Road).Equals(foundLocation.LocationCategory)
+                        || nameof(CloudLocationCategories.Rail).Equals(foundLocation.LocationCategory)
+                        || nameof(CloudLocationCategories.Waterway).Equals(foundLocation.LocationCategory))
+                    {
+                        nearbyRoads.Add(foundLocation);
+                    }
+                    else if (!nameof(CloudLocationCategories.Intersection).Equals(foundLocation.LocationCategory))
+                    {
+                        nearbyPlaces.Add(foundLocation);
+                    }
+                }
 
-        //        // Set the data sources for the addresses, roads, and places list boxes
-        //        lsbAddresses.ItemsSource = nearbyAddresses;
-        //        lsbRoads.ItemsSource = nearbyRoads;
-        //        lsbPlaces.ItemsSource = nearbyPlaces;
+                // Set the data sources for the addresses, roads, and places list boxes
+                
+                lsbAddresses.DataSource = nearbyAddresses;
+                lsbAddresses.DisplayMember = "Address";
 
-        //        txtSearchResultsBestMatch.Text = "Best Match: " + searchResult.BestMatchLocation.Address;
-        //    }
-        //    else
-        //    {
-        //        txtSearchResultsBestMatch.Text = "No address or place matches found for this location";
-        //    }
+                lsbRoads.DataSource = nearbyRoads;
+                lsbRoads.DisplayMember = "LocationName";
 
-        //    // Set the map extent to show the results of the search
-        //    mapView.CurrentExtent = searchRadiusFeatureLayer.GetBoundingBox();
-        //    ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
-        //    if (mapView.CurrentScale < standardZoomLevelSet.ZoomLevel18.Scale)
-        //    {
-        //        mapView.ZoomToScale(standardZoomLevelSet.ZoomLevel18.Scale);
-        //    }
-        //    mapView.Refresh();
-        //}
+                lsbPlaces.DataSource = nearbyPlaces;
+                lsbPlaces.DisplayMember = "LocationName";
 
+                txtSearchResultsBestMatch.Text = "Best Match: " + searchResult.BestMatchLocation.Address;
+            }
+            else
+            {
+                txtSearchResultsBestMatch.Text = "No address or place matches found for this location";
+            }
 
+            // Set the map extent to show the results of the search
+            mapView.CurrentExtent = searchRadiusFeatureLayer.GetBoundingBox();
+            ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
+            if (mapView.CurrentScale < standardZoomLevelSet.ZoomLevel18.Scale)
+            {
+                mapView.ZoomToScale(standardZoomLevelSet.ZoomLevel18.Scale);
+            }
+            mapView.Refresh();
+        }
+        private bool ValidateSearchParameters()
+        {
+            // Check if the 'Location' text box has a valid value
+            if (!string.IsNullOrWhiteSpace(txtCoordinates.Text))
+            {
+                string[] coordinates = txtCoordinates.Text.Split(',');
 
+                if (coordinates.Count() != 2)
+                {
+                    txtCoordinates.Focus();
+                    MessageBox.Show("Please enter a valid set of coordinates to search", "Error");
+                    return false;
+                }
 
-    //}
+                if (!(double.TryParse(coordinates[0].Trim(), out double lat) && double.TryParse(coordinates[1].Trim(), out double lon)))
+                {
+                    txtCoordinates.Focus();
+                    MessageBox.Show("Please enter a valid set of coordinates to search", "Error");
+                    return false;
+                }
+            }
+            else
+            {
+                txtCoordinates.Focus();
+                MessageBox.Show("Please enter a valid set of coordinates to search", "Error");
+                return false;
+            }
+
+            // Check if the 'Search Radius' text box has a valid value
+            if (string.IsNullOrWhiteSpace(txtSearchRadius.Text) || !(int.TryParse(txtSearchRadius.Text, out int searchRadiusInt) && searchRadiusInt > 0))
+            {
+                txtSearchRadius.Focus();
+                MessageBox.Show("Please enter an integer greater than 0", "Error");
+                return false;
+            }
+
+            // Check if the 'Max Results' text box has a valid value
+            if (string.IsNullOrWhiteSpace(txtMaxResults.Text) || !(int.TryParse(txtMaxResults.Text, out int maxResultsInt) && maxResultsInt > 0))
+            {
+                txtMaxResults.Focus();
+                MessageBox.Show("Please enter an integer greater than 0", "Error");
+                return false;
+            }
+
+            return true;
+        }
+
+        private void lsbAddresses_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ListBox selectedResultList = (ListBox)sender;
+            if (selectedResultList.SelectedItem != null)
+            {
+                // Get the selected location
+                Feature locationFeature = ((CloudReverseGeocodingLocation)selectedResultList.SelectedItem).LocationFeature;
+
+                // Get the 'Result Feature' layer from the MapView
+                InMemoryFeatureLayer selectedResultItemFeatureLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Result Feature Geometry");
+
+                // Clear the existing features and add the geometry of the selected location
+                selectedResultItemFeatureLayer.Clear();
+                selectedResultItemFeatureLayer.InternalFeatures.Add(new Feature(locationFeature.GetShape()));
+
+                // Center the map on the chosen location
+                mapView.CurrentExtent = locationFeature.GetBoundingBox();
+                ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
+                if (mapView.CurrentScale < standardZoomLevelSet.ZoomLevel18.Scale)
+                {
+                    mapView.ZoomToScale(standardZoomLevelSet.ZoomLevel18.Scale);
+                }
+                mapView.Refresh();
+            }
+
+        }
+    }
 }
