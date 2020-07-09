@@ -84,7 +84,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             Collection<GeoColor> colors = new Collection<GeoColor>();
 
             // Show a loading graphic to let users know the request is running
-           // loadingImage.Visibility = Visibility.Visible;
+            // loadingImage.Visibility = Visibility.Visible;
             // Generate colors based on the selected 'color type'
             switch (cboColorType.SelectedItem.ToString())
             {
@@ -192,26 +192,25 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             Collection<GeoColor> hueColors = new Collection<GeoColor>();
 
             // Generate colors based on the parameters selected in the UI
-            switch (baseColorRadioButtons.FirstOrDefault(btn => (bool)btn.Checked).Name)
+            if (rdoRandomColor.Checked)
             {
-                case "rdoRandomColor":
-                    // Use a random base color
-                    hueColors = await colorCloudClient.GetColorsInHueFamilyAsync(numberOfColors);
-                    break;
-                case "rdoSpecificColor":
-                    // Use the HTML color code specified for the base color
-                    GeoColor colorFromInputString = GetGeoColorFromString(txtSpecificColor.Text);
-                    if (colorFromInputString != null)
-                    {
-                        hueColors = await colorCloudClient.GetColorsInHueFamilyAsync(colorFromInputString, numberOfColors);
-                    }
-                    break;
-                case "rdoDefaultColor":
-                    // Use a default color for the base color
-                    hueColors = await colorCloudClient.GetColorsInHueFamilyAsync(GetGeoColorFromDefaultColors(), numberOfColors);
-                    break;
-                default:
-                    break;
+                // Use a random base color
+                hueColors = await colorCloudClient.GetColorsInHueFamilyAsync(numberOfColors);
+            }
+            else if (rdoSpecificColor.Checked)
+            {
+                // Use the HTML color code specified for the base color
+                GeoColor colorFromInputString = GetGeoColorFromString(txtSpecificColor.Text);
+                if (colorFromInputString != null)
+                {
+                    hueColors = await colorCloudClient.GetColorsInHueFamilyAsync(colorFromInputString, numberOfColors);
+                }
+            }
+            else if (rdoDefaultColor.Checked)
+            {
+                // Use a default color for the base color
+                hueColors = await colorCloudClient.GetColorsInHueFamilyAsync(GetGeoColorFromDefaultColors(), numberOfColors);
+
             }
 
             return hueColors;
@@ -226,26 +225,24 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             Dictionary<GeoColor, Collection<GeoColor>> colorsDictionary = new Dictionary<GeoColor, Collection<GeoColor>>();
 
             // Generate colors based on the parameters selected in the UI
-            switch (baseColorRadioButtons.FirstOrDefault(btn => (bool)btn.Checked).Name)
+            if (rdoRandomColor.Checked)
             {
-                case "rdoRandomColor":
-                    // Use a random base color
-                    colorsDictionary = await colorCloudClient.GetColorsInAnalogousFamilyAsync(numberOfColors);
-                    break;
-                case "rdoSpecificColor":
-                    // Use the HTML color code specified for the base color
-                    GeoColor colorFromInputString = GetGeoColorFromString(txtSpecificColor.Text);
-                    if (colorFromInputString != null)
-                    {
-                        colorsDictionary = await colorCloudClient.GetColorsInAnalogousFamilyAsync(colorFromInputString, numberOfColors);
-                    }
-                    break;
-                case "rdoDefaultColor":
-                    // Use a default color for the base color
-                    colorsDictionary = await colorCloudClient.GetColorsInAnalogousFamilyAsync(GetGeoColorFromDefaultColors(), numberOfColors);
-                    break;
-                default:
-                    break;
+                // Use a random base color
+                colorsDictionary = await colorCloudClient.GetColorsInAnalogousFamilyAsync(numberOfColors);
+            }
+            else if (rdoSpecificColor.Checked)
+            {
+                // Use the HTML color code specified for the base color
+                GeoColor colorFromInputString = GetGeoColorFromString(txtSpecificColor.Text);
+                if (colorFromInputString != null)
+                {
+                    colorsDictionary = await colorCloudClient.GetColorsInAnalogousFamilyAsync(colorFromInputString, numberOfColors);
+                }
+            }
+            else if (rdoDefaultColor.Checked)
+            {
+                // Use a default color for the base color
+                colorsDictionary = await colorCloudClient.GetColorsInAnalogousFamilyAsync(GetGeoColorFromDefaultColors(), numberOfColors);
             }
 
             // Some color generation APIs use multiple base colors based on the original input color
@@ -271,28 +268,26 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             Dictionary<GeoColor, Collection<GeoColor>> colorsDictionary = new Dictionary<GeoColor, Collection<GeoColor>>();
 
             // Generate colors based on the parameters selected in the UI
-            switch (baseColorRadioButtons.FirstOrDefault(btn => (bool)btn.Checked).Name)
+            if (rdoRandomColor.Checked)
             {
-                case "rdoRandomColor":
-                    // Use a random base color
-                    colorsDictionary = await colorCloudClient.GetColorsInComplementaryFamilyAsync(numberOfColors);
-                    break;
-                case "rdoSpecificColor":
-                    // Use the HTML color code specified for the base color
-                    GeoColor colorFromInputString = GetGeoColorFromString(txtSpecificColor.Text);
-                    if (colorFromInputString != null)
-                    {
-                        colorsDictionary = await colorCloudClient.GetColorsInComplementaryFamilyAsync(colorFromInputString, numberOfColors);
-                    }
-                    break;
-                case "rdoDefaultColor":
-                    // Use a default color for the base color
-                    colorsDictionary = await colorCloudClient.GetColorsInComplementaryFamilyAsync(GetGeoColorFromDefaultColors(), numberOfColors);
-                    break;
-                default:
-                    break;
+                // Use a random base color
+                colorsDictionary = await colorCloudClient.GetColorsInComplementaryFamilyAsync(numberOfColors);
             }
-
+            else if (rdoSpecificColor.Checked)
+            {
+                // Use the HTML color code specified for the base color
+                GeoColor colorFromInputString = GetGeoColorFromString(txtSpecificColor.Text);
+                if (colorFromInputString != null)
+                {
+                    colorsDictionary = await colorCloudClient.GetColorsInComplementaryFamilyAsync(colorFromInputString, numberOfColors);
+                }
+            }
+            else if (rdoDefaultColor.Checked)
+            {
+                // Use a default color for the base color
+                colorsDictionary = await colorCloudClient.GetColorsInComplementaryFamilyAsync(GetGeoColorFromDefaultColors(), numberOfColors);
+            }
+           
             // Some color generation APIs use multiple base colors based on the original input color
             // These APIs return a dictionary where the 'keys' are the base colors and the 'values' are the colors generated from that base
             // For this sample we will simply utilize all of the colors generated
@@ -316,26 +311,24 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             Dictionary<GeoColor, Collection<GeoColor>> colorsDictionary = new Dictionary<GeoColor, Collection<GeoColor>>();
 
             // Generate colors based on the parameters selected in the UI
-            switch (baseColorRadioButtons.FirstOrDefault(btn => (bool)btn.Checked).Name)
+            if (rdoRandomColor.Checked)
             {
-                case "rdoRandomColor":
-                    // Use a random base color
-                    colorsDictionary = await colorCloudClient.GetColorsInContrastingFamilyAsync(numberOfColors);
-                    break;
-                case "rdoSpecificColor":
-                    // Use the HTML color code specified for the base color
-                    GeoColor colorFromInputString = GetGeoColorFromString(txtSpecificColor.Text);
-                    if (colorFromInputString != null)
-                    {
-                        colorsDictionary = await colorCloudClient.GetColorsInContrastingFamilyAsync(colorFromInputString, numberOfColors);
-                    }
-                    break;
-                case "rdoDefaultColor":
-                    // Use a default color for the base color
-                    colorsDictionary = await colorCloudClient.GetColorsInContrastingFamilyAsync(GetGeoColorFromDefaultColors(), numberOfColors);
-                    break;
-                default:
-                    break;
+                // Use a random base color
+                colorsDictionary = await colorCloudClient.GetColorsInContrastingFamilyAsync(numberOfColors);
+            }
+            else if (rdoSpecificColor.Checked)
+            {
+                // Use the HTML color code specified for the base color
+                GeoColor colorFromInputString = GetGeoColorFromString(txtSpecificColor.Text);
+                if (colorFromInputString != null)
+                {
+                    colorsDictionary = await colorCloudClient.GetColorsInContrastingFamilyAsync(colorFromInputString, numberOfColors);
+                }
+            }
+            else if (rdoDefaultColor.Checked)
+            {
+                // Use a default color for the base color
+                colorsDictionary = await colorCloudClient.GetColorsInContrastingFamilyAsync(GetGeoColorFromDefaultColors(), numberOfColors);
             }
 
             // Some color generation APIs use multiple base colors based on the original input color
@@ -360,26 +353,24 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             Collection<GeoColor> qualityColors = new Collection<GeoColor>();
 
             // Generate colors based on the parameters selected in the UI
-            switch (baseColorRadioButtons.FirstOrDefault(btn => (bool)btn.Checked).Name)
+            if (rdoRandomColor.Checked)
             {
-                case "rdoRandomColor":
-                    // Use a random base color
-                    qualityColors = await colorCloudClient.GetColorsInQualityFamilyAsync(numberOfColors);
-                    break;
-                case "rdoSpecificColor":
-                    // Use the HTML color code specified for the base color
-                    GeoColor colorFromInputString = GetGeoColorFromString(txtSpecificColor.Text);
-                    if (colorFromInputString != null)
-                    {
-                        qualityColors = await colorCloudClient.GetColorsInQualityFamilyAsync(colorFromInputString, numberOfColors);
-                    }
-                    break;
-                case "rdoDefaultColor":
-                    // Use a default color for the base color
-                    qualityColors = await colorCloudClient.GetColorsInQualityFamilyAsync(GetGeoColorFromDefaultColors(), numberOfColors);
-                    break;
-                default:
-                    break;
+                // Use a random base color
+                qualityColors = await colorCloudClient.GetColorsInQualityFamilyAsync(numberOfColors);
+            }
+            else if (rdoSpecificColor.Checked)
+            {
+                // Use the HTML color code specified for the base color
+                GeoColor colorFromInputString = GetGeoColorFromString(txtSpecificColor.Text);
+                if (colorFromInputString != null)
+                {
+                    qualityColors = await colorCloudClient.GetColorsInQualityFamilyAsync(colorFromInputString, numberOfColors);
+                }
+            }
+            else if (rdoDefaultColor.Checked)
+            {
+                // Use a default color for the base color
+                qualityColors = await colorCloudClient.GetColorsInQualityFamilyAsync(GetGeoColorFromDefaultColors(), numberOfColors);
             }
 
             return qualityColors;
@@ -394,26 +385,24 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             Dictionary<GeoColor, Collection<GeoColor>> colorsDictionary = new Dictionary<GeoColor, Collection<GeoColor>>();
 
             // Generate colors based on the parameters selected in the UI
-            switch (baseColorRadioButtons.FirstOrDefault(btn => (bool)btn.Checked).Name)
+            if (rdoRandomColor.Checked)
             {
-                case "rdoRandomColor":
-                    // Use a random base color
-                    colorsDictionary = await colorCloudClient.GetColorsInTetradFamilyAsync(numberOfColors);
-                    break;
-                case "rdoSpecificColor":
-                    // Use the HTML color code specified for the base color
-                    GeoColor colorFromInputString = GetGeoColorFromString(txtSpecificColor.Text);
-                    if (colorFromInputString != null)
-                    {
-                        colorsDictionary = await colorCloudClient.GetColorsInTetradFamilyAsync(colorFromInputString, numberOfColors);
-                    }
-                    break;
-                case "rdoDefaultColor":
-                    // Use a default color for the base color
-                    colorsDictionary = await colorCloudClient.GetColorsInTetradFamilyAsync(GetGeoColorFromDefaultColors(), numberOfColors);
-                    break;
-                default:
-                    break;
+                // Use a random base color
+                colorsDictionary = await colorCloudClient.GetColorsInTetradFamilyAsync(numberOfColors);
+            }
+            else if (rdoSpecificColor.Checked)
+            {
+                // Use the HTML color code specified for the base color
+                GeoColor colorFromInputString = GetGeoColorFromString(txtSpecificColor.Text);
+                if (colorFromInputString != null)
+                {
+                    colorsDictionary = await colorCloudClient.GetColorsInTetradFamilyAsync(colorFromInputString, numberOfColors);
+                }
+            }
+            else if (rdoDefaultColor.Checked)
+            {
+                // Use a default color for the base color
+                colorsDictionary = await colorCloudClient.GetColorsInTetradFamilyAsync(GetGeoColorFromDefaultColors(), numberOfColors);
             }
 
             // Some color generation APIs use multiple base colors based on the original input color
@@ -439,26 +428,24 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             Dictionary<GeoColor, Collection<GeoColor>> colorsDictionary = new Dictionary<GeoColor, Collection<GeoColor>>();
 
             // Generate colors based on the parameters selected in the UI
-            switch (baseColorRadioButtons.FirstOrDefault(btn => (bool)btn.Checked).Name)
+            if (rdoRandomColor.Checked)
             {
-                case "rdoRandomColor":
-                    // Use a random base color
-                    colorsDictionary = await colorCloudClient.GetColorsInTriadFamilyAsync(numberOfColors);
-                    break;
-                case "rdoSpecificColor":
-                    // Use the HTML color code specified for the base color
-                    GeoColor colorFromInputString = GetGeoColorFromString(txtSpecificColor.Text);
-                    if (colorFromInputString != null)
-                    {
-                        colorsDictionary = await colorCloudClient.GetColorsInTriadFamilyAsync(colorFromInputString, numberOfColors);
-                    }
-                    break;
-                case "rdoDefaultColor":
-                    // Use a default color for the base color
-                    colorsDictionary = await colorCloudClient.GetColorsInTriadFamilyAsync(GetGeoColorFromDefaultColors(), numberOfColors);
-                    break;
-                default:
-                    break;
+                // Use a random base color
+                colorsDictionary = await colorCloudClient.GetColorsInTriadFamilyAsync(numberOfColors);
+            }
+            else if (rdoSpecificColor.Checked)
+            {
+                // Use the HTML color code specified for the base color
+                GeoColor colorFromInputString = GetGeoColorFromString(txtSpecificColor.Text);
+                if (colorFromInputString != null)
+                {
+                    colorsDictionary = await colorCloudClient.GetColorsInTriadFamilyAsync(colorFromInputString, numberOfColors);
+                }
+            }
+            else if (rdoDefaultColor.Checked)
+            {
+                // Use a default color for the base color
+                colorsDictionary = await colorCloudClient.GetColorsInTriadFamilyAsync(GetGeoColorFromDefaultColors(), numberOfColors);
             }
 
             // Some color generation APIs use multiple base colors based on the original input color
@@ -619,6 +606,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // cboDefaultColor
             // 
             this.cboDefaultColor.FormattingEnabled = true;
+            this.cboDefaultColor.Items.AddRange(new object[] {
+            "Red",
+            "Orange",
+            "Yellow",
+            "Green",
+            "Blue",
+            "Purple"});
             this.cboDefaultColor.Location = new System.Drawing.Point(174, 288);
             this.cboDefaultColor.Name = "cboDefaultColor";
             this.cboDefaultColor.Size = new System.Drawing.Size(121, 24);
@@ -640,7 +634,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.rdoDefaultColor.ForeColor = System.Drawing.Color.White;
             this.rdoDefaultColor.Location = new System.Drawing.Point(17, 286);
             this.rdoDefaultColor.Name = "rdoDefaultColor";
-            this.rdoDefaultColor.Size = new System.Drawing.Size(129, 24);
+            this.rdoDefaultColor.Size = new System.Drawing.Size(108, 21);
             this.rdoDefaultColor.TabIndex = 7;
             this.rdoDefaultColor.TabStop = true;
             this.rdoDefaultColor.Text = "Default Color";
@@ -653,7 +647,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.rdoSpecificColor.ForeColor = System.Drawing.Color.White;
             this.rdoSpecificColor.Location = new System.Drawing.Point(17, 259);
             this.rdoSpecificColor.Name = "rdoSpecificColor";
-            this.rdoSpecificColor.Size = new System.Drawing.Size(135, 24);
+            this.rdoSpecificColor.Size = new System.Drawing.Size(112, 21);
             this.rdoSpecificColor.TabIndex = 6;
             this.rdoSpecificColor.TabStop = true;
             this.rdoSpecificColor.Text = "Specific Color";
@@ -662,11 +656,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // rdoRandomColor
             // 
             this.rdoRandomColor.AutoSize = true;
+            this.rdoRandomColor.Checked = true;
             this.rdoRandomColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rdoRandomColor.ForeColor = System.Drawing.Color.White;
             this.rdoRandomColor.Location = new System.Drawing.Point(17, 232);
             this.rdoRandomColor.Name = "rdoRandomColor";
-            this.rdoRandomColor.Size = new System.Drawing.Size(137, 24);
+            this.rdoRandomColor.Size = new System.Drawing.Size(116, 21);
             this.rdoRandomColor.TabIndex = 5;
             this.rdoRandomColor.TabStop = true;
             this.rdoRandomColor.Text = "Random Color";
@@ -679,7 +674,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Location = new System.Drawing.Point(17, 204);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(93, 20);
+            this.label4.Size = new System.Drawing.Size(77, 17);
             this.label4.TabIndex = 4;
             this.label4.Text = "Base Color";
             // 
@@ -690,7 +685,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.txtColorCategoryDescription.ForeColor = System.Drawing.Color.White;
             this.txtColorCategoryDescription.Location = new System.Drawing.Point(10, 129);
             this.txtColorCategoryDescription.Name = "txtColorCategoryDescription";
-            this.txtColorCategoryDescription.Size = new System.Drawing.Size(310, 60);
+            this.txtColorCategoryDescription.Size = new System.Drawing.Size(259, 51);
             this.txtColorCategoryDescription.TabIndex = 3;
             this.txtColorCategoryDescription.Text = "Get a family of colors with the same hue\r\nand sequential variances in lightness\r\n" +
     "and saturation";
@@ -699,9 +694,17 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             this.cboColorType.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.cboColorType.FormattingEnabled = true;
+            this.cboColorType.Items.AddRange(new object[] {
+            "Hue",
+            "Analogous",
+            "Complementary",
+            "Contrasting",
+            "Quality",
+            "Tetrad",
+            "Triad"});
             this.cboColorType.Location = new System.Drawing.Point(149, 81);
             this.cboColorType.Name = "cboColorType";
-            this.cboColorType.Size = new System.Drawing.Size(121, 28);
+            this.cboColorType.Size = new System.Drawing.Size(121, 24);
             this.cboColorType.TabIndex = 2;
             this.cboColorType.Text = "Hue";
             this.cboColorType.SelectedIndexChanged += new System.EventHandler(this.cboColorType_SelectedIndexChanged);
@@ -713,7 +716,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(10, 81);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(81, 20);
+            this.label2.Size = new System.Drawing.Size(69, 17);
             this.label2.TabIndex = 1;
             this.label2.Text = "Category:";
             // 
@@ -724,7 +727,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(15, 17);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(246, 50);
+            this.label1.Size = new System.Drawing.Size(199, 40);
             this.label1.TabIndex = 0;
             this.label1.Text = "Generate and Apply a New\r\nColor Group";
             // 
