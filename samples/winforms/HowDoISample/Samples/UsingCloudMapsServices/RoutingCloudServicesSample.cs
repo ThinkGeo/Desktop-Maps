@@ -82,8 +82,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Clear the previous features from the routing layer
             routingLayer.InternalFeatures.Clear();
 
-            // Create a collection to hold the route segments. These include information like distance, duration, warnings, and instructions for turn-by-turn routing
-            List<CloudRoutingSegment> routeSegments = new List<CloudRoutingSegment>();
+            // Create a collection to hold the route segments. These include information like distance, duration, warnings, and instructions for turn-by-turn routing            
+            List<RouteSegemt> displayItems = new List<RouteSegemt>();
 
             int index = 0;
             // Add the route waypoints and route segments to the map
@@ -104,13 +104,19 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
             foreach (CloudRoutingRoute route in routingResult.RouteResult.Routes)
             {
-                routingLayer.InternalFeatures.Add(new Feature(route.Shape));
-                routeSegments.AddRange(route.Segments);
+                routingLayer.InternalFeatures.Add(new Feature(route.Shape));                
+                foreach (var segment in route.Segments)
+                {
+                    RouteSegemt segmentForDisplay = new RouteSegemt();
+                    segmentForDisplay.DisplayInformation = $"{segment.Instruction} Distance: {Math.Round(segment.Distance, 0)} meters.";
+                    segmentForDisplay.Shape = new Feature(segment.Shape);
+                    displayItems.Add(segmentForDisplay);
+                }                               
             }
 
             // Set the data source for the list box to the route segments
-            lsbRouteSegments.DataSource = routeSegments;
-            lsbRouteSegments.DisplayMember = "Instructions";
+            lsbRouteSegments.DataSource = displayItems;
+            lsbRouteSegments.DisplayMember = "DisplayInformation";
 
             // Set the map extent to the newly displayed route
             routingLayer.Open();
@@ -247,10 +253,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 highlightLayer.InternalFeatures.Clear();
 
                 // Highlight the selected route segment
-                highlightLayer.InternalFeatures.Add(new Feature(((CloudRoutingSegment)routeSegments.SelectedItem).Shape));
+                highlightLayer.InternalFeatures.Add(((RouteSegemt)routeSegments.SelectedItem).Shape);
 
                 // Zoom to the selected feature and zoom out to an appropriate level
-                mapView.CurrentExtent = ((CloudRoutingSegment)routeSegments.SelectedItem).Shape.GetBoundingBox();
+                mapView.CurrentExtent = ((RouteSegemt)routeSegments.SelectedItem).Shape.GetBoundingBox();
                 ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
                 if (mapView.CurrentScale < standardZoomLevelSet.ZoomLevel15.Scale)
                 {
@@ -259,5 +265,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 mapView.Refresh();
             }
         }
+    }
+
+    public class RouteSegemt
+    {
+        public string DisplayInformation { get; set; }
+        public Feature Shape { get; set; }
     }
 }
