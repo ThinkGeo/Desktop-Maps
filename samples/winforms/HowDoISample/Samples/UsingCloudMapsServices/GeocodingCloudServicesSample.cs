@@ -9,6 +9,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public class GeocodingCloudServicesSample: UserControl
     {
+        private GeocodingCloudClient geocodingCloudClient;
         public GeocodingCloudServicesSample()
         {
             InitializeComponent();
@@ -41,13 +42,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             // Show a loading graphic to let users know the request is running
             //loadingImage.Visibility = Visibility.Visible;
-
+            
             CloudGeocodingOptions options = new CloudGeocodingOptions();
 
             // Set up the CloudGeocodingOptions object based on the parameters set in the UI
             options.MaxResults = int.Parse(txtMaxResults.Text);
-            options.SearchMode = ((ComboBoxItem)cboSearchType.SelectedItem).Content.ToString() == "Fuzzy" ? CloudGeocodingSearchMode.FuzzyMatch : CloudGeocodingSearchMode.ExactMatch;
-            options.LocationType = (CloudGeocodingLocationType)Enum.Parse(typeof(CloudGeocodingLocationType), ((ComboBoxItem)cboLocationType.SelectedItem).Content.ToString());
+            options.SearchMode = cboSearchType.SelectedItem.ToString() == "Fuzzy" ? CloudGeocodingSearchMode.FuzzyMatch : CloudGeocodingSearchMode.ExactMatch;
+            options.LocationType = (CloudGeocodingLocationType)Enum.Parse(typeof(CloudGeocodingLocationType), cboLocationType.SelectedItem.ToString());
             options.ResultProjectionInSrid = 3857;
 
             // Run the geocode
@@ -74,6 +75,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Update the UI with the number of results found and the list of locations found
             txtSearchResultsDescription.Text = $"Found {searchResult.Locations.Count} matching locations.";
             lsbLocations.DataSource = searchResult.Locations;
+            lsbLocations.DisplayMember = "LocationName";
             if (searchResult.Locations.Count > 0)
             {
                 //lsbLocations.Visibility = Visibility.Visible;
@@ -105,20 +107,20 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             this.mapView = new ThinkGeo.UI.WinForms.MapView();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lsbLocations = new System.Windows.Forms.ListBox();
+            this.txtSearchResultsDescription = new System.Windows.Forms.TextBox();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.txtLocationTypeDescription = new System.Windows.Forms.TextBox();
+            this.cboLocationType = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.cboSearchType = new System.Windows.Forms.ComboBox();
+            this.txtMaxResults = new System.Windows.Forms.TextBox();
             this.txtSearchTypeDescription = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.txtSearchString = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtMaxResults = new System.Windows.Forms.TextBox();
-            this.cboSearchType = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.cboLocationType = new System.Windows.Forms.ComboBox();
-            this.txtLocationTypeDescription = new System.Windows.Forms.TextBox();
-            this.btnSearch = new System.Windows.Forms.Button();
-            this.txtSearchResultsDescription = new System.Windows.Forms.TextBox();
-            this.lsbLocations = new System.Windows.Forms.ListBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -163,6 +165,107 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Size = new System.Drawing.Size(301, 532);
             this.panel1.TabIndex = 1;
             // 
+            // lsbLocations
+            // 
+            this.lsbLocations.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lsbLocations.BackColor = System.Drawing.Color.White;
+            this.lsbLocations.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lsbLocations.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.lsbLocations.ForeColor = System.Drawing.Color.Black;
+            this.lsbLocations.FormattingEnabled = true;
+            this.lsbLocations.ItemHeight = 16;
+            this.lsbLocations.Location = new System.Drawing.Point(3, 356);
+            this.lsbLocations.Name = "lsbLocations";
+            this.lsbLocations.Size = new System.Drawing.Size(295, 176);
+            this.lsbLocations.TabIndex = 13;
+            this.lsbLocations.SelectedIndexChanged += new System.EventHandler(this.lsbLocations_SelectedIndexChanged);
+            // 
+            // txtSearchResultsDescription
+            // 
+            this.txtSearchResultsDescription.BackColor = System.Drawing.Color.Gray;
+            this.txtSearchResultsDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtSearchResultsDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.txtSearchResultsDescription.Location = new System.Drawing.Point(3, 328);
+            this.txtSearchResultsDescription.Multiline = true;
+            this.txtSearchResultsDescription.Name = "txtSearchResultsDescription";
+            this.txtSearchResultsDescription.Size = new System.Drawing.Size(295, 44);
+            this.txtSearchResultsDescription.TabIndex = 12;
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.btnSearch.Location = new System.Drawing.Point(3, 291);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(295, 30);
+            this.btnSearch.TabIndex = 11;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            // 
+            // txtLocationTypeDescription
+            // 
+            this.txtLocationTypeDescription.BackColor = System.Drawing.Color.Gray;
+            this.txtLocationTypeDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtLocationTypeDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.txtLocationTypeDescription.ForeColor = System.Drawing.Color.White;
+            this.txtLocationTypeDescription.Location = new System.Drawing.Point(7, 246);
+            this.txtLocationTypeDescription.Multiline = true;
+            this.txtLocationTypeDescription.Name = "txtLocationTypeDescription";
+            this.txtLocationTypeDescription.Size = new System.Drawing.Size(294, 38);
+            this.txtLocationTypeDescription.TabIndex = 10;
+            // 
+            // cboLocationType
+            // 
+            this.cboLocationType.FormattingEnabled = true;
+            this.cboLocationType.Items.AddRange(new object[] {
+            "Default",
+            "Address",
+            "Street",
+            "City",
+            "County",
+            "Zipcode",
+            "State"});
+            this.cboLocationType.Location = new System.Drawing.Point(174, 216);
+            this.cboLocationType.Name = "cboLocationType";
+            this.cboLocationType.Size = new System.Drawing.Size(124, 24);
+            this.cboLocationType.TabIndex = 9;
+            this.cboLocationType.Text = "Default";
+            this.cboLocationType.SelectedIndexChanged += new System.EventHandler(this.cboLocationType_SelectedIndexChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label5.ForeColor = System.Drawing.Color.White;
+            this.label5.Location = new System.Drawing.Point(20, 213);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(98, 17);
+            this.label5.TabIndex = 8;
+            this.label5.Text = "Location Type";
+            // 
+            // cboSearchType
+            // 
+            this.cboSearchType.FormattingEnabled = true;
+            this.cboSearchType.Items.AddRange(new object[] {
+            "Fuzzy",
+            "Exact"});
+            this.cboSearchType.Location = new System.Drawing.Point(174, 128);
+            this.cboSearchType.Name = "cboSearchType";
+            this.cboSearchType.Size = new System.Drawing.Size(124, 24);
+            this.cboSearchType.TabIndex = 7;
+            this.cboSearchType.Text = "Fuzzy";
+            this.cboSearchType.SelectedIndexChanged += new System.EventHandler(this.cboSearchType_SelectedIndexChanged);
+            // 
+            // txtMaxResults
+            // 
+            this.txtMaxResults.Location = new System.Drawing.Point(174, 99);
+            this.txtMaxResults.Name = "txtMaxResults";
+            this.txtMaxResults.Size = new System.Drawing.Size(124, 22);
+            this.txtMaxResults.TabIndex = 6;
+            this.txtMaxResults.Text = "10";
+            // 
             // txtSearchTypeDescription
             // 
             this.txtSearchTypeDescription.BackColor = System.Drawing.Color.Gray;
@@ -182,7 +285,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Location = new System.Drawing.Point(20, 128);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(108, 20);
+            this.label4.Size = new System.Drawing.Size(93, 17);
             this.label4.TabIndex = 4;
             this.label4.Text = "Search Type:";
             // 
@@ -193,7 +296,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label3.ForeColor = System.Drawing.Color.White;
             this.label3.Location = new System.Drawing.Point(20, 98);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(148, 20);
+            this.label3.Size = new System.Drawing.Size(121, 17);
             this.label3.TabIndex = 3;
             this.label3.Text = "Maximum Results:";
             // 
@@ -201,9 +304,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             this.txtSearchString.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
             this.txtSearchString.ForeColor = System.Drawing.Color.Black;
-            this.txtSearchString.Location = new System.Drawing.Point(3, 70);
+            this.txtSearchString.Location = new System.Drawing.Point(20, 70);
             this.txtSearchString.Name = "txtSearchString";
-            this.txtSearchString.Size = new System.Drawing.Size(295, 23);
+            this.txtSearchString.Size = new System.Drawing.Size(278, 20);
             this.txtSearchString.TabIndex = 2;
             this.txtSearchString.Text = "6101 Frisco Square Blvd, Frisco, TX 75034";
             // 
@@ -214,7 +317,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(17, 49);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(104, 20);
+            this.label2.Size = new System.Drawing.Size(88, 17);
             this.label2.TabIndex = 1;
             this.label2.Text = "Search Text:";
             // 
@@ -225,94 +328,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(17, 18);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(97, 25);
+            this.label1.Size = new System.Drawing.Size(78, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "GeoCode";
-            // 
-            // txtMaxResults
-            // 
-            this.txtMaxResults.Location = new System.Drawing.Point(174, 99);
-            this.txtMaxResults.Name = "txtMaxResults";
-            this.txtMaxResults.Size = new System.Drawing.Size(124, 22);
-            this.txtMaxResults.TabIndex = 6;
-            this.txtMaxResults.Text = "10";
-            // 
-            // cboSearchType
-            // 
-            this.cboSearchType.FormattingEnabled = true;
-            this.cboSearchType.Location = new System.Drawing.Point(174, 128);
-            this.cboSearchType.Name = "cboSearchType";
-            this.cboSearchType.Size = new System.Drawing.Size(124, 24);
-            this.cboSearchType.TabIndex = 7;
-            this.cboSearchType.SelectedIndexChanged += new System.EventHandler(this.cboSearchType_SelectedIndexChanged);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(20, 213);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(114, 20);
-            this.label5.TabIndex = 8;
-            this.label5.Text = "Location Type";
-            // 
-            // cboLocationType
-            // 
-            this.cboLocationType.FormattingEnabled = true;
-            this.cboLocationType.Location = new System.Drawing.Point(174, 216);
-            this.cboLocationType.Name = "cboLocationType";
-            this.cboLocationType.Size = new System.Drawing.Size(124, 24);
-            this.cboLocationType.TabIndex = 9;
-            this.cboLocationType.SelectedIndexChanged += new System.EventHandler(this.cboLocationType_SelectedIndexChanged);
-            // 
-            // txtLocationTypeDescription
-            // 
-            this.txtLocationTypeDescription.BackColor = System.Drawing.Color.Gray;
-            this.txtLocationTypeDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtLocationTypeDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.txtLocationTypeDescription.ForeColor = System.Drawing.Color.White;
-            this.txtLocationTypeDescription.Location = new System.Drawing.Point(7, 246);
-            this.txtLocationTypeDescription.Multiline = true;
-            this.txtLocationTypeDescription.Name = "txtLocationTypeDescription";
-            this.txtLocationTypeDescription.Size = new System.Drawing.Size(294, 38);
-            this.txtLocationTypeDescription.TabIndex = 10;
-            // 
-            // btnSearch
-            // 
-            this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.btnSearch.Location = new System.Drawing.Point(3, 291);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(295, 30);
-            this.btnSearch.TabIndex = 11;
-            this.btnSearch.Text = "Search";
-            this.btnSearch.UseVisualStyleBackColor = true;
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
-            // 
-            // txtSearchResultsDescription
-            // 
-            this.txtSearchResultsDescription.BackColor = System.Drawing.Color.Gray;
-            this.txtSearchResultsDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtSearchResultsDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.txtSearchResultsDescription.Location = new System.Drawing.Point(3, 328);
-            this.txtSearchResultsDescription.Multiline = true;
-            this.txtSearchResultsDescription.Name = "txtSearchResultsDescription";
-            this.txtSearchResultsDescription.Size = new System.Drawing.Size(295, 44);
-            this.txtSearchResultsDescription.TabIndex = 12;
-            // 
-            // lsbLocations
-            // 
-            this.lsbLocations.BackColor = System.Drawing.Color.Gray;
-            this.lsbLocations.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.lsbLocations.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.lsbLocations.ForeColor = System.Drawing.Color.White;
-            this.lsbLocations.FormattingEnabled = true;
-            this.lsbLocations.ItemHeight = 20;
-            this.lsbLocations.Location = new System.Drawing.Point(3, 384);
-            this.lsbLocations.Name = "lsbLocations";
-            this.lsbLocations.Size = new System.Drawing.Size(295, 140);
-            this.lsbLocations.TabIndex = 13;
-            this.lsbLocations.SelectedIndexChanged += new System.EventHandler(this.lsbLocations_SelectedIndexChanged);
             // 
             // GeocodingCloudServicesSample
             // 
@@ -348,7 +366,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 // Update the UI based on the results
                 UpdateSearchResultsOnUI(searchResult);
             }
-
         }
 
         private void lsbLocations_SelectedIndexChanged(object sender, EventArgs e)
@@ -374,11 +391,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void cboSearchType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var comboBoxContent = (cboSearchType.SelectedItem as ComboBoxItem).Content;
+            var comboBoxContent = cboSearchType.SelectedItem.ToString();
 
             if (comboBoxContent != null)
             {
-                switch (comboBoxContent.ToString())
+                switch (comboBoxContent)
                 {
                     case "Fuzzy":
                         txtSearchTypeDescription.Text = "(Returns both exact and approximate matches for the search address)";
@@ -390,16 +407,15 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                         break;
                 }
             }
-
         }
 
         private void cboLocationType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //var comboBoxContent = (cboLocationType.SelectedItem as ComboBoxItem).Content;
+            var comboBoxContent = cboLocationType.SelectedItem.ToString();
 
             if (comboBoxContent != null)
             {
-                switch (comboBoxContent.ToString())
+                switch (comboBoxContent)
                 {
                     case "Default":
                         txtLocationTypeDescription.Text = "(Searches for any matches to the search string)";
@@ -463,7 +479,4 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             };
         }
     }
-
-
-
 }
