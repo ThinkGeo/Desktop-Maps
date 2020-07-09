@@ -128,9 +128,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
-            this.mapView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mapView.Location = new System.Drawing.Point(0, 0);
             this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
             this.mapView.MaximumScale = 1.7976931348623157E+308D;
@@ -138,7 +140,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotatedAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(1134, 596);
+            this.mapView.Size = new System.Drawing.Size(793, 596);
             this.mapView.TabIndex = 0;
             // 
             // panel1

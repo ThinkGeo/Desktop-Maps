@@ -175,10 +175,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.lsbLocations.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.lsbLocations.ForeColor = System.Drawing.Color.Black;
             this.lsbLocations.FormattingEnabled = true;
-            this.lsbLocations.ItemHeight = 16;
+            this.lsbLocations.ItemHeight = 20;
             this.lsbLocations.Location = new System.Drawing.Point(3, 356);
             this.lsbLocations.Name = "lsbLocations";
-            this.lsbLocations.Size = new System.Drawing.Size(295, 176);
+            this.lsbLocations.Size = new System.Drawing.Size(295, 160);
             this.lsbLocations.TabIndex = 13;
             this.lsbLocations.SelectedIndexChanged += new System.EventHandler(this.lsbLocations_SelectedIndexChanged);
             // 
@@ -241,7 +241,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label5.ForeColor = System.Drawing.Color.White;
             this.label5.Location = new System.Drawing.Point(20, 213);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(98, 17);
+            this.label5.Size = new System.Drawing.Size(114, 20);
             this.label5.TabIndex = 8;
             this.label5.Text = "Location Type";
             // 
@@ -285,7 +285,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Location = new System.Drawing.Point(20, 128);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(93, 17);
+            this.label4.Size = new System.Drawing.Size(108, 20);
             this.label4.TabIndex = 4;
             this.label4.Text = "Search Type:";
             // 
@@ -296,7 +296,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label3.ForeColor = System.Drawing.Color.White;
             this.label3.Location = new System.Drawing.Point(20, 98);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(121, 17);
+            this.label3.Size = new System.Drawing.Size(148, 20);
             this.label3.TabIndex = 3;
             this.label3.Text = "Maximum Results:";
             // 
@@ -306,7 +306,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.txtSearchString.ForeColor = System.Drawing.Color.Black;
             this.txtSearchString.Location = new System.Drawing.Point(20, 70);
             this.txtSearchString.Name = "txtSearchString";
-            this.txtSearchString.Size = new System.Drawing.Size(278, 20);
+            this.txtSearchString.Size = new System.Drawing.Size(278, 23);
             this.txtSearchString.TabIndex = 2;
             this.txtSearchString.Text = "6101 Frisco Square Blvd, Frisco, TX 75034";
             // 
@@ -317,7 +317,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(17, 49);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(88, 17);
+            this.label2.Size = new System.Drawing.Size(104, 20);
             this.label2.TabIndex = 1;
             this.label2.Text = "Search Text:";
             // 
@@ -328,7 +328,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(17, 18);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(78, 20);
+            this.label1.Size = new System.Drawing.Size(97, 25);
             this.label1.TabIndex = 0;
             this.label1.Text = "GeoCode";
             // 
