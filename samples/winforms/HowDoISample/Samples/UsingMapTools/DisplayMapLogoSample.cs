@@ -22,8 +22,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            // Set the map extent
+            // Set the map extent           
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
+
+            mapView.MapTools.Logo.Source = new BitmapImage(new Uri(@"..\..\..\Resources\ThinkGeoLogo.png", UriKind.RelativeOrAbsolute));
         }
 
         private Panel panel1;
@@ -84,7 +86,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.genericLogo.Name = "genericLogo";
             this.genericLogo.Size = new System.Drawing.Size(131, 24);
             this.genericLogo.TabIndex = 2;
-            this.genericLogo.TabStop = true;
             this.genericLogo.Text = "Generic Logo";
             this.genericLogo.UseVisualStyleBackColor = true;
             this.genericLogo.CheckedChanged += new System.EventHandler(this.genericLogo_CheckedChanged);
@@ -92,6 +93,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // thinkGeoLogo
             // 
             this.thinkGeoLogo.AutoSize = true;
+            this.thinkGeoLogo.Checked = true;
             this.thinkGeoLogo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.thinkGeoLogo.ForeColor = System.Drawing.Color.White;
             this.thinkGeoLogo.Location = new System.Drawing.Point(18, 70);

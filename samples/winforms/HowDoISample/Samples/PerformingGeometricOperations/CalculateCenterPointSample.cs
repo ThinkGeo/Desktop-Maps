@@ -156,7 +156,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.bboxCenter.Name = "bboxCenter";
             this.bboxCenter.Size = new System.Drawing.Size(235, 24);
             this.bboxCenter.TabIndex = 3;
-            this.bboxCenter.TabStop = true;
             this.bboxCenter.Text = "Show Bounding Box Center";
             this.bboxCenter.UseVisualStyleBackColor = true;
             this.bboxCenter.CheckedChanged += new System.EventHandler(this.bboxCenter_CheckedChanged);
@@ -164,6 +163,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // centroidCenter
             // 
             this.centroidCenter.AutoSize = true;
+            this.centroidCenter.Checked = true;
             this.centroidCenter.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.centroidCenter.ForeColor = System.Drawing.Color.White;
             this.centroidCenter.Location = new System.Drawing.Point(11, 101);

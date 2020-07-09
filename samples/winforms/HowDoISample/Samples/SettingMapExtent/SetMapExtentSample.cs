@@ -167,7 +167,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.latitude.Name = "latitude";
             this.latitude.Size = new System.Drawing.Size(100, 27);
             this.latitude.TabIndex = 16;
-            this.latitude.Text = "-98.82";
+            this.latitude.Text = "-96.82";
             // 
             // latlonZoom
             // 

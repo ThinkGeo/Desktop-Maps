@@ -148,7 +148,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.editShape.Name = "editShape";
             this.editShape.Size = new System.Drawing.Size(111, 24);
             this.editShape.TabIndex = 6;
-            this.editShape.TabStop = true;
             this.editShape.Text = "Edit Shape";
             this.editShape.UseVisualStyleBackColor = true;
             this.editShape.CheckedChanged += new System.EventHandler(this.editShape_CheckedChanged);
@@ -162,7 +161,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.deleteShape.Name = "deleteShape";
             this.deleteShape.Size = new System.Drawing.Size(122, 24);
             this.deleteShape.TabIndex = 5;
-            this.deleteShape.TabStop = true;
             this.deleteShape.Text = "deleteShape";
             this.deleteShape.UseVisualStyleBackColor = true;
             this.deleteShape.CheckedChanged += new System.EventHandler(this.deleteShape_CheckedChanged);
@@ -176,7 +174,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.drawPolygon.Name = "drawPolygon";
             this.drawPolygon.Size = new System.Drawing.Size(134, 24);
             this.drawPolygon.TabIndex = 4;
-            this.drawPolygon.TabStop = true;
             this.drawPolygon.Text = "Draw Polygon";
             this.drawPolygon.UseVisualStyleBackColor = true;
             this.drawPolygon.CheckedChanged += new System.EventHandler(this.drawPolygon_CheckedChanged);
@@ -190,7 +187,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.drawLine.Name = "drawLine";
             this.drawLine.Size = new System.Drawing.Size(107, 24);
             this.drawLine.TabIndex = 3;
-            this.drawLine.TabStop = true;
             this.drawLine.Text = "Draw Line";
             this.drawLine.UseVisualStyleBackColor = true;
             this.drawLine.CheckedChanged += new System.EventHandler(this.drawLine_CheckedChanged);
@@ -204,7 +200,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.drawPoint.Name = "drawPoint";
             this.drawPoint.Size = new System.Drawing.Size(113, 24);
             this.drawPoint.TabIndex = 2;
-            this.drawPoint.TabStop = true;
             this.drawPoint.Text = "Draw Point";
             this.drawPoint.UseVisualStyleBackColor = true;
             this.drawPoint.CheckedChanged += new System.EventHandler(this.drawPoint_CheckedChanged);
@@ -212,6 +207,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // navMode
             // 
             this.navMode.AutoSize = true;
+            this.navMode.Checked = true;
             this.navMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.navMode.ForeColor = System.Drawing.Color.White;
             this.navMode.Location = new System.Drawing.Point(25, 50);

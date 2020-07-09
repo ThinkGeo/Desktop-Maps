@@ -24,7 +24,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
+            mapView.CurrentExtent = new RectangleShape(-10782598.9806675, 3915669.09132595, -10772234.1196896, 3906343.77392696);
 
             // Create a layer with line data
             ShapeFileFeatureLayer friscoStreets = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Streets.shp");

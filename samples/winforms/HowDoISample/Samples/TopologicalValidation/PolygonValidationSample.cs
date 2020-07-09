@@ -131,10 +131,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.txtValidationInfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtValidationInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtValidationInfo.ForeColor = System.Drawing.Color.White;
-            this.txtValidationInfo.Location = new System.Drawing.Point(3, 308);
+            this.txtValidationInfo.Location = new System.Drawing.Point(22, 308);
             this.txtValidationInfo.Multiline = true;
             this.txtValidationInfo.Name = "txtValidationInfo";
-            this.txtValidationInfo.Size = new System.Drawing.Size(472, 170);
+            this.txtValidationInfo.Size = new System.Drawing.Size(438, 170);
             this.txtValidationInfo.TabIndex = 10;
             // 
             // rdoCheckPolygonsMustNotOverlapPolygons

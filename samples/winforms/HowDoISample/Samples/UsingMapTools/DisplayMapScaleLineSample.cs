@@ -75,8 +75,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // displayScaleLine
             // 
             this.displayScaleLine.AutoSize = true;
-            this.displayScaleLine.Checked = true;
-            this.displayScaleLine.CheckState = System.Windows.Forms.CheckState.Checked;
             this.displayScaleLine.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.displayScaleLine.ForeColor = System.Drawing.Color.White;
             this.displayScaleLine.Location = new System.Drawing.Point(23, 54);

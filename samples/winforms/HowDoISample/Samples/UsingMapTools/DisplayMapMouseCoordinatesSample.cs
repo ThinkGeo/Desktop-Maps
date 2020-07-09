@@ -91,12 +91,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.coordinateType.Name = "coordinateType";
             this.coordinateType.Size = new System.Drawing.Size(294, 28);
             this.coordinateType.TabIndex = 2;
-            this.coordinateType.Text = "(lat), (lon)";
             this.coordinateType.SelectedIndexChanged += new System.EventHandler(this.coordinateType_SelectedIndexChanged);
             // 
             // displayMouseCoordinates
             // 
             this.displayMouseCoordinates.AutoSize = true;
+            this.displayMouseCoordinates.Checked = true;
+            this.displayMouseCoordinates.CheckState = System.Windows.Forms.CheckState.Checked;
             this.displayMouseCoordinates.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.displayMouseCoordinates.ForeColor = System.Drawing.Color.White;
             this.displayMouseCoordinates.Location = new System.Drawing.Point(24, 65);

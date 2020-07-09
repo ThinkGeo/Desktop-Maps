@@ -78,11 +78,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             this.mapView = new ThinkGeo.UI.WinForms.MapView();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
             this.copyMode = new System.Windows.Forms.RadioButton();
             this.dragMode = new System.Windows.Forms.RadioButton();
             this.staticMode = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -119,6 +119,17 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Size = new System.Drawing.Size(300, 621);
             this.panel1.TabIndex = 1;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(145, 104);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(152, 20);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Using the Shift Key";
+            // 
             // copyMode
             // 
             this.copyMode.AutoSize = true;
@@ -128,7 +139,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.copyMode.Name = "copyMode";
             this.copyMode.Size = new System.Drawing.Size(114, 24);
             this.copyMode.TabIndex = 3;
-            this.copyMode.TabStop = true;
             this.copyMode.Text = "Copy Mode";
             this.copyMode.UseVisualStyleBackColor = true;
             this.copyMode.CheckedChanged += new System.EventHandler(this.copyMode_CheckedChanged);
@@ -142,7 +152,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.dragMode.Name = "dragMode";
             this.dragMode.Size = new System.Drawing.Size(113, 24);
             this.dragMode.TabIndex = 2;
-            this.dragMode.TabStop = true;
             this.dragMode.Text = "Drag Mode";
             this.dragMode.UseVisualStyleBackColor = true;
             this.dragMode.CheckedChanged += new System.EventHandler(this.dragMode_CheckedChanged);
@@ -150,6 +159,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // staticMode
             // 
             this.staticMode.AutoSize = true;
+            this.staticMode.Checked = true;
             this.staticMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.staticMode.ForeColor = System.Drawing.Color.White;
             this.staticMode.Location = new System.Drawing.Point(25, 46);
@@ -171,17 +181,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label1.Size = new System.Drawing.Size(225, 25);
             this.label1.TabIndex = 0;
             this.label1.Text = "MarkerOverlay Controls:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(145, 104);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(152, 20);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Using the Shift Key";
             // 
             // UsingMarkersSample
             // 

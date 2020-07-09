@@ -175,7 +175,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void lblGoogleMapsLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo("https://cloud.thinkgeo.com/"));
+            Process.Start(new ProcessStartInfo("https://developers.google.com/maps/documentation/maps-static/get-api-key"));
         }
 
         private void displayGoogleMaps_Click(object sender, EventArgs e)
