@@ -63,102 +63,102 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             queryShapeFeatureLayer.InternalFeatures.Add(new Feature(sampleShape));
 
             // Run the world maps query
-           //PerformWorldMapsQuery();
+            PerformWorldMapsQuery();
         }
 
-        //private async void PerformWorldMapsQuery()
-        //{
-        //    //Get the feature layers from the MapView
+        private async void PerformWorldMapsQuery()
+        {
+            //Get the feature layers from the MapView
 
-        //   LayerOverlay queriedFeaturesOverlay = (LayerOverlay)mapView.Overlays["Queried Features Overlay"];
-        //    InMemoryFeatureLayer queryShapeFeatureLayer = (InMemoryFeatureLayer)queriedFeaturesOverlay.Layers["Query Shape Layer"];
-        //    InMemoryFeatureLayer queriedFeaturesLayer = (InMemoryFeatureLayer)queriedFeaturesOverlay.Layers["Queried Features Layer"];
+            LayerOverlay queriedFeaturesOverlay = (LayerOverlay)mapView.Overlays["Queried Features Overlay"];
+            InMemoryFeatureLayer queryShapeFeatureLayer = (InMemoryFeatureLayer)queriedFeaturesOverlay.Layers["Query Shape Layer"];
+            InMemoryFeatureLayer queriedFeaturesLayer = (InMemoryFeatureLayer)queriedFeaturesOverlay.Layers["Queried Features Layer"];
 
-        //   // Show an error if trying to query with no query shape
-        //    if (queryShapeFeatureLayer.InternalFeatures.Count == 0)
-        //    {
-        //        MessageBox.Show("Please draw a shape to use for the query", "Error");
-        //        return;
-        //    }
+            // Show an error if trying to query with no query shape
+            if (queryShapeFeatureLayer.InternalFeatures.Count == 0)
+            {
+                MessageBox.Show("Please draw a shape to use for the query", "Error");
+                return;
+            }
 
-        //    //Set the MapsQuery parameters based on the drawn query shape and the UI
-        //   BaseShape queryShape = queryShapeFeatureLayer.InternalFeatures[0].GetShape();
-        //    int projectionInSrid = 3857;
-        //    string queryLayer = ((ComboBoxItem)cboQueryLayer.SelectedItem).Content.ToString().ToLower();
+            //Set the MapsQuery parameters based on the drawn query shape and the UI
+            BaseShape queryShape = queryShapeFeatureLayer.InternalFeatures[0].GetShape();
+            int projectionInSrid = 3857;
+            string queryLayer = cboQueryLayer.SelectedItem.ToString().ToLower();
 
-        //    CloudMapsQueryResult result = new CloudMapsQueryResult();
+            CloudMapsQueryResult result = new CloudMapsQueryResult();
 
-        //    //Show a loading graphic to let users know the request is running
-        //  //loadingImage.Visibility = Visibility.Visible;
+            //Show a loading graphic to let users know the request is running
+            //loadingImage.Visibility = Visibility.Visible;
 
-        //    //Perform the world maps query
-        //    try
-        //    {
-        //        switch (((ComboBoxItem)cboQueryType.SelectedItem).Content.ToString())
-        //        {
-        //            case "Containing":
-        //                result = await mapsQueryCloudClient.GetFeaturesContainingAsync(queryLayer, queryShape, projectionInSrid, new CloudMapsQuerySpatialQueryOptions() { MaxResults = (int)maxResults.Value });
-        //                break;
-        //            case "Nearest":
-        //                result = await mapsQueryCloudClient.GetFeaturesNearestAsync(queryLayer, queryShape, projectionInSrid, (int)maxResults.Value);
-        //                break;
-        //            case "Intersecting":
-        //                result = await mapsQueryCloudClient.GetFeaturesIntersectingAsync(queryLayer, queryShape, projectionInSrid, new CloudMapsQuerySpatialQueryOptions() { MaxResults = (int)maxResults.Value });
-        //                break;
-        //            case "Overlapping":
-        //                result = await mapsQueryCloudClient.GetFeaturesOverlappingAsync(queryLayer, queryShape, projectionInSrid, new CloudMapsQuerySpatialQueryOptions() { MaxResults = (int)maxResults.Value });
-        //                break;
-        //            case "Within":
-        //                result = await mapsQueryCloudClient.GetFeaturesWithinAsync(queryLayer, queryShape, projectionInSrid, new CloudMapsQuerySpatialQueryOptions() { MaxResults = (int)maxResults.Value });
-        //                break;
-        //            default:
-        //                break;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        //Handle any errors returned from the maps query service
-        //        if (ex is ArgumentException)
-        //        {
-        //            MessageBox.Show(string.Format("{0} {1}", ex.InnerException.Message, ex.Message), "Invalid Request");
-        //            mapView.Refresh();
-        //            return;
-        //        }
-        //        else
-        //        {
-        //            MessageBox.Show(ex.Message, "Unexpected Error");
-        //            mapView.Refresh();
-        //            return;
-        //        }
-        //    }
-        //    finally
-        //    {
-        //       // Hide the loading graphic
-        //        //loadingImage.Visibility = Visibility.Hidden;
-        //    }
+            //Perform the world maps query
+            try
+            {
+                switch (cboQueryType.SelectedItem.ToString())
+                {
+                    case "Containing":
+                        result = await mapsQueryCloudClient.GetFeaturesContainingAsync(queryLayer, queryShape, projectionInSrid, new CloudMapsQuerySpatialQueryOptions() { MaxResults = (int)maxResults.Value });
+                        break;
+                    case "Nearest":
+                        result = await mapsQueryCloudClient.GetFeaturesNearestAsync(queryLayer, queryShape, projectionInSrid, (int)maxResults.Value);
+                        break;
+                    case "Intersecting":
+                        result = await mapsQueryCloudClient.GetFeaturesIntersectingAsync(queryLayer, queryShape, projectionInSrid, new CloudMapsQuerySpatialQueryOptions() { MaxResults = (int)maxResults.Value });
+                        break;
+                    case "Overlapping":
+                        result = await mapsQueryCloudClient.GetFeaturesOverlappingAsync(queryLayer, queryShape, projectionInSrid, new CloudMapsQuerySpatialQueryOptions() { MaxResults = (int)maxResults.Value });
+                        break;
+                    case "Within":
+                        result = await mapsQueryCloudClient.GetFeaturesWithinAsync(queryLayer, queryShape, projectionInSrid, new CloudMapsQuerySpatialQueryOptions() { MaxResults = (int)maxResults.Value });
+                        break;
+                    default:
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                //Handle any errors returned from the maps query service
+                if (ex is ArgumentException)
+                {
+                    MessageBox.Show(string.Format("{0} {1}", ex.InnerException.Message, ex.Message), "Invalid Request");
+                    mapView.Refresh();
+                    return;
+                }
+                else
+                {
+                    MessageBox.Show(ex.Message, "Unexpected Error");
+                    mapView.Refresh();
+                    return;
+                }
+            }
+            finally
+            {
+                // Hide the loading graphic
+                //loadingImage.Visibility = Visibility.Hidden;
+            }
 
-        //    if (result.Features.Count > 0)
-        //    {
-        //        //Add any features found by the query to the map
-        //        foreach (Feature feature in result.Features)
-        //        {
-        //            queriedFeaturesLayer.InternalFeatures.Add(feature);
-        //        }
+            if (result.Features.Count > 0)
+            {
+                //Add any features found by the query to the map
+                foreach (Feature feature in result.Features)
+                {
+                    queriedFeaturesLayer.InternalFeatures.Add(feature);
+                }
 
-        //       // Set the map extent to the extent of the query shape
-        //        queryShapeFeatureLayer.Open();
-        //        mapView.CurrentExtent = queryShapeFeatureLayer.GetBoundingBox();
-        //        mapView.ZoomToScale(mapView.CurrentScale * 2);
-        //        queryShapeFeatureLayer.Close();
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("No features found in the selected area");
-        //    }
+                // Set the map extent to the extent of the query shape
+                queryShapeFeatureLayer.Open();
+                mapView.CurrentExtent = queryShapeFeatureLayer.GetBoundingBox();
+                mapView.ZoomToScale(mapView.CurrentScale * 2);
+                queryShapeFeatureLayer.Close();
+            }
+            else
+            {
+                MessageBox.Show("No features found in the selected area");
+            }
 
-        //    //Refresh and redraw the map
-        //    mapView.Refresh();
-        //}
+            //Refresh and redraw the map
+            mapView.Refresh();
+        }
 
         private void OnShapeDrawn(object sender, TrackEndedTrackInteractiveOverlayEventArgs e)
         {
@@ -174,7 +174,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             queryShapeFeatureLayer.InternalFeatures.Add(new Feature(e.TrackShape));
             queriedFeaturesOverlay.Refresh();
 
-           // PerformWorldMapsQuery();
+            PerformWorldMapsQuery();
         }
 
 
@@ -200,17 +200,17 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             this.mapView = new ThinkGeo.UI.WinForms.MapView();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.cboQueryLayer = new System.Windows.Forms.ComboBox();
-            this.cboQueryType = new System.Windows.Forms.ComboBox();
-            this.maxResults = new System.Windows.Forms.TrackBar();
-            this.txtMaximumResults = new System.Windows.Forms.TextBox();
-            this.btnDrawNewPointAndQuery = new System.Windows.Forms.Button();
-            this.btnDrawNewLineAndQuery = new System.Windows.Forms.Button();
             this.btnDrawNewPolygonAndQuery = new System.Windows.Forms.Button();
+            this.btnDrawNewLineAndQuery = new System.Windows.Forms.Button();
+            this.btnDrawNewPointAndQuery = new System.Windows.Forms.Button();
+            this.txtMaximumResults = new System.Windows.Forms.TextBox();
+            this.maxResults = new System.Windows.Forms.TrackBar();
+            this.cboQueryType = new System.Windows.Forms.ComboBox();
+            this.cboQueryLayer = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.maxResults)).BeginInit();
             this.SuspendLayout();
@@ -253,94 +253,15 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Size = new System.Drawing.Size(302, 673);
             this.panel1.TabIndex = 1;
             // 
-            // label1
+            // btnDrawNewPolygonAndQuery
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(18, 21);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(259, 25);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Query World Maps Features";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(18, 56);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(106, 20);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Query Layer:";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(18, 94);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(100, 20);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Query Type:";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(18, 134);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(148, 20);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "Maximum Results:";
-            // 
-            // cboQueryLayer
-            // 
-            this.cboQueryLayer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.cboQueryLayer.FormattingEnabled = true;
-            this.cboQueryLayer.Location = new System.Drawing.Point(164, 52);
-            this.cboQueryLayer.Name = "cboQueryLayer";
-            this.cboQueryLayer.Size = new System.Drawing.Size(135, 28);
-            this.cboQueryLayer.TabIndex = 4;
-            // 
-            // cboQueryType
-            // 
-            this.cboQueryType.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.cboQueryType.FormattingEnabled = true;
-            this.cboQueryType.Location = new System.Drawing.Point(164, 94);
-            this.cboQueryType.Name = "cboQueryType";
-            this.cboQueryType.Size = new System.Drawing.Size(135, 28);
-            this.cboQueryType.TabIndex = 5;
-            // 
-            // maxResults
-            // 
-            this.maxResults.Location = new System.Drawing.Point(22, 157);
-            this.maxResults.Maximum = 1000;
-            this.maxResults.Name = "maxResults";
-            this.maxResults.Size = new System.Drawing.Size(227, 56);
-            this.maxResults.TabIndex = 6;
-            this.maxResults.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.maxResults.Value = 100;
-            // 
-            // txtMaximumResults
-            // 
-            this.txtMaximumResults.Location = new System.Drawing.Point(252, 157);
-            this.txtMaximumResults.Name = "txtMaximumResults";
-            this.txtMaximumResults.Size = new System.Drawing.Size(47, 22);
-            this.txtMaximumResults.TabIndex = 7;
-            // 
-            // btnDrawNewPointAndQuery
-            // 
-            this.btnDrawNewPointAndQuery.Location = new System.Drawing.Point(3, 190);
-            this.btnDrawNewPointAndQuery.Name = "btnDrawNewPointAndQuery";
-            this.btnDrawNewPointAndQuery.Size = new System.Drawing.Size(296, 33);
-            this.btnDrawNewPointAndQuery.TabIndex = 8;
-            this.btnDrawNewPointAndQuery.Text = "Draw New Point And Query";
-            this.btnDrawNewPointAndQuery.UseVisualStyleBackColor = true;
-            this.btnDrawNewPointAndQuery.Click += new System.EventHandler(this.btnDrawNewPointAndQuery_Click);
+            this.btnDrawNewPolygonAndQuery.Location = new System.Drawing.Point(3, 268);
+            this.btnDrawNewPolygonAndQuery.Name = "btnDrawNewPolygonAndQuery";
+            this.btnDrawNewPolygonAndQuery.Size = new System.Drawing.Size(296, 33);
+            this.btnDrawNewPolygonAndQuery.TabIndex = 10;
+            this.btnDrawNewPolygonAndQuery.Text = "Draw New Polygon And Query";
+            this.btnDrawNewPolygonAndQuery.UseVisualStyleBackColor = true;
+            this.btnDrawNewPolygonAndQuery.Click += new System.EventHandler(this.btnDrawNewPolygonAndQuery_Click);
             // 
             // btnDrawNewLineAndQuery
             // 
@@ -352,15 +273,115 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.btnDrawNewLineAndQuery.UseVisualStyleBackColor = true;
             this.btnDrawNewLineAndQuery.Click += new System.EventHandler(this.btnDrawNewLineAndQuery_Click);
             // 
-            // btnDrawNewPolygonAndQuery
+            // btnDrawNewPointAndQuery
             // 
-            this.btnDrawNewPolygonAndQuery.Location = new System.Drawing.Point(3, 268);
-            this.btnDrawNewPolygonAndQuery.Name = "btnDrawNewPolygonAndQuery";
-            this.btnDrawNewPolygonAndQuery.Size = new System.Drawing.Size(296, 33);
-            this.btnDrawNewPolygonAndQuery.TabIndex = 10;
-            this.btnDrawNewPolygonAndQuery.Text = "Draw New Polygon And Query";
-            this.btnDrawNewPolygonAndQuery.UseVisualStyleBackColor = true;
-            this.btnDrawNewPolygonAndQuery.Click += new System.EventHandler(this.btnDrawNewPolygonAndQuery_Click);
+            this.btnDrawNewPointAndQuery.Location = new System.Drawing.Point(3, 190);
+            this.btnDrawNewPointAndQuery.Name = "btnDrawNewPointAndQuery";
+            this.btnDrawNewPointAndQuery.Size = new System.Drawing.Size(296, 33);
+            this.btnDrawNewPointAndQuery.TabIndex = 8;
+            this.btnDrawNewPointAndQuery.Text = "Draw New Point And Query";
+            this.btnDrawNewPointAndQuery.UseVisualStyleBackColor = true;
+            this.btnDrawNewPointAndQuery.Click += new System.EventHandler(this.btnDrawNewPointAndQuery_Click);
+            // 
+            // txtMaximumResults
+            // 
+            this.txtMaximumResults.Location = new System.Drawing.Point(252, 157);
+            this.txtMaximumResults.Name = "txtMaximumResults";
+            this.txtMaximumResults.Size = new System.Drawing.Size(47, 22);
+            this.txtMaximumResults.TabIndex = 7;
+            // 
+            // maxResults
+            // 
+            this.maxResults.Location = new System.Drawing.Point(22, 157);
+            this.maxResults.Maximum = 1000;
+            this.maxResults.Name = "maxResults";
+            this.maxResults.Size = new System.Drawing.Size(227, 45);
+            this.maxResults.TabIndex = 6;
+            this.maxResults.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.maxResults.Value = 100;
+            // 
+            // cboQueryType
+            // 
+            this.cboQueryType.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.cboQueryType.FormattingEnabled = true;
+            this.cboQueryType.Items.AddRange(new object[] {
+            "Intersecting",
+            "Nearest",
+            "Overlapping",
+            "Within"});
+            this.cboQueryType.Location = new System.Drawing.Point(164, 94);
+            this.cboQueryType.Name = "cboQueryType";
+            this.cboQueryType.Size = new System.Drawing.Size(135, 24);
+            this.cboQueryType.TabIndex = 5;
+            this.cboQueryType.Text = "Intersecting";
+            // 
+            // cboQueryLayer
+            // 
+            this.cboQueryLayer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.cboQueryLayer.FormattingEnabled = true;
+            this.cboQueryLayer.Items.AddRange(new object[] {
+            "Buildings",
+            "Countries",
+            "States",
+            "Roads",
+            "Rail",
+            "Addresses",
+            "Cities",
+            "Land-Use",
+            "Places",
+            "POIs",
+            "Transport",
+            "Water",
+            "Waterways"});
+            this.cboQueryLayer.Location = new System.Drawing.Point(164, 52);
+            this.cboQueryLayer.Name = "cboQueryLayer";
+            this.cboQueryLayer.Size = new System.Drawing.Size(135, 24);
+            this.cboQueryLayer.TabIndex = 4;
+            this.cboQueryLayer.Text = "Buildings";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label4.ForeColor = System.Drawing.Color.White;
+            this.label4.Location = new System.Drawing.Point(18, 134);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(121, 17);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "Maximum Results:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(18, 94);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(87, 17);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Query Type:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(18, 56);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(91, 17);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Query Layer:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(18, 21);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(207, 20);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Query World Maps Features";
             // 
             // WorldMapsQueryCloudServicesSample
             // 
@@ -416,8 +437,5 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             queryShapeFeatureLayer.InternalFeatures.Clear();
             queriedFeaturesOverlay.Refresh();
         }
-
-
-
     }
 }
