@@ -35,6 +35,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(staticOverlay);
         }
 
+        private Panel panel1;
+        private ListBox lsbRouteSegments;
+        private Label label1;
+
         #region Component Designer generated code
 
         private MapView mapView;
@@ -42,6 +46,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private void InitializeComponent()
         {
             this.mapView = new ThinkGeo.UI.WinForms.MapView();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lsbRouteSegments = new System.Windows.Forms.ListBox();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // mapView
@@ -58,15 +66,53 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotatedAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(1176, 600);
+            this.mapView.Size = new System.Drawing.Size(869, 600);
             this.mapView.TabIndex = 0;
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.BackColor = System.Drawing.Color.Gray;
+            this.panel1.Controls.Add(this.lsbRouteSegments);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Location = new System.Drawing.Point(875, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(301, 599);
+            this.panel1.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(9, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(289, 50);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Find the Optimal Route Through\r\na Set of Waypoints";
+            // 
+            // lsbRouteSegments
+            // 
+            this.lsbRouteSegments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lsbRouteSegments.FormattingEnabled = true;
+            this.lsbRouteSegments.ItemHeight = 16;
+            this.lsbRouteSegments.Location = new System.Drawing.Point(14, 62);
+            this.lsbRouteSegments.Name = "lsbRouteSegments";
+            this.lsbRouteSegments.Size = new System.Drawing.Size(270, 532);
+            this.lsbRouteSegments.TabIndex = 1;
             // 
             // RoutingTSPCloudServicesSample
             // 
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.mapView);
             this.Name = "RoutingTSPCloudServicesSample";
             this.Size = new System.Drawing.Size(1176, 599);
             this.Load += new System.EventHandler(this.Form_Load);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
