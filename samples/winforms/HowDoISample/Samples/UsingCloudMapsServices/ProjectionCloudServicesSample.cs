@@ -49,36 +49,37 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Initialize the ProjectionCloudClient with our ThinkGeo Cloud credentials
             projectionCloudClient = new ProjectionCloudClient("FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~", "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~");
+            txtWKT.Text = "POINT(-96.834516 33.150083) LINESTRING(-96.83559 33.149, -96.835866046134 33.1508413556856, -96.835793626491 33.1508974965687, -96.8336008970734 33.1511063402186, -96.83356 33.15109, -96.83328 33.14922) POLYGON((-96.83582 33.1508, -96.83578 33.15046, -96.83353 33.15068, -96.83358 33.15102, -96.83582 33.1508))";
         }
 
-        //private async Task<Feature> ReprojectAFeature(Feature decimalDegreeFeature)
-        //{
-        //    // Show a loading graphic to let users know the request is running
+        private async Task<Feature> ReprojectAFeature(Feature decimalDegreeFeature)
+        {
+            // Show a loading graphic to let users know the request is running
         //    loadingImage.Visibility = Visibility.Visible;
 
-        //    Feature reprojectedFeature = await projectionCloudClient.ProjectAsync(decimalDegreeFeature, 4326, 3857);
+            Feature reprojectedFeature = await projectionCloudClient.ProjectAsync(decimalDegreeFeature, 4326, 3857);
 
-        //    // Hide the loading graphic
+            // Hide the loading graphic
         //    loadingImage.Visibility = Visibility.Hidden;
 
-        //    return reprojectedFeature;
-        //}
+            return reprojectedFeature;
+        }
 
-        ///// <summary>
-        ///// Use the ProjectionCloudClient to reproject multiple features
-        ///// </summary>
-        //private async Task<Collection<Feature>> ReprojectMultipleFeatures(Collection<Feature> decimalDegreeFeatures)
-        //{
-        //    // Show a loading graphic to let users know the request is running
-        //    loadingImage.Visibility = Visibility.Visible;
+        /// <summary>
+        /// Use the ProjectionCloudClient to reproject multiple features
+        /// </summary>
+        private async Task<Collection<Feature>> ReprojectMultipleFeatures(Collection<Feature> decimalDegreeFeatures)
+        {
+            // Show a loading graphic to let users know the request is running
+          //  loadingImage.Visibility = Visibility.Visible;
 
-        //    Collection<Feature> reprojectedFeatures = await projectionCloudClient.ProjectAsync(decimalDegreeFeatures, 4326, 3857);
+            Collection<Feature> reprojectedFeatures = await projectionCloudClient.ProjectAsync(decimalDegreeFeatures, 4326, 3857);
 
-        //    // Hide the loading graphic
-        //    loadingImage.Visibility = Visibility.Hidden;
+            // Hide the loading graphic
+           // loadingImage.Visibility = Visibility.Hidden;
 
-        //    return reprojectedFeatures;
-        //}
+            return reprojectedFeatures;
+        }
 
         private void ClearMapAndAddFeatures(Collection<Feature> features)
         {
@@ -116,13 +117,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProjectionCloudServicesSample));
             this.mapView = new ThinkGeo.UI.WinForms.MapView();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.btnReprojectFeature = new System.Windows.Forms.Button();
-            this.txtWKT = new System.Windows.Forms.TextBox();
             this.btnReprojectFeatures = new System.Windows.Forms.Button();
+            this.txtWKT = new System.Windows.Forms.TextBox();
+            this.btnReprojectFeature = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -155,16 +155,25 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Size = new System.Drawing.Size(335, 596);
             this.panel1.TabIndex = 1;
             // 
-            // label1
+            // btnReprojectFeatures
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(21, 21);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(291, 25);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Using Cloud Projection Services";
+            this.btnReprojectFeatures.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.btnReprojectFeatures.Location = new System.Drawing.Point(4, 398);
+            this.btnReprojectFeatures.Name = "btnReprojectFeatures";
+            this.btnReprojectFeatures.Size = new System.Drawing.Size(331, 33);
+            this.btnReprojectFeatures.TabIndex = 3;
+            this.btnReprojectFeatures.Text = "Reproject and Display Multiple Features";
+            this.btnReprojectFeatures.UseVisualStyleBackColor = true;
+            this.btnReprojectFeatures.Click += new System.EventHandler(this.btnReprojectFeatures_Click);
+            // 
+            // txtWKT
+            // 
+            this.txtWKT.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.txtWKT.Location = new System.Drawing.Point(4, 111);
+            this.txtWKT.Multiline = true;
+            this.txtWKT.Name = "txtWKT";
+            this.txtWKT.Size = new System.Drawing.Size(328, 281);
+            this.txtWKT.TabIndex = 2;
             // 
             // btnReprojectFeature
             // 
@@ -177,26 +186,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.btnReprojectFeature.UseVisualStyleBackColor = true;
             this.btnReprojectFeature.Click += new System.EventHandler(this.btnReprojectFeature_Click);
             // 
-            // txtWKT
+            // label1
             // 
-            this.txtWKT.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.txtWKT.Location = new System.Drawing.Point(4, 111);
-            this.txtWKT.Multiline = true;
-            this.txtWKT.Name = "txtWKT";
-            this.txtWKT.Size = new System.Drawing.Size(328, 281);
-            this.txtWKT.TabIndex = 2;
-            this.txtWKT.Text = resources.GetString("txtWKT.Text");
-            // 
-            // btnReprojectFeatures
-            // 
-            this.btnReprojectFeatures.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.btnReprojectFeatures.Location = new System.Drawing.Point(4, 398);
-            this.btnReprojectFeatures.Name = "btnReprojectFeatures";
-            this.btnReprojectFeatures.Size = new System.Drawing.Size(331, 33);
-            this.btnReprojectFeatures.TabIndex = 3;
-            this.btnReprojectFeatures.Text = "Reproject and Display Multiple Features";
-            this.btnReprojectFeatures.UseVisualStyleBackColor = true;
-            this.btnReprojectFeatures.Click += new System.EventHandler(this.btnReprojectFeatures_Click);
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(21, 21);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(291, 25);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Using Cloud Projection Services";
             // 
             // ProjectionCloudServicesSample
             // 
@@ -215,40 +214,39 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void btnReprojectFeature_Click(object sender, EventArgs e)
         {
-        //    // Create a feature with coordinates in Decimal Degrees (4326)
-        //    Feature decimalDegreeFeature = new Feature(-96.834516, 33.150083);
+            // Create a feature with coordinates in Decimal Degrees (4326)
+            Feature decimalDegreeFeature = new Feature(-96.834516, 33.150083);
 
-        //    // Use the ProjectionCloudClient to convert between Decimal Degrees (4326) and Spherical Mercator (3857)
-        //    Feature sphericalMercatorFeature = await ReprojectAFeature(decimalDegreeFeature);
+            // Use the ProjectionCloudClient to convert between Decimal Degrees (4326) and Spherical Mercator (3857)
+            Feature sphericalMercatorFeature = await ReprojectAFeature(decimalDegreeFeature);
 
-        //    // Add the reprojected features to the map
-        //    ClearMapAndAddFeatures(new Collection<Feature>() { sphericalMercatorFeature });
+            // Add the reprojected features to the map
+            ClearMapAndAddFeatures(new Collection<Feature>() { sphericalMercatorFeature });
         }
 
         private async void btnReprojectFeatures_Click(object sender, EventArgs e)
         {
-        //    // Create features based on the WKT in the textbox in the UI
-        //    Collection<Feature> decimalDegreeFeatures = new Collection<Feature>();
-        //    string[] wktStrings = txtWKT.Text.Split('\n');
-        //    foreach (string wktString in wktStrings)
-        //    {
-        //        try
-        //        {
-        //            Feature wktFeature = new Feature(wktString);
-        //            decimalDegreeFeatures.Add(wktFeature);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            MessageBox.Show(ex.Message, "Error");
-        //        }
-        //    }
+            // Create features based on the WKT in the textbox in the UI
+            Collection<Feature> decimalDegreeFeatures = new Collection<Feature>();
+            string[] wktStrings = txtWKT.Text.Split('\n');
+            foreach (string wktString in wktStrings)
+            {
+                try
+                {
+                    Feature wktFeature = new Feature(wktString);
+                    decimalDegreeFeatures.Add(wktFeature);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error");
+                }
+            }
 
-        //    // Use the ProjectionCloudClient to convert between Decimal Degrees (4326) and Spherical Mercator (3857)
-        //    Collection<Feature> sphericalMercatorFeatures = await ReprojectMultipleFeatures(decimalDegreeFeatures);
+            // Use the ProjectionCloudClient to convert between Decimal Degrees (4326) and Spherical Mercator (3857)
+            Collection<Feature> sphericalMercatorFeatures = await ReprojectMultipleFeatures(decimalDegreeFeatures);
 
-        //    // Add the reprojected features to the map
-        //    ClearMapAndAddFeatures(sphericalMercatorFeatures);
-
+            // Add the reprojected features to the map
+            ClearMapAndAddFeatures(sphericalMercatorFeatures);
         }
     }
 }

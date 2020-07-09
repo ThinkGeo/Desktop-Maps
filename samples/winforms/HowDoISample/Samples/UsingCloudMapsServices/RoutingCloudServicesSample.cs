@@ -110,7 +110,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Set the data source for the list box to the route segments
             lsbRouteSegments.DataSource = routeSegments;
-            lsbRouteSegments.DisplayMember = "Distance";
+            lsbRouteSegments.DisplayMember = "Instructions";
 
             // Set the map extent to the newly displayed route
             routingLayer.Open();
@@ -165,8 +165,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             this.mapView = new ThinkGeo.UI.WinForms.MapView();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
             this.lsbRouteSegments = new System.Windows.Forms.ListBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -199,6 +199,19 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Size = new System.Drawing.Size(301, 556);
             this.panel1.TabIndex = 1;
             // 
+            // lsbRouteSegments
+            // 
+            this.lsbRouteSegments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lsbRouteSegments.FormattingEnabled = true;
+            this.lsbRouteSegments.ItemHeight = 16;
+            this.lsbRouteSegments.Location = new System.Drawing.Point(3, 85);
+            this.lsbRouteSegments.Name = "lsbRouteSegments";
+            this.lsbRouteSegments.Size = new System.Drawing.Size(295, 468);
+            this.lsbRouteSegments.TabIndex = 1;
+            this.lsbRouteSegments.SelectedIndexChanged += new System.EventHandler(this.lsbRouteSegments_SelectedIndexChanged);
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -209,16 +222,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label1.Size = new System.Drawing.Size(201, 50);
             this.label1.TabIndex = 0;
             this.label1.Text = "Make a Turn-By-Turn\r\nRouting Request";
-            // 
-            // lsbRouteSegments
-            // 
-            this.lsbRouteSegments.FormattingEnabled = true;
-            this.lsbRouteSegments.ItemHeight = 16;
-            this.lsbRouteSegments.Location = new System.Drawing.Point(3, 85);
-            this.lsbRouteSegments.Name = "lsbRouteSegments";
-            this.lsbRouteSegments.Size = new System.Drawing.Size(295, 468);
-            this.lsbRouteSegments.TabIndex = 1;
-            this.lsbRouteSegments.SelectedIndexChanged += new System.EventHandler(this.lsbRouteSegments_SelectedIndexChanged);
             // 
             // RoutingCloudServicesSample
             // 
