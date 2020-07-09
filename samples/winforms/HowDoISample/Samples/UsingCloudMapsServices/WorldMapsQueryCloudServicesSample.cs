@@ -138,18 +138,17 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
 
             if (result.Features.Count > 0)
-            {
+            {                
                 //Add any features found by the query to the map
                 foreach (Feature feature in result.Features)
                 {
                     queriedFeaturesLayer.InternalFeatures.Add(feature);
-                }
+                }                
 
-                // Set the map extent to the extent of the query shape
-                queryShapeFeatureLayer.Open();
-                mapView.CurrentExtent = queryShapeFeatureLayer.GetBoundingBox();
-                mapView.ZoomToScale(mapView.CurrentScale * 2);
-                queryShapeFeatureLayer.Close();
+                // Set the map extent to the extent of the query results
+                queriedFeaturesLayer.Open();
+                mapView.CurrentExtent = queriedFeaturesLayer.GetBoundingBox();
+                queriedFeaturesLayer.Close();
             }
             else
             {
