@@ -51,6 +51,30 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add("layerOverlay", layerOverlay);
         }
 
+        private void simplifyShape_Click(object sender, EventArgs e)
+        {
+            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
+
+            ShapeFileFeatureLayer cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
+            InMemoryFeatureLayer simplifyLayer = (InMemoryFeatureLayer)layerOverlay.Layers["simplifyLayer"];
+
+            // Query the cityLimits layer to get all the features
+            cityLimits.Open();
+            var features = cityLimits.QueryTools.GetAllFeatures(ReturningColumnsType.NoColumns);
+            cityLimits.Close();
+
+            // Simplify the first feature using the Douglas Peucker method
+            var simplify = AreaBaseShape.Simplify(features[0].GetShape() as AreaBaseShape, Convert.ToInt32(tolerance.Text), SimplificationType.DouglasPeucker);
+
+            // Add the simplified shape into simplifyLayer to display the result.
+            // If this were to be a permanent change to the cityLimits FeatureSource, you would modify the underlying data using BeginTransaction and CommitTransaction instead.
+            simplifyLayer.InternalFeatures.Clear();
+            simplifyLayer.InternalFeatures.Add(new Feature(simplify));
+
+            // Redraw the layerOverlay to see the simplified feature on the map
+            layerOverlay.Refresh();
+        }
+
         private Panel panel1;
         private Button simplifyShape;
         private TextBox tolerance;
@@ -74,8 +98,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -91,7 +115,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.simplifyShape);
@@ -159,29 +183,5 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         }
 
         #endregion Component Designer generated code
-
-        private void simplifyShape_Click(object sender, EventArgs e)
-        {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
-
-            ShapeFileFeatureLayer cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
-            InMemoryFeatureLayer simplifyLayer = (InMemoryFeatureLayer)layerOverlay.Layers["simplifyLayer"];
-
-            // Query the cityLimits layer to get all the features
-            cityLimits.Open();
-            var features = cityLimits.QueryTools.GetAllFeatures(ReturningColumnsType.NoColumns);
-            cityLimits.Close();
-
-            // Simplify the first feature using the Douglas Peucker method
-            var simplify = AreaBaseShape.Simplify(features[0].GetShape() as AreaBaseShape, Convert.ToInt32(tolerance.Text), SimplificationType.DouglasPeucker);
-
-            // Add the simplified shape into simplifyLayer to display the result.
-            // If this were to be a permanent change to the cityLimits FeatureSource, you would modify the underlying data using BeginTransaction and CommitTransaction instead.
-            simplifyLayer.InternalFeatures.Clear();
-            simplifyLayer.InternalFeatures.Add(new Feature(simplify));
-
-            // Redraw the layerOverlay to see the simplified feature on the map
-            layerOverlay.Refresh();
-        }
     }
 }

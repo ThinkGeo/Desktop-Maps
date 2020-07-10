@@ -25,6 +25,18 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
         }
 
+        private void lblGoogleMapsLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo("https://developers.google.com/maps/documentation/maps-static/get-api-key"));
+        }
+
+        private void displayGoogleMaps_Click(object sender, EventArgs e)
+        {
+            GoogleMapsOverlay googleMapsOverlay = new GoogleMapsOverlay(googleApiKey.Text, googleSigningSecret.Text);
+            mapView.Overlays.Add(googleMapsOverlay);
+            mapView.Refresh();
+        }
+
         private Panel panel1;
         private Button displayGoogleMaps;
         private TextBox googleSigningSecret;
@@ -34,7 +46,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private LinkLabel lblGoogleMapsLink;
         private Label label1;
 
-        #region Component Designer generated code
 
         private MapView mapView;
 
@@ -54,8 +65,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -71,7 +82,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.displayGoogleMaps);
@@ -170,19 +181,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-
+        #region Component Designer generated code
         #endregion Component Designer generated code
 
-        private void lblGoogleMapsLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start(new ProcessStartInfo("https://developers.google.com/maps/documentation/maps-static/get-api-key"));
-        }
-
-        private void displayGoogleMaps_Click(object sender, EventArgs e)
-        {
-            GoogleMapsOverlay googleMapsOverlay = new GoogleMapsOverlay(googleApiKey.Text, googleSigningSecret.Text);
-            mapView.Overlays.Add(googleMapsOverlay);
-            mapView.Refresh();
-        }
     }
 }

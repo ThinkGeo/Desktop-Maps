@@ -63,14 +63,49 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add("hotelMarkers", hotelMarkers);
         }
 
+        private void staticMode_CheckedChanged(object sender, EventArgs e)
+        {
+            SimpleMarkerOverlay simpleMarkerOverlay = (SimpleMarkerOverlay)mapView.Overlays["simpleMarkerOverlay"];
+            simpleMarkerOverlay.DragMode = MarkerDragMode.None;
+        }
+
+        private void dragMode_CheckedChanged(object sender, EventArgs e)
+        {
+            SimpleMarkerOverlay simpleMarkerOverlay = (SimpleMarkerOverlay)mapView.Overlays["simpleMarkerOverlay"];
+            simpleMarkerOverlay.DragMode = MarkerDragMode.Drag;
+        }
+
+        private void copyMode_CheckedChanged(object sender, EventArgs e)
+        {
+            SimpleMarkerOverlay simpleMarkerOverlay = (SimpleMarkerOverlay)mapView.Overlays["simpleMarkerOverlay"];
+            simpleMarkerOverlay.DragMode = MarkerDragMode.CopyWithShiftKey;
+        }
+
+        private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        {
+            SimpleMarkerOverlay simpleMarkerOverlay = (SimpleMarkerOverlay)mapView.Overlays["simpleMarkerOverlay"];
+
+            // Create a marker at the position the mouse was clicked
+            var marker = new Marker(e.WorldLocation)
+            {
+                ImageSource = new BitmapImage(new Uri("/Resources/AQUA.png", UriKind.RelativeOrAbsolute)),
+                Width = 20,
+                Height = 34,
+                YOffset = -17
+            };
+
+            // Add the marker to the simpleMarkerOverlay and refresh the map
+            simpleMarkerOverlay.Markers.Add(marker);
+            simpleMarkerOverlay.Refresh();
+
+        }
+
         private Panel panel1;
         private RadioButton copyMode;
         private RadioButton dragMode;
         private RadioButton staticMode;
         private Label label1;
         private Label label2;
-
-        #region Component Designer generated code
 
         private MapView mapView;
 
@@ -88,8 +123,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -106,7 +141,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.label2);
@@ -194,47 +229,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.ResumeLayout(false);
 
         }
-
+        #region Component Designer generated code
         #endregion Component Designer generated code
-
-        private void staticMode_CheckedChanged(object sender, EventArgs e)
-        {
-            SimpleMarkerOverlay simpleMarkerOverlay = (SimpleMarkerOverlay)mapView.Overlays["simpleMarkerOverlay"];
-            simpleMarkerOverlay.DragMode = MarkerDragMode.None;
-        }
-
-        private void dragMode_CheckedChanged(object sender, EventArgs e)
-        {
-            SimpleMarkerOverlay simpleMarkerOverlay = (SimpleMarkerOverlay)mapView.Overlays["simpleMarkerOverlay"];
-            simpleMarkerOverlay.DragMode = MarkerDragMode.Drag;
-        }
-
-        private void copyMode_CheckedChanged(object sender, EventArgs e)
-        {
-            SimpleMarkerOverlay simpleMarkerOverlay = (SimpleMarkerOverlay)mapView.Overlays["simpleMarkerOverlay"];
-            simpleMarkerOverlay.DragMode = MarkerDragMode.CopyWithShiftKey;
-        }
-
-        private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
-        {
-            SimpleMarkerOverlay simpleMarkerOverlay = (SimpleMarkerOverlay)mapView.Overlays["simpleMarkerOverlay"];
-
-            // Create a marker at the position the mouse was clicked
-            var marker = new Marker(e.WorldLocation)
-            {
-                ImageSource = new BitmapImage(new Uri("/Resources/AQUA.png", UriKind.RelativeOrAbsolute)),
-                Width = 20,
-                Height = 34,
-                YOffset = -17
-            };
-
-            // Add the marker to the simpleMarkerOverlay and refresh the map
-            simpleMarkerOverlay.Markers.Add(marker);
-            simpleMarkerOverlay.Refresh();
-
-        }
-
-
 
     }
 }

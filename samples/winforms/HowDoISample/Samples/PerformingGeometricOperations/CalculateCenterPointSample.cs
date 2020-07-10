@@ -94,6 +94,50 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// RadioButton checked event that will recalculate the center point so long as a feature was already selected
         /// </summary>
 
+
+
+        /// <summary>
+        /// RadioButton checked event that will recalculate the center point so long as a feature was already selected
+        /// </summary>
+        private void centroidCenter_CheckedChanged(object sender, EventArgs e)
+        {
+            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
+            InMemoryFeatureLayer centerPointLayer = (InMemoryFeatureLayer)layerOverlay.Layers["centerPointLayer"];
+
+            // Recalculate the center point if a feature has already been selected
+            if (centerPointLayer.InternalFeatures.Contains("selectedFeature"))
+            {
+                CalculateCenterPoint(centerPointLayer.InternalFeatures["selectedFeature"]);
+            }
+        }
+
+        /// <summary>
+        /// Map event that fires whenever the user clicks on the map. Gets the closest feature from the click event and calculates the center point
+        /// </summary>
+        private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        {
+            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
+            ShapeFileFeatureLayer censusHousing = (ShapeFileFeatureLayer)layerOverlay.Layers["censusHousing"];
+
+            // Query the censusHousing layer to get the first feature closest to the map click event
+            var feature = censusHousing.QueryTools.GetFeaturesNearestTo(e.WorldLocation, GeographyUnit.Meter, 1,
+                ReturningColumnsType.NoColumns).First();
+
+            CalculateCenterPoint(feature);
+        }
+
+        private void bboxCenter_CheckedChanged(object sender, EventArgs e)
+        {
+            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
+            InMemoryFeatureLayer centerPointLayer = (InMemoryFeatureLayer)layerOverlay.Layers["centerPointLayer"];
+
+            // Recalculate the center point if a feature has already been selected
+            if (centerPointLayer.InternalFeatures.Contains("selectedFeature"))
+            {
+                CalculateCenterPoint(centerPointLayer.InternalFeatures["selectedFeature"]);
+            }
+        }
+
         private Panel panel1;
         private RadioButton bboxCenter;
         private RadioButton centroidCenter;
@@ -117,8 +161,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -135,7 +179,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.bboxCenter);
@@ -212,46 +256,5 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         #endregion Component Designer generated code
 
-        /// <summary>
-        /// RadioButton checked event that will recalculate the center point so long as a feature was already selected
-        /// </summary>
-        private void centroidCenter_CheckedChanged(object sender, EventArgs e)
-        {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
-            InMemoryFeatureLayer centerPointLayer = (InMemoryFeatureLayer)layerOverlay.Layers["centerPointLayer"];
-
-            // Recalculate the center point if a feature has already been selected
-            if (centerPointLayer.InternalFeatures.Contains("selectedFeature"))
-            {
-                CalculateCenterPoint(centerPointLayer.InternalFeatures["selectedFeature"]);
-            }
-        }
-
-        /// <summary>
-        /// Map event that fires whenever the user clicks on the map. Gets the closest feature from the click event and calculates the center point
-        /// </summary>
-        private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
-        {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
-            ShapeFileFeatureLayer censusHousing = (ShapeFileFeatureLayer)layerOverlay.Layers["censusHousing"];
-
-            // Query the censusHousing layer to get the first feature closest to the map click event
-            var feature = censusHousing.QueryTools.GetFeaturesNearestTo(e.WorldLocation, GeographyUnit.Meter, 1,
-                ReturningColumnsType.NoColumns).First();
-
-            CalculateCenterPoint(feature);
-        }
-
-        private void bboxCenter_CheckedChanged(object sender, EventArgs e)
-        {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
-            InMemoryFeatureLayer centerPointLayer = (InMemoryFeatureLayer)layerOverlay.Layers["centerPointLayer"];
-
-            // Recalculate the center point if a feature has already been selected
-            if (centerPointLayer.InternalFeatures.Contains("selectedFeature"))
-            {
-                CalculateCenterPoint(centerPointLayer.InternalFeatures["selectedFeature"]);
-            }
-        }
     }
 }

@@ -53,157 +53,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        private Panel panel1;
-        private RadioButton rdoCheckIfPointsAreWithinPolygons;
-        private RadioButton rdoCheckIfPointsAreTouchingPolygonBoundaries;
-        private RadioButton rdoCheckIfPointsAreTouchingLineEndpoints;
-        private RadioButton rdoCheckIfPointsAreTouchingLines;
-        private Label label1;
-        private TextBox txtValidationInfo;
-
-        #region Component Designer generated code
-
-        private MapView mapView;
-
-        private void InitializeComponent()
-        {
-            this.mapView = new ThinkGeo.UI.WinForms.MapView();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.txtValidationInfo = new System.Windows.Forms.TextBox();
-            this.rdoCheckIfPointsAreWithinPolygons = new System.Windows.Forms.RadioButton();
-            this.rdoCheckIfPointsAreTouchingPolygonBoundaries = new System.Windows.Forms.RadioButton();
-            this.rdoCheckIfPointsAreTouchingLineEndpoints = new System.Windows.Forms.RadioButton();
-            this.rdoCheckIfPointsAreTouchingLines = new System.Windows.Forms.RadioButton();
-            this.label1 = new System.Windows.Forms.Label();
-            this.panel1.SuspendLayout();
-            this.SuspendLayout();
-            // 
-            // mapView
-            // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.mapView.BackColor = System.Drawing.Color.White;
-            this.mapView.CurrentScale = 0D;
-            this.mapView.Location = new System.Drawing.Point(0, 0);
-            this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
-            this.mapView.MaximumScale = 1.7976931348623157E+308D;
-            this.mapView.MinimumScale = 200D;
-            this.mapView.Name = "mapView";
-            this.mapView.RestrictExtent = null;
-            this.mapView.RotatedAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(778, 664);
-            this.mapView.TabIndex = 0;
-            // 
-            // panel1
-            // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.BackColor = System.Drawing.Color.Gray;
-            this.panel1.Controls.Add(this.txtValidationInfo);
-            this.panel1.Controls.Add(this.rdoCheckIfPointsAreWithinPolygons);
-            this.panel1.Controls.Add(this.rdoCheckIfPointsAreTouchingPolygonBoundaries);
-            this.panel1.Controls.Add(this.rdoCheckIfPointsAreTouchingLineEndpoints);
-            this.panel1.Controls.Add(this.rdoCheckIfPointsAreTouchingLines);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(781, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(404, 664);
-            this.panel1.TabIndex = 1;
-            // 
-            // txtValidationInfo
-            // 
-            this.txtValidationInfo.BackColor = System.Drawing.Color.Gray;
-            this.txtValidationInfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtValidationInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtValidationInfo.ForeColor = System.Drawing.Color.White;
-            this.txtValidationInfo.Location = new System.Drawing.Point(22, 208);
-            this.txtValidationInfo.Multiline = true;
-            this.txtValidationInfo.Name = "txtValidationInfo";
-            this.txtValidationInfo.Size = new System.Drawing.Size(362, 190);
-            this.txtValidationInfo.TabIndex = 5;
-            // 
-            // rdoCheckIfPointsAreWithinPolygons
-            // 
-            this.rdoCheckIfPointsAreWithinPolygons.AutoSize = true;
-            this.rdoCheckIfPointsAreWithinPolygons.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdoCheckIfPointsAreWithinPolygons.ForeColor = System.Drawing.Color.White;
-            this.rdoCheckIfPointsAreWithinPolygons.Location = new System.Drawing.Point(22, 177);
-            this.rdoCheckIfPointsAreWithinPolygons.Name = "rdoCheckIfPointsAreWithinPolygons";
-            this.rdoCheckIfPointsAreWithinPolygons.Size = new System.Drawing.Size(270, 24);
-            this.rdoCheckIfPointsAreWithinPolygons.TabIndex = 4;
-            this.rdoCheckIfPointsAreWithinPolygons.TabStop = true;
-            this.rdoCheckIfPointsAreWithinPolygons.Text = "Points Must Be Within Polygons";
-            this.rdoCheckIfPointsAreWithinPolygons.UseVisualStyleBackColor = true;
-            this.rdoCheckIfPointsAreWithinPolygons.CheckedChanged += new System.EventHandler(this.rdoCheckIfPointsAreWithinPolygons_CheckedChanged);
-            // 
-            // rdoCheckIfPointsAreTouchingPolygonBoundaries
-            // 
-            this.rdoCheckIfPointsAreTouchingPolygonBoundaries.AutoSize = true;
-            this.rdoCheckIfPointsAreTouchingPolygonBoundaries.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdoCheckIfPointsAreTouchingPolygonBoundaries.ForeColor = System.Drawing.Color.White;
-            this.rdoCheckIfPointsAreTouchingPolygonBoundaries.Location = new System.Drawing.Point(22, 150);
-            this.rdoCheckIfPointsAreTouchingPolygonBoundaries.Name = "rdoCheckIfPointsAreTouchingPolygonBoundaries";
-            this.rdoCheckIfPointsAreTouchingPolygonBoundaries.Size = new System.Drawing.Size(381, 24);
-            this.rdoCheckIfPointsAreTouchingPolygonBoundaries.TabIndex = 3;
-            this.rdoCheckIfPointsAreTouchingPolygonBoundaries.TabStop = true;
-            this.rdoCheckIfPointsAreTouchingPolygonBoundaries.Text = "Points Must Be Touching Polygons Boundaries";
-            this.rdoCheckIfPointsAreTouchingPolygonBoundaries.UseVisualStyleBackColor = true;
-            this.rdoCheckIfPointsAreTouchingPolygonBoundaries.CheckedChanged += new System.EventHandler(this.rdoCheckIfPointsAreTouchingPolygonBoundaries_CheckedChanged);
-            // 
-            // rdoCheckIfPointsAreTouchingLineEndpoints
-            // 
-            this.rdoCheckIfPointsAreTouchingLineEndpoints.AutoSize = true;
-            this.rdoCheckIfPointsAreTouchingLineEndpoints.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdoCheckIfPointsAreTouchingLineEndpoints.ForeColor = System.Drawing.Color.White;
-            this.rdoCheckIfPointsAreTouchingLineEndpoints.Location = new System.Drawing.Point(22, 123);
-            this.rdoCheckIfPointsAreTouchingLineEndpoints.Name = "rdoCheckIfPointsAreTouchingLineEndpoints";
-            this.rdoCheckIfPointsAreTouchingLineEndpoints.Size = new System.Drawing.Size(336, 24);
-            this.rdoCheckIfPointsAreTouchingLineEndpoints.TabIndex = 2;
-            this.rdoCheckIfPointsAreTouchingLineEndpoints.TabStop = true;
-            this.rdoCheckIfPointsAreTouchingLineEndpoints.Text = "Points Must Be Touching Line EndPoints";
-            this.rdoCheckIfPointsAreTouchingLineEndpoints.UseVisualStyleBackColor = true;
-            this.rdoCheckIfPointsAreTouchingLineEndpoints.CheckedChanged += new System.EventHandler(this.rdoCheckIfPointsAreTouchingLineEndpoints_CheckedChanged);
-            // 
-            // rdoCheckIfPointsAreTouchingLines
-            // 
-            this.rdoCheckIfPointsAreTouchingLines.AutoSize = true;
-            this.rdoCheckIfPointsAreTouchingLines.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdoCheckIfPointsAreTouchingLines.ForeColor = System.Drawing.Color.White;
-            this.rdoCheckIfPointsAreTouchingLines.Location = new System.Drawing.Point(22, 96);
-            this.rdoCheckIfPointsAreTouchingLines.Name = "rdoCheckIfPointsAreTouchingLines";
-            this.rdoCheckIfPointsAreTouchingLines.Size = new System.Drawing.Size(264, 24);
-            this.rdoCheckIfPointsAreTouchingLines.TabIndex = 1;
-            this.rdoCheckIfPointsAreTouchingLines.TabStop = true;
-            this.rdoCheckIfPointsAreTouchingLines.Text = "Points Must Be Touching Lines";
-            this.rdoCheckIfPointsAreTouchingLines.UseVisualStyleBackColor = true;
-            this.rdoCheckIfPointsAreTouchingLines.CheckedChanged += new System.EventHandler(this.rdoCheckIfPointsAreTouchingLines_CheckedChanged);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(19, 42);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(201, 25);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Point Validation Tests";
-            // 
-            // PointValidationSample
-            // 
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.mapView);
-            this.Name = "PointValidationSample";
-            this.Size = new System.Drawing.Size(1185, 664);
-            this.Load += new System.EventHandler(this.Form_Load);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.ResumeLayout(false);
-
-        }
-
-        #endregion Component Designer generated code
 
         private void rdoCheckIfPointsAreTouchingLines_CheckedChanged(object sender, EventArgs e)
         {
@@ -348,6 +197,159 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             filterFeaturesLayer.Close();
             resultFeaturesLayer.Close();
         }
+
+
+        private Panel panel1;
+        private RadioButton rdoCheckIfPointsAreWithinPolygons;
+        private RadioButton rdoCheckIfPointsAreTouchingPolygonBoundaries;
+        private RadioButton rdoCheckIfPointsAreTouchingLineEndpoints;
+        private RadioButton rdoCheckIfPointsAreTouchingLines;
+        private Label label1;
+        private TextBox txtValidationInfo;
+
+
+        private MapView mapView;
+
+        private void InitializeComponent()
+        {
+            this.mapView = new ThinkGeo.UI.WinForms.MapView();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.txtValidationInfo = new System.Windows.Forms.TextBox();
+            this.rdoCheckIfPointsAreWithinPolygons = new System.Windows.Forms.RadioButton();
+            this.rdoCheckIfPointsAreTouchingPolygonBoundaries = new System.Windows.Forms.RadioButton();
+            this.rdoCheckIfPointsAreTouchingLineEndpoints = new System.Windows.Forms.RadioButton();
+            this.rdoCheckIfPointsAreTouchingLines = new System.Windows.Forms.RadioButton();
+            this.label1 = new System.Windows.Forms.Label();
+            this.panel1.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // mapView
+            // 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.mapView.BackColor = System.Drawing.Color.White;
+            this.mapView.CurrentScale = 0D;
+            this.mapView.Location = new System.Drawing.Point(0, 0);
+            this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
+            this.mapView.MaximumScale = 1.7976931348623157E+308D;
+            this.mapView.MinimumScale = 200D;
+            this.mapView.Name = "mapView";
+            this.mapView.RestrictExtent = null;
+            this.mapView.RotatedAngle = 0F;
+            this.mapView.Size = new System.Drawing.Size(778, 664);
+            this.mapView.TabIndex = 0;
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.BackColor = System.Drawing.Color.Gray;
+            this.panel1.Controls.Add(this.txtValidationInfo);
+            this.panel1.Controls.Add(this.rdoCheckIfPointsAreWithinPolygons);
+            this.panel1.Controls.Add(this.rdoCheckIfPointsAreTouchingPolygonBoundaries);
+            this.panel1.Controls.Add(this.rdoCheckIfPointsAreTouchingLineEndpoints);
+            this.panel1.Controls.Add(this.rdoCheckIfPointsAreTouchingLines);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Location = new System.Drawing.Point(781, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(404, 664);
+            this.panel1.TabIndex = 1;
+            // 
+            // txtValidationInfo
+            // 
+            this.txtValidationInfo.BackColor = System.Drawing.Color.Gray;
+            this.txtValidationInfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtValidationInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtValidationInfo.ForeColor = System.Drawing.Color.White;
+            this.txtValidationInfo.Location = new System.Drawing.Point(22, 208);
+            this.txtValidationInfo.Multiline = true;
+            this.txtValidationInfo.Name = "txtValidationInfo";
+            this.txtValidationInfo.Size = new System.Drawing.Size(362, 190);
+            this.txtValidationInfo.TabIndex = 5;
+            // 
+            // rdoCheckIfPointsAreWithinPolygons
+            // 
+            this.rdoCheckIfPointsAreWithinPolygons.AutoSize = true;
+            this.rdoCheckIfPointsAreWithinPolygons.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoCheckIfPointsAreWithinPolygons.ForeColor = System.Drawing.Color.White;
+            this.rdoCheckIfPointsAreWithinPolygons.Location = new System.Drawing.Point(22, 177);
+            this.rdoCheckIfPointsAreWithinPolygons.Name = "rdoCheckIfPointsAreWithinPolygons";
+            this.rdoCheckIfPointsAreWithinPolygons.Size = new System.Drawing.Size(270, 24);
+            this.rdoCheckIfPointsAreWithinPolygons.TabIndex = 4;
+            this.rdoCheckIfPointsAreWithinPolygons.TabStop = true;
+            this.rdoCheckIfPointsAreWithinPolygons.Text = "Points Must Be Within Polygons";
+            this.rdoCheckIfPointsAreWithinPolygons.UseVisualStyleBackColor = true;
+            this.rdoCheckIfPointsAreWithinPolygons.CheckedChanged += new System.EventHandler(this.rdoCheckIfPointsAreWithinPolygons_CheckedChanged);
+            // 
+            // rdoCheckIfPointsAreTouchingPolygonBoundaries
+            // 
+            this.rdoCheckIfPointsAreTouchingPolygonBoundaries.AutoSize = true;
+            this.rdoCheckIfPointsAreTouchingPolygonBoundaries.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoCheckIfPointsAreTouchingPolygonBoundaries.ForeColor = System.Drawing.Color.White;
+            this.rdoCheckIfPointsAreTouchingPolygonBoundaries.Location = new System.Drawing.Point(22, 150);
+            this.rdoCheckIfPointsAreTouchingPolygonBoundaries.Name = "rdoCheckIfPointsAreTouchingPolygonBoundaries";
+            this.rdoCheckIfPointsAreTouchingPolygonBoundaries.Size = new System.Drawing.Size(381, 24);
+            this.rdoCheckIfPointsAreTouchingPolygonBoundaries.TabIndex = 3;
+            this.rdoCheckIfPointsAreTouchingPolygonBoundaries.TabStop = true;
+            this.rdoCheckIfPointsAreTouchingPolygonBoundaries.Text = "Points Must Be Touching Polygons Boundaries";
+            this.rdoCheckIfPointsAreTouchingPolygonBoundaries.UseVisualStyleBackColor = true;
+            this.rdoCheckIfPointsAreTouchingPolygonBoundaries.CheckedChanged += new System.EventHandler(this.rdoCheckIfPointsAreTouchingPolygonBoundaries_CheckedChanged);
+            // 
+            // rdoCheckIfPointsAreTouchingLineEndpoints
+            // 
+            this.rdoCheckIfPointsAreTouchingLineEndpoints.AutoSize = true;
+            this.rdoCheckIfPointsAreTouchingLineEndpoints.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoCheckIfPointsAreTouchingLineEndpoints.ForeColor = System.Drawing.Color.White;
+            this.rdoCheckIfPointsAreTouchingLineEndpoints.Location = new System.Drawing.Point(22, 123);
+            this.rdoCheckIfPointsAreTouchingLineEndpoints.Name = "rdoCheckIfPointsAreTouchingLineEndpoints";
+            this.rdoCheckIfPointsAreTouchingLineEndpoints.Size = new System.Drawing.Size(336, 24);
+            this.rdoCheckIfPointsAreTouchingLineEndpoints.TabIndex = 2;
+            this.rdoCheckIfPointsAreTouchingLineEndpoints.TabStop = true;
+            this.rdoCheckIfPointsAreTouchingLineEndpoints.Text = "Points Must Be Touching Line EndPoints";
+            this.rdoCheckIfPointsAreTouchingLineEndpoints.UseVisualStyleBackColor = true;
+            this.rdoCheckIfPointsAreTouchingLineEndpoints.CheckedChanged += new System.EventHandler(this.rdoCheckIfPointsAreTouchingLineEndpoints_CheckedChanged);
+            // 
+            // rdoCheckIfPointsAreTouchingLines
+            // 
+            this.rdoCheckIfPointsAreTouchingLines.AutoSize = true;
+            this.rdoCheckIfPointsAreTouchingLines.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoCheckIfPointsAreTouchingLines.ForeColor = System.Drawing.Color.White;
+            this.rdoCheckIfPointsAreTouchingLines.Location = new System.Drawing.Point(22, 96);
+            this.rdoCheckIfPointsAreTouchingLines.Name = "rdoCheckIfPointsAreTouchingLines";
+            this.rdoCheckIfPointsAreTouchingLines.Size = new System.Drawing.Size(264, 24);
+            this.rdoCheckIfPointsAreTouchingLines.TabIndex = 1;
+            this.rdoCheckIfPointsAreTouchingLines.TabStop = true;
+            this.rdoCheckIfPointsAreTouchingLines.Text = "Points Must Be Touching Lines";
+            this.rdoCheckIfPointsAreTouchingLines.UseVisualStyleBackColor = true;
+            this.rdoCheckIfPointsAreTouchingLines.CheckedChanged += new System.EventHandler(this.rdoCheckIfPointsAreTouchingLines_CheckedChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(19, 42);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(201, 25);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Point Validation Tests";
+            // 
+            // PointValidationSample
+            // 
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.mapView);
+            this.Name = "PointValidationSample";
+            this.Size = new System.Drawing.Size(1185, 664);
+            this.Load += new System.EventHandler(this.Form_Load);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.ResumeLayout(false);
+
+        }
+
+        #region Component Designer generated code
+        #endregion Component Designer generated code
 
     }
 }

@@ -25,12 +25,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
         }
 
-        private Panel panel1;
-        private CheckBox DisplayPanZoomBar;
-        private Label label1;
-
-        #region Component Designer generated code
-
         private MapView mapView;
 
         private void InitializeComponent()
@@ -110,7 +104,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        #endregion Component Designer generated code
 
         private void DisplayPanZoomBar_CheckedChanged(object sender, EventArgs e)
         {
@@ -126,5 +119,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             }
         }
+
+        private Panel panel1;
+        private CheckBox DisplayPanZoomBar;
+        private Label label1;
+
+        #region Component Designer generated code
+        #endregion Component Designer generated code
+
     }
 }

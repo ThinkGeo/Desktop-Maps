@@ -53,294 +53,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             rdoCheckLineEndpointsMustTouchPoints.Checked = true;
         }
 
-        private Panel panel1;
-        private RadioButton rdoCheckLinesMustNotSelfOverlap;
-        private RadioButton rdoCheckLinesMustNotSelfIntersect;
-        private RadioButton rdoCheckLinesMustNotOverlapLines;
-        private RadioButton rdoCheckLinesMustNotOverlap;
-        private RadioButton rdoCheckLinesMustNotSelfIntersectOrTouch;
-        private RadioButton rdoCheckLinesMustNotIntersect;
-        private RadioButton rdoCheckLinesMustNotHavePseudonodes;
-        private RadioButton rdoCheckLinesMustFormClosedPolygon;
-        private RadioButton rdoCheckLinesMustBeSinglePart;
-        private RadioButton rdoCheckLinesMustOverlapLines;
-        private RadioButton rdoCheckLinesMustOverlapPolygonBoundaries;
-        private RadioButton rdoCheckLineEndpointsMustTouchPoints;
-        private Label label1;
-        private TextBox txtValidationInfo;
-
-        #region Component Designer generated code
-
-        private MapView mapView;
-
-        private void InitializeComponent()
-        {
-            this.mapView = new ThinkGeo.UI.WinForms.MapView();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.txtValidationInfo = new System.Windows.Forms.TextBox();
-            this.rdoCheckLinesMustNotSelfOverlap = new System.Windows.Forms.RadioButton();
-            this.rdoCheckLinesMustNotSelfIntersect = new System.Windows.Forms.RadioButton();
-            this.rdoCheckLinesMustNotOverlapLines = new System.Windows.Forms.RadioButton();
-            this.rdoCheckLinesMustNotOverlap = new System.Windows.Forms.RadioButton();
-            this.rdoCheckLinesMustNotSelfIntersectOrTouch = new System.Windows.Forms.RadioButton();
-            this.rdoCheckLinesMustNotIntersect = new System.Windows.Forms.RadioButton();
-            this.rdoCheckLinesMustNotHavePseudonodes = new System.Windows.Forms.RadioButton();
-            this.rdoCheckLinesMustFormClosedPolygon = new System.Windows.Forms.RadioButton();
-            this.rdoCheckLinesMustBeSinglePart = new System.Windows.Forms.RadioButton();
-            this.rdoCheckLinesMustOverlapLines = new System.Windows.Forms.RadioButton();
-            this.rdoCheckLinesMustOverlapPolygonBoundaries = new System.Windows.Forms.RadioButton();
-            this.rdoCheckLineEndpointsMustTouchPoints = new System.Windows.Forms.RadioButton();
-            this.label1 = new System.Windows.Forms.Label();
-            this.panel1.SuspendLayout();
-            this.SuspendLayout();
-            // 
-            // mapView
-            // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.mapView.BackColor = System.Drawing.Color.White;
-            this.mapView.CurrentScale = 0D;
-            this.mapView.Location = new System.Drawing.Point(0, 0);
-            this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
-            this.mapView.MaximumScale = 1.7976931348623157E+308D;
-            this.mapView.MinimumScale = 200D;
-            this.mapView.Name = "mapView";
-            this.mapView.RestrictExtent = null;
-            this.mapView.RotatedAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(826, 703);
-            this.mapView.TabIndex = 0;
-            // 
-            // panel1
-            // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.BackColor = System.Drawing.Color.Gray;
-            this.panel1.Controls.Add(this.txtValidationInfo);
-            this.panel1.Controls.Add(this.rdoCheckLinesMustNotSelfOverlap);
-            this.panel1.Controls.Add(this.rdoCheckLinesMustNotSelfIntersect);
-            this.panel1.Controls.Add(this.rdoCheckLinesMustNotOverlapLines);
-            this.panel1.Controls.Add(this.rdoCheckLinesMustNotOverlap);
-            this.panel1.Controls.Add(this.rdoCheckLinesMustNotSelfIntersectOrTouch);
-            this.panel1.Controls.Add(this.rdoCheckLinesMustNotIntersect);
-            this.panel1.Controls.Add(this.rdoCheckLinesMustNotHavePseudonodes);
-            this.panel1.Controls.Add(this.rdoCheckLinesMustFormClosedPolygon);
-            this.panel1.Controls.Add(this.rdoCheckLinesMustBeSinglePart);
-            this.panel1.Controls.Add(this.rdoCheckLinesMustOverlapLines);
-            this.panel1.Controls.Add(this.rdoCheckLinesMustOverlapPolygonBoundaries);
-            this.panel1.Controls.Add(this.rdoCheckLineEndpointsMustTouchPoints);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(832, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(390, 703);
-            this.panel1.TabIndex = 1;
-            // 
-            // txtValidationInfo
-            // 
-            this.txtValidationInfo.BackColor = System.Drawing.Color.Gray;
-            this.txtValidationInfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtValidationInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.txtValidationInfo.ForeColor = System.Drawing.Color.White;
-            this.txtValidationInfo.Location = new System.Drawing.Point(22, 390);
-            this.txtValidationInfo.Multiline = true;
-            this.txtValidationInfo.Name = "txtValidationInfo";
-            this.txtValidationInfo.Size = new System.Drawing.Size(328, 287);
-            this.txtValidationInfo.TabIndex = 13;
-            // 
-            // rdoCheckLinesMustNotSelfOverlap
-            // 
-            this.rdoCheckLinesMustNotSelfOverlap.AutoSize = true;
-            this.rdoCheckLinesMustNotSelfOverlap.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdoCheckLinesMustNotSelfOverlap.ForeColor = System.Drawing.Color.White;
-            this.rdoCheckLinesMustNotSelfOverlap.Location = new System.Drawing.Point(22, 360);
-            this.rdoCheckLinesMustNotSelfOverlap.Name = "rdoCheckLinesMustNotSelfOverlap";
-            this.rdoCheckLinesMustNotSelfOverlap.Size = new System.Drawing.Size(242, 24);
-            this.rdoCheckLinesMustNotSelfOverlap.TabIndex = 12;
-            this.rdoCheckLinesMustNotSelfOverlap.TabStop = true;
-            this.rdoCheckLinesMustNotSelfOverlap.Text = "Lines Must Not Self-Overlap";
-            this.rdoCheckLinesMustNotSelfOverlap.UseVisualStyleBackColor = true;
-            this.rdoCheckLinesMustNotSelfOverlap.CheckedChanged += new System.EventHandler(this.rdoCheckLinesMustNotSelfOverlap_CheckedChanged);
-            // 
-            // rdoCheckLinesMustNotSelfIntersect
-            // 
-            this.rdoCheckLinesMustNotSelfIntersect.AutoSize = true;
-            this.rdoCheckLinesMustNotSelfIntersect.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdoCheckLinesMustNotSelfIntersect.ForeColor = System.Drawing.Color.White;
-            this.rdoCheckLinesMustNotSelfIntersect.Location = new System.Drawing.Point(22, 333);
-            this.rdoCheckLinesMustNotSelfIntersect.Name = "rdoCheckLinesMustNotSelfIntersect";
-            this.rdoCheckLinesMustNotSelfIntersect.Size = new System.Drawing.Size(249, 24);
-            this.rdoCheckLinesMustNotSelfIntersect.TabIndex = 11;
-            this.rdoCheckLinesMustNotSelfIntersect.TabStop = true;
-            this.rdoCheckLinesMustNotSelfIntersect.Text = "Lines Must Not Self-Intersect";
-            this.rdoCheckLinesMustNotSelfIntersect.UseVisualStyleBackColor = true;
-            this.rdoCheckLinesMustNotSelfIntersect.CheckedChanged += new System.EventHandler(this.rdoCheckLinesMustNotSelfIntersect_CheckedChanged);
-            // 
-            // rdoCheckLinesMustNotOverlapLines
-            // 
-            this.rdoCheckLinesMustNotOverlapLines.AutoSize = true;
-            this.rdoCheckLinesMustNotOverlapLines.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdoCheckLinesMustNotOverlapLines.ForeColor = System.Drawing.Color.White;
-            this.rdoCheckLinesMustNotOverlapLines.Location = new System.Drawing.Point(22, 306);
-            this.rdoCheckLinesMustNotOverlapLines.Name = "rdoCheckLinesMustNotOverlapLines";
-            this.rdoCheckLinesMustNotOverlapLines.Size = new System.Drawing.Size(292, 24);
-            this.rdoCheckLinesMustNotOverlapLines.TabIndex = 10;
-            this.rdoCheckLinesMustNotOverlapLines.TabStop = true;
-            this.rdoCheckLinesMustNotOverlapLines.Text = "Lines Must Not Overlap With Lines";
-            this.rdoCheckLinesMustNotOverlapLines.UseVisualStyleBackColor = true;
-            this.rdoCheckLinesMustNotOverlapLines.CheckedChanged += new System.EventHandler(this.rdoCheckLinesMustNotOverlapLines_CheckedChanged);
-            // 
-            // rdoCheckLinesMustNotOverlap
-            // 
-            this.rdoCheckLinesMustNotOverlap.AutoSize = true;
-            this.rdoCheckLinesMustNotOverlap.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdoCheckLinesMustNotOverlap.ForeColor = System.Drawing.Color.White;
-            this.rdoCheckLinesMustNotOverlap.Location = new System.Drawing.Point(22, 276);
-            this.rdoCheckLinesMustNotOverlap.Name = "rdoCheckLinesMustNotOverlap";
-            this.rdoCheckLinesMustNotOverlap.Size = new System.Drawing.Size(207, 24);
-            this.rdoCheckLinesMustNotOverlap.TabIndex = 9;
-            this.rdoCheckLinesMustNotOverlap.TabStop = true;
-            this.rdoCheckLinesMustNotOverlap.Text = "Lines Must Not Overlap";
-            this.rdoCheckLinesMustNotOverlap.UseVisualStyleBackColor = true;
-            this.rdoCheckLinesMustNotOverlap.CheckedChanged += new System.EventHandler(this.rdoCheckLinesMustNotOverlap_CheckedChanged);
-            // 
-            // rdoCheckLinesMustNotSelfIntersectOrTouch
-            // 
-            this.rdoCheckLinesMustNotSelfIntersectOrTouch.AutoSize = true;
-            this.rdoCheckLinesMustNotSelfIntersectOrTouch.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdoCheckLinesMustNotSelfIntersectOrTouch.ForeColor = System.Drawing.Color.White;
-            this.rdoCheckLinesMustNotSelfIntersectOrTouch.Location = new System.Drawing.Point(22, 252);
-            this.rdoCheckLinesMustNotSelfIntersectOrTouch.Name = "rdoCheckLinesMustNotSelfIntersectOrTouch";
-            this.rdoCheckLinesMustNotSelfIntersectOrTouch.Size = new System.Drawing.Size(324, 24);
-            this.rdoCheckLinesMustNotSelfIntersectOrTouch.TabIndex = 8;
-            this.rdoCheckLinesMustNotSelfIntersectOrTouch.TabStop = true;
-            this.rdoCheckLinesMustNotSelfIntersectOrTouch.Text = "Lines Must Not Self-Intersect Or Touch";
-            this.rdoCheckLinesMustNotSelfIntersectOrTouch.UseVisualStyleBackColor = true;
-            this.rdoCheckLinesMustNotSelfIntersectOrTouch.CheckedChanged += new System.EventHandler(this.rdoCheckLinesMustNotSelfIntersectOrTouch_CheckedChanged);
-            // 
-            // rdoCheckLinesMustNotIntersect
-            // 
-            this.rdoCheckLinesMustNotIntersect.AutoSize = true;
-            this.rdoCheckLinesMustNotIntersect.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdoCheckLinesMustNotIntersect.ForeColor = System.Drawing.Color.White;
-            this.rdoCheckLinesMustNotIntersect.Location = new System.Drawing.Point(22, 225);
-            this.rdoCheckLinesMustNotIntersect.Name = "rdoCheckLinesMustNotIntersect";
-            this.rdoCheckLinesMustNotIntersect.Size = new System.Drawing.Size(214, 24);
-            this.rdoCheckLinesMustNotIntersect.TabIndex = 7;
-            this.rdoCheckLinesMustNotIntersect.TabStop = true;
-            this.rdoCheckLinesMustNotIntersect.Text = "Lines Must Not Intersect";
-            this.rdoCheckLinesMustNotIntersect.UseVisualStyleBackColor = true;
-            this.rdoCheckLinesMustNotIntersect.CheckedChanged += new System.EventHandler(this.rdoCheckLinesMustNotIntersect_CheckedChanged);
-            // 
-            // rdoCheckLinesMustNotHavePseudonodes
-            // 
-            this.rdoCheckLinesMustNotHavePseudonodes.AutoSize = true;
-            this.rdoCheckLinesMustNotHavePseudonodes.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdoCheckLinesMustNotHavePseudonodes.ForeColor = System.Drawing.Color.White;
-            this.rdoCheckLinesMustNotHavePseudonodes.Location = new System.Drawing.Point(22, 198);
-            this.rdoCheckLinesMustNotHavePseudonodes.Name = "rdoCheckLinesMustNotHavePseudonodes";
-            this.rdoCheckLinesMustNotHavePseudonodes.Size = new System.Drawing.Size(294, 24);
-            this.rdoCheckLinesMustNotHavePseudonodes.TabIndex = 6;
-            this.rdoCheckLinesMustNotHavePseudonodes.TabStop = true;
-            this.rdoCheckLinesMustNotHavePseudonodes.Text = "Lines Must Not Have Pseudonodes";
-            this.rdoCheckLinesMustNotHavePseudonodes.UseVisualStyleBackColor = true;
-            this.rdoCheckLinesMustNotHavePseudonodes.CheckedChanged += new System.EventHandler(this.rdoCheckLinesMustNotHavePseudonodes_CheckedChanged);
-            // 
-            // rdoCheckLinesMustFormClosedPolygon
-            // 
-            this.rdoCheckLinesMustFormClosedPolygon.AutoSize = true;
-            this.rdoCheckLinesMustFormClosedPolygon.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdoCheckLinesMustFormClosedPolygon.ForeColor = System.Drawing.Color.White;
-            this.rdoCheckLinesMustFormClosedPolygon.Location = new System.Drawing.Point(22, 171);
-            this.rdoCheckLinesMustFormClosedPolygon.Name = "rdoCheckLinesMustFormClosedPolygon";
-            this.rdoCheckLinesMustFormClosedPolygon.Size = new System.Drawing.Size(287, 24);
-            this.rdoCheckLinesMustFormClosedPolygon.TabIndex = 5;
-            this.rdoCheckLinesMustFormClosedPolygon.TabStop = true;
-            this.rdoCheckLinesMustFormClosedPolygon.Text = "Lines Must Form Closed Polygons";
-            this.rdoCheckLinesMustFormClosedPolygon.UseVisualStyleBackColor = true;
-            this.rdoCheckLinesMustFormClosedPolygon.CheckedChanged += new System.EventHandler(this.rdoCheckLinesMustFormClosedPolygon_CheckedChanged);
-            // 
-            // rdoCheckLinesMustBeSinglePart
-            // 
-            this.rdoCheckLinesMustBeSinglePart.AutoSize = true;
-            this.rdoCheckLinesMustBeSinglePart.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdoCheckLinesMustBeSinglePart.ForeColor = System.Drawing.Color.White;
-            this.rdoCheckLinesMustBeSinglePart.Location = new System.Drawing.Point(22, 144);
-            this.rdoCheckLinesMustBeSinglePart.Name = "rdoCheckLinesMustBeSinglePart";
-            this.rdoCheckLinesMustBeSinglePart.Size = new System.Drawing.Size(226, 24);
-            this.rdoCheckLinesMustBeSinglePart.TabIndex = 4;
-            this.rdoCheckLinesMustBeSinglePart.TabStop = true;
-            this.rdoCheckLinesMustBeSinglePart.Text = "Lines Must Be Single Part";
-            this.rdoCheckLinesMustBeSinglePart.UseVisualStyleBackColor = true;
-            this.rdoCheckLinesMustBeSinglePart.CheckedChanged += new System.EventHandler(this.rdoCheckLinesMustBeSinglePart_CheckedChanged);
-            // 
-            // rdoCheckLinesMustOverlapLines
-            // 
-            this.rdoCheckLinesMustOverlapLines.AutoSize = true;
-            this.rdoCheckLinesMustOverlapLines.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdoCheckLinesMustOverlapLines.ForeColor = System.Drawing.Color.White;
-            this.rdoCheckLinesMustOverlapLines.Location = new System.Drawing.Point(22, 117);
-            this.rdoCheckLinesMustOverlapLines.Name = "rdoCheckLinesMustOverlapLines";
-            this.rdoCheckLinesMustOverlapLines.Size = new System.Drawing.Size(222, 24);
-            this.rdoCheckLinesMustOverlapLines.TabIndex = 3;
-            this.rdoCheckLinesMustOverlapLines.TabStop = true;
-            this.rdoCheckLinesMustOverlapLines.Text = "Lines Must Overlap Lines";
-            this.rdoCheckLinesMustOverlapLines.UseVisualStyleBackColor = true;
-            this.rdoCheckLinesMustOverlapLines.CheckedChanged += new System.EventHandler(this.rdoCheckLinesMustOverlapLines_CheckedChanged);
-            // 
-            // rdoCheckLinesMustOverlapPolygonBoundaries
-            // 
-            this.rdoCheckLinesMustOverlapPolygonBoundaries.AutoSize = true;
-            this.rdoCheckLinesMustOverlapPolygonBoundaries.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdoCheckLinesMustOverlapPolygonBoundaries.ForeColor = System.Drawing.Color.White;
-            this.rdoCheckLinesMustOverlapPolygonBoundaries.Location = new System.Drawing.Point(22, 90);
-            this.rdoCheckLinesMustOverlapPolygonBoundaries.Name = "rdoCheckLinesMustOverlapPolygonBoundaries";
-            this.rdoCheckLinesMustOverlapPolygonBoundaries.Size = new System.Drawing.Size(330, 24);
-            this.rdoCheckLinesMustOverlapPolygonBoundaries.TabIndex = 2;
-            this.rdoCheckLinesMustOverlapPolygonBoundaries.TabStop = true;
-            this.rdoCheckLinesMustOverlapPolygonBoundaries.Text = "Lines Must Overlap Polygon Boundaries";
-            this.rdoCheckLinesMustOverlapPolygonBoundaries.UseVisualStyleBackColor = true;
-            this.rdoCheckLinesMustOverlapPolygonBoundaries.CheckedChanged += new System.EventHandler(this.rdoCheckLinesMustOverlapPolygonBoundaries_CheckedChanged);
-            // 
-            // rdoCheckLineEndpointsMustTouchPoints
-            // 
-            this.rdoCheckLineEndpointsMustTouchPoints.AutoSize = true;
-            this.rdoCheckLineEndpointsMustTouchPoints.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdoCheckLineEndpointsMustTouchPoints.ForeColor = System.Drawing.Color.White;
-            this.rdoCheckLineEndpointsMustTouchPoints.Location = new System.Drawing.Point(22, 63);
-            this.rdoCheckLineEndpointsMustTouchPoints.Name = "rdoCheckLineEndpointsMustTouchPoints";
-            this.rdoCheckLineEndpointsMustTouchPoints.Size = new System.Drawing.Size(286, 24);
-            this.rdoCheckLineEndpointsMustTouchPoints.TabIndex = 1;
-            this.rdoCheckLineEndpointsMustTouchPoints.TabStop = true;
-            this.rdoCheckLineEndpointsMustTouchPoints.Text = "Line Endpoints Must Touch Points";
-            this.rdoCheckLineEndpointsMustTouchPoints.UseVisualStyleBackColor = true;
-            this.rdoCheckLineEndpointsMustTouchPoints.CheckedChanged += new System.EventHandler(this.rdoCheckLineEndpointsMustTouchPoints_CheckedChanged);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(19, 24);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(194, 25);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Line Validation Tests";
-            // 
-            // LineValidationSample
-            // 
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.mapView);
-            this.Name = "LineValidationSample";
-            this.Size = new System.Drawing.Size(1222, 703);
-            this.Load += new System.EventHandler(this.Form_Load);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.ResumeLayout(false);
-
-        }
-
-        #endregion Component Designer generated code
-
         private void rdoCheckLineEndpointsMustTouchPoints_CheckedChanged(object sender, EventArgs e)
         {
             // Create a sample set of point and line features to use for the validation
@@ -650,6 +362,294 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             resultFeaturesLayer.Close();
         }
 
+        private Panel panel1;
+        private RadioButton rdoCheckLinesMustNotSelfOverlap;
+        private RadioButton rdoCheckLinesMustNotSelfIntersect;
+        private RadioButton rdoCheckLinesMustNotOverlapLines;
+        private RadioButton rdoCheckLinesMustNotOverlap;
+        private RadioButton rdoCheckLinesMustNotSelfIntersectOrTouch;
+        private RadioButton rdoCheckLinesMustNotIntersect;
+        private RadioButton rdoCheckLinesMustNotHavePseudonodes;
+        private RadioButton rdoCheckLinesMustFormClosedPolygon;
+        private RadioButton rdoCheckLinesMustBeSinglePart;
+        private RadioButton rdoCheckLinesMustOverlapLines;
+        private RadioButton rdoCheckLinesMustOverlapPolygonBoundaries;
+        private RadioButton rdoCheckLineEndpointsMustTouchPoints;
+        private Label label1;
+        private TextBox txtValidationInfo;
+
+
+
+        private MapView mapView;
+
+        private void InitializeComponent()
+        {
+            this.mapView = new ThinkGeo.UI.WinForms.MapView();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.txtValidationInfo = new System.Windows.Forms.TextBox();
+            this.rdoCheckLinesMustNotSelfOverlap = new System.Windows.Forms.RadioButton();
+            this.rdoCheckLinesMustNotSelfIntersect = new System.Windows.Forms.RadioButton();
+            this.rdoCheckLinesMustNotOverlapLines = new System.Windows.Forms.RadioButton();
+            this.rdoCheckLinesMustNotOverlap = new System.Windows.Forms.RadioButton();
+            this.rdoCheckLinesMustNotSelfIntersectOrTouch = new System.Windows.Forms.RadioButton();
+            this.rdoCheckLinesMustNotIntersect = new System.Windows.Forms.RadioButton();
+            this.rdoCheckLinesMustNotHavePseudonodes = new System.Windows.Forms.RadioButton();
+            this.rdoCheckLinesMustFormClosedPolygon = new System.Windows.Forms.RadioButton();
+            this.rdoCheckLinesMustBeSinglePart = new System.Windows.Forms.RadioButton();
+            this.rdoCheckLinesMustOverlapLines = new System.Windows.Forms.RadioButton();
+            this.rdoCheckLinesMustOverlapPolygonBoundaries = new System.Windows.Forms.RadioButton();
+            this.rdoCheckLineEndpointsMustTouchPoints = new System.Windows.Forms.RadioButton();
+            this.label1 = new System.Windows.Forms.Label();
+            this.panel1.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // mapView
+            // 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.mapView.BackColor = System.Drawing.Color.White;
+            this.mapView.CurrentScale = 0D;
+            this.mapView.Location = new System.Drawing.Point(0, 0);
+            this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
+            this.mapView.MaximumScale = 1.7976931348623157E+308D;
+            this.mapView.MinimumScale = 200D;
+            this.mapView.Name = "mapView";
+            this.mapView.RestrictExtent = null;
+            this.mapView.RotatedAngle = 0F;
+            this.mapView.Size = new System.Drawing.Size(826, 703);
+            this.mapView.TabIndex = 0;
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.BackColor = System.Drawing.Color.Gray;
+            this.panel1.Controls.Add(this.txtValidationInfo);
+            this.panel1.Controls.Add(this.rdoCheckLinesMustNotSelfOverlap);
+            this.panel1.Controls.Add(this.rdoCheckLinesMustNotSelfIntersect);
+            this.panel1.Controls.Add(this.rdoCheckLinesMustNotOverlapLines);
+            this.panel1.Controls.Add(this.rdoCheckLinesMustNotOverlap);
+            this.panel1.Controls.Add(this.rdoCheckLinesMustNotSelfIntersectOrTouch);
+            this.panel1.Controls.Add(this.rdoCheckLinesMustNotIntersect);
+            this.panel1.Controls.Add(this.rdoCheckLinesMustNotHavePseudonodes);
+            this.panel1.Controls.Add(this.rdoCheckLinesMustFormClosedPolygon);
+            this.panel1.Controls.Add(this.rdoCheckLinesMustBeSinglePart);
+            this.panel1.Controls.Add(this.rdoCheckLinesMustOverlapLines);
+            this.panel1.Controls.Add(this.rdoCheckLinesMustOverlapPolygonBoundaries);
+            this.panel1.Controls.Add(this.rdoCheckLineEndpointsMustTouchPoints);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Location = new System.Drawing.Point(832, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(390, 703);
+            this.panel1.TabIndex = 1;
+            // 
+            // txtValidationInfo
+            // 
+            this.txtValidationInfo.BackColor = System.Drawing.Color.Gray;
+            this.txtValidationInfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtValidationInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.txtValidationInfo.ForeColor = System.Drawing.Color.White;
+            this.txtValidationInfo.Location = new System.Drawing.Point(22, 390);
+            this.txtValidationInfo.Multiline = true;
+            this.txtValidationInfo.Name = "txtValidationInfo";
+            this.txtValidationInfo.Size = new System.Drawing.Size(328, 287);
+            this.txtValidationInfo.TabIndex = 13;
+            // 
+            // rdoCheckLinesMustNotSelfOverlap
+            // 
+            this.rdoCheckLinesMustNotSelfOverlap.AutoSize = true;
+            this.rdoCheckLinesMustNotSelfOverlap.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoCheckLinesMustNotSelfOverlap.ForeColor = System.Drawing.Color.White;
+            this.rdoCheckLinesMustNotSelfOverlap.Location = new System.Drawing.Point(22, 360);
+            this.rdoCheckLinesMustNotSelfOverlap.Name = "rdoCheckLinesMustNotSelfOverlap";
+            this.rdoCheckLinesMustNotSelfOverlap.Size = new System.Drawing.Size(242, 24);
+            this.rdoCheckLinesMustNotSelfOverlap.TabIndex = 12;
+            this.rdoCheckLinesMustNotSelfOverlap.TabStop = true;
+            this.rdoCheckLinesMustNotSelfOverlap.Text = "Lines Must Not Self-Overlap";
+            this.rdoCheckLinesMustNotSelfOverlap.UseVisualStyleBackColor = true;
+            this.rdoCheckLinesMustNotSelfOverlap.CheckedChanged += new System.EventHandler(this.rdoCheckLinesMustNotSelfOverlap_CheckedChanged);
+            // 
+            // rdoCheckLinesMustNotSelfIntersect
+            // 
+            this.rdoCheckLinesMustNotSelfIntersect.AutoSize = true;
+            this.rdoCheckLinesMustNotSelfIntersect.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoCheckLinesMustNotSelfIntersect.ForeColor = System.Drawing.Color.White;
+            this.rdoCheckLinesMustNotSelfIntersect.Location = new System.Drawing.Point(22, 333);
+            this.rdoCheckLinesMustNotSelfIntersect.Name = "rdoCheckLinesMustNotSelfIntersect";
+            this.rdoCheckLinesMustNotSelfIntersect.Size = new System.Drawing.Size(249, 24);
+            this.rdoCheckLinesMustNotSelfIntersect.TabIndex = 11;
+            this.rdoCheckLinesMustNotSelfIntersect.TabStop = true;
+            this.rdoCheckLinesMustNotSelfIntersect.Text = "Lines Must Not Self-Intersect";
+            this.rdoCheckLinesMustNotSelfIntersect.UseVisualStyleBackColor = true;
+            this.rdoCheckLinesMustNotSelfIntersect.CheckedChanged += new System.EventHandler(this.rdoCheckLinesMustNotSelfIntersect_CheckedChanged);
+            // 
+            // rdoCheckLinesMustNotOverlapLines
+            // 
+            this.rdoCheckLinesMustNotOverlapLines.AutoSize = true;
+            this.rdoCheckLinesMustNotOverlapLines.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoCheckLinesMustNotOverlapLines.ForeColor = System.Drawing.Color.White;
+            this.rdoCheckLinesMustNotOverlapLines.Location = new System.Drawing.Point(22, 306);
+            this.rdoCheckLinesMustNotOverlapLines.Name = "rdoCheckLinesMustNotOverlapLines";
+            this.rdoCheckLinesMustNotOverlapLines.Size = new System.Drawing.Size(292, 24);
+            this.rdoCheckLinesMustNotOverlapLines.TabIndex = 10;
+            this.rdoCheckLinesMustNotOverlapLines.TabStop = true;
+            this.rdoCheckLinesMustNotOverlapLines.Text = "Lines Must Not Overlap With Lines";
+            this.rdoCheckLinesMustNotOverlapLines.UseVisualStyleBackColor = true;
+            this.rdoCheckLinesMustNotOverlapLines.CheckedChanged += new System.EventHandler(this.rdoCheckLinesMustNotOverlapLines_CheckedChanged);
+            // 
+            // rdoCheckLinesMustNotOverlap
+            // 
+            this.rdoCheckLinesMustNotOverlap.AutoSize = true;
+            this.rdoCheckLinesMustNotOverlap.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoCheckLinesMustNotOverlap.ForeColor = System.Drawing.Color.White;
+            this.rdoCheckLinesMustNotOverlap.Location = new System.Drawing.Point(22, 276);
+            this.rdoCheckLinesMustNotOverlap.Name = "rdoCheckLinesMustNotOverlap";
+            this.rdoCheckLinesMustNotOverlap.Size = new System.Drawing.Size(207, 24);
+            this.rdoCheckLinesMustNotOverlap.TabIndex = 9;
+            this.rdoCheckLinesMustNotOverlap.TabStop = true;
+            this.rdoCheckLinesMustNotOverlap.Text = "Lines Must Not Overlap";
+            this.rdoCheckLinesMustNotOverlap.UseVisualStyleBackColor = true;
+            this.rdoCheckLinesMustNotOverlap.CheckedChanged += new System.EventHandler(this.rdoCheckLinesMustNotOverlap_CheckedChanged);
+            // 
+            // rdoCheckLinesMustNotSelfIntersectOrTouch
+            // 
+            this.rdoCheckLinesMustNotSelfIntersectOrTouch.AutoSize = true;
+            this.rdoCheckLinesMustNotSelfIntersectOrTouch.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoCheckLinesMustNotSelfIntersectOrTouch.ForeColor = System.Drawing.Color.White;
+            this.rdoCheckLinesMustNotSelfIntersectOrTouch.Location = new System.Drawing.Point(22, 252);
+            this.rdoCheckLinesMustNotSelfIntersectOrTouch.Name = "rdoCheckLinesMustNotSelfIntersectOrTouch";
+            this.rdoCheckLinesMustNotSelfIntersectOrTouch.Size = new System.Drawing.Size(324, 24);
+            this.rdoCheckLinesMustNotSelfIntersectOrTouch.TabIndex = 8;
+            this.rdoCheckLinesMustNotSelfIntersectOrTouch.TabStop = true;
+            this.rdoCheckLinesMustNotSelfIntersectOrTouch.Text = "Lines Must Not Self-Intersect Or Touch";
+            this.rdoCheckLinesMustNotSelfIntersectOrTouch.UseVisualStyleBackColor = true;
+            this.rdoCheckLinesMustNotSelfIntersectOrTouch.CheckedChanged += new System.EventHandler(this.rdoCheckLinesMustNotSelfIntersectOrTouch_CheckedChanged);
+            // 
+            // rdoCheckLinesMustNotIntersect
+            // 
+            this.rdoCheckLinesMustNotIntersect.AutoSize = true;
+            this.rdoCheckLinesMustNotIntersect.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoCheckLinesMustNotIntersect.ForeColor = System.Drawing.Color.White;
+            this.rdoCheckLinesMustNotIntersect.Location = new System.Drawing.Point(22, 225);
+            this.rdoCheckLinesMustNotIntersect.Name = "rdoCheckLinesMustNotIntersect";
+            this.rdoCheckLinesMustNotIntersect.Size = new System.Drawing.Size(214, 24);
+            this.rdoCheckLinesMustNotIntersect.TabIndex = 7;
+            this.rdoCheckLinesMustNotIntersect.TabStop = true;
+            this.rdoCheckLinesMustNotIntersect.Text = "Lines Must Not Intersect";
+            this.rdoCheckLinesMustNotIntersect.UseVisualStyleBackColor = true;
+            this.rdoCheckLinesMustNotIntersect.CheckedChanged += new System.EventHandler(this.rdoCheckLinesMustNotIntersect_CheckedChanged);
+            // 
+            // rdoCheckLinesMustNotHavePseudonodes
+            // 
+            this.rdoCheckLinesMustNotHavePseudonodes.AutoSize = true;
+            this.rdoCheckLinesMustNotHavePseudonodes.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoCheckLinesMustNotHavePseudonodes.ForeColor = System.Drawing.Color.White;
+            this.rdoCheckLinesMustNotHavePseudonodes.Location = new System.Drawing.Point(22, 198);
+            this.rdoCheckLinesMustNotHavePseudonodes.Name = "rdoCheckLinesMustNotHavePseudonodes";
+            this.rdoCheckLinesMustNotHavePseudonodes.Size = new System.Drawing.Size(294, 24);
+            this.rdoCheckLinesMustNotHavePseudonodes.TabIndex = 6;
+            this.rdoCheckLinesMustNotHavePseudonodes.TabStop = true;
+            this.rdoCheckLinesMustNotHavePseudonodes.Text = "Lines Must Not Have Pseudonodes";
+            this.rdoCheckLinesMustNotHavePseudonodes.UseVisualStyleBackColor = true;
+            this.rdoCheckLinesMustNotHavePseudonodes.CheckedChanged += new System.EventHandler(this.rdoCheckLinesMustNotHavePseudonodes_CheckedChanged);
+            // 
+            // rdoCheckLinesMustFormClosedPolygon
+            // 
+            this.rdoCheckLinesMustFormClosedPolygon.AutoSize = true;
+            this.rdoCheckLinesMustFormClosedPolygon.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoCheckLinesMustFormClosedPolygon.ForeColor = System.Drawing.Color.White;
+            this.rdoCheckLinesMustFormClosedPolygon.Location = new System.Drawing.Point(22, 171);
+            this.rdoCheckLinesMustFormClosedPolygon.Name = "rdoCheckLinesMustFormClosedPolygon";
+            this.rdoCheckLinesMustFormClosedPolygon.Size = new System.Drawing.Size(287, 24);
+            this.rdoCheckLinesMustFormClosedPolygon.TabIndex = 5;
+            this.rdoCheckLinesMustFormClosedPolygon.TabStop = true;
+            this.rdoCheckLinesMustFormClosedPolygon.Text = "Lines Must Form Closed Polygons";
+            this.rdoCheckLinesMustFormClosedPolygon.UseVisualStyleBackColor = true;
+            this.rdoCheckLinesMustFormClosedPolygon.CheckedChanged += new System.EventHandler(this.rdoCheckLinesMustFormClosedPolygon_CheckedChanged);
+            // 
+            // rdoCheckLinesMustBeSinglePart
+            // 
+            this.rdoCheckLinesMustBeSinglePart.AutoSize = true;
+            this.rdoCheckLinesMustBeSinglePart.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoCheckLinesMustBeSinglePart.ForeColor = System.Drawing.Color.White;
+            this.rdoCheckLinesMustBeSinglePart.Location = new System.Drawing.Point(22, 144);
+            this.rdoCheckLinesMustBeSinglePart.Name = "rdoCheckLinesMustBeSinglePart";
+            this.rdoCheckLinesMustBeSinglePart.Size = new System.Drawing.Size(226, 24);
+            this.rdoCheckLinesMustBeSinglePart.TabIndex = 4;
+            this.rdoCheckLinesMustBeSinglePart.TabStop = true;
+            this.rdoCheckLinesMustBeSinglePart.Text = "Lines Must Be Single Part";
+            this.rdoCheckLinesMustBeSinglePart.UseVisualStyleBackColor = true;
+            this.rdoCheckLinesMustBeSinglePart.CheckedChanged += new System.EventHandler(this.rdoCheckLinesMustBeSinglePart_CheckedChanged);
+            // 
+            // rdoCheckLinesMustOverlapLines
+            // 
+            this.rdoCheckLinesMustOverlapLines.AutoSize = true;
+            this.rdoCheckLinesMustOverlapLines.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoCheckLinesMustOverlapLines.ForeColor = System.Drawing.Color.White;
+            this.rdoCheckLinesMustOverlapLines.Location = new System.Drawing.Point(22, 117);
+            this.rdoCheckLinesMustOverlapLines.Name = "rdoCheckLinesMustOverlapLines";
+            this.rdoCheckLinesMustOverlapLines.Size = new System.Drawing.Size(222, 24);
+            this.rdoCheckLinesMustOverlapLines.TabIndex = 3;
+            this.rdoCheckLinesMustOverlapLines.TabStop = true;
+            this.rdoCheckLinesMustOverlapLines.Text = "Lines Must Overlap Lines";
+            this.rdoCheckLinesMustOverlapLines.UseVisualStyleBackColor = true;
+            this.rdoCheckLinesMustOverlapLines.CheckedChanged += new System.EventHandler(this.rdoCheckLinesMustOverlapLines_CheckedChanged);
+            // 
+            // rdoCheckLinesMustOverlapPolygonBoundaries
+            // 
+            this.rdoCheckLinesMustOverlapPolygonBoundaries.AutoSize = true;
+            this.rdoCheckLinesMustOverlapPolygonBoundaries.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoCheckLinesMustOverlapPolygonBoundaries.ForeColor = System.Drawing.Color.White;
+            this.rdoCheckLinesMustOverlapPolygonBoundaries.Location = new System.Drawing.Point(22, 90);
+            this.rdoCheckLinesMustOverlapPolygonBoundaries.Name = "rdoCheckLinesMustOverlapPolygonBoundaries";
+            this.rdoCheckLinesMustOverlapPolygonBoundaries.Size = new System.Drawing.Size(330, 24);
+            this.rdoCheckLinesMustOverlapPolygonBoundaries.TabIndex = 2;
+            this.rdoCheckLinesMustOverlapPolygonBoundaries.TabStop = true;
+            this.rdoCheckLinesMustOverlapPolygonBoundaries.Text = "Lines Must Overlap Polygon Boundaries";
+            this.rdoCheckLinesMustOverlapPolygonBoundaries.UseVisualStyleBackColor = true;
+            this.rdoCheckLinesMustOverlapPolygonBoundaries.CheckedChanged += new System.EventHandler(this.rdoCheckLinesMustOverlapPolygonBoundaries_CheckedChanged);
+            // 
+            // rdoCheckLineEndpointsMustTouchPoints
+            // 
+            this.rdoCheckLineEndpointsMustTouchPoints.AutoSize = true;
+            this.rdoCheckLineEndpointsMustTouchPoints.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoCheckLineEndpointsMustTouchPoints.ForeColor = System.Drawing.Color.White;
+            this.rdoCheckLineEndpointsMustTouchPoints.Location = new System.Drawing.Point(22, 63);
+            this.rdoCheckLineEndpointsMustTouchPoints.Name = "rdoCheckLineEndpointsMustTouchPoints";
+            this.rdoCheckLineEndpointsMustTouchPoints.Size = new System.Drawing.Size(286, 24);
+            this.rdoCheckLineEndpointsMustTouchPoints.TabIndex = 1;
+            this.rdoCheckLineEndpointsMustTouchPoints.TabStop = true;
+            this.rdoCheckLineEndpointsMustTouchPoints.Text = "Line Endpoints Must Touch Points";
+            this.rdoCheckLineEndpointsMustTouchPoints.UseVisualStyleBackColor = true;
+            this.rdoCheckLineEndpointsMustTouchPoints.CheckedChanged += new System.EventHandler(this.rdoCheckLineEndpointsMustTouchPoints_CheckedChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(19, 24);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(194, 25);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Line Validation Tests";
+            // 
+            // LineValidationSample
+            // 
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.mapView);
+            this.Name = "LineValidationSample";
+            this.Size = new System.Drawing.Size(1222, 703);
+            this.Load += new System.EventHandler(this.Form_Load);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.ResumeLayout(false);
+
+        }
+
+        #region Component Designer generated code
+        #endregion Component Designer generated code
 
     }
 }

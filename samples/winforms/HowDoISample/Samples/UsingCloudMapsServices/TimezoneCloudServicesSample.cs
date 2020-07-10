@@ -52,76 +52,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             GetTimeZoneInfo(-10779572.80, 3915268.68);
         }
 
-        private Panel panel1;
-        private Label label1;
-
-        #region Component Designer generated code
-
-        private MapView mapView;
-
-        private void InitializeComponent()
-        {
-            this.mapView = new ThinkGeo.UI.WinForms.MapView();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.panel1.SuspendLayout();
-            this.SuspendLayout();
-            // 
-            // mapView
-            // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.mapView.BackColor = System.Drawing.Color.White;
-            this.mapView.CurrentScale = 0D;
-            this.mapView.Location = new System.Drawing.Point(0, 0);
-            this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
-            this.mapView.MaximumScale = 1.7976931348623157E+308D;
-            this.mapView.MinimumScale = 200D;
-            this.mapView.Name = "mapView";
-            this.mapView.RestrictExtent = null;
-            this.mapView.RotatedAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(906, 713);
-            this.mapView.TabIndex = 0;
-            this.mapView.MapClick += new System.EventHandler<ThinkGeo.Core.MapClickMapViewEventArgs>(this.mapView_MapClick);
-            // 
-            // panel1
-            // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.BackColor = System.Drawing.Color.Gray;
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(912, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(300, 713);
-            this.panel1.TabIndex = 1;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(15, 13);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(215, 50);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Click on the Map to Get\r\nTimeZone Information";
-            // 
-            // TimezoneCloudServicesSample
-            // 
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.mapView);
-            this.Name = "TimezoneCloudServicesSample";
-            this.Size = new System.Drawing.Size(1212, 713);
-            this.Load += new System.EventHandler(this.Form_Load);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.ResumeLayout(false);
-
-        }
-
-        #endregion Component Designer generated code
-
         private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
             if (e.MouseButton == MapMouseButton.Left)
@@ -188,6 +118,75 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Refresh and redraw the map
             mapView.Refresh();
         }
+
+        private Panel panel1;
+        private Label label1;
+
+
+        private MapView mapView;
+
+        private void InitializeComponent()
+        {
+            this.mapView = new ThinkGeo.UI.WinForms.MapView();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.panel1.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // mapView
+            // 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.mapView.BackColor = System.Drawing.Color.White;
+            this.mapView.CurrentScale = 0D;
+            this.mapView.Location = new System.Drawing.Point(0, 0);
+            this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
+            this.mapView.MaximumScale = 1.7976931348623157E+308D;
+            this.mapView.MinimumScale = 200D;
+            this.mapView.Name = "mapView";
+            this.mapView.RestrictExtent = null;
+            this.mapView.RotatedAngle = 0F;
+            this.mapView.Size = new System.Drawing.Size(906, 713);
+            this.mapView.TabIndex = 0;
+            this.mapView.MapClick += new System.EventHandler<ThinkGeo.Core.MapClickMapViewEventArgs>(this.mapView_MapClick);
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.BackColor = System.Drawing.Color.Gray;
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Location = new System.Drawing.Point(912, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(300, 713);
+            this.panel1.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(15, 13);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(215, 50);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Click on the Map to Get\r\nTimeZone Information";
+            // 
+            // TimezoneCloudServicesSample
+            // 
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.mapView);
+            this.Name = "TimezoneCloudServicesSample";
+            this.Size = new System.Drawing.Size(1212, 713);
+            this.Load += new System.EventHandler(this.Form_Load);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.ResumeLayout(false);
+
+        }
+        #region Component Designer generated code
+        #endregion Component Designer generated code
 
     }
 }

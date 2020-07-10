@@ -519,6 +519,55 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
 
 
+
+
+        private async void generate_Click(object sender, EventArgs e)
+        {
+            // Get a new set of colors from the ThinkGeo Cloud
+            Collection<GeoColor> colors = await GetColorsFromCloud();
+
+            // If colors were successfully generated, update the map
+            if (colors.Count > 0)
+            {
+                UpdateHousingUnitsLayerColors(colors);
+            }
+        }
+
+        private void cboColorType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var comboBoxContent = (cboColorType.SelectedItem as string);
+
+            if (comboBoxContent != null)
+            {
+                switch (comboBoxContent.ToString())
+                {
+                    case "Hue":
+                        txtColorCategoryDescription.Text = "Get a family of colors with the same hue and sequential variances in lightness and saturation";
+                        break;
+                    case "Analogous":
+                        txtColorCategoryDescription.Text = "Get a family of colors based on analogous hues";
+                        break;
+                    case "Complementary":
+                        txtColorCategoryDescription.Text = "Get a family of colors based on complementary hues";
+                        break;
+                    case "Contrasting":
+                        txtColorCategoryDescription.Text = "Get a family of colors based on contrasting hues";
+                        break;
+                    case "Quality":
+                        txtColorCategoryDescription.Text = "Get a family of colors with qualitative variances in hue, but similar lightness and saturation";
+                        break;
+                    case "Tetrad":
+                        txtColorCategoryDescription.Text = "Get a family of colors based on a harmonious tetrad of hues";
+                        break;
+                    case "Triad":
+                        txtColorCategoryDescription.Text = "Get a family of colors based on a harmonious tried of hues";
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
         private Panel panel1;
         private RadioButton rdoRandomColor;
         private Label label4;
@@ -531,8 +580,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private TextBox txtSpecificColor;
         private RadioButton rdoDefaultColor;
         private RadioButton rdoSpecificColor;
-
-        #region Component Designer generated code
 
         private MapView mapView;
 
@@ -556,8 +603,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -573,7 +620,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.generate);
@@ -744,56 +791,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-
-
-
+        #region Component Designer generated code
         #endregion Component Designer generated code
 
-        private async void generate_Click(object sender, EventArgs e)
-        {
-            // Get a new set of colors from the ThinkGeo Cloud
-            Collection<GeoColor> colors = await GetColorsFromCloud();
 
-            // If colors were successfully generated, update the map
-            if (colors.Count > 0)
-            {
-                UpdateHousingUnitsLayerColors(colors);
-            }
-        }
-
-        private void cboColorType_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var comboBoxContent = (cboColorType.SelectedItem as string);
-
-            if (comboBoxContent != null)
-            {
-                switch (comboBoxContent.ToString())
-                {
-                    case "Hue":
-                        txtColorCategoryDescription.Text = "Get a family of colors with the same hue and sequential variances in lightness and saturation";
-                        break;
-                    case "Analogous":
-                        txtColorCategoryDescription.Text = "Get a family of colors based on analogous hues";
-                        break;
-                    case "Complementary":
-                        txtColorCategoryDescription.Text = "Get a family of colors based on complementary hues";
-                        break;
-                    case "Contrasting":
-                        txtColorCategoryDescription.Text = "Get a family of colors based on contrasting hues";
-                        break;
-                    case "Quality":
-                        txtColorCategoryDescription.Text = "Get a family of colors with qualitative variances in hue, but similar lightness and saturation";
-                        break;
-                    case "Tetrad":
-                        txtColorCategoryDescription.Text = "Get a family of colors based on a harmonious tetrad of hues";
-                        break;
-                    case "Triad":
-                        txtColorCategoryDescription.Text = "Get a family of colors based on a harmonious tried of hues";
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
     }
 }

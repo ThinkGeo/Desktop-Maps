@@ -133,6 +133,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             };
         }
 
+        private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        {
+            GetFeaturesWithinDistance(e.WorldLocation);
+        }
+
         private Panel panel1;
         private TrackBar searchRadius;
         private Label label3;
@@ -141,7 +146,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private TextBox txtNumberOfFeaturesFound;
         private TextBox txtSlider;
 
-        #region Component Designer generated code
 
         private MapView mapView;
 
@@ -161,8 +165,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -179,7 +183,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.txtNumberOfFeaturesFound);
@@ -274,12 +278,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-
+        #region Component Designer generated code
         #endregion Component Designer generated code
 
-        private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
-        {
-            GetFeaturesWithinDistance(e.WorldLocation);
-        }
     }
 }

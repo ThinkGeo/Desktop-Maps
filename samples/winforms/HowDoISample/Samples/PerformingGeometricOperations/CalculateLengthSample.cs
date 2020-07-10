@@ -51,6 +51,31 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add("layerOverlay", layerOverlay);
         }
 
+
+
+        private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        {
+            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
+
+            ShapeFileFeatureLayer friscoTrails = (ShapeFileFeatureLayer)layerOverlay.Layers["friscoTrails"];
+            InMemoryFeatureLayer selectedLineLayer = (InMemoryFeatureLayer)layerOverlay.Layers["selectedLineLayer"];
+
+            // Query the friscoTrails layer to get the first feature closest to the map click event
+            var feature = friscoTrails.QueryTools.GetFeaturesNearestTo(e.WorldLocation, GeographyUnit.Meter, 1,
+                ReturningColumnsType.NoColumns).First();
+
+            // Show the selected feature on the map
+            selectedLineLayer.InternalFeatures.Clear();
+            selectedLineLayer.InternalFeatures.Add(feature);
+            layerOverlay.Refresh();
+
+            // Get the length of the first feature
+            var length = ((LineBaseShape)feature.GetShape()).GetLength(GeographyUnit.Meter, DistanceUnit.Kilometer);
+
+            // Display the selectedLine's length in the lengthResult TextBox
+            lengthResult.Text = $"{length:f3} km";
+        }
+
         private Panel panel1;
         private TextBox lengthResult;
         private Label label3;
@@ -74,8 +99,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -92,7 +117,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.lengthResult);
@@ -160,27 +185,5 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         #endregion Component Designer generated code
 
-        private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
-        {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
-
-            ShapeFileFeatureLayer friscoTrails = (ShapeFileFeatureLayer)layerOverlay.Layers["friscoTrails"];
-            InMemoryFeatureLayer selectedLineLayer = (InMemoryFeatureLayer)layerOverlay.Layers["selectedLineLayer"];
-
-            // Query the friscoTrails layer to get the first feature closest to the map click event
-            var feature = friscoTrails.QueryTools.GetFeaturesNearestTo(e.WorldLocation, GeographyUnit.Meter, 1,
-                ReturningColumnsType.NoColumns).First();
-
-            // Show the selected feature on the map
-            selectedLineLayer.InternalFeatures.Clear();
-            selectedLineLayer.InternalFeatures.Add(feature);
-            layerOverlay.Refresh();
-
-            // Get the length of the first feature
-            var length = ((LineBaseShape)feature.GetShape()).GetLength(GeographyUnit.Meter, DistanceUnit.Kilometer);
-
-            // Display the selectedLine's length in the lengthResult TextBox
-            lengthResult.Text = $"{length:f3} km";
-        }
     }
 }

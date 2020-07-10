@@ -27,14 +27,61 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapTools.MouseCoordinate.IsEnabled = true;
         }
 
+        private void displayMouseCoordinates_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox checkbox = sender as CheckBox;
 
+            if (checkbox.Checked == true)
+            {
+                mapView.MapTools.MouseCoordinate.IsEnabled = true;
 
+            }
+            else
+            {
+                mapView.MapTools.MouseCoordinate.IsEnabled = false;
+
+            }
+        }
+
+        /// <summary>
+        /// Event handler that formats the MouseCoordinates to use WorldCoordinates and changes the Foreground color to red.
+        /// Other modifications to the display of the MouseCoordinates can be safely done here.
+        /// </summary>
+        private void MouseCoordinate_CustomMouseCoordinateFormat(object sender, CustomFormattedMouseCoordinateMapToolEventArgs e)
+        {
+           ((MouseCoordinateMapTool)sender).Foreground = new SolidColorBrush(Colors.Red);
+            e.Result = $"X: {e.WorldCoordinate.X.ToString("N0")}, Y: {e.WorldCoordinate.Y.ToString("N0")}";
+        }
+
+        private void coordinateType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (coordinateType.Text)
+            {
+                case "(lat), (lon)":
+                    // Set to Lat, Lon format
+                    mapView.MapTools.MouseCoordinate.MouseCoordinateType = MouseCoordinateType.LatitudeLongitude;
+                    break;
+                case "(lon), (lat)":
+                    // Set to Lon, Lat format
+                    mapView.MapTools.MouseCoordinate.MouseCoordinateType = MouseCoordinateType.LongitudeLatitude;
+                    break;
+                case "(degrees), (minutes), (seconds)":
+                    // Set to Degrees, Minutes, Seconds format
+                    mapView.MapTools.MouseCoordinate.MouseCoordinateType = MouseCoordinateType.DegreesMinutesSeconds;
+                    break;
+                case "(custom)":
+                    // Set to a custom format
+                    mapView.MapTools.MouseCoordinate.MouseCoordinateType = MouseCoordinateType.Custom;
+                    // Add an EventHandler to handle what the formatted output should look like
+                    mapView.MapTools.MouseCoordinate.CustomFormatted += new System.EventHandler<CustomFormattedMouseCoordinateMapToolEventArgs>(MouseCoordinate_CustomMouseCoordinateFormat);
+                    break;
+            }
+        }
         private Panel panel1;
         private ComboBox coordinateType;
         private CheckBox displayMouseCoordinates;
         private Label label1;
 
-        #region Component Designer generated code
 
         private MapView mapView;
 
@@ -50,8 +97,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -67,7 +114,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.coordinateType);
@@ -132,58 +179,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
+        #region Component Designer generated code
         #endregion Component Designer generated code
-
-        private void displayMouseCoordinates_CheckedChanged(object sender, EventArgs e)
-        {
-            CheckBox checkbox = sender as CheckBox;
-
-            if (checkbox.Checked == true)
-            {
-                mapView.MapTools.MouseCoordinate.IsEnabled = true;
-
-            }
-            else
-            {
-                mapView.MapTools.MouseCoordinate.IsEnabled = false;
-
-            }
-        }
-
-        /// <summary>
-        /// Event handler that formats the MouseCoordinates to use WorldCoordinates and changes the Foreground color to red.
-        /// Other modifications to the display of the MouseCoordinates can be safely done here.
-        /// </summary>
-        private void MouseCoordinate_CustomMouseCoordinateFormat(object sender, CustomFormattedMouseCoordinateMapToolEventArgs e)
-        {
-           ((MouseCoordinateMapTool)sender).Foreground = new SolidColorBrush(Colors.Red);
-            e.Result = $"X: {e.WorldCoordinate.X.ToString("N0")}, Y: {e.WorldCoordinate.Y.ToString("N0")}";
-        }
-
-        private void coordinateType_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            switch (coordinateType.Text)
-            {
-                case "(lat), (lon)":
-                    // Set to Lat, Lon format
-                    mapView.MapTools.MouseCoordinate.MouseCoordinateType = MouseCoordinateType.LatitudeLongitude;
-                    break;
-                case "(lon), (lat)":
-                    // Set to Lon, Lat format
-                    mapView.MapTools.MouseCoordinate.MouseCoordinateType = MouseCoordinateType.LongitudeLatitude;
-                    break;
-                case "(degrees), (minutes), (seconds)":
-                    // Set to Degrees, Minutes, Seconds format
-                    mapView.MapTools.MouseCoordinate.MouseCoordinateType = MouseCoordinateType.DegreesMinutesSeconds;
-                    break;
-                case "(custom)":
-                    // Set to a custom format
-                    mapView.MapTools.MouseCoordinate.MouseCoordinateType = MouseCoordinateType.Custom;
-                    // Add an EventHandler to handle what the formatted output should look like
-                    mapView.MapTools.MouseCoordinate.CustomFormatted += new System.EventHandler<CustomFormattedMouseCoordinateMapToolEventArgs>(MouseCoordinate_CustomMouseCoordinateFormat);
-                    break;
-            }
-        }
 
     }
 }

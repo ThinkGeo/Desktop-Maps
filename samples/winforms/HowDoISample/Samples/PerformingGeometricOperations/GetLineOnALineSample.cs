@@ -53,6 +53,30 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add("layerOverlay", layerOverlay);
         }
 
+        private void getSubLine_Click(object sender, EventArgs e)
+        {
+            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
+
+            InMemoryFeatureLayer railway = (InMemoryFeatureLayer)layerOverlay.Layers["railway"];
+            InMemoryFeatureLayer subLineLayer = (InMemoryFeatureLayer)layerOverlay.Layers["subLineLayer"];
+
+            // Query the railway layer to get all the features
+            railway.Open();
+            var feature = railway.QueryTools.GetAllFeatures(ReturningColumnsType.NoColumns).First();
+            railway.Close();
+
+            // Get the subLine from the railway line shape
+            var subLine = ((LineShape)feature.GetShape()).GetLineOnALine(StartingPoint.FirstPoint, Convert.ToDouble(startingOffset.Text), Convert.ToDouble(distance.Text), GeographyUnit.Meter,
+                DistanceUnit.Meter);
+
+            // Add the subLine into an InMemoryFeatureLayer to display the result.
+            subLineLayer.InternalFeatures.Clear();
+            subLineLayer.InternalFeatures.Add(new Feature(subLine));
+
+            // Redraw the layerOverlay to see the subLine on the map
+            layerOverlay.Refresh();
+        }
+
         private Panel panel1;
         private Button getSubLine;
         private TextBox startingOffset;
@@ -61,7 +85,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private Label label2;
         private Label label1;
 
-        #region Component Designer generated code
 
         private MapView mapView;
 
@@ -80,8 +103,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -97,7 +120,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.getSubLine);
@@ -186,30 +209,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
+        #region Component Designer generated code
         #endregion Component Designer generated code
 
-        private void getSubLine_Click(object sender, EventArgs e)
-        {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
-
-            InMemoryFeatureLayer railway = (InMemoryFeatureLayer)layerOverlay.Layers["railway"];
-            InMemoryFeatureLayer subLineLayer = (InMemoryFeatureLayer)layerOverlay.Layers["subLineLayer"];
-
-            // Query the railway layer to get all the features
-            railway.Open();
-            var feature = railway.QueryTools.GetAllFeatures(ReturningColumnsType.NoColumns).First();
-            railway.Close();
-
-            // Get the subLine from the railway line shape
-            var subLine = ((LineShape)feature.GetShape()).GetLineOnALine(StartingPoint.FirstPoint, Convert.ToDouble(startingOffset.Text), Convert.ToDouble(distance.Text), GeographyUnit.Meter,
-                DistanceUnit.Meter);
-
-            // Add the subLine into an InMemoryFeatureLayer to display the result.
-            subLineLayer.InternalFeatures.Clear();
-            subLineLayer.InternalFeatures.Add(new Feature(subLine));
-
-            // Redraw the layerOverlay to see the subLine on the map
-            layerOverlay.Refresh();
-        }
     }
 }

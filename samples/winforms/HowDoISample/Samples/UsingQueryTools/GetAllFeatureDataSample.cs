@@ -75,14 +75,48 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Refresh();
         }
 
+        private void lsbHotels_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            InMemoryFeatureLayer highlightedHotelLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Highlighted Hotel");
+            highlightedHotelLayer.Open();
+            highlightedHotelLayer.InternalFeatures.Clear();
 
+            // Get the selected location
+            Hotel hotel = lsbHotels.SelectedItem as Hotel;
+            if (hotel != null)
+            {
+                highlightedHotelLayer.InternalFeatures.Add(new Feature(hotel.Location));
+
+                // Center the map on the chosen location
+                mapView.CurrentExtent = hotel.Location.GetBoundingBox();
+                ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
+                mapView.ZoomToScale(standardZoomLevelSet.ZoomLevel18.Scale);
+                mapView.Refresh();
+            }
+
+            highlightedHotelLayer.Close();
+
+        }
+        public class Hotel
+        {
+            public string Name { get; set; }
+            public string Address { get; set; }
+            public int Rooms { get; set; }
+            public PointShape Location { get; set; }
+
+            public Hotel(string name, string address, int rooms, PointShape location)
+            {
+                Name = name;
+                Address = address;
+                Rooms = rooms;
+                Location = location;
+            }
+        }
 
         private Panel panel1;
         private ListBox lsbHotels;
         private Label label2;
         private Label label1;
-
-        #region Component Designer generated code
 
         private MapView mapView;
 
@@ -98,8 +132,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -115,7 +149,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.lsbHotels);
@@ -171,46 +205,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.ResumeLayout(false);
 
         }
-
+        #region Component Designer generated code
         #endregion Component Designer generated code
-
-        private void lsbHotels_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            InMemoryFeatureLayer highlightedHotelLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Highlighted Hotel");
-            highlightedHotelLayer.Open();
-            highlightedHotelLayer.InternalFeatures.Clear();
-
-            // Get the selected location
-            Hotel hotel = lsbHotels.SelectedItem as Hotel;
-            if (hotel != null)
-            {
-                highlightedHotelLayer.InternalFeatures.Add(new Feature(hotel.Location));
-
-                // Center the map on the chosen location
-                mapView.CurrentExtent = hotel.Location.GetBoundingBox();
-                ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
-                mapView.ZoomToScale(standardZoomLevelSet.ZoomLevel18.Scale);
-                mapView.Refresh();
-            }
-
-            highlightedHotelLayer.Close();
-
-        }
-        public class Hotel
-        {
-            public string Name { get; set; }
-            public string Address { get; set; }
-            public int Rooms { get; set; }
-            public PointShape Location { get; set; }
-
-            public Hotel(string name, string address, int rooms, PointShape location)
-            {
-                Name = name;
-                Address = address;
-                Rooms = rooms;
-                Location = location;
-            }
-        }
 
     }
 }

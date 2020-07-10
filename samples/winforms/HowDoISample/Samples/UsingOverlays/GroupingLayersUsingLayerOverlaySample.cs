@@ -99,12 +99,41 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             ShowLandUse.Checked = true;
         }
 
+        private void ShowPoi_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox checkbox = sender as CheckBox;
+            if (checkbox.Checked == true)
+            {
+                LayerOverlay poiOverlay = (LayerOverlay)mapView.Overlays["poiOverlay"];
+                poiOverlay.IsVisible = true;
+            }
+            else
+            {
+                LayerOverlay poiOverlay = (LayerOverlay)mapView.Overlays["poiOverlay"];
+                poiOverlay.IsVisible = false;
+            }
+        }
+
+        private void ShowLandUse_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox checkbox = sender as CheckBox;
+            if (checkbox.Checked == true)
+            {
+                LayerOverlay landuseOverlay = (LayerOverlay)mapView.Overlays["landuseOverlay"];
+                landuseOverlay.IsVisible = true;
+            }
+            else
+            {
+                LayerOverlay landuseOverlay = (LayerOverlay)mapView.Overlays["landuseOverlay"];
+                landuseOverlay.IsVisible = false;
+            }
+        }
+
         private Panel panel1;
         private CheckBox ShowLandUse;
         private CheckBox ShowPoi;
         private Label label1;
 
-        #region Component Designer generated code
 
         private MapView mapView;
 
@@ -120,8 +149,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -137,7 +166,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.ShowLandUse);
@@ -197,37 +226,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.ResumeLayout(false);
 
         }
-
+        #region Component Designer generated code
         #endregion Component Designer generated code
 
-        private void ShowPoi_CheckedChanged(object sender, EventArgs e)
-        {
-            CheckBox checkbox = sender as CheckBox;
-            if (checkbox.Checked == true)
-            {
-                LayerOverlay poiOverlay = (LayerOverlay)mapView.Overlays["poiOverlay"];
-                poiOverlay.IsVisible = true;
-            }
-            else
-            {
-                LayerOverlay poiOverlay = (LayerOverlay)mapView.Overlays["poiOverlay"];
-                poiOverlay.IsVisible = false;
-            }
-        }
-
-        private void ShowLandUse_CheckedChanged(object sender, EventArgs e)
-        {
-            CheckBox checkbox = sender as CheckBox;
-            if (checkbox.Checked == true)
-            {
-                LayerOverlay landuseOverlay = (LayerOverlay)mapView.Overlays["landuseOverlay"];
-                landuseOverlay.IsVisible = true;
-            }
-            else
-            {
-                LayerOverlay landuseOverlay = (LayerOverlay)mapView.Overlays["landuseOverlay"];
-                landuseOverlay.IsVisible = false;
-            }
-        }
     }
 }

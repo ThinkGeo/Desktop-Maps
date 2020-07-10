@@ -52,6 +52,57 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add("layerOverlay", layerOverlay);
         }
 
+        private void offsetTranslateShape_Click(object sender, EventArgs e)
+        {
+            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
+
+            ShapeFileFeatureLayer cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
+            InMemoryFeatureLayer translatedLayer = (InMemoryFeatureLayer)layerOverlay.Layers["translatedLayer"];
+
+            // Query the cityLimits layer to get all the features
+            cityLimits.Open();
+            var features = cityLimits.QueryTools.GetAllFeatures(ReturningColumnsType.NoColumns);
+            cityLimits.Close();
+
+            // Translate the first feature's shape by the X and Y values on the UI in meters
+            var translate = AreaBaseShape.TranslateByOffset(features[0].GetShape(), Convert.ToDouble(translateX.Text), Convert.ToDouble(translateY.Text), GeographyUnit.Meter, DistanceUnit.Meter);
+
+            // Add the translated shape into translatedLayer to display the result.
+            // If this were to be a permanent change to the cityLimits FeatureSource, you would modify the
+            // underlying data using BeginTransaction and CommitTransaction instead.
+            translatedLayer.InternalFeatures.Clear();
+            translatedLayer.InternalFeatures.Add(new Feature(translate));
+
+            // Redraw the layerOverlay to see the translated feature on the map
+            layerOverlay.Refresh();
+        }
+
+        private void degreeTranslateShape_Click(object sender, EventArgs e)
+        {
+            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
+
+            ShapeFileFeatureLayer cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
+            InMemoryFeatureLayer translatedLayer = (InMemoryFeatureLayer)layerOverlay.Layers["translatedLayer"];
+
+            // Query the cityLimits layer to get all the features
+            cityLimits.Open();
+            var features = cityLimits.QueryTools.GetAllFeatures(ReturningColumnsType.NoColumns);
+            cityLimits.Close();
+
+            // Translate the first feature's shape by the X and Y values on the UI in meters
+            var translate = AreaBaseShape.TranslateByDegree(features[0].GetShape(), Convert.ToDouble(translateDistance.Text), Convert.ToDouble(translateAngle.Text), GeographyUnit.Meter, DistanceUnit.Meter);
+
+            // Add the translated shape into translatedLayer to display the result.
+            // If this were to be a permanent change to the cityLimits FeatureSource, you would modify the
+            // underlying data using BeginTransaction and CommitTransaction instead.
+            translatedLayer.InternalFeatures.Clear();
+            translatedLayer.InternalFeatures.Add(new Feature(translate));
+
+            // Redraw the layerOverlay to see the translated feature on the map
+            layerOverlay.Refresh();
+        }
+
+
         private Panel panel1;
         private Button degreeTranslateShape;
         private TextBox translateDistance;
@@ -65,8 +116,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private Label label3;
         private Label label2;
         private Label label1;
-
-        #region Component Designer generated code
 
         private MapView mapView;
 
@@ -91,8 +140,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -108,7 +157,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.degreeTranslateShape);
@@ -265,56 +314,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
+        #region Component Designer generated code
         #endregion Component Designer generated code
 
-        private void offsetTranslateShape_Click(object sender, EventArgs e)
-        {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
-
-            ShapeFileFeatureLayer cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
-            InMemoryFeatureLayer translatedLayer = (InMemoryFeatureLayer)layerOverlay.Layers["translatedLayer"];
-
-            // Query the cityLimits layer to get all the features
-            cityLimits.Open();
-            var features = cityLimits.QueryTools.GetAllFeatures(ReturningColumnsType.NoColumns);
-            cityLimits.Close();
-
-            // Translate the first feature's shape by the X and Y values on the UI in meters
-            var translate = AreaBaseShape.TranslateByOffset(features[0].GetShape(), Convert.ToDouble(translateX.Text), Convert.ToDouble(translateY.Text), GeographyUnit.Meter, DistanceUnit.Meter);
-
-            // Add the translated shape into translatedLayer to display the result.
-            // If this were to be a permanent change to the cityLimits FeatureSource, you would modify the
-            // underlying data using BeginTransaction and CommitTransaction instead.
-            translatedLayer.InternalFeatures.Clear();
-            translatedLayer.InternalFeatures.Add(new Feature(translate));
-
-            // Redraw the layerOverlay to see the translated feature on the map
-            layerOverlay.Refresh();
-        }
-
-        private void degreeTranslateShape_Click(object sender, EventArgs e)
-        {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
-
-            ShapeFileFeatureLayer cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
-            InMemoryFeatureLayer translatedLayer = (InMemoryFeatureLayer)layerOverlay.Layers["translatedLayer"];
-
-            // Query the cityLimits layer to get all the features
-            cityLimits.Open();
-            var features = cityLimits.QueryTools.GetAllFeatures(ReturningColumnsType.NoColumns);
-            cityLimits.Close();
-
-            // Translate the first feature's shape by the X and Y values on the UI in meters
-            var translate = AreaBaseShape.TranslateByDegree(features[0].GetShape(), Convert.ToDouble(translateDistance.Text), Convert.ToDouble(translateAngle.Text), GeographyUnit.Meter, DistanceUnit.Meter);
-
-            // Add the translated shape into translatedLayer to display the result.
-            // If this were to be a permanent change to the cityLimits FeatureSource, you would modify the
-            // underlying data using BeginTransaction and CommitTransaction instead.
-            translatedLayer.InternalFeatures.Clear();
-            translatedLayer.InternalFeatures.Add(new Feature(translate));
-
-            // Redraw the layerOverlay to see the translated feature on the map
-            layerOverlay.Refresh();
-        }
     }
 }

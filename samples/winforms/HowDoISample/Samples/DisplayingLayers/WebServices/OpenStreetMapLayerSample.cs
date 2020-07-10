@@ -40,7 +40,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
 
 
-        #region Component Designer generated code
+
 
         private MapView mapView;
 
@@ -76,6 +76,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
+        #region Component Designer generated code
         #endregion Component Designer generated code
     }
 }

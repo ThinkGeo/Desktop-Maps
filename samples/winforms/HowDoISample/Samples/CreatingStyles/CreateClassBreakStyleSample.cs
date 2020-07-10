@@ -58,37 +58,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// <summary>
         /// Adds a ClassBreakStyle to the housingUnitsLayer that changes colors based on the numerical value of the H_UNITS column as they fall within the range of a ClassBreak
         /// </summary>
-        private void AddClassBreakStyle()
-        {
-            // Create the ClassBreakStyle based on the H_UNITS numerical column
-            var housingUnitsStyle = new ClassBreakStyle("H_UNITS");
-
-            var classBreakIntervals = new double[] { 0, 1000, 2000, 3000, 4000, 5000 };
-            var colors = GeoColor.GetColorsInHueFamily(GeoColors.Red, classBreakIntervals.Count()).Reverse().ToList();
-
-            // Create ClassBreaks for each of the classBreakIntervals
-            for (int i = 0; i < classBreakIntervals.Count(); i++)
-            {
-                // Create the classBreak using one of the intervals and colors defined above
-                var classBreak = new ClassBreak(classBreakIntervals[i], AreaStyle.CreateSimpleAreaStyle(new GeoColor(192, colors[i]), GeoColors.Transparent));
-
-                // Add the classBreak to the housingUnitsStyle ClassBreaks collection
-                housingUnitsStyle.ClassBreaks.Add(classBreak);
-
-                // Add a LegendItem to the legend adornment to represent the classBreak
-                var legendItem = new LegendItem()
-                {
-                    ImageStyle = classBreak.DefaultAreaStyle,
-                    TextStyle = new TextStyle($@">{classBreak.Value} units", new GeoFont("Verdana", 10), GeoBrushes.Black)
-                };
-                legend.LegendItems.Add(legendItem);
-            }
-
-            // Add and apply the ClassBreakStyle to the housingUnitsLayer
-            housingUnitsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(housingUnitsStyle);
-            housingUnitsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-        }
-
+        /// 
         private void AddClassBreakStyle(ShapeFileFeatureLayer layer, LegendAdornmentLayer legend)
         {
             // Create the ClassBreakStyle based on the H_UNITS numerical column
@@ -120,7 +90,36 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
         }
 
-        #region Component Designer generated code
+        private void AddClassBreakStyle()
+        {
+            // Create the ClassBreakStyle based on the H_UNITS numerical column
+            var housingUnitsStyle = new ClassBreakStyle("H_UNITS");
+
+            var classBreakIntervals = new double[] { 0, 1000, 2000, 3000, 4000, 5000 };
+            var colors = GeoColor.GetColorsInHueFamily(GeoColors.Red, classBreakIntervals.Count()).Reverse().ToList();
+
+            // Create ClassBreaks for each of the classBreakIntervals
+            for (int i = 0; i < classBreakIntervals.Count(); i++)
+            {
+                // Create the classBreak using one of the intervals and colors defined above
+                var classBreak = new ClassBreak(classBreakIntervals[i], AreaStyle.CreateSimpleAreaStyle(new GeoColor(192, colors[i]), GeoColors.Transparent));
+
+                // Add the classBreak to the housingUnitsStyle ClassBreaks collection
+                housingUnitsStyle.ClassBreaks.Add(classBreak);
+
+                // Add a LegendItem to the legend adornment to represent the classBreak
+                var legendItem = new LegendItem()
+                {
+                    ImageStyle = classBreak.DefaultAreaStyle,
+                    TextStyle = new TextStyle($@">{classBreak.Value} units", new GeoFont("Verdana", 10), GeoBrushes.Black)
+                };
+                legend.LegendItems.Add(legendItem);
+            }
+
+            // Add and apply the ClassBreakStyle to the housingUnitsLayer
+            housingUnitsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(housingUnitsStyle);
+            housingUnitsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+        }
 
         private MapView mapView;
 
@@ -155,7 +154,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.ResumeLayout(false);
 
         }
-
+        #region Component Designer generated code
         #endregion Component Designer generated code
     }
 }

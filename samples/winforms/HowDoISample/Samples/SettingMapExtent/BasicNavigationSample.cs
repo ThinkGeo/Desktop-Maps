@@ -27,6 +27,104 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             txtCurrentAngle.DataBindings.Add("Text", rotateAngle, "Value");
         }
 
+
+        private void zoomIn_Click(object sender, EventArgs e)
+        {
+            mapView.ZoomIn();
+        }
+
+        private void zoomOut_Click(object sender, EventArgs e)
+        {
+            mapView.ZoomOut();
+        }
+
+        private void panNorth_Click(object sender, EventArgs e)
+        {
+            var percentage = (int)panPercentage.Value;
+            switch (((Button)sender).Name)
+            {
+                case "panNorth":
+                    mapView.Pan(PanDirection.Up, percentage);
+                    break;
+                case "panEast":
+                    mapView.Pan(PanDirection.Right, percentage);
+                    break;
+                case "panWest":
+                    mapView.Pan(PanDirection.Left, percentage);
+                    break;
+                case "panSouth":
+                    mapView.Pan(PanDirection.Down, percentage);
+                    break;
+            }
+        }
+
+        private void panWest_Click(object sender, EventArgs e)
+        {
+            var percentage = (int)panPercentage.Value;
+            switch (((Button)sender).Name)
+            {
+                case "panNorth":
+                    mapView.Pan(PanDirection.Up, percentage);
+                    break;
+                case "panEast":
+                    mapView.Pan(PanDirection.Right, percentage);
+                    break;
+                case "panWest":
+                    mapView.Pan(PanDirection.Left, percentage);
+                    break;
+                case "panSouth":
+                    mapView.Pan(PanDirection.Down, percentage);
+                    break;
+            }
+        }
+
+        private void panEast_Click(object sender, EventArgs e)
+        {
+            var percentage = (int)panPercentage.Value;
+            switch (((Button)sender).Name)
+            {
+                case "panNorth":
+                    mapView.Pan(PanDirection.Up, percentage);
+                    break;
+                case "panEast":
+                    mapView.Pan(PanDirection.Right, percentage);
+                    break;
+                case "panWest":
+                    mapView.Pan(PanDirection.Left, percentage);
+                    break;
+                case "panSouth":
+                    mapView.Pan(PanDirection.Down, percentage);
+                    break;
+            }
+        }
+
+        private void panSouth_Click(object sender, EventArgs e)
+        {
+            var percentage = (int)panPercentage.Value;
+            switch (((Button)sender).Name)
+            {
+                case "panNorth":
+                    mapView.Pan(PanDirection.Up, percentage);
+                    break;
+                case "panEast":
+                    mapView.Pan(PanDirection.Right, percentage);
+                    break;
+                case "panWest":
+                    mapView.Pan(PanDirection.Left, percentage);
+                    break;
+                case "panSouth":
+                    mapView.Pan(PanDirection.Down, percentage);
+                    break;
+            }
+        }
+
+        private void rotate_Click(object sender, EventArgs e)
+        {
+            mapView.RotatedAngle = (float)rotateAngle.Value;
+            mapView.Refresh();
+        }
+
+
         private Panel panel1;
         private Label label1;
         private TextBox txtCurrentAngle;
@@ -44,7 +142,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private Button panEast;
         private Button panNorth;
 
-        #region Component Designer generated code
 
         private MapView mapView;
 
@@ -74,8 +171,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -91,7 +188,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.txtCurrentAngle);
@@ -284,102 +381,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
+        #region Component Designer generated code
         #endregion Component Designer generated code
 
-        private void zoomIn_Click(object sender, EventArgs e)
-        {
-            mapView.ZoomIn();
-        }
-
-        private void zoomOut_Click(object sender, EventArgs e)
-        {
-            mapView.ZoomOut();
-        }
-
-        private void panNorth_Click(object sender, EventArgs e)
-        {
-            var percentage = (int)panPercentage.Value;
-            switch (((Button)sender).Name)
-            {
-                case "panNorth":
-                    mapView.Pan(PanDirection.Up, percentage);
-                    break;
-                case "panEast":
-                    mapView.Pan(PanDirection.Right, percentage);
-                    break;
-                case "panWest":
-                    mapView.Pan(PanDirection.Left, percentage);
-                    break;
-                case "panSouth":
-                    mapView.Pan(PanDirection.Down, percentage);
-                    break;
-            }
-        }
-
-        private void panWest_Click(object sender, EventArgs e)
-        {
-            var percentage = (int)panPercentage.Value;
-            switch (((Button)sender).Name)
-            {
-                case "panNorth":
-                    mapView.Pan(PanDirection.Up, percentage);
-                    break;
-                case "panEast":
-                    mapView.Pan(PanDirection.Right, percentage);
-                    break;
-                case "panWest":
-                    mapView.Pan(PanDirection.Left, percentage);
-                    break;
-                case "panSouth":
-                    mapView.Pan(PanDirection.Down, percentage);
-                    break;
-            }
-        }
-
-        private void panEast_Click(object sender, EventArgs e)
-        {
-            var percentage = (int)panPercentage.Value;
-            switch (((Button)sender).Name)
-            {
-                case "panNorth":
-                    mapView.Pan(PanDirection.Up, percentage);
-                    break;
-                case "panEast":
-                    mapView.Pan(PanDirection.Right, percentage);
-                    break;
-                case "panWest":
-                    mapView.Pan(PanDirection.Left, percentage);
-                    break;
-                case "panSouth":
-                    mapView.Pan(PanDirection.Down, percentage);
-                    break;
-            }
-        }
-
-        private void panSouth_Click(object sender, EventArgs e)
-        {
-            var percentage = (int)panPercentage.Value;
-            switch (((Button)sender).Name)
-            {
-                case "panNorth":
-                    mapView.Pan(PanDirection.Up, percentage);
-                    break;
-                case "panEast":
-                    mapView.Pan(PanDirection.Right, percentage);
-                    break;
-                case "panWest":
-                    mapView.Pan(PanDirection.Left, percentage);
-                    break;
-                case "panSouth":
-                    mapView.Pan(PanDirection.Down, percentage);
-                    break;
-            }
-        }
-
-        private void rotate_Click(object sender, EventArgs e)
-        {
-            mapView.RotatedAngle = (float)rotateAngle.Value;
-            mapView.Refresh();
-        }
     }
 }

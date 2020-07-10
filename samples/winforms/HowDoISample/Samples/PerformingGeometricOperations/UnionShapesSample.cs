@@ -52,11 +52,36 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add("layerOverlay", layerOverlay);
         }
 
+        private void unionShapes_Click(object sender, EventArgs e)
+        {
+            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
+
+            ShapeFileFeatureLayer dividedCityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["dividedCityLimits"];
+            InMemoryFeatureLayer unionLayer = (InMemoryFeatureLayer)layerOverlay.Layers["unionLayer"];
+
+            // Query the dividedCityLimits layer to get all the features
+            dividedCityLimits.Open();
+            var features = dividedCityLimits.QueryTools.GetAllFeatures(ReturningColumnsType.NoColumns);
+            dividedCityLimits.Close();
+
+            // Union all the features into a single Multipolygon Shape
+            var union = AreaBaseShape.Union(features);
+
+            // Add the union shape into unionLayer to display the result.
+            // If this were to be a permanent change to the dividedCityLimits FeatureSource, you would modify the underlying data using BeginTransaction and CommitTransaction instead.
+            unionLayer.InternalFeatures.Clear();
+            unionLayer.InternalFeatures.Add(new Feature(union));
+
+            // Hide the dividedCityLimits layer
+            dividedCityLimits.IsVisible = false;
+
+            // Redraw the layerOverlay to see the unioned features on the map
+            layerOverlay.Refresh();
+        }
+
         private Panel panel1;
         private Button unionShapes;
         private Label label1;
-
-        #region Component Designer generated code
 
         private MapView mapView;
 
@@ -71,8 +96,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -88,7 +113,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.unionShapes);
@@ -132,34 +157,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.ResumeLayout(false);
 
         }
-
+        #region Component Designer generated code
         #endregion Component Designer generated code
 
-        private void unionShapes_Click(object sender, EventArgs e)
-        {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
-
-            ShapeFileFeatureLayer dividedCityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["dividedCityLimits"];
-            InMemoryFeatureLayer unionLayer = (InMemoryFeatureLayer)layerOverlay.Layers["unionLayer"];
-
-            // Query the dividedCityLimits layer to get all the features
-            dividedCityLimits.Open();
-            var features = dividedCityLimits.QueryTools.GetAllFeatures(ReturningColumnsType.NoColumns);
-            dividedCityLimits.Close();
-
-            // Union all the features into a single Multipolygon Shape
-            var union = AreaBaseShape.Union(features);
-
-            // Add the union shape into unionLayer to display the result.
-            // If this were to be a permanent change to the dividedCityLimits FeatureSource, you would modify the underlying data using BeginTransaction and CommitTransaction instead.
-            unionLayer.InternalFeatures.Clear();
-            unionLayer.InternalFeatures.Add(new Feature(union));
-
-            // Hide the dividedCityLimits layer
-            dividedCityLimits.IsVisible = false;
-
-            // Redraw the layerOverlay to see the unioned features on the map
-            layerOverlay.Refresh();
-        }
     }
 }

@@ -25,14 +25,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
         }
 
-        private Panel panel1;
-        private Label label2;
-        private LinkLabel BingMapsAccountLink;
-        private Label label1;
-        private TextBox bingApplicationId;
-        private Button displayBingMaps;
-
-        #region Component Designer generated code
 
         private MapView mapView;
 
@@ -149,7 +141,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         }
 
 
-        #endregion Component Designer generated code
 
         private void BingMapsAccountLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -162,5 +153,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(bingMapsOverlay);
             mapView.Refresh();
         }
+
+
+        private Panel panel1;
+        private Label label2;
+        private LinkLabel BingMapsAccountLink;
+        private Label label1;
+        private TextBox bingApplicationId;
+        private Button displayBingMaps;
+
+        #region Component Designer generated code
+        #endregion Component Designer generated code
     }
 }

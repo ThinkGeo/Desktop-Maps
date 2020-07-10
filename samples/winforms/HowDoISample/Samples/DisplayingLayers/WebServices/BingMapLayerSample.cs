@@ -15,14 +15,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
 
 
-        private Panel panel1;
-        private LinkLabel linkLabel1;
-        private Button btnActivate;
-        private TextBox txtApplicationID;
-        private Label label3;
-        private Label label1;
-
-        #region Component Designer generated code
 
         private MapView mapView;
 
@@ -137,7 +129,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        #endregion Component Designer generated code
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -168,5 +159,18 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Refresh the map.
             mapView.Refresh();
         }
+
+
+        private Panel panel1;
+        private LinkLabel linkLabel1;
+        private Button btnActivate;
+        private TextBox txtApplicationID;
+        private Label label3;
+        private Label label1;
+
+        #region Component Designer generated code
+        #endregion Component Designer generated code
+
+
     }
 }

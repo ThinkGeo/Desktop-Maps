@@ -36,14 +36,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
 
 
-        private Panel panel1;
-        private RadioButton radioButton4;
-        private RadioButton radioButton3;
-        private RadioButton radioButton2;
-        private RadioButton radioButton1;
-        private Label label1;
 
-        #region Component Designer generated code
 
         private MapView mapView;
 
@@ -169,7 +162,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        #endregion Component Designer generated code
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
@@ -282,6 +274,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 mapView.Refresh();
             }
         }
+        private Panel panel1;
+        private RadioButton radioButton4;
+        private RadioButton radioButton3;
+        private RadioButton radioButton2;
+        private RadioButton radioButton1;
+        private Label label1;
+
+        #region Component Designer generated code
+        #endregion Component Designer generated code
+
     }
-    
+
 }

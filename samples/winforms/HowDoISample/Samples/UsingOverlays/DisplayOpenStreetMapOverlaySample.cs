@@ -24,13 +24,19 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
         }
 
+        private void displayOsmMaps_Click(object sender, EventArgs e)
+        {
+            OpenStreetMapOverlay osmMapsOverlay = new OpenStreetMapOverlay(osmUserAgent.Text);
+            mapView.Overlays.Add(osmMapsOverlay);
+            mapView.Refresh();
+        }
+
         private Panel panel1;
         private Button displayOsmMaps;
         private TextBox osmUserAgent;
         private Label label2;
         private Label label1;
 
-        #region Component Designer generated code
 
         private MapView mapView;
 
@@ -47,8 +53,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -64,7 +70,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.displayOsmMaps);
@@ -127,14 +133,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.ResumeLayout(false);
 
         }
-
+        #region Component Designer generated code
         #endregion Component Designer generated code
 
-        private void displayOsmMaps_Click(object sender, EventArgs e)
-        {
-            OpenStreetMapOverlay osmMapsOverlay = new OpenStreetMapOverlay(osmUserAgent.Text);
-            mapView.Overlays.Add(osmMapsOverlay);
-            mapView.Refresh();
-        }
     }
 }

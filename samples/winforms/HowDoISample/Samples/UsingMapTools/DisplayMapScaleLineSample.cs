@@ -26,11 +26,24 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
+        private void displayScaleLine_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox checkbox = sender as CheckBox;
+            if (checkbox.Checked)
+            {
+                mapView.MapTools.ScaleLine.IsEnabled = true;
+            }
+            else
+            {
+                mapView.MapTools.ScaleLine.IsEnabled = false;
+            }
+
+        }
+
         private Panel panel1;
         private CheckBox displayScaleLine;
         private Label label1;
 
-        #region Component Designer generated code
 
         private MapView mapView;
 
@@ -45,8 +58,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -62,7 +75,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.displayScaleLine);
@@ -109,21 +122,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-
+        #region Component Designer generated code
         #endregion Component Designer generated code
 
-        private void displayScaleLine_CheckedChanged(object sender, EventArgs e)
-        {
-            CheckBox checkbox = sender as CheckBox;
-            if (checkbox.Checked)
-            {
-                mapView.MapTools.ScaleLine.IsEnabled = true;
-            }
-            else
-            {
-                mapView.MapTools.ScaleLine.IsEnabled = false;
-            }
-
-        }
     }
 }

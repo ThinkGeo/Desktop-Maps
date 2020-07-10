@@ -25,6 +25,22 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = new RectangleShape(-10782598.9806675, 3915669.09132595, -10772234.1196896, 3906343.77392696);
         }
 
+        private void lblCloudMapsLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo("https://cloud.thinkgeo.com/"));
+        }
+
+        private void displayRasterCloudMaps_Click(object sender, EventArgs e)
+        {
+            if(mapView.Overlays.Count == 0)
+            {
+                var thinkGeoCloudRasterMapsOverlay = new ThinkGeoCloudRasterMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudRasterMapsMapType.Hybrid);
+                mapView.Overlays.Add(thinkGeoCloudRasterMapsOverlay);
+                mapView.Refresh();
+            }            
+        }
+
+
         private Panel panel1;
         private Button displayRasterCloudMaps;
         private TextBox cloudMapsSecretKey;
@@ -34,7 +50,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private LinkLabel lblCloudMapsLink;
         private Label label1;
 
-        #region Component Designer generated code
 
         private MapView mapView;
 
@@ -54,8 +69,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -71,7 +86,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.displayRasterCloudMaps);
@@ -174,22 +189,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.ResumeLayout(false);
 
         }
-
+        #region Component Designer generated code
         #endregion Component Designer generated code
 
-        private void lblCloudMapsLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start(new ProcessStartInfo("https://cloud.thinkgeo.com/"));
-        }
-
-        private void displayRasterCloudMaps_Click(object sender, EventArgs e)
-        {
-            if(mapView.Overlays.Count == 0)
-            {
-                var thinkGeoCloudRasterMapsOverlay = new ThinkGeoCloudRasterMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudRasterMapsMapType.Hybrid);
-                mapView.Overlays.Add(thinkGeoCloudRasterMapsOverlay);
-                mapView.Refresh();
-            }            
-        }
     }
 }

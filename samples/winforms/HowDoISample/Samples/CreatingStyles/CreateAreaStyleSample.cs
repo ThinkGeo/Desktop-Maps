@@ -60,8 +60,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
         }
 
-        #region Component Designer generated code
-
         private MapView mapView;
 
         private void InitializeComponent()
@@ -95,7 +93,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.ResumeLayout(false);
 
         }
-
+        #region Component Designer generated code
         #endregion Component Designer generated code
     }
 }

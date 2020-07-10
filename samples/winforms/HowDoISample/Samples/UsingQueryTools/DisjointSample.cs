@@ -144,13 +144,23 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             GetFeaturesDisjoint((PolygonShape)e.TrackShape);
         }
 
+
+
+        private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        {
+            if (!(mapView.TrackOverlay.TrackMode == TrackMode.Polygon))
+            {
+                // Set the drawing mode to 'Polygon'
+                mapView.TrackOverlay.TrackMode = TrackMode.Polygon;
+            }
+        }
+
         private Panel panel1;
         private TextBox txtNumberOfFeaturesFound;
         private Label label3;
         private Label label2;
         private Label label1;
 
-        #region Component Designer generated code
 
         private MapView mapView;
 
@@ -254,16 +264,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.ResumeLayout(false);
 
         }
-
+        #region Component Designer generated code
         #endregion Component Designer generated code
 
-        private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
-        {
-            if (!(mapView.TrackOverlay.TrackMode == TrackMode.Polygon))
-            {
-                // Set the drawing mode to 'Polygon'
-                mapView.TrackOverlay.TrackMode = TrackMode.Polygon;
-            }
-        }
     }
 }

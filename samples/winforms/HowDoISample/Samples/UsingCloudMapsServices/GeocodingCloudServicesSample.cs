@@ -83,6 +83,137 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
         }
 
+        private async void btnSearch_Click(object sender, EventArgs e)
+        {
+            // Perform some simple validation on the input text boxes
+            if (ValidateSearchParameters())
+            {
+                // Run the Cloud Geocoding query
+                CloudGeocodingResult searchResult = await PerformGeocodingQuery();
+
+                // Handle an error returned from the geocoding service
+                if (searchResult.Exception != null)
+                {
+                    MessageBox.Show(searchResult.Exception.Message, "Error");
+                    return;
+                }
+
+                // Update the UI based on the results
+                UpdateSearchResultsOnUI(searchResult);
+            }
+        }
+
+        private void lsbLocations_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Get the selected location
+            var chosenLocation = lsbLocations.SelectedItem as CloudGeocodingLocation;
+            if (chosenLocation != null)
+            {
+                // Get the MarkerOverlay from the MapView
+                SimpleMarkerOverlay geocodedLocationOverlay = (SimpleMarkerOverlay)mapView.Overlays["Geocoded Locations Overlay"];
+
+                // Clear the existing markers and add a new marker at the chosen location
+                geocodedLocationOverlay.Markers.Clear();
+                geocodedLocationOverlay.Markers.Add(CreateNewMarker(chosenLocation.LocationPoint));
+
+                // Center the map on the chosen location
+                mapView.CurrentExtent = chosenLocation.BoundingBox;
+                ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
+                mapView.ZoomToScale(standardZoomLevelSet.ZoomLevel18.Scale);
+                mapView.Refresh();
+            }
+        }
+
+        private void cboSearchType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var comboBoxContent = cboSearchType.SelectedItem.ToString();
+
+            if (comboBoxContent != null)
+            {
+                switch (comboBoxContent)
+                {
+                    case "Fuzzy":
+                        txtSearchTypeDescription.Text = "(Returns both exact and approximate matches for the search address)";
+                        break;
+                    case "Exact":
+                        txtSearchTypeDescription.Text = "(Only returns exact matches for the search address)";
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        private void cboLocationType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var comboBoxContent = cboLocationType.SelectedItem.ToString();
+
+            if (comboBoxContent != null)
+            {
+                switch (comboBoxContent)
+                {
+                    case "Default":
+                        txtLocationTypeDescription.Text = "(Searches for any matches to the search string)";
+                        break;
+                    case "Address":
+                        txtLocationTypeDescription.Text = "(Searches for addresses matching the search string)";
+                        break;
+                    case "Street":
+                        txtLocationTypeDescription.Text = "(Searches for streets matching the search string)";
+                        break;
+                    case "City":
+                        txtLocationTypeDescription.Text = "(Searches for cities matching the search string)";
+                        break;
+                    case "County":
+                        txtLocationTypeDescription.Text = "(Searches for counties matching the search string)";
+                        break;
+                    case "ZipCode":
+                        txtLocationTypeDescription.Text = "(Searches for zip codes matching the search string)";
+                        break;
+                    case "State":
+                        txtLocationTypeDescription.Text = "(Searches for states matching the search string)";
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+        }
+        private bool ValidateSearchParameters()
+        {
+            // Check if the address text box is empty
+            if (string.IsNullOrWhiteSpace(txtSearchString.Text))
+            {
+                txtSearchString.Focus();
+                MessageBox.Show("Please enter an address to search", "Error");
+                return false;
+            }
+
+            // Check if the 'Max Results' text box has a valid value
+            if (string.IsNullOrWhiteSpace(txtMaxResults.Text) || !(int.TryParse(txtMaxResults.Text, out int result) && result > 0 && result < 101))
+            {
+                txtMaxResults.Focus();
+                MessageBox.Show("Please enter a number between 1 - 100", "Error");
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Create a new map marker using preloaded image assets
+        /// </summary>
+        private Marker CreateNewMarker(PointShape point)
+        {
+            return new Marker(point)
+            {
+                ImageSource = new BitmapImage(new Uri("/Resources/AQUA.png", UriKind.RelativeOrAbsolute)),
+                Width = 20,
+                Height = 34,
+                YOffset = -17
+            };
+        }
+
         private Panel panel1;
         private Label label4;
         private Label label3;
@@ -99,7 +230,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private ComboBox cboLocationType;
         private Label label5;
 
-        #region Component Designer generated code
 
         private MapView mapView;
 
@@ -126,8 +256,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -143,7 +273,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.lsbLocations);
@@ -167,8 +297,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // lsbLocations
             // 
-            this.lsbLocations.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.lsbLocations.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lsbLocations.BackColor = System.Drawing.Color.White;
             this.lsbLocations.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -345,138 +475,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-
+        #region Component Designer generated code
         #endregion Component Designer generated code
 
-        private async void btnSearch_Click(object sender, EventArgs e)
-        {
-            // Perform some simple validation on the input text boxes
-            if (ValidateSearchParameters())
-            {
-                // Run the Cloud Geocoding query
-                CloudGeocodingResult searchResult = await PerformGeocodingQuery();
-
-                // Handle an error returned from the geocoding service
-                if (searchResult.Exception != null)
-                {
-                    MessageBox.Show(searchResult.Exception.Message, "Error");
-                    return;
-                }
-
-                // Update the UI based on the results
-                UpdateSearchResultsOnUI(searchResult);
-            }
-        }
-
-        private void lsbLocations_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            // Get the selected location
-            var chosenLocation = lsbLocations.SelectedItem as CloudGeocodingLocation;
-            if (chosenLocation != null)
-            {
-                // Get the MarkerOverlay from the MapView
-                SimpleMarkerOverlay geocodedLocationOverlay = (SimpleMarkerOverlay)mapView.Overlays["Geocoded Locations Overlay"];
-
-                // Clear the existing markers and add a new marker at the chosen location
-                geocodedLocationOverlay.Markers.Clear();
-                geocodedLocationOverlay.Markers.Add(CreateNewMarker(chosenLocation.LocationPoint));
-
-                // Center the map on the chosen location
-                mapView.CurrentExtent = chosenLocation.BoundingBox;
-                ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
-                mapView.ZoomToScale(standardZoomLevelSet.ZoomLevel18.Scale);
-                mapView.Refresh();
-            }
-        }
-
-        private void cboSearchType_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var comboBoxContent = cboSearchType.SelectedItem.ToString();
-
-            if (comboBoxContent != null)
-            {
-                switch (comboBoxContent)
-                {
-                    case "Fuzzy":
-                        txtSearchTypeDescription.Text = "(Returns both exact and approximate matches for the search address)";
-                        break;
-                    case "Exact":
-                        txtSearchTypeDescription.Text = "(Only returns exact matches for the search address)";
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-
-        private void cboLocationType_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var comboBoxContent = cboLocationType.SelectedItem.ToString();
-
-            if (comboBoxContent != null)
-            {
-                switch (comboBoxContent)
-                {
-                    case "Default":
-                        txtLocationTypeDescription.Text = "(Searches for any matches to the search string)";
-                        break;
-                    case "Address":
-                        txtLocationTypeDescription.Text = "(Searches for addresses matching the search string)";
-                        break;
-                    case "Street":
-                        txtLocationTypeDescription.Text = "(Searches for streets matching the search string)";
-                        break;
-                    case "City":
-                        txtLocationTypeDescription.Text = "(Searches for cities matching the search string)";
-                        break;
-                    case "County":
-                        txtLocationTypeDescription.Text = "(Searches for counties matching the search string)";
-                        break;
-                    case "ZipCode":
-                        txtLocationTypeDescription.Text = "(Searches for zip codes matching the search string)";
-                        break;
-                    case "State":
-                        txtLocationTypeDescription.Text = "(Searches for states matching the search string)";
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-        }
-        private bool ValidateSearchParameters()
-        {
-            // Check if the address text box is empty
-            if (string.IsNullOrWhiteSpace(txtSearchString.Text))
-            {
-                txtSearchString.Focus();
-                MessageBox.Show("Please enter an address to search", "Error");
-                return false;
-            }
-
-            // Check if the 'Max Results' text box has a valid value
-            if (string.IsNullOrWhiteSpace(txtMaxResults.Text) || !(int.TryParse(txtMaxResults.Text, out int result) && result > 0 && result < 101))
-            {
-                txtMaxResults.Focus();
-                MessageBox.Show("Please enter a number between 1 - 100", "Error");
-                return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Create a new map marker using preloaded image assets
-        /// </summary>
-        private Marker CreateNewMarker(PointShape point)
-        {
-            return new Marker(point)
-            {
-                ImageSource = new BitmapImage(new Uri("/Resources/AQUA.png", UriKind.RelativeOrAbsolute)),
-                Width = 20,
-                Height = 34,
-                YOffset = -17
-            };
-        }
     }
 }

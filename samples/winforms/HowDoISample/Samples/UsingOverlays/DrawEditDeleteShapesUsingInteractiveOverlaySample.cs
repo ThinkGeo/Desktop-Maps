@@ -48,203 +48,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             instructions.Text = "Navigation Mode - The default map state. Allows you to pan and zoom the map with mouse controls.";
         }
 
-        private Panel panel1;
-        private TextBox instructions;
-        private Label label2;
-        private RadioButton editShape;
-        private RadioButton deleteShape;
-        private RadioButton drawPolygon;
-        private RadioButton drawLine;
-        private RadioButton drawPoint;
-        private RadioButton navMode;
-        private Label label1;
-
-        #region Component Designer generated code
-
-        private MapView mapView;
-
-        private void InitializeComponent()
-        {
-            this.mapView = new ThinkGeo.UI.WinForms.MapView();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.instructions = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.editShape = new System.Windows.Forms.RadioButton();
-            this.deleteShape = new System.Windows.Forms.RadioButton();
-            this.drawPolygon = new System.Windows.Forms.RadioButton();
-            this.drawLine = new System.Windows.Forms.RadioButton();
-            this.drawPoint = new System.Windows.Forms.RadioButton();
-            this.navMode = new System.Windows.Forms.RadioButton();
-            this.label1 = new System.Windows.Forms.Label();
-            this.panel1.SuspendLayout();
-            this.SuspendLayout();
-            // 
-            // mapView
-            // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.mapView.BackColor = System.Drawing.Color.White;
-            this.mapView.CurrentScale = 0D;
-            this.mapView.Location = new System.Drawing.Point(0, 0);
-            this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
-            this.mapView.MaximumScale = 1.7976931348623157E+308D;
-            this.mapView.MinimumScale = 200D;
-            this.mapView.Name = "mapView";
-            this.mapView.RestrictExtent = null;
-            this.mapView.RotatedAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(794, 626);
-            this.mapView.TabIndex = 0;
-            this.mapView.MapClick += new System.EventHandler<ThinkGeo.Core.MapClickMapViewEventArgs>(this.mapView_MapClick);
-            // 
-            // panel1
-            // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.BackColor = System.Drawing.Color.Gray;
-            this.panel1.Controls.Add(this.instructions);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.editShape);
-            this.panel1.Controls.Add(this.deleteShape);
-            this.panel1.Controls.Add(this.drawPolygon);
-            this.panel1.Controls.Add(this.drawLine);
-            this.panel1.Controls.Add(this.drawPoint);
-            this.panel1.Controls.Add(this.navMode);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(797, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(342, 626);
-            this.panel1.TabIndex = 1;
-            // 
-            // instructions
-            // 
-            this.instructions.BackColor = System.Drawing.Color.Gray;
-            this.instructions.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.instructions.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.instructions.ForeColor = System.Drawing.Color.White;
-            this.instructions.Location = new System.Drawing.Point(25, 249);
-            this.instructions.Multiline = true;
-            this.instructions.Name = "instructions";
-            this.instructions.Size = new System.Drawing.Size(299, 353);
-            this.instructions.TabIndex = 8;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(24, 221);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(117, 25);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "Instructions:";
-            // 
-            // editShape
-            // 
-            this.editShape.AutoSize = true;
-            this.editShape.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.editShape.ForeColor = System.Drawing.Color.White;
-            this.editShape.Location = new System.Drawing.Point(25, 158);
-            this.editShape.Name = "editShape";
-            this.editShape.Size = new System.Drawing.Size(111, 24);
-            this.editShape.TabIndex = 6;
-            this.editShape.Text = "Edit Shape";
-            this.editShape.UseVisualStyleBackColor = true;
-            this.editShape.CheckedChanged += new System.EventHandler(this.editShape_CheckedChanged);
-            // 
-            // deleteShape
-            // 
-            this.deleteShape.AutoSize = true;
-            this.deleteShape.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.deleteShape.ForeColor = System.Drawing.Color.White;
-            this.deleteShape.Location = new System.Drawing.Point(25, 185);
-            this.deleteShape.Name = "deleteShape";
-            this.deleteShape.Size = new System.Drawing.Size(122, 24);
-            this.deleteShape.TabIndex = 5;
-            this.deleteShape.Text = "deleteShape";
-            this.deleteShape.UseVisualStyleBackColor = true;
-            this.deleteShape.CheckedChanged += new System.EventHandler(this.deleteShape_CheckedChanged);
-            // 
-            // drawPolygon
-            // 
-            this.drawPolygon.AutoSize = true;
-            this.drawPolygon.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.drawPolygon.ForeColor = System.Drawing.Color.White;
-            this.drawPolygon.Location = new System.Drawing.Point(25, 131);
-            this.drawPolygon.Name = "drawPolygon";
-            this.drawPolygon.Size = new System.Drawing.Size(134, 24);
-            this.drawPolygon.TabIndex = 4;
-            this.drawPolygon.Text = "Draw Polygon";
-            this.drawPolygon.UseVisualStyleBackColor = true;
-            this.drawPolygon.CheckedChanged += new System.EventHandler(this.drawPolygon_CheckedChanged);
-            // 
-            // drawLine
-            // 
-            this.drawLine.AutoSize = true;
-            this.drawLine.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.drawLine.ForeColor = System.Drawing.Color.White;
-            this.drawLine.Location = new System.Drawing.Point(25, 104);
-            this.drawLine.Name = "drawLine";
-            this.drawLine.Size = new System.Drawing.Size(107, 24);
-            this.drawLine.TabIndex = 3;
-            this.drawLine.Text = "Draw Line";
-            this.drawLine.UseVisualStyleBackColor = true;
-            this.drawLine.CheckedChanged += new System.EventHandler(this.drawLine_CheckedChanged);
-            // 
-            // drawPoint
-            // 
-            this.drawPoint.AutoSize = true;
-            this.drawPoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.drawPoint.ForeColor = System.Drawing.Color.White;
-            this.drawPoint.Location = new System.Drawing.Point(25, 77);
-            this.drawPoint.Name = "drawPoint";
-            this.drawPoint.Size = new System.Drawing.Size(113, 24);
-            this.drawPoint.TabIndex = 2;
-            this.drawPoint.Text = "Draw Point";
-            this.drawPoint.UseVisualStyleBackColor = true;
-            this.drawPoint.CheckedChanged += new System.EventHandler(this.drawPoint_CheckedChanged);
-            // 
-            // navMode
-            // 
-            this.navMode.AutoSize = true;
-            this.navMode.Checked = true;
-            this.navMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.navMode.ForeColor = System.Drawing.Color.White;
-            this.navMode.Location = new System.Drawing.Point(25, 50);
-            this.navMode.Name = "navMode";
-            this.navMode.Size = new System.Drawing.Size(141, 24);
-            this.navMode.TabIndex = 1;
-            this.navMode.TabStop = true;
-            this.navMode.Text = "Navigate Mode";
-            this.navMode.UseVisualStyleBackColor = true;
-            this.navMode.CheckedChanged += new System.EventHandler(this.navMode_CheckedChanged);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(20, 15);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(101, 25);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Interactive";
-            // 
-            // DrawEditDeleteShapesUsingInteractiveOverlaySample
-            // 
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.mapView);
-            this.Name = "DrawEditDeleteShapesUsingInteractiveOverlaySample";
-            this.Size = new System.Drawing.Size(1139, 626);
-            this.Load += new System.EventHandler(this.Form_Load);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.ResumeLayout(false);
-
-        }
-
-        #endregion Component Designer generated code
-
         private void UpdateLayerFeatures(InMemoryFeatureLayer featureLayer, LayerOverlay layerOverlay)
         {
             // If the user switched away from a Drawing Mode, add all the newly drawn shapes in the TrackOverlay into the the featureLayer
@@ -403,5 +206,203 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
 
         }
+
+        private Panel panel1;
+        private TextBox instructions;
+        private Label label2;
+        private RadioButton editShape;
+        private RadioButton deleteShape;
+        private RadioButton drawPolygon;
+        private RadioButton drawLine;
+        private RadioButton drawPoint;
+        private RadioButton navMode;
+        private Label label1;
+
+
+        private MapView mapView;
+
+        private void InitializeComponent()
+        {
+            this.mapView = new ThinkGeo.UI.WinForms.MapView();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.instructions = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.editShape = new System.Windows.Forms.RadioButton();
+            this.deleteShape = new System.Windows.Forms.RadioButton();
+            this.drawPolygon = new System.Windows.Forms.RadioButton();
+            this.drawLine = new System.Windows.Forms.RadioButton();
+            this.drawPoint = new System.Windows.Forms.RadioButton();
+            this.navMode = new System.Windows.Forms.RadioButton();
+            this.label1 = new System.Windows.Forms.Label();
+            this.panel1.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // mapView
+            // 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.mapView.BackColor = System.Drawing.Color.White;
+            this.mapView.CurrentScale = 0D;
+            this.mapView.Location = new System.Drawing.Point(0, 0);
+            this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
+            this.mapView.MaximumScale = 1.7976931348623157E+308D;
+            this.mapView.MinimumScale = 200D;
+            this.mapView.Name = "mapView";
+            this.mapView.RestrictExtent = null;
+            this.mapView.RotatedAngle = 0F;
+            this.mapView.Size = new System.Drawing.Size(794, 626);
+            this.mapView.TabIndex = 0;
+            this.mapView.MapClick += new System.EventHandler<ThinkGeo.Core.MapClickMapViewEventArgs>(this.mapView_MapClick);
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.BackColor = System.Drawing.Color.Gray;
+            this.panel1.Controls.Add(this.instructions);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.editShape);
+            this.panel1.Controls.Add(this.deleteShape);
+            this.panel1.Controls.Add(this.drawPolygon);
+            this.panel1.Controls.Add(this.drawLine);
+            this.panel1.Controls.Add(this.drawPoint);
+            this.panel1.Controls.Add(this.navMode);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Location = new System.Drawing.Point(797, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(342, 626);
+            this.panel1.TabIndex = 1;
+            // 
+            // instructions
+            // 
+            this.instructions.BackColor = System.Drawing.Color.Gray;
+            this.instructions.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.instructions.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.instructions.ForeColor = System.Drawing.Color.White;
+            this.instructions.Location = new System.Drawing.Point(25, 249);
+            this.instructions.Multiline = true;
+            this.instructions.Name = "instructions";
+            this.instructions.Size = new System.Drawing.Size(299, 353);
+            this.instructions.TabIndex = 8;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(24, 221);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(117, 25);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "Instructions:";
+            // 
+            // editShape
+            // 
+            this.editShape.AutoSize = true;
+            this.editShape.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.editShape.ForeColor = System.Drawing.Color.White;
+            this.editShape.Location = new System.Drawing.Point(25, 158);
+            this.editShape.Name = "editShape";
+            this.editShape.Size = new System.Drawing.Size(111, 24);
+            this.editShape.TabIndex = 6;
+            this.editShape.Text = "Edit Shape";
+            this.editShape.UseVisualStyleBackColor = true;
+            this.editShape.CheckedChanged += new System.EventHandler(this.editShape_CheckedChanged);
+            // 
+            // deleteShape
+            // 
+            this.deleteShape.AutoSize = true;
+            this.deleteShape.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.deleteShape.ForeColor = System.Drawing.Color.White;
+            this.deleteShape.Location = new System.Drawing.Point(25, 185);
+            this.deleteShape.Name = "deleteShape";
+            this.deleteShape.Size = new System.Drawing.Size(122, 24);
+            this.deleteShape.TabIndex = 5;
+            this.deleteShape.Text = "deleteShape";
+            this.deleteShape.UseVisualStyleBackColor = true;
+            this.deleteShape.CheckedChanged += new System.EventHandler(this.deleteShape_CheckedChanged);
+            // 
+            // drawPolygon
+            // 
+            this.drawPolygon.AutoSize = true;
+            this.drawPolygon.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.drawPolygon.ForeColor = System.Drawing.Color.White;
+            this.drawPolygon.Location = new System.Drawing.Point(25, 131);
+            this.drawPolygon.Name = "drawPolygon";
+            this.drawPolygon.Size = new System.Drawing.Size(134, 24);
+            this.drawPolygon.TabIndex = 4;
+            this.drawPolygon.Text = "Draw Polygon";
+            this.drawPolygon.UseVisualStyleBackColor = true;
+            this.drawPolygon.CheckedChanged += new System.EventHandler(this.drawPolygon_CheckedChanged);
+            // 
+            // drawLine
+            // 
+            this.drawLine.AutoSize = true;
+            this.drawLine.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.drawLine.ForeColor = System.Drawing.Color.White;
+            this.drawLine.Location = new System.Drawing.Point(25, 104);
+            this.drawLine.Name = "drawLine";
+            this.drawLine.Size = new System.Drawing.Size(107, 24);
+            this.drawLine.TabIndex = 3;
+            this.drawLine.Text = "Draw Line";
+            this.drawLine.UseVisualStyleBackColor = true;
+            this.drawLine.CheckedChanged += new System.EventHandler(this.drawLine_CheckedChanged);
+            // 
+            // drawPoint
+            // 
+            this.drawPoint.AutoSize = true;
+            this.drawPoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.drawPoint.ForeColor = System.Drawing.Color.White;
+            this.drawPoint.Location = new System.Drawing.Point(25, 77);
+            this.drawPoint.Name = "drawPoint";
+            this.drawPoint.Size = new System.Drawing.Size(113, 24);
+            this.drawPoint.TabIndex = 2;
+            this.drawPoint.Text = "Draw Point";
+            this.drawPoint.UseVisualStyleBackColor = true;
+            this.drawPoint.CheckedChanged += new System.EventHandler(this.drawPoint_CheckedChanged);
+            // 
+            // navMode
+            // 
+            this.navMode.AutoSize = true;
+            this.navMode.Checked = true;
+            this.navMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.navMode.ForeColor = System.Drawing.Color.White;
+            this.navMode.Location = new System.Drawing.Point(25, 50);
+            this.navMode.Name = "navMode";
+            this.navMode.Size = new System.Drawing.Size(141, 24);
+            this.navMode.TabIndex = 1;
+            this.navMode.TabStop = true;
+            this.navMode.Text = "Navigate Mode";
+            this.navMode.UseVisualStyleBackColor = true;
+            this.navMode.CheckedChanged += new System.EventHandler(this.navMode_CheckedChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(20, 15);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(101, 25);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Interactive";
+            // 
+            // DrawEditDeleteShapesUsingInteractiveOverlaySample
+            // 
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.mapView);
+            this.Name = "DrawEditDeleteShapesUsingInteractiveOverlaySample";
+            this.Size = new System.Drawing.Size(1139, 626);
+            this.Load += new System.EventHandler(this.Form_Load);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.ResumeLayout(false);
+
+        }
+
+        #region Component Designer generated code
+        #endregion Component Designer generated code
+
     }
 }

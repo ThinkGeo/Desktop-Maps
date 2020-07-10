@@ -105,13 +105,49 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Refresh();
         }
 
+
+        private async void btnReprojectFeature_Click(object sender, EventArgs e)
+        {
+            // Create a feature with coordinates in Decimal Degrees (4326)
+            Feature decimalDegreeFeature = new Feature(-96.834516, 33.150083);
+
+            // Use the ProjectionCloudClient to convert between Decimal Degrees (4326) and Spherical Mercator (3857)
+            Feature sphericalMercatorFeature = await ReprojectAFeature(decimalDegreeFeature);
+
+            // Add the reprojected features to the map
+            ClearMapAndAddFeatures(new Collection<Feature>() { sphericalMercatorFeature });
+        }
+
+        private async void btnReprojectFeatures_Click(object sender, EventArgs e)
+        {
+            // Create features based on the WKT in the textbox in the UI
+            Collection<Feature> decimalDegreeFeatures = new Collection<Feature>();
+            string[] wktStrings = txtWKT.Text.Split('\n');
+            foreach (string wktString in wktStrings)
+            {
+                try
+                {
+                    Feature wktFeature = new Feature(wktString);
+                    decimalDegreeFeatures.Add(wktFeature);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error");
+                }
+            }
+
+            // Use the ProjectionCloudClient to convert between Decimal Degrees (4326) and Spherical Mercator (3857)
+            Collection<Feature> sphericalMercatorFeatures = await ReprojectMultipleFeatures(decimalDegreeFeatures);
+
+            // Add the reprojected features to the map
+            ClearMapAndAddFeatures(sphericalMercatorFeatures);
+        }
+
         private Panel panel1;
         private Button btnReprojectFeatures;
         private TextBox txtWKT;
         private Button btnReprojectFeature;
         private Label label1;
-
-        #region Component Designer generated code
 
         private MapView mapView;
 
@@ -128,8 +164,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -145,7 +181,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.btnReprojectFeatures);
@@ -211,44 +247,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.ResumeLayout(false);
 
         }
-
+        #region Component Designer generated code
         #endregion Component Designer generated code
 
-        private async void btnReprojectFeature_Click(object sender, EventArgs e)
-        {
-            // Create a feature with coordinates in Decimal Degrees (4326)
-            Feature decimalDegreeFeature = new Feature(-96.834516, 33.150083);
-
-            // Use the ProjectionCloudClient to convert between Decimal Degrees (4326) and Spherical Mercator (3857)
-            Feature sphericalMercatorFeature = await ReprojectAFeature(decimalDegreeFeature);
-
-            // Add the reprojected features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { sphericalMercatorFeature });
-        }
-
-        private async void btnReprojectFeatures_Click(object sender, EventArgs e)
-        {
-            // Create features based on the WKT in the textbox in the UI
-            Collection<Feature> decimalDegreeFeatures = new Collection<Feature>();
-            string[] wktStrings = txtWKT.Text.Split('\n');
-            foreach (string wktString in wktStrings)
-            {
-                try
-                {
-                    Feature wktFeature = new Feature(wktString);
-                    decimalDegreeFeatures.Add(wktFeature);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Error");
-                }
-            }
-
-            // Use the ProjectionCloudClient to convert between Decimal Degrees (4326) and Spherical Mercator (3857)
-            Collection<Feature> sphericalMercatorFeatures = await ReprojectMultipleFeatures(decimalDegreeFeatures);
-
-            // Add the reprojected features to the map
-            ClearMapAndAddFeatures(sphericalMercatorFeatures);
-        }
     }
 }

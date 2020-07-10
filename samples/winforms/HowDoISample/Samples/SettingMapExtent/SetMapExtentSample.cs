@@ -48,6 +48,41 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             featureIds.SelectedIndex = 0;
         }
 
+
+        private void ZoomToScale_Click(object sender, EventArgs e)
+        {
+            mapView.ZoomToScale(Convert.ToDouble(zoomScale.Text));
+        }
+
+        private void latlonZoom_Click(object sender, EventArgs e)
+        {
+            // Create a PointShape from the lat-lon
+            var latlonPoint = new PointShape(Convert.ToDouble(latitude.Text), Convert.ToDouble(longitude.Text));
+
+            // Convert the lat-lon projection to match the map
+            var projectionConverter = new ProjectionConverter(4326, 3857);
+            projectionConverter.Open();
+            var convertedPoint = (PointShape)projectionConverter.ConvertToExternalProjection(latlonPoint);
+            projectionConverter.Close();
+
+            // Zoom to the converted lat-lon at the desired scale
+            mapView.ZoomTo(convertedPoint, Convert.ToDouble(latlonScale.Text));
+        }
+
+        private void layerBoundingBox_Click(object sender, EventArgs e)
+        {
+            mapView.CurrentExtent = friscoCityBoundary.GetBoundingBox();
+            mapView.Refresh();
+        }
+
+        private void featureBoundingBox_Click(object sender, EventArgs e)
+        {
+            var feature = friscoCityBoundary.FeatureSource.GetFeatureById(featureIds.SelectedItem.ToString(), ReturningColumnsType.NoColumns);
+            mapView.CurrentExtent = feature.GetBoundingBox();
+            mapView.Refresh();
+        }
+
+
         private Panel panel1;
         private TextBox latlonScale;
         private TextBox longitude;
@@ -68,7 +103,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private TextBox zoomScale;
         private Label label1;
 
-        #region Component Designer generated code
 
         private MapView mapView;
 
@@ -99,8 +133,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -344,39 +378,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
+        #region Component Designer generated code
         #endregion Component Designer generated code
 
-        private void ZoomToScale_Click(object sender, EventArgs e)
-        {
-            mapView.ZoomToScale(Convert.ToDouble(zoomScale.Text));
-        }
-
-        private void latlonZoom_Click(object sender, EventArgs e)
-        {
-            // Create a PointShape from the lat-lon
-            var latlonPoint = new PointShape(Convert.ToDouble(latitude.Text), Convert.ToDouble(longitude.Text));
-
-            // Convert the lat-lon projection to match the map
-            var projectionConverter = new ProjectionConverter(4326, 3857);
-            projectionConverter.Open();
-            var convertedPoint = (PointShape)projectionConverter.ConvertToExternalProjection(latlonPoint);
-            projectionConverter.Close();
-
-            // Zoom to the converted lat-lon at the desired scale
-            mapView.ZoomTo(convertedPoint, Convert.ToDouble(latlonScale.Text));
-        }
-
-        private void layerBoundingBox_Click(object sender, EventArgs e)
-        {
-            mapView.CurrentExtent = friscoCityBoundary.GetBoundingBox();
-            mapView.Refresh();
-        }
-
-        private void featureBoundingBox_Click(object sender, EventArgs e)
-        {
-            var feature = friscoCityBoundary.FeatureSource.GetFeatureById(featureIds.SelectedItem.ToString(), ReturningColumnsType.NoColumns);
-            mapView.CurrentExtent = feature.GetBoundingBox();
-            mapView.Refresh();
-        }
     }
 }

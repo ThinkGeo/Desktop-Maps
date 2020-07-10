@@ -179,12 +179,32 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         }
 
 
+        private void lsbRouteSegments_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ListBox routeSegments = (ListBox)sender;
+            if (routeSegments.SelectedItem != null)
+            {
+                InMemoryFeatureLayer highlightLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Highlight Layer");
+                highlightLayer.InternalFeatures.Clear();
+
+                // Highlight the selected route segment
+                highlightLayer.InternalFeatures.Add(new Feature(((CloudRoutingSegment)routeSegments.SelectedItem).Shape));
+
+                // Zoom to the selected feature and zoom out to an appropriate level
+                mapView.CurrentExtent = ((CloudRoutingSegment)routeSegments.SelectedItem).Shape.GetBoundingBox();
+                ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
+                if (mapView.CurrentScale < standardZoomLevelSet.ZoomLevel15.Scale)
+                {
+                    mapView.ZoomToScale(standardZoomLevelSet.ZoomLevel15.Scale);
+                }
+                mapView.Refresh();
+            }
+        }
 
         private Panel panel1;
         private ListBox lsbRouteSegments;
         private Label label1;
 
-        #region Component Designer generated code
 
         private MapView mapView;
 
@@ -199,8 +219,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -216,7 +236,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.lsbRouteSegments);
@@ -228,8 +248,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // lsbRouteSegments
             // 
-            this.lsbRouteSegments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.lsbRouteSegments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lsbRouteSegments.FormattingEnabled = true;
             this.lsbRouteSegments.ItemHeight = 16;
@@ -263,28 +283,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
+        #region Component Designer generated code
         #endregion Component Designer generated code
 
-        private void lsbRouteSegments_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ListBox routeSegments = (ListBox)sender;
-            if (routeSegments.SelectedItem != null)
-            {
-                InMemoryFeatureLayer highlightLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Highlight Layer");
-                highlightLayer.InternalFeatures.Clear();
-
-                // Highlight the selected route segment
-                highlightLayer.InternalFeatures.Add(new Feature(((CloudRoutingSegment)routeSegments.SelectedItem).Shape));
-
-                // Zoom to the selected feature and zoom out to an appropriate level
-                mapView.CurrentExtent = ((CloudRoutingSegment)routeSegments.SelectedItem).Shape.GetBoundingBox();
-                ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
-                if (mapView.CurrentScale < standardZoomLevelSet.ZoomLevel15.Scale)
-                {
-                    mapView.ZoomToScale(standardZoomLevelSet.ZoomLevel15.Scale);
-                }
-                mapView.Refresh();
-            }
-        }
     }
 }

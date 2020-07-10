@@ -53,11 +53,38 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add("layerOverlay", layerOverlay);
         }
 
+
+
+        /// <summary>
+        /// Gets Convex Hull of the first feature in the cityLimits layer and adds them to the convexHullLayer to display on the map
+        /// </summary>
+        private void shapeConvexHull_Click(object sender, EventArgs e)
+        {
+            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
+
+            ShapeFileFeatureLayer cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
+            InMemoryFeatureLayer convexHullLayer = (InMemoryFeatureLayer)layerOverlay.Layers["convexHullLayer"];
+
+            // Query the cityLimits layer to get the first feature
+            cityLimits.Open();
+            var feature = cityLimits.QueryTools.GetAllFeatures(ReturningColumnsType.NoColumns).First();
+            cityLimits.Close();
+
+            // Get the convex hull of the feature
+            var convexHull = feature.GetConvexHull();
+
+            // Add the convexHull into an InMemoryFeatureLayer to display the result.
+            convexHullLayer.InternalFeatures.Clear();
+            convexHullLayer.InternalFeatures.Add(convexHull);
+
+            // Redraw the layerOverlay to see the convexHull feature on the map
+            layerOverlay.Refresh();
+        }
+
         private Panel panel1;
         private Button shapeConvexHull;
         private Label label1;
 
-        #region Component Designer generated code
 
         private MapView mapView;
 
@@ -72,8 +99,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -89,7 +116,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.shapeConvexHull);
@@ -134,32 +161,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
+        #region Component Designer generated code
         #endregion Component Designer generated code
 
-        /// <summary>
-        /// Gets Convex Hull of the first feature in the cityLimits layer and adds them to the convexHullLayer to display on the map
-        /// </summary>
-        private void shapeConvexHull_Click(object sender, EventArgs e)
-        {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
-
-            ShapeFileFeatureLayer cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
-            InMemoryFeatureLayer convexHullLayer = (InMemoryFeatureLayer)layerOverlay.Layers["convexHullLayer"];
-
-            // Query the cityLimits layer to get the first feature
-            cityLimits.Open();
-            var feature = cityLimits.QueryTools.GetAllFeatures(ReturningColumnsType.NoColumns).First();
-            cityLimits.Close();
-
-            // Get the convex hull of the feature
-            var convexHull = feature.GetConvexHull();
-
-            // Add the convexHull into an InMemoryFeatureLayer to display the result.
-            convexHullLayer.InternalFeatures.Clear();
-            convexHullLayer.InternalFeatures.Add(convexHull);
-
-            // Redraw the layerOverlay to see the convexHull feature on the map
-            layerOverlay.Refresh();
-        }
     }
 }

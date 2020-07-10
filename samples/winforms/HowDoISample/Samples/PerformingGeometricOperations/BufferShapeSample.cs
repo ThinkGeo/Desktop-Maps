@@ -54,6 +54,27 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(layerOverlay);
         }
 
+
+
+        private void bufferShape_Click(object sender, EventArgs e)
+        {
+            // Query the cityLimits layer to get all the features
+            cityLimits.Open();
+            var features = cityLimits.QueryTools.GetAllFeatures(ReturningColumnsType.NoColumns);
+            cityLimits.Close();
+
+            // Buffer the first feature by the amount of the bufferDistance TextBox
+            var buffer = features[0].Buffer(Convert.ToInt32(bufferDistance.Text), GeographyUnit.Meter, DistanceUnit.Meter);
+
+            // Add the buffer shape into an InMemoryFeatureLayer to display the result.
+            // If this were to be a permanent change to the cityLimits FeatureSource, you would modify the underlying data using BeginTransaction and CommitTransaction instead.
+            bufferLayer.InternalFeatures.Clear();
+            bufferLayer.InternalFeatures.Add(buffer);
+
+            // Redraw the layerOverlay to see the buffered features on the map
+            layerOverlay.Refresh();
+        }
+
         private Panel panel1;
         private Button bufferShape;
         private TextBox bufferDistance;
@@ -77,8 +98,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -95,7 +116,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.bufferShape);
@@ -162,23 +183,5 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         #endregion Component Designer generated code
 
-        private void bufferShape_Click(object sender, EventArgs e)
-        {
-            // Query the cityLimits layer to get all the features
-            cityLimits.Open();
-            var features = cityLimits.QueryTools.GetAllFeatures(ReturningColumnsType.NoColumns);
-            cityLimits.Close();
-
-            // Buffer the first feature by the amount of the bufferDistance TextBox
-            var buffer = features[0].Buffer(Convert.ToInt32(bufferDistance.Text), GeographyUnit.Meter, DistanceUnit.Meter);
-
-            // Add the buffer shape into an InMemoryFeatureLayer to display the result.
-            // If this were to be a permanent change to the cityLimits FeatureSource, you would modify the underlying data using BeginTransaction and CommitTransaction instead.
-            bufferLayer.InternalFeatures.Clear();
-            bufferLayer.InternalFeatures.Add(buffer);
-
-            // Redraw the layerOverlay to see the buffered features on the map
-            layerOverlay.Refresh();
-        }
     }
 }

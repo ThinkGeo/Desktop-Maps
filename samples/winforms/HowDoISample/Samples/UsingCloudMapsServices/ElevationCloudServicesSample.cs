@@ -181,6 +181,34 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         }
 
 
+        private void btnDrawANewPoint_Click(object sender, EventArgs e)
+        {
+            // Set the drawing mode to 'Point'
+            mapView.TrackOverlay.TrackMode = TrackMode.Point;
+        }
+
+        private void btnDrawANewLine_Click(object sender, EventArgs e)
+        {
+            // Set the drawing mode to 'Line'
+            mapView.TrackOverlay.TrackMode = TrackMode.Line;
+        }
+
+        private void btnDrawANewPolygon_Click(object sender, EventArgs e)
+        {
+            // Set the drawing mode to 'Polygon'
+            mapView.TrackOverlay.TrackMode = TrackMode.Polygon;
+        }
+
+        private void lsbElevations_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lsbElevations.SelectedItem != null)
+            {
+                // Set the map extent to the selected point
+                CloudElevationPointResult elevationPoint = (CloudElevationPointResult)lsbElevations.SelectedItem;
+                mapView.CurrentExtent = elevationPoint.Point.GetBoundingBox();
+                mapView.Refresh();
+            }
+        }
 
         private Panel panel1;
         private Label label2;
@@ -194,8 +222,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private TextBox txtAverageElevation;
         private TextBox txtSliderValue;
         private TrackBar intervalDistance;
-
-        #region Component Designer generated code
 
         private MapView mapView;
 
@@ -220,8 +246,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -237,7 +263,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.txtSliderValue);
@@ -295,8 +321,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // lsbElevations
             // 
-            this.lsbElevations.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.lsbElevations.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lsbElevations.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.lsbElevations.FormattingEnabled = true;
@@ -394,36 +420,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-
+        #region Component Designer generated code
         #endregion Component Designer generated code
 
-        private void btnDrawANewPoint_Click(object sender, EventArgs e)
-        {
-            // Set the drawing mode to 'Point'
-            mapView.TrackOverlay.TrackMode = TrackMode.Point;
-        }
-
-        private void btnDrawANewLine_Click(object sender, EventArgs e)
-        {
-            // Set the drawing mode to 'Line'
-            mapView.TrackOverlay.TrackMode = TrackMode.Line;
-        }
-
-        private void btnDrawANewPolygon_Click(object sender, EventArgs e)
-        {
-            // Set the drawing mode to 'Polygon'
-            mapView.TrackOverlay.TrackMode = TrackMode.Polygon;
-        }
-
-        private void lsbElevations_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (lsbElevations.SelectedItem != null)
-            {
-                // Set the map extent to the selected point
-                CloudElevationPointResult elevationPoint = (CloudElevationPointResult)lsbElevations.SelectedItem;
-                mapView.CurrentExtent = elevationPoint.Point.GetBoundingBox();
-                mapView.Refresh();
-            }
-        }
     }
 }

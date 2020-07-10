@@ -13,6 +13,45 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
+
+
+        private void btnActivate_Click(object sender, EventArgs e)
+        {
+            // It is important to set the map unit first to either feet, meters or decimal degrees.
+            mapView.MapUnit = GeographyUnit.Meter;
+
+            // Sets the map zoom level set to the Google maps zoom level set.
+            mapView.ZoomLevelSet = new GoogleMapsZoomLevelSet();
+
+            // Clear the current overlay
+            mapView.Overlays.Clear();
+
+            // Create a new overlay that will hold our new layer and add it to the map.
+            LayerOverlay worldOverlay = new LayerOverlay();
+            mapView.Overlays.Add("WorldOverlay", worldOverlay);
+
+            // Create the new layer.
+            GoogleMapsLayer worldLayer = new GoogleMapsLayer();
+
+            // Add the layer to the overlay we created earlier.
+            worldOverlay.Layers.Add("WorldLayer", worldLayer);
+
+            // Set the client ID and Private key from the text box on the sample.  
+            worldLayer.ClientId = txtClientId.Text;
+            worldLayer.PrivateKey = txtPrivateKey.Text;
+
+            // Set the current extent to the whole world.
+            mapView.CurrentExtent = new RectangleShape(-10000000, 10000000, 10000000, -10000000);
+
+            // Refresh the map.
+            mapView.Refresh();
+        }
+
+        private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo("https://developers.google.com/maps/documentation/maps-static/get-api-key"));
+        }
+
         private Panel panel1;
         private LinkLabel linkLabel1;
         private Button btnActivate;
@@ -42,8 +81,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -59,7 +98,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.linkLabel1);
@@ -160,43 +199,5 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         }
 
         #endregion Component Designer generated code
-
-        private void btnActivate_Click(object sender, EventArgs e)
-        {
-            // It is important to set the map unit first to either feet, meters or decimal degrees.
-            mapView.MapUnit = GeographyUnit.Meter;
-
-            // Sets the map zoom level set to the Google maps zoom level set.
-            mapView.ZoomLevelSet = new GoogleMapsZoomLevelSet();
-
-            // Clear the current overlay
-            mapView.Overlays.Clear();
-
-            // Create a new overlay that will hold our new layer and add it to the map.
-            LayerOverlay worldOverlay = new LayerOverlay();
-            mapView.Overlays.Add("WorldOverlay", worldOverlay);
-
-            // Create the new layer.
-            GoogleMapsLayer worldLayer = new GoogleMapsLayer();
-
-            // Add the layer to the overlay we created earlier.
-            worldOverlay.Layers.Add("WorldLayer", worldLayer);
-
-            // Set the client ID and Private key from the text box on the sample.  
-            worldLayer.ClientId = txtClientId.Text;
-            worldLayer.PrivateKey = txtPrivateKey.Text;
-
-            // Set the current extent to the whole world.
-            mapView.CurrentExtent = new RectangleShape(-10000000, 10000000, 10000000, -10000000);
-
-            // Refresh the map.
-            mapView.Refresh();
-        }
-
-        private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
-        {
-            Process.Start(new ProcessStartInfo("https://developers.google.com/maps/documentation/maps-static/get-api-key"));
-        }
-
     }
 }

@@ -179,7 +179,44 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             PerformWorldMapsQuery();
         }
 
+        private void btnDrawNewPointAndQuery_Click(object sender, EventArgs e)
+        {
+            // Set the drawing mode to 'Point'
+            mapView.TrackOverlay.TrackMode = TrackMode.Point;
 
+            // Clear the old shapes from the map
+            ClearQueryShapes();
+        }
+
+        private void btnDrawNewLineAndQuery_Click(object sender, EventArgs e)
+        {
+            // Set the drawing mode to 'Line'
+            mapView.TrackOverlay.TrackMode = TrackMode.Line;
+
+            // Clear the old shapes from the map
+            ClearQueryShapes();
+        }
+
+        private void btnDrawNewPolygonAndQuery_Click(object sender, EventArgs e)
+        {
+            // Set the drawing mode to 'Polygon'
+            mapView.TrackOverlay.TrackMode = TrackMode.Polygon;
+
+            // Clear the old shapes from the map
+            ClearQueryShapes();
+        }
+        private void ClearQueryShapes()
+        {
+            // Get the query shape layer from the MapView
+            LayerOverlay queriedFeaturesOverlay = (LayerOverlay)mapView.Overlays["Queried Features Overlay"];
+            InMemoryFeatureLayer queryShapeFeatureLayer = (InMemoryFeatureLayer)queriedFeaturesOverlay.Layers["Query Shape Layer"];
+            InMemoryFeatureLayer queriedFeaturesLayer = (InMemoryFeatureLayer)queriedFeaturesOverlay.Layers["Queried Features Layer"];
+
+            // Clear the old query result and query shape from the map
+            queriedFeaturesLayer.InternalFeatures.Clear();
+            queryShapeFeatureLayer.InternalFeatures.Clear();
+            queriedFeaturesOverlay.Refresh();
+        }
 
         private Panel panel1;
         private Button btnDrawNewPolygonAndQuery;
@@ -194,7 +231,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private Label label2;
         private Label label1;
 
-        #region Component Designer generated code
 
         private MapView mapView;
 
@@ -219,8 +255,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -236,7 +272,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.btnDrawNewPolygonAndQuery);
@@ -400,45 +436,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
+        #region Component Designer generated code
         #endregion Component Designer generated code
 
-        private void btnDrawNewPointAndQuery_Click(object sender, EventArgs e)
-        {
-            // Set the drawing mode to 'Point'
-            mapView.TrackOverlay.TrackMode = TrackMode.Point;
-
-            // Clear the old shapes from the map
-            ClearQueryShapes();
-        }
-
-        private void btnDrawNewLineAndQuery_Click(object sender, EventArgs e)
-        {
-            // Set the drawing mode to 'Line'
-            mapView.TrackOverlay.TrackMode = TrackMode.Line;
-
-            // Clear the old shapes from the map
-            ClearQueryShapes();
-        }
-
-        private void btnDrawNewPolygonAndQuery_Click(object sender, EventArgs e)
-        {
-            // Set the drawing mode to 'Polygon'
-            mapView.TrackOverlay.TrackMode = TrackMode.Polygon;
-
-            // Clear the old shapes from the map
-            ClearQueryShapes();
-        }
-        private void ClearQueryShapes()
-        {
-            // Get the query shape layer from the MapView
-            LayerOverlay queriedFeaturesOverlay = (LayerOverlay)mapView.Overlays["Queried Features Overlay"];
-            InMemoryFeatureLayer queryShapeFeatureLayer = (InMemoryFeatureLayer)queriedFeaturesOverlay.Layers["Query Shape Layer"];
-            InMemoryFeatureLayer queriedFeaturesLayer = (InMemoryFeatureLayer)queriedFeaturesOverlay.Layers["Queried Features Layer"];
-
-            // Clear the old query result and query shape from the map
-            queriedFeaturesLayer.InternalFeatures.Clear();
-            queryShapeFeatureLayer.InternalFeatures.Clear();
-            queriedFeaturesOverlay.Refresh();
-        }
     }
 }

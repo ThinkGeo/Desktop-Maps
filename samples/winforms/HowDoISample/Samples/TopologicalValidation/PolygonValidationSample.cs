@@ -52,244 +52,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries.Checked = true;
         }
 
-        private Panel panel1;
-        private RadioButton rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries;
-        private Label label1;
-        private RadioButton rdoCheckPolygonsMustNotOverlapPolygons;
-        private RadioButton rdoCheckPolygonsMustNotOverlap;
-        private RadioButton rdoCheckIfPolygonsHaveGaps;
-        private RadioButton rdoCheckIfPolygonsCoverEachOther;
-        private RadioButton rdoCheckIfPolygonsContainPoints;
-        private RadioButton rdoCheckIfPolygonsAreWithinPolygons;
-        private RadioButton rdoCheckIfPolygonsOverlapPolygons;
-        private RadioButton rdoCheckIfPolygonBoundariesOverlapLines;
-        private TextBox txtValidationInfo;
-
-        #region Component Designer generated code
-
-        private MapView mapView;
-
-        private void InitializeComponent()
-        {
-            this.mapView = new ThinkGeo.UI.WinForms.MapView();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.txtValidationInfo = new System.Windows.Forms.TextBox();
-            this.rdoCheckPolygonsMustNotOverlapPolygons = new System.Windows.Forms.RadioButton();
-            this.rdoCheckPolygonsMustNotOverlap = new System.Windows.Forms.RadioButton();
-            this.rdoCheckIfPolygonsHaveGaps = new System.Windows.Forms.RadioButton();
-            this.rdoCheckIfPolygonsCoverEachOther = new System.Windows.Forms.RadioButton();
-            this.rdoCheckIfPolygonsContainPoints = new System.Windows.Forms.RadioButton();
-            this.rdoCheckIfPolygonsAreWithinPolygons = new System.Windows.Forms.RadioButton();
-            this.rdoCheckIfPolygonsOverlapPolygons = new System.Windows.Forms.RadioButton();
-            this.rdoCheckIfPolygonBoundariesOverlapLines = new System.Windows.Forms.RadioButton();
-            this.rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries = new System.Windows.Forms.RadioButton();
-            this.label1 = new System.Windows.Forms.Label();
-            this.panel1.SuspendLayout();
-            this.SuspendLayout();
-            // 
-            // mapView
-            // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.mapView.BackColor = System.Drawing.Color.White;
-            this.mapView.CurrentScale = 0D;
-            this.mapView.Location = new System.Drawing.Point(0, 0);
-            this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
-            this.mapView.MaximumScale = 1.7976931348623157E+308D;
-            this.mapView.MinimumScale = 200D;
-            this.mapView.Name = "mapView";
-            this.mapView.RestrictExtent = null;
-            this.mapView.RotatedAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(848, 718);
-            this.mapView.TabIndex = 0;
-            // 
-            // panel1
-            // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.BackColor = System.Drawing.Color.Gray;
-            this.panel1.Controls.Add(this.txtValidationInfo);
-            this.panel1.Controls.Add(this.rdoCheckPolygonsMustNotOverlapPolygons);
-            this.panel1.Controls.Add(this.rdoCheckPolygonsMustNotOverlap);
-            this.panel1.Controls.Add(this.rdoCheckIfPolygonsHaveGaps);
-            this.panel1.Controls.Add(this.rdoCheckIfPolygonsCoverEachOther);
-            this.panel1.Controls.Add(this.rdoCheckIfPolygonsContainPoints);
-            this.panel1.Controls.Add(this.rdoCheckIfPolygonsAreWithinPolygons);
-            this.panel1.Controls.Add(this.rdoCheckIfPolygonsOverlapPolygons);
-            this.panel1.Controls.Add(this.rdoCheckIfPolygonBoundariesOverlapLines);
-            this.panel1.Controls.Add(this.rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(851, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(478, 718);
-            this.panel1.TabIndex = 1;
-            // 
-            // txtValidationInfo
-            // 
-            this.txtValidationInfo.BackColor = System.Drawing.Color.Gray;
-            this.txtValidationInfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtValidationInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtValidationInfo.ForeColor = System.Drawing.Color.White;
-            this.txtValidationInfo.Location = new System.Drawing.Point(22, 308);
-            this.txtValidationInfo.Multiline = true;
-            this.txtValidationInfo.Name = "txtValidationInfo";
-            this.txtValidationInfo.Size = new System.Drawing.Size(438, 170);
-            this.txtValidationInfo.TabIndex = 10;
-            // 
-            // rdoCheckPolygonsMustNotOverlapPolygons
-            // 
-            this.rdoCheckPolygonsMustNotOverlapPolygons.AutoSize = true;
-            this.rdoCheckPolygonsMustNotOverlapPolygons.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdoCheckPolygonsMustNotOverlapPolygons.ForeColor = System.Drawing.Color.White;
-            this.rdoCheckPolygonsMustNotOverlapPolygons.Location = new System.Drawing.Point(22, 277);
-            this.rdoCheckPolygonsMustNotOverlapPolygons.Name = "rdoCheckPolygonsMustNotOverlapPolygons";
-            this.rdoCheckPolygonsMustNotOverlapPolygons.Size = new System.Drawing.Size(354, 24);
-            this.rdoCheckPolygonsMustNotOverlapPolygons.TabIndex = 9;
-            this.rdoCheckPolygonsMustNotOverlapPolygons.TabStop = true;
-            this.rdoCheckPolygonsMustNotOverlapPolygons.Text = "Polygons Must Not Overlap Other Polygons";
-            this.rdoCheckPolygonsMustNotOverlapPolygons.UseVisualStyleBackColor = true;
-            this.rdoCheckPolygonsMustNotOverlapPolygons.CheckedChanged += new System.EventHandler(this.rdoCheckPolygonsMustNotOverlapPolygons_CheckedChanged);
-            // 
-            // rdoCheckPolygonsMustNotOverlap
-            // 
-            this.rdoCheckPolygonsMustNotOverlap.AutoSize = true;
-            this.rdoCheckPolygonsMustNotOverlap.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdoCheckPolygonsMustNotOverlap.ForeColor = System.Drawing.Color.White;
-            this.rdoCheckPolygonsMustNotOverlap.Location = new System.Drawing.Point(22, 247);
-            this.rdoCheckPolygonsMustNotOverlap.Name = "rdoCheckPolygonsMustNotOverlap";
-            this.rdoCheckPolygonsMustNotOverlap.Size = new System.Drawing.Size(234, 24);
-            this.rdoCheckPolygonsMustNotOverlap.TabIndex = 8;
-            this.rdoCheckPolygonsMustNotOverlap.TabStop = true;
-            this.rdoCheckPolygonsMustNotOverlap.Text = "Polygons Must Not Overlap";
-            this.rdoCheckPolygonsMustNotOverlap.UseVisualStyleBackColor = true;
-            this.rdoCheckPolygonsMustNotOverlap.CheckedChanged += new System.EventHandler(this.rdoCheckPolygonsMustNotOverlap_CheckedChanged);
-            // 
-            // rdoCheckIfPolygonsHaveGaps
-            // 
-            this.rdoCheckIfPolygonsHaveGaps.AutoSize = true;
-            this.rdoCheckIfPolygonsHaveGaps.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdoCheckIfPolygonsHaveGaps.ForeColor = System.Drawing.Color.White;
-            this.rdoCheckIfPolygonsHaveGaps.Location = new System.Drawing.Point(22, 223);
-            this.rdoCheckIfPolygonsHaveGaps.Name = "rdoCheckIfPolygonsHaveGaps";
-            this.rdoCheckIfPolygonsHaveGaps.Size = new System.Drawing.Size(327, 24);
-            this.rdoCheckIfPolygonsHaveGaps.TabIndex = 7;
-            this.rdoCheckIfPolygonsHaveGaps.TabStop = true;
-            this.rdoCheckIfPolygonsHaveGaps.Text = "Union of Polygons Must Not Have Gaps";
-            this.rdoCheckIfPolygonsHaveGaps.UseVisualStyleBackColor = true;
-            this.rdoCheckIfPolygonsHaveGaps.CheckedChanged += new System.EventHandler(this.rdoCheckIfPolygonsHaveGaps_CheckedChanged);
-            // 
-            // rdoCheckIfPolygonsCoverEachOther
-            // 
-            this.rdoCheckIfPolygonsCoverEachOther.AutoSize = true;
-            this.rdoCheckIfPolygonsCoverEachOther.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdoCheckIfPolygonsCoverEachOther.ForeColor = System.Drawing.Color.White;
-            this.rdoCheckIfPolygonsCoverEachOther.Location = new System.Drawing.Point(22, 196);
-            this.rdoCheckIfPolygonsCoverEachOther.Name = "rdoCheckIfPolygonsCoverEachOther";
-            this.rdoCheckIfPolygonsCoverEachOther.Size = new System.Drawing.Size(293, 24);
-            this.rdoCheckIfPolygonsCoverEachOther.TabIndex = 6;
-            this.rdoCheckIfPolygonsCoverEachOther.TabStop = true;
-            this.rdoCheckIfPolygonsCoverEachOther.Text = "Polygons Must Overlap Each Other";
-            this.rdoCheckIfPolygonsCoverEachOther.UseVisualStyleBackColor = true;
-            this.rdoCheckIfPolygonsCoverEachOther.CheckedChanged += new System.EventHandler(this.rdoCheckIfPolygonsCoverEachOther_CheckedChanged);
-            // 
-            // rdoCheckIfPolygonsContainPoints
-            // 
-            this.rdoCheckIfPolygonsContainPoints.AutoSize = true;
-            this.rdoCheckIfPolygonsContainPoints.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdoCheckIfPolygonsContainPoints.ForeColor = System.Drawing.Color.White;
-            this.rdoCheckIfPolygonsContainPoints.Location = new System.Drawing.Point(22, 169);
-            this.rdoCheckIfPolygonsContainPoints.Name = "rdoCheckIfPolygonsContainPoints";
-            this.rdoCheckIfPolygonsContainPoints.Size = new System.Drawing.Size(254, 24);
-            this.rdoCheckIfPolygonsContainPoints.TabIndex = 5;
-            this.rdoCheckIfPolygonsContainPoints.TabStop = true;
-            this.rdoCheckIfPolygonsContainPoints.Text = "Polygons Must Contain Points";
-            this.rdoCheckIfPolygonsContainPoints.UseVisualStyleBackColor = true;
-            this.rdoCheckIfPolygonsContainPoints.CheckedChanged += new System.EventHandler(this.rdoCheckIfPolygonsContainPoints_CheckedChanged);
-            // 
-            // rdoCheckIfPolygonsAreWithinPolygons
-            // 
-            this.rdoCheckIfPolygonsAreWithinPolygons.AutoSize = true;
-            this.rdoCheckIfPolygonsAreWithinPolygons.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdoCheckIfPolygonsAreWithinPolygons.ForeColor = System.Drawing.Color.White;
-            this.rdoCheckIfPolygonsAreWithinPolygons.Location = new System.Drawing.Point(22, 142);
-            this.rdoCheckIfPolygonsAreWithinPolygons.Name = "rdoCheckIfPolygonsAreWithinPolygons";
-            this.rdoCheckIfPolygonsAreWithinPolygons.Size = new System.Drawing.Size(291, 24);
-            this.rdoCheckIfPolygonsAreWithinPolygons.TabIndex = 4;
-            this.rdoCheckIfPolygonsAreWithinPolygons.TabStop = true;
-            this.rdoCheckIfPolygonsAreWithinPolygons.Text = "Polygons Must Be Within Polygons";
-            this.rdoCheckIfPolygonsAreWithinPolygons.UseVisualStyleBackColor = true;
-            this.rdoCheckIfPolygonsAreWithinPolygons.CheckedChanged += new System.EventHandler(this.rdoCheckIfPolygonsAreWithinPolygons_CheckedChanged);
-            // 
-            // rdoCheckIfPolygonsOverlapPolygons
-            // 
-            this.rdoCheckIfPolygonsOverlapPolygons.AutoSize = true;
-            this.rdoCheckIfPolygonsOverlapPolygons.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdoCheckIfPolygonsOverlapPolygons.ForeColor = System.Drawing.Color.White;
-            this.rdoCheckIfPolygonsOverlapPolygons.Location = new System.Drawing.Point(22, 115);
-            this.rdoCheckIfPolygonsOverlapPolygons.Name = "rdoCheckIfPolygonsOverlapPolygons";
-            this.rdoCheckIfPolygonsOverlapPolygons.Size = new System.Drawing.Size(276, 24);
-            this.rdoCheckIfPolygonsOverlapPolygons.TabIndex = 3;
-            this.rdoCheckIfPolygonsOverlapPolygons.TabStop = true;
-            this.rdoCheckIfPolygonsOverlapPolygons.Text = "Polygons Must Overlap Polygons";
-            this.rdoCheckIfPolygonsOverlapPolygons.UseVisualStyleBackColor = true;
-            this.rdoCheckIfPolygonsOverlapPolygons.CheckedChanged += new System.EventHandler(this.rdoCheckIfPolygonsOverlapPolygons_CheckedChanged);
-            // 
-            // rdoCheckIfPolygonBoundariesOverlapLines
-            // 
-            this.rdoCheckIfPolygonBoundariesOverlapLines.AutoSize = true;
-            this.rdoCheckIfPolygonBoundariesOverlapLines.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdoCheckIfPolygonBoundariesOverlapLines.ForeColor = System.Drawing.Color.White;
-            this.rdoCheckIfPolygonBoundariesOverlapLines.Location = new System.Drawing.Point(22, 88);
-            this.rdoCheckIfPolygonBoundariesOverlapLines.Name = "rdoCheckIfPolygonBoundariesOverlapLines";
-            this.rdoCheckIfPolygonBoundariesOverlapLines.Size = new System.Drawing.Size(330, 24);
-            this.rdoCheckIfPolygonBoundariesOverlapLines.TabIndex = 2;
-            this.rdoCheckIfPolygonBoundariesOverlapLines.TabStop = true;
-            this.rdoCheckIfPolygonBoundariesOverlapLines.Text = "Polygon Boundaries Must Overlap Lines";
-            this.rdoCheckIfPolygonBoundariesOverlapLines.UseVisualStyleBackColor = true;
-            this.rdoCheckIfPolygonBoundariesOverlapLines.CheckedChanged += new System.EventHandler(this.rdoCheckIfPolygonBoundariesOverlapLines_CheckedChanged);
-            // 
-            // rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries
-            // 
-            this.rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries.AutoSize = true;
-            this.rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries.ForeColor = System.Drawing.Color.White;
-            this.rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries.Location = new System.Drawing.Point(22, 61);
-            this.rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries.Name = "rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries";
-            this.rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries.Size = new System.Drawing.Size(438, 24);
-            this.rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries.TabIndex = 1;
-            this.rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries.TabStop = true;
-            this.rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries.Text = "Polygon Boundaries Must Overlap Polygon Boundaries";
-            this.rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries.UseVisualStyleBackColor = true;
-            this.rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries.CheckedChanged += new System.EventHandler(this.rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries_CheckedChanged);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(19, 32);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(228, 25);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Polygon Validation Tests";
-            // 
-            // PolygonValidationSample
-            // 
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.mapView);
-            this.Name = "PolygonValidationSample";
-            this.Size = new System.Drawing.Size(1329, 718);
-            this.Load += new System.EventHandler(this.Form_Load);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.ResumeLayout(false);
-
-        }
-
-
-
-        #endregion Component Designer generated code
 
         private void rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries_CheckedChanged(object sender, EventArgs e)
         {
@@ -545,6 +307,245 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             filterFeaturesLayer.Close();
             resultFeaturesLayer.Close();
         }
+
+
+        private Panel panel1;
+        private RadioButton rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries;
+        private Label label1;
+        private RadioButton rdoCheckPolygonsMustNotOverlapPolygons;
+        private RadioButton rdoCheckPolygonsMustNotOverlap;
+        private RadioButton rdoCheckIfPolygonsHaveGaps;
+        private RadioButton rdoCheckIfPolygonsCoverEachOther;
+        private RadioButton rdoCheckIfPolygonsContainPoints;
+        private RadioButton rdoCheckIfPolygonsAreWithinPolygons;
+        private RadioButton rdoCheckIfPolygonsOverlapPolygons;
+        private RadioButton rdoCheckIfPolygonBoundariesOverlapLines;
+        private TextBox txtValidationInfo;
+
+
+        private MapView mapView;
+
+        private void InitializeComponent()
+        {
+            this.mapView = new ThinkGeo.UI.WinForms.MapView();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.txtValidationInfo = new System.Windows.Forms.TextBox();
+            this.rdoCheckPolygonsMustNotOverlapPolygons = new System.Windows.Forms.RadioButton();
+            this.rdoCheckPolygonsMustNotOverlap = new System.Windows.Forms.RadioButton();
+            this.rdoCheckIfPolygonsHaveGaps = new System.Windows.Forms.RadioButton();
+            this.rdoCheckIfPolygonsCoverEachOther = new System.Windows.Forms.RadioButton();
+            this.rdoCheckIfPolygonsContainPoints = new System.Windows.Forms.RadioButton();
+            this.rdoCheckIfPolygonsAreWithinPolygons = new System.Windows.Forms.RadioButton();
+            this.rdoCheckIfPolygonsOverlapPolygons = new System.Windows.Forms.RadioButton();
+            this.rdoCheckIfPolygonBoundariesOverlapLines = new System.Windows.Forms.RadioButton();
+            this.rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries = new System.Windows.Forms.RadioButton();
+            this.label1 = new System.Windows.Forms.Label();
+            this.panel1.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // mapView
+            // 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.mapView.BackColor = System.Drawing.Color.White;
+            this.mapView.CurrentScale = 0D;
+            this.mapView.Location = new System.Drawing.Point(0, 0);
+            this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
+            this.mapView.MaximumScale = 1.7976931348623157E+308D;
+            this.mapView.MinimumScale = 200D;
+            this.mapView.Name = "mapView";
+            this.mapView.RestrictExtent = null;
+            this.mapView.RotatedAngle = 0F;
+            this.mapView.Size = new System.Drawing.Size(848, 718);
+            this.mapView.TabIndex = 0;
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.BackColor = System.Drawing.Color.Gray;
+            this.panel1.Controls.Add(this.txtValidationInfo);
+            this.panel1.Controls.Add(this.rdoCheckPolygonsMustNotOverlapPolygons);
+            this.panel1.Controls.Add(this.rdoCheckPolygonsMustNotOverlap);
+            this.panel1.Controls.Add(this.rdoCheckIfPolygonsHaveGaps);
+            this.panel1.Controls.Add(this.rdoCheckIfPolygonsCoverEachOther);
+            this.panel1.Controls.Add(this.rdoCheckIfPolygonsContainPoints);
+            this.panel1.Controls.Add(this.rdoCheckIfPolygonsAreWithinPolygons);
+            this.panel1.Controls.Add(this.rdoCheckIfPolygonsOverlapPolygons);
+            this.panel1.Controls.Add(this.rdoCheckIfPolygonBoundariesOverlapLines);
+            this.panel1.Controls.Add(this.rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Location = new System.Drawing.Point(851, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(478, 718);
+            this.panel1.TabIndex = 1;
+            // 
+            // txtValidationInfo
+            // 
+            this.txtValidationInfo.BackColor = System.Drawing.Color.Gray;
+            this.txtValidationInfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtValidationInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtValidationInfo.ForeColor = System.Drawing.Color.White;
+            this.txtValidationInfo.Location = new System.Drawing.Point(22, 308);
+            this.txtValidationInfo.Multiline = true;
+            this.txtValidationInfo.Name = "txtValidationInfo";
+            this.txtValidationInfo.Size = new System.Drawing.Size(438, 170);
+            this.txtValidationInfo.TabIndex = 10;
+            // 
+            // rdoCheckPolygonsMustNotOverlapPolygons
+            // 
+            this.rdoCheckPolygonsMustNotOverlapPolygons.AutoSize = true;
+            this.rdoCheckPolygonsMustNotOverlapPolygons.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoCheckPolygonsMustNotOverlapPolygons.ForeColor = System.Drawing.Color.White;
+            this.rdoCheckPolygonsMustNotOverlapPolygons.Location = new System.Drawing.Point(22, 277);
+            this.rdoCheckPolygonsMustNotOverlapPolygons.Name = "rdoCheckPolygonsMustNotOverlapPolygons";
+            this.rdoCheckPolygonsMustNotOverlapPolygons.Size = new System.Drawing.Size(354, 24);
+            this.rdoCheckPolygonsMustNotOverlapPolygons.TabIndex = 9;
+            this.rdoCheckPolygonsMustNotOverlapPolygons.TabStop = true;
+            this.rdoCheckPolygonsMustNotOverlapPolygons.Text = "Polygons Must Not Overlap Other Polygons";
+            this.rdoCheckPolygonsMustNotOverlapPolygons.UseVisualStyleBackColor = true;
+            this.rdoCheckPolygonsMustNotOverlapPolygons.CheckedChanged += new System.EventHandler(this.rdoCheckPolygonsMustNotOverlapPolygons_CheckedChanged);
+            // 
+            // rdoCheckPolygonsMustNotOverlap
+            // 
+            this.rdoCheckPolygonsMustNotOverlap.AutoSize = true;
+            this.rdoCheckPolygonsMustNotOverlap.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoCheckPolygonsMustNotOverlap.ForeColor = System.Drawing.Color.White;
+            this.rdoCheckPolygonsMustNotOverlap.Location = new System.Drawing.Point(22, 247);
+            this.rdoCheckPolygonsMustNotOverlap.Name = "rdoCheckPolygonsMustNotOverlap";
+            this.rdoCheckPolygonsMustNotOverlap.Size = new System.Drawing.Size(234, 24);
+            this.rdoCheckPolygonsMustNotOverlap.TabIndex = 8;
+            this.rdoCheckPolygonsMustNotOverlap.TabStop = true;
+            this.rdoCheckPolygonsMustNotOverlap.Text = "Polygons Must Not Overlap";
+            this.rdoCheckPolygonsMustNotOverlap.UseVisualStyleBackColor = true;
+            this.rdoCheckPolygonsMustNotOverlap.CheckedChanged += new System.EventHandler(this.rdoCheckPolygonsMustNotOverlap_CheckedChanged);
+            // 
+            // rdoCheckIfPolygonsHaveGaps
+            // 
+            this.rdoCheckIfPolygonsHaveGaps.AutoSize = true;
+            this.rdoCheckIfPolygonsHaveGaps.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoCheckIfPolygonsHaveGaps.ForeColor = System.Drawing.Color.White;
+            this.rdoCheckIfPolygonsHaveGaps.Location = new System.Drawing.Point(22, 223);
+            this.rdoCheckIfPolygonsHaveGaps.Name = "rdoCheckIfPolygonsHaveGaps";
+            this.rdoCheckIfPolygonsHaveGaps.Size = new System.Drawing.Size(327, 24);
+            this.rdoCheckIfPolygonsHaveGaps.TabIndex = 7;
+            this.rdoCheckIfPolygonsHaveGaps.TabStop = true;
+            this.rdoCheckIfPolygonsHaveGaps.Text = "Union of Polygons Must Not Have Gaps";
+            this.rdoCheckIfPolygonsHaveGaps.UseVisualStyleBackColor = true;
+            this.rdoCheckIfPolygonsHaveGaps.CheckedChanged += new System.EventHandler(this.rdoCheckIfPolygonsHaveGaps_CheckedChanged);
+            // 
+            // rdoCheckIfPolygonsCoverEachOther
+            // 
+            this.rdoCheckIfPolygonsCoverEachOther.AutoSize = true;
+            this.rdoCheckIfPolygonsCoverEachOther.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoCheckIfPolygonsCoverEachOther.ForeColor = System.Drawing.Color.White;
+            this.rdoCheckIfPolygonsCoverEachOther.Location = new System.Drawing.Point(22, 196);
+            this.rdoCheckIfPolygonsCoverEachOther.Name = "rdoCheckIfPolygonsCoverEachOther";
+            this.rdoCheckIfPolygonsCoverEachOther.Size = new System.Drawing.Size(293, 24);
+            this.rdoCheckIfPolygonsCoverEachOther.TabIndex = 6;
+            this.rdoCheckIfPolygonsCoverEachOther.TabStop = true;
+            this.rdoCheckIfPolygonsCoverEachOther.Text = "Polygons Must Overlap Each Other";
+            this.rdoCheckIfPolygonsCoverEachOther.UseVisualStyleBackColor = true;
+            this.rdoCheckIfPolygonsCoverEachOther.CheckedChanged += new System.EventHandler(this.rdoCheckIfPolygonsCoverEachOther_CheckedChanged);
+            // 
+            // rdoCheckIfPolygonsContainPoints
+            // 
+            this.rdoCheckIfPolygonsContainPoints.AutoSize = true;
+            this.rdoCheckIfPolygonsContainPoints.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoCheckIfPolygonsContainPoints.ForeColor = System.Drawing.Color.White;
+            this.rdoCheckIfPolygonsContainPoints.Location = new System.Drawing.Point(22, 169);
+            this.rdoCheckIfPolygonsContainPoints.Name = "rdoCheckIfPolygonsContainPoints";
+            this.rdoCheckIfPolygonsContainPoints.Size = new System.Drawing.Size(254, 24);
+            this.rdoCheckIfPolygonsContainPoints.TabIndex = 5;
+            this.rdoCheckIfPolygonsContainPoints.TabStop = true;
+            this.rdoCheckIfPolygonsContainPoints.Text = "Polygons Must Contain Points";
+            this.rdoCheckIfPolygonsContainPoints.UseVisualStyleBackColor = true;
+            this.rdoCheckIfPolygonsContainPoints.CheckedChanged += new System.EventHandler(this.rdoCheckIfPolygonsContainPoints_CheckedChanged);
+            // 
+            // rdoCheckIfPolygonsAreWithinPolygons
+            // 
+            this.rdoCheckIfPolygonsAreWithinPolygons.AutoSize = true;
+            this.rdoCheckIfPolygonsAreWithinPolygons.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoCheckIfPolygonsAreWithinPolygons.ForeColor = System.Drawing.Color.White;
+            this.rdoCheckIfPolygonsAreWithinPolygons.Location = new System.Drawing.Point(22, 142);
+            this.rdoCheckIfPolygonsAreWithinPolygons.Name = "rdoCheckIfPolygonsAreWithinPolygons";
+            this.rdoCheckIfPolygonsAreWithinPolygons.Size = new System.Drawing.Size(291, 24);
+            this.rdoCheckIfPolygonsAreWithinPolygons.TabIndex = 4;
+            this.rdoCheckIfPolygonsAreWithinPolygons.TabStop = true;
+            this.rdoCheckIfPolygonsAreWithinPolygons.Text = "Polygons Must Be Within Polygons";
+            this.rdoCheckIfPolygonsAreWithinPolygons.UseVisualStyleBackColor = true;
+            this.rdoCheckIfPolygonsAreWithinPolygons.CheckedChanged += new System.EventHandler(this.rdoCheckIfPolygonsAreWithinPolygons_CheckedChanged);
+            // 
+            // rdoCheckIfPolygonsOverlapPolygons
+            // 
+            this.rdoCheckIfPolygonsOverlapPolygons.AutoSize = true;
+            this.rdoCheckIfPolygonsOverlapPolygons.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoCheckIfPolygonsOverlapPolygons.ForeColor = System.Drawing.Color.White;
+            this.rdoCheckIfPolygonsOverlapPolygons.Location = new System.Drawing.Point(22, 115);
+            this.rdoCheckIfPolygonsOverlapPolygons.Name = "rdoCheckIfPolygonsOverlapPolygons";
+            this.rdoCheckIfPolygonsOverlapPolygons.Size = new System.Drawing.Size(276, 24);
+            this.rdoCheckIfPolygonsOverlapPolygons.TabIndex = 3;
+            this.rdoCheckIfPolygonsOverlapPolygons.TabStop = true;
+            this.rdoCheckIfPolygonsOverlapPolygons.Text = "Polygons Must Overlap Polygons";
+            this.rdoCheckIfPolygonsOverlapPolygons.UseVisualStyleBackColor = true;
+            this.rdoCheckIfPolygonsOverlapPolygons.CheckedChanged += new System.EventHandler(this.rdoCheckIfPolygonsOverlapPolygons_CheckedChanged);
+            // 
+            // rdoCheckIfPolygonBoundariesOverlapLines
+            // 
+            this.rdoCheckIfPolygonBoundariesOverlapLines.AutoSize = true;
+            this.rdoCheckIfPolygonBoundariesOverlapLines.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoCheckIfPolygonBoundariesOverlapLines.ForeColor = System.Drawing.Color.White;
+            this.rdoCheckIfPolygonBoundariesOverlapLines.Location = new System.Drawing.Point(22, 88);
+            this.rdoCheckIfPolygonBoundariesOverlapLines.Name = "rdoCheckIfPolygonBoundariesOverlapLines";
+            this.rdoCheckIfPolygonBoundariesOverlapLines.Size = new System.Drawing.Size(330, 24);
+            this.rdoCheckIfPolygonBoundariesOverlapLines.TabIndex = 2;
+            this.rdoCheckIfPolygonBoundariesOverlapLines.TabStop = true;
+            this.rdoCheckIfPolygonBoundariesOverlapLines.Text = "Polygon Boundaries Must Overlap Lines";
+            this.rdoCheckIfPolygonBoundariesOverlapLines.UseVisualStyleBackColor = true;
+            this.rdoCheckIfPolygonBoundariesOverlapLines.CheckedChanged += new System.EventHandler(this.rdoCheckIfPolygonBoundariesOverlapLines_CheckedChanged);
+            // 
+            // rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries
+            // 
+            this.rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries.AutoSize = true;
+            this.rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries.ForeColor = System.Drawing.Color.White;
+            this.rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries.Location = new System.Drawing.Point(22, 61);
+            this.rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries.Name = "rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries";
+            this.rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries.Size = new System.Drawing.Size(438, 24);
+            this.rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries.TabIndex = 1;
+            this.rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries.TabStop = true;
+            this.rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries.Text = "Polygon Boundaries Must Overlap Polygon Boundaries";
+            this.rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries.UseVisualStyleBackColor = true;
+            this.rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries.CheckedChanged += new System.EventHandler(this.rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries_CheckedChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(19, 32);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(228, 25);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Polygon Validation Tests";
+            // 
+            // PolygonValidationSample
+            // 
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.mapView);
+            this.Name = "PolygonValidationSample";
+            this.Size = new System.Drawing.Size(1329, 718);
+            this.Load += new System.EventHandler(this.Form_Load);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.ResumeLayout(false);
+
+        }
+
+
+        #region Component Designer generated code
+        #endregion Component Designer generated code
 
     }
 }

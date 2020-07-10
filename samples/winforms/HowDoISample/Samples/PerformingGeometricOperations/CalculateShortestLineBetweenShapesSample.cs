@@ -65,6 +65,38 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
 
 
+
+
+        private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        {
+            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
+
+            ShapeFileFeatureLayer friscoParks = (ShapeFileFeatureLayer)layerOverlay.Layers["friscoParks"];
+            InMemoryFeatureLayer stadiumLayer = (InMemoryFeatureLayer)layerOverlay.Layers["stadiumLayer"];
+            InMemoryFeatureLayer shortestLineLayer = (InMemoryFeatureLayer)layerOverlay.Layers["shortestLineLayer"];
+
+            // Query the friscoParks layer to get the first feature closest to the map click event
+            var park = friscoParks.QueryTools.GetFeaturesNearestTo(e.WorldLocation, GeographyUnit.Meter, 1,
+                ReturningColumnsType.NoColumns).First();
+
+            // Get the stadium feature from the stadiumLayer
+            var stadium = stadiumLayer.InternalFeatures[0];
+
+            // Get the shortest line from the selected park to the stadium
+            var shortestLine = park.GetShape().GetShortestLineTo(stadium, GeographyUnit.Meter);
+
+            // Show the shortestLine on the map
+            shortestLineLayer.InternalFeatures.Clear();
+            shortestLineLayer.InternalFeatures.Add(new Feature(shortestLine));
+            layerOverlay.Refresh();
+
+            // Get the area of the first feature
+            var length = shortestLine.GetLength(GeographyUnit.Meter, DistanceUnit.Kilometer);
+
+            // Display the shortestLine's length in the distanceResult TextBox
+            distanceResult.Text = $"{length:f3} km";
+        }
+
         private Panel panel1;
         private TextBox distanceResult;
         private Label label3;
@@ -88,8 +120,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -106,7 +138,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.distanceResult);
@@ -174,35 +206,5 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         }
 
         #endregion Component Designer generated code
-
-        private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
-        {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
-
-            ShapeFileFeatureLayer friscoParks = (ShapeFileFeatureLayer)layerOverlay.Layers["friscoParks"];
-            InMemoryFeatureLayer stadiumLayer = (InMemoryFeatureLayer)layerOverlay.Layers["stadiumLayer"];
-            InMemoryFeatureLayer shortestLineLayer = (InMemoryFeatureLayer)layerOverlay.Layers["shortestLineLayer"];
-
-            // Query the friscoParks layer to get the first feature closest to the map click event
-            var park = friscoParks.QueryTools.GetFeaturesNearestTo(e.WorldLocation, GeographyUnit.Meter, 1,
-                ReturningColumnsType.NoColumns).First();
-
-            // Get the stadium feature from the stadiumLayer
-            var stadium = stadiumLayer.InternalFeatures[0];
-
-            // Get the shortest line from the selected park to the stadium
-            var shortestLine = park.GetShape().GetShortestLineTo(stadium, GeographyUnit.Meter);
-
-            // Show the shortestLine on the map
-            shortestLineLayer.InternalFeatures.Clear();
-            shortestLineLayer.InternalFeatures.Add(new Feature(shortestLine));
-            layerOverlay.Refresh();
-
-            // Get the area of the first feature
-            var length = shortestLine.GetLength(GeographyUnit.Meter, DistanceUnit.Kilometer);
-
-            // Display the shortestLine's length in the distanceResult TextBox
-            distanceResult.Text = $"{length:f3} km";
-        }
     }
 }
