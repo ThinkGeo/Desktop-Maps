@@ -97,8 +97,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -114,7 +114,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.coordinateType);
@@ -136,8 +136,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             "(custom)"});
             this.coordinateType.Location = new System.Drawing.Point(3, 107);
             this.coordinateType.Name = "coordinateType";
-            this.coordinateType.Size = new System.Drawing.Size(294, 28);
+            this.coordinateType.Size = new System.Drawing.Size(294, 24);
             this.coordinateType.TabIndex = 2;
+            this.coordinateType.Text = "(lat), (lon)";
             this.coordinateType.SelectedIndexChanged += new System.EventHandler(this.coordinateType_SelectedIndexChanged);
             // 
             // displayMouseCoordinates
@@ -149,7 +150,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.displayMouseCoordinates.ForeColor = System.Drawing.Color.White;
             this.displayMouseCoordinates.Location = new System.Drawing.Point(24, 65);
             this.displayMouseCoordinates.Name = "displayMouseCoordinates";
-            this.displayMouseCoordinates.Size = new System.Drawing.Size(237, 24);
+            this.displayMouseCoordinates.Size = new System.Drawing.Size(199, 21);
             this.displayMouseCoordinates.TabIndex = 1;
             this.displayMouseCoordinates.Text = "Display Mouse Coordinates";
             this.displayMouseCoordinates.UseVisualStyleBackColor = true;
@@ -162,7 +163,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(20, 29);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(267, 25);
+            this.label1.Size = new System.Drawing.Size(214, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "Mouse Coordinates Controls:";
             // 

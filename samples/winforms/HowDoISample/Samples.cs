@@ -26,10 +26,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             menus = JsonConvert.DeserializeObject<List<MenuModel>>(File.ReadAllText("samples.json"));
             TreeNode[] treeNodes = GetTreeNodes(menus);
-            this.treeViewLeft.Nodes.AddRange(treeNodes);
 
             treeViewLeft.BeginUpdate();
+            this.treeViewLeft.Nodes.AddRange(treeNodes);
+            
             treeViewLeft.Nodes[0].Expand();
+            treeViewLeft.SelectedNode = treeViewLeft.Nodes[0].Nodes[0];
             treeViewLeft.EndUpdate();
         }
 
