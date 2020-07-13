@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using ThinkGeo.Core;
 using ThinkGeo.UI.WinForms;
@@ -31,7 +34,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             noaaWeatherWarningsFeatureLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 3857);
 
             // Add the new layer to the overlay we created earlier
-            noaaWeatherWarningsOverlay.Layers.Add(noaaWeatherWarningsFeatureLayer);
+            noaaWeatherWarningsOverlay.Layers.Add("Noaa Weather Warning",noaaWeatherWarningsFeatureLayer);
 
             // Get the layers feature source and setup an event that will refresh the map when the data refreshes
             var featureSource = (NoaaWeatherWarningsFeatureSource)noaaWeatherWarningsFeatureLayer.FeatureSource;
@@ -47,6 +50,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Set the extent to a view of the US
             mapView.CurrentExtent = new RectangleShape(-14927495.374917, 8262593.0543992, -6686622.84891633, 1827556.23117885);
+
+            // Add a PopupOverlay to the map, to display feature information
+            PopupOverlay popupOverlay = new PopupOverlay();
+            mapView.Overlays.Add("Info Popup Overlay", popupOverlay);
 
             // Refresh the map.
             mapView.Refresh();
@@ -92,19 +99,75 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotatedAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(1173, 684);
+            this.mapView.Size = new System.Drawing.Size(1377, 743);
             this.mapView.TabIndex = 0;
+            this.mapView.MapClick += new System.EventHandler<ThinkGeo.Core.MapClickMapViewEventArgs>(this.mapView_MapClick);
             // 
             // NOAAWeatherWarningLayerSample
             // 
             this.Controls.Add(this.mapView);
             this.Name = "NOAAWeatherWarningLayerSample";
-            this.Size = new System.Drawing.Size(1173, 684);
+            this.Size = new System.Drawing.Size(1377, 743);
             this.Load += new System.EventHandler(this.Form_Load);
             this.ResumeLayout(false);
 
         }
 
         #endregion Component Designer generated code
+
+        private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        {
+            // Get the selected feature based on the map click location
+            Collection<Feature> selectedFeatures = GetFeaturesFromLocation(e.WorldLocation);
+
+            // If a feature was selected, get the data from it and display it
+            if (selectedFeatures != null)
+            {
+                DisplayFeatureInfo(selectedFeatures);
+            }
+        }
+        private Collection<Feature> GetFeaturesFromLocation(PointShape location)
+        {
+            // Get the parks layer from the MapView
+            FeatureLayer weatherWarnings = mapView.FindFeatureLayer("Noaa Weather Warning");
+
+            // Find the feature that was clicked on by querying the layer for features containing the clicked coordinates            
+            Collection<Feature> selectedFeatures = weatherWarnings.QueryTools.GetFeaturesContaining(location, ReturningColumnsType.AllColumns);
+
+            return selectedFeatures;
+        }
+
+        /// <summary>
+        /// Display a popup containing a feature's info
+        /// </summary>
+        private void DisplayFeatureInfo(Collection<Feature> features)
+        {
+            StringBuilder weatherWarningString = new StringBuilder();
+
+            // Each column in a feature is a data attribute
+            // Add all attribute pairs to the info string
+
+                    
+            foreach (Feature feature in features)
+            {
+                weatherWarningString.AppendLine($"{feature.ColumnValues["TITLE"]}");
+            }
+
+            // Create a new popup with the park info string
+            PopupOverlay popupOverlay = (PopupOverlay)mapView.Overlays["Info Popup Overlay"];
+            Popup popup = new Popup(features[0].GetShape().GetCenterPoint());
+            popup.Content = weatherWarningString.ToString();
+            popup.FontSize = 10d;
+            popup.FontFamily = new System.Windows.Media.FontFamily("Verdana");
+
+            // Clear the popup overlay and add the new popup to it
+            popupOverlay.Popups.Clear();
+            popupOverlay.Popups.Add(popup);
+
+            // Refresh the overlay to redraw the popups
+            popupOverlay.Refresh();
+        }
+
+
     }
 }
