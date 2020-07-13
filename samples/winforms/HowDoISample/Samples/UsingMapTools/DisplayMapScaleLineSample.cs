@@ -58,8 +58,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -70,12 +70,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotatedAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(846, 678);
+            this.mapView.Size = new System.Drawing.Size(846, 675);
             this.mapView.TabIndex = 0;
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.displayScaleLine);
@@ -92,7 +92,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.displayScaleLine.ForeColor = System.Drawing.Color.White;
             this.displayScaleLine.Location = new System.Drawing.Point(23, 54);
             this.displayScaleLine.Name = "displayScaleLine";
-            this.displayScaleLine.Size = new System.Drawing.Size(161, 24);
+            this.displayScaleLine.Size = new System.Drawing.Size(134, 21);
             this.displayScaleLine.TabIndex = 1;
             this.displayScaleLine.Text = "Display ScaleBar";
             this.displayScaleLine.UseVisualStyleBackColor = true;
@@ -105,7 +105,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(20, 17);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(176, 25);
+            this.label1.Size = new System.Drawing.Size(141, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "ScaleBar Controls:";
             // 

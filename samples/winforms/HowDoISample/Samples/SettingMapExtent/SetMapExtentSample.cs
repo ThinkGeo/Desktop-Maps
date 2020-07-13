@@ -133,12 +133,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
-            this.mapView.Location = new System.Drawing.Point(11, 0);
+            this.mapView.Location = new System.Drawing.Point(4, 0);
             this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
             this.mapView.Margin = new System.Windows.Forms.Padding(0);
             this.mapView.MaximumScale = 1.7976931348623157E+308D;
@@ -146,7 +146,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotatedAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(939, 634);
+            this.mapView.Size = new System.Drawing.Size(946, 634);
             this.mapView.TabIndex = 0;
             // 
             // panel1
@@ -181,7 +181,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.latlonScale.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.latlonScale.Location = new System.Drawing.Point(180, 482);
             this.latlonScale.Name = "latlonScale";
-            this.latlonScale.Size = new System.Drawing.Size(100, 27);
+            this.latlonScale.Size = new System.Drawing.Size(100, 23);
             this.latlonScale.TabIndex = 18;
             this.latlonScale.Text = "200000";
             // 
@@ -190,7 +190,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.longitude.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.longitude.Location = new System.Drawing.Point(180, 448);
             this.longitude.Name = "longitude";
-            this.longitude.Size = new System.Drawing.Size(100, 27);
+            this.longitude.Size = new System.Drawing.Size(100, 23);
             this.longitude.TabIndex = 17;
             this.longitude.Text = "33.15";
             // 
@@ -199,7 +199,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.latitude.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.latitude.Location = new System.Drawing.Point(180, 417);
             this.latitude.Name = "latitude";
-            this.latitude.Size = new System.Drawing.Size(100, 27);
+            this.latitude.Size = new System.Drawing.Size(100, 23);
             this.latitude.TabIndex = 16;
             this.latitude.Text = "-96.82";
             // 
@@ -221,7 +221,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label9.ForeColor = System.Drawing.Color.White;
             this.label9.Location = new System.Drawing.Point(17, 482);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(56, 20);
+            this.label9.Size = new System.Drawing.Size(47, 17);
             this.label9.TabIndex = 13;
             this.label9.Text = "Scale:";
             // 
@@ -232,7 +232,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label8.ForeColor = System.Drawing.Color.White;
             this.label8.Location = new System.Drawing.Point(17, 448);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(87, 20);
+            this.label8.Size = new System.Drawing.Size(75, 17);
             this.label8.TabIndex = 12;
             this.label8.Text = "Longitude:";
             // 
@@ -243,7 +243,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label7.ForeColor = System.Drawing.Color.White;
             this.label7.Location = new System.Drawing.Point(17, 417);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(69, 20);
+            this.label7.Size = new System.Drawing.Size(59, 17);
             this.label7.TabIndex = 11;
             this.label7.Text = "Latitude";
             // 
@@ -254,7 +254,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label6.ForeColor = System.Drawing.Color.White;
             this.label6.Location = new System.Drawing.Point(17, 378);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(95, 25);
+            this.label6.Size = new System.Drawing.Size(76, 20);
             this.label6.TabIndex = 10;
             this.label6.Text = "Lat/Long:";
             // 
@@ -275,7 +275,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.featureIds.FormattingEnabled = true;
             this.featureIds.Location = new System.Drawing.Point(130, 271);
             this.featureIds.Name = "featureIds";
-            this.featureIds.Size = new System.Drawing.Size(150, 28);
+            this.featureIds.Size = new System.Drawing.Size(150, 25);
             this.featureIds.TabIndex = 8;
             // 
             // label5
@@ -285,7 +285,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label5.ForeColor = System.Drawing.Color.White;
             this.label5.Location = new System.Drawing.Point(20, 271);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(88, 20);
+            this.label5.Size = new System.Drawing.Size(74, 17);
             this.label5.TabIndex = 7;
             this.label5.Text = "FeatureID:";
             // 
@@ -296,7 +296,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Location = new System.Drawing.Point(17, 230);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(212, 25);
+            this.label4.Size = new System.Drawing.Size(172, 20);
             this.label4.TabIndex = 6;
             this.label4.Text = "Feature Bounding Box:";
             // 
@@ -318,7 +318,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label3.ForeColor = System.Drawing.Color.White;
             this.label3.Location = new System.Drawing.Point(17, 140);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(194, 25);
+            this.label3.Size = new System.Drawing.Size(155, 20);
             this.label3.TabIndex = 4;
             this.label3.Text = "Layer Bounding Box:";
             // 
@@ -340,7 +340,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(14, 61);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(56, 20);
+            this.label2.Size = new System.Drawing.Size(47, 17);
             this.label2.TabIndex = 2;
             this.label2.Text = "Scale:";
             // 
@@ -349,7 +349,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.zoomScale.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.zoomScale.Location = new System.Drawing.Point(130, 61);
             this.zoomScale.Name = "zoomScale";
-            this.zoomScale.Size = new System.Drawing.Size(150, 27);
+            this.zoomScale.Size = new System.Drawing.Size(150, 23);
             this.zoomScale.TabIndex = 1;
             this.zoomScale.Text = "1000";
             // 
@@ -360,7 +360,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(14, 17);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(152, 25);
+            this.label1.Size = new System.Drawing.Size(120, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "Zoom To Scale:";
             // 

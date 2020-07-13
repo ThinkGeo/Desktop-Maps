@@ -239,8 +239,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -257,7 +257,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.instructions);
@@ -293,7 +293,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(24, 221);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(117, 25);
+            this.label2.Size = new System.Drawing.Size(96, 20);
             this.label2.TabIndex = 7;
             this.label2.Text = "Instructions:";
             // 
@@ -304,7 +304,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.editShape.ForeColor = System.Drawing.Color.White;
             this.editShape.Location = new System.Drawing.Point(25, 158);
             this.editShape.Name = "editShape";
-            this.editShape.Size = new System.Drawing.Size(111, 24);
+            this.editShape.Size = new System.Drawing.Size(95, 21);
             this.editShape.TabIndex = 6;
             this.editShape.Text = "Edit Shape";
             this.editShape.UseVisualStyleBackColor = true;
@@ -317,9 +317,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.deleteShape.ForeColor = System.Drawing.Color.White;
             this.deleteShape.Location = new System.Drawing.Point(25, 185);
             this.deleteShape.Name = "deleteShape";
-            this.deleteShape.Size = new System.Drawing.Size(122, 24);
+            this.deleteShape.Size = new System.Drawing.Size(112, 21);
             this.deleteShape.TabIndex = 5;
-            this.deleteShape.Text = "deleteShape";
+            this.deleteShape.Text = "Delete Shape";
             this.deleteShape.UseVisualStyleBackColor = true;
             this.deleteShape.CheckedChanged += new System.EventHandler(this.deleteShape_CheckedChanged);
             // 
@@ -330,7 +330,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.drawPolygon.ForeColor = System.Drawing.Color.White;
             this.drawPolygon.Location = new System.Drawing.Point(25, 131);
             this.drawPolygon.Name = "drawPolygon";
-            this.drawPolygon.Size = new System.Drawing.Size(134, 24);
+            this.drawPolygon.Size = new System.Drawing.Size(113, 21);
             this.drawPolygon.TabIndex = 4;
             this.drawPolygon.Text = "Draw Polygon";
             this.drawPolygon.UseVisualStyleBackColor = true;
@@ -343,7 +343,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.drawLine.ForeColor = System.Drawing.Color.White;
             this.drawLine.Location = new System.Drawing.Point(25, 104);
             this.drawLine.Name = "drawLine";
-            this.drawLine.Size = new System.Drawing.Size(107, 24);
+            this.drawLine.Size = new System.Drawing.Size(89, 21);
             this.drawLine.TabIndex = 3;
             this.drawLine.Text = "Draw Line";
             this.drawLine.UseVisualStyleBackColor = true;
@@ -356,7 +356,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.drawPoint.ForeColor = System.Drawing.Color.White;
             this.drawPoint.Location = new System.Drawing.Point(25, 77);
             this.drawPoint.Name = "drawPoint";
-            this.drawPoint.Size = new System.Drawing.Size(113, 24);
+            this.drawPoint.Size = new System.Drawing.Size(94, 21);
             this.drawPoint.TabIndex = 2;
             this.drawPoint.Text = "Draw Point";
             this.drawPoint.UseVisualStyleBackColor = true;
@@ -370,7 +370,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.navMode.ForeColor = System.Drawing.Color.White;
             this.navMode.Location = new System.Drawing.Point(25, 50);
             this.navMode.Name = "navMode";
-            this.navMode.Size = new System.Drawing.Size(141, 24);
+            this.navMode.Size = new System.Drawing.Size(121, 21);
             this.navMode.TabIndex = 1;
             this.navMode.TabStop = true;
             this.navMode.Text = "Navigate Mode";
@@ -384,7 +384,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(20, 15);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(101, 25);
+            this.label1.Size = new System.Drawing.Size(83, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "Interactive";
             // 

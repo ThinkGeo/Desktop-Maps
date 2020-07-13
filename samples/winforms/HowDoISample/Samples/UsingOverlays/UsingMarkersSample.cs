@@ -23,9 +23,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(-10778329.017082, 3909598.36751101, -10776250.8853871, 3907890.47766975);
-
-            AddHotelMarkers();
+            mapView.CurrentExtent = new RectangleShape(-10778329.017082, 3909598.36751101, -10776250.8853871, 3907890.47766975);           
 
             AddSimpleMarkers();
         }
@@ -34,33 +32,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             SimpleMarkerOverlay simpleMarkerOverlay = new SimpleMarkerOverlay();
             mapView.Overlays.Add("simpleMarkerOverlay", simpleMarkerOverlay);
-        }
-
-        private void AddHotelMarkers()
-        {
-            // Create the FeatureSourceMarkerOverlay and load in Frisco Hotels as the feature source
-            FeatureSourceMarkerOverlay hotelMarkers = new FeatureSourceMarkerOverlay()
-            {
-                FeatureSource = new ShapeFileFeatureSource(@"../../../Data/Shapefile/Hotels.shp")
-            };
-
-            // Project the Hotel POI data to match the projection on the map
-            hotelMarkers.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
-
-            // Create a style for the hotels
-            var pointMarkerStyle = new PointMarkerStyle()
-            {
-                ImageSource = new BitmapImage(new Uri("/Resources/AQUA.png", UriKind.RelativeOrAbsolute)),
-                Width = 20,
-                Height = 34,
-                YOffset = -17,
-                ToolTip = "[#NAME#]."
-            };
-            hotelMarkers.ZoomLevelSet.ZoomLevel01.CustomMarkerStyle = pointMarkerStyle;
-            hotelMarkers.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-
-            // Add the hotelMarkers overlay to the map
-            mapView.Overlays.Add("hotelMarkers", hotelMarkers);
         }
 
         private void staticMode_CheckedChanged(object sender, EventArgs e)
@@ -106,7 +77,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private RadioButton staticMode;
         private Label label1;
         private Label label2;
-
+        private Label label3;
         private MapView mapView;
 
         private void InitializeComponent()
@@ -118,13 +89,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.dragMode = new System.Windows.Forms.RadioButton();
             this.staticMode = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -141,9 +113,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
+            this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.copyMode);
             this.panel1.Controls.Add(this.dragMode);
@@ -159,9 +132,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(145, 104);
+            this.label2.Location = new System.Drawing.Point(146, 148);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(152, 20);
+            this.label2.Size = new System.Drawing.Size(128, 17);
             this.label2.TabIndex = 4;
             this.label2.Text = "Using the Shift Key";
             // 
@@ -170,9 +143,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.copyMode.AutoSize = true;
             this.copyMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.copyMode.ForeColor = System.Drawing.Color.White;
-            this.copyMode.Location = new System.Drawing.Point(25, 100);
+            this.copyMode.Location = new System.Drawing.Point(26, 144);
             this.copyMode.Name = "copyMode";
-            this.copyMode.Size = new System.Drawing.Size(114, 24);
+            this.copyMode.Size = new System.Drawing.Size(97, 21);
             this.copyMode.TabIndex = 3;
             this.copyMode.Text = "Copy Mode";
             this.copyMode.UseVisualStyleBackColor = true;
@@ -183,9 +156,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.dragMode.AutoSize = true;
             this.dragMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.dragMode.ForeColor = System.Drawing.Color.White;
-            this.dragMode.Location = new System.Drawing.Point(25, 73);
+            this.dragMode.Location = new System.Drawing.Point(26, 117);
             this.dragMode.Name = "dragMode";
-            this.dragMode.Size = new System.Drawing.Size(113, 24);
+            this.dragMode.Size = new System.Drawing.Size(96, 21);
             this.dragMode.TabIndex = 2;
             this.dragMode.Text = "Drag Mode";
             this.dragMode.UseVisualStyleBackColor = true;
@@ -197,9 +170,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.staticMode.Checked = true;
             this.staticMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.staticMode.ForeColor = System.Drawing.Color.White;
-            this.staticMode.Location = new System.Drawing.Point(25, 46);
+            this.staticMode.Location = new System.Drawing.Point(26, 90);
             this.staticMode.Name = "staticMode";
-            this.staticMode.Size = new System.Drawing.Size(119, 24);
+            this.staticMode.Size = new System.Drawing.Size(100, 21);
             this.staticMode.TabIndex = 1;
             this.staticMode.TabStop = true;
             this.staticMode.Text = "Static Mode";
@@ -213,9 +186,19 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(22, 16);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(225, 25);
+            this.label1.Size = new System.Drawing.Size(177, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "MarkerOverlay Controls:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(23, 54);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(206, 16);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Click on the map to add a marker.";
             // 
             // UsingMarkersSample
             // 
