@@ -1,20 +1,16 @@
-using NetTopologySuite.GeometriesGraph;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public partial class Samples : Form
-    {
-        private readonly string mainFolder = ((new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory)).Parent.Parent.Parent).FullName + "\\";
-        private const string preStart = "<body oncontextmenu='return false;'><div class='divbody'><pre name='code' class='c-sharp:nocontrols'>";
-        private const string preEndFormat = "</pre></div><link type='text/css' rel='stylesheet' href='{0}\\SyntaxHighlighter\\SyntaxHighlighter.css'></link><script language='javascript' src='{0}\\SyntaxHighlighter\\shCore.js'></script><script language='javascript' src='{0}\\SyntaxHighlighter/shBrushCSharp.js'></script><script language='javascript' src='{0}\\SyntaxHighlighter\\shBrushXml.js'></script><script language='javascript'>dp.SyntaxHighlighter.HighlightAll('code');</script></body>";
+    {                
         List<MenuModel> menus;
+
         public Samples()
         {
             InitializeComponent();
@@ -22,21 +18,29 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void Samples_Load(object sender, EventArgs e)
         {
-            pnlOption.Resize += PnlOption_Resize;
-
+            // Load the menu system from the JSON that represents the treeview               
             menus = JsonConvert.DeserializeObject<List<MenuModel>>(File.ReadAllText("samples.json"));
+            
+            // Get all the tree nodes
             TreeNode[] treeNodes = GetTreeNodes(menus);
 
+            //  Add all the tree nodes, we wrp it in an updated to more efficiently redraw the tree
             treeViewLeft.BeginUpdate();
             this.treeViewLeft.Nodes.AddRange(treeNodes);
             
+            // Expand and select the first sample
             treeViewLeft.Nodes[0].Expand();
             treeViewLeft.SelectedNode = treeViewLeft.Nodes[0].Nodes[0];
             treeViewLeft.EndUpdate();
+
+            // Add the event so that when you resize the window the control resizes
+            pnlOption.Resize -= PnlOption_Resize;
+            pnlOption.Resize += PnlOption_Resize;
         }
 
         private TreeNode[] GetTreeNodes(List<MenuModel> menus)
         {
+            // Go through the menu and build up all the tree nodes
             TreeNode[] treeNodes = new TreeNode[menus.Count];
             for (int i = 0; i < menus.Count; i++)
             {
@@ -47,11 +51,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                     treeNodes[i].Nodes.Add(treeNode);
                 }
             }
+
             return treeNodes;
         }
 
         private MenuModel GetMenuModelByTitle(List<MenuModel> menus, string title)
         {
+            // Pass in the title and give back the applicable menu model
             MenuModel result = new MenuModel();
             foreach (MenuModel menu in menus)
             {
@@ -75,6 +81,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             return result;
         }
 
+        // Resize and refresh the dynamic control after a resize of the main form
         private void PnlOption_Resize(object sender, EventArgs e)
         {
             foreach (Control control in pnlOption.Controls)
@@ -86,21 +93,29 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void treeViewLeft_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            // Get the model by the title in the tree
             MenuModel selectedNode = GetMenuModelByTitle(menus, e.Node.Text);
+            
+            // In the case of a menu item just select it's child
             if (selectedNode.Id == null)
             {
                 selectedNode = selectedNode.Children[0];
             }
+
+            // Create the new control for the right hand side view
             var userControlType = Type.GetType(selectedNode.Id);
             UserControl currentUserControl = (UserControl)Activator.CreateInstance(userControlType);
 
+            // Remove the old control and add the new one
             currentUserControl.Size = pnlOption.Size;
             pnlOption.Controls.Clear();
             pnlOption.Controls.Add(currentUserControl);
 
+            // Set the new samples title and description
             this.labelSampleName.Text = selectedNode.Title;
             this.labelSampleDescription.Text = selectedNode.Description;
 
+            // Setup the source code view area
             string uri = GetHtmlPath(selectedNode.Source + ".cs");
             Uri webUri = new Uri(@uri);
             cSharpBrowser.Url = webUri;            
@@ -108,29 +123,18 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private string GetHtmlPath(string filename)
         {
-            if (String.Compare(filename, "Load a Geotiff image.cs", true, CultureInfo.InvariantCulture) == 0)
-            {
-                filename = "LoadAStandardImageWithWorldFile.cs";
-            }
-            else if (String.Compare(filename, "ConvertGeoColorToOtherColors.cs", true, CultureInfo.InvariantCulture) == 0)
-            {
-                filename = "ConvertAGeoColorToAndFromOleWin32HtmlArgbColors.cs";
-            }
+            // Find a place to store the new HTML file we will use to show the source code
             string myDocuments = Environment.GetEnvironmentVariable("TEMP");
-
-            string path = myDocuments + "\\" + "MapSuiteCSharpHowDoISamples";
+            string path = myDocuments + "\\" + "ThinkGeoWinformsHowDoISamples";
 
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
             }
 
+            // Grab the .cs source file
+            string mainFolder = ((new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory)).Parent.Parent.Parent).FullName + "\\";
             string[] files = Directory.GetFiles(mainFolder, filename, SearchOption.AllDirectories);
-            if (files.Length == 0)
-            {
-                return mainFolder + "MS3 Samples - Source Code Not Available in Beta.html";
-            }
-
             string tmpFileName = Path.GetFileNameWithoutExtension(new FileInfo(files[0]).Name) + ".htm";
             string htmlFileName = path + "\\" + tmpFileName;
             if (File.Exists(htmlFileName))
@@ -138,6 +142,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 return htmlFileName;
             }
 
+            // Read the .cs file and wrap it with some HTML to display the code with syntax highlighting
             string text;
             try
             {
@@ -145,7 +150,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 {
                     text = streamReader.ReadToEnd();
                 }
-                text = preStart + RemoveRegion(text) + string.Format(preEndFormat, mainFolder);
+                text = "<body oncontextmenu='return false;'><div class='divbody'><pre name='code' class='c-sharp:nocontrols'>" + RemoveRegion(text) + string.Format("</pre></div><link type='text/css' rel='stylesheet' href='{0}\\SyntaxHighlighter\\SyntaxHighlighter.css'></link><script language='javascript' src='{0}\\SyntaxHighlighter\\shCore.js'></script><script language='javascript' src='{0}\\SyntaxHighlighter/shBrushCSharp.js'></script><script language='javascript' src='{0}\\SyntaxHighlighter\\shBrushXml.js'></script><script language='javascript'>dp.SyntaxHighlighter.HighlightAll('code');</script></body>", mainFolder);
 
                 using (StreamWriter streamWriter = new StreamWriter(htmlFileName))
                 {
@@ -162,6 +167,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private static string RemoveRegion(string inputText)
         {
+            // When we show the sample source we want to remove the designer generated code
             string regionPattern, endregionPattern;
             regionPattern = "#region Component Designer generated code";
             endregionPattern = "#endregion";
@@ -184,16 +190,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void btnSource_Click(object sender, EventArgs e)
         {
+            // Collapse or expand the code preview window
             splitContainerSampleSource.Panel1Collapsed = !splitContainerSampleSource.Panel1Collapsed;
-        }
-
-        private void linkLabelSupport_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("https://community.thinkgeo.com/");
         }
 
         private void treeViewLeft_BeforeSelect(object sender, TreeViewCancelEventArgs e)
         {
+            // If we select a category from the tree view cancel the click
             MenuModel selectedNode = GetMenuModelByTitle(menus, e.Node.Text);
             if (selectedNode.Id == null)
             {
@@ -203,7 +206,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void txtSearch_KeyUp(object sender, KeyEventArgs e)
         {
-            //  When you type into the search bar and hit enter we find all of the samples via the JSON
+            // When you type into the search bar and hit enter we find all of the samples via the JSON
             // and see what samples match the various key words entered.  Then we restrict the tree view
             // to only the samples that match
             if (e.KeyCode == Keys.Enter)
