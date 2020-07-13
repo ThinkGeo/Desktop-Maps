@@ -142,30 +142,33 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// </summary>
         private void DisplayFeatureInfo(Collection<Feature> features)
         {
-            StringBuilder weatherWarningString = new StringBuilder();
-
-            // Each column in a feature is a data attribute
-            // Add all attribute pairs to the info string
-
-                    
-            foreach (Feature feature in features)
+            if (features.Count > 0)
             {
-                weatherWarningString.AppendLine($"{feature.ColumnValues["TITLE"]}");
+                StringBuilder weatherWarningString = new StringBuilder();
+
+                // Each column in a feature is a data attribute
+                // Add all attribute pairs to the info string
+
+
+                foreach (Feature feature in features)
+                {
+                    weatherWarningString.AppendLine($"{feature.ColumnValues["TITLE"]}");
+                }
+
+                // Create a new popup with the park info string
+                PopupOverlay popupOverlay = (PopupOverlay)mapView.Overlays["Info Popup Overlay"];
+                Popup popup = new Popup(features[0].GetShape().GetCenterPoint());
+                popup.Content = weatherWarningString.ToString();
+                popup.FontSize = 10d;
+                popup.FontFamily = new System.Windows.Media.FontFamily("Verdana");
+
+                // Clear the popup overlay and add the new popup to it
+                popupOverlay.Popups.Clear();
+                popupOverlay.Popups.Add(popup);
+
+                // Refresh the overlay to redraw the popups
+                popupOverlay.Refresh();
             }
-
-            // Create a new popup with the park info string
-            PopupOverlay popupOverlay = (PopupOverlay)mapView.Overlays["Info Popup Overlay"];
-            Popup popup = new Popup(features[0].GetShape().GetCenterPoint());
-            popup.Content = weatherWarningString.ToString();
-            popup.FontSize = 10d;
-            popup.FontFamily = new System.Windows.Media.FontFamily("Verdana");
-
-            // Clear the popup overlay and add the new popup to it
-            popupOverlay.Popups.Clear();
-            popupOverlay.Popups.Add(popup);
-
-            // Refresh the overlay to redraw the popups
-            popupOverlay.Refresh();
         }
 
 

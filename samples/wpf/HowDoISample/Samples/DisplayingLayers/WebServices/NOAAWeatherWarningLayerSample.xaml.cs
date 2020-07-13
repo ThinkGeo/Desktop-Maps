@@ -37,7 +37,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             noaaWeatherWarningsFeatureLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 3857);
 
             // Add the new layer to the overlay we created earlier
-            noaaWeatherWarningsOverlay.Layers.Add("Noaa Weather Warning",noaaWeatherWarningsFeatureLayer);
+            noaaWeatherWarningsOverlay.Layers.Add("Noaa Weather Warning", noaaWeatherWarningsFeatureLayer);
 
             // Get the layers feature source and setup an event that will refresh the map when the data refreshes
             var featureSource = (NoaaWeatherWarningsFeatureSource)noaaWeatherWarningsFeatureLayer.FeatureSource;
@@ -46,7 +46,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             featureSource.WarningsUpdating -= FeatureSource_WarningsUpdating;
             featureSource.WarningsUpdating += FeatureSource_WarningsUpdating;
-            
+
             // Create the weather warnings style and add it on zoom level 1 and then apply it to all zoom levels up to 20.
             noaaWeatherWarningsFeatureLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(new NoaaWeatherWarningsStyle());
             noaaWeatherWarningsFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
@@ -64,7 +64,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private void FeatureSource_WarningsUpdating(object sender, WarningsUpdatingNoaaWeatherWarningsFeatureSourceEventArgs e)
         {
-            loadingImage.Dispatcher.Invoke(() => loadingImage.Visibility = Visibility.Visible);            
+            loadingImage.Dispatcher.Invoke(() => loadingImage.Visibility = Visibility.Visible);
         }
 
         private void FeatureSource_WarningsUpdated(object sender, WarningsUpdatedNoaaWeatherWarningsFeatureSourceEventArgs e)
@@ -104,30 +104,33 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
         private void DisplayFeatureInfo(Collection<Feature> features)
         {
-            StringBuilder weatherWarningString = new StringBuilder();
-
-            // Each column in a feature is a data attribute
-            // Add all attribute pairs to the info string
-
-
-            foreach (Feature feature in features)
+            if (features.Count > 0)
             {
-                weatherWarningString.AppendLine($"{feature.ColumnValues["TITLE"]}");
+                StringBuilder weatherWarningString = new StringBuilder();
+
+                // Each column in a feature is a data attribute
+                // Add all attribute pairs to the info string
+
+
+                foreach (Feature feature in features)
+                {
+                    weatherWarningString.AppendLine($"{feature.ColumnValues["TITLE"]}");
+                }
+
+                // Create a new popup with the park info string
+                PopupOverlay popupOverlay = (PopupOverlay)mapView.Overlays["Info Popup Overlay"];
+                Popup popup = new Popup(features[0].GetShape().GetCenterPoint());
+                popup.Content = weatherWarningString.ToString();
+                popup.FontSize = 10d;
+                popup.FontFamily = new System.Windows.Media.FontFamily("Verdana");
+
+                // Clear the popup overlay and add the new popup to it
+                popupOverlay.Popups.Clear();
+                popupOverlay.Popups.Add(popup);
+
+                // Refresh the overlay to redraw the popups
+                popupOverlay.Refresh();
             }
-
-            // Create a new popup with the park info string
-            PopupOverlay popupOverlay = (PopupOverlay)mapView.Overlays["Info Popup Overlay"];
-            Popup popup = new Popup(features[0].GetShape().GetCenterPoint());
-            popup.Content = weatherWarningString.ToString();
-            popup.FontSize = 10d;
-            popup.FontFamily = new System.Windows.Media.FontFamily("Verdana");
-
-            // Clear the popup overlay and add the new popup to it
-            popupOverlay.Popups.Clear();
-            popupOverlay.Popups.Add(popup);
-
-            // Refresh the overlay to redraw the popups
-            popupOverlay.Refresh();
         }
 
     }
