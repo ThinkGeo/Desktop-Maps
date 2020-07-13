@@ -351,6 +351,12 @@
         "title": "Create a Value Style",
         "description": "Learn how to style data based on data values using a ValueStyle",
         "source": "Samples/CreatingStyles/CreateValueStyleSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.StylingAcrossMultipleScales",
+        "title": "Styling Across Multiple Scales",
+        "description": "Learn how to style layers across multiple scales using different styles assigned to different ZoomLevels",
+        "source": "Samples/CreatingStyles/StylingAcrossMultipleScales"
       }
     ]
   },
