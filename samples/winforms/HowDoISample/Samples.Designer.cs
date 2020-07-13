@@ -46,6 +46,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1 = new System.Windows.Forms.Panel();
             this.labelSampleDescription = new System.Windows.Forms.Label();
             this.labelSampleName = new System.Windows.Forms.Label();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.lblSearch = new System.Windows.Forms.Label();
+            this.txtSearch = new System.Windows.Forms.TextBox();
             this.pnlTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -57,6 +60,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.splitContainerSampleSource.Panel2.SuspendLayout();
             this.splitContainerSampleSource.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblInformation
@@ -116,7 +123,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             this.pictureBox1.Image = global::ThinkGeo.UI.WinForms.HowDoI.Properties.Resources.logo;
             this.pictureBox1.Location = new System.Drawing.Point(2, 0);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(73, 70);
             this.pictureBox1.TabIndex = 7;
@@ -135,7 +142,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.treeViewLeft);
+            this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
             // 
             // splitContainer1.Panel2
             // 
@@ -156,7 +163,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.treeViewLeft.Location = new System.Drawing.Point(0, 0);
             this.treeViewLeft.Name = "treeViewLeft";
             this.treeViewLeft.ShowNodeToolTips = true;
-            this.treeViewLeft.Size = new System.Drawing.Size(345, 715);
+            this.treeViewLeft.Size = new System.Drawing.Size(345, 661);
             this.treeViewLeft.TabIndex = 6;
             this.treeViewLeft.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewLeft_BeforeSelect);
             this.treeViewLeft.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewLeft_AfterSelect);
@@ -192,7 +199,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.cSharpBrowser.MinimumSize = new System.Drawing.Size(27, 25);
             this.cSharpBrowser.Name = "cSharpBrowser";
             this.cSharpBrowser.ScrollBarsEnabled = false;
-            this.cSharpBrowser.Size = new System.Drawing.Size(384, 81);
+            this.cSharpBrowser.Size = new System.Drawing.Size(512, 100);
             this.cSharpBrowser.TabIndex = 0;
             // 
             // pnlOption
@@ -255,6 +262,43 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.labelSampleName.TabIndex = 8;
             this.labelSampleName.Text = "labelSampleName";
             // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer2.IsSplitterFixed = true;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Name = "splitContainer2";
+            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.txtSearch);
+            this.splitContainer2.Panel1.Controls.Add(this.lblSearch);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.treeViewLeft);
+            this.splitContainer2.Size = new System.Drawing.Size(345, 715);
+            this.splitContainer2.TabIndex = 7;
+            // 
+            // lblSearch
+            // 
+            this.lblSearch.AutoSize = true;
+            this.lblSearch.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.lblSearch.Location = new System.Drawing.Point(28, 18);
+            this.lblSearch.Name = "lblSearch";
+            this.lblSearch.Size = new System.Drawing.Size(47, 13);
+            this.lblSearch.TabIndex = 0;
+            this.lblSearch.Text = "Search: ";
+            // 
+            // txtSearch
+            // 
+            this.txtSearch.Location = new System.Drawing.Point(81, 15);
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(253, 20);
+            this.txtSearch.TabIndex = 1;
+            // 
             // Samples
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -283,6 +327,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.splitContainerSampleSource.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel1.PerformLayout();
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -304,6 +353,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private Label labelSampleName;
         private SplitContainer splitContainerSampleSource;
         private Button btnSource;
+        private SplitContainer splitContainer2;
+        private TextBox txtSearch;
+        private Label lblSearch;
     }
 }
 
