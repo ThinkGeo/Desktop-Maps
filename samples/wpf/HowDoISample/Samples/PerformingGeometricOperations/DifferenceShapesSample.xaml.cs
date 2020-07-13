@@ -7,7 +7,7 @@ using ThinkGeo.UI.Wpf;
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Interaction logic for Placeholder.xaml
+    /// Learn how to find the difference of shapes
     /// </summary>
     public partial class DifferenceShapesSample : UserControl
     {

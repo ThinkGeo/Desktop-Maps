@@ -25,7 +25,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Set the map background color
-            mapView.Background = new SolidColorBrush(Color.FromRgb(232, 232, 232));
+            mapView.Background = new SolidColorBrush(Color.FromRgb(234, 232, 226));
 
             ShapeFileFeatureLayer hotelsLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Hotels.shp");
             ShapeFileFeatureLayer streetsLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Streets.shp");
