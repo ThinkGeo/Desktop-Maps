@@ -12,9 +12,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class UsingMarkersSample : UserControl
     {
-        private SimpleMarkerOverlay simpleMarkerOverlay;
-        private FeatureSourceMarkerOverlay hotelMarkers;
-
         public UsingMarkersSample()
         {
             InitializeComponent();
@@ -33,9 +30,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(-10778329.017082, 3909598.36751101, -10776250.8853871, 3907890.47766975);
-
-            AddHotelMarkers();
+            mapView.CurrentExtent = new RectangleShape(-10778329.017082, 3909598.36751101, -10776250.8853871, 3907890.47766975);            
 
             AddSimpleMarkers();
         }
@@ -45,38 +40,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void AddSimpleMarkers()
         {
-            simpleMarkerOverlay = new SimpleMarkerOverlay();
-            mapView.Overlays.Add(simpleMarkerOverlay);
-        }
-
-        /// <summary>
-        /// Create and add the hotel marker overlay to the map
-        /// </summary>
-        private void AddHotelMarkers()
-        {
-            // Create the FeatureSourceMarkerOverlay and load in Frisco Hotels as the feature source
-            hotelMarkers = new FeatureSourceMarkerOverlay()
-            {
-                FeatureSource = new ShapeFileFeatureSource(@"../../../Data/Shapefile/Hotels.shp")
-            };
-
-            // Project the Hotel POI data to match the projection on the map
-            hotelMarkers.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
-
-            // Create a style for the hotels
-            var pointMarkerStyle = new PointMarkerStyle()
-            {
-                ImageSource = new BitmapImage(new Uri("/Resources/AQUA.png", UriKind.RelativeOrAbsolute)),
-                Width = 20,
-                Height = 34,
-                YOffset = -17,
-                ToolTip = "[#NAME#]."
-            };
-            hotelMarkers.ZoomLevelSet.ZoomLevel01.CustomMarkerStyle = pointMarkerStyle;
-            hotelMarkers.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-
-            // Add the hotelMarkers overlay to the map
-            mapView.Overlays.Add(hotelMarkers);
+            SimpleMarkerOverlay simpleMarkerOverlay = new SimpleMarkerOverlay();
+            mapView.Overlays.Add("simpleMarkerOverlay", simpleMarkerOverlay);
         }
 
         /// <summary>
@@ -84,6 +49,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
         {
+            SimpleMarkerOverlay simpleMarkerOverlay = (SimpleMarkerOverlay)mapView.Overlays["simpleMarkerOverlay"];
+
             // Create a marker at the position the mouse was clicked
             var marker = new Marker(e.WorldLocation)
             {
@@ -103,6 +70,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void StaticMode_OnClick(object sender, RoutedEventArgs e)
         {
+            SimpleMarkerOverlay simpleMarkerOverlay = (SimpleMarkerOverlay)mapView.Overlays["simpleMarkerOverlay"];
             simpleMarkerOverlay.DragMode = MarkerDragMode.None;
         }
 
@@ -111,6 +79,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void DragMode_OnClick(object sender, RoutedEventArgs e)
         {
+            SimpleMarkerOverlay simpleMarkerOverlay = (SimpleMarkerOverlay)mapView.Overlays["simpleMarkerOverlay"];
             simpleMarkerOverlay.DragMode = MarkerDragMode.Drag;
         }
 
@@ -119,6 +88,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void CopyMode_OnClick(object sender, RoutedEventArgs e)
         {
+            SimpleMarkerOverlay simpleMarkerOverlay = (SimpleMarkerOverlay)mapView.Overlays["simpleMarkerOverlay"];
             simpleMarkerOverlay.DragMode = MarkerDragMode.CopyWithShiftKey;
         }
     }

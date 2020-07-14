@@ -10,8 +10,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class CreateClusterPointStyleSample : UserControl
     {
-        private readonly ShapeFileFeatureLayer coyoteSightings = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco_Coyote_Sightings.shp");
-
         public CreateClusterPointStyleSample()
         {
             InitializeComponent();
@@ -29,6 +27,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
+            ShapeFileFeatureLayer coyoteSightings = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco_Coyote_Sightings.shp");
+
             // Project the layer's data to match the projection of the map
             coyoteSightings.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
@@ -40,7 +40,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.Overlays.Add(layerOverlay);
 
             // Apply HeatStyle
-            AddClusterPointStyle();
+            AddClusterPointStyle(coyoteSightings);
 
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10812042.5236828, 3942445.36497713, -10748599.7905585, 3887792.89005685);
@@ -49,14 +49,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Create and add a cluster style to the coyote layer
         /// </summary>
-        private void AddClusterPointStyle()
+        private void AddClusterPointStyle(ShapeFileFeatureLayer layer)
         {
             // Create the point style that will serve as the basis of the cluster style
             var pointStyle = new PointStyle(new GeoImage(@"../../../Resources/coyote_paw.png"))
             {
                 ImageScale = .25,
-                Mask = new AreaStyle(GeoBrushes.White),
-                MaskType = MaskType.RoundedCorners
+                Mask = new AreaStyle(GeoPens.Black, GeoBrushes.White),
+                MaskType = MaskType.RoundedCorners                                
             };
 
             // Create a text style that will display the number of features within a clustered point
@@ -73,10 +73,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
 
             // Add the point style to the collection of custom styles for ZoomLevel 1.
-            coyoteSightings.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(clusterPointStyle);
+            layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(clusterPointStyle);
 
             // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the point style on every zoom level on the map.
-            coyoteSightings.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
         }
     }
 }

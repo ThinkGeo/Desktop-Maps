@@ -11,9 +11,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class CreateValueStyleSample : UserControl
     {
-        private readonly ShapeFileFeatureLayer friscoCrime = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco_Crime.shp");
-        private readonly LegendAdornmentLayer legend = new LegendAdornmentLayer();
-
         public CreateValueStyleSample()
         {
             InitializeComponent();
@@ -31,6 +28,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
+            ShapeFileFeatureLayer friscoCrime = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco_Crime.shp");
+            LegendAdornmentLayer legend = new LegendAdornmentLayer();
+
             // Project the layer's data to match the projection of the map
             friscoCrime.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
@@ -47,7 +47,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             legend.Location = AdornmentLocation.LowerRight;
             mapView.AdornmentOverlay.Layers.Add(legend);
 
-            AddValueStyle();
+            AddValueStyle(friscoCrime, legend);
 
             // Add layerOverlay to the mapView
             mapView.Overlays.Add(layerOverlay);
@@ -59,7 +59,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Adds a ValueStyle to the friscoCrime layer that represents each OffenseGroup as a different color
         /// </summary>
-        private void AddValueStyle()
+        private void AddValueStyle(ShapeFileFeatureLayer friscoCrime, LegendAdornmentLayer legend)
         {
             // Get all the distinct OffenseGroups in the friscoCrime data
             friscoCrime.Open();

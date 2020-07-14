@@ -156,11 +156,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
                     queriedFeaturesLayer.InternalFeatures.Add(feature);
                 }
 
-                // Set the map extent to the extent of the query shape
-                queryShapeFeatureLayer.Open();
-                mapView.CurrentExtent = queryShapeFeatureLayer.GetBoundingBox();
-                mapView.ZoomToScale(mapView.CurrentScale * 2);
-                queryShapeFeatureLayer.Close();
+                // Set the map extent to the extent of the query results
+                queriedFeaturesLayer.Open();
+                mapView.CurrentExtent = queriedFeaturesLayer.GetBoundingBox();
+                queriedFeaturesLayer.Close();
             }
             else
             {

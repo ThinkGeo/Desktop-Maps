@@ -9,9 +9,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// Learn how to style polygon data using an AreaStyle
     /// </summary>
     public partial class CreateAreaStyleSample : UserControl
-    {
-        private ShapeFileFeatureLayer friscoSubdivisions;
-        
+    {                
         public CreateAreaStyleSample()
         {
             InitializeComponent();
@@ -28,7 +26,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
-                        
+
+            ShapeFileFeatureLayer friscoSubdivisions;
+
             // Create a layer with polygon data
             friscoSubdivisions = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Parks.shp");
             
@@ -43,22 +43,22 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.Overlays.Add(layerOverlay);
             
             // Add the area style to the historicSites layer
-            AddAreaStyle();
+            AddAreaStyle(friscoSubdivisions);
         }
 
         /// <summary>
         /// Create a areaStyle and add it to the Historic Sites layer
         /// </summary>
-        private void AddAreaStyle()
+        private void AddAreaStyle(ShapeFileFeatureLayer layer)
         {
             // Create a area style
             var areaStyle = new AreaStyle(GeoPens.DimGray, new GeoSolidBrush(new GeoColor(128, GeoColors.ForestGreen)));
 
             // Add the area style to the collection of custom styles for ZoomLevel 1. 
-            friscoSubdivisions.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(areaStyle);
+            layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(areaStyle);
 
             // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the area style on every zoom level on the map. 
-            friscoSubdivisions.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
         }
     }
 }

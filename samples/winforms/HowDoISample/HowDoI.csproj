@@ -62,21 +62,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Getting Started\ZoomInAndOutOfTheMap.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="NetTopologySuite" Version="2.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="System.Data.OleDb" Version="5.0.0-preview.6.20305.6" />
-    <PackageReference Include="ThinkGeo.Ecw" Version="13.0.0-beta127" />
-    <PackageReference Include="ThinkGeo.MrSid" Version="13.0.0-beta126" />
-    <PackageReference Include="ThinkGeo.Oracle" Version="13.0.0-beta128" />
-    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="13.0.0-beta126" />
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="13.0.0-beta124" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="13.0.0-beta123" />
-    <PackageReference Include="ThinkGeo.UI.WinForms" Version="13.0.0-beta046" />
-    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="13.0.0-beta125" />
+    <PackageReference Include="ThinkGeo.Ecw" Version="12.2.15" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="12.2.15" />
+    <PackageReference Include="ThinkGeo.MrSid" Version="12.2.15" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="12.2.15" />
+    <PackageReference Include="ThinkGeo.Oracle" Version="12.2.16" />
+    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="12.2.15" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="12.2.15" />
+    <PackageReference Include="ThinkGeo.Printers" Version="12.2.15" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="12.2.15" />
+    <PackageReference Include="ThinkGeo.UI.WinForms" Version="12.2.8" />
+    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="12.2.15" />
   </ItemGroup>
 
   <ItemGroup>
@@ -84,11 +83,15 @@
     <None Remove="Resources\AQUA.png" />
     <None Remove="Resources\AQUABLANK.png" />
     <None Remove="Resources\Circle.png" />
+    <None Remove="Resources\coyote_paw.png" />
     <None Remove="Resources\Delete.png" />
+    <None Remove="Resources\drugs_icon.png" />
     <None Remove="Resources\East.gif" />
     <None Remove="Resources\East.png" />
     <None Remove="Resources\Edit.gif" />
     <None Remove="Resources\Ellipse.png" />
+    <None Remove="Resources\generic-logo.png" />
+    <None Remove="Resources\hotel_icon.png" />
     <None Remove="Resources\Line.png" />
     <None Remove="Resources\LinkButtonIconContactUs.png" />
     <None Remove="Resources\LinkButtonIconDiscussionForums.png" />
@@ -96,6 +99,8 @@
     <None Remove="Resources\LinkButtonIconOnlineStore.png" />
     <None Remove="Resources\LinkButtonIconProductInfo.png" />
     <None Remove="Resources\LinkButtonIconTestimonials.png" />
+    <None Remove="Resources\loading.gif" />
+    <None Remove="Resources\logo.ico" />
     <None Remove="Resources\logo.png" />
     <None Remove="Resources\MS.ico" />
     <None Remove="Resources\MS50SampleAppsMastheadAdSpace.png" />
@@ -112,7 +117,9 @@
     <None Remove="Resources\TabButtonOff.png" />
     <None Remove="Resources\TabButtonOn.png" />
     <None Remove="Resources\ThinkGeoLogo.png" />
+    <None Remove="Resources\vandalism_icon.png" />
     <None Remove="Resources\VirtualEarthResult.png" />
+    <None Remove="Resources\weapon_icon.png" />
     <None Remove="Resources\West.gif" />
     <None Remove="Resources\West.png" />
     <None Remove="Resources\ZoomIn.png" />
@@ -123,141 +130,33 @@
     <Resource Include="MS.ico" />
     <Resource Include="Resources\AQUA.png" />
     <Resource Include="Resources\AQUABLANK.png" />
-    <Resource Include="Resources\Circle.png" />
-    <Resource Include="Resources\Delete.png" />
+    <Resource Include="Resources\coyote_paw.png" />
+    <Resource Include="Resources\drugs_icon.png" />
     <Resource Include="Resources\East.gif" />
-    <Resource Include="Resources\East.png" />
-    <Resource Include="Resources\Edit.gif" />
-    <Resource Include="Resources\Ellipse.png" />
-    <Resource Include="Resources\Line.png" />
-    <Resource Include="Resources\LinkButtonIconContactUs.png" />
-    <Resource Include="Resources\LinkButtonIconDiscussionForums.png" />
-    <Resource Include="Resources\LinkButtonIconFAQ.png" />
-    <Resource Include="Resources\LinkButtonIconOnlineStore.png" />
-    <Resource Include="Resources\LinkButtonIconProductInfo.png" />
-    <Resource Include="Resources\LinkButtonIconTestimonials.png" />
+    <Resource Include="Resources\generic-logo.png" />
+    <Resource Include="Resources\hotel_icon.png" />
+    <Resource Include="Resources\loading.gif" />
+    <Resource Include="Resources\logo.ico" />
     <Resource Include="Resources\logo.png" />
-    <Resource Include="Resources\MS.ico" />
-    <Resource Include="Resources\MS50SampleAppsMastheadAdSpace.png" />
-    <Resource Include="Resources\Normal.png" />
     <Resource Include="Resources\North.gif" />
-    <Resource Include="Resources\North.png" />
-    <Resource Include="Resources\Point.png" />
-    <Resource Include="Resources\Polygon.png" />
-    <Resource Include="Resources\Rectangle.png" />
     <Resource Include="Resources\South.gif" />
-    <Resource Include="Resources\South.png" />
-    <Resource Include="Resources\SpecialDataBaseResult.png" />
-    <Resource Include="Resources\Square.png" />
-    <Resource Include="Resources\TabButtonOff.png" />
-    <Resource Include="Resources\TabButtonOn.png" />
     <Resource Include="Resources\ThinkGeoLogo.png" />
-    <Resource Include="Resources\VirtualEarthResult.png" />
+    <Resource Include="Resources\vandalism_icon.png" />
+    <Resource Include="Resources\weapon_icon.png" />
     <Resource Include="Resources\West.gif" />
-    <Resource Include="Resources\West.png" />
     <Resource Include="Resources\ZoomIn.png" />
     <Resource Include="Resources\ZoomOut.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Display Offline Map\CreateAGpxFeatureLayer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Display Offline Map\CreateAUsgsDemFeatureLayer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Display Offline Map\DisplayThinkGeoCloudOfflineMaps.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Display Offline Map\CreateATinyGeoFeatureLayer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Map Adornments\MouseCoordinate.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Map Adornments\ChangeDefaultLogo.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Map Adornments\PanZoomBar.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Style\DisplayIsoLines.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Style\DrawUsingFleeBooleanStyle.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Style\DrawAndLabelANiceLookingRoad.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Style\DrawAndLabelPointsOfInterests.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Style\DrawAndLabelWaterFeatures.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Style\DrawCurvedLabels.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Style\ChangeTheLabelPosition.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Style\LoadAHeatLayer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Style\UseCustomFontSymbolWithPointStyle.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Style\LoadClusterPointStyle.cs">
+    <Compile Update="Samples\CreatingStyles\StylingAcrossMultipleScales.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Style2\RotatePointWithTextStyle.cs" />
-    <Compile Update="Style\DrawDirectionPointStyleWithLineStyle.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Display Offline Map\LoadAPostgreSqlFeatureLayer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Display Offline Map\LoadGeoDatabaseFeatureLayer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Display Offline Map\LoadAnOracleFeatureLayer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Display Offline Map\LoadAMapFromStreams.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Display Offline Map\CreateAnInMemoryFeatureLayer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Display Offline Map\CreateAMapShapeLayer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Display Offline Map\LoadSqlServerFeatureLayer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Display Offline Map\LoadSqliteFeatureLayer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Display Online Map\DisplayNoaaWeatherStation.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Display Online Map\DisplayNoaaWeatherWarnings.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Markers and Popus\AddPopups.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Display Online Map\DisplayAndReprojectWMTSMap.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Display Online Map\DisplayWMSMap.cs">
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Properties\Settings.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -1061,5 +960,9 @@
     <PackageReference Include="System.Data.OleDb">
       <Version>4.7.0</Version>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Samples\Interpolation\" />
   </ItemGroup>
 </Project>
