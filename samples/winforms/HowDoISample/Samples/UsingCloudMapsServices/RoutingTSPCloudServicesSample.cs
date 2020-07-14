@@ -117,6 +117,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Each integer corresponds to the index of the corresponding waypoint in the original set of waypoints passed into the query
             // For example, if the second element in 'VisitSequences' is '3', the second stop on the route is originalWaypointArray[3]
 
+            List<TspRouteSegemt> displayItems = new List<TspRouteSegemt>();
+
             int index = 0;
             // Add the route visit points and route segments to the map
             foreach (int waypointIndex in optimizedRoutingResult.TspResult.VisitSequences)
@@ -138,10 +140,18 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             {
                 routingLayer.InternalFeatures.Add(new Feature(route.Shape));
                 routeSegments.AddRange(route.Segments);
+                foreach (var segment in route.Segments)
+                {
+                    TspRouteSegemt segmentForDisplay = new TspRouteSegemt();
+                    segmentForDisplay.DisplayInformation = $"{segment.Instruction} Distance: {Math.Round(segment.Distance, 0)} meters.";
+                    segmentForDisplay.Shape = new Feature(segment.Shape);
+                    displayItems.Add(segmentForDisplay);
+                }
+
             }
 
             // Set the data source for the list box to the route segments
-            lsbRouteSegments.DataSource = routeSegments;
+            lsbRouteSegments.DataSource = displayItems;
             lsbRouteSegments.DisplayMember = "DisplayInformation";
             // Set the map extent to the newly displayed route
             routingLayer.Open();
@@ -188,10 +198,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 highlightLayer.InternalFeatures.Clear();
 
                 // Highlight the selected route segment
-                highlightLayer.InternalFeatures.Add(new Feature(((CloudRoutingSegment)routeSegments.SelectedItem).Shape));
+                highlightLayer.InternalFeatures.Add(((TspRouteSegemt)routeSegments.SelectedItem).Shape);
 
                 // Zoom to the selected feature and zoom out to an appropriate level
-                mapView.CurrentExtent = ((CloudRoutingSegment)routeSegments.SelectedItem).Shape.GetBoundingBox();
+                mapView.CurrentExtent = ((TspRouteSegemt)routeSegments.SelectedItem).Shape.GetBoundingBox();
                 ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
                 if (mapView.CurrentScale < standardZoomLevelSet.ZoomLevel15.Scale)
                 {
@@ -286,5 +296,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         #region Component Designer generated code
         #endregion Component Designer generated code
 
+    }
+
+    public class TspRouteSegemt
+    {
+        public string DisplayInformation { get; set; }
+        public Feature Shape { get; set; }
     }
 }

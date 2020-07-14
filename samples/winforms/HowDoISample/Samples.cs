@@ -211,8 +211,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // to only the samples that match
             if (e.KeyCode == Keys.Enter)
             {
-                //if (txtSearch.Text == "")
-                if(true == true)
+                if (txtSearch.Text == "")                
                 {
                     treeViewLeft.CollapseAll();
 
@@ -264,7 +263,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private void EnableMatchingTreeNodes(TreeNode item)
         {
             // Enable just the tree view items that match the search criteria
-            string[] searchTerms = new string[] { }; // txtSearch.Text.Split(' ');
+            string[] searchTerms = txtSearch.Text.Split(' ');
 
             MenuModel menuModel = GetMenuModelByTitle(menus, item.Text);
 

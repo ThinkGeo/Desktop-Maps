@@ -97,7 +97,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.pnlTop.Location = new System.Drawing.Point(0, 0);
             this.pnlTop.Margin = new System.Windows.Forms.Padding(0);
             this.pnlTop.Name = "pnlTop";
-            this.pnlTop.Size = new System.Drawing.Size(1332, 76);
+            this.pnlTop.Size = new System.Drawing.Size(1776, 94);
             this.pnlTop.TabIndex = 8;
             // 
             // label2
@@ -105,8 +105,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Transparent;
-            this.label2.Location = new System.Drawing.Point(70, 40);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Location = new System.Drawing.Point(93, 49);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(264, 14);
             this.label2.TabIndex = 8;
@@ -117,8 +116,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Transparent;
-            this.label1.Location = new System.Drawing.Point(69, 20);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Location = new System.Drawing.Point(92, 25);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(380, 18);
             this.label1.TabIndex = 8;
@@ -127,10 +125,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // pictureBox1
             // 
             this.pictureBox1.Image = global::ThinkGeo.UI.WinForms.HowDoI.Properties.Resources.logo;
-            this.pictureBox1.Location = new System.Drawing.Point(2, 0);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox1.Location = new System.Drawing.Point(3, 0);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(73, 70);
+            this.pictureBox1.Size = new System.Drawing.Size(97, 86);
             this.pictureBox1.TabIndex = 7;
             this.pictureBox1.TabStop = false;
             // 
@@ -141,7 +139,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.splitContainerMain.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitContainerMain.IsSplitterFixed = true;
-            this.splitContainerMain.Location = new System.Drawing.Point(0, 76);
+            this.splitContainerMain.Location = new System.Drawing.Point(0, 94);
             this.splitContainerMain.Margin = new System.Windows.Forms.Padding(0);
             this.splitContainerMain.Name = "splitContainerMain";
             // 
@@ -153,8 +151,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             this.splitContainerMain.Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(61)))), ((int)(((byte)(62)))));
             this.splitContainerMain.Panel2.Controls.Add(this.SplitContainerRight);
-            this.splitContainerMain.Size = new System.Drawing.Size(1332, 715);
+            this.splitContainerMain.Size = new System.Drawing.Size(1776, 880);
             this.splitContainerMain.SplitterDistance = 345;
+            this.splitContainerMain.SplitterWidth = 5;
             this.splitContainerMain.TabIndex = 0;
             // 
             // splitContainerLeft
@@ -163,6 +162,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.splitContainerLeft.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitContainerLeft.IsSplitterFixed = true;
             this.splitContainerLeft.Location = new System.Drawing.Point(0, 0);
+            this.splitContainerLeft.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.splitContainerLeft.Name = "splitContainerLeft";
             this.splitContainerLeft.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -174,23 +174,27 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // splitContainerLeft.Panel2
             // 
             this.splitContainerLeft.Panel2.Controls.Add(this.treeViewLeft);
-            this.splitContainerLeft.Size = new System.Drawing.Size(345, 715);
+            this.splitContainerLeft.Size = new System.Drawing.Size(345, 880);
+            this.splitContainerLeft.SplitterWidth = 5;
             this.splitContainerLeft.TabIndex = 7;
             // 
             // txtSearch
             // 
-            this.txtSearch.Location = new System.Drawing.Point(81, 15);
+            this.txtSearch.Location = new System.Drawing.Point(108, 18);
+            this.txtSearch.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(253, 20);
+            this.txtSearch.Size = new System.Drawing.Size(336, 22);
             this.txtSearch.TabIndex = 1;
+            this.txtSearch.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyUp);
             // 
             // lblSearch
             // 
             this.lblSearch.AutoSize = true;
             this.lblSearch.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.lblSearch.Location = new System.Drawing.Point(28, 18);
+            this.lblSearch.Location = new System.Drawing.Point(37, 22);
+            this.lblSearch.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblSearch.Name = "lblSearch";
-            this.lblSearch.Size = new System.Drawing.Size(47, 13);
+            this.lblSearch.Size = new System.Drawing.Size(57, 16);
             this.lblSearch.TabIndex = 0;
             this.lblSearch.Text = "Search: ";
             // 
@@ -201,9 +205,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.treeViewLeft.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.treeViewLeft.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(185)))), ((int)(((byte)(226)))));
             this.treeViewLeft.Location = new System.Drawing.Point(0, 0);
+            this.treeViewLeft.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.treeViewLeft.Name = "treeViewLeft";
             this.treeViewLeft.ShowNodeToolTips = true;
-            this.treeViewLeft.Size = new System.Drawing.Size(345, 661);
+            this.treeViewLeft.Size = new System.Drawing.Size(345, 825);
             this.treeViewLeft.TabIndex = 6;
             this.treeViewLeft.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewLeft_BeforeSelect);
             this.treeViewLeft.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewLeft_AfterSelect);
@@ -214,6 +219,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.SplitContainerRight.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.SplitContainerRight.IsSplitterFixed = true;
             this.SplitContainerRight.Location = new System.Drawing.Point(0, 0);
+            this.SplitContainerRight.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.SplitContainerRight.Name = "SplitContainerRight";
             this.SplitContainerRight.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -224,8 +230,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // SplitContainerRight.Panel2
             // 
             this.SplitContainerRight.Panel2.Controls.Add(this.splitContainerSampleSource);
-            this.SplitContainerRight.Size = new System.Drawing.Size(983, 715);
+            this.SplitContainerRight.Size = new System.Drawing.Size(1426, 880);
             this.SplitContainerRight.SplitterDistance = 102;
+            this.SplitContainerRight.SplitterWidth = 5;
             this.SplitContainerRight.TabIndex = 12;
             // 
             // panel1
@@ -235,9 +242,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Controls.Add(this.labelSampleName);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(983, 102);
+            this.panel1.Size = new System.Drawing.Size(1426, 102);
             this.panel1.TabIndex = 9;
             // 
             // btnSource
@@ -245,9 +252,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.btnSource.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(102)))), ((int)(((byte)(102)))));
             this.btnSource.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnSource.ForeColor = System.Drawing.Color.White;
-            this.btnSource.Location = new System.Drawing.Point(3, 70);
+            this.btnSource.Location = new System.Drawing.Point(4, 86);
+            this.btnSource.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnSource.Name = "btnSource";
-            this.btnSource.Size = new System.Drawing.Size(86, 29);
+            this.btnSource.Size = new System.Drawing.Size(115, 36);
             this.btnSource.TabIndex = 11;
             this.btnSource.Text = "Source";
             this.btnSource.UseVisualStyleBackColor = false;
@@ -258,10 +266,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.labelSampleDescription.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.labelSampleDescription.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelSampleDescription.ForeColor = System.Drawing.Color.Transparent;
-            this.labelSampleDescription.Location = new System.Drawing.Point(0, 40);
-            this.labelSampleDescription.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelSampleDescription.Location = new System.Drawing.Point(0, 26);
             this.labelSampleDescription.Name = "labelSampleDescription";
-            this.labelSampleDescription.Size = new System.Drawing.Size(983, 62);
+            this.labelSampleDescription.Size = new System.Drawing.Size(1426, 76);
             this.labelSampleDescription.TabIndex = 8;
             this.labelSampleDescription.Text = "labelSampleDescription";
             // 
@@ -270,8 +277,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.labelSampleName.AutoSize = true;
             this.labelSampleName.Font = new System.Drawing.Font("Arial", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelSampleName.ForeColor = System.Drawing.Color.Transparent;
-            this.labelSampleName.Location = new System.Drawing.Point(1, 12);
-            this.labelSampleName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelSampleName.Location = new System.Drawing.Point(1, 15);
             this.labelSampleName.Name = "labelSampleName";
             this.labelSampleName.Size = new System.Drawing.Size(138, 19);
             this.labelSampleName.TabIndex = 8;
@@ -293,8 +299,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // splitContainerSampleSource.Panel2
             // 
             this.splitContainerSampleSource.Panel2.Controls.Add(this.pnlOption);
-            this.splitContainerSampleSource.Size = new System.Drawing.Size(983, 609);
+            this.splitContainerSampleSource.Size = new System.Drawing.Size(1426, 773);
             this.splitContainerSampleSource.SplitterDistance = 512;
+            this.splitContainerSampleSource.SplitterWidth = 5;
             this.splitContainerSampleSource.TabIndex = 11;
             // 
             // cSharpBrowser
@@ -302,9 +309,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.cSharpBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cSharpBrowser.Location = new System.Drawing.Point(0, 0);
             this.cSharpBrowser.Margin = new System.Windows.Forms.Padding(0);
-            this.cSharpBrowser.MinimumSize = new System.Drawing.Size(27, 25);
+            this.cSharpBrowser.MinimumSize = new System.Drawing.Size(36, 31);
             this.cSharpBrowser.Name = "cSharpBrowser";
-            this.cSharpBrowser.Size = new System.Drawing.Size(512, 100);
+            this.cSharpBrowser.Size = new System.Drawing.Size(683, 123);
             this.cSharpBrowser.TabIndex = 0;
             // 
             // pnlOption
@@ -315,18 +322,19 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.pnlOption.Location = new System.Drawing.Point(0, 0);
             this.pnlOption.Margin = new System.Windows.Forms.Padding(0);
             this.pnlOption.Name = "pnlOption";
-            this.pnlOption.Size = new System.Drawing.Size(983, 609);
+            this.pnlOption.Size = new System.Drawing.Size(1426, 773);
             this.pnlOption.TabIndex = 8;
             // 
             // Samples
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(48)))), ((int)(((byte)(53)))));
-            this.ClientSize = new System.Drawing.Size(1332, 783);
+            this.ClientSize = new System.Drawing.Size(1776, 964);
             this.Controls.Add(this.pnlTop);
             this.Controls.Add(this.splitContainerMain);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Samples";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "C# Sample App";
