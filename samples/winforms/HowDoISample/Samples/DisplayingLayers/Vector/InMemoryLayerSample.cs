@@ -51,7 +51,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             TextStyle textStyle = new TextStyle("Trap: [TrapID]", new GeoFont("ariel", 14), GeoBrushes.Black);
             textStyle.Mask = new AreaStyle(GeoPens.Black, GeoBrushes.White);
             textStyle.MaskMargin = new DrawingMargin(2, 2, 2, 2);
-            textStyle.YOffsetInPixel = -7;
+            textStyle.YOffsetInPixel = -10;
 
             // Create an point style and add the text style from above on zoom level 1 and then apply it to all zoom levels up to 20.            
             inMemoryFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Circle, 12, GeoBrushes.Red, GeoPens.White);

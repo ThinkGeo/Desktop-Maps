@@ -30,9 +30,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(-10778329.017082, 3909598.36751101, -10776250.8853871, 3907890.47766975);
-
-            AddHotelMarkers();
+            mapView.CurrentExtent = new RectangleShape(-10778329.017082, 3909598.36751101, -10776250.8853871, 3907890.47766975);            
 
             AddSimpleMarkers();
         }
@@ -44,36 +42,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             SimpleMarkerOverlay simpleMarkerOverlay = new SimpleMarkerOverlay();
             mapView.Overlays.Add("simpleMarkerOverlay", simpleMarkerOverlay);
-        }
-
-        /// <summary>
-        /// Create and add the hotel marker overlay to the map
-        /// </summary>
-        private void AddHotelMarkers()
-        {
-            // Create the FeatureSourceMarkerOverlay and load in Frisco Hotels as the feature source
-            FeatureSourceMarkerOverlay hotelMarkers = new FeatureSourceMarkerOverlay()
-            {
-                FeatureSource = new ShapeFileFeatureSource(@"../../../Data/Shapefile/Hotels.shp")
-            };
-
-            // Project the Hotel POI data to match the projection on the map
-            hotelMarkers.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
-
-            // Create a style for the hotels
-            var pointMarkerStyle = new PointMarkerStyle()
-            {
-                ImageSource = new BitmapImage(new Uri("/Resources/AQUA.png", UriKind.RelativeOrAbsolute)),
-                Width = 20,
-                Height = 34,
-                YOffset = -17,
-                ToolTip = "[#NAME#]."
-            };
-            hotelMarkers.ZoomLevelSet.ZoomLevel01.CustomMarkerStyle = pointMarkerStyle;
-            hotelMarkers.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-
-            // Add the hotelMarkers overlay to the map
-            mapView.Overlays.Add("hotelMarkers", hotelMarkers);
         }
 
         /// <summary>
