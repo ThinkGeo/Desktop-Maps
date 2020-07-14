@@ -13,11 +13,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class SplitShapeSample : UserControl
     {
-        private readonly ShapeFileFeatureLayer cityLimits = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/FriscoCityLimits.shp");
-        private readonly ShapeFileFeatureLayer adminBoundaries = new ShapeFileFeatureLayer(@"../../../Data/FriscoMunBnd/FriscoAdminBoundaries.shp");
-        private readonly InMemoryFeatureLayer splitLayer = new InMemoryFeatureLayer();
-        private readonly LayerOverlay layerOverlay = new LayerOverlay();
-
         public SplitShapeSample()
         {
             InitializeComponent();
@@ -35,6 +30,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+
+            ShapeFileFeatureLayer cityLimits = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/FriscoCityLimits.shp");
+            ShapeFileFeatureLayer adminBoundaries = new ShapeFileFeatureLayer(@"../../../Data/FriscoMunBnd/FriscoAdminBoundaries.shp");
+            InMemoryFeatureLayer splitLayer = new InMemoryFeatureLayer();
+            LayerOverlay layerOverlay = new LayerOverlay();
 
             // Project cityLimits layer to Spherical Mercator to match the map projection
             cityLimits.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
@@ -55,10 +55,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             splitLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Add cityLimits to a LayerOverlay
-            layerOverlay.Layers.Add(cityLimits);
+            layerOverlay.Layers.Add("cityLimits", cityLimits);
 
             // Add splitLayer to the layerOverlay
-            layerOverlay.Layers.Add(splitLayer);
+            layerOverlay.Layers.Add("splitLayer", splitLayer);
 
             // Set the map extent to the cityLimits layer bounding box
             cityLimits.Open();
@@ -66,7 +66,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             cityLimits.Close();
 
             // Add LayerOverlay to Map
-            mapView.Overlays.Add(layerOverlay);
+            mapView.Overlays.Add("layerOverlay", layerOverlay);
         }
 
         /// <summary>
@@ -74,6 +74,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void SplitShape_OnClick(object sender, RoutedEventArgs e)
         {
+            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
+
+            ShapeFileFeatureLayer cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
+            InMemoryFeatureLayer splitLayer = (InMemoryFeatureLayer)layerOverlay.Layers["splitLayer"];
+
             // Query the cityLimits layer to get all the features
             cityLimits.Open();
             var feature = cityLimits.QueryTools.GetAllFeatures(ReturningColumnsType.NoColumns).First();

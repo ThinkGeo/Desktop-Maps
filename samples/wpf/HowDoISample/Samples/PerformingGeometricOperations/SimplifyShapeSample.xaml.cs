@@ -11,10 +11,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class SimplifyShapeSample : UserControl
     {
-        private readonly ShapeFileFeatureLayer cityLimits = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/FriscoCityLimits.shp");
-        private readonly InMemoryFeatureLayer simplifyLayer = new InMemoryFeatureLayer();
-        private readonly LayerOverlay layerOverlay = new LayerOverlay();
-
         public SimplifyShapeSample()
         {
             InitializeComponent();
@@ -32,6 +28,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
+            ShapeFileFeatureLayer cityLimits = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/FriscoCityLimits.shp");
+            InMemoryFeatureLayer simplifyLayer = new InMemoryFeatureLayer();
+            LayerOverlay layerOverlay = new LayerOverlay();
+
             // Project cityLimits layer to Spherical Mercator to match the map projection
             cityLimits.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
@@ -44,10 +44,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             simplifyLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Add cityLimits layer to a LayerOverlay
-            layerOverlay.Layers.Add(cityLimits);
+            layerOverlay.Layers.Add("cityLimits",cityLimits);
 
             // Add simplifyLayer to the layerOverlay
-            layerOverlay.Layers.Add(simplifyLayer);
+            layerOverlay.Layers.Add("simplifyLayer", simplifyLayer);
 
             // Set the map extent to the cityLimits layer bounding box
             cityLimits.Open();
@@ -55,7 +55,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             cityLimits.Close();
 
             // Add LayerOverlay to Map
-            mapView.Overlays.Add(layerOverlay);
+            mapView.Overlays.Add("layerOverlay", layerOverlay);
         }
 
         /// <summary>
@@ -63,6 +63,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void SimplifyShape_OnClick(object sender, RoutedEventArgs e)
         {
+            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
+
+            ShapeFileFeatureLayer cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
+            InMemoryFeatureLayer simplifyLayer = (InMemoryFeatureLayer)layerOverlay.Layers["simplifyLayer"];
+
             // Query the cityLimits layer to get all the features
             cityLimits.Open();
             var features = cityLimits.QueryTools.GetAllFeatures(ReturningColumnsType.NoColumns);

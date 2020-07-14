@@ -36,7 +36,7 @@
             <TextBlock Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="2" x:Name="txtHighestElevation" TextWrapping="Wrap" Foreground="WhiteSmoke"></TextBlock>
             <TextBlock Grid.Column="1" Grid.Row="8" Grid.ColumnSpan="2" x:Name="txtLowestElevation" TextWrapping="Wrap" Foreground="WhiteSmoke"></TextBlock>
 
-            <ListBox Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="2" Name="lsbElevations" Height="475" SelectionChanged="lsbElevations_SelectionChanged">
+            <ListBox Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="2" Name="lsbElevations" SelectionChanged="lsbElevations_SelectionChanged">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid Width="180">

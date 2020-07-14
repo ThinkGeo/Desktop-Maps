@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -11,10 +11,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class ScaleShapeSample : UserControl
     {
-        private readonly ShapeFileFeatureLayer cityLimits = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/FriscoCityLimits.shp");
-        private readonly InMemoryFeatureLayer scaledLayer = new InMemoryFeatureLayer();
-        private readonly LayerOverlay layerOverlay = new LayerOverlay();
-        
         public ScaleShapeSample()
         {
             InitializeComponent();
@@ -34,6 +30,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
+            ShapeFileFeatureLayer cityLimits = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/FriscoCityLimits.shp");
+            InMemoryFeatureLayer scaledLayer = new InMemoryFeatureLayer();
+            LayerOverlay layerOverlay = new LayerOverlay();
+
             // Project cityLimits layer to Spherical Mercator to match the map projection
             cityLimits.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
@@ -46,10 +46,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             scaledLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Add cityLimits layer to a LayerOverlay
-            layerOverlay.Layers.Add(cityLimits);
+            layerOverlay.Layers.Add("cityLimits", cityLimits);
 
             // Add scaledLayer to the layerOverlay
-            layerOverlay.Layers.Add(scaledLayer);
+            layerOverlay.Layers.Add("scaledLayer", scaledLayer);
 
             // Set the map extent to the cityLimits layer bounding box
             cityLimits.Open();
@@ -57,7 +57,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             cityLimits.Close();
 
             // Add LayerOverlay to Map
-            mapView.Overlays.Add(layerOverlay);
+            mapView.Overlays.Add("layerOverlay", layerOverlay);
         }
 
         /// <summary>
@@ -65,6 +65,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void ScaleShape_OnClick(object sender, RoutedEventArgs e)
         {
+            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
+
+            ShapeFileFeatureLayer cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
+            InMemoryFeatureLayer scaledLayer = (InMemoryFeatureLayer)layerOverlay.Layers["scaledLayer"];
+
             // Query the cityLimits layer to get all the features
             cityLimits.Open();
             var features = cityLimits.QueryTools.GetAllFeatures(ReturningColumnsType.NoColumns);

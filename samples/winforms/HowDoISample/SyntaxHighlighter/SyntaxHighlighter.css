@@ -1,5 +1,4 @@
-﻿div.dp-highlighter ol li { white-space: nowrap; }
- body
+﻿ body
  {
 	overflow-x:visible;
  	padding:0px 0px 0px 0px;
@@ -8,8 +7,6 @@
  .divbody
 {
 	overflow:visible;
-	width:740px;
-	height:528px;
 	padding:0px 0px 0px 0px;
 	margin:0px 0px 0px 0px;
 }
@@ -19,8 +16,6 @@
 	font-family: "Consolas", "Courier New", Courier, mono, serif;
 	font-size: 12px;
 	background-color: #E7E5DC;
-	width: 740px;
-	height:510px;
 	overflow: scroll;
 	margin: 18px 0 18px 0 !important;
 	padding-top: 1px; /* adds a little border on top when controls are hidden */

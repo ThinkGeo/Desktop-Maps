@@ -121,9 +121,12 @@
     <None Remove="Resources\AQUA.png" />
     <None Remove="Resources\AQUABLANK.png" />
     <None Remove="Resources\East.gif" />
+    <None Remove="Resources\generic-logo.jpg" />
+    <None Remove="Resources\generic-logo.png" />
     <None Remove="Resources\loading.gif" />
     <None Remove="Resources\North.gif" />
     <None Remove="Resources\South.gif" />
+    <None Remove="Resources\ThinkGeoLogo.png" />
     <None Remove="Resources\West.gif" />
     <None Remove="Resources\ZoomIn.png" />
     <None Remove="Resources\ZoomOut.png" />
@@ -144,11 +147,13 @@
     <Resource Include="Resources\AQUA.png" />
     <Resource Include="Resources\AQUABLANK.png" />
     <Resource Include="Resources\East.gif" />
+    <Resource Include="Resources\generic-logo.png" />
     <Resource Include="Resources\loading.gif">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\North.gif" />
     <Resource Include="Resources\South.gif" />
+    <Resource Include="Resources\ThinkGeoLogo.png" />
     <Resource Include="Resources\West.gif" />
     <Resource Include="Resources\ZoomIn.png" />
     <Resource Include="Resources\ZoomOut.png" />
@@ -163,18 +168,18 @@
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
     <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="ThinkGeo.Ecw" Version="12.2.14" />
-    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="12.2.14" />
-    <PackageReference Include="ThinkGeo.MrSid" Version="12.2.14" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="12.2.14" />
-    <PackageReference Include="ThinkGeo.Oracle" Version="12.2.15" />
-    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="12.2.14" />
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="12.2.14" />
-    <PackageReference Include="ThinkGeo.Printers" Version="12.2.14" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="12.2.14" />
-    <PackageReference Include="ThinkGeo.UI.Wpf" Version="12.2.14" />
-    <PackageReference Include="ThinkGeo.UnmanagedGeoTiff" Version="12.2.14" />
-    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="12.2.14" />
+    <PackageReference Include="ThinkGeo.Ecw" Version="12.2.15" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="12.2.15" />
+    <PackageReference Include="ThinkGeo.MrSid" Version="12.2.15" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="12.2.15" />
+    <PackageReference Include="ThinkGeo.Oracle" Version="12.2.16" />
+    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="12.2.15" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="12.2.15" />
+    <PackageReference Include="ThinkGeo.Printers" Version="12.2.15" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="12.2.15" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="12.2.15" />
+    <PackageReference Include="ThinkGeo.UnmanagedGeoTiff" Version="12.2.15" />
+    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="12.2.15" />
     <PackageReference Include="WpfAnimatedGif" Version="2.0.0" />
   </ItemGroup>
 
