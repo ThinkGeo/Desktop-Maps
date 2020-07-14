@@ -37,33 +37,38 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.splitContainerMain = new System.Windows.Forms.SplitContainer();
+            this.splitContainerLeft = new System.Windows.Forms.SplitContainer();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.lblSearch = new System.Windows.Forms.Label();
             this.treeViewLeft = new System.Windows.Forms.TreeView();
+            this.SplitContainerRight = new System.Windows.Forms.SplitContainer();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.btnSource = new System.Windows.Forms.Button();
+            this.labelSampleDescription = new System.Windows.Forms.Label();
+            this.labelSampleName = new System.Windows.Forms.Label();
             this.splitContainerSampleSource = new System.Windows.Forms.SplitContainer();
             this.cSharpBrowser = new System.Windows.Forms.WebBrowser();
             this.pnlOption = new System.Windows.Forms.Panel();
-            this.btnSource = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.labelSampleDescription = new System.Windows.Forms.Label();
-            this.labelSampleName = new System.Windows.Forms.Label();
             this.pnlTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
-            this.splitContainer2.Panel1.SuspendLayout();
-            this.splitContainer2.Panel2.SuspendLayout();
-            this.splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
+            this.splitContainerMain.Panel1.SuspendLayout();
+            this.splitContainerMain.Panel2.SuspendLayout();
+            this.splitContainerMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerLeft)).BeginInit();
+            this.splitContainerLeft.Panel1.SuspendLayout();
+            this.splitContainerLeft.Panel2.SuspendLayout();
+            this.splitContainerLeft.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SplitContainerRight)).BeginInit();
+            this.SplitContainerRight.Panel1.SuspendLayout();
+            this.SplitContainerRight.Panel2.SuspendLayout();
+            this.SplitContainerRight.SuspendLayout();
+            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerSampleSource)).BeginInit();
             this.splitContainerSampleSource.Panel1.SuspendLayout();
             this.splitContainerSampleSource.Panel2.SuspendLayout();
             this.splitContainerSampleSource.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblInformation
@@ -129,50 +134,48 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.pictureBox1.TabIndex = 7;
             this.pictureBox1.TabStop = false;
             // 
-            // splitContainer1
+            // splitContainerMain
             // 
-            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.splitContainerMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainer1.IsSplitterFixed = true;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 76);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(0);
-            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainerMain.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainerMain.IsSplitterFixed = true;
+            this.splitContainerMain.Location = new System.Drawing.Point(0, 76);
+            this.splitContainerMain.Margin = new System.Windows.Forms.Padding(0);
+            this.splitContainerMain.Name = "splitContainerMain";
             // 
-            // splitContainer1.Panel1
+            // splitContainerMain.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
+            this.splitContainerMain.Panel1.Controls.Add(this.splitContainerLeft);
             // 
-            // splitContainer1.Panel2
+            // splitContainerMain.Panel2
             // 
-            this.splitContainer1.Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(61)))), ((int)(((byte)(62)))));
-            this.splitContainer1.Panel2.Controls.Add(this.splitContainerSampleSource);
-            this.splitContainer1.Panel2.Controls.Add(this.btnSource);
-            this.splitContainer1.Panel2.Controls.Add(this.panel1);
-            this.splitContainer1.Size = new System.Drawing.Size(1332, 715);
-            this.splitContainer1.SplitterDistance = 345;
-            this.splitContainer1.TabIndex = 0;
+            this.splitContainerMain.Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(61)))), ((int)(((byte)(62)))));
+            this.splitContainerMain.Panel2.Controls.Add(this.SplitContainerRight);
+            this.splitContainerMain.Size = new System.Drawing.Size(1332, 715);
+            this.splitContainerMain.SplitterDistance = 345;
+            this.splitContainerMain.TabIndex = 0;
             // 
-            // splitContainer2
+            // splitContainerLeft
             // 
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainer2.IsSplitterFixed = true;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer2.Name = "splitContainer2";
-            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.splitContainerLeft.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerLeft.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainerLeft.IsSplitterFixed = true;
+            this.splitContainerLeft.Location = new System.Drawing.Point(0, 0);
+            this.splitContainerLeft.Name = "splitContainerLeft";
+            this.splitContainerLeft.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // splitContainer2.Panel1
+            // splitContainerLeft.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.txtSearch);
-            this.splitContainer2.Panel1.Controls.Add(this.lblSearch);
+            this.splitContainerLeft.Panel1.Controls.Add(this.txtSearch);
+            this.splitContainerLeft.Panel1.Controls.Add(this.lblSearch);
             // 
-            // splitContainer2.Panel2
+            // splitContainerLeft.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.treeViewLeft);
-            this.splitContainer2.Size = new System.Drawing.Size(345, 715);
-            this.splitContainer2.TabIndex = 7;
+            this.splitContainerLeft.Panel2.Controls.Add(this.treeViewLeft);
+            this.splitContainerLeft.Size = new System.Drawing.Size(345, 715);
+            this.splitContainerLeft.TabIndex = 7;
             // 
             // txtSearch
             // 
@@ -205,13 +208,79 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.treeViewLeft.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewLeft_BeforeSelect);
             this.treeViewLeft.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewLeft_AfterSelect);
             // 
+            // SplitContainerRight
+            // 
+            this.SplitContainerRight.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SplitContainerRight.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.SplitContainerRight.IsSplitterFixed = true;
+            this.SplitContainerRight.Location = new System.Drawing.Point(0, 0);
+            this.SplitContainerRight.Name = "SplitContainerRight";
+            this.SplitContainerRight.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // SplitContainerRight.Panel1
+            // 
+            this.SplitContainerRight.Panel1.Controls.Add(this.panel1);
+            // 
+            // SplitContainerRight.Panel2
+            // 
+            this.SplitContainerRight.Panel2.Controls.Add(this.splitContainerSampleSource);
+            this.SplitContainerRight.Size = new System.Drawing.Size(983, 715);
+            this.SplitContainerRight.SplitterDistance = 102;
+            this.SplitContainerRight.TabIndex = 12;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.btnSource);
+            this.panel1.Controls.Add(this.labelSampleDescription);
+            this.panel1.Controls.Add(this.labelSampleName);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(983, 102);
+            this.panel1.TabIndex = 9;
+            // 
+            // btnSource
+            // 
+            this.btnSource.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(102)))), ((int)(((byte)(102)))));
+            this.btnSource.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnSource.ForeColor = System.Drawing.Color.White;
+            this.btnSource.Location = new System.Drawing.Point(3, 70);
+            this.btnSource.Name = "btnSource";
+            this.btnSource.Size = new System.Drawing.Size(86, 29);
+            this.btnSource.TabIndex = 11;
+            this.btnSource.Text = "Source";
+            this.btnSource.UseVisualStyleBackColor = false;
+            this.btnSource.Click += new System.EventHandler(this.btnSource_Click);
+            // 
+            // labelSampleDescription
+            // 
+            this.labelSampleDescription.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.labelSampleDescription.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelSampleDescription.ForeColor = System.Drawing.Color.Transparent;
+            this.labelSampleDescription.Location = new System.Drawing.Point(0, 40);
+            this.labelSampleDescription.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelSampleDescription.Name = "labelSampleDescription";
+            this.labelSampleDescription.Size = new System.Drawing.Size(983, 62);
+            this.labelSampleDescription.TabIndex = 8;
+            this.labelSampleDescription.Text = "labelSampleDescription";
+            // 
+            // labelSampleName
+            // 
+            this.labelSampleName.AutoSize = true;
+            this.labelSampleName.Font = new System.Drawing.Font("Arial", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelSampleName.ForeColor = System.Drawing.Color.Transparent;
+            this.labelSampleName.Location = new System.Drawing.Point(1, 12);
+            this.labelSampleName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelSampleName.Name = "labelSampleName";
+            this.labelSampleName.Size = new System.Drawing.Size(138, 19);
+            this.labelSampleName.TabIndex = 8;
+            this.labelSampleName.Text = "labelSampleName";
+            // 
             // splitContainerSampleSource
             // 
-            this.splitContainerSampleSource.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainerSampleSource.IsSplitterFixed = true;
-            this.splitContainerSampleSource.Location = new System.Drawing.Point(0, 105);
+            this.splitContainerSampleSource.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerSampleSource.Location = new System.Drawing.Point(0, 0);
             this.splitContainerSampleSource.Margin = new System.Windows.Forms.Padding(0);
             this.splitContainerSampleSource.Name = "splitContainerSampleSource";
             // 
@@ -224,7 +293,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // splitContainerSampleSource.Panel2
             // 
             this.splitContainerSampleSource.Panel2.Controls.Add(this.pnlOption);
-            this.splitContainerSampleSource.Size = new System.Drawing.Size(983, 610);
+            this.splitContainerSampleSource.Size = new System.Drawing.Size(983, 609);
             this.splitContainerSampleSource.SplitterDistance = 512;
             this.splitContainerSampleSource.TabIndex = 11;
             // 
@@ -246,57 +315,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.pnlOption.Location = new System.Drawing.Point(0, 0);
             this.pnlOption.Margin = new System.Windows.Forms.Padding(0);
             this.pnlOption.Name = "pnlOption";
-            this.pnlOption.Size = new System.Drawing.Size(983, 610);
+            this.pnlOption.Size = new System.Drawing.Size(983, 609);
             this.pnlOption.TabIndex = 8;
-            // 
-            // btnSource
-            // 
-            this.btnSource.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(102)))), ((int)(((byte)(102)))));
-            this.btnSource.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnSource.ForeColor = System.Drawing.Color.White;
-            this.btnSource.Location = new System.Drawing.Point(4, 74);
-            this.btnSource.Name = "btnSource";
-            this.btnSource.Size = new System.Drawing.Size(86, 29);
-            this.btnSource.TabIndex = 10;
-            this.btnSource.Text = "Source";
-            this.btnSource.UseVisualStyleBackColor = false;
-            this.btnSource.Click += new System.EventHandler(this.btnSource_Click);
-            // 
-            // panel1
-            // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.Controls.Add(this.labelSampleDescription);
-            this.panel1.Controls.Add(this.labelSampleName);
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(981, 76);
-            this.panel1.TabIndex = 9;
-            // 
-            // labelSampleDescription
-            // 
-            this.labelSampleDescription.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSampleDescription.ForeColor = System.Drawing.Color.Transparent;
-            this.labelSampleDescription.Location = new System.Drawing.Point(6, 37);
-            this.labelSampleDescription.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelSampleDescription.Name = "labelSampleDescription";
-            this.labelSampleDescription.Size = new System.Drawing.Size(1054, 68);
-            this.labelSampleDescription.TabIndex = 8;
-            this.labelSampleDescription.Text = "labelSampleDescription";
-            // 
-            // labelSampleName
-            // 
-            this.labelSampleName.AutoSize = true;
-            this.labelSampleName.Font = new System.Drawing.Font("Arial", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSampleName.ForeColor = System.Drawing.Color.Transparent;
-            this.labelSampleName.Location = new System.Drawing.Point(5, 9);
-            this.labelSampleName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelSampleName.Name = "labelSampleName";
-            this.labelSampleName.Size = new System.Drawing.Size(138, 19);
-            this.labelSampleName.TabIndex = 8;
-            this.labelSampleName.Text = "labelSampleName";
             // 
             // Samples
             // 
@@ -305,9 +325,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(48)))), ((int)(((byte)(53)))));
             this.ClientSize = new System.Drawing.Size(1332, 783);
             this.Controls.Add(this.pnlTop);
-            this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.splitContainerMain);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
             this.Name = "Samples";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "C# Sample App";
@@ -315,22 +334,26 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.pnlTop.ResumeLayout(false);
             this.pnlTop.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
-            this.splitContainer2.Panel1.ResumeLayout(false);
-            this.splitContainer2.Panel1.PerformLayout();
-            this.splitContainer2.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
-            this.splitContainer2.ResumeLayout(false);
+            this.splitContainerMain.Panel1.ResumeLayout(false);
+            this.splitContainerMain.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).EndInit();
+            this.splitContainerMain.ResumeLayout(false);
+            this.splitContainerLeft.Panel1.ResumeLayout(false);
+            this.splitContainerLeft.Panel1.PerformLayout();
+            this.splitContainerLeft.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerLeft)).EndInit();
+            this.splitContainerLeft.ResumeLayout(false);
+            this.SplitContainerRight.Panel1.ResumeLayout(false);
+            this.SplitContainerRight.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.SplitContainerRight)).EndInit();
+            this.SplitContainerRight.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.splitContainerSampleSource.Panel1.ResumeLayout(false);
             this.splitContainerSampleSource.Panel2.ResumeLayout(false);
             this.splitContainerSampleSource.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerSampleSource)).EndInit();
             this.splitContainerSampleSource.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -338,7 +361,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         #endregion
 
         private System.Windows.Forms.Label lblInformation;
-        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.SplitContainer splitContainerMain;
         private System.Windows.Forms.TreeView treeViewLeft;
         private System.Windows.Forms.Panel pnlTop;
         private System.Windows.Forms.ToolStripMenuItem miViewCode;
@@ -351,10 +374,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private Label labelSampleDescription;
         private Label labelSampleName;
         private SplitContainer splitContainerSampleSource;
-        private Button btnSource;
-        private SplitContainer splitContainer2;
+        private SplitContainer splitContainerLeft;
         private TextBox txtSearch;
         private Label lblSearch;
+        private SplitContainer SplitContainerRight;
+        private Button btnSource;
     }
 }
 
