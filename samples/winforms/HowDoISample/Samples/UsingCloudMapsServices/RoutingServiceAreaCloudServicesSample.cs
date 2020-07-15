@@ -11,7 +11,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public class RoutingServiceAreaCloudServicesSample: UserControl
     {
-        private RoutingCloudClient routingCloudClient;
+        private MyRoutingCloudClient routingCloudClient;
         private Collection<TimeSpan> serviceAreaIntervals;
         public RoutingServiceAreaCloudServicesSample()
         {
@@ -65,7 +65,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             };
 
             // Initialize the RoutingCloudClient with our ThinkGeo Cloud Client credentials
-            routingCloudClient = new RoutingCloudClient("FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~", "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~");
+            routingCloudClient = new MyRoutingCloudClient("FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~", "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~");
 
             // Run a sample query
             PointShape samplePoint = new PointShape(-10776836.140633, 3912350.714164);

@@ -10,7 +10,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public class RoutingTSPCloudServicesSample: UserControl
     {
-        private RoutingCloudClient routingCloudClient;
+        private MyRoutingCloudClient routingCloudClient;
         private Collection<PointShape> routingWaypoints;
 
         public RoutingTSPCloudServicesSample()
@@ -72,7 +72,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
 
             // Initialize the RoutingCloudClient with our ThinkGeo Cloud Client credentials
-            routingCloudClient = new RoutingCloudClient("FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~", "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~");
+            routingCloudClient = new MyRoutingCloudClient("FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~", "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~");
 
             // Run the routing request
             RouteWaypoints();
@@ -219,8 +219,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -236,7 +236,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.lsbRouteSegments);
@@ -248,14 +248,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // lsbRouteSegments
             // 
-            this.lsbRouteSegments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.lsbRouteSegments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lsbRouteSegments.FormattingEnabled = true;
-            this.lsbRouteSegments.ItemHeight = 16;
             this.lsbRouteSegments.Location = new System.Drawing.Point(14, 62);
             this.lsbRouteSegments.Name = "lsbRouteSegments";
-            this.lsbRouteSegments.Size = new System.Drawing.Size(270, 532);
+            this.lsbRouteSegments.Size = new System.Drawing.Size(270, 524);
             this.lsbRouteSegments.TabIndex = 1;
             this.lsbRouteSegments.SelectedIndexChanged += new System.EventHandler(this.lsbRouteSegments_SelectedIndexChanged);
             // 
@@ -266,7 +265,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(9, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(289, 50);
+            this.label1.Size = new System.Drawing.Size(236, 40);
             this.label1.TabIndex = 0;
             this.label1.Text = "Find the Optimal Route Through\r\na Set of Waypoints";
             // 
