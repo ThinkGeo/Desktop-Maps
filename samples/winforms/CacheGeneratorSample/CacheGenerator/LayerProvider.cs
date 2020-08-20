@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using ThinkGeo.MapSuite.Layers;
 using ThinkGeo.MapSuite.Styles;
 
@@ -26,26 +26,27 @@ namespace CacheGenerator
             ZoomLevelSet zoomLevelSet = new ZoomLevelSet();
 
             Collection<double> scalesToCache = new Collection<double>();
-            scalesToCache.Add(zoomLevelSet.ZoomLevel01.Scale);
-            scalesToCache.Add(zoomLevelSet.ZoomLevel02.Scale);
-            scalesToCache.Add(zoomLevelSet.ZoomLevel03.Scale);
-            scalesToCache.Add(zoomLevelSet.ZoomLevel04.Scale);
-            scalesToCache.Add(zoomLevelSet.ZoomLevel05.Scale);
-            scalesToCache.Add(zoomLevelSet.ZoomLevel06.Scale);
-            scalesToCache.Add(zoomLevelSet.ZoomLevel07.Scale);
-            scalesToCache.Add(zoomLevelSet.ZoomLevel08.Scale);
-            scalesToCache.Add(zoomLevelSet.ZoomLevel09.Scale);
-            scalesToCache.Add(zoomLevelSet.ZoomLevel10.Scale);
-            scalesToCache.Add(zoomLevelSet.ZoomLevel11.Scale);
-            scalesToCache.Add(zoomLevelSet.ZoomLevel12.Scale);
-            scalesToCache.Add(zoomLevelSet.ZoomLevel13.Scale);
-            scalesToCache.Add(zoomLevelSet.ZoomLevel14.Scale);
-            scalesToCache.Add(zoomLevelSet.ZoomLevel15.Scale);
-            scalesToCache.Add(zoomLevelSet.ZoomLevel16.Scale);
-            scalesToCache.Add(zoomLevelSet.ZoomLevel17.Scale);
-            scalesToCache.Add(zoomLevelSet.ZoomLevel18.Scale);
-            scalesToCache.Add(zoomLevelSet.ZoomLevel19.Scale);
-            scalesToCache.Add(zoomLevelSet.ZoomLevel20.Scale);
+            
+            scalesToCache.Add(591657550.5);
+            scalesToCache.Add(295828775.3);
+            scalesToCache.Add(147914387.6);
+            scalesToCache.Add(73957193.82);
+            scalesToCache.Add(36978596.91);
+            scalesToCache.Add(18489298.45);
+            scalesToCache.Add(9244649.227);
+            scalesToCache.Add(4622324.614);
+            scalesToCache.Add(2311162.307);
+            scalesToCache.Add(1155581.153);
+            scalesToCache.Add(577790.576699999);
+            scalesToCache.Add(288895.288400004);
+            scalesToCache.Add(144447.644199997);
+            scalesToCache.Add(72223.8220900015);
+            scalesToCache.Add(36111.9110399974);
+            scalesToCache.Add(18055.9555200035);
+            scalesToCache.Add(9027.97776099859);
+            scalesToCache.Add(4513.98888000326);
+            scalesToCache.Add(2256.99443999686);
+            scalesToCache.Add(1128.4972200032);
 
             return scalesToCache;
         }
