@@ -12,7 +12,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
     /// <summary>
     /// Learn how to use layer query tools to find features in a layer within a given distance of a point
     /// </summary>
-    public partial class GetFeaturesWithinDistanceSample : UserControl
+    public partial class GetFeaturesWithinDistanceSample : UserControl, IDisposable
     {
         public GetFeaturesWithinDistanceSample()
         {
@@ -152,5 +152,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
                 YOffset = -17
             };
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

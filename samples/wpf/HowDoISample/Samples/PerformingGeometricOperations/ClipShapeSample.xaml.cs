@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -9,7 +10,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to clip a shape from another shape
     /// </summary>
-    public partial class ClipShapeSample : UserControl
+    public partial class ClipShapeSample : UserControl, IDisposable
     {
         public ClipShapeSample()
         {
@@ -98,6 +99,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Redraw the layerOverlay to see the clip feature on the map
             layerOverlay.Refresh();
+        }
+
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }

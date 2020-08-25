@@ -1,14 +1,16 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public partial class Samples : Form
-    {                
+    {
         List<MenuModel> menus;
 
         public Samples()
@@ -20,14 +22,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             // Load the menu system from the JSON that represents the treeview               
             menus = JsonConvert.DeserializeObject<List<MenuModel>>(File.ReadAllText("samples.json"));
-            
+
             // Get all the tree nodes
             TreeNode[] treeNodes = GetTreeNodes(menus);
 
             //  Add all the tree nodes, we wrp it in an updated to more efficiently redraw the tree
             treeViewLeft.BeginUpdate();
             this.treeViewLeft.Nodes.AddRange(treeNodes);
-            
+
             // Expand and select the first sample
             treeViewLeft.Nodes[0].Expand();
             treeViewLeft.SelectedNode = treeViewLeft.Nodes[0].Nodes[0];
@@ -95,20 +97,24 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             // Get the model by the title in the tree
             MenuModel selectedNode = GetMenuModelByTitle(menus, e.Node.Text);
-            
+
             // In the case of a menu item just select it's child
             if (selectedNode.Id == null)
             {
                 selectedNode = selectedNode.Children[0];
             }
 
-            // Create the new control for the right hand side view
             var userControlType = Type.GetType(selectedNode.Id);
             UserControl currentUserControl = (UserControl)Activator.CreateInstance(userControlType);
 
             // Remove the old control and add the new one
             currentUserControl.Size = pnlOption.Size;
-            pnlOption.Controls.Clear();
+
+            if (pnlOption.Controls.Count > 0)
+            {
+                pnlOption.Controls[0].Dispose();            
+            }
+
             pnlOption.Controls.Add(currentUserControl);
 
             // Set the new samples title and description
@@ -118,7 +124,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Setup the source code view area
             string uri = GetHtmlPath(selectedNode.Source + ".cs");
             Uri webUri = new Uri(@uri);
-            cSharpBrowser.Url = webUri;            
+            cSharpBrowser.Url = webUri;
         }
 
         private string GetHtmlPath(string filename)
@@ -211,7 +217,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // to only the samples that match
             if (e.KeyCode == Keys.Enter)
             {
-                if (txtSearch.Text == "")                
+                if (txtSearch.Text == "")
                 {
                     treeViewLeft.CollapseAll();
 
@@ -233,7 +239,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private void ResetTreeviewItemsColor(TreeNode item)
         {
             // Enable just the tree view items that match the search criteria
-            item.BackColor = Color.FromArgb(0, 45, 48, 53);           
+            item.BackColor = Color.FromArgb(0, 45, 48, 53);
 
             foreach (TreeNode subItem in item.Nodes)
             {

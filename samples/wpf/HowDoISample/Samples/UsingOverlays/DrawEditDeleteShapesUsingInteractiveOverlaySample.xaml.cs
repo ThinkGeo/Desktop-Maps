@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -9,7 +10,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn to draw, edit, or delete shapes using the map's TrackOverlay and EditOverlay.
     /// </summary>
-    public partial class DrawEditDeleteShapesUsingInteractiveOverlaySample : UserControl
+    public partial class DrawEditDeleteShapesUsingInteractiveOverlaySample : UserControl, IDisposable
     {
         public DrawEditDeleteShapesUsingInteractiveOverlaySample()
         {
@@ -228,5 +229,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 mapView.Refresh(layerOverlay);
             }
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

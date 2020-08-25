@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
 
@@ -7,7 +8,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector
     /// <summary>
     /// Interaction logic for ShapefileLayer.xaml
     /// </summary>
-    public partial class ShapefileLayerSample : UserControl
+    public partial class ShapefileLayerSample : UserControl, IDisposable
     {
         public ShapefileLayerSample()
         {
@@ -25,7 +26,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector
 
             // Create a new overlay that will hold our new layer and add it to the map.
             LayerOverlay parksOverlay = new LayerOverlay();
-            mapView.Overlays.Add(parksOverlay);
+            mapView.Overlays.Add("parks overlay",parksOverlay);
 
             // Create the new layer and set the projection as the data is in srid 2276 and our background is srid 3857 (spherical mercator).
             ShapeFileFeatureLayer parksLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Parks.shp");
@@ -47,7 +48,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector
             mapView.CurrentExtent = new RectangleShape(-10785086.173498387, 3913489.693302595, -10779919.030415015, 3910065.3144544438);
 
             // Refresh the map.
-            mapView.Refresh();
+            mapView.Refresh();            
+        }
+
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }

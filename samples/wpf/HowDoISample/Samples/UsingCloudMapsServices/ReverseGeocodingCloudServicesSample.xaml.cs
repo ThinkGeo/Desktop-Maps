@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Windows;
@@ -10,7 +11,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
     /// <summary>
     /// Learn how to use the ReverseGeocodingCloudClient to access the ReverseGeocoding APIs available from the ThinkGeo Cloud
     /// </summary>
-    public partial class ReverseGeocodingCloudServicesSample : UserControl
+    public partial class ReverseGeocodingCloudServicesSample : UserControl, IDisposable
     {
         private ReverseGeocodingCloudClient reverseGeocodingCloudClient;
 
@@ -335,5 +336,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
 
             return true;
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

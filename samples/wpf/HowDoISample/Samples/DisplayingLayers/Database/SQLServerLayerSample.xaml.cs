@@ -4,13 +4,14 @@ using ThinkGeo.UI.Wpf;
 using ThinkGeo.Core;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using System;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Interaction logic for Placeholder.xaml
     /// </summary>
-    public partial class SQLServerLayerSample : UserControl
+    public partial class SQLServerLayerSample : UserControl, IDisposable
     {
         public SQLServerLayerSample()
         {
@@ -84,5 +85,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             //target.Close();
         }
 
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
     }
 }

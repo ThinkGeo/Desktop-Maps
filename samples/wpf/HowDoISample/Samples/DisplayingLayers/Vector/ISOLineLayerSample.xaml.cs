@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
@@ -12,7 +13,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Interaction logic for Placeholder.xaml
     /// </summary>
-    public partial class ISOLineLayerSample : UserControl
+    public partial class ISOLineLayerSample : UserControl, IDisposable
     {
         public ISOLineLayerSample()
         {
@@ -130,6 +131,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             dynamicIsoLineLayer.CustomStyles.Add(textStyle);
 
             return dynamicIsoLineLayer;
+        }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
 
         // ========================================================

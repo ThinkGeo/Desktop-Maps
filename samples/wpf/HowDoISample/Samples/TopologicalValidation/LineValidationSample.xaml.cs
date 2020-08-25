@@ -9,7 +9,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
     /// <summary>
     /// Learn how to use the TopologyValidator APIs to perform validation on points
     /// </summary>
-    public partial class LineValidationSample : UserControl
+    public partial class LineValidationSample : UserControl, IDisposable
     {
         public LineValidationSample()
         {
@@ -393,6 +393,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
             validatedFeaturesLayer.Close();
             filterFeaturesLayer.Close();
             resultFeaturesLayer.Close();
+        }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }

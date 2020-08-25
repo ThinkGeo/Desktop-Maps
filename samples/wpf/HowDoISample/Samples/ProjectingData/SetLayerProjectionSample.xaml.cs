@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -8,7 +9,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.ProjectingData
     /// <summary>
     /// Learn how to automatically reproject a layer using the ProjectionConverter class
     /// </summary>
-    public partial class SetLayerProjectionSample : UserControl
+    public partial class SetLayerProjectionSample : UserControl, IDisposable
     {
         public SetLayerProjectionSample()
         {
@@ -64,5 +65,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.ProjectingData
             subdivisionsLayer.Close();
             mapView.Refresh();
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

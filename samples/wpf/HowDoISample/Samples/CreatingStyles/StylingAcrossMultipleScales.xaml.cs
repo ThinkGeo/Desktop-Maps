@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using ThinkGeo.Core;
@@ -9,7 +10,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to style layers across multiple scales using different styles assigned to different ZoomLevels.
     /// </summary>
-    public partial class StylingAcrossMultipleScales : UserControl
+    public partial class StylingAcrossMultipleScales : UserControl, IDisposable
     {
         public StylingAcrossMultipleScales()
         {
@@ -211,6 +212,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
 
             parksLayer.ZoomLevelSet.ZoomLevel15.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+        }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }

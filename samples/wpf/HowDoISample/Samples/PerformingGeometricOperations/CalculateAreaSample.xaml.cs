@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -9,7 +10,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to calculate the area of a feature
     /// </summary>
-    public partial class CalculateAreaSample : UserControl
+    public partial class CalculateAreaSample : UserControl, IDisposable
     {
         public CalculateAreaSample()
         {
@@ -81,6 +82,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Display the selectedArea's area in the areaResult TextBox
             areaResult.Text = $"{area:f3} sq km";
+        }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }

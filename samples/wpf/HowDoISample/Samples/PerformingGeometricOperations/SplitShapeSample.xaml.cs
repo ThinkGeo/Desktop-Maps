@@ -11,7 +11,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// TODO: This sample is a Work In Progress and is disabled in the app!
     /// Learn how to split a shape into multiple shapes
     /// </summary>
-    public partial class SplitShapeSample : UserControl
+    public partial class SplitShapeSample : UserControl, IDisposable
     {
         public SplitShapeSample()
         {
@@ -96,5 +96,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Redraw the layerOverlay to see the split features on the map
             layerOverlay.Refresh();
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

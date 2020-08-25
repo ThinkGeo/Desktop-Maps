@@ -11,7 +11,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
     /// <summary>
     /// Learn how to use the MapsQueryClient to query the WorldMaps dataset available from the ThinkGeo Cloud
     /// </summary>
-    public partial class WorldMapsQueryCloudServicesSample : UserControl
+    public partial class WorldMapsQueryCloudServicesSample : UserControl, IDisposable
     {
         private MapsQueryCloudClient mapsQueryCloudClient;
 
@@ -241,5 +241,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             queryShapeFeatureLayer.InternalFeatures.Clear();
             queriedFeaturesOverlay.Refresh();
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

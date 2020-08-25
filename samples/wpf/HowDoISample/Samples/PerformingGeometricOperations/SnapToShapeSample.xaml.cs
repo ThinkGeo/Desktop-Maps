@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
 using ThinkGeo.UI.Wpf;
@@ -9,7 +10,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// TODO: This sample is a Work In Progress and is disabled in the app!
     /// Learn how to snap a shape to a nearby shape for precise placement.
     /// </summary>
-    public partial class SnapToShapeSample : UserControl
+    public partial class SnapToShapeSample : UserControl, IDisposable
     {
         public SnapToShapeSample()
         {
@@ -69,5 +70,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // WIP
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

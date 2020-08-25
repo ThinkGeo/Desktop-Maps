@@ -11,7 +11,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Interaction logic for Placeholder.xaml
     /// </summary>
-    public partial class NOAAWeatherStationLayerSample : UserControl
+    public partial class NOAAWeatherStationLayerSample : UserControl, IDisposable
     {
         public NOAAWeatherStationLayerSample()
         {
@@ -69,6 +69,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Here we fresh the map based on the delegate that fires when the feature source has new data.            
             mapView.Refresh(mapView.Overlays["Weather"]);
             loadingImage.Visibility = Visibility.Hidden;
+        }
+
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }

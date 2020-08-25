@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
     /// <summary>
     /// Learn how to use the RoutingCloudClient to route through a set of waypoints with the ThinkGeo Cloud
     /// </summary>
-    public partial class RoutingCloudServicesSample : UserControl
+    public partial class RoutingCloudServicesSample : UserControl, IDisposable
     {
         private RoutingCloudClient routingCloudClient;
 
@@ -185,5 +186,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
                 mapView.Refresh();
             }
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

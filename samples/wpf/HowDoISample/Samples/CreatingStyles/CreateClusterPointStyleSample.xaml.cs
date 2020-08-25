@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
 using ThinkGeo.UI.Wpf;
@@ -8,7 +9,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to cluster point data dynamically using a ClusterPointStyle
     /// </summary>
-    public partial class CreateClusterPointStyleSample : UserControl
+    public partial class CreateClusterPointStyleSample : UserControl, IDisposable
     {
         public CreateClusterPointStyleSample()
         {
@@ -77,6 +78,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the point style on every zoom level on the map.
             layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+        }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
 using ThinkGeo.UI.Wpf;
@@ -8,7 +9,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn to render a PanZoomBar on the map.
     /// </summary>
-    public partial class DisplayMapPanZoomBarSample : UserControl
+    public partial class DisplayMapPanZoomBarSample : UserControl, IDisposable
     {
         public DisplayMapPanZoomBarSample()
         {
@@ -46,5 +47,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             mapView.MapTools.PanZoomBar.IsEnabled = false;
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

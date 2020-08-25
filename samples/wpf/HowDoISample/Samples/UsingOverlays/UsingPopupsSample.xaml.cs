@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
 using ThinkGeo.UI.Wpf;
@@ -8,7 +9,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn to add, edit, or remove popups on the map using the PopupOverlay.
     /// </summary>
-    public partial class UsingPopupsSample : UserControl
+    public partial class UsingPopupsSample : UserControl, IDisposable
     {
         public UsingPopupsSample()
         {
@@ -70,5 +71,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.Overlays.Add(popupOverlay);
             mapView.Refresh();
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

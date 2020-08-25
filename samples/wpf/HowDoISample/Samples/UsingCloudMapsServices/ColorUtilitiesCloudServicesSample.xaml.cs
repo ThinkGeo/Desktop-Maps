@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
     /// <summary>
     /// Learn how to use the ColorCloudClient class to access the ColorUtilities APIs available from the ThinkGeo Cloud
     /// </summary>
-    public partial class ColorUtilitiesCloudServicesSample : UserControl
+    public partial class ColorUtilitiesCloudServicesSample : UserControl, IDisposable
     {
         private ColorCloudClient colorCloudClient;
         private Collection<RadioButton> baseColorRadioButtons;
@@ -588,5 +589,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
                 }
             }
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

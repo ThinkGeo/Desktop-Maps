@@ -3,13 +3,14 @@ using System.Windows.Controls;
 using ThinkGeo.UI.Wpf;
 using ThinkGeo.Core;
 using System.Diagnostics;
+using System;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Interaction logic for Placeholder.xaml
     /// </summary>
-    public partial class GoogleMapLayerSample : UserControl
+    public partial class GoogleMapLayerSample : UserControl, IDisposable
     {
         public GoogleMapLayerSample()
         {
@@ -52,6 +53,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
             e.Handled = true;
+        }
+
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }

@@ -2,13 +2,14 @@
 using System.Windows.Controls;
 using ThinkGeo.UI.Wpf;
 using ThinkGeo.Core;
+using System;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Interaction logic for Placeholder.xaml
     /// </summary>
-    public partial class TABLayerSample : UserControl
+    public partial class TABLayerSample : UserControl, IDisposable
     {
         public TABLayerSample()
         {
@@ -48,6 +49,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Refresh the map.
             mapView.Refresh();
+        }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }

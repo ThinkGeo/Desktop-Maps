@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -10,7 +11,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
     /// <summary>
     /// Learn how to use layer query tools to find which features in a layer are touching a shape
     /// </summary>
-    public partial class TouchesSample : UserControl
+    public partial class TouchesSample : UserControl, IDisposable
     {
         public TouchesSample()
         {
@@ -161,5 +162,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
             mapView.TrackOverlay.TrackMode = TrackMode.None;
             mapView.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

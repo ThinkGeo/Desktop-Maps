@@ -13,7 +13,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
     /// <summary>
     /// Learn how to use the RoutingCloudClient to find the service area of a location with the ThinkGeo Cloud
     /// </summary>
-    public partial class RoutingServiceAreaCloudServicesSample : UserControl
+    public partial class RoutingServiceAreaCloudServicesSample : UserControl, IDisposable
     {
         private RoutingCloudClient routingCloudClient;
         private Collection<TimeSpan> serviceAreaIntervals;
@@ -212,5 +212,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
                 YOffset = -17
             };
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

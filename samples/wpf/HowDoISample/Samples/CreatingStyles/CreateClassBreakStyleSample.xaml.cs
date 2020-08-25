@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,7 +11,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to selectively style features based on numerical data using a ClassBreakStyle
     /// </summary>
-    public partial class CreateClassBreakStyleSample : UserControl
+    public partial class CreateClassBreakStyleSample : UserControl, IDisposable
     {
         public CreateClassBreakStyleSample()
         {
@@ -90,6 +91,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Add and apply the ClassBreakStyle to the housingUnitsLayer
             layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(housingUnitsStyle);
             layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+        }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }

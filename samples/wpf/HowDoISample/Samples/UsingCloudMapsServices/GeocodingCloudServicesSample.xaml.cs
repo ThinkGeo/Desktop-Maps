@@ -10,7 +10,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
     /// <summary>
     /// Learn how to use the GeocodingCloudClient to access the Geocoding APIs available from the ThinkGeo Cloud
     /// </summary>
-    public partial class GeocodingCloudServicesSample : UserControl
+    public partial class GeocodingCloudServicesSample : UserControl, IDisposable
     {
         private GeocodingCloudClient geocodingCloudClient;
 
@@ -236,6 +236,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
                 Height = 34,
                 YOffset = -17
             };
+        }
+
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }
