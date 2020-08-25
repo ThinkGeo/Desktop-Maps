@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
 using ThinkGeo.UI.Wpf;
@@ -8,7 +9,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Interaction logic for Placeholder.xaml
     /// </summary>
-    public partial class CachingMapTilesSample : UserControl
+    public partial class CachingMapTilesSample : UserControl, IDisposable
     {
         ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay;
 
@@ -48,5 +49,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             thinkGeoCloudVectorMapsOverlay.TileCache = null;
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

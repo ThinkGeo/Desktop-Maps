@@ -10,7 +10,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn to add, edit, or remove markers on the map using the MarkerOverlay.
     /// </summary>
-    public partial class UsingMarkersSample : UserControl
+    public partial class UsingMarkersSample : UserControl, IDisposable
     {
         public UsingMarkersSample()
         {
@@ -90,6 +90,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             SimpleMarkerOverlay simpleMarkerOverlay = (SimpleMarkerOverlay)mapView.Overlays["simpleMarkerOverlay"];
             simpleMarkerOverlay.DragMode = MarkerDragMode.CopyWithShiftKey;
+        }
+
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }

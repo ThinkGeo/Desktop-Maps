@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Printing;
@@ -13,7 +14,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn to print maps using the PrintOverlay.
     /// </summary>
-    public partial class PrintMapsUsingPrintOverlaySample : UserControl
+    public partial class PrintMapsUsingPrintOverlaySample : UserControl, IDisposable
     {
         public PrintMapsUsingPrintOverlaySample()
         {
@@ -244,5 +245,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Add the dataGridLayer to the the PrinterLayers collection to print later
             printerOverlay.PrinterLayers.Add(dataGridLayer);
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

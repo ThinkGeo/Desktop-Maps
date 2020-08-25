@@ -9,7 +9,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn to render a Web Map Service using the WMSOverlay.
     /// </summary>
-    public partial class DisplayWMSOverlaySample : UserControl
+    public partial class DisplayWMSOverlaySample : UserControl, IDisposable
     {
         public DisplayWMSOverlaySample()
         {
@@ -39,5 +39,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             wmsOverlay.Parameters.Add("CRS", "EPSG:3857");  // Make sure to match the WMS CRS to the Map's projection
             mapView.Overlays.Add(wmsOverlay);
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

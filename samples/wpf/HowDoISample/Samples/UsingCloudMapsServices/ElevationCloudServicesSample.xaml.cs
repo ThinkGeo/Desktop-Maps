@@ -1,4 +1,5 @@
 ﻿using NetTopologySuite.Geometries;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,7 +10,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
     /// <summary>
     /// Learn how to use the ElevationCloudClient class to get elevation data from the ThinkGeo Cloud
     /// </summary>
-    public partial class ElevationCloudServicesSample : UserControl
+    public partial class ElevationCloudServicesSample : UserControl, IDisposable
     {
         private ElevationCloudClient elevationCloudClient;
 
@@ -225,5 +226,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             // Set the drawing mode to 'Polygon'
             mapView.TrackOverlay.TrackMode = TrackMode.Polygon;
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

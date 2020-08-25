@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,7 +11,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Interaction logic for Placeholder.xaml
     /// </summary>
-    public partial class PostgresLayerSample : UserControl
+    public partial class PostgresLayerSample : UserControl, IDisposable
     {
         public PostgresLayerSample()
         {
@@ -80,6 +81,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             //target.Open();
             //var features = target.GetAllFeatures(ReturningColumnsType.AllColumns);
             //target.Close();
+        }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }

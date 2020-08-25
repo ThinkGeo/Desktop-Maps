@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
 using ThinkGeo.UI.Wpf;
@@ -8,7 +9,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Interaction logic for Placeholder.xaml
     /// </summary>
-    public partial class OracleLayerSample : UserControl
+    public partial class OracleLayerSample : UserControl, IDisposable
     {
         public OracleLayerSample()
         {
@@ -45,6 +46,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Refresh the map.
             mapView.Refresh();
+        }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }

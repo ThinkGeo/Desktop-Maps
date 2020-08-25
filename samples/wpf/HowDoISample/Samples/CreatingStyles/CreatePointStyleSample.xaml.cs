@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
 using ThinkGeo.UI.Wpf;
@@ -8,7 +9,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to style point data using a PointStyle
     /// </summary>
-    public partial class CreatePointStyleSample : UserControl
+    public partial class CreatePointStyleSample : UserControl, IDisposable
     {
         public CreatePointStyleSample()
         {
@@ -120,6 +121,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Refresh the layerOverlay to show the new style
             layerOverlay.Refresh();
+        }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }

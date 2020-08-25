@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -9,7 +10,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to calculate the center point of a feature
     /// </summary>
-    public partial class CalculateCenterPointSample : UserControl
+    public partial class CalculateCenterPointSample : UserControl, IDisposable
     {
         public CalculateCenterPointSample()
         {
@@ -123,6 +124,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             {
                 CalculateCenterPoint(centerPointLayer.InternalFeatures["selectedFeature"]);
             }
+        }
+
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }

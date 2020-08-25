@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
 using ThinkGeo.UI.Wpf;
@@ -8,7 +9,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn to render OpenStreetMap using the OpenStreetMapOverlay.
     /// </summary>
-    public partial class DisplayOpenStreetMapOverlaySample : UserControl
+    public partial class DisplayOpenStreetMapOverlaySample : UserControl, IDisposable
     {
         public DisplayOpenStreetMapOverlaySample()
         {
@@ -39,5 +40,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.Overlays.Add(osmMapsOverlay);
             mapView.Refresh();
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

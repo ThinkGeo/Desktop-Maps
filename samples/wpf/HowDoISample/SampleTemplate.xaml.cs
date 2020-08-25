@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
 
@@ -7,7 +8,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Interaction logic for SampleTemplate.xaml
     /// </summary>
-    public partial class SampleTemplate : UserControl
+    public partial class SampleTemplate : UserControl, IDisposable
     {
         public SampleTemplate()
         {
@@ -31,6 +32,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.Overlays.Add(worldOverlay);
 
             mapView.Refresh();
+        }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }
