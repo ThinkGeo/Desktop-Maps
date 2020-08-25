@@ -152,6 +152,9 @@
     <Compile Update="Samples\CreatingStyles\StylingAcrossMultipleScales.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="Samples\UsingOverlays\RefreshDynamicItemsSample.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="Style2\RotatePointWithTextStyle.cs" />
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>

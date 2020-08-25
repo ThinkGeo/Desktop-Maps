@@ -512,6 +512,9 @@
     <Page Update="Samples\UsingMapTools\DisplayMapPanZoomBarSample.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Samples\UsingOverlays\RefreshDynamicItems.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Samples\UsingOverlays\DrawEditDeleteShapesUsingInteractiveOverlaySample.xaml">
       <SubType>Designer</SubType>
     </Page>
