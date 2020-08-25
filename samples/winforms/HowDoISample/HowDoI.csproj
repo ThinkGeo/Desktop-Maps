@@ -62,20 +62,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NetTopologySuite" Version="2.0.0" />
+    <PackageReference Include="NetTopologySuite" Version="2.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="System.Data.OleDb" Version="5.0.0-preview.6.20305.6" />
-    <PackageReference Include="ThinkGeo.Ecw" Version="12.2.15" />
-    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="12.2.15" />
-    <PackageReference Include="ThinkGeo.MrSid" Version="12.2.15" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="12.2.15" />
-    <PackageReference Include="ThinkGeo.Oracle" Version="12.2.16" />
-    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="12.2.15" />
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="12.2.15" />
-    <PackageReference Include="ThinkGeo.Printers" Version="12.2.15" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="12.2.15" />
-    <PackageReference Include="ThinkGeo.UI.WinForms" Version="12.2.8" />
-    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="12.2.15" />
+    <PackageReference Include="System.Data.OleDb" Version="4.7.1" />
+    <PackageReference Include="ThinkGeo.Ecw" Version="12.2.19" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="12.2.19" />
+    <PackageReference Include="ThinkGeo.MrSid" Version="12.2.19" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="12.2.19" />
+    <PackageReference Include="ThinkGeo.Oracle" Version="12.2.20" />
+    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="12.2.19" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="12.2.19" />
+    <PackageReference Include="ThinkGeo.Printers" Version="12.2.19" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="12.2.19" />
+    <PackageReference Include="ThinkGeo.UI.WinForms" Version="12.2.12" />
+    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="12.2.19" />
   </ItemGroup>
 
   <ItemGroup>

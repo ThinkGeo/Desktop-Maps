@@ -9,7 +9,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.ProjectingData
     /// <summary>
     /// Learn how to reproject features using the ProjectionConverter class
     /// </summary>
-    public partial class ProjectLatLonCoordinatesSample : UserControl
+    public partial class ProjectLatLonCoordinatesSample : UserControl, IDisposable
     {
         public ProjectLatLonCoordinatesSample()
         {
@@ -152,5 +152,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.ProjectingData
             // Add the reprojected features to the map
             ClearMapAndAddFeatures(sphericalMercatorFeatures);
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

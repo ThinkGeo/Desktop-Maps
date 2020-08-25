@@ -85,6 +85,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (SampleContent.Children.Count > 0)
                 {
                     UserControl oldCOntrol = (UserControl)SampleContent.Children[0];
+                    if(oldCOntrol is IDisposable)
+                    {
+                        ((IDisposable)oldCOntrol).Dispose();
+                    }                    
                     SampleContent.Children.Remove(oldCOntrol);
                     SampleContent.DataContext = null;
                     oldCOntrol.DataContext = null;

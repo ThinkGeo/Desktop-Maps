@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -9,7 +10,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn to render ThinkGeo Cloud Maps in vector format.
     /// </summary>
-    public partial class DisplayCloudMapsVectorOverlaySample : UserControl
+    public partial class DisplayCloudMapsVectorOverlaySample : UserControl, IDisposable
     {
         public DisplayCloudMapsVectorOverlaySample()
         {
@@ -46,5 +47,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
             e.Handled = true;
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

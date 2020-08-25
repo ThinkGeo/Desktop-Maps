@@ -9,7 +9,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to translate a shape
     /// </summary>
-    public partial class TranslateShapeSample : UserControl
+    public partial class TranslateShapeSample : UserControl, IDisposable
     {
         public TranslateShapeSample()
         {
@@ -111,6 +111,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Redraw the layerOverlay to see the translated feature on the map
             layerOverlay.Refresh();
+        }
+
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }

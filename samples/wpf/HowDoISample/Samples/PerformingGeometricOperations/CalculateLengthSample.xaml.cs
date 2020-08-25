@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -9,7 +10,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to calculate the length of a line
     /// </summary>
-    public partial class CalculateLengthSample : UserControl
+    public partial class CalculateLengthSample : UserControl, IDisposable
     {
         public CalculateLengthSample()
         {
@@ -81,6 +82,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Display the selectedLine's length in the lengthResult TextBox
             lengthResult.Text = $"{length:f3} km";
+        }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }

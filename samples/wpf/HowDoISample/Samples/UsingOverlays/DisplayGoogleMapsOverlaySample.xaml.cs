@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -10,7 +11,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// Learn to render Google Maps using the GoogleMapsOverlay.
     /// A Google Maps API key and secret is required.
     /// </summary>
-    public partial class DisplayGoogleMapsOverlaySample : UserControl
+    public partial class DisplayGoogleMapsOverlaySample : UserControl, IDisposable
     {
         public DisplayGoogleMapsOverlaySample()
         {
@@ -47,5 +48,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
             e.Handled = true;
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

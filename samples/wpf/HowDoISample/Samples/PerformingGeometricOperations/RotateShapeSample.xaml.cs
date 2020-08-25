@@ -9,7 +9,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to rotate a shape
     /// </summary>
-    public partial class RotateShapeSample : UserControl
+    public partial class RotateShapeSample : UserControl, IDisposable
     {
         public RotateShapeSample()
         {
@@ -84,5 +84,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Redraw the layerOverlay to see the rotated feature on the map
             layerOverlay.Refresh();
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

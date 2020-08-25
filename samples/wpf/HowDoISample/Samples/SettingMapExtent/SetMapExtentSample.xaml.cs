@@ -9,7 +9,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to set the map extent using a variety of different methods.
     /// </summary>
-    public partial class SetMapExtentSample : UserControl
+    public partial class SetMapExtentSample : UserControl, IDisposable
     {
         ShapeFileFeatureLayer friscoCityBoundary;
 
@@ -99,5 +99,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Zoom to the converted lat-lon at the desired scale
             mapView.ZoomTo(convertedPoint, Convert.ToDouble(latlonScale.Text));
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

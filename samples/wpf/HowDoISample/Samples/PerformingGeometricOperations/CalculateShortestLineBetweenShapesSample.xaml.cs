@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -9,7 +10,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to calculate the shortest line between two shapes
     /// </summary>
-    public partial class CalculateShortestLineBetweenShapesSample : UserControl
+    public partial class CalculateShortestLineBetweenShapesSample : UserControl, IDisposable
     {
         public CalculateShortestLineBetweenShapesSample()
         {
@@ -101,6 +102,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Display the shortestLine's length in the distanceResult TextBox
             distanceResult.Text = $"{length:f3} km";
+        }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }

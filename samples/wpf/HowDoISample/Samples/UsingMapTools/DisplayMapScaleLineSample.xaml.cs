@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
 using ThinkGeo.UI.Wpf;
@@ -8,7 +9,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn to render a ScaleLine on the map in a variety of different of styles.
     /// </summary>
-    public partial class DisplayMapScaleLineSample : UserControl
+    public partial class DisplayMapScaleLineSample : UserControl, IDisposable
     {
         public DisplayMapScaleLineSample()
         {
@@ -46,5 +47,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             mapView.MapTools.ScaleLine.IsEnabled = false;
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

@@ -10,7 +10,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to get the envelope of a shape
     /// </summary>
-    public partial class GetEnvelopeSample : UserControl
+    public partial class GetEnvelopeSample : UserControl, IDisposable
     {
         public GetEnvelopeSample()
         {
@@ -85,5 +85,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Redraw the layerOverlay to see the envelope feature on the map
             layerOverlay.Refresh();
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

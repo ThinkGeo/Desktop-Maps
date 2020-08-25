@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -10,7 +11,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
     /// <summary>
     /// Learn how to use layer query tools to find which features in a layer intersect a shape
     /// </summary>
-    public partial class IntersectsSample : UserControl
+    public partial class IntersectsSample : UserControl, IDisposable
     {
         public IntersectsSample()
         {
@@ -163,5 +164,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
                 mapView.TrackOverlay.TrackMode = TrackMode.Polygon;
             }
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

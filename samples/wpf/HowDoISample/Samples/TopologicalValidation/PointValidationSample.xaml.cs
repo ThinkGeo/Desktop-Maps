@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -8,7 +9,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
     /// <summary>
     /// Learn how to use the TopologyValidator APIs to perform validation on points
     /// </summary>
-    public partial class PointValidationSample : UserControl
+    public partial class PointValidationSample : UserControl, IDisposable
     {
         public PointValidationSample()
         {
@@ -211,5 +212,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
             filterFeaturesLayer.Close();
             resultFeaturesLayer.Close();
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

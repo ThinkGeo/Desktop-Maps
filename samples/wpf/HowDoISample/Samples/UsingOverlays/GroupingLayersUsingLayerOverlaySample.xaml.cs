@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
 using ThinkGeo.UI.Wpf;
@@ -8,7 +9,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn to group layers into logical groups using LayerOverlays.
     /// </summary>
-    public partial class GroupingLayersUsingLayerOverlaySample : UserControl
+    public partial class GroupingLayersUsingLayerOverlaySample : UserControl, IDisposable
     {
         public GroupingLayersUsingLayerOverlaySample()
         {
@@ -140,5 +141,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             LayerOverlay poiOverlay = (LayerOverlay)mapView.Overlays["poiOverlay"];
             poiOverlay.IsVisible = false;
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
+
 }

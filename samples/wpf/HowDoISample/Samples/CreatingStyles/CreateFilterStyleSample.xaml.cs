@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
 using ThinkGeo.UI.Wpf;
@@ -8,7 +9,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to selectively style features using a FilterStyle
     /// </summary>
-    public partial class CreateFilterStyleSample : UserControl
+    public partial class CreateFilterStyleSample : UserControl, IDisposable
     {
         public CreateFilterStyleSample()
         {
@@ -85,6 +86,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(weaponFilterStyle);
             layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(vandalismFilterStyle);
             layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+        }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }

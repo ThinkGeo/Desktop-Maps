@@ -9,7 +9,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to simplify a shape's geometry
     /// </summary>
-    public partial class SimplifyShapeSample : UserControl
+    public partial class SimplifyShapeSample : UserControl, IDisposable
     {
         public SimplifyShapeSample()
         {
@@ -84,5 +84,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Redraw the layerOverlay to see the simplified feature on the map
             layerOverlay.Refresh();
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

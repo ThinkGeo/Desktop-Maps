@@ -10,7 +10,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
     /// <summary>
     /// Learn how to get data from a feature in a ShapeFile
     /// </summary>
-    public partial class GetDataFromFeatureSample : UserControl
+    public partial class GetDataFromFeatureSample : UserControl, IDisposable
     {
         public GetDataFromFeatureSample()
         {
@@ -118,5 +118,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
                 DisplayFeatureInfo(selectedFeature);
             }
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

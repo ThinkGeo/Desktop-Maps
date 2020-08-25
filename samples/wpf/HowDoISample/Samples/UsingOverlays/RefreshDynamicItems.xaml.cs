@@ -16,7 +16,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// This samples shows how to refresh points on the map based on some outside event
     /// </summary>
-    public partial class RefreshDynamicItems : UserControl
+    public partial class RefreshDynamicItems : UserControl, IDisposable
     {        
         bool cancelFeed;
         bool pauseFeed;
@@ -150,6 +150,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void PauseDataFeed_Unchecked(object sender, RoutedEventArgs e)
         {
             pauseFeed = false;
+        }
+
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }

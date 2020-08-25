@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -10,7 +11,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
     /// <summary>
     /// Learn how to use layer query tools to find which features in a layer a shape crosses
     /// </summary>
-    public partial class CrossesSample : UserControl
+    public partial class CrossesSample : UserControl, IDisposable
     {
         public CrossesSample()
         {
@@ -162,6 +163,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
                 // Set the drawing mode to 'Line'
                 mapView.TrackOverlay.TrackMode = TrackMode.Line;
             }
+        }
+
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }

@@ -6,13 +6,14 @@ using System.Windows.Threading;
 using System.Threading;
 using System.Collections.ObjectModel;
 using System.Text;
+using System;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Interaction logic for Placeholder.xaml
     /// </summary>
-    public partial class NOAAWeatherWarningLayerSample : UserControl
+    public partial class NOAAWeatherWarningLayerSample : UserControl, IDisposable
     {
         public NOAAWeatherWarningLayerSample()
         {
@@ -131,6 +132,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Refresh the overlay to redraw the popups
                 popupOverlay.Refresh();
             }
+        }
+
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
 
     }

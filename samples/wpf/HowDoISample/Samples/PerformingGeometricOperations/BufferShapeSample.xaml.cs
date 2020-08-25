@@ -9,7 +9,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to buffer a shape
     /// </summary>
-    public partial class BufferShapeSample : UserControl
+    public partial class BufferShapeSample : UserControl, IDisposable
     {
         public BufferShapeSample()
         {
@@ -83,6 +83,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Redraw the layerOverlay to see the buffered features on the map
             layerOverlay.Refresh();
+        }
+
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }

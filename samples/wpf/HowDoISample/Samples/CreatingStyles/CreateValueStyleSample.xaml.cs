@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -9,7 +10,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to selectively style features using a ValueStyle
     /// </summary>
-    public partial class CreateValueStyleSample : UserControl
+    public partial class CreateValueStyleSample : UserControl, IDisposable
     {
         public CreateValueStyleSample()
         {
@@ -95,6 +96,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Add the valueStyle to the friscoCrime layer's CustomStyles and apply the style to all ZoomLevels
             friscoCrime.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(valueStyle);
             friscoCrime.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+        }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }

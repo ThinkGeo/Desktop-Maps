@@ -2,13 +2,14 @@
 using System.Windows.Controls;
 using ThinkGeo.UI.Wpf;
 using ThinkGeo.Core;
+using System;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Interaction logic for Placeholder.xaml
     /// </summary>
-    public partial class FileGeoDatabaseLayerSample : UserControl
+    public partial class FileGeoDatabaseLayerSample : UserControl, IDisposable
     {
         public FileGeoDatabaseLayerSample()
         {
@@ -26,7 +27,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Create a new overlay that will hold our new layer and add it to the map.
             LayerOverlay fileGeoDatabaseOverlay = new LayerOverlay();
-            mapView.Overlays.Add(fileGeoDatabaseOverlay);
+            mapView.Overlays.Add("overlay", fileGeoDatabaseOverlay);
 
             // Create the new layer and set the projection as the data is in srid 2276 and our background is srid 3857 (spherical mercator).
             FileGeoDatabaseFeatureLayer fileGeoDatabaseFeatureLayer = new FileGeoDatabaseFeatureLayer(@"../../../Data/FileGeoDatabase/zoning.gdb");
@@ -46,6 +47,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             
             //Refresh the map.
             mapView.Refresh();
+        }
+
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();            
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
 
         //if (Directory.Exists("zoning.gdb"))

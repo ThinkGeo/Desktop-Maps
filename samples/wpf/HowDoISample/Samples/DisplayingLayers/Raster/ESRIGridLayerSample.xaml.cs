@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,7 +11,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Interaction logic for Placeholder.xaml
     /// </summary>
-    public partial class ESRIGridLayerSample : UserControl
+    public partial class ESRIGridLayerSample : UserControl, IDisposable
     {
         public ESRIGridLayerSample()
         {
@@ -85,6 +86,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         //FileStream stream = new FileStream(@"C:\temp\Mosquitos.grd", FileMode.Create, FileAccess.ReadWrite);
         //GridFeatureSource.GenerateGrid(new GridDefinition(RectangleShape.ScaleUp(mos.GetBoundingBox(),30).GetBoundingBox(), 300, -999, points), new InverseDistanceWeightedGridInterpolationModel(), stream);
         //stream.Close();
-
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
     }
+
 }

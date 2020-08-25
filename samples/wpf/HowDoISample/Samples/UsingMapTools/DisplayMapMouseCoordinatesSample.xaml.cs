@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using ThinkGeo.Core;
@@ -9,7 +10,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn to render coordinate info based on the mouse cursor position on the map.
     /// </summary>
-    public partial class DisplayMapMouseCoordinatesSample : UserControl
+    public partial class DisplayMapMouseCoordinatesSample : UserControl, IDisposable
     {
         public DisplayMapMouseCoordinatesSample()
         {
@@ -85,5 +86,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             ((MouseCoordinateMapTool)sender).Foreground = new SolidColorBrush(Colors.Red);
             e.Result = $"X: {e.WorldCoordinate.X.ToString("N0")}, Y: {e.WorldCoordinate.Y.ToString("N0")}";
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

@@ -10,7 +10,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to get part of a line from an existing line
     /// </summary>
-    public partial class GetLineOnALineSample : UserControl
+    public partial class GetLineOnALineSample : UserControl, IDisposable
     {
         public GetLineOnALineSample()
         {
@@ -86,5 +86,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Redraw the layerOverlay to see the subLine on the map
             layerOverlay.Refresh();
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }
