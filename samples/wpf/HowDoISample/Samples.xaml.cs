@@ -84,15 +84,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // at the moment we can't seem to reclaim the memory but I think this is a WPF issue
                 if (SampleContent.Children.Count > 0)
                 {
-                    UserControl oldCOntrol = (UserControl)SampleContent.Children[0];
-                    if(oldCOntrol is IDisposable)
+                    UserControl oldControl = (UserControl)SampleContent.Children[0];
+                    if(oldControl is IDisposable)
                     {
-                        ((IDisposable)oldCOntrol).Dispose();
+                        ((IDisposable)oldControl).Dispose();
                     }                    
-                    SampleContent.Children.Remove(oldCOntrol);
+                    SampleContent.Children.Remove(oldControl);
                     SampleContent.DataContext = null;
-                    oldCOntrol.DataContext = null;
-                    oldCOntrol = null;
+                    oldControl.DataContext = null;
+                    oldControl = null;
                     GC.Collect();
                 }
 
