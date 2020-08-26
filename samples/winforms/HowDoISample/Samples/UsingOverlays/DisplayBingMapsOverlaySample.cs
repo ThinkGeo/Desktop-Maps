@@ -26,7 +26,29 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         }
 
 
+
+
+
+        private void BingMapsAccountLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo("https://www.bingmapsportal.com/"));
+        }
+
+        private void displayBingMaps_Click(object sender, EventArgs e)
+        {
+            BingMapsOverlay bingMapsOverlay = new BingMapsOverlay(bingApplicationId.Text, BingMapsMapType.Road);
+            mapView.Overlays.Add(bingMapsOverlay);
+            mapView.Refresh();
+        }
+
+        #region Component Designer generated code
         private MapView mapView;
+        private Panel panel1;
+        private Label label2;
+        private LinkLabel BingMapsAccountLink;
+        private Label label1;
+        private TextBox bingApplicationId;
+        private Button displayBingMaps;
 
         private void InitializeComponent()
         {
@@ -42,8 +64,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -59,7 +81,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.bingApplicationId);
@@ -140,29 +162,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-
-
-        private void BingMapsAccountLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start(new ProcessStartInfo("https://www.bingmapsportal.com/"));
-        }
-
-        private void displayBingMaps_Click(object sender, EventArgs e)
-        {
-            BingMapsOverlay bingMapsOverlay = new BingMapsOverlay(bingApplicationId.Text, BingMapsMapType.Road);
-            mapView.Overlays.Add(bingMapsOverlay);
-            mapView.Refresh();
-        }
-
-
-        private Panel panel1;
-        private Label label2;
-        private LinkLabel BingMapsAccountLink;
-        private Label label1;
-        private TextBox bingApplicationId;
-        private Button displayBingMaps;
-
-        #region Component Designer generated code
         #endregion Component Designer generated code
     }
 }

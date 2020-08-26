@@ -12,7 +12,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             InitializeComponent();
         }
-
         private void Form_Load(object sender, EventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
@@ -37,6 +36,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             mapView.MapTools.Logo.Source = new BitmapImage(new Uri(@"..\..\..\Resources\generic-logo.png", UriKind.RelativeOrAbsolute));
         }
+
+        #region Component Designer generated code
         private Panel panel1;
         private RadioButton genericLogo;
         private RadioButton thinkGeoLogo;
@@ -137,7 +138,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        #region Component Designer generated code
         #endregion Component Designer generated code
     }
 }

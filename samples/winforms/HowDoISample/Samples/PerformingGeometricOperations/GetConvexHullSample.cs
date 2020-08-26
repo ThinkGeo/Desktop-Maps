@@ -53,8 +53,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add("layerOverlay", layerOverlay);
         }
 
-
-
         /// <summary>
         /// Gets Convex Hull of the first feature in the cityLimits layer and adds them to the convexHullLayer to display on the map
         /// </summary>
@@ -81,6 +79,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             layerOverlay.Refresh();
         }
 
+        #region Component Designer generated code
         private Panel panel1;
         private Button shapeConvexHull;
         private Label label1;
@@ -161,7 +160,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        #region Component Designer generated code
         #endregion Component Designer generated code
 
     }

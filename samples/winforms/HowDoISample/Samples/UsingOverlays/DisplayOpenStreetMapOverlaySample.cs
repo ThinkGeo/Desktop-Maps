@@ -31,6 +31,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Refresh();
         }
 
+        #region Component Designer generated code
         private Panel panel1;
         private Button displayOsmMaps;
         private TextBox osmUserAgent;
@@ -133,7 +134,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.ResumeLayout(false);
 
         }
-        #region Component Designer generated code
+
         #endregion Component Designer generated code
 
     }

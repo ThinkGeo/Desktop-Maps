@@ -86,6 +86,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             layerOverlay.Refresh();
         }
 
+        #region Component Designer generated code
         private Panel panel1;
         private Button splitShape;
         private Label label1;
@@ -166,7 +167,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        #region Component Designer generated code
         #endregion Component Designer generated code
 
     }

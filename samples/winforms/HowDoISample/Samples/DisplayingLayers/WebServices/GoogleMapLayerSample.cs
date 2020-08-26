@@ -52,6 +52,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             Process.Start(new ProcessStartInfo("https://developers.google.com/maps/documentation/maps-static/get-api-key"));
         }
 
+        #region Component Designer generated code
         private Panel panel1;
         private LinkLabel linkLabel1;
         private Button btnActivate;
@@ -60,8 +61,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private TextBox txtClientId;
         private Label label3;
         private Label label1;
-
-        #region Component Designer generated code
 
         private MapView mapView;
 

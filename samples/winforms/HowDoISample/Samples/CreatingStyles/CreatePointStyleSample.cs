@@ -108,6 +108,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             layerOverlay.Refresh();
         }
 
+        #region Component Designer generated code
         private Panel panel1;
         private RadioButton symbol;
         private RadioButton icon;
@@ -228,7 +229,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.PerformLayout();
 
         }
-        #region Component Designer generated code
         #endregion Component Designer generated code
 
     }

@@ -55,6 +55,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Refresh();
         }
 
+        #region Create Sample Data
+
         //var mos = new ShapeFileFeatureSource(@"../../../data/Frisco_Mosquitos.shp");
         //mos.Open();
         //var features = mos.GetAllFeatures(ReturningColumnsType.AllColumns);
@@ -80,6 +82,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         //FileStream stream = new FileStream(@"C:\temp\Mosquitos.grd", FileMode.Create, FileAccess.ReadWrite);
         //GridFeatureSource.GenerateGrid(new GridDefinition(RectangleShape.ScaleUp(mos.GetBoundingBox(),30).GetBoundingBox(), 300, -999, points), new InverseDistanceWeightedGridInterpolationModel(), stream);
         //stream.Close();
+        #endregion
 
         #region Component Designer generated code
 

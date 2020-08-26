@@ -37,6 +37,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Refresh();
         }
 
+        #region Component Designer generated code
         private Panel panel1;
         private Button displayVectorCloudMaps;
         private TextBox cloudMapsSecretKey;
@@ -187,7 +188,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        #region Component Designer generated code
+
         #endregion Component Designer generated code
 
     }

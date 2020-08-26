@@ -124,7 +124,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Refresh();
         }
 
-
+        #region Component Designer generated code
         private Panel panel1;
         private Label label1;
         private TextBox txtCurrentAngle;
@@ -381,7 +381,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        #region Component Designer generated code
         #endregion Component Designer generated code
 
     }

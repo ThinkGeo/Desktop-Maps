@@ -13,8 +13,43 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo("https://www.bingmapsportal.com/"));
+        }
 
+        private void btnActivate_Click(object sender, EventArgs e)
+        {
+            // It is important to set the map unit first to either feet, meters or decimal degrees.
+            mapView.MapUnit = GeographyUnit.Meter;
 
+            // Set the map zoom level set to the bing map zoom level set so all the zoom levels line up.
+            mapView.ZoomLevelSet = new BingMapsZoomLevelSet(256);
+
+            // Create the layer overlay with some additional settings and add to the map.
+            LayerOverlay layerOverlay = new LayerOverlay() { TileHeight = 256, TileWidth = 256 };
+            layerOverlay.TileSizeMode = TileSizeMode.Small;
+            layerOverlay.MaxExtent = MaxExtents.BingMaps;
+            mapView.Overlays.Add("Bing Map", layerOverlay);
+
+            // Create the bing map layer and add it to the map.
+            BingMapsLayer bingMapsLayer = new BingMapsLayer(txtApplicationID.Text, BingMapsMapType.Road, "C:\\temp");
+            layerOverlay.Layers.Add(bingMapsLayer);
+
+            // Set the current extent to the whole world.
+            mapView.CurrentExtent = new RectangleShape(-10000000, 10000000, 10000000, -10000000);
+
+            // Refresh the map.
+            mapView.Refresh();
+        }
+
+        #region Component Designer generated code
+        private Panel panel1;
+        private LinkLabel linkLabel1;
+        private Button btnActivate;
+        private TextBox txtApplicationID;
+        private Label label3;
+        private Label label1;
 
         private MapView mapView;
 
@@ -32,8 +67,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -49,7 +84,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.linkLabel1);
@@ -128,47 +163,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.ResumeLayout(false);
 
         }
-
-
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start(new ProcessStartInfo("https://www.bingmapsportal.com/"));
-        }
-
-        private void btnActivate_Click(object sender, EventArgs e)
-        {
-            // It is important to set the map unit first to either feet, meters or decimal degrees.
-            mapView.MapUnit = GeographyUnit.Meter;
-
-            // Set the map zoom level set to the bing map zoom level set so all the zoom levels line up.
-            mapView.ZoomLevelSet = new BingMapsZoomLevelSet(256);
-
-            // Create the layer overlay with some additional settings and add to the map.
-            LayerOverlay layerOverlay = new LayerOverlay() { TileHeight = 256, TileWidth = 256 };
-            layerOverlay.TileSizeMode = TileSizeMode.Small;
-            layerOverlay.MaxExtent = MaxExtents.BingMaps;
-            mapView.Overlays.Add("Bing Map", layerOverlay);
-
-            // Create the bing map layer and add it to the map.
-            BingMapsLayer bingMapsLayer = new BingMapsLayer(txtApplicationID.Text, BingMapsMapType.Road, "C:\\temp");
-            layerOverlay.Layers.Add(bingMapsLayer);
-
-            // Set the current extent to the whole world.
-            mapView.CurrentExtent = new RectangleShape(-10000000, 10000000, 10000000, -10000000);
-
-            // Refresh the map.
-            mapView.Refresh();
-        }
-
-
-        private Panel panel1;
-        private LinkLabel linkLabel1;
-        private Button btnActivate;
-        private TextBox txtApplicationID;
-        private Label label3;
-        private Label label1;
-
-        #region Component Designer generated code
         #endregion Component Designer generated code
 
 

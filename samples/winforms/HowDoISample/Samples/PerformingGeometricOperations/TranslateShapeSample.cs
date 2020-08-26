@@ -102,7 +102,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             layerOverlay.Refresh();
         }
 
-
+        #region Component Designer generated code
         private Panel panel1;
         private Button degreeTranslateShape;
         private TextBox translateDistance;
@@ -314,7 +314,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        #region Component Designer generated code
         #endregion Component Designer generated code
 
     }

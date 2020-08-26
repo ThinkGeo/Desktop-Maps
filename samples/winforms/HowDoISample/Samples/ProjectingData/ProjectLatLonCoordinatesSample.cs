@@ -141,7 +141,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             ClearMapAndAddFeatures(sphericalMercatorFeatures);
         }
 
-
+        #region Component Designer generated code
         private Panel panel1;
         private Button reprojectAndDisplayMultipleFeatures;
         private Button reprojectAndDisplayFeature;
@@ -248,7 +248,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        #region Component Designer generated code
         #endregion Component Designer generated code
 
     }

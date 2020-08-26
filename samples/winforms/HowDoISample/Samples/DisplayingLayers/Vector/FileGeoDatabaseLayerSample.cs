@@ -45,6 +45,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Refresh();
         }
 
+        #region Create Sample Data
         //if (Directory.Exists("zoning.gdb"))
         //    Directory.Delete("zoning.gdb", true);
 
@@ -98,6 +99,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         //fileGeoDatabaseFeatureSource.Close();
         //shapeFileFeatureSource.Close();
         //MessageBox.Show(counter.ToString() + " records processed!");
+        #endregion
 
         #region Component Designer generated code
 

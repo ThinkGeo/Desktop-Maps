@@ -287,10 +287,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 }
             }
         }
-
-               
-       
-
+             
         private void lsbAddresses_SelectedIndexChanged(object sender, EventArgs e)
         {
             ListBox selectedResultList = (ListBox)sender;
@@ -318,6 +315,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
+        #region Component Designer generated code
         private Panel panel1;
         private TabControl tabControl;
         private TabPage nearbyAddressesTabItem;
@@ -632,7 +630,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        #region Component Designer generated code
+
         #endregion Component Designer generated code
 
     }

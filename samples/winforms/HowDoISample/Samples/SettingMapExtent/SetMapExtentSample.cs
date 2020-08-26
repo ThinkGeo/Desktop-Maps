@@ -48,7 +48,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             featureIds.SelectedIndex = 0;
         }
 
-
         private void ZoomToScale_Click(object sender, EventArgs e)
         {
             mapView.ZoomToScale(Convert.ToDouble(zoomScale.Text));
@@ -82,7 +81,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Refresh();
         }
 
-
+        #region Component Designer generated code
         private Panel panel1;
         private TextBox latlonScale;
         private TextBox longitude;
@@ -133,8 +132,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -378,7 +377,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        #region Component Designer generated code
         #endregion Component Designer generated code
 
     }

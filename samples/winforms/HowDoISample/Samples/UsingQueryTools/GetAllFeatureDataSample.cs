@@ -113,6 +113,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
         }
 
+        #region Component Designer generated code
         private Panel panel1;
         private ListBox lsbHotels;
         private Label label2;
@@ -205,7 +206,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.ResumeLayout(false);
 
         }
-        #region Component Designer generated code
+
         #endregion Component Designer generated code
 
     }

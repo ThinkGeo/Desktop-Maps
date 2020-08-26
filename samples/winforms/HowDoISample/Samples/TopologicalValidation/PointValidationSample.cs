@@ -53,7 +53,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-
         private void rdoCheckIfPointsAreTouchingLines_CheckedChanged(object sender, EventArgs e)
         {
             // Create a sample set of point and line features to use for the validation
@@ -198,7 +197,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             resultFeaturesLayer.Close();
         }
 
-
+        #region Component Designer generated code
         private Panel panel1;
         private RadioButton rdoCheckIfPointsAreWithinPolygons;
         private RadioButton rdoCheckIfPointsAreTouchingPolygonBoundaries;
@@ -348,7 +347,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        #region Component Designer generated code
         #endregion Component Designer generated code
 
     }

@@ -26,7 +26,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
         }
 
+        private void useCache_CheckedChanged(object sender, EventArgs e)
+        {
+            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache("cache", "CloudMapsImages", RasterTileFormat.Png);
+        }
+
+        #region Component Designer generated code
         private MapView mapView;
+        private Panel panel1;
+        private CheckBox useCache;
+        private Label label1;
 
         private void InitializeComponent()
         {
@@ -39,8 +48,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -56,7 +65,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.useCache);
@@ -103,17 +112,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-
-        private void useCache_CheckedChanged(object sender, EventArgs e)
-        {
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache("cache", "CloudMapsImages", RasterTileFormat.Png);
-        }
-
-        private Panel panel1;
-        private CheckBox useCache;
-        private Label label1;
-
-        #region Component Designer generated code
         #endregion Component Designer generated code
     }
 }

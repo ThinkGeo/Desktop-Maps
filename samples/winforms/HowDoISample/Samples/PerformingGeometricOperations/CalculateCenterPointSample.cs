@@ -87,15 +87,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-
-
-
-        /// <summary>
-        /// RadioButton checked event that will recalculate the center point so long as a feature was already selected
-        /// </summary>
-
-
-
         /// <summary>
         /// RadioButton checked event that will recalculate the center point so long as a feature was already selected
         /// </summary>
@@ -138,13 +129,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
         }
 
+        #region Component Designer generated code
         private Panel panel1;
         private RadioButton bboxCenter;
         private RadioButton centroidCenter;
         private Label label2;
         private Label label1;
-
-        #region Component Designer generated code
 
         private MapView mapView;
 

@@ -139,12 +139,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             };
         }
 
-
         private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
             GetFeaturesContaining(e.WorldLocation);
         }
 
+        #region Component Designer generated code
         private Panel panel1;
         private Label label2;
         private Label label1;
@@ -236,7 +236,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.ResumeLayout(false);
 
         }
-        #region Component Designer generated code
+
         #endregion Component Designer generated code
 
     }

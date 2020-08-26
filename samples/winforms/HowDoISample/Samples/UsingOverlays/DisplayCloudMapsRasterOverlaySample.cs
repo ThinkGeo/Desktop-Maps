@@ -40,6 +40,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }            
         }
 
+        #region Component Designer generated code
 
         private Panel panel1;
         private Button displayRasterCloudMaps;
@@ -189,7 +190,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.ResumeLayout(false);
 
         }
-        #region Component Designer generated code
+
         #endregion Component Designer generated code
 
     }

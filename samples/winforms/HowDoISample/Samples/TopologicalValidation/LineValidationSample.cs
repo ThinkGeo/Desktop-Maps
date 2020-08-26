@@ -362,6 +362,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             resultFeaturesLayer.Close();
         }
 
+        #region Component Designer generated code
         private Panel panel1;
         private RadioButton rdoCheckLinesMustNotSelfOverlap;
         private RadioButton rdoCheckLinesMustNotSelfIntersect;
@@ -648,7 +649,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        #region Component Designer generated code
         #endregion Component Designer generated code
 
     }

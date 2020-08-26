@@ -63,10 +63,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             stadiumLayer.InternalFeatures.Add(stadium);
         }
 
-
-
-
-
         private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
@@ -97,14 +93,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             distanceResult.Text = $"{length:f3} km";
         }
 
+        #region Component Designer generated code
         private Panel panel1;
         private TextBox distanceResult;
         private Label label3;
         private Label label2;
         private Label label1;
-
-        #region Component Designer generated code
-
         private MapView mapView;
 
         private void InitializeComponent()

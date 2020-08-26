@@ -51,8 +51,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add("layerOverlay", layerOverlay);
         }
 
-
-
         private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
@@ -76,15 +74,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             lengthResult.Text = $"{length:f3} km";
         }
 
+        #region Component Designer generated code
+
+        private MapView mapView;
         private Panel panel1;
         private TextBox lengthResult;
         private Label label3;
         private Label label2;
         private Label label1;
-
-        #region Component Designer generated code
-
-        private MapView mapView;
 
         private void InitializeComponent()
         {

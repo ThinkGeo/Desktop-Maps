@@ -133,8 +133,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             pauseFeed = !pauseFeed;
         }
 
-
-
         #region Component Designer generated code
 
         private MapView mapView;

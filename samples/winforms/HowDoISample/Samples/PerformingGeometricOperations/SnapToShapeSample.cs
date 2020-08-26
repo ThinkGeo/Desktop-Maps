@@ -63,6 +63,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // WIP
         }
 
+        #region Component Designer generated code
         private Panel panel1;
         private Button snapToShape;
         private Label label1;
@@ -142,7 +143,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        #region Component Designer generated code
         #endregion Component Designer generated code
 
     }

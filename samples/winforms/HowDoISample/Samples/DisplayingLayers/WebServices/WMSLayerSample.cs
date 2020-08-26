@@ -111,14 +111,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             staticOverlay.Layers.Add("wmsImageLayer", wmsImageLayer);
         }
 
+        #region Component Designer generated code
+
+        private MapView mapView;
         private Panel panel1;
         private RadioButton radioButton2;
         private RadioButton radioButton1;
         private Label label1;
-
-        #region Component Designer generated code
-
-        private MapView mapView;
 
         private void InitializeComponent()
         {

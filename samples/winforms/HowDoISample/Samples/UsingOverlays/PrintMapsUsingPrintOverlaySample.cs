@@ -25,8 +25,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             AddMosquitoDataGrid();
         }
 
-
-
         private void printMap_Click(object sender, EventArgs e)
         {
             PrinterInteractiveOverlay printerOverlay = (PrinterInteractiveOverlay)mapView.InteractiveOverlays["printerOverlay"];
@@ -67,6 +65,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Finish drawing and send the print commands to the printer
             printerGeoCanvas.EndDrawing();
         }
+
         private void SetupMapForPrinting()
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
@@ -233,6 +232,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Add the dataGridLayer to the the PrinterLayers collection to print later
             printerOverlay.PrinterLayers.Add(dataGridLayer);
         }
+
+        #region Component Designer generated code
         private Panel panel1;
         private Button printMap;
         private Label label1;
@@ -313,7 +314,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.ResumeLayout(false);
 
         }
-        #region Component Designer generated code
+
         #endregion Component Designer generated code
 
     }

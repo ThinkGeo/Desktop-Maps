@@ -178,8 +178,15 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 }
                 mapView.Refresh();
             }
-
         }
+
+        public class RouteSegemt
+        {
+            public string DisplayInformation { get; set; }
+            public Feature Shape { get; set; }
+        }
+
+        #region Component Designer generated code
         private Panel panel1;
         private ListBox lsbRouteSegments;
         private Label label1;
@@ -262,15 +269,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        #region Component Designer generated code
+
         #endregion Component Designer generated code
 
-
-    }
-
-    public class RouteSegemt
-    {
-        public string DisplayInformation { get; set; }
-        public Feature Shape { get; set; }
     }
 }

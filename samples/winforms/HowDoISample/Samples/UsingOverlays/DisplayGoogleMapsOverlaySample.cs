@@ -37,6 +37,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Refresh();
         }
 
+        #region Component Designer generated code
         private Panel panel1;
         private Button displayGoogleMaps;
         private TextBox googleSigningSecret;
@@ -181,7 +182,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        #region Component Designer generated code
+
         #endregion Component Designer generated code
 
     }

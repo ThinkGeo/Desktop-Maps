@@ -77,6 +77,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             layerOverlay.Refresh();
         }
 
+        #region Component Designer generated code
         private Panel panel1;
         private Button getSubLine;
         private TextBox startingOffset;
@@ -209,7 +210,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        #region Component Designer generated code
         #endregion Component Designer generated code
 
     }

@@ -218,6 +218,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             queriedFeaturesOverlay.Refresh();
         }
 
+        #region Component Designer generated code
         private Panel panel1;
         private Button btnDrawNewPolygonAndQuery;
         private Button btnDrawNewLineAndQuery;
@@ -436,7 +437,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        #region Component Designer generated code
         #endregion Component Designer generated code
 
     }

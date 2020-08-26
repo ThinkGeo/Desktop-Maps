@@ -94,9 +94,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             popupOverlay.Refresh();
         }
 
-
-
-
         private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
             // Get the selected feature based on the map click location
@@ -109,6 +106,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
         }
 
+        #region Component Designer generated code
 
         private Panel panel1;
         private Label label1;
@@ -176,7 +174,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.ResumeLayout(false);
 
         }
-        #region Component Designer generated code
+
         #endregion Component Designer generated code
+
     }
 }

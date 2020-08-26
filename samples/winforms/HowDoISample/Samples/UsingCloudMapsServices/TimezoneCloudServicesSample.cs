@@ -6,7 +6,7 @@ using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class TimezoneCloudServicesSample: UserControl
+    public class TimezoneCloudServicesSample : UserControl
     {
         private TimeZoneCloudClient timeZoneCloudClient;
 
@@ -119,6 +119,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Refresh();
         }
 
+        #region Component Designer generated code
         private Panel panel1;
         private Label label1;
 
@@ -185,7 +186,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.ResumeLayout(false);
 
         }
-        #region Component Designer generated code
+
         #endregion Component Designer generated code
 
     }

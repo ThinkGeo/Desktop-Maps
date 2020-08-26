@@ -517,10 +517,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             return color;
         }
 
-
-
-
-
         private async void generate_Click(object sender, EventArgs e)
         {
             // Get a new set of colors from the ThinkGeo Cloud
@@ -568,6 +564,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
         }
 
+        #region Component Designer generated code
         private Panel panel1;
         private RadioButton rdoRandomColor;
         private Label label4;
@@ -791,9 +788,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        #region Component Designer generated code
         #endregion Component Designer generated code
-
 
     }
 }

@@ -54,8 +54,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(layerOverlay);
         }
 
-
-
         private void bufferShape_Click(object sender, EventArgs e)
         {
             // Query the cityLimits layer to get all the features
@@ -75,15 +73,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             layerOverlay.Refresh();
         }
 
+        #region Component Designer generated code
+
+        private MapView mapView;
         private Panel panel1;
         private Button bufferShape;
         private TextBox bufferDistance;
         private Label lblbufferDistance;
         private Label label1;
-
-        #region Component Designer generated code
-
-        private MapView mapView;
 
         private void InitializeComponent()
         {

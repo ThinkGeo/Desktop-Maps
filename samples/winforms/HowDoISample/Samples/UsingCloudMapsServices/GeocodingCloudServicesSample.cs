@@ -214,6 +214,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             };
         }
 
+        #region Component Designer generated code
         private Panel panel1;
         private Label label4;
         private Label label3;
@@ -475,7 +476,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        #region Component Designer generated code
         #endregion Component Designer generated code
 
     }

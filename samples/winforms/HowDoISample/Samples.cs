@@ -20,13 +20,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void Samples_Load(object sender, EventArgs e)
         {
-            // Load the menu system from the JSON that represents the treeview               
+            // Load the menu system from the JSON that represents the tree-view               
             menus = JsonConvert.DeserializeObject<List<MenuModel>>(File.ReadAllText("samples.json"));
 
             // Get all the tree nodes
             TreeNode[] treeNodes = GetTreeNodes(menus);
 
-            //  Add all the tree nodes, we wrp it in an updated to more efficiently redraw the tree
+            //  Add all the tree nodes, we wrap it in an Begin.Updated to more efficiently redraw the tree
             treeViewLeft.BeginUpdate();
             this.treeViewLeft.Nodes.AddRange(treeNodes);
 
@@ -131,7 +131,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             // Find a place to store the new HTML file we will use to show the source code
             string myDocuments = Environment.GetEnvironmentVariable("TEMP");
-            string path = myDocuments + "\\" + "ThinkGeoWinformsHowDoISamples";
+            string path = myDocuments + @"\" + "ThinkGeoWinformsHowDoISamples";
 
             if (!Directory.Exists(path))
             {

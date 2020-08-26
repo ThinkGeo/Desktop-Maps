@@ -7,8 +7,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public class CreateAreaStyleSample : UserControl
     {
-        private ShapeFileFeatureLayer friscoSubdivisions;
-
+        
         public CreateAreaStyleSample()
         {
             InitializeComponent();
@@ -25,11 +24,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
-
-            ShapeFileFeatureLayer friscoSubdivisions;
-
+            
             // Create a layer with polygon data
-            friscoSubdivisions = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Parks.shp");
+            ShapeFileFeatureLayer friscoSubdivisions = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Parks.shp");
 
             // Project the layer's data to match the projection of the map
             friscoSubdivisions.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
@@ -60,6 +57,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
         }
 
+        #region Component Designer generated code
         private MapView mapView;
 
         private void InitializeComponent()
@@ -93,7 +91,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.ResumeLayout(false);
 
         }
-        #region Component Designer generated code
+       
         #endregion Component Designer generated code
     }
 }

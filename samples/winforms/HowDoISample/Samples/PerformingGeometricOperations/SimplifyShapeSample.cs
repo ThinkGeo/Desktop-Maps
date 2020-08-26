@@ -75,15 +75,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             layerOverlay.Refresh();
         }
 
+        #region Component Designer generated code
+
+        private MapView mapView;
         private Panel panel1;
         private Button simplifyShape;
         private TextBox tolerance;
         private Label label2;
         private Label label1;
-
-        #region Component Designer generated code
-
-        private MapView mapView;
 
         private void InitializeComponent()
         {

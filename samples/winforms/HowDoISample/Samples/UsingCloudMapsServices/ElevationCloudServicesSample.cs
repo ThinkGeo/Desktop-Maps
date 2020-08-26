@@ -61,8 +61,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             LineShape sampleShape = new LineShape("LINESTRING(-10776298.0601626 3912306.29684573,-10776496.3187036 3912399.45447343,-10776675.4679876 3912478.28015841,-10776890.4471285 3912516.49867234,-10777189.0292686 3912509.33270098,-10777329.9600387 3912442.4503016,-10777664.3720356 3912174.92070409)");
             PerformElevationQuery(sampleShape);
             txtSliderValue.DataBindings.Add("Text", intervalDistance, "Value");
-
-
         }
 
         private async void PerformElevationQuery(BaseShape queryShape)
@@ -147,8 +145,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.ZoomToScale(mapView.CurrentScale * 2);
             drawnShapesLayer.Close();
             mapView.Refresh();
-
-
         }
         private void OnShapeDrawn(object sender, TrackEndedTrackInteractiveOverlayEventArgs e)
         {
@@ -210,6 +206,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
         }
 
+        #region Component Designer generated code
         private Panel panel1;
         private Label label2;
         private Label label1;
@@ -420,7 +417,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        #region Component Designer generated code
         #endregion Component Designer generated code
 
     }

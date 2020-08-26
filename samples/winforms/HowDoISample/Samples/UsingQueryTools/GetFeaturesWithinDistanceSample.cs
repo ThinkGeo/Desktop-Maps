@@ -138,6 +138,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             GetFeaturesWithinDistance(e.WorldLocation);
         }
 
+        #region Component Designer generated code
         private Panel panel1;
         private TrackBar searchRadius;
         private Label label3;
@@ -278,7 +279,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        #region Component Designer generated code
         #endregion Component Designer generated code
 
     }

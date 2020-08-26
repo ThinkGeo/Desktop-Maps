@@ -152,6 +152,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
         }
 
+        #region Component Designer generated code
         private Panel panel1;
         private TextBox txtNumberOfFeaturesFound;
         private Label label3;
@@ -261,7 +262,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.ResumeLayout(false);
 
         }
-        #region Component Designer generated code
+
         #endregion Component Designer generated code
 
     }

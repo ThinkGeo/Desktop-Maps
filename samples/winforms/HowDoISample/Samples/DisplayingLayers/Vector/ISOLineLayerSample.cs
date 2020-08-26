@@ -128,6 +128,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             return dynamicIsoLineLayer;
         }
 
+        #region Create Sample Data
         // ========================================================
         // Code for creating the grid file from a point shapefile
         // ========================================================
@@ -157,6 +158,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         //    }
         //}
         //File.WriteAllText(@"../../../data/Frisco_Mosquitos.csv", builder.ToString());
+        #endregion
 
         #region Component Designer generated code
 

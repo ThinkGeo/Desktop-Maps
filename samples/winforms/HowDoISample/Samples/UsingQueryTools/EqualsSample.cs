@@ -148,13 +148,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
         }
 
-        private Panel panel1;
-        private TextBox txtNumberOfFeaturesFound;
-        private Label label1;
-
         #region Component Designer generated code
 
         private MapView mapView;
+        private Panel panel1;
+        private TextBox txtNumberOfFeaturesFound;
+        private Label label1;
 
         private void InitializeComponent()
         {
@@ -231,5 +230,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         }
 
         #endregion Component Designer generated code
+
     }
 }

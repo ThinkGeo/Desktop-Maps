@@ -143,6 +143,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             ClearMapAndAddFeatures(sphericalMercatorFeatures);
         }
 
+        #region Component Designer generated code
         private Panel panel1;
         private Button btnReprojectFeatures;
         private TextBox txtWKT;
@@ -247,7 +248,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.ResumeLayout(false);
 
         }
-        #region Component Designer generated code
+
         #endregion Component Designer generated code
 
     }
