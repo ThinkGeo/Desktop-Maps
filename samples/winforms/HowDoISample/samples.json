@@ -111,7 +111,7 @@
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.NOAAWeatherWarningLayerSample",
-        "title": "Display a NOAA Weather Warning Layer",
+        "title": "Display a NOAA Weather Warning Layer (TODO)",
         "description": "This sample shows how to display NOAA weather warnings to your map.",
         "source": "Samples/DisplayingLayers/WebServices/NOAAWeatherWarningLayerSample"
       },
@@ -642,7 +642,7 @@
     "children": [
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.Placeholder",
-        "title": "Interpolation Methods",
+        "title": "Interpolation Methods (TODO)",
         "description": "Learn how to do grid based interpolation using various methods",
         "source": "Samples/Interpolation/Placeholder"
       }

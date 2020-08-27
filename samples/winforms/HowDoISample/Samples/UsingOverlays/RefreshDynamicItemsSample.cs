@@ -38,7 +38,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InMemoryFeatureLayer vehicleLayer = new InMemoryFeatureLayer();
 
             // Set the points image to an car icon and then apply it to all zoomlevels
-            vehicleLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(new GeoImage(@"../../../Resources/vehicle.png"));
+            PointStyle vehiclePointStyle = new PointStyle(new GeoImage(@"../../../Resources/vehicle-location.png"));
+            vehiclePointStyle.YOffsetInPixel = -12;
+
+            vehicleLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = vehiclePointStyle;
             vehicleLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Add the in memory layer to the overlay

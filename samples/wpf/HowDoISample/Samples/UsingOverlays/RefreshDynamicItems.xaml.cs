@@ -17,7 +17,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// This samples shows how to refresh points on the map based on some outside event
     /// </summary>
     public partial class RefreshDynamicItems : UserControl, IDisposable
-    {        
+    {
         bool cancelFeed;
         bool pauseFeed;
 
@@ -40,17 +40,20 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Setup the overlay that we will refresh often
             LayerOverlay vehicleOverlay = new LayerOverlay();
-            
+
             // This in memory layer will hold the active point, we will be adding and removing from it frequently
             InMemoryFeatureLayer vehicleLayer = new InMemoryFeatureLayer();
 
             // Set the points image to an car icon and then apply it to all zoomlevels
-            vehicleLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(new GeoImage(@"../../../Resources/vehicle.png"));
+            PointStyle vehiclePointStyle = new PointStyle(new GeoImage(@"../../../Resources/vehicle-location.png"));
+            vehiclePointStyle.YOffsetInPixel = -12;
+
+            vehicleLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = vehiclePointStyle;
             vehicleLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Add the in memory layer to the overlay
             vehicleOverlay.Layers.Add("Vehicle Layer", vehicleLayer);
-            
+
             // Add the overlay to the map
             mapView.Overlays.Add("Vehicle Overlay", vehicleOverlay);
 
@@ -126,7 +129,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             {
                 mapView.CenterAt(currentFeature);
             }
-            
+
             // Refresh the vehicle overlay
             mapView.Refresh(mapView.Overlays["Vehicle Overlay"]);
         }
