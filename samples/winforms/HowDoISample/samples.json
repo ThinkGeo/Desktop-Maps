@@ -186,6 +186,12 @@
         "title": "Display a JPEG2000 Layer",
         "description": "This sample shows how to display a JPEG2000 image.",
         "source": "Samples/DisplayingLayers/Raster/JPEG2000LayerSample"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.GenerateMapImageSample",
+        "title": "Generate a Map as an Image",
+        "description": "This sample shows how to draw your map onto an image file",
+        "source": "Samples/DisplayingLayers/GenerateMapImageSample"
       }
     ]
   },

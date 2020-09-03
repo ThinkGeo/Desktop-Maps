@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>net461;netcoreapp3.0</TargetFrameworks>
+    <TargetFrameworks>net461;netcoreapp3.1</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>true</UseWPF>
     <RootNamespace>ThinkGeo.UI.WinForms.HowDoI</RootNamespace>
@@ -148,6 +148,9 @@
 
   <ItemGroup>
     <Compile Update="Samples\CreatingStyles\StylingAcrossMultipleScales.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\GenerateMapImageSample.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Samples\UsingOverlays\RefreshDynamicItemsSample.cs">
