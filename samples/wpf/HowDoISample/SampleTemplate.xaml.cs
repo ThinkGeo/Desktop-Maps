@@ -8,9 +8,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Interaction logic for SampleTemplate.xaml
     /// </summary>
-    public partial class SampleTemplate : UserControl, IDisposable
+    public partial class GenerateMapImageSample : UserControl, IDisposable
     {
-        public SampleTemplate()
+        public GenerateMapImageSample()
         {
             InitializeComponent();
         }
