@@ -19,10 +19,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             Collection<Layer> layersToDraw = new Collection<Layer>();
 
-            // Create a background layer just for the background color and add it to the layers to draw collection
-            BackgroundLayer background = new BackgroundLayer(GeoBrushes.WhiteSmoke);
-            background.Open();
-            layersToDraw.Add(background);
+            // Create the background world maps using vector tiles stored locally in our MBTiles file and also set the styling though a json file
+            ThinkGeoMBTilesLayer mbTilesLayer = new ThinkGeoMBTilesLayer(@"../../../Data/Mbtiles/Frisco.mbtiles", new Uri(@"../../../Data/Json/thinkgeo-world-streets-light.json", UriKind.Relative));
+            mbTilesLayer.Open();
+            layersToDraw.Add(mbTilesLayer);
 
             // Create the new layer and set the projection as the data is in srid 2276 and our background is srid 3857 (spherical mercator).
             ShapeFileFeatureLayer zoningLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Zoning.shp");

@@ -128,6 +128,12 @@
         "source": "Samples/DisplayingLayers/WebServices/CloudMapsVectorLayerSample"
       },
       {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.OfflineCloudMapsVectorLayerSample",
+        "title": "Display a Cloud Maps Vector Layer Off-line",
+        "description": "This sample show how to use an off-line version of ThinkGeo Cloud Map Vector data.",
+        "source": "Samples/DisplayingLayers/Vector/OfflineCloudMapsVectorLayerSample"
+      },
+      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.BingMapLayerSample",
         "title": "Display a Bing Map Layer",
         "description": "This sample shows how to display a Bing Maps layer.",
