@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -9,12 +9,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to rotate a shape
     /// </summary>
-    public partial class RotateShapeSample : UserControl
+    public partial class RotateShapeSample : UserControl, IDisposable
     {
-        private readonly ShapeFileFeatureLayer cityLimits = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/FriscoCityLimits.shp");
-        private readonly InMemoryFeatureLayer rotatedLayer = new InMemoryFeatureLayer();
-        private readonly LayerOverlay layerOverlay = new LayerOverlay();
-
         public RotateShapeSample()
         {
             InitializeComponent();
@@ -32,6 +28,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
+            ShapeFileFeatureLayer cityLimits = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/FriscoCityLimits.shp");
+            InMemoryFeatureLayer rotatedLayer = new InMemoryFeatureLayer();
+            LayerOverlay layerOverlay = new LayerOverlay();
+
             // Project cityLimits layer to Spherical Mercator to match the map projection
             cityLimits.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
@@ -44,10 +44,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             rotatedLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Add cityLimits layer to a LayerOverlay
-            layerOverlay.Layers.Add(cityLimits);
+            layerOverlay.Layers.Add("cityLimits",cityLimits);
 
             // Add rotatedLayer to the layerOverlay
-            layerOverlay.Layers.Add(rotatedLayer);
+            layerOverlay.Layers.Add("rotatedLayer", rotatedLayer);
 
             // Set the map extent to the cityLimits layer bounding box
             cityLimits.Open();
@@ -55,7 +55,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             cityLimits.Close();
 
             // Add LayerOverlay to Map
-            mapView.Overlays.Add(layerOverlay);
+            mapView.Overlays.Add("layerOverlay", layerOverlay);
         }
 
         /// <summary>
@@ -63,6 +63,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void RotateShape_OnClick(object sender, RoutedEventArgs e)
         {
+            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
+
+            ShapeFileFeatureLayer cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
+            InMemoryFeatureLayer rotatedLayer = (InMemoryFeatureLayer)layerOverlay.Layers["rotatedLayer"];
+
             // Query the cityLimits layer to get all the features
             cityLimits.Open();
             var features = cityLimits.QueryTools.GetAllFeatures(ReturningColumnsType.NoColumns);
@@ -79,5 +84,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Redraw the layerOverlay to see the rotated feature on the map
             layerOverlay.Refresh();
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

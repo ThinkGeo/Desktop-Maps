@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -9,12 +10,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to calculate the center point of a feature
     /// </summary>
-    public partial class CalculateCenterPointSample : UserControl
+    public partial class CalculateCenterPointSample : UserControl, IDisposable
     {
-        private readonly ShapeFileFeatureLayer censusHousing = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco 2010 Census Housing Units.shp");
-        private readonly InMemoryFeatureLayer centerPointLayer = new InMemoryFeatureLayer();
-        private readonly LayerOverlay layerOverlay = new LayerOverlay();
-
         public CalculateCenterPointSample()
         {
             InitializeComponent();
@@ -33,6 +30,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
+            ShapeFileFeatureLayer censusHousing = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco 2010 Census Housing Units.shp");
+            InMemoryFeatureLayer centerPointLayer = new InMemoryFeatureLayer();
+            LayerOverlay layerOverlay = new LayerOverlay();
+
             // Project censusHousing layer to Spherical Mercator to match the map projection
             censusHousing.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
@@ -46,10 +47,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             centerPointLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Add censusHousing layer to a LayerOverlay
-            layerOverlay.Layers.Add(censusHousing);
+            layerOverlay.Layers.Add("censusHousing",censusHousing);
 
             // Add centerPointLayer to the layerOverlay
-            layerOverlay.Layers.Add(centerPointLayer);
+            layerOverlay.Layers.Add("centerPointLayer" , centerPointLayer);
 
             // Set the map extent to the censusHousing layer bounding box
             censusHousing.Open();
@@ -57,7 +58,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             censusHousing.Close();
 
             // Add LayerOverlay to Map
-            mapView.Overlays.Add(layerOverlay);
+            mapView.Overlays.Add("layerOverlay",layerOverlay);
+
+            centroidCenter.IsChecked = true;
         }
 
         /// <summary>
@@ -66,6 +69,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <param name="feature"> The target feature to calculate it's center point</param>
         private void CalculateCenterPoint(Feature feature)
         {
+            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];            
+            InMemoryFeatureLayer centerPointLayer = (InMemoryFeatureLayer)layerOverlay.Layers["centerPointLayer"];
+
             PointShape centerPoint;
 
             // Get the CenterPoint of the selected feature
@@ -95,6 +101,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
         {
+            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
+            ShapeFileFeatureLayer censusHousing = (ShapeFileFeatureLayer)layerOverlay.Layers["censusHousing"];
+
             // Query the censusHousing layer to get the first feature closest to the map click event
             var feature = censusHousing.QueryTools.GetFeaturesNearestTo(e.WorldLocation, GeographyUnit.Meter, 1,
                 ReturningColumnsType.NoColumns).First();
@@ -107,11 +116,22 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
+            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
+            InMemoryFeatureLayer centerPointLayer = (InMemoryFeatureLayer)layerOverlay.Layers["centerPointLayer"];
+
             // Recalculate the center point if a feature has already been selected
             if (centerPointLayer.InternalFeatures.Contains("selectedFeature"))
             {
                 CalculateCenterPoint(centerPointLayer.InternalFeatures["selectedFeature"]);
             }
+        }
+
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }

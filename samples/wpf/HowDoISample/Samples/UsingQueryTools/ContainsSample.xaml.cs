@@ -13,7 +13,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
     /// <summary>
     /// Learn how to use layer query tools to find which features in a layer contain a shape
     /// </summary>
-    public partial class ContainsSample : UserControl
+    public partial class ContainsSample : UserControl, IDisposable
     {
         public ContainsSample()
         {
@@ -159,5 +159,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
                 YOffset = -17
             };
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

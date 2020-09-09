@@ -16,7 +16,7 @@
                     <AccessText HorizontalAlignment="Center" FontSize="17" TextWrapping="Wrap" Text="Make a Turn-By-Turn Routing Request"/>
                 </Label.Content>
             </Label>
-            <ListBox Grid.Column="1" Grid.Row="1" Name="lsbRouteSegments" Height="650" SelectionChanged="lsbRouteSegments_SelectionChanged">
+            <ListBox Grid.Column="1" Grid.Row="1" Name="lsbRouteSegments" SelectionChanged="lsbRouteSegments_SelectionChanged">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>

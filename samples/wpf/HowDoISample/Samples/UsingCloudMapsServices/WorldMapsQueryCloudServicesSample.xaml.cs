@@ -11,7 +11,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
     /// <summary>
     /// Learn how to use the MapsQueryClient to query the WorldMaps dataset available from the ThinkGeo Cloud
     /// </summary>
-    public partial class WorldMapsQueryCloudServicesSample : UserControl
+    public partial class WorldMapsQueryCloudServicesSample : UserControl, IDisposable
     {
         private MapsQueryCloudClient mapsQueryCloudClient;
 
@@ -156,11 +156,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
                     queriedFeaturesLayer.InternalFeatures.Add(feature);
                 }
 
-                // Set the map extent to the extent of the query shape
-                queryShapeFeatureLayer.Open();
-                mapView.CurrentExtent = queryShapeFeatureLayer.GetBoundingBox();
-                mapView.ZoomToScale(mapView.CurrentScale * 2);
-                queryShapeFeatureLayer.Close();
+                // Set the map extent to the extent of the query results
+                queriedFeaturesLayer.Open();
+                mapView.CurrentExtent = queriedFeaturesLayer.GetBoundingBox();
+                queriedFeaturesLayer.Close();
             }
             else
             {
@@ -242,5 +241,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             queryShapeFeatureLayer.InternalFeatures.Clear();
             queriedFeaturesOverlay.Refresh();
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

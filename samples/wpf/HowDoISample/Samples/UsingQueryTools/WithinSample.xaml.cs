@@ -1,4 +1,5 @@
 ﻿using NetTopologySuite.Geometries;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
     /// <summary>
     /// Learn how to use layer query tools to find which features in a layer are within a shape
     /// </summary>
-    public partial class WithinSample : UserControl
+    public partial class WithinSample : UserControl, IDisposable
     {
         public WithinSample()
         {
@@ -161,5 +162,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
                 mapView.TrackOverlay.TrackMode = TrackMode.Polygon;
             }
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

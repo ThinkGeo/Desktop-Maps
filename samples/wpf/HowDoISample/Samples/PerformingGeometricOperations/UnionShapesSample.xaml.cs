@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
 using ThinkGeo.UI.Wpf;
@@ -8,12 +9,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to union shapes into a single shape
     /// </summary>
-    public partial class UnionShapesSample : UserControl
+    public partial class UnionShapesSample : UserControl, IDisposable
     {
-        private readonly ShapeFileFeatureLayer dividedCityLimits = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/FriscoCityLimitsDivided.shp");
-        private readonly InMemoryFeatureLayer unionLayer = new InMemoryFeatureLayer();
-        private readonly LayerOverlay layerOverlay = new LayerOverlay();
-
         public UnionShapesSample()
         {
             InitializeComponent();
@@ -31,6 +28,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
+            ShapeFileFeatureLayer dividedCityLimits = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/FriscoCityLimitsDivided.shp");
+            InMemoryFeatureLayer unionLayer = new InMemoryFeatureLayer();
+            LayerOverlay layerOverlay = new LayerOverlay();
+
             // Project dividedCityLimits layer to Spherical Mercator to match the map projection
             dividedCityLimits.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
@@ -44,10 +45,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             unionLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Add dividedCityLimits to a LayerOverlay
-            layerOverlay.Layers.Add(dividedCityLimits);
+            layerOverlay.Layers.Add("dividedCityLimits", dividedCityLimits);
 
             // Add unionLayer to the layerOverlay
-            layerOverlay.Layers.Add(unionLayer);
+            layerOverlay.Layers.Add("unionLayer", unionLayer);
 
             // Set the map extent to the dividedCityLimits layer bounding box
             dividedCityLimits.Open();
@@ -55,7 +56,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             dividedCityLimits.Close();
 
             // Add LayerOverlay to Map
-            mapView.Overlays.Add(layerOverlay);
+            mapView.Overlays.Add("layerOverlay",layerOverlay);
         }
 
         /// <summary>
@@ -63,6 +64,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void UnionShapes_OnClick(object sender, RoutedEventArgs e)
         {
+            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
+
+            ShapeFileFeatureLayer dividedCityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["dividedCityLimits"];
+            InMemoryFeatureLayer unionLayer = (InMemoryFeatureLayer)layerOverlay.Layers["unionLayer"];
+
             // Query the dividedCityLimits layer to get all the features
             dividedCityLimits.Open();
             var features = dividedCityLimits.QueryTools.GetAllFeatures(ReturningColumnsType.NoColumns);
@@ -82,5 +88,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Redraw the layerOverlay to see the unioned features on the map
             layerOverlay.Refresh();
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

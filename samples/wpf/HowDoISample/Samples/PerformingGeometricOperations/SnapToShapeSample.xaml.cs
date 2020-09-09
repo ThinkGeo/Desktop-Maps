@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
 using ThinkGeo.UI.Wpf;
@@ -9,12 +10,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// TODO: This sample is a Work In Progress and is disabled in the app!
     /// Learn how to snap a shape to a nearby shape for precise placement.
     /// </summary>
-    public partial class SnapToShapeSample : UserControl
+    public partial class SnapToShapeSample : UserControl, IDisposable
     {
-        private readonly ShapeFileFeatureLayer friscoParks = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Parks.shp");
-        private readonly InMemoryFeatureLayer snapLayer = new InMemoryFeatureLayer();
-        private readonly LayerOverlay layerOverlay = new LayerOverlay();
-
         public SnapToShapeSample()
         {
             InitializeComponent();
@@ -29,6 +26,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
+            ShapeFileFeatureLayer friscoParks = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Parks.shp");
+            InMemoryFeatureLayer snapLayer = new InMemoryFeatureLayer();
+            LayerOverlay layerOverlay = new LayerOverlay();
+
             // Project friscoParks layer to Spherical Mercator to match the map projection
             friscoParks.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
@@ -41,16 +42,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             snapLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Add friscoParks to a LayerOverlay
-            layerOverlay.Layers.Add(friscoParks);
+            layerOverlay.Layers.Add("friscoParks", friscoParks);
 
             // Add splitLayer to the layerOverlay
-            layerOverlay.Layers.Add(snapLayer);
+            layerOverlay.Layers.Add("snapLayer", snapLayer);
 
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10782307.6877106, 3918904.87378907, -10774377.3460701, 3912073.31442403);
 
             // Add LayerOverlay to Map
-            mapView.Overlays.Add(layerOverlay);
+            mapView.Overlays.Add("layerOverlay", layerOverlay);
 
             // Add Toyota Stadium feature to stadiumLayer
             var stadium = new Feature(new PointShape(-10779651.500992451, 3915933.0023557912));
@@ -62,7 +63,20 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void SnapToShape_Click(object sender, RoutedEventArgs e)
         {
+            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
+
+            ShapeFileFeatureLayer friscoParks = (ShapeFileFeatureLayer)layerOverlay.Layers["friscoParks"];
+            InMemoryFeatureLayer snapLayer = (InMemoryFeatureLayer)layerOverlay.Layers["snapLayer"];
+
             // WIP
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

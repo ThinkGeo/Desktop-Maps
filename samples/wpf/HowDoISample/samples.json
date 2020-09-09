@@ -111,7 +111,7 @@
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.NOAAWeatherWarningLayerSample",
-        "title": "Display a NOAA Weather Warning Layer",
+        "title": "Display a NOAA Weather Warning Layer (TODO)",
         "description": "This sample shows how to display NOAA weather warnings to your map.",
         "source": "Samples/DisplayingLayers/WebServices/NOAAWeatherWarningLayerSample"
       },
@@ -126,6 +126,12 @@
         "title": "Display a Cloud Maps Vector Layer",
         "description": "This sample shows how to display ThinkGeo cloud vector background maps.",
         "source": "Samples/DisplayingLayers/WebServices/CloudMapsVectorLayerSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.OfflineCloudMapsVectorLayerSample",
+        "title": "Display a Cloud Maps Vector Layer Off-line",
+        "description": "This sample show how to use an off-line version of ThinkGeo Cloud Map Vector data.",
+        "source": "Samples/DisplayingLayers/Vector/OfflineCloudMapsVectorLayerSample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.BingMapLayerSample",
@@ -186,12 +192,24 @@
         "title": "Display a JPEG2000 Layer",
         "description": "This sample shows how to display a JPEG2000 image.",
         "source": "Samples/DisplayingLayers/Raster/JPEG2000LayerSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.GenerateMapImageSample",
+        "title": "Generate a Map as an Image",
+        "description": "This sample shows how to draw your map onto an image file",
+        "source": "Samples/DisplayingLayers/GenerateMapImageSample"
       }
     ]
   },
   {
     "title": "Using Overlays",
     "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.RefreshDynamicItems",
+        "title": "Refreshing Dynamic Items",
+        "description": "Learn how to use overlays to display dynamically refreshing data. This sample will shows how to refresh an overlay to display a vehicle that gets updates every few seconds.",
+        "source": "Samples/UsingOverlays/RefreshDynamicItems"
+      },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.CachingMapTilesSample",
         "title": "Caching Map Tiles",
@@ -351,6 +369,12 @@
         "title": "Create a Value Style",
         "description": "Learn how to style data based on data values using a ValueStyle",
         "source": "Samples/CreatingStyles/CreateValueStyleSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.StylingAcrossMultipleScales",
+        "title": "Styling Across Multiple Scales",
+        "description": "Learn how to style layers across multiple scales using different styles assigned to different ZoomLevels",
+        "source": "Samples/CreatingStyles/StylingAcrossMultipleScales"
       }
     ]
   },
@@ -630,7 +654,7 @@
     "children": [
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.Interpolation.Placeholder",
-        "title": "Interpolation Methods",
+        "title": "Interpolation Methods (TODO)",
         "description": "Learn how to do grid based interpolation using various methods",
         "source": "Samples/Interpolation/Placeholder"
       }

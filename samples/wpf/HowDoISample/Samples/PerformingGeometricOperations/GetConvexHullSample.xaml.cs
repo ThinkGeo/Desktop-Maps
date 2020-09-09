@@ -1,4 +1,5 @@
-﻿﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -9,12 +10,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to get the convex hull of a shape
     /// </summary>
-    public partial class GetConvexHullSample : UserControl
+    public partial class GetConvexHullSample : UserControl, IDisposable
     {
-        private readonly ShapeFileFeatureLayer cityLimits = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/FriscoCityLimits.shp");
-        private readonly InMemoryFeatureLayer convexHullLayer = new InMemoryFeatureLayer();
-        private readonly LayerOverlay layerOverlay = new LayerOverlay();
-
         public GetConvexHullSample()
         {
             InitializeComponent();
@@ -33,6 +30,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
+            ShapeFileFeatureLayer cityLimits = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/FriscoCityLimits.shp");
+            InMemoryFeatureLayer convexHullLayer = new InMemoryFeatureLayer();
+            LayerOverlay layerOverlay = new LayerOverlay();
+
             // Project cityLimits layer to Spherical Mercator to match the map projection
             cityLimits.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
@@ -45,10 +46,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             convexHullLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Add cityLimits to a LayerOverlay
-            layerOverlay.Layers.Add(cityLimits);
+            layerOverlay.Layers.Add("cityLimits", cityLimits);
 
             // Add convexHullLayer to the layerOverlay
-            layerOverlay.Layers.Add(convexHullLayer);
+            layerOverlay.Layers.Add("convexHullLayer",convexHullLayer);
 
             // Set the map extent to the cityLimits layer bounding box
             cityLimits.Open();
@@ -56,7 +57,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             cityLimits.Close();
 
             // Add LayerOverlay to Map
-            mapView.Overlays.Add(layerOverlay);
+            mapView.Overlays.Add("layerOverlay",layerOverlay);
         }
 
         /// <summary>
@@ -64,6 +65,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void ShapeConvexHull_OnClick(object sender, RoutedEventArgs e)
         {
+            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
+
+            ShapeFileFeatureLayer cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
+            InMemoryFeatureLayer convexHullLayer = (InMemoryFeatureLayer)layerOverlay.Layers["convexHullLayer"];
+
             // Query the cityLimits layer to get the first feature
             cityLimits.Open();
             var feature = cityLimits.QueryTools.GetAllFeatures(ReturningColumnsType.NoColumns).First();
@@ -79,5 +85,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Redraw the layerOverlay to see the convexHull feature on the map
             layerOverlay.Refresh();
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

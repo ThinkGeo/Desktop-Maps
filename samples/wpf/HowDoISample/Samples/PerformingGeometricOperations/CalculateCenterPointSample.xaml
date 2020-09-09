@@ -14,7 +14,7 @@
 
             <TextBlock Grid.Column="1" Grid.Row="1" Text="Click on a feature to display it's center point." TextWrapping="Wrap"></TextBlock>
 
-            <RadioButton x:Name="centroidCenter" Content="Show Centroid Center" IsChecked="True" Checked="RadioButton_Checked" Grid.Column="1" Grid.Row="2"></RadioButton>
+            <RadioButton x:Name="centroidCenter" Content="Show Centroid Center" Checked="RadioButton_Checked" Grid.Column="1" Grid.Row="2"></RadioButton>
             <RadioButton x:Name="bboxCenter" Content="Show Bounding Box Center" Checked="RadioButton_Checked" Grid.Column="1" Grid.Row="3"></RadioButton>
 
             <!-- Controls Grid Layout -->

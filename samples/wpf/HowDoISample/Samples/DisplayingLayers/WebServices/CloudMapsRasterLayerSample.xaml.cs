@@ -3,13 +3,14 @@ using System.Windows.Controls;
 using ThinkGeo.UI.Wpf;
 using ThinkGeo.Core;
 using System.Diagnostics;
+using System;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Interaction logic for Placeholder.xaml
     /// </summary>
-    public partial class CloudMapsRasterLayerSample : UserControl
+    public partial class CloudMapsRasterLayerSample : UserControl, IDisposable
     {
         public CloudMapsRasterLayerSample()
         {
@@ -62,6 +63,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 }
                 mapView.Refresh();
             }
+        }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }

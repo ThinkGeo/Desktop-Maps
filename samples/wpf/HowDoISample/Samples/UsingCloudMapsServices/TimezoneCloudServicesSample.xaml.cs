@@ -12,7 +12,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
     /// <summary>
     /// Learn how to use the TimezoneCloudClient to access the Timezone APIs available from the ThinkGeo Cloud
     /// </summary>
-    public partial class TimezoneCloudServicesSample : UserControl
+    public partial class TimezoneCloudServicesSample : UserControl, IDisposable
     {
         private TimeZoneCloudClient timeZoneCloudClient;
 
@@ -133,5 +133,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             // Refresh and redraw the map
             mapView.Refresh();
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

@@ -32,7 +32,7 @@
             <Button Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="2" VerticalAlignment="Top" Click="Search_Click">Search</Button>
             <TextBlock Grid.Column="1" Grid.Row="8" Grid.ColumnSpan="2" x:Name="txtSearchResultsBestMatch" TextWrapping="Wrap" Foreground="WhiteSmoke"></TextBlock>
 
-            <TabControl Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="2" Height="350" x:Name="tabSearchResults">
+            <TabControl Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="2" x:Name="tabSearchResults">
                 <TabItem x:Name="nearbyAddressesTabItem" Header="Address">
                     <ListBox x:Name="lsbAddresses" SelectionChanged="lsbSearchResults_SelectionChanged">
                         <ListBox.ItemTemplate>

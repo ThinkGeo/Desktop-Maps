@@ -10,7 +10,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Interaction logic for Placeholder.xaml
     /// </summary>
-    public partial class WMSLayerSample : UserControl
+    public partial class WMSLayerSample : UserControl, IDisposable
     {
         public WMSLayerSample()
         {
@@ -88,6 +88,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Add the layer to the overlay.
             staticOverlay.Layers.Add("wmsImageLayer", wmsImageLayer);          
+        }
+
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }

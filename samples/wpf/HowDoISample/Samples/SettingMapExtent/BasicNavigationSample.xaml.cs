@@ -9,7 +9,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to programmatically zoom, pan, and rotate the map control.
     /// </summary>
-    public partial class BasicNavigationSample : UserControl
+    public partial class BasicNavigationSample : UserControl, IDisposable
     {
         public BasicNavigationSample()
         {
@@ -82,6 +82,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             mapView.RotatedAngle = (float)rotateAngle.Value;
             mapView.Refresh();
+        }
+
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }

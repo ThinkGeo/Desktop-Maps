@@ -3,13 +3,14 @@ using System.Windows.Controls;
 using ThinkGeo.UI.Wpf;
 using ThinkGeo.Core;
 using System.Collections.ObjectModel;
+using System;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// 
     /// </summary>
-    public partial class InMemoryLayerSample : UserControl
+    public partial class InMemoryLayerSample : UserControl, IDisposable
     {
         public InMemoryLayerSample()
         {
@@ -53,7 +54,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             TextStyle textStyle = new TextStyle("Trap: [TrapID]", new GeoFont("ariel", 14), GeoBrushes.Black);
             textStyle.Mask = new AreaStyle(GeoPens.Black, GeoBrushes.White);
             textStyle.MaskMargin = new DrawingMargin(2, 2, 2, 2);
-            textStyle.YOffsetInPixel = -7;
+            textStyle.YOffsetInPixel = -10;
 
             // Create an point style and add the text style from above on zoom level 1 and then apply it to all zoom levels up to 20.            
             inMemoryFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Circle, 12, GeoBrushes.Red,GeoPens.White);
@@ -66,6 +67,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             //Refresh the map.
             mapView.Refresh();
+        }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }

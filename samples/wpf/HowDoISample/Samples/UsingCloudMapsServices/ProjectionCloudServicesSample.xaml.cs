@@ -12,7 +12,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
     /// <summary>
     /// Learn how to use the ProjectionCloudClient to access the Projection APIs available from the ThinkGeo Cloud
     /// </summary>
-    public partial class ProjectionCloudServicesSample : UserControl
+    public partial class ProjectionCloudServicesSample : UserControl, IDisposable
     {
         private ProjectionCloudClient projectionCloudClient;
 
@@ -159,5 +159,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             // Add the reprojected features to the map
             ClearMapAndAddFeatures(sphericalMercatorFeatures);
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

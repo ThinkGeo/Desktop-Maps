@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using ThinkGeo.Core;
@@ -9,12 +10,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to label data using a TextStyle
     /// </summary>
-    public partial class CreateTextStyleSample : UserControl
+    public partial class CreateTextStyleSample : UserControl, IDisposable
     {
-        private readonly ShapeFileFeatureLayer hotelsLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Hotels.shp");
-        private readonly ShapeFileFeatureLayer streetsLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Streets.shp");
-        private readonly ShapeFileFeatureLayer parksLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Parks.shp");
-
         public CreateTextStyleSample()
         {
             InitializeComponent();
@@ -29,7 +26,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Set the map background color
-            mapView.Background = new SolidColorBrush(Color.FromRgb(232, 232, 232));
+            mapView.Background = new SolidColorBrush(Color.FromRgb(234, 232, 226));
+
+            ShapeFileFeatureLayer hotelsLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Hotels.shp");
+            ShapeFileFeatureLayer streetsLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Streets.shp");
+            ShapeFileFeatureLayer parksLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Parks.shp");
 
             // Project the layer's data to match the projection of the map
             hotelsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
@@ -37,9 +38,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             parksLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
             // Add Styles to the layers
-            StyleHotelsLayer();
-            StyleStreetsLayer();
-            StyleParksLayer();
+            StyleHotelsLayer(hotelsLayer);
+            StyleStreetsLayer(streetsLayer);
+            StyleParksLayer(parksLayer);
 
             // Add layers to a layerOverlay
             var layerOverlay = new LayerOverlay();
@@ -59,7 +60,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Adds a PointStyle and TextStyle to the Hotels Layer
         /// </summary>
-        private void StyleHotelsLayer()
+        private void StyleHotelsLayer(ShapeFileFeatureLayer hotelsLayer)
         {
             var pointStyle = new PointStyle(PointSymbolType.Circle, 4, GeoBrushes.Brown, new GeoPen(GeoBrushes.DarkRed, 2));
             var textStyle = new TextStyle("NAME", new GeoFont("Segoe UI", 12, DrawingFontStyles.Bold), GeoBrushes.DarkRed)
@@ -79,7 +80,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Adds a LineStyle and TextStyle to the Streets Layer
         /// </summary>
-        private void StyleStreetsLayer()
+        private void StyleStreetsLayer(ShapeFileFeatureLayer streetsLayer)
         {
             var lineStyle = new LineStyle(new GeoPen(GeoBrushes.DimGray, 6), new GeoPen(GeoBrushes.WhiteSmoke, 4));
             var textStyle = new TextStyle("FULL_NAME", new GeoFont("Segoe UI", 12, DrawingFontStyles.Bold), GeoBrushes.MidnightBlue)
@@ -97,7 +98,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Adds an AreaStyle and TextStyle to the Parks Layer
         /// </summary>
-        private void StyleParksLayer()
+        private void StyleParksLayer(ShapeFileFeatureLayer parksLayer)
         {
             var areaStyle = new AreaStyle(GeoPens.DimGray, GeoBrushes.PastelGreen);
             var textStyle = new TextStyle("NAME", new GeoFont("Segoe UI", 12, DrawingFontStyles.Bold), GeoBrushes.DarkGreen)
@@ -112,5 +113,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             parksLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
     }
+
 }

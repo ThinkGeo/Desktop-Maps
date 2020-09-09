@@ -12,7 +12,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn to render a custom logo on the map.
     /// </summary>
-    public partial class DisplayMapLogoSample : UserControl
+    public partial class DisplayMapLogoSample : UserControl, IDisposable
     {
         public DisplayMapLogoSample()
         {
@@ -48,7 +48,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void GenericLogo_Checked(object sender, RoutedEventArgs e)
         {
-            mapView.MapTools.Logo.Source = new BitmapImage(new Uri(@"..\..\..\Resources\AQUA.png", UriKind.RelativeOrAbsolute));
+            mapView.MapTools.Logo.Source = new BitmapImage(new Uri(@"..\..\..\Resources\generic-logo.png", UriKind.RelativeOrAbsolute));
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -9,7 +10,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn to render ThinkGeo Cloud Maps in raster format.
     /// </summary>
-    public partial class DisplayCloudMapsRasterOverlaySample : UserControl
+    public partial class DisplayCloudMapsRasterOverlaySample : UserControl, IDisposable
     {
         public DisplayCloudMapsRasterOverlaySample()
         {
@@ -28,7 +29,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.BackgroundOverlay.BackgroundBrush = GeoBrushes.AliceBlue;
 
             // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
+            mapView.CurrentExtent = new RectangleShape(-10782598.9806675, 3915669.09132595, -10772234.1196896, 3906343.77392696);
         }
 
         /// <summary>
@@ -46,5 +47,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
             e.Handled = true;
         }
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            mapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
     }
 }
