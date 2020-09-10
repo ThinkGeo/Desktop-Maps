@@ -597,13 +597,13 @@
         "id": "ThinkGeo.UI.WinForms.HowDoI.RoutingServiceAreaCloudServicesSample",
         "title": "Routing - Service Area",
         "description": "Learn how to use the RoutingCloudClient to find the service area of a location with the ThinkGeo Cloud",
-        "source": "Samples/UsingCloudMapsServices/RoutingCloudServicesSample"
+        "source": "Samples/UsingCloudMapsServices/RoutingServiceAreaCloudServicesSample"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.RoutingTSPCloudServicesSample",
         "title": "Routing - Traveling Sales Person",
         "description": "Learn how to use the RoutingCloudClient to find an optimized route through a set of waypoints with the ThinkGeo Cloud",
-        "source": "Samples/UsingCloudMapsServices/RoutingCloudServicesSample"
+        "source": "Samples/UsingCloudMapsServices/RoutingTSPCloudServicesSample"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.ElevationCloudServicesSample",
