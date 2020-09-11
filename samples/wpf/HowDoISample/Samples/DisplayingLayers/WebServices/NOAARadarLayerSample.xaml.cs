@@ -6,7 +6,7 @@ using ThinkGeo.UI.Wpf;
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Interaction logic for Placeholder.xaml
+    /// TODO
     /// </summary>
     public partial class NOAARadarLayerSample : UserControl, IDisposable
     {

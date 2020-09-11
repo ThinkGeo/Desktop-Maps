@@ -8,7 +8,7 @@ using System.Diagnostics;
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Interaction logic for Placeholder.xaml
+    /// Learn how to display a WMS Layer on the map
     /// </summary>
     public partial class WMSLayerSample : UserControl, IDisposable
     {
@@ -17,6 +17,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Add the WMS layer to the map
+        /// </summary>
         private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.

@@ -8,7 +8,7 @@ using System;
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Interaction logic for Placeholder.xaml
+    /// Learn how to display a Bing Maps Layer on the map
     /// </summary>
     public partial class BingMapLayerSample : UserControl, IDisposable
     {
@@ -17,6 +17,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Add the Bing Maps layer to the map
+        /// </summary>
         private void btnActivate_Click(object sender, RoutedEventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.

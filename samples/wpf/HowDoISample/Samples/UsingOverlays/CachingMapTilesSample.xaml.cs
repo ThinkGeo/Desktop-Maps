@@ -7,7 +7,7 @@ using ThinkGeo.UI.Wpf;
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Interaction logic for Placeholder.xaml
+    /// Learn how to improve performance by locally caching map tiles
     /// </summary>
     public partial class CachingMapTilesSample : UserControl, IDisposable
     {

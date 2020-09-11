@@ -6,7 +6,7 @@ using ThinkGeo.Core;
 namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector
 {
     /// <summary>
-    /// Interaction logic for ShapefileLayer.xaml
+    /// Learn how to display a Shapefile Layer on the map
     /// </summary>
     public partial class ShapefileLayerSample : UserControl, IDisposable
     {
@@ -15,6 +15,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, add the shapefile layer to the map
+        /// </summary>
         private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.

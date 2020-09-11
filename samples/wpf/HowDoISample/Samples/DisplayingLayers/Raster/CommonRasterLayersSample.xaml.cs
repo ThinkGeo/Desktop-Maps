@@ -7,7 +7,7 @@ using System;
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Interaction logic for Placeholder.xaml
+    /// Learn how to display common raster layers on the map
     /// </summary>
     public partial class CommonRasterLayersSample : UserControl, IDisposable
     {
@@ -16,6 +16,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, add the common raster layer to the map
+        /// </summary>
         private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.

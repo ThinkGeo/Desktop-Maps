@@ -9,7 +9,7 @@ using ThinkGeo.UI.Wpf;
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Interaction logic for Placeholder.xaml
+    /// Learn how to display a Postgres Layer on the map
     /// </summary>
     public partial class PostgresLayerSample : UserControl, IDisposable
     {
@@ -18,6 +18,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, add the PostgreSql layer to the map
+        /// </summary>
         private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
