@@ -80,6 +80,12 @@
     <Page Update="Samples\Extensibility\ExtendingStylesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Samples\Extensibility\ExtendingLayersSample.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\Extensibility\ExtendingFeatureSourcesSample.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Samples\PerformingGeometricOperations\UnionShapesSample.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
