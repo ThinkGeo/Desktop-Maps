@@ -18,6 +18,7 @@
     <EmbeddedResource Remove="HowDoI\**" />
     <None Remove="HowDoI\**" />
     <Page Remove="HowDoI\**" />
+    <Compile Remove="SampleTemplate.xaml.cs" />
     <Page Update="Samples\CreatingStyles\CreateLineStyleSample.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -76,6 +77,9 @@
       <SubType>Code</SubType>
       <DependentUpon>CreateClusterPointStyleSample.xaml</DependentUpon>
     </Compile>
+    <Page Update="Samples\Extensibility\ExtendingStylesSample.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Samples\PerformingGeometricOperations\UnionShapesSample.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -161,6 +165,7 @@
     <None Remove="Resources\coyote_paw.png" />
     <Resource Include="Resources\coyote_paw.png" />
     <None Remove="Resources\hotel_icon.png" />
+    <Page Remove="SampleTemplate.xaml" />
     <Resource Include="Resources\hotel_icon.png" />
   </ItemGroup>
 

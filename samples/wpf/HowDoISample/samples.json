@@ -650,6 +650,17 @@
     ]
   },
   {
+    "title": "Extensibility",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ExtendingStylesSample",
+        "title": "Extending Styles",
+        "description": "Learn how to use the Style base class to create your own custom styles.",
+        "source": "Samples/Extensibility/ExtendingStylesSample"
+      }
+    ]
+  },
+  {
     "title": "Interpolation",
     "children": [
       {
