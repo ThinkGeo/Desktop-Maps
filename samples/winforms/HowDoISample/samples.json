@@ -650,6 +650,30 @@
     ]
   },
   {
+    "title": "Extensibility",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.ExtendingStylesSample",
+        "title": "Extending Styles",
+        "description": "Learn how to use the Style base class to create your own custom styles.",
+        "source": "Samples/Extensibility/ExtendingStylesSample"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.ExtendingLayersSample",
+        "title": "Extending Layers",
+        "description": "Learn how to use the Layer base class to create your own custom layers.",
+        "source": "Samples/Extensibility/ExtendingLayersSample"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.ExtendingFeatureSourcesSample",
+        "title": "Extending Feature Sources",
+        "description": "Learn how to use the FeatureSource base class to create your own custom Feature Source.",
+        "source": "Samples/Extensibility/ExtendingFeatureSourcesSample"
+      }
+
+    ]
+  },
+  {
     "title": "Interpolation",
     "children": [
       {

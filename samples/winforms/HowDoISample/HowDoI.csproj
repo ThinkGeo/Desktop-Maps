@@ -156,6 +156,12 @@
     <Compile Update="Samples\DisplayingLayers\Vector\OfflineCloudMapsVectorLayerSample.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="Samples\Extensibility\ExtendingStylesSample.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Samples\Extensibility\ExtendingLayersSample.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="Samples\UsingOverlays\RefreshDynamicItemsSample.cs">
       <SubType>UserControl</SubType>
     </Compile>

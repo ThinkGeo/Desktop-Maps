@@ -6,7 +6,7 @@ using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class BingMapLayerSample: UserControl 
+    public class BingMapLayerSample : UserControl 
     {
         public BingMapLayerSample()
         {
