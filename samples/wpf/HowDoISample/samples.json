@@ -146,6 +146,12 @@
         "source": "Samples/DisplayingLayers/WebServices/GoogleMapLayerSample"
       },
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.MapBoxLayerSample",
+        "title": "Display a MapBox StaticTile Layer",
+        "description": "This sample shows how to display a MapBox StaticTile layer.",
+        "source": "Samples/DisplayingLayers/WebServices/MapBoxLayerSample"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.OpenStreetMapLayerSample",
         "title": "Display an OpenStreetMap Layer",
         "description": "This sample shows how to display a Open Street Maps layer.",
