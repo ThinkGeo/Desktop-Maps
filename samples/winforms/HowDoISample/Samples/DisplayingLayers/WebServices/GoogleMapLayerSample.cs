@@ -47,7 +47,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Refresh();
         }
 
-        private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        private void Hyperlink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start(new ProcessStartInfo("https://developers.google.com/maps/documentation/maps-static/get-api-key"));
         }
@@ -124,6 +124,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.linkLabel1.TabIndex = 7;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "Sign up for a Google Maps API Key";
+            this.linkLabel1.LinkClicked += Hyperlink_LinkClicked;
             // 
             // btnActivate
             // 
