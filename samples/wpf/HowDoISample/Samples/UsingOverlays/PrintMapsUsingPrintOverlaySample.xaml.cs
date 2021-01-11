@@ -72,8 +72,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 printerLayer.IsDrawing = false;
             }
 
-            // Finish drawing and send the print commands to the printer
-            printerGeoCanvas.EndDrawing();
+            // Finish drawing and populate print dialog
+            printerGeoCanvas.Flush();
+
+            System.Windows.Forms.PrintPreviewDialog printPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
+            printPreviewDialog.Document = printDocument;
+            printPreviewDialog.ShowDialog();
         }
 
         /// <summary>
