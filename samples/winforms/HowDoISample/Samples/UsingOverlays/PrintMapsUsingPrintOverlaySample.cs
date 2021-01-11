@@ -87,6 +87,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Add the printerOverlay to the map
             mapView.InteractiveOverlays.Add("printerOverlay", printerOverlay);
+            mapView.InteractiveOverlays.MoveToBottom("printerOverlay");
 
             // Set the map extent
             mapView.CurrentExtent = pageLayer.GetPosition().GetBoundingBox();
