@@ -253,6 +253,12 @@
         "source": "Samples/UsingOverlays/DisplayWMSOverlaySample"
       },
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplaySimpleBackgroundOverlaySample",
+        "title": "Display a Background Overlay",
+        "description": "Replace Me",
+        "source": "Samples/UsingOverlays/DisplaySimpleBackgroundOverlaySample"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DrawEditDeleteShapesUsingInteractiveOverlaySample",
         "title": "Draw, Edit, or Delete Shapes using the InteractiveOverlay",
         "description": "Learn to draw, edit, or delete shapes using the map's TrackOverlay and EditOverlay.",
@@ -304,6 +310,18 @@
         "title": "Display a Map ScaleLine",
         "description": "Learn to render a ScaleLine on the map in a variety of different of styles.",
         "source": "Samples/UsingMapTools/DisplayMapScaleLineSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMagneticNorthSample",
+        "title": "Display a Magnetic North Adornment",
+        "description": "REPLACE ME",
+        "source": "Samples/UsingMapTools/DisplayMagneticNorthSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayCompassSample",
+        "title": "Display a Compass",
+        "description": "REPLACE ME",
+        "source": "Samples/UsingMapTools/DisplayCompassSample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMapPanZoomBarSample",
@@ -363,6 +381,24 @@
         "title": "Create a ClassBreak Style",
         "description": "Learn how to style data based on numeric values using a ClassBreakStyle",
         "source": "Samples/CreatingStyles/CreateHeatStyleSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateDotDensityStyleSample",
+        "title": "Create a Dot Density Style",
+        "description": "Replace ME",
+        "source": "Samples/CreatingStyles/CreateDotDensityStyleSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateRegexStyleSample",
+        "title": "Create a Regex Style",
+        "description": "Replace ME",
+        "source": "Samples/CreatingStyles/CreateRegexStyleSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateCustomStyleSample",
+        "title": "Create a Custom Style",
+        "description": "Replace ME",
+        "source": "Samples/CreatingStyles/CreateCustomStyleSample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.CreateValueStyleSample",

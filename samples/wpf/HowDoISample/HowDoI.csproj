@@ -19,6 +19,15 @@
     <None Remove="HowDoI\**" />
     <Page Remove="HowDoI\**" />
     <Compile Remove="SampleTemplate.xaml.cs" />
+    <Page Update="Samples\CreatingStyles\CreateCustomStyleSample.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\CreatingStyles\CreateRegexStyleSample.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\CreatingStyles\CreateDotDensityStyleSample.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Samples\CreatingStyles\CreateLineStyleSample.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -28,6 +37,15 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
+    <Compile Update="Samples\CreatingStyles\CreateCustomStyleSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\CreatingStyles\CreateRegexStyleSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\CreatingStyles\CreateDotDensityStyleSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Samples\CreatingStyles\CreateLineStyleSample.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>CreateLineStyleSample.xaml</DependentUpon>
@@ -36,6 +54,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\UsingCloudMapsServices\RoutingTSPCloudServicesSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\UsingMapTools\DisplayCompassSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\UsingMapTools\DisplayMagneticNorthSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\UsingOverlays\DisplaySimpleBackgroundOverlaySample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Page Update="Samples\CreatingStyles\CreateAreaStyleSample.xaml">
@@ -521,7 +548,16 @@
     <Page Update="Samples\UsingCloudMapsServices\WorldMapsQueryCloudServicesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Samples\UsingMapTools\DisplayCompassSample.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingMapTools\DisplayMagneticNorthSample.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Samples\UsingMapTools\DisplayMapPanZoomBarSample.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingOverlays\DisplaySimpleBackgroundOverlaySample.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\UsingOverlays\RefreshDynamicItems.xaml">
