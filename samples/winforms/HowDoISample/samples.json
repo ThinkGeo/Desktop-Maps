@@ -217,6 +217,12 @@
         "source": "Samples/UsingOverlays/CachingMapTilesSample"
       },
       {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.DisplaySimpleBackgroundOverlaySample",
+        "title": "Display Simple Background Overlay",
+        "description": "Replace ME",
+        "source": "Samples/UsingOverlays/DisplaySimpleBackgroundOverlaySample"
+      },
+      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayBingMapsOverlaySample",
         "title": "Display Bing Maps Overlay",
         "description": "Learn to render Bing Maps using the BingMapsOverlay. A valid Bing Maps ApplicationID is required. Visit the Bing Maps Dev Portal to sign up for a key (https://www.bingmapsportal.com/).",
@@ -300,6 +306,18 @@
         "source": "Samples/UsingMapTools/DisplayMapMouseCoordinatesSample"
       },
       {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayMagneticNorthSample",
+        "title": "Display Magnetic North Sample",
+        "description": "Replace Me",
+        "source": "Samples/UsingMapTools/DisplayMagneticNorthSample"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayCompassSample",
+        "title": "Display Compass Sample",
+        "description": "Replace Me",
+        "source": "Samples/UsingMapTools/DisplayCompassSample"
+      },
+      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayMapScaleLineSample",
         "title": "Display a Map ScaleLine",
         "description": "Learn to render a ScaleLine on the map in a variety of different of styles.",
@@ -339,6 +357,24 @@
         "title": "Create a Text Style",
         "description": "Learn how to label data using a TextStyle",
         "source": "Samples/CreatingStyles/CreateTextStyleSample"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.CreateRegexStyleSample",
+        "title": "Create Regex Style",
+        "description": "Replace Me",
+        "source": "Samples/CreatingStyles/CreateRegexStyleSample"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.CreateCustomStyleSample",
+        "title": "Create Custom Style",
+        "description": "Replace Me",
+        "source": "Samples/CreatingStyles/CreateCustomStyleSample"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.CreateDotDensityStyleSample",
+        "title": "Create Dot Density Style",
+        "description": "Replace Me",
+        "source": "Samples/CreatingStyles/CreateDotDensityStyleSample"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.CreateFilterStyleSample",

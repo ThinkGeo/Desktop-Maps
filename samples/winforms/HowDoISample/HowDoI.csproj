@@ -147,6 +147,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Samples\CreatingStyles\CreateDotDensityStyleSample.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Samples\CreatingStyles\CreateCustomStyleSample.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Samples\CreatingStyles\CreateRegexStyleSample.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="Samples\CreatingStyles\StylingAcrossMultipleScales.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -160,6 +169,15 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Samples\Extensibility\ExtendingLayersSample.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Samples\UsingMapTools\DisplayCompassSample.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Samples\UsingMapTools\DisplayMagneticNorthSample.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Samples\UsingOverlays\DisplaySimpleBackgroundOverlaySample.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Samples\UsingOverlays\RefreshDynamicItemsSample.cs">
