@@ -31,6 +31,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             ThinkGeoCloudVectorMapsOverlay cloudOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~");
             cloudOverlay.MapType = ThinkGeoCloudVectorMapsMapType.Light;
             mapView.Overlays.Add("Cloud Overlay", cloudOverlay);
+          
+            MagneticDeclinationAdornmentLayer magneticDeclinationAdornmentLayer = new MagneticDeclinationAdornmentLayer(AdornmentLocation.LowerLeft);
+            var proj4Projection = new Projection(3857);
+            magneticDeclinationAdornmentLayer.Projection = proj4Projection;
+            magneticDeclinationAdornmentLayer.TrueNorthPointStyle.SymbolSize = 25;
+            magneticDeclinationAdornmentLayer.TrueNorthLineStyle.InnerPen.Width = 2f;
+            magneticDeclinationAdornmentLayer.TrueNorthLineStyle.OuterPen.Width = 5f;
+            magneticDeclinationAdornmentLayer.MagneticNorthLineStyle.InnerPen.Width = 2f;
+            magneticDeclinationAdornmentLayer.MagneticNorthLineStyle.OuterPen.Width = 5f;
+
+            mapView.AdornmentOverlay.Layers.Add(magneticDeclinationAdornmentLayer);
 
             // Set the current extent to a neighborhood in Frisco Texas.
             mapView.CurrentExtent = new RectangleShape(-10781708.9749424, 3913502.90429046, -10777685.1114043, 3910360.79646662);
@@ -44,6 +55,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
+        }
+
+        private void mapView_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            mapView.AdornmentOverlay.Refresh();
         }
     }
 }

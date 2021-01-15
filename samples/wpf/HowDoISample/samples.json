@@ -395,12 +395,6 @@
         "source": "Samples/CreatingStyles/CreateRegexStyleSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateCustomStyleSample",
-        "title": "Create a Custom Style",
-        "description": "Replace ME",
-        "source": "Samples/CreatingStyles/CreateCustomStyleSample"
-      },
-      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.CreateValueStyleSample",
         "title": "Create a Value Style",
         "description": "Learn how to style data based on data values using a ValueStyle",

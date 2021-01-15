@@ -31,7 +31,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             ThinkGeoCloudVectorMapsOverlay cloudOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~");
             cloudOverlay.MapType = ThinkGeoCloudVectorMapsMapType.Light;
             mapView.Overlays.Add("Cloud Overlay", cloudOverlay);
-
+            
             // Set the current extent to a neighborhood in Frisco Texas.
             mapView.CurrentExtent = new RectangleShape(-10781708.9749424, 3913502.90429046, -10777685.1114043, 3910360.79646662);
 

@@ -150,9 +150,6 @@
     <Compile Update="Samples\CreatingStyles\CreateDotDensityStyleSample.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\CreatingStyles\CreateCustomStyleSample.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Update="Samples\CreatingStyles\CreateRegexStyleSample.cs">
       <SubType>UserControl</SubType>
     </Compile>

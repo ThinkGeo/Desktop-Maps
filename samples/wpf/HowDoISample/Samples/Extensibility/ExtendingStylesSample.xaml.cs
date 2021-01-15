@@ -19,24 +19,21 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            mapView.MapUnit = GeographyUnit.DecimalDegree;
-            mapView.CurrentExtent = new RectangleShape(-155.733, 95.60, 104.42, -81.9);
+            mapView.MapUnit = GeographyUnit.Meter;
 
-            BackgroundLayer backgroundLayer = new BackgroundLayer(new GeoSolidBrush(GeoColors.DeepOcean));
-
-            ShapeFileFeatureLayer worldLayer = new ShapeFileFeatureLayer(@"..\..\..\Data\Shapefile\Countries02.shp");
-            worldLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(255, 233, 232, 214), GeoColor.FromArgb(255, 118, 138, 69));
-            worldLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            // Add Cloud Maps as a background overlay
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             ShapeFileFeatureLayer worldCapitalsLayer = new ShapeFileFeatureLayer(@"..\..\..\Data\Shapefile\WorldCapitals.shp");
+            worldCapitalsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 3857);
             worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             LayerOverlay worldOverlay = new LayerOverlay();
-            worldOverlay.Layers.Add(backgroundLayer);
-            worldOverlay.Layers.Add("Countries",worldLayer);
             worldOverlay.Layers.Add("WorldCapitals",worldCapitalsLayer);
-            
             mapView.Overlays.Add("Overlay",worldOverlay);
+
+            mapView.CurrentExtent = new RectangleShape(-15360785.1188513, 14752615.1010077, 16260907.558937, -12603279.9259404);
 
             mapView.Refresh();
         }
@@ -54,8 +51,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             TimeBasedPointStyle timeBasedPointStyle = new TimeBasedPointStyle();
             timeBasedPointStyle.TimeZoneColumnName = "TimeZone";
-            timeBasedPointStyle.DaytimePointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Yellow, 8);
-            timeBasedPointStyle.NighttimePointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Gray, 8);
+            timeBasedPointStyle.DaytimePointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Yellow, 12, GeoColors.Black);
+            timeBasedPointStyle.NighttimePointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Gray, 12, GeoColors.Black);
 
             worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
             worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(timeBasedPointStyle);
@@ -76,6 +73,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
     }
 
+    // This style draws points on the capitols with their color based on the current time and if
+    // we think it's daylight there or not.
     class TimeBasedPointStyle : ThinkGeo.Core.Style
     {
         private PointStyle daytimePointStyle;
@@ -168,6 +167,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
     }
 
+    // This style draws a point sized with the population of the capitol.  It uses the DrawCore of the style
+    // to draw directly on the canvas.  It can also leverage other styles to draw on the canvas as well.
     class SizedPointStyle : ThinkGeo.Core.Style
     {
         private PointStyle pointStyle;
@@ -205,7 +206,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         protected override void DrawCore(IEnumerable<Feature> features, GeoCanvas canvas, Collection<SimpleCandidate> labelsInThisLayer, Collection<SimpleCandidate> labelsInAllLayers)
         {
-            // Loop through each feaure and determine how large the point should 
+            // Loop through each feature and determine how large the point should 
             // be then adjust it's size.
             foreach (Feature feature in features)
             {

@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Windows.Forms;
 using ThinkGeo.Core;
 using ThinkGeo.UI.WinForms;
@@ -15,21 +18,28 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void Form_Load(object sender, EventArgs e)
         {
-            mapView.MapUnit = GeographyUnit.DecimalDegree;
-            mapView.CurrentExtent = new RectangleShape(-155.733, 95.60, 104.42, -81.9);
+            mapView.MapUnit = GeographyUnit.Meter;
 
-            BackgroundLayer backgroundLayer = new BackgroundLayer(new GeoSolidBrush(GeoColors.DeepOcean));
+            // Add Cloud Maps as a background overlay
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            ShapeFileFeatureLayer worldLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Countries02.shp");
-            worldLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(255, 233, 232, 214), GeoColor.FromArgb(255, 118, 138, 69));
-            worldLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            // See the implementation of the new layer and feature source below.
+            SimpleCsvFeatureLayer csvLayer = new SimpleCsvFeatureLayer(@"../../../Data/Csv/vehicle-route.csv");
 
-            LayerOverlay worldOverlay = new LayerOverlay();
-            worldOverlay.Layers.Add(backgroundLayer);
-            worldOverlay.Layers.Add(worldLayer);
-            mapView.Overlays.Add(worldOverlay);
+            // Set the points image to an car icon and then apply it to all zoomlevels
+            PointStyle vehiclePointStyle = new PointStyle(new GeoImage(@"../../../Resources/vehicle-location.png"));
+            vehiclePointStyle.YOffsetInPixel = -12;
 
-            mapView.Refresh();
+            csvLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = vehiclePointStyle;
+            csvLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
+            LayerOverlay layerOverlay = new LayerOverlay();
+            layerOverlay.Layers.Add(csvLayer);
+            mapView.Overlays.Add(layerOverlay);
+
+            csvLayer.Open();
+            mapView.CurrentExtent = csvLayer.GetBoundingBox();
         }
 
         public void Dispose()
@@ -79,6 +89,51 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         }
         #endregion Component Designer generated code
 
+        // Here we are creating a simple CVS feature source using the minimum set of overloads.
+        // Since CSV doesn't include a way to do spatial queries we only need to return all the features
+        // in the method below and the base class will do the rest.  Of course if you had large dataset this
+        // would be slow so I recommend you look at other overloads and implement optimized versions of these methods
+
+        public class SimpleCsvFeatureSource : FeatureSource
+        {
+            public string CsvPathFileName { get; set; }
+
+            private Collection<Feature> features;
+
+            public SimpleCsvFeatureSource(string csvPathFileName)
+            {
+                this.CsvPathFileName = csvPathFileName;
+                features = new Collection<Feature>();
+            }
+
+            protected override Collection<Feature> GetAllFeaturesCore(IEnumerable<string> returningColumnNames)
+            {
+                // If we haven't loaded the CSV then load it and return all the features
+                if (features.Count == 0)
+                {
+                    string[] locations = File.ReadAllLines(CsvPathFileName);
+
+                    foreach (var location in locations)
+                    {
+                        features.Add(new Feature(double.Parse(location.Split(',')[0]), double.Parse(location.Split(',')[1])));
+                    }
+                }
+
+                return features;
+            }
+        }
+
+        // We need to create a layer that wraps the feature source.  FeatureLayer has everything we need we just need
+        // to provide a constructor and set the feature source and all of the methods on the feature layer just work.
+        public class SimpleCsvFeatureLayer : FeatureLayer
+        {
+            public SimpleCsvFeatureLayer(string csvPathFileName)
+            {
+                this.FeatureSource = new SimpleCsvFeatureSource(csvPathFileName);
+            }
+
+            public override bool HasBoundingBox => true;
+        }
 
     }
 }

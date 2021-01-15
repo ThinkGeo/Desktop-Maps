@@ -19,49 +19,24 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            mapView.MapUnit = GeographyUnit.DecimalDegree;
-            mapView.CurrentExtent = new RectangleShape(-155.733, 95.60, 104.42, -81.9);
+            // Set the map's unit of measurement to meters(Spherical Mercator)
+            mapView.MapUnit = GeographyUnit.Meter;
 
-            BackgroundLayer backgroundLayer = new BackgroundLayer(new GeoSolidBrush(GeoColors.DeepOcean));
+            // Add Cloud Maps as a background overlay
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            LayerOverlay layerOverlay = new LayerOverlay();
+            layerOverlay.TileType = TileType.SingleTile;
+            mapView.Overlays.Add(layerOverlay);
 
-            ShapeFileFeatureLayer worldLayer = new ShapeFileFeatureLayer(@"..\..\..\Data\Shapefile\Countries02.shp");
-            worldLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(255, 233, 232, 214), GeoColor.FromArgb(255, 118, 138, 69));
-            worldLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            RadiusLayer radiusLayer = new RadiusLayer();
+            radiusLayer.RingDistanceUnit = DistanceUnit.Mile;
+            radiusLayer.RingGeography = GeographyUnit.Meter;
+            radiusLayer.RingDistance = 5;
 
-            // Add the mapShapeLayer to the MapEngine
-            CustomMapShapeLayer mapShapeLayer = new CustomMapShapeLayer();
+            layerOverlay.Layers.Add(radiusLayer);
 
-            CustomMapShape mapShape1 = new CustomMapShape(new Feature(-104, 42));
-            mapShape1.ZoomLevels.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Red,20);
-            mapShape1.ZoomLevels.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-            mapShapeLayer.MapShapes.Add("1", mapShape1);
-
-            CustomMapShape mapShape2 = new CustomMapShape(new Feature(104, 39));
-            mapShape2.ZoomLevels.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimpleStarStyle(GeoColors.Black,30);
-            mapShape2.ZoomLevels.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-            mapShapeLayer.MapShapes.Add("2", mapShape2);
-
-            worldLayer.Open();
-            Feature feature3 = worldLayer.QueryTools.GetFeatureById("222", ReturningColumnsType.AllColumns);
-            CustomMapShape mapShape3 = new CustomMapShape(feature3);
-            mapShape3.ZoomLevels.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.Green);
-            mapShape3.ZoomLevels.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-            mapShapeLayer.MapShapes.Add("3", mapShape3);
-
-            BaseShape shape = new PointShape(-71, -52).GetShortestLineTo(new PointShape(38, 8), GeographyUnit.DecimalDegree);
-            CustomMapShape mapShape4 = new CustomMapShape(new Feature(shape));
-            mapShape4.ZoomLevels.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.Blue,2,true);
-            mapShape4.ZoomLevels.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-            mapShapeLayer.MapShapes.Add("4", mapShape4);
-
-            LayerOverlay worldOverlay = new LayerOverlay();
-            mapView.Overlays.Add(worldOverlay);
-            
-            worldOverlay.Layers.Add(backgroundLayer);
-            worldOverlay.Layers.Add(worldLayer);
-            worldOverlay.Layers.Add(mapShapeLayer);
-           
-            mapView.Refresh();
+            mapView.CurrentExtent = new RectangleShape(-10812042.5236828, 3942445.36497713, -10748599.7905585, 3887792.89005685);
         }
         public void Dispose()
         {
@@ -72,73 +47,42 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
     }
 
-    public class CustomMapShapeLayer : Layer
+    // This layer overrides the DrawCore and draws circles every x miles based on the center point
+    // of the screen.  You notice in the DrawCore we can draw directly on the canvas which gives us
+    // allot of power.  This is similar to custom styles where we can also draw directly on the canvas
+    // from the style.
+    public class RadiusLayer : Layer
     {
-        private Dictionary<string, CustomMapShape> mapShapes;
-
-        public CustomMapShapeLayer()
+        public RadiusLayer()
         {
-            this.mapShapes = new Dictionary<string, CustomMapShape>();
+            RingDistanceUnit = DistanceUnit.Mile;
+            RingGeography = GeographyUnit.Meter;
+            RingDistance = 1;
+            RingAreaStyle = new AreaStyle(new GeoPen(new GeoSolidBrush(GeoColor.FromArgb(50, GeoColors.Blue)), 4));
         }
 
-        // Here is where you place all of your map shapes.
-        public Dictionary<string, CustomMapShape> MapShapes
-        {
-            get { return mapShapes; }
-        }
+        public double RingDistance { get; set; }
 
-        // This is a required overload of the Layer.  As you can see we simply
-        // loop through all of our map shapes and then choose the correct zoom level.
-        // After that, the zoom level class takes care of the heavy lifting.  You
-        // have to love how easy this framework is to re-use.
+        public DistanceUnit RingDistanceUnit { get; set; }
+
+        public GeographyUnit RingGeography { get; set; }
+
+        public AreaStyle RingAreaStyle { get; set; }
         protected override void DrawCore(GeoCanvas canvas, Collection<SimpleCandidate> labelsInAllLayers)
         {
-            foreach (string mapShapeKey in mapShapes.Keys)
+            PointShape centerPoint = canvas.CurrentWorldExtent.GetCenterPoint();
+
+            double currentRingDistance = RingDistance;
+            MultipolygonShape circle = null;
+
+            // Keep drawing rings until the only barley fit inside the current extent.
+            do
             {
-                CustomMapShape mapShape = mapShapes[mapShapeKey];
-                ZoomLevel currentZoomLevel = mapShape.ZoomLevels.GetZoomLevelForDrawing(canvas.CurrentWorldExtent, canvas.Width, canvas.MapUnit);
-                if (currentZoomLevel != null)
-                {
-                    if (canvas.CurrentWorldExtent.Intersects(mapShape.Feature.GetBoundingBox()))
-                    {
-                        currentZoomLevel.Draw(canvas, new Feature[] { mapShape.Feature }, new Collection<SimpleCandidate>(), labelsInAllLayers);
-                    }
-                }
-            }
+                circle = centerPoint.Buffer(currentRingDistance, RingGeography, RingDistanceUnit);
+
+                canvas.DrawArea(circle, RingAreaStyle.OutlinePen, RingAreaStyle.FillBrush, DrawingLevel.LevelOne);
+                currentRingDistance += RingDistance;
+            } while (canvas.CurrentWorldExtent.Contains(circle));
         }
     }
-    public class CustomMapShape
-    {
-        private Feature feature;
-        private ZoomLevelSet zoomLevelSet;
-
-        public CustomMapShape()
-            : this(new Feature())
-        {
-        }
-
-        // Let's use this as a handy constructor if you already have
-        // a feature or want to create one inline.
-        public CustomMapShape(Feature feature)
-        {
-            this.feature = feature;
-            zoomLevelSet = new ZoomLevelSet();
-        }
-
-        //  This is the feature property, pretty simple.
-        public Feature Feature
-        {
-            get { return feature; }
-            set { feature = value; }
-        }
-
-        // This is the Zoom Level Set.  This high level object has all of
-        // the logic in it for zoom levels, drawing and everything.
-        public ZoomLevelSet ZoomLevels
-        {
-            get { return zoomLevelSet; }
-            set { zoomLevelSet = value; }
-        }
-    }
-
 }

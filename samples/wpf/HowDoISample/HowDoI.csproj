@@ -19,9 +19,6 @@
     <None Remove="HowDoI\**" />
     <Page Remove="HowDoI\**" />
     <Compile Remove="SampleTemplate.xaml.cs" />
-    <Page Update="Samples\CreatingStyles\CreateCustomStyleSample.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Samples\CreatingStyles\CreateRegexStyleSample.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -36,9 +33,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Resource.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Samples\CreatingStyles\CreateCustomStyleSample.xaml.cs">
-      <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\CreatingStyles\CreateRegexStyleSample.xaml.cs">
       <SubType>Code</SubType>

@@ -40,7 +40,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Add the overlay to the map
             mapView.Overlays.Add(layerOverlay);
 
-            // Apply HeatStyle
+            // Apply Cluster Point Style
             AddClusterPointStyle(coyoteSightings);
 
             // Set the map extent

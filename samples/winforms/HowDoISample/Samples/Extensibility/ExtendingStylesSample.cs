@@ -17,24 +17,21 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void Form_Load(object sender, EventArgs e)
         {
-            mapView.MapUnit = GeographyUnit.DecimalDegree;
-            mapView.CurrentExtent = new RectangleShape(-155.733, 95.60, 104.42, -81.9);
+            mapView.MapUnit = GeographyUnit.Meter;
 
-            BackgroundLayer backgroundLayer = new BackgroundLayer(new GeoSolidBrush(GeoColors.DeepOcean));
-
-            ShapeFileFeatureLayer worldLayer = new ShapeFileFeatureLayer(@"..\..\..\Data\Shapefile\Countries02.shp");
-            worldLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(255, 233, 232, 214), GeoColor.FromArgb(255, 118, 138, 69));
-            worldLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            // Add Cloud Maps as a background overlay
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             ShapeFileFeatureLayer worldCapitalsLayer = new ShapeFileFeatureLayer(@"..\..\..\Data\Shapefile\WorldCapitals.shp");
+            worldCapitalsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 3857);
             worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             LayerOverlay worldOverlay = new LayerOverlay();
-            worldOverlay.Layers.Add(backgroundLayer);
-            worldOverlay.Layers.Add("Countries", worldLayer);
             worldOverlay.Layers.Add("WorldCapitals", worldCapitalsLayer);
-
             mapView.Overlays.Add("Overlay", worldOverlay);
+
+            mapView.CurrentExtent = new RectangleShape(-15360785.1188513, 14752615.1010077, 16260907.558937, -12603279.9259404);
 
             mapView.Refresh();
         }
@@ -61,17 +58,17 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             this.mapView = new ThinkGeo.UI.WinForms.MapView();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.TimeBasedPointStyle = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
             this.SizedBasedPointStyle = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.TimeBasedPointStyle = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -89,7 +86,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.SizedBasedPointStyle);
@@ -101,16 +98,27 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Size = new System.Drawing.Size(303, 599);
             this.panel1.TabIndex = 1;
             // 
-            // label1
+            // SizedBasedPointStyle
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(14, 23);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(176, 20);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Time Based Point Style:";
+            this.SizedBasedPointStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.SizedBasedPointStyle.Location = new System.Drawing.Point(18, 143);
+            this.SizedBasedPointStyle.Name = "SizedBasedPointStyle";
+            this.SizedBasedPointStyle.Size = new System.Drawing.Size(267, 32);
+            this.SizedBasedPointStyle.TabIndex = 3;
+            this.SizedBasedPointStyle.Text = "Apply Style";
+            this.SizedBasedPointStyle.UseVisualStyleBackColor = true;
+            this.SizedBasedPointStyle.Click += new System.EventHandler(this.SizedBasedPointStyle_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(14, 109);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(220, 20);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Capitol Population Point Style:";
             // 
             // TimeBasedPointStyle
             // 
@@ -123,27 +131,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.TimeBasedPointStyle.UseVisualStyleBackColor = true;
             this.TimeBasedPointStyle.Click += new System.EventHandler(this.TimeBasedPointStyle_Click);
             // 
-            // label2
+            // label1
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(14, 109);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(252, 20);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Population Size Based Point Style:";
-            // 
-            // SizedBasedPointStyle
-            // 
-            this.SizedBasedPointStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.SizedBasedPointStyle.Location = new System.Drawing.Point(18, 143);
-            this.SizedBasedPointStyle.Name = "SizedBasedPointStyle";
-            this.SizedBasedPointStyle.Size = new System.Drawing.Size(267, 32);
-            this.SizedBasedPointStyle.TabIndex = 3;
-            this.SizedBasedPointStyle.Text = "Apply Style";
-            this.SizedBasedPointStyle.UseVisualStyleBackColor = true;
-            this.SizedBasedPointStyle.Click += new System.EventHandler(this.SizedBasedPointStyle_Click);
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(14, 23);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(149, 20);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Daylight Point Style:";
             // 
             // ExtendingStylesSample
             // 
@@ -165,8 +162,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             TimeBasedPointStyle timeBasedPointStyle = new TimeBasedPointStyle();
             timeBasedPointStyle.TimeZoneColumnName = "TimeZone";
-            timeBasedPointStyle.DaytimePointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Yellow, 8);
-            timeBasedPointStyle.NighttimePointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Gray, 8);
+            timeBasedPointStyle.DaytimePointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Yellow, 12, GeoColors.Black);
+            timeBasedPointStyle.NighttimePointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Gray, 12, GeoColors.Black);
 
             worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
             worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(timeBasedPointStyle);
@@ -188,6 +185,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
     }
 
+    // This style draws points on the capitols with their color based on the current time and if
+    // we think it's daylight there or not.
     class TimeBasedPointStyle : ThinkGeo.Core.Style
     {
         private PointStyle daytimePointStyle;
@@ -280,6 +279,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         }
     }
 
+    // This style draws a point sized with the population of the capitol.  It uses the DrawCore of the style
+    // to draw directly on the canvas.  It can also leverage other styles to draw on the canvas as well.
     class SizedPointStyle : ThinkGeo.Core.Style
     {
         private PointStyle pointStyle;
@@ -317,7 +318,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         protected override void DrawCore(IEnumerable<Feature> features, GeoCanvas canvas, Collection<SimpleCandidate> labelsInThisLayer, Collection<SimpleCandidate> labelsInAllLayers)
         {
-            // Loop through each feaure and determine how large the point should 
+            // Loop through each feature and determine how large the point should 
             // be then adjust it's size.
             foreach (Feature feature in features)
             {

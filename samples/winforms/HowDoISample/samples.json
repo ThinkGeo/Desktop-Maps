@@ -365,12 +365,6 @@
         "source": "Samples/CreatingStyles/CreateRegexStyleSample"
       },
       {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.CreateCustomStyleSample",
-        "title": "Create Custom Style",
-        "description": "Replace Me",
-        "source": "Samples/CreatingStyles/CreateCustomStyleSample"
-      },
-      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.CreateDotDensityStyleSample",
         "title": "Create Dot Density Style",
         "description": "Replace Me",

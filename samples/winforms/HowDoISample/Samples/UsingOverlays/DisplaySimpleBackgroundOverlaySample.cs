@@ -17,19 +17,28 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.Meter;
 
-            // Set the map zoom level set to the Cloud Maps zoom level set.
-            mapView.ZoomLevelSet = new ThinkGeoCloudMapsZoomLevelSet();
+            ShapeFileFeatureLayer housingUnitsLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco 2010 Census Housing Units.shp");
 
-            // Create the layer overlay with some additional settings and add to the map.
-            ThinkGeoCloudVectorMapsOverlay cloudOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~");
-            cloudOverlay.MapType = ThinkGeoCloudVectorMapsMapType.Light;
-            mapView.Overlays.Add("Cloud Overlay", cloudOverlay);
+            // Project the layer's data to match the projection of the map
+            housingUnitsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
-            // Set the current extent to a neighborhood in Frisco Texas.
-            mapView.CurrentExtent = new RectangleShape(-10781708.9749424, 3913502.90429046, -10777685.1114043, 3910360.79646662);
+            // Add and apply the ClassBreakStyle to the housingUnitsLayer
+            housingUnitsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(new AreaStyle(GeoPens.Black));
+            housingUnitsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            // Refresh the map.
-            mapView.Refresh();
+            // Add housingUnitsLayer to a LayerOverlay
+            var layerOverlay = new LayerOverlay();
+            layerOverlay.Layers.Add(housingUnitsLayer);
+
+            // Add layerOverlay to the mapView
+            mapView.Overlays.Add(layerOverlay);
+
+            mapView.BackgroundOverlay.BackgroundBrush = new GeoLinearGradientBrush(GeoColors.Blue, GeoColors.White, 90);
+
+            // Set the map extent
+            housingUnitsLayer.Open();
+            mapView.CurrentExtent = housingUnitsLayer.GetBoundingBox();
+            housingUnitsLayer.Close();
         }
 
         #region Component Designer generated code
