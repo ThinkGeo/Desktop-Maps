@@ -1,17 +1,17 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using ThinkGeo.Core;
 using ThinkGeo.UI.Wpf;
+using ThinkGeo.Core;
+using System;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Learn how to create a heat map from data using a HeatStyle
+    /// Learn how to display a CloudMapsVector Layer on the map
     /// </summary>
-    public partial class CreateHeatStyleSample : UserControl, IDisposable
+    public partial class CreateRegexStyleSample : UserControl, IDisposable
     {
-        public CreateHeatStyleSample()
+        public CreateRegexStyleSample()
         {
             InitializeComponent();
         }
@@ -28,9 +28,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
-
             ShapeFileFeatureLayer coyoteSightings = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco_Coyote_Sightings.shp");
 
             // Project the layer's data to match the projection of the map
@@ -38,29 +35,33 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Add the layer to a layer overlay
             var layerOverlay = new LayerOverlay();
-            layerOverlay.Layers.Add(coyoteSightings);
+            layerOverlay.Layers.Add("coyoteSightings", coyoteSightings);
 
             // Add the overlay to the map
             mapView.Overlays.Add(layerOverlay);
 
-            // Apply HeatStyle
-            AddHeatStyle(coyoteSightings);
-        }
+            // Create a regex style and item that looks for big / large / huge based on the comments
+            // from users and draws them differently
+            RegexStyle regexStyle = new RegexStyle();
+            regexStyle.ColumnName = "Comments";
 
-        /// <summary>
-        /// Create a heat style that bases the color intensity on the proximity of surrounding points
-        /// </summary>
-        private void AddHeatStyle(ShapeFileFeatureLayer layer)
-        {
-            // Create the heat style
-            var heatStyle = new HeatStyle(20, 1, DistanceUnit.Kilometer);
+            RegexItem largeItem = new RegexItem("big|large|huge", new PointStyle(PointSymbolType.Circle, 12, GeoBrushes.Red));        
+            regexStyle.RegexItems.Add(largeItem);
+            
+            // We have a default drawing style for every sighting
+            PointStyle allSightingsStyle = new PointStyle(PointSymbolType.Circle, 5, GeoBrushes.Green);
 
             // Add the point style to the collection of custom styles for ZoomLevel 1.
-            layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(heatStyle);
+            coyoteSightings.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(allSightingsStyle);
+            coyoteSightings.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(regexStyle);
 
-            // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the point style on every zoom level on the map. 
-            layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the point style on every zoom level on the map.
+            coyoteSightings.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
+            // Set the map extent
+            mapView.CurrentExtent = new RectangleShape(-10812042.5236828, 3942445.36497713, -10748599.7905585, 3887792.89005685);
         }
+       
         public void Dispose()
         {
             // Dispose of unmanaged resources.
@@ -68,5 +69,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
+
     }
 }

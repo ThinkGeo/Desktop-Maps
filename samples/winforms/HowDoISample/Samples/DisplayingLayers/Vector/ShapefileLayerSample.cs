@@ -5,7 +5,7 @@ using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class ShapefileLayerSample: UserControl
+    public class ShapefileLayerSample : UserControl
     {
         public ShapefileLayerSample()
         {

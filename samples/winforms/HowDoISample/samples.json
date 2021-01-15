@@ -217,6 +217,12 @@
         "source": "Samples/UsingOverlays/CachingMapTilesSample"
       },
       {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.DisplaySimpleBackgroundOverlaySample",
+        "title": "Display Simple Background Overlay",
+        "description": "Replace ME",
+        "source": "Samples/UsingOverlays/DisplaySimpleBackgroundOverlaySample"
+      },
+      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayBingMapsOverlaySample",
         "title": "Display Bing Maps Overlay",
         "description": "Learn to render Bing Maps using the BingMapsOverlay. A valid Bing Maps ApplicationID is required. Visit the Bing Maps Dev Portal to sign up for a key (https://www.bingmapsportal.com/).",
@@ -300,6 +306,18 @@
         "source": "Samples/UsingMapTools/DisplayMapMouseCoordinatesSample"
       },
       {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayMagneticNorthSample",
+        "title": "Display Magnetic North Sample",
+        "description": "Replace Me",
+        "source": "Samples/UsingMapTools/DisplayMagneticNorthSample"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayCompassSample",
+        "title": "Display Compass Sample",
+        "description": "Replace Me",
+        "source": "Samples/UsingMapTools/DisplayCompassSample"
+      },
+      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayMapScaleLineSample",
         "title": "Display a Map ScaleLine",
         "description": "Learn to render a ScaleLine on the map in a variety of different of styles.",
@@ -339,6 +357,18 @@
         "title": "Create a Text Style",
         "description": "Learn how to label data using a TextStyle",
         "source": "Samples/CreatingStyles/CreateTextStyleSample"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.CreateRegexStyleSample",
+        "title": "Create Regex Style",
+        "description": "Replace Me",
+        "source": "Samples/CreatingStyles/CreateRegexStyleSample"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.CreateDotDensityStyleSample",
+        "title": "Create Dot Density Style",
+        "description": "Replace Me",
+        "source": "Samples/CreatingStyles/CreateDotDensityStyleSample"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.CreateFilterStyleSample",
@@ -647,6 +677,30 @@
         "description": "Learn how to use the MapsQueryClient to query the WorldMaps dataset available from the ThinkGeo Cloud",
         "source": "Samples/UsingCloudMapsServices/WorldMapsQueryCloudServicesSample"
       }
+    ]
+  },
+  {
+    "title": "Extensibility",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.ExtendingStylesSample",
+        "title": "Extending Styles",
+        "description": "Learn how to use the Style base class to create your own custom styles.",
+        "source": "Samples/Extensibility/ExtendingStylesSample"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.ExtendingLayersSample",
+        "title": "Extending Layers",
+        "description": "Learn how to use the Layer base class to create your own custom layers.",
+        "source": "Samples/Extensibility/ExtendingLayersSample"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.ExtendingFeatureSourcesSample",
+        "title": "Extending Feature Sources",
+        "description": "Learn how to use the FeatureSource base class to create your own custom Feature Source.",
+        "source": "Samples/Extensibility/ExtendingFeatureSourcesSample"
+      }
+
     ]
   },
   {

@@ -5,17 +5,16 @@ using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class CreateHeatStyleSample : UserControl
+    public class CreateDotDensityStyleSample : UserControl
     {
-        private readonly ShapeFileFeatureLayer coyoteSightings = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco_Coyote_Sightings.shp");
-
-        public CreateHeatStyleSample()
+        public CreateDotDensityStyleSample()
         {
             InitializeComponent();
         }
 
         private void Form_Load(object sender, EventArgs e)
         {
+
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
 
@@ -23,38 +22,30 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
-
-            ShapeFileFeatureLayer coyoteSightings = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco_Coyote_Sightings.shp");
+            ShapeFileFeatureLayer housingUnitsLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco 2010 Census Housing Units.shp");
 
             // Project the layer's data to match the projection of the map
-            coyoteSightings.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+            housingUnitsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
-            // Add the layer to a layer overlay
+            // Here we use a dot density type based on the number of housing units in the area.
+            // It draws 1 sized blue circles with a ratio of one dot per 10 housing units in the data
+            DotDensityStyle housingUnitsStyle = new DotDensityStyle("H_UNITS", .1, 1, GeoColors.Blue);
+
+            // Add and apply the ClassBreakStyle to the housingUnitsLayer
+            housingUnitsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(housingUnitsStyle);
+            housingUnitsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
+            // Add housingUnitsLayer to a LayerOverlay
             var layerOverlay = new LayerOverlay();
-            layerOverlay.Layers.Add(coyoteSightings);
+            layerOverlay.Layers.Add(housingUnitsLayer);
 
-            // Add the overlay to the map
+            // Add layerOverlay to the mapView
             mapView.Overlays.Add(layerOverlay);
 
-            // Apply HeatStyle
-            AddHeatStyle(coyoteSightings);
-        }
-
-        /// <summary>
-        /// Create a heat style that bases the color intensity on the proximity of surrounding points
-        /// </summary>
-        private void AddHeatStyle(ShapeFileFeatureLayer layer)
-        {
-            // Create the heat style
-            var heatStyle = new HeatStyle(20, 1, DistanceUnit.Kilometer);
-
-            // Add the point style to the collection of custom styles for ZoomLevel 1.
-            layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(heatStyle);
-
-            // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the point style on every zoom level on the map. 
-            layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            // Set the map extent
+            housingUnitsLayer.Open();
+            mapView.CurrentExtent = housingUnitsLayer.GetBoundingBox();
+            housingUnitsLayer.Close();
         }
 
         #region Component Designer generated code
@@ -80,14 +71,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotatedAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(1213, 553);
+            this.mapView.Size = new System.Drawing.Size(1254, 667);
             this.mapView.TabIndex = 0;
             // 
-            // CreateHeatStyleSample
+            // CloudMapsVectorLayerSample
             // 
             this.Controls.Add(this.mapView);
-            this.Name = "CreateHeatStyleSample";
-            this.Size = new System.Drawing.Size(1213, 553);
+            this.Name = "CloudMapsVectorLayerSample";
+            this.Size = new System.Drawing.Size(1254, 667);
             this.Load += new System.EventHandler(this.Form_Load);
             this.ResumeLayout(false);
 

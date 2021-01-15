@@ -62,12 +62,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 printerLayer.IsDrawing = false;
             }
 
-            // Finish drawing and populate print dialog
-            printerGeoCanvas.Flush();
-
-            PrintPreviewDialog printPreviewDialog = new PrintPreviewDialog();
-            printPreviewDialog.Document = printDocument;
-            printPreviewDialog.ShowDialog();
+            // Finish drawing and send the print commands to the printer
+            printerGeoCanvas.EndDrawing();
         }
 
         private void SetupMapForPrinting()
@@ -91,7 +87,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Add the printerOverlay to the map
             mapView.InteractiveOverlays.Add("printerOverlay", printerOverlay);
-            mapView.InteractiveOverlays.MoveToBottom("printerOverlay");
 
             // Set the map extent
             mapView.CurrentExtent = pageLayer.GetPosition().GetBoundingBox();

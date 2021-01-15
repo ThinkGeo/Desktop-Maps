@@ -146,12 +146,6 @@
         "source": "Samples/DisplayingLayers/WebServices/GoogleMapLayerSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.MapBoxLayerSample",
-        "title": "Display a MapBox StaticTile Layer",
-        "description": "This sample shows how to display a MapBox StaticTile layer.",
-        "source": "Samples/DisplayingLayers/WebServices/MapBoxLayerSample"
-      },
-      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.OpenStreetMapLayerSample",
         "title": "Display an OpenStreetMap Layer",
         "description": "This sample shows how to display a Open Street Maps layer.",
@@ -259,6 +253,12 @@
         "source": "Samples/UsingOverlays/DisplayWMSOverlaySample"
       },
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplaySimpleBackgroundOverlaySample",
+        "title": "Display a Background Overlay",
+        "description": "Replace Me",
+        "source": "Samples/UsingOverlays/DisplaySimpleBackgroundOverlaySample"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DrawEditDeleteShapesUsingInteractiveOverlaySample",
         "title": "Draw, Edit, or Delete Shapes using the InteractiveOverlay",
         "description": "Learn to draw, edit, or delete shapes using the map's TrackOverlay and EditOverlay.",
@@ -310,6 +310,18 @@
         "title": "Display a Map ScaleLine",
         "description": "Learn to render a ScaleLine on the map in a variety of different of styles.",
         "source": "Samples/UsingMapTools/DisplayMapScaleLineSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMagneticNorthSample",
+        "title": "Display a Magnetic North Adornment",
+        "description": "REPLACE ME",
+        "source": "Samples/UsingMapTools/DisplayMagneticNorthSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayCompassSample",
+        "title": "Display a Compass",
+        "description": "REPLACE ME",
+        "source": "Samples/UsingMapTools/DisplayCompassSample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMapPanZoomBarSample",
@@ -369,6 +381,18 @@
         "title": "Create a ClassBreak Style",
         "description": "Learn how to style data based on numeric values using a ClassBreakStyle",
         "source": "Samples/CreatingStyles/CreateHeatStyleSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateDotDensityStyleSample",
+        "title": "Create a Dot Density Style",
+        "description": "Replace ME",
+        "source": "Samples/CreatingStyles/CreateDotDensityStyleSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateRegexStyleSample",
+        "title": "Create a Regex Style",
+        "description": "Replace ME",
+        "source": "Samples/CreatingStyles/CreateRegexStyleSample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.CreateValueStyleSample",
@@ -653,6 +677,30 @@
         "description": "Learn how to use the MapsQueryClient to query the WorldMaps dataset available from the ThinkGeo Cloud",
         "source": "Samples/UsingCloudMapsServices/WorldMapsQueryCloudServicesSample"
       }
+    ]
+  },
+  {
+    "title": "Extensibility",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ExtendingStylesSample",
+        "title": "Extending Styles",
+        "description": "Learn how to use the Style base class to create your own custom styles.",
+        "source": "Samples/Extensibility/ExtendingStylesSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ExtendingLayersSample",
+        "title": "Extending Layers",
+        "description": "Learn how to use the Layer base class to create your own custom layers.",
+        "source": "Samples/Extensibility/ExtendingLayersSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ExtendingFeatureSourcesSample",
+        "title": "Extending Feature Sources",
+        "description": "Learn how to use the FeatureSource base class to create your own custom Feature Source.",
+        "source": "Samples/Extensibility/ExtendingFeatureSourcesSample"
+      }
+
     ]
   },
   {
