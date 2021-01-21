@@ -207,7 +207,7 @@
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.RefreshDynamicItems",
         "title": "Refreshing Dynamic Items",
-        "description": "Learn how to use overlays to display dynamically refreshing data. This sample will shows how to refresh an overlay to display a vehicle that gets updates every few seconds.",
+        "description": "Learn how to use overlays to display dynamically refreshing data. This sample will shows how to refresh 20,000 polygons every seconds.",
         "source": "Samples/UsingOverlays/RefreshDynamicItems"
       },
       {
@@ -215,6 +215,12 @@
         "title": "Caching Map Tiles",
         "description": "Learn how to cache map tiles. Caching tiles on an Overlay allows you to store images of rendered areas on the local disk and reuse them for faster rendering times. Saved tile images can be found in the cache folder within this project's debug folder.",
         "source": "Samples/UsingOverlays/CachingMapTilesSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DrawGPSLocationOverlaySample",
+        "title": "Draw GPS Location Overlay Sample",
+        "description": "Replace Me",
+        "source": "Samples/UsingOverlays/DrawGPSLocationOverlaySample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayBingMapsOverlaySample",
@@ -416,6 +422,12 @@
         "title": "Setting the Projection of a Layer",
         "description": "Learn how to automatically reproject a layer using the ProjectionConverter class",
         "source": "Samples/ProjectingData/SetLayerProjectionSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.WorldProjectionsSample",
+        "title": "World Projections Sample",
+        "description": "A small collection of some interesting projections.",
+        "source": "Samples/ProjectingData/WorldProjectionsSample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.ProjectingData.ProjectLatLonCoordinatesSample",

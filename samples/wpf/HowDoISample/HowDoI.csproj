@@ -45,6 +45,9 @@
       <SubType>Code</SubType>
       <DependentUpon>CreateLineStyleSample.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Samples\ProjectingData\WorldProjectionsSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Samples\UsingCloudMapsServices\RoutingServiceAreaCloudServicesSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -55,6 +58,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\UsingMapTools\DisplayMagneticNorthSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\UsingOverlays\DrawGPSLocationOverlaySample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\UsingOverlays\DisplaySimpleBackgroundOverlaySample.xaml.cs">
@@ -492,6 +498,10 @@
     <Page Update="Samples\PerformingGeometricOperations\BufferShapeSample.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Samples\ProjectingData\WorldProjectionsSample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
 	<Page Update="Samples\ProjectingData\ProjectLatLonCoordinatesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -550,6 +560,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\UsingMapTools\DisplayMapPanZoomBarSample.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingOverlays\DrawGPSLocationOverlaySample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\UsingOverlays\DisplaySimpleBackgroundOverlaySample.xaml">

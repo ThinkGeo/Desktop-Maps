@@ -168,6 +168,9 @@
     <Compile Update="Samples\Extensibility\ExtendingLayersSample.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="Samples\ProjectingData\WorldProjectionSample.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="Samples\UsingMapTools\DisplayCompassSample.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -177,9 +180,10 @@
     <Compile Update="Samples\UsingOverlays\DisplaySimpleBackgroundOverlaySample.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\UsingOverlays\RefreshDynamicItemsSample.cs">
+    <Compile Update="Samples\UsingOverlays\DrawGPSLocationOverlaySample.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="Samples\UsingOverlays\RefreshDynamicItemsSample.cs" />
     <Compile Update="Style2\RotatePointWithTextStyle.cs" />
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
