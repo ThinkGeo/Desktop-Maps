@@ -45,9 +45,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             RegexStyle regexStyle = new RegexStyle();
             regexStyle.ColumnName = "Comments";
 
-            RegexItem largeItem = new RegexItem("big|large|huge", new PointStyle(PointSymbolType.Circle, 12, GeoBrushes.Red));        
+            RegexItem largeItem = new RegexItem("big|large|huge", new PointStyle(PointSymbolType.Circle, 12, GeoBrushes.Red));
             regexStyle.RegexItems.Add(largeItem);
-            
+
             // We have a default drawing style for every sighting
             PointStyle allSightingsStyle = new PointStyle(PointSymbolType.Circle, 5, GeoBrushes.Green);
 
@@ -59,9 +59,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             coyoteSightings.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(-10812042.5236828, 3942445.36497713, -10748599.7905585, 3887792.89005685);
+            mapView.CurrentExtent = new RectangleShape(-10781794.4716492, 3917077.66579861, -10775416.8466492, 3913528.63559028);
         }
-       
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.

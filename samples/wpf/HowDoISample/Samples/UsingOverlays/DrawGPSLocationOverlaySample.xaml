@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.RefreshDynamicItems"
+﻿<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.DrawGPSLocationOverlaySample"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -10,9 +10,8 @@
         <ThinkGeoUI:MapView Grid.Column="0" Grid.Row="0" x:Name="mapView" Loaded="MapView_Loaded"/>
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Content="Feed Controls:" FontSize="16" FontWeight="Bold" Grid.Column="1" Grid.Row="0"/>
-            <Button x:Name="StartRefresh" Content="Refresh" Click="btnStartRefresh_Click" Grid.Column="1" Grid.Row="1"></Button>
-            <Button x:Name="btnRotate" Content="Rotate" Click="btnRotate_Click" Grid.Column="1" Grid.Row="2"></Button>
-            <Button x:Name="btnOffset" Content="Offset" Click="btnOffset_Click" Grid.Column="1" Grid.Row="3"></Button>
+            <CheckBox x:Name="pauseDataFeed" Content="Pause Data Feed" IsChecked="False" Checked="PauseDataFeed_Checked" Unchecked="PauseDataFeed_Unchecked" Grid.Column="1" Grid.Row="1"></CheckBox>
+            <CheckBox x:Name="centerOnVehicle" Content="Center on Vehicle" IsChecked="False" Grid.Column="1" Grid.Row="2"></CheckBox>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />
                 <ColumnDefinition Width="240" />
