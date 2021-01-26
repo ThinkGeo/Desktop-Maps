@@ -219,7 +219,7 @@
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DrawGPSLocationOverlaySample",
         "title": "Draw GPS Location Overlay Sample",
-        "description": "Replace Me",
+        "description": "Learn how to display a GPS vehicle's movements in real-time",
         "source": "Samples/UsingOverlays/DrawGPSLocationOverlaySample"
       },
       {
@@ -261,7 +261,7 @@
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplaySimpleBackgroundOverlaySample",
         "title": "Display a Background Overlay",
-        "description": "Replace Me",
+        "description": "Learn how to display a background overlay",
         "source": "Samples/UsingOverlays/DisplaySimpleBackgroundOverlaySample"
       },
       {
@@ -320,13 +320,13 @@
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMagneticNorthSample",
         "title": "Display a Magnetic North Adornment",
-        "description": "REPLACE ME",
+        "description": "Learn how to display the Magnetic North indicator on the map",
         "source": "Samples/UsingMapTools/DisplayMagneticNorthSample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayCompassSample",
         "title": "Display a Compass",
-        "description": "REPLACE ME",
+        "description": "Learn how to display a compass on the map contol",
         "source": "Samples/UsingMapTools/DisplayCompassSample"
       },
       {
@@ -391,13 +391,13 @@
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.CreateDotDensityStyleSample",
         "title": "Create a Dot Density Style",
-        "description": "Replace ME",
+        "description": "Learn how to style polygons based on numeric data values",
         "source": "Samples/CreatingStyles/CreateDotDensityStyleSample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.CreateRegexStyleSample",
         "title": "Create a Regex Style",
-        "description": "Replace ME",
+        "description": "Learn how to style select features using regex expressions",
         "source": "Samples/CreatingStyles/CreateRegexStyleSample"
       },
       {

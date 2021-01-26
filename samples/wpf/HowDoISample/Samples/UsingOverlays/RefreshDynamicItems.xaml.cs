@@ -35,7 +35,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             RectangleShape currentExtent = new RectangleShape(-10810995.245624, 3939081.90719325, -10747552.5124997, 3884429.43227297);
 
             //Do all the things we need to setup the polygon layer and overlay such as creating all the polygons etc.
-            AddPolygonOverlay(AreaBaseShape.ScaleDown(currentExtent.GetBoundingBox(),80).GetBoundingBox());
+            AddPolygonOverlay(AreaBaseShape.ScaleDown(currentExtent.GetBoundingBox(), 80).GetBoundingBox());
 
             //Set the maps current extent so we start there
             mapView.CurrentExtent = currentExtent;
@@ -116,6 +116,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private void btnStartRefresh_Click(object sender, RoutedEventArgs e)
         {
+            if (timer != null) return;
             //When you click this I start a timer that ticks every second
             timer = new DispatcherTimer();
             timer.Interval = new TimeSpan(0, 0, 1);
