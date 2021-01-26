@@ -312,18 +312,6 @@
         "source": "Samples/UsingMapTools/DisplayMapMouseCoordinatesSample"
       },
       {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayMagneticNorthSample",
-        "title": "Display Magnetic North Sample",
-        "description": "Learn how to display the Magnetic North indicator on the map",
-        "source": "Samples/UsingMapTools/DisplayMagneticNorthSample"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayCompassSample",
-        "title": "Display Compass Sample",
-        "description": "Learn how to display a compass on the map contol",
-        "source": "Samples/UsingMapTools/DisplayCompassSample"
-      },
-      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayMapScaleLineSample",
         "title": "Display a Map ScaleLine",
         "description": "Learn to render a ScaleLine on the map in a variety of different of styles.",

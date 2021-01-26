@@ -318,18 +318,6 @@
         "source": "Samples/UsingMapTools/DisplayMapScaleLineSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMagneticNorthSample",
-        "title": "Display a Magnetic North Adornment",
-        "description": "Learn how to display the Magnetic North indicator on the map",
-        "source": "Samples/UsingMapTools/DisplayMagneticNorthSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayCompassSample",
-        "title": "Display a Compass",
-        "description": "Learn how to display a compass on the map contol",
-        "source": "Samples/UsingMapTools/DisplayCompassSample"
-      },
-      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMapPanZoomBarSample",
         "title": "Display a Map PanZoomBar",
         "description": "Learn to render a PanZoomBar on the map.",
