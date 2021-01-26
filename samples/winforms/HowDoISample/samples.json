@@ -219,13 +219,13 @@
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DrawGPSLocationOverlaySample",
         "title": "Draw GPS Location Overlay Sample",
-        "description": "Replace Me",
+        "description": "Learn how to display a GPS vehicle's movements in real-time",
         "source": "Samples/UsingOverlays/DrawGPSLocationOverlaySample"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DisplaySimpleBackgroundOverlaySample",
         "title": "Display Simple Background Overlay",
-        "description": "Replace ME",
+        "description": "Learn how to display a background overlay",
         "source": "Samples/UsingOverlays/DisplaySimpleBackgroundOverlaySample"
       },
       {
@@ -314,13 +314,13 @@
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayMagneticNorthSample",
         "title": "Display Magnetic North Sample",
-        "description": "Replace Me",
+        "description": "Learn how to display the Magnetic North indicator on the map",
         "source": "Samples/UsingMapTools/DisplayMagneticNorthSample"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayCompassSample",
         "title": "Display Compass Sample",
-        "description": "Replace Me",
+        "description": "Learn how to display a compass on the map contol",
         "source": "Samples/UsingMapTools/DisplayCompassSample"
       },
       {
@@ -367,13 +367,13 @@
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.CreateRegexStyleSample",
         "title": "Create Regex Style",
-        "description": "Replace Me",
+        "description": "Learn how to style polygons based on numeric data values",
         "source": "Samples/CreatingStyles/CreateRegexStyleSample"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.CreateDotDensityStyleSample",
         "title": "Create Dot Density Style",
-        "description": "Replace Me",
+        "description": "Learn how to style select features using regex expressions",
         "source": "Samples/CreatingStyles/CreateDotDensityStyleSample"
       },
       {
@@ -426,7 +426,7 @@
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.WorldProjectionSample",
         "title": "World Projection Sample",
-        "description": "Replace Me",
+        "description": "A small collection of some interesting projections",
         "source": "Samples/ProjectingData/WorldProjectionSample"
       },
       {

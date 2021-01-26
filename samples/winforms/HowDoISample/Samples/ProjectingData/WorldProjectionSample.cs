@@ -38,8 +38,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             mapView.CurrentExtent = new RectangleShape(-176.885988320039, 121.810205234135, 168.699949179961, -92.642919765865);
 
-            // Refresh the map.
-            mapView.Refresh();
+            rdoPolar.Checked = true;
         }
 
         private void Radial_CheckChanged(object sender, EventArgs e)
@@ -107,11 +106,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private Panel panel1;
         private Label label1;
-        private RadioButton radioButton4;
-        private RadioButton radioButton3;
-        private RadioButton radioButton2;
-        private RadioButton radioButton1;
-        private RadioButton radioButton5;
+        private RadioButton rdoPolar;
+        private RadioButton rdoAlbers;
+        private RadioButton rdoMGAZone;
+        private RadioButton rdoDecimalDegrees;
+        private RadioButton rdoCylindrical;
 
         #region Component Designer generated code
 
@@ -121,19 +120,19 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             this.mapView = new ThinkGeo.UI.WinForms.MapView();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.radioButton5 = new System.Windows.Forms.RadioButton();
-            this.radioButton4 = new System.Windows.Forms.RadioButton();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.rdoCylindrical = new System.Windows.Forms.RadioButton();
+            this.rdoPolar = new System.Windows.Forms.RadioButton();
+            this.rdoAlbers = new System.Windows.Forms.RadioButton();
+            this.rdoMGAZone = new System.Windows.Forms.RadioButton();
+            this.rdoDecimalDegrees = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -151,90 +150,84 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
-            this.panel1.Controls.Add(this.radioButton5);
-            this.panel1.Controls.Add(this.radioButton4);
-            this.panel1.Controls.Add(this.radioButton3);
-            this.panel1.Controls.Add(this.radioButton2);
-            this.panel1.Controls.Add(this.radioButton1);
+            this.panel1.Controls.Add(this.rdoCylindrical);
+            this.panel1.Controls.Add(this.rdoPolar);
+            this.panel1.Controls.Add(this.rdoAlbers);
+            this.panel1.Controls.Add(this.rdoMGAZone);
+            this.panel1.Controls.Add(this.rdoDecimalDegrees);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(952, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(302, 667);
             this.panel1.TabIndex = 2;
             // 
-            // radioButton5
+            // rdoCylindrical
             // 
-            this.radioButton5.AutoSize = true;
-            this.radioButton5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.radioButton5.ForeColor = System.Drawing.Color.White;
-            this.radioButton5.Location = new System.Drawing.Point(21, 158);
-            this.radioButton5.Name = "radioButton5";
-            this.radioButton5.Size = new System.Drawing.Size(164, 21);
-            this.radioButton5.TabIndex = 7;
-            this.radioButton5.TabStop = true;
-            this.radioButton5.Text = "Equal Area Cylindrical";
-            this.radioButton5.UseVisualStyleBackColor = true;
-            this.radioButton5.CheckedChanged += new System.EventHandler(this.Radial_CheckChanged);
+            this.rdoCylindrical.AutoSize = true;
+            this.rdoCylindrical.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.rdoCylindrical.ForeColor = System.Drawing.Color.White;
+            this.rdoCylindrical.Location = new System.Drawing.Point(22, 129);
+            this.rdoCylindrical.Name = "rdoCylindrical";
+            this.rdoCylindrical.Size = new System.Drawing.Size(164, 21);
+            this.rdoCylindrical.TabIndex = 7;
+            this.rdoCylindrical.Text = "Equal Area Cylindrical";
+            this.rdoCylindrical.UseVisualStyleBackColor = true;
+            this.rdoCylindrical.CheckedChanged += new System.EventHandler(this.Radial_CheckChanged);
             // 
-            // radioButton4
+            // rdoPolar
             // 
-            this.radioButton4.AutoSize = true;
-            this.radioButton4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.radioButton4.ForeColor = System.Drawing.Color.White;
-            this.radioButton4.Location = new System.Drawing.Point(21, 131);
-            this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(152, 21);
-            this.radioButton4.TabIndex = 6;
-            this.radioButton4.TabStop = true;
-            this.radioButton4.Text = "Polar Stereographic";
-            this.radioButton4.UseVisualStyleBackColor = true;
-            this.radioButton4.CheckedChanged += new System.EventHandler(this.Radial_CheckChanged);
+            this.rdoPolar.AutoSize = true;
+            this.rdoPolar.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.rdoPolar.ForeColor = System.Drawing.Color.White;
+            this.rdoPolar.Location = new System.Drawing.Point(22, 102);
+            this.rdoPolar.Name = "rdoPolar";
+            this.rdoPolar.Size = new System.Drawing.Size(152, 21);
+            this.rdoPolar.TabIndex = 6;
+            this.rdoPolar.Text = "Polar Stereographic";
+            this.rdoPolar.UseVisualStyleBackColor = true;
+            this.rdoPolar.CheckedChanged += new System.EventHandler(this.Radial_CheckChanged);
             // 
-            // radioButton3
+            // rdoAlbers
             // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.radioButton3.ForeColor = System.Drawing.Color.White;
-            this.radioButton3.Location = new System.Drawing.Point(20, 104);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(179, 21);
-            this.radioButton3.TabIndex = 5;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "Albers Equal Area Conic";
-            this.radioButton3.UseVisualStyleBackColor = true;
-            this.radioButton3.CheckedChanged += new System.EventHandler(this.Radial_CheckChanged);
+            this.rdoAlbers.AutoSize = true;
+            this.rdoAlbers.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.rdoAlbers.ForeColor = System.Drawing.Color.White;
+            this.rdoAlbers.Location = new System.Drawing.Point(21, 75);
+            this.rdoAlbers.Name = "rdoAlbers";
+            this.rdoAlbers.Size = new System.Drawing.Size(179, 21);
+            this.rdoAlbers.TabIndex = 5;
+            this.rdoAlbers.Text = "Albers Equal Area Conic";
+            this.rdoAlbers.UseVisualStyleBackColor = true;
+            this.rdoAlbers.CheckedChanged += new System.EventHandler(this.Radial_CheckChanged);
             // 
-            // radioButton2
+            // rdoMGAZone
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.radioButton2.ForeColor = System.Drawing.Color.White;
-            this.radioButton2.Location = new System.Drawing.Point(20, 77);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(114, 21);
-            this.radioButton2.TabIndex = 4;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "MGA Zone 55";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            this.radioButton2.CheckedChanged += new System.EventHandler(this.Radial_CheckChanged);
+            this.rdoMGAZone.AutoSize = true;
+            this.rdoMGAZone.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.rdoMGAZone.ForeColor = System.Drawing.Color.White;
+            this.rdoMGAZone.Location = new System.Drawing.Point(21, 48);
+            this.rdoMGAZone.Name = "rdoMGAZone";
+            this.rdoMGAZone.Size = new System.Drawing.Size(114, 21);
+            this.rdoMGAZone.TabIndex = 4;
+            this.rdoMGAZone.Text = "MGA Zone 55";
+            this.rdoMGAZone.UseVisualStyleBackColor = true;
+            this.rdoMGAZone.CheckedChanged += new System.EventHandler(this.Radial_CheckChanged);
             // 
-            // radioButton1
+            // rdoDecimalDegrees
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Checked = true;
-            this.radioButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.radioButton1.ForeColor = System.Drawing.Color.White;
-            this.radioButton1.Location = new System.Drawing.Point(20, 50);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(134, 21);
-            this.radioButton1.TabIndex = 3;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Decimal Degrees";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            this.radioButton1.CheckedChanged += new System.EventHandler(this.Radial_CheckChanged);
+            this.rdoDecimalDegrees.AutoSize = true;
+            this.rdoDecimalDegrees.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.rdoDecimalDegrees.ForeColor = System.Drawing.Color.White;
+            this.rdoDecimalDegrees.Location = new System.Drawing.Point(22, 156);
+            this.rdoDecimalDegrees.Name = "rdoDecimalDegrees";
+            this.rdoDecimalDegrees.Size = new System.Drawing.Size(134, 21);
+            this.rdoDecimalDegrees.TabIndex = 3;
+            this.rdoDecimalDegrees.Text = "Decimal Degrees";
+            this.rdoDecimalDegrees.UseVisualStyleBackColor = true;
+            this.rdoDecimalDegrees.CheckedChanged += new System.EventHandler(this.Radial_CheckChanged);
             // 
             // label1
             // 
@@ -262,6 +255,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         #endregion Component Designer generated code
 
-       
+
     }
 }
