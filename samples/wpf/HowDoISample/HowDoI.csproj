@@ -2,13 +2,15 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>net47;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>net472</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <RootNamespace>ThinkGeo.UI.Wpf.HowDoI</RootNamespace>
     <AssemblyName>ThinkGeo.UI.Wpf.HowDoI</AssemblyName>
     <UserSecretsId>1d8a5313-9352-402d-84fd-6b51ca25705e</UserSecretsId>
+    <StartupObject></StartupObject>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net47|AnyCPU'">
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net472|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
@@ -17,6 +19,13 @@
     <EmbeddedResource Remove="HowDoI\**" />
     <None Remove="HowDoI\**" />
     <Page Remove="HowDoI\**" />
+    <Compile Remove="SampleTemplate.xaml.cs" />
+    <Page Update="Samples\CreatingStyles\CreateRegexStyleSample.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\CreatingStyles\CreateDotDensityStyleSample.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Samples\CreatingStyles\CreateLineStyleSample.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -26,17 +35,35 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
+    <Compile Update="Samples\CreatingStyles\CreateRegexStyleSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\CreatingStyles\CreateDotDensityStyleSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Samples\CreatingStyles\CreateLineStyleSample.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>CreateLineStyleSample.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\WebServices\MapBoxLayerSample.xaml.cs">
+    <Compile Update="Samples\ProjectingData\WorldProjectionsSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\UsingCloudMapsServices\RoutingServiceAreaCloudServicesSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\UsingCloudMapsServices\RoutingTSPCloudServicesSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\UsingMapTools\DisplayCompassSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\UsingMapTools\DisplayMagneticNorthSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\UsingOverlays\DrawGPSLocationOverlaySample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\UsingOverlays\DisplaySimpleBackgroundOverlaySample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Page Update="Samples\CreatingStyles\CreateAreaStyleSample.xaml">
@@ -78,8 +105,13 @@
       <SubType>Code</SubType>
       <DependentUpon>CreateClusterPointStyleSample.xaml</DependentUpon>
     </Compile>
-    <Page Update="Samples\DisplayingLayers\WebServices\MapBoxLayerSample.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    <Page Update="Samples\Extensibility\ExtendingStylesSample.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\Extensibility\ExtendingLayersSample.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\Extensibility\ExtendingFeatureSourcesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\PerformingGeometricOperations\UnionShapesSample.xaml">
@@ -167,12 +199,13 @@
     <None Remove="Resources\coyote_paw.png" />
     <Resource Include="Resources\coyote_paw.png" />
     <None Remove="Resources\hotel_icon.png" />
+    <Page Remove="SampleTemplate.xaml" />
     <Resource Include="Resources\hotel_icon.png" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.0.1" />
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />
     <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="ThinkGeo.Ecw" Version="12.3.2" />
@@ -465,6 +498,10 @@
     <Page Update="Samples\PerformingGeometricOperations\BufferShapeSample.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Samples\ProjectingData\WorldProjectionsSample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
 	<Page Update="Samples\ProjectingData\ProjectLatLonCoordinatesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -516,7 +553,20 @@
     <Page Update="Samples\UsingCloudMapsServices\WorldMapsQueryCloudServicesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Samples\UsingMapTools\DisplayCompassSample.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingMapTools\DisplayMagneticNorthSample.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Samples\UsingMapTools\DisplayMapPanZoomBarSample.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingOverlays\DrawGPSLocationOverlaySample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\UsingOverlays\DisplaySimpleBackgroundOverlaySample.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\UsingOverlays\RefreshDynamicItems.xaml">

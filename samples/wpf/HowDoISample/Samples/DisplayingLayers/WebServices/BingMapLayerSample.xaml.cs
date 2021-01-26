@@ -26,7 +26,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Set the map zoom level set to the bing map zoom level set so all the zoom levels line up.
-            mapView.ZoomLevelSet = new BingMapsZoomLevelSet();
+            mapView.ZoomLevelSet = new BingMapsZoomLevelSet(256);
 
             // Create the layer overlay with some additional settings and add to the map.
             LayerOverlay layerOverlay = new LayerOverlay() { TileHeight = 256, TileWidth = 256 };
@@ -35,7 +35,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.Overlays.Add("Bing Map", layerOverlay);
 
             // Create the bing map layer and add it to the map.
-            BingMapsLayer bingMapsLayer = new BingMapsLayer(txtApplicationID.Text, BingMapsMapType.Road);
+            BingMapsLayer bingMapsLayer = new BingMapsLayer(txtApplicationID.Text, BingMapsMapType.Road, "C:\\temp");
             layerOverlay.Layers.Add(bingMapsLayer);
 
             // Set the current extent to the whole world.

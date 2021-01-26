@@ -146,12 +146,6 @@
         "source": "Samples/DisplayingLayers/WebServices/GoogleMapLayerSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.MapBoxLayerSample",
-        "title": "Display a MapBox StaticTile Layer",
-        "description": "This sample shows how to display a MapBox StaticTile layer.",
-        "source": "Samples/DisplayingLayers/WebServices/MapBoxLayerSample"
-      },
-      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.OpenStreetMapLayerSample",
         "title": "Display an OpenStreetMap Layer",
         "description": "This sample shows how to display a Open Street Maps layer.",
@@ -213,7 +207,7 @@
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.RefreshDynamicItems",
         "title": "Refreshing Dynamic Items",
-        "description": "Learn how to use overlays to display dynamically refreshing data. This sample will shows how to refresh an overlay to display a vehicle that gets updates every few seconds.",
+        "description": "Learn how to use overlays to display dynamically refreshing data. This sample will shows how to refresh 20,000 polygons every seconds.",
         "source": "Samples/UsingOverlays/RefreshDynamicItems"
       },
       {
@@ -221,6 +215,12 @@
         "title": "Caching Map Tiles",
         "description": "Learn how to cache map tiles. Caching tiles on an Overlay allows you to store images of rendered areas on the local disk and reuse them for faster rendering times. Saved tile images can be found in the cache folder within this project's debug folder.",
         "source": "Samples/UsingOverlays/CachingMapTilesSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DrawGPSLocationOverlaySample",
+        "title": "Draw GPS Location Overlay Sample",
+        "description": "Learn how to display a GPS vehicle's movements in real-time",
+        "source": "Samples/UsingOverlays/DrawGPSLocationOverlaySample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayBingMapsOverlaySample",
@@ -257,6 +257,12 @@
         "title": "Display a WMS Overlay",
         "description": "Learn to render a Web Map Service using the WMSOverlay. Please be aware that this is a publicly available WMS server and it may be slow to load.",
         "source": "Samples/UsingOverlays/DisplayWMSOverlaySample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplaySimpleBackgroundOverlaySample",
+        "title": "Display a Background Overlay",
+        "description": "Learn how to display a background overlay",
+        "source": "Samples/UsingOverlays/DisplaySimpleBackgroundOverlaySample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DrawEditDeleteShapesUsingInteractiveOverlaySample",
@@ -371,6 +377,18 @@
         "source": "Samples/CreatingStyles/CreateHeatStyleSample"
       },
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateDotDensityStyleSample",
+        "title": "Create a Dot Density Style",
+        "description": "Learn how to style polygons based on numeric data values",
+        "source": "Samples/CreatingStyles/CreateDotDensityStyleSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateRegexStyleSample",
+        "title": "Create a Regex Style",
+        "description": "Learn how to style select features using regex expressions",
+        "source": "Samples/CreatingStyles/CreateRegexStyleSample"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.CreateValueStyleSample",
         "title": "Create a Value Style",
         "description": "Learn how to style data based on data values using a ValueStyle",
@@ -392,6 +410,12 @@
         "title": "Setting the Projection of a Layer",
         "description": "Learn how to automatically reproject a layer using the ProjectionConverter class",
         "source": "Samples/ProjectingData/SetLayerProjectionSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.WorldProjectionsSample",
+        "title": "World Projections Sample",
+        "description": "A small collection of some interesting projections.",
+        "source": "Samples/ProjectingData/WorldProjectionsSample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.ProjectingData.ProjectLatLonCoordinatesSample",
@@ -653,6 +677,30 @@
         "description": "Learn how to use the MapsQueryClient to query the WorldMaps dataset available from the ThinkGeo Cloud",
         "source": "Samples/UsingCloudMapsServices/WorldMapsQueryCloudServicesSample"
       }
+    ]
+  },
+  {
+    "title": "Extensibility",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ExtendingStylesSample",
+        "title": "Extending Styles",
+        "description": "Learn how to use the Style base class to create your own custom styles.",
+        "source": "Samples/Extensibility/ExtendingStylesSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ExtendingLayersSample",
+        "title": "Extending Layers",
+        "description": "Learn how to use the Layer base class to create your own custom layers.",
+        "source": "Samples/Extensibility/ExtendingLayersSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ExtendingFeatureSourcesSample",
+        "title": "Extending Feature Sources",
+        "description": "Learn how to use the FeatureSource base class to create your own custom Feature Source.",
+        "source": "Samples/Extensibility/ExtendingFeatureSourcesSample"
+      }
+
     ]
   },
   {
