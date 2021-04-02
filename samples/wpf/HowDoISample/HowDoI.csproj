@@ -217,7 +217,7 @@
     <PackageReference Include="ThinkGeo.PostgreSql" Version="12.3.2" />
     <PackageReference Include="ThinkGeo.Printers" Version="12.3.2" />
     <PackageReference Include="ThinkGeo.SqlServer" Version="12.3.2" />
-    <PackageReference Include="ThinkGeo.UI.Wpf" Version="12.3.2" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="13.0.0-beta250" />
     <PackageReference Include="ThinkGeo.UnmanagedGeoTiff" Version="12.3.2" />
     <PackageReference Include="ThinkGeo.UnmanagedProj" Version="12.3.2" />
     <PackageReference Include="WpfAnimatedGif" Version="2.0.0" />

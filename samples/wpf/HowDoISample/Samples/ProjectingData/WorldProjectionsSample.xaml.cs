@@ -42,9 +42,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             layerOverlay.Layers.Add("world layer", worldLayer);
 
             mapView.CurrentExtent = new RectangleShape(-139.971925820039, 140.267236484135, 151.824949179961, -111.099951015865);
-
+            mapView.MapClick += MapView_MapClick;
             // Refresh the map.
             mapView.Refresh();
+        }
+
+
+
+        private void MapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        {
+            GeoImage snapShot = mapView.GetSnapshot(1500, 1125);
+            snapShot.Save($@"F:\SnapShots\{this.GetType().Name} {mapView.CurrentExtent.GetCenterPoint().X} {mapView.CurrentExtent.GetCenterPoint().Y}.png", GeoImageFormat.Png);
+            MessageBox.Show("Screen shot Taken");
         }
 
         private void Radial_Checked(object sender, RoutedEventArgs e)
