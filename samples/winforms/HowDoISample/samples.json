@@ -367,13 +367,13 @@
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.CreateRegexStyleSample",
         "title": "Create Regex Style",
-        "description": "Replace Me",
+        "description": "Draw features based on columns data using regular expressions.",
         "source": "Samples/CreatingStyles/CreateRegexStyleSample"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.CreateDotDensityStyleSample",
         "title": "Create Dot Density Style",
-        "description": "Replace Me",
+        "description": "Shows the density of a value in an area for a set of polygons.",
         "source": "Samples/CreatingStyles/CreateDotDensityStyleSample"
       },
       {

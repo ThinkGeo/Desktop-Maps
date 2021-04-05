@@ -391,13 +391,13 @@
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.CreateDotDensityStyleSample",
         "title": "Create a Dot Density Style",
-        "description": "Replace ME",
+        "description": "Shows the density of a value in an area for a set of polygons.",
         "source": "Samples/CreatingStyles/CreateDotDensityStyleSample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.CreateRegexStyleSample",
         "title": "Create a Regex Style",
-        "description": "Replace ME",
+        "description": "Draw features based on columns data using regular expressions.",
         "source": "Samples/CreatingStyles/CreateRegexStyleSample"
       },
       {
