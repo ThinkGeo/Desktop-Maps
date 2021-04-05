@@ -35,9 +35,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             radiusLayer.RingDistance = 5;
 
             layerOverlay.Layers.Add(radiusLayer);
-
+            mapView.MapClick += MapView_MapClick;
             mapView.CurrentExtent = new RectangleShape(-10812042.5236828, 3942445.36497713, -10748599.7905585, 3887792.89005685);
         }
+
+        private void MapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        {
+            GeoImage snapShot = mapView.GetSnapshot(1500, 1125);
+            snapShot.Save($@"F:\SnapShots\{this.GetType().Name} {mapView.CurrentExtent.GetCenterPoint().X} {mapView.CurrentExtent.GetCenterPoint().Y}.png", GeoImageFormat.Png);
+            MessageBox.Show("Screen shot Taken");
+        }
+
+        
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.
