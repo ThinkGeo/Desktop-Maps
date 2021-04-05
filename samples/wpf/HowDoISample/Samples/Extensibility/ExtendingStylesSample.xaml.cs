@@ -35,16 +35,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             mapView.CurrentExtent = new RectangleShape(-15360785.1188513, 14752615.1010077, 16260907.558937, -12603279.9259404);
 
-            mapView.MapClick += MapView_MapClick;
             mapView.Refresh();
         }
-        private void MapView_MapClick(object sender, MapClickMapViewEventArgs e)
-        {
-            GeoImage snapShot = mapView.GetSnapshot(1500, 1125);
-            snapShot.Save($@"F:\SnapShots\{this.GetType().Name} {mapView.CurrentExtent.GetCenterPoint().X} {mapView.CurrentExtent.GetCenterPoint().Y}.png", GeoImageFormat.Png);
-            MessageBox.Show("Screen shot Taken");
-        }
-
         
 
         public void Dispose()
