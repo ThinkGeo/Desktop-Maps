@@ -37,6 +37,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             mapView.Refresh();
         }
+        
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.

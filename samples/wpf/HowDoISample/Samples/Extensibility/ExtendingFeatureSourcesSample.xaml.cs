@@ -42,8 +42,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             csvLayer.Open();
             mapView.CurrentExtent = csvLayer.GetBoundingBox();
-
         }
+        
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.

@@ -42,7 +42,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             layerOverlay.Layers.Add("world layer", worldLayer);
 
             mapView.CurrentExtent = new RectangleShape(-139.971925820039, 140.267236484135, 151.824949179961, -111.099951015865);
-
             rdoPolar.IsChecked = true;
         }
 
