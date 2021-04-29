@@ -594,14 +594,6 @@ The Map Suite WPF ApplyDirectionPointStyleForLineStyle sample will guide you to 
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/ApplyDirectionalPointStyle/Screenshot.gif)
 
-# [Apply DirectionPointStyle for LineStyle for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/ApplyDirectionalPointStyleForLineStyle)
-
-The Map Suite WPF ApplyDirectionPointStyleForLineStyle sample will guide you to draw lineStyle's direction Point on map. The direction Point can be an image or a glyph, it not only rotates the icon accross the angle of the road, but also provides a way to customize the rotation of the direction point. The arrows highlighted in the red circle in the following screenshot are customized based on the line's attributes. Please check out the source for detail. This sample supports Map Suite 10.5.8 and higher. 
-
-![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/ApplyDirectionalPointStyleForLineStyle/Screenshot.gif)
-
-# [BackgroundMapSwitchingSample-ForWpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/BackgroundMapSwitchingSample)
-
 This sample shows you how to use these four different types of maps as background in Map Suite Desktop (WPF) Edition.
  - **ThinkGeo Cloud Maps**
  - **Open Street Map**
