@@ -220,3 +220,9 @@ The purpose of this project is to show how to use the **FeatureIdsToExclude** co
 This sample demonstrates how you can load raster format data supported by Gdal.
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/GdalRasterLayerSample/Screenshot.png)
+
+# [Geocoding Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/GeocodingSample)
+
+The Map Suite Geocoder “How Do I?” solution offers a series of useful how-to examples for using the Map Suite Geocoder component. The bundled solution comes with a small set of sample data from Chicago, IL and demonstrates geocoding, reverse geocoding, batch geocoding, use of fuzzy matching logic, getting the closest street number to a point, and much more. Full source code is included in both C# and VB.NET languages; simply select your preferred language to download the associated solution.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/GeocodingSample/Screenshot.gif)
