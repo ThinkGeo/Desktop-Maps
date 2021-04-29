@@ -91,3 +91,9 @@ Upon request of our users, today we publish a project that is the Desktop versio
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/DetectGpsSample/Screenshot.png)
 
+
+# [Display Cad File Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/DisplayCadFileSample)
+
+This sample demonstrates how you can read data from an CAD file(*.dwg, *.dxf) in your Map Suite GIS applications, and how to render it with CAD embedded style as well as a customized style. This Cad File support would work in all of the Map Suite controls such as Wpf, Web, MVC and WebApi. 
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/DisplayCadFileSample/Screenshot.png)
