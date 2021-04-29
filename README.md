@@ -698,3 +698,39 @@ This **Sample**  demonstrates how you can use ThinkGeo Cloud Client to get meani
 ThinkGeo Cloud Client support would work in all of the Map Suite controls such as Wpf, Web, MVC, WebApi, Android and iOS.
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/CloudReverseGeocoding/Screenshot.gif)
+
+# [ThinkGeo Cloud Vector Maps Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/CloudVectorMapsSample)
+
+This sample demonstrates how you can draw the map with Vector Tiles requested from ThinkGeo Cloud Services in your Map Suite GIS applications, with any style you want from [StyleJSON (Mapping Definition Grammar)](https://wiki.thinkgeo.com/wiki/thinkgeo_stylejson). It will show you how to use the XyzFileBitmapTileCache and XyzFileVectorTileCache to improve the performance of map rendering. It supports have 3 built-in default map styles and more awasome styles from StyleJSON file you passed in, by 'Custom':
+- Light
+- Dark
+- TransparentBackground
+- Custom
+
+ThinkGeo Cloud Vector Maps support would work in all of the Map Suite controls such as Wpf, Web, MVC, WebApi, Android and iOS.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/CloudVectorMapsSample/Screenshot.gif)
+
+# [Cluster Feature Layer Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/ClusterFeatureLayerSample)
+
+The sample shows how to use ClusterFeatureLayer to render the specified column data as a pie chart. Allows users to compare data visually.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/ClusterFeatureLayerSample/Screenshot.gif)
+
+# [Color Replacement Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/ColorReplacementSample)
+
+In today’s WPF project, we show you how to replace a specific color in a raster image, with the advantage of new added API Color Mapping. For the example, in this project, the lake in Green can be replaced with blue.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/ColorReplacementSample/Screenshot.gif)
+
+# [Combine Overlay Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/CombineOverlaySample)
+
+In today’s Wpf project, we show a technique of using a common FeatureSource for two different Overlays. From a physical shapefile representing cities, a regular LayerOverlay is used for the higher zoom levels while a FeatureSourceMarkerOverlay is used for the lower zoom levels. FeatureSourceMarkerOverlay is a Wpf specific overlay offering features for a better user experience such a Tooltips and ImageSource.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/CombineOverlaySample/Screenshot.gif)
+
+# [Connecting Two Shapes With Arraw Line Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/ConnectingTwoShapesWithArrawLineSample)
+
+In this sample, two polygons are connected by a arrowline, and if the polygons are moved the connecting arrowline will be moved automatically as well.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/ConnectingTwoShapesWithArrawLineSample/Screenshot.gif)
