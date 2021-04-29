@@ -166,3 +166,9 @@ This sample shows how you can suppress and draw exceptions in desktop overlays i
 This Desktop project shows how to handle **TrackOverlay** to obtain dynamic information about the shape being tracked.
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/DynamicTrackShapesSample/ScreenShot.png)
+
+# [Earthquakes Heat Map Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/EarthQuakeHeatMapSample)
+
+After the project on displaying swine flu data using the heat map technique, here you learn how to apply parameters other than strictly spatial distribution to affect the coloring of the map.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/EarthQuakeHeatMapSample/ScreenShot.png)
