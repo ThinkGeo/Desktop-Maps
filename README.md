@@ -78,3 +78,10 @@ To use this app, you need to track a polygon, double click to end it, and it wil
 In today’s project, we are going to see how to extend the TrackInteractiveOverlay in the Desktop edition to have the desired behavior when tracking a line. In this case, we show how to override the MouseDownCore function to have the line being tracked at left mouse click and have the last vertex added deleted at right mouse click.
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/CustomTrackLineSample/Screenshot.gif)
+
+# [Custom Track Polygon Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/CustomTrackPolygonSample)
+
+Learn how to extend the **TrackInteractiveOverlay** to add behaviors, like deleting the last added vertex when right-clicking the track line.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/CustomTrackPolygonSample/ScreenShot.png)
+
