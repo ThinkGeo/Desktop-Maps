@@ -122,3 +122,11 @@ This sample shows how to use the method GetFeaturesWithDistanceOf when the data 
 In today’s sample, we show how to drag icons representing vehicle on the map. This is a handy feature if you want to give your users the ability to drag and drop some non stationary features such as vehicles. You can see that to accomplish this functionality, you can use EditInteractiveOverlay as it already has all the necessary logic for dragging purposes. Look at the code to see how to set up that overlay to have the expected behavior.
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/DragIconSample/Screenshot.gif)
+
+# [Drag Point Advanced Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/DragPointAdvancedSample)
+
+This project is an example of how extensible **EditInteractiveOverlay** is for the editing needs of the user. You can see how to change the styles of the vertex being dragged based on the Shift key, and how to have the vertex snap to any feature.
+
+Thanks to the protected override functions such as **KeyDownCore**, **KeyUpCore**, **MouseUpCore** and **DrawCore**, these functionalities can easily be implemented by inheriting from **EditInteractiveOverlay**.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/DragPointAdvancedSample/Screenshot.gif)
