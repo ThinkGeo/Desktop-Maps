@@ -448,3 +448,35 @@ The Map Suite Routing Index Generator is a utility that will allow you to genera
 The Map Suite Routing “How Do I?” solution offers a series of useful how-to examples for using the Map Suite Routing extension. The bundled solution comes with a small set of routable street data from Austin, TX and demonstrates simple routing, avoiding specific areas, getting turn-by-turn directions, optimizing for the Traveling Salesman Problem, and much more. Full source code is included in both C# and VB.NET languages; simply select your preferred language to download the associated solution.
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/RoutingSample/ScreenShot.png)
+
+# [Select At Track Shape Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/SelectAtTrackShapes)
+
+In today’s Desktop project, we combine the skills we learned in the samples “Spatial Query A Feature Layer” and “Track And Edit Shapes”. You can see how we use the event TrackEnded to get the RectangleShape from the tracked shape of TrackOverlay to do the spatial query. In this example, we use a Rectangle but you could also very easily use another shape such as Polygon, Circle, etc.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/SelectAtTrackShapes/Screenshot.gif)
+
+# [Shapefile Encryption Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/ShapeFileEncryptionSample)
+
+In today’s project, we are looking at a way to encrypt shapefiles to prevent them from being used outside the application. We show how to encrypt and decrypt shapefiles using streams. You will see that a very simple encryption algorithm is used but by looking at the example, you will be able to implement your own.
+
+Disclaimer: This encryption system can be used only on small shapefiles due to the amount of memory used. A typical use would be to encrypt some valuable small shapefiles you don't want your users to access. In the future, Map Suite will provide a full encryption system as an API.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/ShapeFileEncryptionSample/Screenshot.png)
+
+# [Site Selection Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/SiteSelectionSample)
+
+The Site Selection sample template allows you to view, understand, interpret, and visualize spatial data in many ways that reveal relationships, patterns, and trends. In the example illustrated, the user can apply the features of GIS to analyze spatial data to efficiently choose a suitable site for a new retail outlet.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/SiteSelectionSample/ScreenShot.png)
+
+# [Snap To Layer Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/SnapToLayerSample)
+
+This project shows how you can apply snapping to an EditInteractiveOverlay. There are many aspects to snapping. Previously, we showed a project with the mouse pointer snapping to the closest vertex of an editable polygon. Today, we show the technique to drag a control point and have it snap to the closest vertex of a layer if within tolerance. The tolerance can be set in world (meter, feet etc) or screen (pixels) coordinates. Notice that we are also using the technique showed in the previous project “Dragged Point Style”.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/SnapToLayerSample/Screenshot.gif)
+
+# [Snapping To Vertex Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/SnappingToVertex)
+
+This project is the first one of a series that will be dedicated to snapping using InteractiveOverlay. In this project, we show how to snap the mouse pointer to the closest vertex of an editable polygon if it is within a set tolerance. The tolerance is shown as a circle around the vertices. This technique can also be applied to snapping vertices within the same shape, between different shapes or even based on a layer. Those different types of snapping will be the subject of future projects related to snapping using InteractiveOverlay.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/SnappingToVertex/Screenshot.gif)
