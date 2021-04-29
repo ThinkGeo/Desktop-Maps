@@ -160,3 +160,9 @@ This project is a more complete version of a previous project â€œDragging Iconâ€
 This sample shows how you can suppress and draw exceptions in desktop overlays instead of throwing them. There is a little-known feature in the Map Suite Desktop Edition Overlay class that allows you to draw an exception in the event an exception is thrown during the drawing process. We have a default image we draw in this case; however, you can override this using the DrawExceptionCore method and draw whatever you want. By default we always throw expections, but to start drawing them you can use the Overlay.DrawExceptionMode property.
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/DrawCustomExceptionSample/Screenshot.gif)
+
+# [Dynamic Track Shapes Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/DynamicTrackShapesSample)
+
+This Desktop project shows how to handle **TrackOverlay** to obtain dynamic information about the shape being tracked.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/DynamicTrackShapesSample/ScreenShot.png)
