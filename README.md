@@ -287,3 +287,9 @@ In today’s project, we show how to split a line based on an intersecting line.
 The Jpeg2000 Sample template represents a .JP2 (JPEG2000) image type to be drawn on the map.
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/Jpeg2000Sample/ScreenShot.png)
+
+# [Kml Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/KmlSample)
+
+KML is the file format for displaying geographic data in a Google Earth browser such as Google Earth. Now, you can also display such a file on a Map Suite control. Thanks to its flexible architecture to extent to new file formats, in today’s project we wrote the logic for supporting KML. Look at the class KmlfeatureSource inheriting from FeatureSource to see how the logic for reading FML files was implemented. As well, you can see the class KmlStyle inheriting from Style for the drawing logic. And feel free to modify and improve those classes with your own implementations.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/KmlSample/ScreenShot.png)
