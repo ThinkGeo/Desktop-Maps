@@ -238,3 +238,40 @@ The purpose of this project is to show the technique for finding the feature the
 This example demonstrates how to get the zoom level of the map each time we change its extent. Using custom zoom levels, you will see how to get the zoom level with its characteristics such as the upper and lower scale defining it. You can read the comments inside the project to better understand the relationship of scales with zoom levels.
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/GetZoomLevelsSample/Screenshot.gif)
+
+# [Graphic Logo Adornment Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/GraphicLogoAdornments)
+
+This sample shows how you can display your logo on the map using an AdornmentLayer. The advantage of using an Adornment is that the graphic stays in place and doesn't move as you pan your map. The sample should work for various kinds of logos and allow you to change the position using the AdornmentLayer's properties.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/GraphicLogoAdornments/Screenshot.png)
+
+# [Heat Map Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/HeatMapSample)
+
+Heat maps is a technique increasingly used in various fields such in biology and other fields. See http://en.wikipedia.org/wiki/Heat_map. They are also used for displaying areas of webs page most frequently scanned by users. http://csscreme.com/heat-maps/.
+
+At ThinkGeo, we are taking this concept to GIS and applying it to geographic maps. Heat maps are a great way to give the users a visually compelling representation of the distribution and intensity of geographic phenomenon. 
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/HeatMapSample/ScreenShot.png)
+
+# [Hello World Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/HelloWorldSample)
+
+This sample shows you how to get started building your first application with the Map Suite Desktop for WinForms 10.0.0.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/HelloWorldSample/Screenshot.png)
+
+# [Here Real Time Traffic Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/HereRealTimeTrafficSample)
+
+This sample demonstrates how you use HERE Real-time Traffic to render map in your Map Suite GIS applications.
+Before running this sample, you need to config "AppId" and "AppCode" in App.Config. If you have ESRI or Here developer account, you can generate them on [Here's official Web Site](https://developer.here.com/).
+
+HERE Real-time Traffic provides the closest thing to a live depiction of the road. It identifies where, when and why traffic congestion occurs, and delivers up-to-the-minute information on the road conditions and incidents that could set a driver back.
+
+This HereRealTimeTrafficLayer is supported in all of the Map Suite controls such as WPF, Web, MVC and WebAPI.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/HereRealTimeTrafficSample/Screenshot.gif)
+
+# [How Do I Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/HowDoI)
+
+The "How Do I?" samples collection is a comprehensive set containing dozens of interactive samples.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/HowDoI/Screenshot.png)
