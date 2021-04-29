@@ -333,3 +333,29 @@ MapSuite API has RasterLayer from which inherits MrSIDRasterLayer and ECWRasterL
 This class show how to do that using JPEG images with its associating JGW world file. It speeds up the loading of a large number of Raster layers by loading and drawing on demand only the files in the current extent. It loads a reference file that contains the bounding box, path and file information for all of the Raster files. We load this information into an in-memory spatial index. When the map requests to draw the layer, we find the Rasters that are in the current extent, create a layer on-the-fly, call their Draw method and then close them. In this way, we load on demand only the files that are in the current extent.
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/MultiGeoRasterLayerSample/Screenshot.png)
+
+# [Multiple Labels Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/MultiplelabelsSample)
+
+This sample shows how you can display multiple labels for a given point or feature. You can do this by setting a single **TextStyle** or multiple **TextStyles**. If you use a single **TextStyle**, you can simply use a pattern like "[ColumnName1][ColumnName2]..." and when Map Suite displays the text it will combine the values of the columns in your pattern. If you use a different styling method, you will need to manually control the offset of each piece of text to avoid overlapping.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/MultiplelabelsSample/Screenshot.gif)
+
+# [Nldas Ascii Grid Layer Sample for WinFoms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/NLDASAnalysisSample)
+
+This WinForms project demonstrates how you can create a North American Land Data Assimilation System (NLDAS) grid layer. In this sample, you can find what NLDAS grid cells are fully contained in a given Shape file and what cells are partially contained. For each partially contained cell we can calculate what percent of the cell area is contained within the ShapeFile. Please refer to [NLDAS grid](https://ldas.gsfc.nasa.gov/nldas/NLDASspecs.php) for details.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/NLDASAnalysisSample/Screenshot.png)
+
+# [Native Tab File Support Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/NativeTabFilesSupportSample)
+
+One of the most exciting new features in MapSuite 5.0 is native TAB file support. In the past, the FDO extension was used for displaying TAB files in MapSuite. Now with the new TabFeatureLayer, we have a simpler and more stable method of working with TAB files. 
+
+This Code Community project demonstrates how to load and display a TAB file using the new TabFeatureLayer. The example also allows you to add, edit and delete features from the TAB file.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/NativeTabFilesSupportSample/Screenshot.png)
+
+# [Numbered Grid Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/NumberedGridSample)
+
+In many atlases, you can see maps with a numbered grid to give the page reference for a more detailed map. In today’s project, we show how to construct such a grid. Based on the extent of the feature, the number of columns and rows, a grid can be created with the page number in each cell.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/NumberedGridSample/Screenshot.png)
