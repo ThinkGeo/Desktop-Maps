@@ -208,3 +208,15 @@ We have dramatically improved the performance for GridFeatureLayer on MapSuite10
 This sample shows how to extend the **EditInteractiveOverlay** rectangles as shapes, rather than polygon shapes, by setting special column values. For features (both *Well Known Text* and *Well Known Binary*), the concept of a rectangle is not supported and typically rectangles are handled as polygons. This feature allows users to modify the rectangle but requires that the modification keep a rectangular form. The rectangle doesn't need to be straight as long as all of the corner angles are at 90 degrees relative to each other.
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/EditRectanglesSample/Screenshot.gif)
+
+# [Feature Ids To Exclude Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/FeaturesToExcludeSample)
+
+The purpose of this project is to show how to use the **FeatureIdsToExclude** collection of **FeatureLayer**. In the project, you will see how you can exclude some features from being part of the **GetFeaturesNearestTo** function. Using that collection is a handy method for not taking into account some features in doing spatial queries, searching and even drawing without having to change the structure of the layer or create another layer.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/FeaturesToExcludeSample/Screenshot.gif)
+
+# [Gdal Raster Layer Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/GdalRasterLayerSample)
+
+This sample demonstrates how you can load raster format data supported by Gdal.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/GdalRasterLayerSample/Screenshot.png)
