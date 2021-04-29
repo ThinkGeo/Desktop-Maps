@@ -275,3 +275,15 @@ This HereRealTimeTrafficLayer is supported in all of the Map Suite controls such
 The "How Do I?" samples collection is a comprehensive set containing dozens of interactive samples.
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/HowDoI/Screenshot.png)
+
+# [Intersect Line Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/IntersectLineSample)
+
+In today’s project, we show how to split a line based on an intersecting line. To accomplish this task, basically two steps are needed. First, you need to find the crossing point using the GetCrossing function and then you split the line based on the crossing point using the GetLineOnLine function. If you are in the utilities industry working with electric network, gas pipes etc, you will find this project useful.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/IntersectLineSample/Screenshot.gif)
+
+# [Jpeg2000 Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/Jpeg2000Sample)
+
+The Jpeg2000 Sample template represents a .JP2 (JPEG2000) image type to be drawn on the map.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/Jpeg2000Sample/ScreenShot.png)
