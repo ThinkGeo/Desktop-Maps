@@ -480,3 +480,31 @@ This project shows how you can apply snapping to an EditInteractiveOverlay. Ther
 This project is the first one of a series that will be dedicated to snapping using InteractiveOverlay. In this project, we show how to snap the mouse pointer to the closest vertex of an editable polygon if it is within a set tolerance. The tolerance is shown as a circle around the vertices. This technique can also be applied to snapping vertices within the same shape, between different shapes or even based on a layer. Those different types of snapping will be the subject of future projects related to snapping using InteractiveOverlay.
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/SnappingToVertex/Screenshot.gif)
+
+# [Stream Loading For Native Image Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/StreamLoadingForNativeImage)
+
+As an alternative to loading an Image with the image file from the file system, you can choose to pass your own stream. This project shows you how to use the event StreamLoading of GdiPlusRasterSource for this purpose. In this project, we show how to do this using a Tiff image but you can also use that event for ShapeFileFeatureSource as we show in a previous project “Shapefile Encryption”. Keep in mind that this technique only works with images besides MrSid, ECW and Jpeg2000. These types of images do not work because the providers do not support streams in their decoding SDKs.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/StreamLoadingForNativeImage/ScreenShot.png)
+
+# [Topology Validation Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/TopologyValidation)
+
+Starting with version 6.0.113.0, Map Suite includes topology validation capabilities. This Topology Validator sample application makes it simple to visualize and test topology rules. You simply select the case you want to test, use our drawing tools to create the shapes necessary, and then hit the play button to run the test. The error cases are highlighted on the screen and saved to the test, and their Well-Known Text (WKT) is copied to your clipboard. At any time, you can view or edit the WKT which makes up the case. We save our test cases as XML files that contain not only the test case features but also the errors. This makes it a snap for you to share your cases with us or other colleagues. 
+
+For more details including a list of topology cases that you can test, see [this article](http://gis.thinkgeo.com/Support/DiscussionForums/tabid/143/aff/16/aft/10443/afv/topic/Default.aspx#topology) or watch the [video overview](http://youtu.be/IuLGTRsVtQc)
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/TopologyValidation/Screenshot.png)
+
+# [Track Overlay With Esc Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/TrackOverlayWithEsc)
+
+This project shows how to implement aborting a trackshape with Esc key as you could do it in MapSuite 2.x.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/TrackOverlayWithEsc/ScreenShot.png)
+
+# [Track Zoom In Without Shift Key Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/TrackZoomInWithoutShift)
+
+This project is for DesktopEdition users. In Map Suite 2.x, different modes of the map are offered to the developer to choose what kind of behavior the map has at a mouse action. In Map Suite 3.x, we went away from modes to have a more flexible model using InteracticeOverlay. By default, track zoom in is done by clicking and dragging the mouse on the map while holding the Shift key. This is very convenient but what if you want to offer the users the same experience as with 2.x, where the same mouse action has different behavior such as TrackZoomIn and Pan through the use of modes.
+
+In this project, we show how to build your own InteractiveOverlay to emulate in Map Suite 3.x the mode behavior 2.x has.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/TrackZoomInWithoutShift/Screenshot.gif)
