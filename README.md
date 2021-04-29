@@ -181,3 +181,9 @@ ECW: ECW is a wavelet image compression system developed by ER Mapper.It allows 
 The images can be accessed very quickly at a variety of scales. It is very popular in the GIS community.
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/EcwSample/ScreenShot.png)
+
+# [Edit Geometry Of Shapefile Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/EditGeometryOfShapeFile)
+
+The purpose of this sample is to show how to update the geometry of a feature of a shapefile in one step. This sample is useful for anyone wanting to actualize the geometry part of its data. You can see how only a few lines of code are necessary for this process, and that the spatial index gets automatically updated after calling the committing the change. 
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/EditGeometryOfShapeFile/ScreenShot.png)
