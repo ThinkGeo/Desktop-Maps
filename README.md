@@ -187,3 +187,18 @@ The images can be accessed very quickly at a variety of scales. It is very popul
 The purpose of this sample is to show how to update the geometry of a feature of a shapefile in one step. This sample is useful for anyone wanting to actualize the geometry part of its data. You can see how only a few lines of code are necessary for this process, and that the spatial index gets automatically updated after calling the committing the change. 
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/EditGeometryOfShapeFile/ScreenShot.png)
+
+# [Edit Grid Layer Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/EditGridLayerSample)
+
+This WinForms project demonstrates how you can update a grid shape file using a spatial query. The elements in the file are rendered using ClassBreakStyles, and change when the values of the Features are incremented.
+
+We have dramatically improved the performance for GridFeatureLayer on MapSuite10.0. The performance compare is as below:
+
+| **Feature Count**                             | **Version**   | **Times(ms)**     |
+| --------------------------------------------- | ------------- | ----------------- |
+| 1164800                                       | Old           | 13105             | 
+| 1164800                                       | New           | 3735              |
+| 11680                                         | Old           | 188               |
+| 11680                                         | New           | 175               |
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/EditGridLayerSample/Screenshot.png)
