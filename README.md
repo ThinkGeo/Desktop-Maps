@@ -526,3 +526,50 @@ The Demographic and Lifestyle sample template gives you a head start on your sta
 The Earthquake Statistics sample template is a statistical report system for earthquakes that have occurred in the past few years across the United States. It can help you generate infographics and analyze the severely afflicted areas, or used as supporting evidence when recommending measures to minimize the damage in future quakes.
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/UsEarthquakeStatistics/ScreenShot.png)
+
+# [Vehicle Tracking Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/VehicleTrackingSample)
+
+The Vehicle Tracking sample template gives you a head start on your next tracking project. With a working code example to draw from, you can spend more of your time implementing the features you care about and less time thinking about how to accomplish the basic functionality of a tracking system.
+
+Because this sample needs Microsoft.Jet.OLEDB provider, please **run in x86 mode**.
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/VehicleTrackingSample/ScreenShot.png)
+
+# [Vertex Tolerance Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/VortexTolerenceSample)
+
+Basically, this project shows the opposite of yesterday’s project “Snap To Layer”. Instead of having the dragged control point snapping to a vertex if within a tolerance, we show how to not allow a control point get within a set tolerance. This technique can be handy to implement if you have a requirement to have vertices of a shape being no less than a certain distance between each others. To implement that technique, again we use the power and flexibility of the EditInteractiveOverlay of the Desktop edition.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/VortexTolerenceSample/Screenshot.png)
+
+# [World Streets Layer SDK On Linux for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/WorldStreetLayersSDKLinux)
+
+The World Streets Vector Layer Explorer is a tool that enables you to view the SQLite World Streets data using Map Suite WinForms and provides complete performance metrics.
+
+This project requires a full or evaluation version of Map Suite WinForms Edition.
+
+This sample passed on Linux with Mono Runtime. On Windows platform, it is required to replace the ThinkGeo.MapSuite.Layers.SqliteForLinux with ThinkGeo.MapSuite.Layers.Sqlite package.
+
+**To run the sample, please unzip the database file at WorldStreetsLayerSample/App_Data/DallasCounty-3857-20170218.zip, and change the connection string in WorldStreetsLayerSample/App.config to connect database that you extracted to.**
+
+Working...
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/WorldStreetLayersSDKLinux/screenshot.png)
+
+# [World Streets Layer SDK On Windows for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/WorldStreetsLayerSDKWindows)
+
+The World Streets Vector Layer Explorer is a tool that enables you to view the SQLite World Streets data using Map Suite WinForms and provides complete performance metrics.
+
+This project requires a full or evaluation version of Map Suite WinForms Edition.
+
+This sample passed on Linux with Mono Runtime. On Windows platform, it is required to replace the ThinkGeo.MapSuite.Layers.SqliteForLinux with ThinkGeo.MapSuite.Layers.Sqlite package.
+
+**To run the sample, please unzip the database file at WorldStreetsLayerSample/App_Data/DallasCounty-3857-20170218.zip, and change the connection string in WorldStreetsLayerSample/App.config to connect database that you extracted to.**
+
+Working...
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/WorldStreetsLayerSDKWindows/screenshot.png)
+
+# [Use Wpf Map Control Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/WpfMapControlSample)
+
+The wpf map control supports multi-thread to render map, so it performs better than winforms map control. This sample demonstrates how you can use wpf map control in your winforms applications.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/WpfMapControlSample/Screenshot.gif)
