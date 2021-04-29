@@ -508,3 +508,21 @@ This project is for DesktopEdition users. In Map Suite 2.x, different modes of t
 In this project, we show how to build your own InteractiveOverlay to emulate in Map Suite 3.x the mode behavior 2.x has.
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/TrackZoomInWithoutShift/Screenshot.gif)
+
+# [Tracked Shapes To WKT Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/TrackedShapesToWKT)
+
+In today’s project, we show how to save a tracked shape to WKT (Well Known Text). You will notice that we make the distinction between the shape being tracked and the finished tracked shape thanks to two different events of TrackOverlay, TrackEnding and TrackEnded.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/TrackedShapesToWKT/Screenshot.png)
+
+# [US Demographic Map Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/UsDemographicMapSample)
+
+The Demographic and Lifestyle sample template gives you a head start on your statistics project, which includes details about race, age, gender, land usage, and more for all the states in U.S. The template contains pre-styled layers that can be used as-is, or as the foundation for adding your own map notes and layers.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/UsDemographicMapSample/ScreenShot.png)
+
+# [Us Earthquake Statistics Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/UsEarthquakeStatistics)
+
+The Earthquake Statistics sample template is a statistical report system for earthquakes that have occurred in the past few years across the United States. It can help you generate infographics and analyze the severely afflicted areas, or used as supporting evidence when recommending measures to minimize the damage in future quakes.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/UsEarthquakeStatistics/ScreenShot.png)
