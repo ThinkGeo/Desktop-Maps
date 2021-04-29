@@ -734,3 +734,21 @@ In today’s Wpf project, we show a technique of using a common FeatureSource fo
 In this sample, two polygons are connected by a arrowline, and if the polygons are moved the connecting arrowline will be moved automatically as well.
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/ConnectingTwoShapesWithArrawLineSample/Screenshot.gif)
+
+# [Custom Parameters Projection Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/CustomParametersProjectionSample)
+
+In today’s Wpf project, we learn more about projection and how to handle a special case where the projection information in the PRJ file of a shapefile is not found as an EPSG or ESRI code in the spatial reference web site (www.spatial-reference.org). The strategy in this case is to build a proj4 string based on the parameters found in the PRJ file. Note that you must pay special attention to the false easting or northing parameters as they are always expressed in meters even if the projection is in another unit such as feet. For this example, we show how to convert from the local projection in Lambert Conformal Conic with regional specific parameters to Geodetic (WGS84) to match the World Map Kit.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/CustomParametersProjectionSample/Screenshot.gif)
+
+# [Custom Rotation Projection Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/CustomRotationProjectionSample)
+
+In today’s project, we show how to create your own projection class that allows projecting a layer from any internal projection to any external while doing a rotation at the same time. Having the capability to apply those two operations in one step may come handy if the original layer was created in a different projection with the north at an angle and you want to align it on the base map.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/CustomRotationProjectionSample/Screenshot.gif)
+
+# [CustomZoomLevel for ThinkGeoCloudRasterOverlay for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/CustomZoomLevelForThinkGeoCloudRasterOverlay)
+
+The Map Suite WPF CustomZoomLevelForThinkGeoCloudRasterOverlay sample will guide you to how to draw map with custom zoomlevels. This CustomZoomLevelForThinkGeoCloudRasterOverlay sample supports Map Suite 10.0.0.0 and higher and will show you how to create a WPF application using Map Suite WPF components.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/CustomZoomLevelForThinkGeoCloudRasterOverlay/Screenshot.gif)
