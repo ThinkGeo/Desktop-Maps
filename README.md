@@ -573,3 +573,35 @@ Working...
 The wpf map control supports multi-thread to render map, so it performs better than winforms map control. This sample demonstrates how you can use wpf map control in your winforms applications.
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/WpfMapControlSample/Screenshot.gif)
+
+# [Adjacent Road Search Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/AdjacentRoadSearchSample)
+
+This WPF project shows how to get a route between two adjacent roads, even if they don't intersect within an allowable tolerance.
+
+It’s based on Map Suite Geometry Topology module and does not require the Map Suite Routing Extension.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/AdjacentRoadSearchSample/Screenshot.gif)
+
+# [Annotation Style Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/AnnotatingStyleSample)
+
+In this project you will see how to use the AnnotationStyle to display and edit a feature depending on the value of a specific property in its data source.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/AnnotatingStyleSample/Screenshot.gif)
+
+# [Apply DirectionPointStyle for LineStyle for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/ApplyDirectionalPointStyle)
+
+The Map Suite WPF ApplyDirectionPointStyleForLineStyle sample will guide you to draw lineStyle's direction Point on map. The direction Point can be an image or a glyph, it not only rotates the icon accross the angle of the road, but also provides a way to customize the rotation of the direction point. The arrows highlighted in the red circle in the following screenshot are customized based on the line's attributes. Please check out the source for detail. This sample supports Map Suite 10.5.8 and higher. 
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/ApplyDirectionalPointStyle/Screenshot.gif)
+
+# [Apply DirectionPointStyle for LineStyle for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/ApplyDirectionalPointStyleForLineStyle)
+
+The Map Suite WPF ApplyDirectionPointStyleForLineStyle sample will guide you to draw lineStyle's direction Point on map. The direction Point can be an image or a glyph, it not only rotates the icon accross the angle of the road, but also provides a way to customize the rotation of the direction point. The arrows highlighted in the red circle in the following screenshot are customized based on the line's attributes. Please check out the source for detail. This sample supports Map Suite 10.5.8 and higher. 
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/ApplyDirectionalPointStyleForLineStyle/Screenshot.gif)
+
+# [Arc GIS Server Rest Layer Sample for WPF](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/ArcGISServerRestLayerSample)
+
+In this wpf-based project, we'll demonstrate the new ArcGISServerRestLayer released with Map Suite 9.0. This layer gives developers a simple and powerful tool to access their maps that reside on ArcGIS Server. This new layer utilizes the [ArcGIS Server REST API](http://resources.arcgis.com/en/help/arcgis-rest-api/). Now, the latest version of Map Suite Core can support that. In order to run this project, you will need the Development Build 9.0.443.0 or later.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/ArcGISServerRestLayerSample/Screenshot.gif)
