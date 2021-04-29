@@ -305,3 +305,9 @@ This project shows some advanced uses of the **ClassBreakStyle** to show how to 
 In this WinForms desktop project, we show how to create a custom **LineStyle** for showing distance increment at a regular interval (every tenth kilometer). Having this **LineStyle** can be very handy when dealing with line networks, such as roads or railways.
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/LineStyleWithIncrementsSample/ScreenShot.png)
+
+# [Long Lat Graticule Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/LongLatGraticuleSample)
+
+After the projects on North Arrow and Compass, we created another project related to Adornment Layer to have a more stylish map and give more information to the user navigating the map.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/LongLatGraticuleSample/ScreenShot.png)
