@@ -104,3 +104,9 @@ This sample demonstrates how you can read data from an CAD file(*.dwg, *.dxf) in
 This sample demonstrates how you can read data from an ESRI FileGeodatabase, and you will find the code as straightforward as consuming any other data source in Map Suite.
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/DisplayFileGeoDatabaseSample/Screenshot.png)
+
+# [Display Wms Raster Layer Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/DisplayWmsRasterLayerSample)
+
+This sample demonstrates how you use WmsRasterLayer to render wms server in your Map Suite GIS applications. This WmsRasterLayer support would work in all of the Map Suite controls such as Wpf, Web, MVC and WebApi. 
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/DisplayWmsRasterLayerSample/Screenshot.png)
