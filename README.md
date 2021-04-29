@@ -627,4 +627,74 @@ This repo contains three projects.
 
 ![Build Preview](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/BuildingSample/Screenshot.gif)
 
+# [Centering And Rotating Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/CenteringAndRotatingSample)
 
+This project is the Wpf version of the services edition sample “Centering and Rotating On Moving Feature”, where we learn how to have the map always centered and rotated based on the location and direction of a moving vehicle. This issues addresses some issues you have to be aware of regarding both ShapeFileFeatureLayer and InMemoryFeatureLayer when applying rotation to the map.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/CenteringAndRotatingSample/Screenshot.gif)
+
+# [Class Break Style Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/ClassBreakeStyleSample)
+
+In this project you will see how to use the ClassBreakStyle to group and render features by values. ClassBreakStyle is a useful technique as it allows you to group various features by the specified values, then applies differently style to the feature groups. 
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/ClassBreakeStyleSample/Screenshot.png)
+
+# [Clipping On Line Layer Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/ClippingOnLineLayerSample)
+
+This Wpf project completes the series of projects dedicated to the clipping geoprocessing. We already saw how to perform clipping on a polygon based layer in “Clipping” and on a point layer in “Clipping On Point Layer”. Here we show how to perform the clipping geopressing on a line based layer. As for the same operation on a polygon based layer, the key geometric function is GetIntersection. We will also appreciate the operation of creating a layer from scratch as in addition to the geometric operation itself, geoprocessing also involves creating a result layer from the original layers, the clipping layer and the clipped layer.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/ClippingOnLineLayerSample/Screenshot.gif)
+
+# [ThinkGeo Cloud Color Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/CloudColorSample)
+
+This sample demonstrates how you can use ThinkGeo Cloud Client to get colors from ThinkGeo GIS Server. It supports 7 different colors:
+- Hue
+- Quality
+- Analogous
+- Complementary
+- Contrasting
+- Tetradic
+- Triadic
+
+ThinkGeo Cloud Client support would work in all of the Map Suite controls such as Wpf, Web, MVC, WebApi, Android and iOS.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/CloudColorSample/Screenshot.gif)
+
+# [ThinkGeo Cloud Elevation Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/CloudElevationSample)
+
+This **Sample**  demonstrates how you can use ThinkGeo Cloud Client to get elevation data from ThinkGeo GIS Server, and shows the elevation data of a road in the form of a line chart.
+
+There are two ways to get the elevation data of the line. First, get the points on the line by setting the interval distance. The other, is to take the points by setting the number of points to be fetched. Then query the elevation data of the point.
+
+ThinkGeo Cloud Client support would work in all of the Map Suite controls such as Wpf, Web, MVC, WebApi, Android and iOS.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/CloudElevationSample/Screenshot.gif)
+
+# [ThinkGeo Cloud Geocoding Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/CloudGeocodingSample)
+
+This **Sample**  demonstrates how you can use ThinkGeo Cloud Client to get a geographic location from ThinkGeo GIS Server by a street address.
+
+ThinkGeo Cloud Client support would work in all of the Map Suite controls such as Wpf, Web, MVC, WebApi, Android and iOS.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/CloudGeocodingSample/Screenshot.gif)
+
+# [ThinkGeo Cloud Maps Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/CloudMapsSample)
+
+This sample demonstrates how you can display ThinkGeo Cloud Maps in your Map Suite GIS applications. It will show you how to use the XYZFileBitmapTileCache to improve the performance of map rendering. ThinkGeoCloudMapsOverlay uses the ThinkGeo Cloud XYZ Tile Server as raster map tile server. It supports 5 different map styles:
+- Light
+- Dark
+- Aerial
+- Hybrid
+- TransparentBackground
+
+ThinkGeo Cloud Maps support would work in all of the Map Suite controls such as Wpf, Web, MVC, WebApi, Android and iOS.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/CloudMapsSample/Screenshot.gif)
+
+# [ThinkGeo Cloud Reverse Geocoding Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/CloudReverseGeocoding)
+
+This **Sample**  demonstrates how you can use ThinkGeo Cloud Client to get meaningful addresses from ThinkGeo GIS Server by a geographic location. It ships with an optimized set of worldwide coverage of cities and towns, but any customized data can be supported as well.
+
+ThinkGeo Cloud Client support would work in all of the Map Suite controls such as Wpf, Web, MVC, WebApi, Android and iOS.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/CloudReverseGeocoding/Screenshot.gif)
