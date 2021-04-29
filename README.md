@@ -435,3 +435,16 @@ The images can be accessed very quickly at a variety of scales. It is very popul
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/RenderingPointsPerformanceTestSample/Screenshot.gif)
 
+# [Routing Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/RoutingIndexGenerator)
+
+The Map Suite Routing Index Generator is a utility that will allow you to generate routing index files (“.rtg” and “.rtx”) from World Streets .sqlite database. These routing index files will be used by the Map Suite Routing Extension in order to calculate routes and driving directions. This utility allows you to specify things that one-way road information, as well as configuring the road speed and type of routes you would like to calculate. It is easily extendable to allow you to add code to deal with other routing situations.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/RoutingIndexGenerator/Screenshot.png)
+
+# [Routing Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/RoutingSample)
+
+[Sample Data Download](http://wiki.thinkgeo.com/wiki/_media/routing/routing_howdoi_samples_data.zip)
+
+The Map Suite Routing “How Do I?” solution offers a series of useful how-to examples for using the Map Suite Routing extension. The bundled solution comes with a small set of routable street data from Austin, TX and demonstrates simple routing, avoiding specific areas, getting turn-by-turn directions, optimizing for the Traveling Salesman Problem, and much more. Full source code is included in both C# and VB.NET languages; simply select your preferred language to download the associated solution.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/RoutingSample/ScreenShot.png)
