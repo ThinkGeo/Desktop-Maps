@@ -293,3 +293,15 @@ The Jpeg2000 Sample template represents a .JP2 (JPEG2000) image type to be drawn
 KML is the file format for displaying geographic data in a Google Earth browser such as Google Earth. Now, you can also display such a file on a Map Suite control. Thanks to its flexible architecture to extent to new file formats, in today’s project we wrote the logic for supporting KML. Look at the class KmlfeatureSource inheriting from FeatureSource to see how the logic for reading FML files was implemented. As well, you can see the class KmlStyle inheriting from Style for the drawing logic. And feel free to modify and improve those classes with your own implementations.
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/KmlSample/ScreenShot.png)
+
+# [Labeling Based On Size Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/LabelingBasedOnSize)
+
+This project shows some advanced uses of the **ClassBreakStyle** to show how to label countries based on the area. You will notice that we also take advantage of the various zoom level sets for labeling purposes. The result is an eye pleasing labeling of the countries,  with the size proportionate to the countries’ area, with more countries' labels appearing as you zoom in.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/LabelingBasedOnSize/ScreenShot.png)
+
+# [Line Style With Increment Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/LineStyleWithIncrementsSample)
+
+In this WinForms desktop project, we show how to create a custom **LineStyle** for showing distance increment at a regular interval (every tenth kilometer). Having this **LineStyle** can be very handy when dealing with line networks, such as roads or railways.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/LineStyleWithIncrementsSample/ScreenShot.png)
