@@ -110,3 +110,9 @@ This sample demonstrates how you can read data from an ESRI FileGeodatabase, and
 This sample demonstrates how you use WmsRasterLayer to render wms server in your Map Suite GIS applications. This WmsRasterLayer support would work in all of the Map Suite controls such as Wpf, Web, MVC and WebApi. 
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/DisplayWmsRasterLayerSample/Screenshot.png)
+
+# [Distance Query On Projected Layers Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/DistanceQueryOnProjectionLayersSample)
+
+This sample shows how to use the method GetFeaturesWithDistanceOf when the data is projected. We just input the unit which is projected to, do not need to mind what the real unit is for the internal data before projection.  It works fine with Map Suite Assemblies 4.5.54.0 or later.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/DistanceQueryOnProjectionLayersSample/ScreenShot.png)
