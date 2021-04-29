@@ -311,3 +311,25 @@ In this WinForms desktop project, we show how to create a custom **LineStyle** f
 After the projects on North Arrow and Compass, we created another project related to Adornment Layer to have a more stylish map and give more information to the user navigating the map.
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/LongLatGraticuleSample/ScreenShot.png)
+
+# [MDI Form Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/MDIFormSample)
+
+In today’s project, we show how to have the WinformsMap control in a MDI form. Using an MDI form with a map background can represent a challenge. You will see in this project the technique to display properly a child form on top of the map. You can also notice how the map is accessed from the child form by plotting points on it from the child form.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/MDIFormSample/Screenshot.png)
+
+# [Mr Sid Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/MrSidSample)
+
+MrSID (pronounced Mister Sid) is an acronym that stands for multiresolution seamless image database. In order to run this sample, development build 10.0.0.0 or later is required.
+
+This sample includes a map with MrSID as base overlay, the MrSID shows the image data of the world range.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/MrSidSample/ScreenShot.png)
+
+# [Multi Geo Raster Layer Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/MultiGeoRasterLayerSample)
+
+MapSuite API has RasterLayer from which inherits MrSIDRasterLayer and ECWRasterLayer etc. If we have many raster files, we would need to add all the raster files as separate layer. However this has a performance issue. In this project, we show how to create a class MultiGeoRasterLayer that treats all the raster file as one layer.
+              
+This class show how to do that using JPEG images with its associating JGW world file. It speeds up the loading of a large number of Raster layers by loading and drawing on demand only the files in the current extent. It loads a reference file that contains the bounding box, path and file information for all of the Raster files. We load this information into an in-memory spatial index. When the map requests to draw the layer, we find the Rasters that are in the current extent, create a layer on-the-fly, call their Draw method and then close them. In this way, we load on demand only the files that are in the current extent.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/MultiGeoRasterLayerSample/Screenshot.png)
