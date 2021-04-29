@@ -232,3 +232,9 @@ The Map Suite Geocoder “How Do I?” solution offers a series of useful how-to
 The purpose of this project is to show the technique for finding the feature the user clicked on. To give the user the expected behavior, a buffer in screen coordinates needs to be set so that the feature gets selected within a constant distance in screen coordinates to where the user clicked, regardless of the zoom level. 
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/GetFeaturesClickedOnSample/ScreenShot.png)
+
+# [Get Zoom Level Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/GetZoomLevelsSample)
+
+This example demonstrates how to get the zoom level of the map each time we change its extent. Using custom zoom levels, you will see how to get the zoom level with its characteristics such as the upper and lower scale defining it. You can read the comments inside the project to better understand the relationship of scales with zoom levels.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/GetZoomLevelsSample/Screenshot.gif)
