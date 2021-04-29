@@ -600,8 +600,31 @@ The Map Suite WPF ApplyDirectionPointStyleForLineStyle sample will guide you to 
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/ApplyDirectionalPointStyleForLineStyle/Screenshot.gif)
 
-# [Arc GIS Server Rest Layer Sample for WPF](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/ArcGISServerRestLayerSample)
+# [BackgroundMapSwitchingSample-ForWpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/BackgroundMapSwitchingSample)
 
-In this wpf-based project, we'll demonstrate the new ArcGISServerRestLayer released with Map Suite 9.0. This layer gives developers a simple and powerful tool to access their maps that reside on ArcGIS Server. This new layer utilizes the [ArcGIS Server REST API](http://resources.arcgis.com/en/help/arcgis-rest-api/). Now, the latest version of Map Suite Core can support that. In order to run this project, you will need the Development Build 9.0.443.0 or later.
+This sample shows you how to use these four different types of maps as background in Map Suite Desktop (WPF) Edition.
+ - **ThinkGeo Cloud Maps**
+ - **Open Street Map**
+ - **Bing Maps**
+ - **Google Maps**
 
-![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/ArcGISServerRestLayerSample/Screenshot.gif)
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/BackgroundMapSwitchingSample/Screenshot.gif)
+
+# [Building 3D Layer Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/Building3DLayerSample)
+
+This project shows to create simulated 3D buildings on WPF map control and OsmBuildingOnlineServiceFeatureLayer.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/Building3DLayerSample/Screenshot.png)
+
+# [BuildingSamples-ForWpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/BuildingSample)
+
+In this WPF project, we show how to use `BuildingOverlay`, `BuildingStyle` and `OsmBuildingOnlineServiceFeatureLayer`.
+
+This repo contains three projects.
+- BuildingOverlay represents a WPF specific overlay that simulates the 2.5D building rendering.
+- BuildingStyle represents a style for building that is compatible with the other products such as WPF, WinForms and Web.
+- OsmBuildingOnlineServiceFeatureLayer represents the online data source of feature layer.
+
+![Build Preview](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/BuildingSample/Screenshot.gif)
+
+
