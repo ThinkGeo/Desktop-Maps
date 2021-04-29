@@ -752,3 +752,71 @@ In today’s project, we show how to create your own projection class that allow
 The Map Suite WPF CustomZoomLevelForThinkGeoCloudRasterOverlay sample will guide you to how to draw map with custom zoomlevels. This CustomZoomLevelForThinkGeoCloudRasterOverlay sample supports Map Suite 10.0.0.0 and higher and will show you how to create a WPF application using Map Suite WPF components.
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/CustomZoomLevelForThinkGeoCloudRasterOverlay/Screenshot.gif)
+
+# [Default Value Style Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/DefaultValueStyleSample)
+
+In today’s Wpf project, we demonstrate the extensibility of ThinkGeo API by creating a custom Style. Inheriting from **ValueStyle**, we create a Default Value Style that handles the drawing of features that don’t have a value defined in the **ValueStyle**. Here we are using a point based layer with **PointStyle**. Note that the Default **ValueStyle** would also work with line and polygon based layers.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/DefaultValueStyleSample/Screenshot.gif)
+
+# [Delay Drawing Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/DelayDrawingSample)
+
+This WPF project shows how to use the Delay Map Drawing feature to control whether or not the layer is redrawn after a specified delay. This option is very helpful for anyone wanting to do something before actually refreshing the map - such as editing the elements, adding an animation, etc.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/DelayDrawingSample/Screenshot.gif)
+
+# [Display File GeoDatabase Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/DisplayFileGeoDatabase)
+
+This sample demonstrates how you can read data from an ESRI FileGeodatabase, and you will find the code as straightforward as consuming any other data source in Map Suite.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/DisplayFileGeoDatabase/Screenshot.gif)
+
+# [Display Iso Lines Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/DisplayIsoLinesSample)
+
+In this sample we show how you can use Map Suite to add isolines (commonly known as contour lines) to your .NET application. Isolines are a way to visualize breaks between different groups of data such as elevation levels, soil properties, or just about anything else you can imagine. This sample also shows the various steps in creating isolines, including the gathering of point data, creating a grid using interpolation, and finally, picking your isoline break levels. We also quickly dive into some more advanced options such as generating isolines on the fly.
+
+To bring this all together, check out our [instructional video](https://www.youtube.com/watch?v=eejtCTftpzo) that will walk you through the process of setting up and working with isolines in Map Suite.
+
+Please note that you will need version 5.0.87.0 or newer of Map Suite in order to use isolines. For more information on how to upgrade, see the [Map Suite Daily Builds Guide](http://wiki.thinkgeo.com/wiki/map_suite_daily_builds_guide).
+
+From 6.0.187.0, the sample has been updated that polygons can also be returned as IsoLines results. You need version 6.0.187.0 or newer of Map Suite in order to use this sample.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/DisplayIsoLinesSample/Screenshot.gif)
+
+# [Display MsSql GeoDatabase Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/DisplayMsSQLDatabaseSample)
+
+This sample demonstrates how you can read data from an MsSql database, and you will find the code as straightforward as consuming any other data source in Map Suite.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/DisplayMsSQLDatabaseSample/Screenshot.png)
+
+# [Display MsSql GeoDatabase Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/DisplayMsSQLDatabaseSample)
+
+This sample demonstrates how you can read data from an MsSql database, and you will find the code as straightforward as consuming any other data source in Map Suite.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/DisplayMsSQLDatabaseSample/Screenshot.png)
+
+# [Display Oracle Data Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/DisplayOracleDataSample)
+
+Discover how to use OracleFeatureLayer to build up your map. Use oracle data to render map.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/DisplayOracleDataSample/Screenshot.png)
+
+# [Distance Query On Wrap Dateline Mode Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/DistanceQuerryOnWrapDateLineModeSample)
+
+This WPF sample shows how to take advantage of the projection class **WrapDatelineProjection** for doing spatial queries when on a “virtual map”. From this spatial query example, the developer should understand how the same principle using the same projection class can be applied for other operations such as Spatial Queries, Identify, etc.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/DistanceQuerryOnWrapDateLineModeSample/Screenshot.gif)
+
+# [Draggable Labels Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/DraggableLabelSample)
+
+In this WPF project, you will learn how to place labels from a shapefile into a **SimpleMarkerOverlay**. Using the **DragMode** property of the **SimpleMarkerOverlay**, the user can then drag the labels to place them at the desired location for the most pleasing labeling effect. This project will be later completed to show how to save the state of the dragged labels from the **SimpleMarkerOverlay** and reload them.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/DraggableLabelSample/Screenshot.gif)
+
+# [Dynamic Marker Overlay Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/DynamicMarkerOverlaySample)
+
+In today’s WPF project, we show you how to retrieve data from a REST service and display them as markers with different styles based on its attributes. You can click on any marker to call a WCF service which returns data from the server. A popup displays a chart with information. All the markers and related information are updated dynamically after a specific time interval.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/DynamicMarkerOverlaySample/Screenshot.gif)
+
+
