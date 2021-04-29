@@ -359,3 +359,79 @@ This Code Community project demonstrates how to load and display a TAB file usin
 In many atlases, you can see maps with a numbered grid to give the page reference for a more detailed map. In today’s project, we show how to construct such a grid. Based on the extent of the feature, the number of columns and rows, a grid can be created with the page number in each cell.
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/NumberedGridSample/Screenshot.png)
+
+# [Open Street Map Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/OpenStreetMapSample)
+
+OpenStreetMap (OSM) is a collaborative project to create free geographic data for the entire world. It can be thought of as a "Free Wiki World Map". The latest version of MapSuite now supports this.  
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/OpenStreetMapSample/ScreenShot.png)
+
+# [Overlays Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/OverlaysSample)
+
+Discover how to use Overlays to build up your map, or to add existing basemaps to your application. 
+The sample can show the following four basemaps:
+  1. Google Maps
+  2. Bing Maps
+  3. World Kit Maps
+  4. Open street Maps
+
+It can display different styles of maps by setting the map type.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/OverlaysSample/Screenshot.png)
+
+# [Preset Vertex To Tracked Polygon Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/PresetVertexToTrackedPolygon)
+
+This Desktop sample shows how to extend TrackInteractiveOverlay to give the ability to add a preset vertex to a track polygon while tracking. This can be handy in the situations where you need to add a vertex outside the current extent of the map or when you need to add a vertex with precise X and Y values. In the custom PresetVertexTrackInteractiveOverlay, you can see how the protected function GetTrackingShapeCore was overridden to implement this tracking behavior of the polygon.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/PresetVertexToTrackedPolygon/Screenshot.png)
+
+# [Quickstart Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/QuickstartSample)
+
+The Winforms QuickStart Guide will guide you through the process of creating a sample application and will help you become familiar with Map Suite. This QuickStart Guide supports Map Suite 10.0.0.0 and higher and will show you how to create a Winforms application.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/QuickstartSample/Screenshot.png)
+
+# [Raster Projection Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/RasterProjectionSample)
+
+This Sample template represents an projection transform for ECW raster image. This sample can work on both Linux and Windows. 
+
+ECW: ECW is a wavelet image compression system developed by ER Mapper.It allows you to combine and compress large sets of satellite images into a single file. 
+The images can be accessed very quickly at a variety of scales. It is very popular in the GIS community.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/RasterProjectionSample/ScreenShot.png)
+
+# [Rendering Points Performance Test Sample for WinForms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/winforms/RenderingPointsPerformanceTestSample)
+
+1. In Map Suite, a shape (a shape object inherited from the BaseShape class such as PointShape, LineShape, etc) is heavier than a feature. You can treat a feature as a holder of a byte array (Well Known Binary), it’s lightweight and doesn’t have too many methods to manipulate its core data (Well Known Binary). Shape, however, is heavy, it provides all the info as well as methods against the data.  You can cast from a feature to a shape and vice versa.
+
+1. To update a feature, usually, we need to convert a feature to a shape, update the shape and then convert it back to a feature. This will create a new shape and a new feature, which is more straightforward but the cost is high. Below is a method updating a point feature by adding 1 to its X and Y.
+
+```csharp
+       private void UpdateFeatureThroughShape(Feature feature)
+        {
+            byte[] wkb = feature.GetWellKnownBinary();
+            PointShape pointShape = new PointShape(wkb);
+            pointShape.X += 1;
+            pointShape.Y += 1;
+            feature = pointShape.GetFeature();
+        }
+```
+
+3. You can update a feature by directly updating its WKB. The following method updates a point feature by adding 1 to its X and Y. It’s the most efficient way where we manipulate a byte array without creating any new object. It is not straightforward and you need to have a deep understanding of the format of WKB. That’s what we are doing in this sample. We will add more APIs to Feature to make it straightforward and efficient.
+
+```csharp
+       private void UpdateFeatureThroughWKB(Feature feature)
+        {
+            byte[] wkb = feature.GetWellKnownBinary();
+            double x = BitConverter.ToDouble(wkb, 5);
+            double y = BitConverter.ToDouble(wkb, 13);
+            BitConverter.GetBytes(x + 1).CopyTo(wkb, 5);
+            BitConverter.GetBytes(y + 1).CopyTo(wkb, 13);
+            feature.SetWellKnownBinary(wkb);
+        }
+```
+
+4. The “Grid size in Pixel” textbox let you set the size of the grid in which up to one point can be displayed, the bigger the grid is, the more sparse the points will be. This is an optimization with which we can avoid showing too many points on the map.  Play with it and you can see the performance differences.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/winforms/RenderingPointsPerformanceTestSample/Screenshot.gif)
+
