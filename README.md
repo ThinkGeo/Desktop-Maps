@@ -1144,3 +1144,81 @@ How to use this tool:
 This RoutingEngine supports routing in all of the Map Suite controls such as WinForms, Web, MVC and WebApi.
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/RoutingDataExplorer/Screenshot.gif)
+
+# [SQLite Bitmap Tile Cache Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/SQLiteBitmapTileCache)
+
+This sample shows how you can cache the tile images in SQLite database.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/SQLiteBitmapTileCache/Screenshot.gif)
+
+# [Save Load State Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/SaveAndLoadStates)
+
+The purpose of this Wpf project is to show how to use the new SaveState and LoadState of the SimpleMarkerOverlay. We show how you can simply drag the icons to change their location, save their state to a file and then reload the state from that file. For this sample to work, you will need to use the latest
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/SaveAndLoadStates/ScreenShot.png)
+
+# [Select And Drag Feature Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/SelectAndDragFeatureSample)
+
+In this Wpf project, we show how to select a feature from a shapefile based on a column value using the GetFeaturesByColumnValue. We also show to setup the EditOverlay to give the user the ability to drag the selected feature. In this project, you can also see how to get the world coordinates at the mouse move event. Notice that the code for doing this is quite different in Wpf compared to the winforms edition.
+              
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/SelectAndDragFeatureSample/ScreenShot.png)
+
+# [Show A Legend Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/ShowALegendSample)
+
+In today’s project we learn how to display a simple legend using the new and improved LegendAdornmentLayer. The improved LegendAdornmentLayer was added to Map Suite 5.0 and provides an easy to use API for creating legend adornments. The LegendAdornmentLayer is part of Map Suite Core which allows you to access this powerful feature across all Map Suite products. 
+              
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/ShowALegendSample/ScreenShot.png)
+
+# [Site Selection Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/SiteSelectionSample)
+
+The Site Selection sample template allows you to view, understand, interpret, and visualize spatial data in many ways that reveal relationships, patterns, and trends. In the example illustrated, the user can apply the features of GIS to analyze spatial data to efficiently choose a suitable site for a new retail outlet.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/SiteSelectionSample/Screenshot.gif)
+
+# [Snap To Layer Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/SnapToLayerSample)
+
+The purpose of this Wpf project is to address some limitations of the class SnapToLayerEditInteractiveOverlay found in a previous sample Snap To Layer.  
+
+This class allowed the snapping of the mouse pointer to the closest vertex of a polygon if it is within a set tolerance. While this worked great for simple polygons, there was a performance limitation with complex polygons made of many vertices. This Wpf sample addresses this limitation and allows responsive dragging and snapping of vertex regardless of the size of polygon to snap to.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/SnapToLayerSample/ScreenShot.png)
+
+# [Spatial Query With ThinkGeo Cloud Vector Maps Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/SpatialQueryVectorMapsSample)
+
+This sample demonstrates how you can query the features of Vector Tiles requested from ThinkGeo Cloud Services in your Map Suite GIS applications, such as searching the nearest places to your clicked place or the roads in the area with a specific distance you specified.
+
+ThinkGeo Cloud Vector Maps support would work in all of the Map Suite controls such as Wpf, Web, MVC, WebApi, Android and iOS.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/SpatialQueryVectorMapsSample/Screenshot.gif)
+
+# [Styles With Inmemory Feature Layer Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/StylesWithinMemoryFeatureLayer)
+
+In this WPF project, we show how to build an InMemoryFeatureLayer from a text file. You'll notice how the columns are set up so that styles can be used as if the InMemoryFeatureLayer were a static layer such as a Shapefile. Here, we apply a Class Breask Style and a Text Style to our InMemoryFeatureLayer. What we learn in this sample can be applied to all the different editions of Map Suite.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/StylesWithinMemoryFeatureLayer/Screenshot.png)
+
+# [Touch Events Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/TouchEventsSample)
+
+This sample shows how to take advantage of touch screen to manipulate that map using one’s fingers. Learn how the map can be panned, zoomed in and out or rotated using two fingers. On addition, markers can be added, and shapes can be added and edited by tapping the screen. 
+
+The sample code makes this straight forward to implement. 
+              
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/TouchEventsSample/ScreenShot.png)
+
+# [Tracked Shapes To File Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/TrackedShapeFile)
+
+In this Wpf sample, we show how to persist the tracked shapes by saving the WKT (Well Known Text) to a file using the TrackEnded event. Also, you can see how to retrieve the WKT from files to create the features for the TrackShapeLayer of the TrackOverlay when loading the map. You will need the MapSuiteCore.dll and WpfDesktopEdition.dll references for this sample.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/TrackedShapeFile/Screenshot.gif)
+
+# [US Demographic Map Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/USDemographicMapSample)
+
+The Demographic and Lifestyle sample template gives you a head start on your statistics project, which includes details about race, age, gender, land usage, and more for all the states in U.S. The template contains pre-styled layers that can be used as-is, or as the foundation for adding your own map notes and layers.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/USDemographicMapSample/Screenshot.gif)
+
+# [Usgs Dem Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/UsgsDemSample)
+
+This sample demonstrates how you can read data from an DEM file in your Map Suite GIS applications, and how to render it with DEM embedded value style as well as a customized style. This DEM File support would work in all of the Map Suite controls such as Wpf, Web, Android and iOS.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/UsgsDemSample/Screenshot.png)
