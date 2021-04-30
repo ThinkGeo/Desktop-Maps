@@ -930,3 +930,15 @@ The “How Do I?” samples collection is a comprehensive set containing dozens 
 As you probably already know, using the Map Suite API, you can easily display a point-based feature as an image. But how do you do the same thing for a line or a polygon-based feature? In this WPF project, we show you how to create custom Image Styles for both line and polygon features. With the new ImageAreaStyle, you can display a polygon feature that uses an image as its fill. You can see how an image for forest and water is used in the sample project. And with the new ImageLineStyle, you can do the same thing with line features. You'll see how an image of a pavement texture is used to represent streets.
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/ImageStyleSample/Screenshot.png)
+
+# [Labeling Flight Lines Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/LabelingFlightLinesSample)
+
+This sample shows how to offset arc shaped flight lines so multiple from point to point are visible and then show popup labels providing information on the flights the lines represent.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/LabelingFlightLinesSample/Screenshot.gif)
+
+# [Large Scale Map Printing Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/LargeScaleMapPrintingSample)
+
+This WPF project is the second in our series of samples on printing. The
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/LargeScaleMapPrintingSample/ScreenShot.png)
