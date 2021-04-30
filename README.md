@@ -1045,3 +1045,74 @@ The sample can show the following four basemaps:
 It can display different styles of maps by setting the map type. Note: you do need to have Bing Maps API key and Google Maps API key to be able to use these two basemaps. 
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/OverlaysSample/Screenshot.png)
+
+# [PerformanceSample-ForWpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/PerformanceSample)
+
+This is a WPF desktop sample for drawing performance test of MapSuite product.
+When running the sample, it will render 16,000 count of rectangle shape features at first, these features will be distributed in 4 layers averagely. After clicking Start button the sample application will update 1,600 count of rectangle shape features per 1,000 milliseconds, the time cost of features drawing will display in the application footer.
+Customer can modify the update rate, update features count, and enable or disable the layers. 
+
+### Key Points
+- The rectangle shape is added to an InMemoryFeatureLayer, the layer uses a ValueStyle to draw the shape. The ValueStyle has 4 count of ValueItems which the item Id is from 0 to 3 and the item AreaStyle uses 4 different of fill colors. The shape also has a column value of 0 at the first time, the ValueStyle will use this value to draw the shape using corresponding AreaStyle.
+
+- In each update, the application will choose 1,600 count of features from all valid features randomly to modify their column values. The column value will be modified to 0, 1, 2 or 3 circularly.
+
+- The CustomLayerOverlay will be used in the update, the application will create a new InMemoryFeatureLayer and add it to this overlay when updating, all determined 1,600 count of features will be added to the layer. The previous overlay will be removed if it exists in the map, then a new overlay will be added to the map. Before removing the previous overlay, the all resources (include all layer tiles and background images) from the overlay will be drawn on a GeoImage, then set the GeoImage to the background image of the new overlay. We do this to make sure only 1,600 count of features would be rendered in each update, and the previous updated features would be displayed correctly in the map.
+
+- Customer can check or uncheck the layers in the right list of the application form, the application will only choose the features which in the checked layers when updating, and the unchecked layers will be hidden in the map.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/PerformanceSample/Screenshot.png)
+
+# [Place search world reverse geocoding sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/PlaceSearchWordReverseGeocoding)
+
+In this sample, we show how you can use Map Suite [World Reverse Geocoding SDK](https://thinkgeo.com/gisserver#feature) to turn a geographic location into meaningful addresses. It ships with an optimized set of worldwide coverage of cities and towns, but any customized data can be supported as well.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/PlaceSearchWordReverseGeocoding/Screenshot.gif)
+
+# [Polygon Shapes To Multipolygon Shape Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/PolygonShapesToMultipolygonShape)
+
+In this Wpf project, we show how to create a MultipolygonShape from various PolygonShapes. Since a collection of PolygonShapes cannot be directly cast to a MultipolygonShape, we show the technique to build a MultipolygonShape passing an IEnumerable of PolygonShape. This is a Wpf sample and you will need the references for MapSuiteCore.dll and WpfDesktopEdition.dll.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/PolygonShapesToMultipolygonShape/Screenshot.gif)
+
+# [Popup Overlay Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/PopUpOverlaySample)
+
+In this Wpf project, we explore more capabilities of the PopupOverlay and its collection of Popups. With the Content property, we can add a TextBox or any other control to a Popup. For example, here we show how to have the column value of a selected feature appear in a Popup on the user MapClick event. Notice how that column value can be easily changed by typing in the TextBox of the Popup and committing the edit.
+              
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/PopUpOverlaySample/ScreenShot.png)
+
+# [Print Map With Multi Pages Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/PrintMapWithMultiplePages)
+
+In this sample we show you how to add robust printing support to your Map Suite applications for the WPF. Using the code in this sample, you'll be able to build a Print Preview interface that lets your users interactively arrange items on a virtual page before printing the result to a printer, exporting to a PDF or to a bitmap image. The printing system also print maps with multi pages or print multi maps to one page.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/PrintMapWithMultiplePages/Screenshot.gif)
+
+# [Print Popup And Marker Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/PrintPopUpAndMarkerSample)
+
+Popup and marker need to use click events etc, so they inherit Control class. SimpleMarkerOverlay and PopupOverlay can't be printed directly, and They need to be converted to image. This sample demonstrates how to print popup and marker by PrinterGeoCanvas. 
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/PrintPopUpAndMarkerSample/Screenshot.png)
+
+# [Print Preview Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/PrintPreviewSample)
+
+In this sample we show you how to add robust printing support to your Map Suite applications for the desktop, WPF, web or services environments. Using the code in this sample, you'll be able to build a Print Preview interface that lets your users interactively arrange items (such as a map, scale line, labels, data grid or image) on a virtual page before printing the result to a printer, exporting to a PDF or to a bitmap image. Maps are printed using vector graphics so you can be sure the output will look great on anything from a PDF to a large plotter. The printing system also includes low-level report building classes that make it easy to generate reports in the web or services environment. 
+
+To help you understand the sample, as well as Map Suite's new printing system upon which it is based, check out our [instructional video](http://download.thinkgeo.com/Videos/Wiki/MapSuitePrintingSystemIntroduction.wmv) that will introduce you to all of these concepts and walk you through the sample solution. 
+
+Please note that you will need version 5.0.102.0 or newer of Map Suite in order to use the new printing features. For more information on how to upgrade, see the [Map Suite Daily Builds Guide](http://wiki.thinkgeo.com/wiki/map_suite_daily_builds_guide). 
+
+Note: Users of Map Suite Web, Silverlight and Services Editions will not have access to the interactive drag-and-drop page layout interface pictured here. However, these editions can still be used to programmatically design page layouts in code and then export them to a printer.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/PrintPreviewSample/Screenshot.png)
+
+# [Quickstart Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/QuickStart)
+
+The Map Suite WPF QuickStart Guide will guide you through the process of creating a sample application and will help you become familiar with Map Suite. This QuickStart Guide supports Map Suite 10.0.0.0 and higher and will show you how to create a WPF application using Map Suite WPF components.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/QuickStart/Screenshot.png)
+
+# [Raster Layer Print Quality Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/RasterLayerPrintQuality)
+
+This WPF project is the 3rd sample on the printing series. It demonstrates how to print your maps in high quality. This new feature for Map Suite is available in version 9.0.483.0 or later. From the sample you will better understand how to use DPI for handling print quality. The sample is based on raster images, but could also be used with vector data.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/RasterLayerPrintQuality/Screenshot.png)
