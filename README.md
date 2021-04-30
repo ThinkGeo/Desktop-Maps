@@ -942,3 +942,45 @@ This sample shows how to offset arc shaped flight lines so multiple from point t
 This WPF project is the second in our series of samples on printing. The
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/LargeScaleMapPrintingSample/ScreenShot.png)
+
+# [Local Datum UTM Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/LocalDatumUTMSample)
+
+The purpose of this WPF sample is to get familiar with the concept of datum and datum shift in UTM and Geographic coordinates. Using local data, you might be required to apply datum transformation to your data to go from an old datum to a more recent datum. Here we are taking the example of Australia, which went to change its datum (from AGD84 to GDA94) for its mapping purposes. We show how to apply the datum transformation in both the longitude/latitude coordinate system and in the local UTM systems (AMG based on AGD84 and MGA based on GD94). 
+
+See the code and note the comments in the **MouseMove** event where all the projection logic is taken place. Notice that the correction is about 200 meters. Once you understand for the case for Australia, you will be able to apply the same principles for your own datums in UTM. 
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/LocalDatumUTMSample/ScreenShot.png)
+
+# [MBTiles Extractor Sample for WPF](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/MBTilesExtractorSample)
+
+The MBTiles Extractor allows you to create new smaller subsets from the MBTiles database. You simply specify the bounding box by tracking a rectangle shape on the map for the new area, then it will create a new SQLite database for that regions.
+
+*.MBTile format can be supported in all of the Map Suite controls such as Wpf, Web, MVC, WebApi, Android and iOS.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/MBTilesExtractorSample/Screenshot.gif)
+
+# [ThinkGeo MBTiles Maps Sample for WPF](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/MBTilesMapSample)
+
+This sample demonstrates how you can draw the map with Vector Tiles saved in *.MBTiles in your Map Suite GIS applications, with any style you want from [StyleJSON (Mapping Defination Grammar)](https://wiki.thinkgeo.com/wiki/thinkgeo_stylejson). It will show you how to use the XyzFileBitmapTileCache to improve the performance of map rendering. It supports have 3 built-in default map styles and more awasome styles from StyleJSON file you passed in, by 'Custom':
+- Light
+- Dark
+- TransparentBackground
+- Custom
+
+If you want the *.mbtile file of any area in the world, or you have any requirement of building *.mbtile file based on your own data, such as shape file, Oracle, MsSql and more, please contact support@thinkgeo.com.
+
+*.MBTile format can be supported in all of the Map Suite controls such as Wpf, Web, MVC, WebApi, Android and iOS.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/MBTilesMapSample/Screenshot.gif)
+
+# [Magnetic Declination Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/MagneticDeclinationSample)
+
+In today's WPF project, we show you how to add the Magnetic Declination or Magnetic variation to the map, it's designed as an **AdormentLayer**, which is used for showing the angle on the horizontal plane between magnetic north (the direction in which the north end of a compass needle, corresponding to the direction of the Earth's magnetic field lines) and true north (the direction along a meridian towards the geographic North Pole). This angle varies depending on one's position on the Earth's surface, and over time. See
+              
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/MagneticDeclinationSample/ScreenShot.png)
+
+# [Map Loading Progress Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/MapLoadingProgressSample)
+
+Discover how to use progress bar to show the LayerOverlay rendering progress. The project is simple and meant to show only the basic logic; to extend it, you could add some other information or a loading image instead of a progress bar.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/MapLoadingProgressSample/Screenshot.png)
