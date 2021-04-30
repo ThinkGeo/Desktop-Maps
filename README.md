@@ -1116,3 +1116,31 @@ The Map Suite WPF QuickStart Guide will guide you through the process of creatin
 This WPF project is the 3rd sample on the printing series. It demonstrates how to print your maps in high quality. This new feature for Map Suite is available in version 9.0.483.0 or later. From the sample you will better understand how to use DPI for handling print quality. The sample is based on raster images, but could also be used with vector data.
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/RasterLayerPrintQuality/Screenshot.png)
+
+# [Reproject Wmts Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/ReprojectWmtsSample)
+
+In today’s project, we show how to create your own projection class that allows projecting a WMTS layer from any internal projection to any external. 
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/ReprojectWmtsSample/Screenshot.png)
+
+
+# [Rotate Events Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/RotateEventsSample)
+
+This sample shows how to take the advantage of a touchable screen, to play with the map using fingers. You would see we can pan the map with one finger, zoom in/out or rotate a map using 2 fingers. Not only that, we can add a marker, and track/edit a shape (point, line or polygons) by tapping on the screen. And marker/popup/label won't rotate with the map. It is straightforward to use and checking out the code, you would see it is very simple to implement with Map Suite! It is available in 8.0.48.0 or later. 
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/RotateEventsSample/Screenshot.png)
+
+# [Routing Data Explorer Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/RoutingDataExplorer)
+
+This is a simple routing data viewer sample viewer which demonstrates how to use the RoutingEngine to get the shortest or fastest route in your Map Suite GIS applications.
+
+How to use this tool:
+
+ 1. **Load rtg data:**
+  Click menu "**File->Load**" browse to a rtg file. You also require a shapefile for the routing source file in the same folder, otherwise it display message "Could not find shp file in the same folder where you seleted".
+ 2. **Start routing:**
+  Use left click for a start point and right click for an end point. If there is no route within **200** meters(you can modify this in source code), the explorer displays a message "There’s no road within 200 meters to where you clicked on".
+
+This RoutingEngine supports routing in all of the Map Suite controls such as WinForms, Web, MVC and WebApi.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/RoutingDataExplorer/Screenshot.gif)
