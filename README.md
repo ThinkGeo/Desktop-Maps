@@ -1222,3 +1222,49 @@ The Demographic and Lifestyle sample template gives you a head start on your sta
 This sample demonstrates how you can read data from an DEM file in your Map Suite GIS applications, and how to render it with DEM embedded value style as well as a customized style. This DEM File support would work in all of the Map Suite controls such as Wpf, Web, Android and iOS.
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/UsgsDemSample/Screenshot.png)
+
+# [Vehicle Tracking Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/VehicleTrackingSample)
+
+The Vehicle Tracking sample template gives you a head start on your next tracking project. With a working code example to draw from, you can spend more of your time implementing the features you care about and less time thinking about how to accomplish the basic functionality of a tracking system.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/VehicleTrackingSample/Screenshot.gif)
+
+# [Weather Line Style Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/WeatherLineStyleSample)
+
+In this WPF sample, we learn how to extend **LineStyle** class to create a style for representing weather fronts, such as cold front, warm front, or occluded front for your weather maps. To achieve that styling a regular **LineStyle** is used for the front line itself. For symbolizing the type of front an icon is used. 
+
+Notice the two handy properties to give you more control: Spacing property to adjust the distance in screen coordinate between each symbol on the line, and Side property to control on what side of the line front the symbols should appear. Of course, as you zoom in and out on the map the spacing between each symbol remain the same as it is set in screen coordinate.              
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/WeatherLineStyleSample/ScreenShot.png)
+
+# [Wmts Layer Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/WmtsLayerSample)
+
+This project shows how to consume data from a WMTS Server using WmtsLayer. You would find the code pretty straightforward, just like displaying a shapefile, while behind the scenes we request tiles from the server asynchronously and efficiently, and stitch them into a proper map. 
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/WmtsLayerSample/Screenshot.png)
+
+# [Wmts Tiled Overlay Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/WmtsTileOverlaySample)
+
+This project shows how to consume data from a WMTS Server using WmtsOverlay. You would find the code pretty straightforward, while behind the scenes we request tiles from the server asynchronously and efficiently, and stitch them into a proper map.  This class is introduced from version 6.0.187.0, besides this WmtsOverlay, we also have WmtsLayer available.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/WmtsTileOverlaySample/Screenshot.png)
+
+# [World Map Kit Data Extractor Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/WorldMapKitDataExtractor)
+
+The World Map Kit Data Extractor allows you to create new smaller subsets from the World Map Kit SQLite master database. You simply specify the bounding box (or a shape file) for the new area then it will create a new SQLite database for that regions. There are options to preserve high level data allowing you to keep higher extent features, about 700 meg of data, such as the world, countries, high level roads etc. as a backdrop to the cut out area. If you choose not to preserve the high level data the tool crosscuts every layer leaving you with the smallest dataset possible. The tool works with multiple projections but does not re-project. Specifying the srid allows you to configure your bounding box in decimal degrees regardless of the source database projection. We will consider enhancing the tool to support projection based on feedback.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/WorldMapKitDataExtractor/Screenshot.png)
+
+# [Wrap Dateline Mode Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/WrapdateLineModeSample)
+
+In this Wpf project, we show a new property of Overlay, WrapDatelineMode. This property that allows to continuously pan west or east with world map was already available in the dev branch. This concept was shown in the previous sample “WrapDatelineMode”. Now it is fully supported in Map Suite 5 and you can see in this sample how the behavior for the map in both Decimal Degrees (Lat/Long) and Spherical Mercator (Google Map/Bing map projection). In order to run this sample, you will need the latest release for Wpf with references to MapSuiteCore.dll and WpfDesktopEdition.dll.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/WrapdateLineModeSample/Screenshot.gif)
+
+# [Zoom To Full Extent Wpf Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/ZoomToFullExtent)
+
+This is a simple project that shows how to set the current extent based on a collection of layers. You can use this technique for the common task of having the map set to the full extent. Instead of having to manually set the full extent, you can pass all the layers you want the full extent to be based on.
+              
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/ZoomToFullExtent/ScreenShot.png)
+
+
