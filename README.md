@@ -984,3 +984,35 @@ In today's WPF project, we show you how to add the Magnetic Declination or Magne
 Discover how to use progress bar to show the LayerOverlay rendering progress. The project is simple and meant to show only the basic logic; to extend it, you could add some other information or a loading image instead of a progress bar.
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/MapLoadingProgressSample/Screenshot.png)
+
+# [Map Touch Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/MapTouchSample)
+
+Map Suite WPF Edition supports touch events. This sample shows how to add a marker to map by MapTap event.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/MapTouchSample/Screenshot.png)
+
+# [Mini Map Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/MiniMapSample)
+
+This project shows how to create a simple mini map to give a reference of where you are when you zoomed in. As for the MiniMapAdormentLayer inherits from AdornmentLayer.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/MiniMapSample/Screenshot.png)
+
+# [Multi Line Labeling Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/MultiLineLabelingStyle)
+
+For labeling purpose, **TextStyle** has a property called LabelAllPolygonParts that will label all the parts making up a polygon based feature. Unfortunately, we don’t have an equivalent API for labeling all the parts of a line based feature. But thanks to the flexible framework of Map Suite, we show in this WPF sample how easily you can expand the **TextStyle** class to allow this labeling capability. Look at the custom class **MultiLinetextStyle** and how **DrawCore** function is overridden to have the expected labeling behavior.
+              
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/MultiLineLabelingStyle/ScreenShot.png)
+
+# [Multiple Dot Density Styles Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/MultipleDotDensityStyleSample)
+
+This sample takes a detailed look at the **DotDensityStyle**. You can combine different **DotDensityStyles** on one FeatureLayer using different columns. Demographic data are usually well fit to be used with that type of style. Here each dot of a certain color represents 100,000 persons of the same age group by state. Using multiple **DotDensityStyles**, the dimension of age group demographics is added to the representation of population density. 
+
+Note that the **PointToValueRatio** is used to set how many people a dot is going to represent. For example, if you want a dot to represent 100,000 persons, you set it to 0.00001 (1 / 100000). If you want it to be 500,000 persons, you set it to 0.000002 (1 / 500000).
+              
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/MultipleDotDensityStyleSample/ScreenShot.png)
+
+# [Multiple Jpeg2000 Raster Layer Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/MultipleJpeg2000RasterLayerSample)
+
+This sample shows how to create a customized raster layer for loading multiple files. In this project, we create the MultipleJpeg2000RasterLayer to inherit from Layer to load multiple .jp2 files. You can use the world files or a RectangleShape which is the extent of the image in world coordinate.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/MultipleJpeg2000RasterLayerSample/Screenshot.png)
