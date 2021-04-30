@@ -851,3 +851,30 @@ This project outlines how to apply the FilterStyle to a layer's display. By usin
 This sample demonstrates how to geocode an address using Map Suite Geocoder. It then returns and highlights the low and high cross streets.          
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/FindNearestCrossSreetsSample/ScreenShot.png)
+
+# [Find Shortest Line And Splitting Lines Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/FindShortestLineAndSplittingLinesSample)
+
+This sample will show you how to find the closest line between two features by using the GetShortestLineTo API and how to split a line at a given point using the GetLineOnALine API. These APIs can be very useful when doing spatial analysis and editing of features. This sample also allows you to dynamically alter the test features using the EditOverlay so you can try out different scenarios and see the results quickly. A MapShapes layer is used to display and style the individual results.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/FindShortestLineAndSplittingLinesSample/Screenshot.gif)
+
+# [Four Color Map Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/FourColorMapSample)
+
+Any map can be colored using four colors in such a way that adjacent regions receive different colors.
+The sample discover how to use ShapeFileFeatureLayer to get four color features, then use ValueStyle to render the four color map.
+
+At present, the four color map only supports polygon, and doesn't support point and line.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/FourColorMapSample/Screenshot.gif)
+
+# [Friends Network Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/FriendsNetworkSample)
+
+In this WPF project we show how you can create a friends network using a point with a circle symbol. It’s a combination of PointStyle and TextStyle, including a description with a mask that keeps the labels in the same layer. It was originally required by a customer at [http://community.thinkgeo.com/t/label-on-a-circle-with-lot-of-points/8193/6](http://community.thinkgeo.com/t/label-on-a-circle-with-lot-of-points/8193/6), it’s a solution with many applications.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/FriendsNetworkSample/Screenshot.gif)
+
+# [GPS Exchange Format Feature Layer Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/GPSExchangeFormatFeautureLayer)
+
+This sample demonstrates how to read GPS EXchange Format file(*.gpx) with Map Suite. GPX (GPS Exchange Format) is a light-weight XML data format for the interchange of GPS data (waypoints, routes, and tracks) between applications and Web services on the Internet, which you can find more information:here. Now Map Suite supports the GPX 1.0 and 1.1 schema. This sample works with Map Suite development branch daily build 7.0.275.0 or later.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/GPSExchangeFormatFeautureLayer/Screenshot.png)
