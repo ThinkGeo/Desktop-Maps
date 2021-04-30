@@ -1016,3 +1016,32 @@ Note that the **PointToValueRatio** is used to set how many people a dot is goin
 This sample shows how to create a customized raster layer for loading multiple files. In this project, we create the MultipleJpeg2000RasterLayer to inherit from Layer to load multiple .jp2 files. You can use the world files or a RectangleShape which is the extent of the image in world coordinate.
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/MultipleJpeg2000RasterLayerSample/Screenshot.png)
+
+# [NOAA Globel Weather Station Layer Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/NOAAGlobalWeatherStationLayer)
+
+This WPF project, demonstrates how to query and display real time NOAA weather station data directly as a **Layer**, which allows you to display up-to-date weather station data from around the world on top of your maps. The weather station data is sourced from NOAA and is refreshed every 15 minutes in the background. As these classes are inherited from the **FeatureSource** and **FeatureLayer**, many properties are querable and can be used to create a variety of maps or analysis of current weather patterns. This feature can be applied in all Map Suite products.             
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/NOAAGlobalWeatherStationLayer/ScreenShot.png)
+
+# [Nautical Charts Viewer Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/NauticalCharts)
+
+ThinkGeo Nautical Charts is a standalone Nuget Package which works with ThinkGeo 10.X Desktop/Web products. It reads and displays S-57 Electronic Navigational Charts(ENC) from International Hydrographic Organization(IHO), it also reads the style info defined in an S-52 file.
+
+This sample happens to be written for WPF but the Nautical Charts Package works for Web project as well. Download and open it in Visual Studio, hit F5 and Bang, you are good to go. After you have the charts viewer running, use File -> Open to load an S-57 data, (it can be downloaded from NOAA’s website), the nautical charts will then appear on the map (it generates an index file the first time the data is loaded).
+
+ThinkGeo uses a default style which can be easily modified. Nautical Charts Viewer provide the ability to switch the map between 5 modes: Day Bright, Day Black, Day White, Dusk and Night. It has 3 verbose mode of “All”, “Standard” and “Base”. It can switch boundaries between dashed line and triangles, it can show/hide different labeling, show different languages, etc. If you are a developer, dig in the code and you can see it’s as simple as creating a layer and set up the properties like following, and it can do more than it shows in this sample
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/NauticalCharts/Screenshot.gif)
+
+ # [Overlays Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/OverlaysSample)
+
+Discover how to use Overlays to build up your map, or to add existing basemaps to your application. 
+The sample can show the following four basemaps:
+  1. Google Maps
+  2. Bing Maps
+  3. ThinkGeo Cloud Maps
+  4. Open street Maps
+
+It can display different styles of maps by setting the map type. Note: you do need to have Bing Maps API key and Google Maps API key to be able to use these two basemaps. 
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/OverlaysSample/Screenshot.png)
