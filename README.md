@@ -878,3 +878,55 @@ In this WPF project we show how you can create a friends network using a point w
 This sample demonstrates how to read GPS EXchange Format file(*.gpx) with Map Suite. GPX (GPS Exchange Format) is a light-weight XML data format for the interchange of GPS data (waypoints, routes, and tracks) between applications and Web services on the Internet, which you can find more information:here. Now Map Suite supports the GPX 1.0 and 1.1 schema. This sample works with Map Suite development branch daily build 7.0.275.0 or later.
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/GPSExchangeFormatFeautureLayer/Screenshot.png)
+
+# [Get Feature Clicked On With Projection Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/GetFeatureClickedOnWithProjectionSample)
+
+This WPF project shows a technique for finding the feature of a point, line or polygon-based layer that the user clicked on.  As with the earlier sample entitled "Get Feature Clicked On", in order to give the user the expected behavior, a buffer in screen coordinates needs to be set so that the selected feature is chosen within a constant distance in screen coordinates from where the user clicked on, regardless of the zoom level.  In addition, this sample also addresses a limitation of the earlier sample by showing the contrast between using the functions GetFeaturesNearestTo and GetFeaturesWithinDistanceOf.
+
+While the function GetFeaturesNearestTo as used in "Get Feature Clicked On" works quickly and is adequate in most cases, it is not guaranteed to get the closest feature.  In contrast, with the new function GetFeaturesWithinDistanceOf, you can loop through the features within a specified tolerance and get their exact distance.  While this approach requires some more code, it is guaranteed to get the closest feature in any case.
+
+This sample also demonstrates another aspect of distance queries. We have the layers projected to the Google Map projection from WGS84, and you'll notice that the aforementioned distance functions (GetFeaturesWithinDistanceOf and GetFeaturesWithinDistanceOf) work seamlessly without requiring the developer to worry whether the layers are projected or not.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/GetFeatureClickedOnWithProjectionSample/Screenshot.gif)
+
+# [Get Features From Arc GIS Server Sample for WPF](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/GetFeatureFromArcGISServer)
+
+In this wpf-based project, it illustrates how to get the features from the ArcGIS Restful Server. On the left side of the screenshot shows the raster data from ArcGIS Server and on the other side shows the features from ArcGIS Restful Server. In order to run this project, you will need the Development Build 9.0.482.0 or later.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/GetFeatureFromArcGISServer/Screenshot.png)
+
+# [Google Map To Geodetic Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/GoogleMapToGeodeticSample)
+
+In this Wpf project, we are showing a trick for getting the current extent of the map with Google Map as an image and displaying it on a map in decimal degrees unit. You may be in a situation where you want the details and accuracy of Google Map, especially the satellite view but want to have it displayed on your map in decimal degrees. In this sample, you will see how to get the Google Map image and create the accompanying world file for decimal degrees. Notice that we are realizing an affine transformation on the image to go to Geodetic as illustrated in the case 3
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/GoogleMapToGeodeticSample/Screenshot.gif)
+
+# [Graticule With Google Projection Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/GraticuleWithGoogleProjectionSample)
+
+In this Wpf project, we explore more features of the **GraticuleAdornmentLayer**, which shows meridians and parallels at various intervals based on the zoom level. Being natively in Geodetic, **GraticuleAdornmentLayer** can be set to any projection. In this project’s example, you have the graticule showing with World Map Kit in Spherical Mercator (Google Map projection). Also, note how easily you can change the appearance with properties such as **GraticuleLineStyle** and **GraticuleTextFont**.
+              
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/GraticuleWithGoogleProjectionSample/ScreenShot.png)
+
+# [Hello World Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/HelloWorldSample)
+
+This sample shows you how to get started building your first application with the Map Suite Desktop for Wpf 10.0.0.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/HelloWorldSample/Screenshot.png)
+
+# [Highlight At Mouse Hover Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/HighlightAtMouseHoverSample)
+
+In this WPF project, we show you how to highlight a feature when the user hovers the mouse pointer over it. This effect can be realized in Map Suite by using a timer and doing some spatial querying based on the location of the mouse pointer. This sample works with area-based features but the same could be accomplished with point- or line-based features simply by using different spatial queries.
+              
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/HighlightAtMouseHoverSample/ScreenShot.png)
+
+# [How Do I Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/HowDoI)
+
+The “How Do I?” samples collection is a comprehensive set containing dozens of interactive samples. Available in C#, these samples are designed to hit all the highlights of Map Suite, from simply adding a layer to a map to performing spatial queries and applying a thematic style. Consider this collection your “encyclopedia” of all the Map Suite basics and a great starting place for new users.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/HowDoI/Screenshot.gif)
+
+# [Image Style Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/ImageStyleSample)
+
+As you probably already know, using the Map Suite API, you can easily display a point-based feature as an image. But how do you do the same thing for a line or a polygon-based feature? In this WPF project, we show you how to create custom Image Styles for both line and polygon features. With the new ImageAreaStyle, you can display a polygon feature that uses an image as its fill. You can see how an image for forest and water is used in the sample project. And with the new ImageLineStyle, you can do the same thing with line features. You'll see how an image of a pavement texture is used to represent streets.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/ImageStyleSample/Screenshot.png)
