@@ -811,4 +811,43 @@ In today’s WPF project, we show you how to retrieve data from a REST service a
 
 ![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/DynamicMarkerOverlaySample/Screenshot.gif)
 
+# [Earthquake Statistics Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/EarthquakeStatisticSample)
 
+The Earthquake Statistics sample template is a statistical report system for earthquakes that have occurred in the past few years across the United States. It can help you generate infographics and analyze the severely afflicted areas, or used as supporting evidence when recommending measures to minimize the damage in future quakes.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/EarthquakeStatisticSample/Screenshot.gif)
+
+# [Edit Attribute Of Shapefile Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/EditAttributeOfShapeFile)
+
+The purpose of this Wpf sample is to show how to edit the attributes of a feature of a shapefile. This sample is useful for anyone wanting to actualize the attributes part of its data by simply clicking on the desired feature on the map and updating its attributes in a textbox. You will find the editing part of the code in the **KeyDown** event of the textbox.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/EditAttributeOfShapeFile/Screenshot.gif)
+
+# [Elevation Grade Of Line Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/ElevationGradeOfLineSample)
+
+In this sample, we show how you can use Map Suite [Elevation SDK](https://thinkgeo.com/gisserver#feature) to get the elevation values of a specific line for your .NET application. It allows you to customize your query to get data as detailed as you need it to be. Draw elevation profiles for your  hiking or biking trip, contral the granularity of the response, sample elevation values at controllable intervals along a route should be shown up.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/ElevationGradeOfLineSample/Screenshot.png)
+
+# [Elevation Statistics Sample for WPF](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/ElevationStatisticsSample)
+
+This **Sample**   shows the elevation data of a road in the form of a line [chart][1].
+
+- **Elevation SDK** - support query elevation data by points, line and polygon based on [SRTM][2] and Ned13 elevation source data.
+ - **For point** - Create a buffer and aggregate all points within buffer to create average for the elevation of the point. 
+ - **For line** - There are two ways to get the elevation data of the line. First, get the points on the line by setting the interval distance. The other, is to take the points by setting the number of points to be fetched. Then query the elevation data of the point.
+ - **For polygon** - By setting the interval distance, clip the polygon to the grids and get all the center of the grids where the polygon is located. Now, determine whether the center points are within the surface or inside the surface (use improved arc-length method).
+ 
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/ElevationStatisticsSample/Screenshot.png)
+
+# [Filter Style Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/FilterStyleSample)
+
+This project outlines how to apply the FilterStyle to a layer's display. By using this style, the map will filter the features queried from the source file by checking if a specified column value fits the input condition. This effect can be applied to all the Map Suite products.
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/FilterStyleSample/Screenshot.gif)
+
+# [Find Nearest Cross Streets Sample for Wpf](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10/samples/wpf/FindNearestCrossSreetsSample)
+
+This sample demonstrates how to geocode an address using Map Suite Geocoder. It then returns and highlights the low and high cross streets.          
+
+![Screenshot](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/support/v10/samples/wpf/FindNearestCrossSreetsSample/ScreenShot.png)
