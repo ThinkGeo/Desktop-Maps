@@ -10,14 +10,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// Learn how to style line data using a LineStyle
     /// </summary>
     public partial class CreateLineStyleSample : UserControl, IDisposable
-    {        
+    {
         public CreateLineStyleSample()
         {
             InitializeComponent();
         }
 
         /// <summary>
-        /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, load Frisco Streets shapefile data and add it to the map
+        /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, load Frisco Railroad shapefile data and add it to the map
         /// </summary>
         private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
@@ -29,39 +29,25 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);             
+            mapView.CurrentExtent = new RectangleShape(-10779675.1746605, 3914631.77546835, -10779173.5566652, 3914204.80300804);
 
             // Create a layer with line data
-            ShapeFileFeatureLayer friscoStreets = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Streets.shp");
+            ShapeFileFeatureLayer friscoRailroad = new ShapeFileFeatureLayer(@"../../../Data/Railroad/Railroad.shp");
+            LayerOverlay layerOverlay = new LayerOverlay();
 
             // Project the layer's data to match the projection of the map
-            friscoStreets.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+            friscoRailroad.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
             // Add the layer to a layer overlay
-            var layerOverlay = new LayerOverlay();
-            layerOverlay.Layers.Add(friscoStreets);
+            layerOverlay.Layers.Add("Railroad", friscoRailroad);
 
             // Add the overlay to the map
-            mapView.Overlays.Add(layerOverlay);
+            mapView.Overlays.Add("overlay", layerOverlay);
 
-            // Add the line style to the historicSites layer
-            AddLineStyle(friscoStreets);
+            rbLineStyle.IsChecked = true;
+
         }
 
-        /// <summary>
-        /// Create a lineStyle and add it to the Frisco Streets layer
-        /// </summary>
-        private void AddLineStyle(ShapeFileFeatureLayer layer)
-        {
-            // Create a line style
-            var lineStyle = new LineStyle(new GeoPen(GeoBrushes.DimGray, 4), new GeoPen(GeoBrushes.WhiteSmoke, 2));
-
-            // Add the line style to the collection of custom styles for ZoomLevel 1. 
-            layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(lineStyle);
-
-            // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the line style on every zoom level on the map. 
-            layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-        }
         public void Dispose()
         {
             // Dispose of unmanaged resources.
@@ -69,5 +55,59 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
+
+        private void rbLineType_Checked(object sender, RoutedEventArgs e)
+        {
+            if (mapView.Overlays.Count > 0)
+            {
+                LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["overlay"];
+                ShapeFileFeatureLayer friscoRailroad = (ShapeFileFeatureLayer)layerOverlay.Layers["Railroad"];
+
+                // Create a line style
+                var lineStyle = new LineStyle(new GeoPen(GeoBrushes.DimGray, 10), new GeoPen(GeoBrushes.WhiteSmoke, 6));
+
+                // Add the line style to the collection of custom styles for ZoomLevel 1.
+                friscoRailroad.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
+                friscoRailroad.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(lineStyle);
+
+                // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the line style on every zoom level on the map. 
+                friscoRailroad.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
+                // Refresh the layerOverlay to show the new style
+                layerOverlay.Refresh();
+            }
+        }
+
+        private void rbDashedLineType_Checked(object sender, RoutedEventArgs e)
+        {
+            if (mapView.Overlays.Count > 0)
+            {
+                LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["overlay"];
+                ShapeFileFeatureLayer friscoRailroad = (ShapeFileFeatureLayer)layerOverlay.Layers["Railroad"];
+
+                var lineStyle = new LineStyle(
+                    outerPen: new GeoPen(GeoColors.Black, 12),
+                    innerPen: new GeoPen(GeoColors.White, 6)
+                    {
+                        DashStyle = LineDashStyle.Custom,
+                        DashPattern = { 3f, 3f },
+                        StartCap = DrawingLineCap.Flat,
+                        EndCap = DrawingLineCap.Flat
+                    }
+                );
+
+                // Add the line style to the collection of custom styles for ZoomLevel 1.
+                friscoRailroad.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
+                friscoRailroad.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(lineStyle);
+
+                // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the line style on every zoom level on the map. 
+                friscoRailroad.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
+                // Refresh the layerOverlay to show the new style
+                layerOverlay.Refresh();
+            }
+        }
+
     }
 }
+
