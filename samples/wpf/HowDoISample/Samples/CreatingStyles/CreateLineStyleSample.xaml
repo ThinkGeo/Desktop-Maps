@@ -7,18 +7,40 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ThinkGeoUI:MapView x:Name="mapView" Loaded="MapView_Loaded" Grid.Column="0" />
+        <ThinkGeoUI:MapView Grid.Column="0" Grid.Row="0" x:Name="mapView" Loaded="MapView_Loaded"></ThinkGeoUI:MapView>
+        <Grid Grid.Column="1" Grid.Row="0">
+            <Label Grid.Column="1" Grid.Row="0" Content="Line Type:" FontSize="16" FontWeight="Bold"></Label>
+            <RadioButton Grid.Column="1" Grid.Row="1" x:Name="rbLineStyle" Checked="rbLineType_Checked">Solid Line</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="2" x:Name="rbDashedLineStyle" Checked="rbDashedLineType_Checked">Dashed Line</RadioButton>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="5" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+        </Grid>
 
-        <!-- Grid Layout -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="240" />
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
     </Grid>
-    
+
     <UserControl.Resources>
         <Style TargetType="Label">
             <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
             <Setter Property="FontSize" Value="14"></Setter>
+        </Style>
+        <Style TargetType="RadioButton">
+            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
+            <Setter Property="Margin" Value="8,0,0,0"></Setter>
         </Style>
         <Style TargetType="CheckBox">
             <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
