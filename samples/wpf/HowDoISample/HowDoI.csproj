@@ -208,18 +208,18 @@
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />
     <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="ThinkGeo.Ecw" Version="12.3.10" />
-    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="12.3.10" />
-    <PackageReference Include="ThinkGeo.MrSid" Version="12.3.10" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="12.3.10" />
-    <PackageReference Include="ThinkGeo.Oracle" Version="12.3.10" />
-    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="12.3.10" />
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="12.3.10" />
-    <PackageReference Include="ThinkGeo.Printers" Version="12.3.10" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="12.3.10" />
-    <PackageReference Include="ThinkGeo.UI.Wpf" Version="12.3.10" />
-    <PackageReference Include="ThinkGeo.UnmanagedGeoTiff" Version="12.3.10" />
-    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="12.3.10" />
+    <PackageReference Include="ThinkGeo.Ecw" Version="13.0.0-beta299" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="13.0.0-beta300" />
+    <PackageReference Include="ThinkGeo.MrSid" Version="13.0.0-beta298" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="13.0.0-beta301" />
+    <PackageReference Include="ThinkGeo.Oracle" Version="13.0.0-beta302" />
+    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="13.0.0-beta298" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="13.0.0-beta290" />
+    <PackageReference Include="ThinkGeo.Printers" Version="13.0.0-beta296" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="13.0.0-beta289" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="13.0.0-beta354" />
+    <PackageReference Include="ThinkGeo.UnmanagedGeoTiff" Version="13.0.0-beta299" />
+    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="13.0.0-beta290" />
     <PackageReference Include="WpfAnimatedGif" Version="2.0.0" />
   </ItemGroup>
 

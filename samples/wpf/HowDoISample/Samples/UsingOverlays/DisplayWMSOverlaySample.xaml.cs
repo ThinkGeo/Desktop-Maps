@@ -33,10 +33,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Create a WmsOverlay and add it to the map.
             WmsOverlay wmsOverlay = new WmsOverlay();
             wmsOverlay.ServerUri = new Uri("http://ows.mundialis.de/services/service");
-            wmsOverlay.Parameters.Add("VERSION", "1.3.0");
             wmsOverlay.Parameters.Add("LAYERS", "OSM-WMS");
             wmsOverlay.Parameters.Add("STYLES", "default");
             wmsOverlay.Parameters.Add("CRS", "EPSG:3857");  // Make sure to match the WMS CRS to the Map's projection
+            wmsOverlay.Parameters.Add("SRS", "EPSG:3857");  // Make sure to match the WMS CRS to the Map's projection
             mapView.Overlays.Add(wmsOverlay);
         }
         public void Dispose()
