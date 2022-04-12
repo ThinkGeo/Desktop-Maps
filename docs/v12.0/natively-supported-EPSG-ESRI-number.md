@@ -1,3 +1,4 @@
+The EPSG/ESRI number natively supported in ThinkGeo v12 (updated on 4/12/2022)
 | EPSG/ESRI    | Proj4 |
 |--------------|:-----|
 |2000|+proj=tmerc+lat_0=0+lon_0=-62+k=0.9995000000000001+x_0=400000+y_0=0+ellps=clrk80+units=m+no_defs|
