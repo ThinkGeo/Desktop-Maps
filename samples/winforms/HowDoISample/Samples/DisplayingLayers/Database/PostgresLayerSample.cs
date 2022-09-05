@@ -24,22 +24,22 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a new overlay that will hold our new layer and add it to the map.
-            LayerOverlay coyoteSightingsOverlay = new LayerOverlay();
-            mapView.Overlays.Add(coyoteSightingsOverlay);
+            LayerOverlay countriesOverlay = new LayerOverlay();
+            mapView.Overlays.Add(countriesOverlay);
 
             // Create the new layer and set the projection as the data is in srid 2276 as our background is srid 3857 (spherical mercator).
-            PostgreSqlFeatureLayer coyoteSightingsLayer = new PostgreSqlFeatureLayer("User ID=thinkgeo_user;Password=cs%^%#trsdFG;Host=sampledatabases.thinkgeo.com;Port=5432;Database=thinkgeo_samples;Pooling=true;", "frisco_coyote_sightings", "id", 2276);
-            coyoteSightingsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+            PostgreSqlFeatureLayer countriesLayer = new PostgreSqlFeatureLayer("User ID=postgres;Password=ThinkGeo!234;Host=demodb.thinkgeo.com;Port=5432;Database=postgres;Pooling=true;", "countries", "gid", 4326);
+            countriesLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 3857);
 
             // Add the layer to the overlay we created earlier.
-            coyoteSightingsOverlay.Layers.Add("Coyote Sightings", coyoteSightingsLayer);
+            countriesOverlay.Layers.Add("Countries", countriesLayer);
 
             // Set a point style to zoom level 1 and then apply it to all zoom levels up to 20.
-            coyoteSightingsLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Circle, 12, GeoBrushes.Red, new GeoPen(GeoColors.White, 2));
-            coyoteSightingsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            countriesLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = new AreaStyle(new GeoPen(GeoBrushes.Black, 2), new GeoSolidBrush(GeoColors.Transparent));
+            countriesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Set the map view current extent to a bounding box that shows just a few sightings.  
-            mapView.CurrentExtent = new RectangleShape(-10784283.099060204, 3918532.598821122, -10781699.527518518, 3916820.409397046);
+            mapView.CurrentExtent = new RectangleShape(-14910723.898808584, 6701313.058217316, -7200979.520684462, 2773061.32240915);
 
             // Refresh the map.
             mapView.Refresh();
@@ -53,7 +53,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         //Collection<FeatureSourceColumn> columns = new Collection<FeatureSourceColumn>();
         //columns.Add(new FeatureSourceColumn("comment", "varchar", 255));
 
-        //PostgreSqlFeatureSource target = new PostgreSqlFeatureSource("User ID={username};Password={password};Host=10.10.10.179;Port=5432;Database=thinkgeo_samples;Pooling=true;", "frisco_coyote_sightings", "ID", 2276);
+        //PostgreSqlFeatureSource target = new PostgreSqlFeatureSource("User ID={username};Password={password};Host={server};Port=5432;Database={db};Pooling=true;", "frisco_coyote_sightings", "ID", 2276);
         //target.Open();
 
         //ShapeFileFeatureSource source = new ShapeFileFeatureSource(@"../../../data/Frisco_Coyote_Sightings.shp");
