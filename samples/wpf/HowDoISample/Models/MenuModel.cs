@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Windows.Documents;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
-   public class MenuModel
+    public class MenuModel
     {
         public string Id { get; set; }
         public string Title { get; set; }
