@@ -26,7 +26,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public Samples()
         {
             // Setup the model
-            var mainWindowVm = new MainWindowViewModel();
+            var mainWindowVm = new MainWindowViewModel(this);
             mainWindowVm.PropertyChanged += MainWindowVm_PropertyChanged;
             DataContext = mainWindowVm;
 

@@ -1,10 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System.Collections.ObjectModel;
 using System.Linq;
-using GalaSoft.MvvmLight;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
-    public class MenuViewModel : ViewModelBase
+    public class MenuViewModel : ObservableObject
     {
         private readonly MenuModel _menu;
         public MenuViewModel(MenuModel menu)
@@ -26,7 +26,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (_isSelected != value)
                 {
                     _isSelected = value;
-                    RaisePropertyChanged(() => IsSelected);
+                    OnPropertyChanged(nameof(IsSelected));
                 }
             }
         }
@@ -40,7 +40,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (_expanded != value)
                 {
                     _expanded = value;
-                    RaisePropertyChanged(() => Expanded);
+                    OnPropertyChanged(nameof(Expanded));
                 }
             }
         }

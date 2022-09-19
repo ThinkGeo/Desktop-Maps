@@ -1,8 +1,8 @@
-﻿using GalaSoft.MvvmLight;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
-    public class CodeViewerViewModel : ViewModelBase
+    public class CodeViewerViewModel : ObservableObject
     {
         private bool _isCsharpCodeVisible;
         private bool _isXamlCodeVisible;
@@ -21,9 +21,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     {
                         _isXamlCodeVisible = false;
                         SyntaxHighlighting = "C#";
-                        RaisePropertyChanged(() => IsXamlCodeVisible);
+                        OnPropertyChanged(nameof(IsXamlCodeVisible));
                     }
-                    RaisePropertyChanged(() => IsCsharpCodeVisible);
+                    OnPropertyChanged(nameof(IsCsharpCodeVisible));
                 }
             }
         }
@@ -40,9 +40,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     {
                         _isCsharpCodeVisible = false;
                         SyntaxHighlighting = "XML";
-                        RaisePropertyChanged(() => IsCsharpCodeVisible);
+                        OnPropertyChanged(nameof(IsCsharpCodeVisible));
                     }
-                    RaisePropertyChanged(() => IsXamlCodeVisible);
+                    OnPropertyChanged(nameof(IsXamlCodeVisible));
                 }
             }
         }
@@ -59,7 +59,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (_syntaxHighlighting != value)
                 {
                     _syntaxHighlighting = value;
-                    RaisePropertyChanged(() => SyntaxHighlighting);
+                    OnPropertyChanged(nameof(SyntaxHighlighting));
                 }
             }
         }
