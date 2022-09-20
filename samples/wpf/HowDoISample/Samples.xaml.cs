@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Markup;
+using System.Windows.Threading;
 using System.Xml;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
@@ -22,6 +23,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     {
         // A list of all the menu models
         private List<MenuModel> menus;
+        private DispatcherTimer changeTimer;
 
         public Samples()
         {
@@ -31,6 +33,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             DataContext = mainWindowVm;
 
             InitializeComponent();
+
+            changeTimer = new DispatcherTimer();
+            changeTimer.Interval = TimeSpan.FromMilliseconds(500);
+            changeTimer.Tick += ChangeTimer_Tick;
+        }
+
+        private void ChangeTimer_Tick(object sender, EventArgs e)
+        {
+            changeTimer.Stop();
+            UpdateUserControl();
         }
 
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
@@ -80,38 +92,48 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // If we select a new item then we need to load the new item
             if (e.PropertyName == nameof(MainWindowViewModel.SelectedMenu))
             {
-                // If we already had a sample loaded then unload it and try and reclaim the memory
-                // at the moment we can't seem to reclaim the memory but I think this is a WPF issue
-                if (SampleContent.Children.Count > 0)
-                {
-                    UserControl oldControl = (UserControl)SampleContent.Children[0];
-                    if(oldControl is IDisposable)
-                    {
-                        ((IDisposable)oldControl).Dispose();
-                    }                    
-                    SampleContent.Children.Remove(oldControl);
-                    SampleContent.DataContext = null;
-                    oldControl.DataContext = null;
-                    oldControl = null;
-                    GC.Collect();
+                if (changeTimer.IsEnabled) 
+                { 
+                    changeTimer.Stop();
                 }
-
-                // Dynamically create the new user control based on the sample selected
-                UserControl sample = GetSample(vm.SelectedMenu.Id);
-
-                // Add the new sample user control to the XAML layout
-                SampleContent.Children.Add(sample);
-
-                // Update the CS & XAML code windows
-                UpdateCodeViewerLayout(vm.CodeViewer);
-                CsharpCodeViewer.Text = GetFileContent($"../../../{ vm.SelectedMenu.Source}.xaml.cs");
-                XamlCodeViewer.Text = ToXaml(sample);
+                changeTimer.Start();
             }
             else if (e.PropertyName == nameof(MainWindowViewModel.CodeViewer))
             {
                 // Update the code and XAML view
                 UpdateCodeViewerLayout(vm.CodeViewer);
             }
+        }
+
+        private void UpdateUserControl()
+        {
+            MainWindowViewModel vm = DataContext as MainWindowViewModel;
+            // If we already had a sample loaded then unload it and try and reclaim the memory
+            // at the moment we can't seem to reclaim the memory but I think this is a WPF issue
+            if (SampleContent.Children.Count > 0)
+            {
+                UserControl oldControl = (UserControl)SampleContent.Children[0];
+                if (oldControl is IDisposable)
+                {
+                    ((IDisposable)oldControl).Dispose();
+                }
+                SampleContent.Children.Remove(oldControl);
+                SampleContent.DataContext = null;
+                oldControl.DataContext = null;
+                oldControl = null;
+                GC.Collect();
+            }
+
+            // Dynamically create the new user control based on the sample selected
+            UserControl sample = GetSample(vm.SelectedMenu.Id);
+
+            // Add the new sample user control to the XAML layout
+            SampleContent.Children.Add(sample);
+
+            // Update the CS & XAML code windows
+            UpdateCodeViewerLayout(vm.CodeViewer);
+            CsharpCodeViewer.Text = GetFileContent($"../../../{vm.SelectedMenu.Source}.xaml.cs");
+            XamlCodeViewer.Text = ToXaml(sample);
         }
 
         private void UpdateCodeViewerLayout(CodeViewerViewModel codeViewer)
