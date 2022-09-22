@@ -28,7 +28,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(coyoteSightingsOverlay);
 
             // Create the new layer and set the projection as the data is in srid 2276 as our background is srid 3857 (spherical mercator).
-            SqlServerFeatureLayer coyoteSightingsLayer = new SqlServerFeatureLayer("Server=demodb.thinkgeo.com;Database=thinkgeo;User Id=sa;Password=ThinkGeo!234;", "frisco_coyote_sightings", "id");
+            SqlServerFeatureLayer coyoteSightingsLayer = new SqlServerFeatureLayer("Server=demodb.thinkgeo.com;Database=thinkgeo;User Id=ThinkGeoTest;Password=ThinkGeoTestPassword;", "frisco_coyote_sightings", "id");
             coyoteSightingsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
             // Add the layer to the overlay we created earlier.
