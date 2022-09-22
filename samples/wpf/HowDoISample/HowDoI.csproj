@@ -15,7 +15,7 @@
   <Target Name="RemoveDuplicateAnalyzers" BeforeTargets="CoreCompile">
     <!-- Work around github.com/dotnet/wpf/issues/6792 -->
     <ItemGroup>
-      <FilteredAnalyzer Include="@(Analyzer->Distinct())" />
+      <FilteredAnalyzer Include="@(Analyzer-&gt;Distinct())" />
       <Analyzer Remove="@(Analyzer)" />
       <Analyzer Include="@(FilteredAnalyzer)" />
     </ItemGroup>
@@ -50,6 +50,9 @@
     <Compile Update="Samples\CreatingStyles\CreateLineStyleSample.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>CreateLineStyleSample.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Samples\CreatingStyles\FleeBooleanStyle\CreateFleeBooleanStyleSample.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\ProjectingData\WorldProjectionsSample.xaml.cs">
       <SubType>Code</SubType>
@@ -111,6 +114,10 @@
       <SubType>Code</SubType>
       <DependentUpon>CreateClusterPointStyleSample.xaml</DependentUpon>
     </Compile>
+    <Page Update="Samples\CreatingStyles\FleeBooleanStyle\CreateFleeBooleanStyleSample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Samples\Extensibility\ExtendingStylesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -214,6 +221,7 @@
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.0.1" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
+    <PackageReference Include="Jint" Version="2.11.58" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="ThinkGeo.Ecw" Version="12.4.1" />

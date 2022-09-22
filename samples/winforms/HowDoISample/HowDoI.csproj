@@ -50,6 +50,7 @@
     <Page Remove="Labeling\**" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Jint" Version="2.11.58" />
     <PackageReference Include="NetTopologySuite" Version="2.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="ThinkGeo.Ecw" Version="12.4.1" />
@@ -139,6 +140,9 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Samples\CreatingStyles\CreateRegexStyleSample.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Samples\CreatingStyles\FleeBooleanStyle\CreateFleeBooleanStyleSample.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Samples\CreatingStyles\StylingAcrossMultipleScales.cs">

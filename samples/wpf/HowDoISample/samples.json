@@ -395,6 +395,12 @@
         "source": "Samples/CreatingStyles/CreateValueStyleSample"
       },
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateFleeBooleanStyleSample",
+        "title": "Create a Flee Boolean Style",
+        "description": "Learn how to style data based on data values using a FleeBooleanStyle",
+        "source": "Samples/CreatingStyles/FleeBooleanStyle/CreateFleeBooleanStyleSample"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.StylingAcrossMultipleScales",
         "title": "Styling Across Multiple Scales",
         "description": "Learn how to style layers across multiple scales using different styles assigned to different ZoomLevels",
