@@ -54,7 +54,10 @@
     <Compile Update="Samples\CreatingStyles\FleeBooleanStyle\CreateFleeBooleanStyleSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\Raster\KmlLayerSample.xaml.cs">
+    <Compile Update="Samples\DisplayingLayers\Vector\GeoPdfLayerSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\Vector\KmlLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\ProjectingData\WorldProjectionsSample.xaml.cs">
@@ -121,7 +124,11 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\Raster\KmlLayerSample.xaml">
+    <Page Update="Samples\DisplayingLayers\Vector\GeoPdfLayerSample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\Vector\KmlLayerSample.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
@@ -233,6 +240,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="ThinkGeo.Ecw" Version="12.4.1" />
     <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="12.4.1" />
+    <PackageReference Include="ThinkGeo.GeoPdf" Version="12.4.1" />
     <PackageReference Include="ThinkGeo.Kml" Version="12.4.1" />
     <PackageReference Include="ThinkGeo.MrSid" Version="12.4.1" />
     <PackageReference Include="ThinkGeo.NauticalCharts" Version="12.4.1" />
