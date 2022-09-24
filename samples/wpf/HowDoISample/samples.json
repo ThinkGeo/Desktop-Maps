@@ -194,6 +194,12 @@
         "source": "Samples/DisplayingLayers/Raster/JPEG2000LayerSample"
       },
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.KmlLayerSample",
+        "title": "Display a KML Layer",
+        "description": "This sample shows how to display a KML file.",
+        "source": "Samples/DisplayingLayers/Raster/KmlLayerSample"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.GenerateMapImageSample",
         "title": "Generate a Map as an Image",
         "description": "This sample shows how to draw your map onto an image file",
