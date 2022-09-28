@@ -153,6 +153,9 @@
     <Compile Update="Samples\DisplayingLayers\GenerateMapImageSample.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="Samples\DisplayingLayers\Raster\GdalLayerSample.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="Samples\DisplayingLayers\Raster\KmlLayerSample.cs">
       <SubType>UserControl</SubType>
     </Compile>

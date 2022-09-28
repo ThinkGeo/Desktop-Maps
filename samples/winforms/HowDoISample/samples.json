@@ -182,6 +182,12 @@
         "source": "Samples/DisplayingLayers/Raster/GeoTiffLayerSample"
       },
       {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.GdalLayerSample",
+        "title": "Display a Gdal Layer",
+        "description": "This sample shows how to display raster format data supported by Gdal.",
+        "source": "Samples/DisplayingLayers/Raster/GdalLayerSample"
+      },
+      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.MrSidLayerSample",
         "title": "Display a MrSid Layer",
         "description": "This sample shows how to display a MrSids layer.",

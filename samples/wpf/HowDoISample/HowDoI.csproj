@@ -54,6 +54,9 @@
     <Compile Update="Samples\CreatingStyles\FleeBooleanStyle\CreateFleeBooleanStyleSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Samples\DisplayingLayers\Raster\GdalLayerSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Samples\DisplayingLayers\Vector\GeoPdfLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -121,6 +124,10 @@
       <DependentUpon>CreateClusterPointStyleSample.xaml</DependentUpon>
     </Compile>
     <Page Update="Samples\CreatingStyles\FleeBooleanStyle\CreateFleeBooleanStyleSample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\Raster\GdalLayerSample.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
