@@ -38,7 +38,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void DisplayGoogleMaps_Click(object sender, RoutedEventArgs e)
         {
-            GoogleMapsOverlay googleMapsOverlay = new GoogleMapsOverlay(googleApiKey.Text, googleSigningSecret.Text);
+            GoogleMapsOverlay googleMapsOverlay = new GoogleMapsOverlay(googleApiKey.Text, String.Empty);
             mapView.Overlays.Add(googleMapsOverlay);
             mapView.Refresh();
         }

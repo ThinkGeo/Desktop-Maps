@@ -261,7 +261,7 @@
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayGoogleMapsOverlaySample",
         "title": "Display Google Maps Overlay",
-        "description": "Learn to render Google Maps using the GoogleMapsOverlay. A Google Maps API key and secret is required. Visit the Google Maps Platform page to sign up for a key (https://cloud.google.com/maps-platform/).",
+        "description": "Learn to render Google Maps using the GoogleMapsOverlay. A Google Maps API key is required. Visit the Google Maps Platform page to sign up for a key (https://cloud.google.com/maps-platform/ *The default Google Maps Static API Key returns images up to 640 x 640 pixels).",
         "source": "Samples/UsingOverlays/DisplayGoogleMapsOverlaySample"
       },
       {

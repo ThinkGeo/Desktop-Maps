@@ -17,14 +17,23 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InitializeComponent();
         }
 
+        private void mapView_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Set the map's unit of measurement to meters(Spherical Mercator)
+            mapView.MapUnit = GeographyUnit.Meter;
+
+            // Add a simple background overlay
+            mapView.BackgroundOverlay.BackgroundBrush = GeoBrushes.AliceBlue;
+
+            // Set the map extent
+            mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
+        }
+
         /// <summary>
         /// Add the Google Maps Layer to the map
         /// </summary>
         private void btnActivate_Click(object sender, RoutedEventArgs e)
         {
-            // It is important to set the map unit first to either feet, meters or decimal degrees.
-            mapView.MapUnit = GeographyUnit.Meter;
-
             // Sets the map zoom level set to the Google maps zoom level set.
             mapView.ZoomLevelSet = new GoogleMapsZoomLevelSet();
 
@@ -36,14 +45,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.Overlays.Add("WorldOverlay", worldOverlay);
 
             // Create the new layer.
-            GoogleMapsLayer worldLayer = new GoogleMapsLayer();
+            GoogleMapsLayer worldLayer = new GoogleMapsLayer(txtApiKey.Text, string.Empty);
 
             // Add the layer to the overlay we created earlier.
             worldOverlay.Layers.Add("WorldLayer", worldLayer);
-
-            // Set the client ID and Private key from the text box on the sample.  
-            worldLayer.ClientId = txtClientId.Text;
-            worldLayer.PrivateKey = txtPrivateKey.Text;
 
             // Set the current extent to the whole world.
             mapView.CurrentExtent = new RectangleShape(-10000000, 10000000, 10000000, -10000000);
@@ -65,5 +70,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
+
     }
 }
