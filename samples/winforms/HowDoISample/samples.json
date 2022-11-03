@@ -123,7 +123,7 @@
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.NOAAWeatherWarningLayerSample",
-        "title": "Display a NOAA Weather Warning Layer (TODO)",
+        "title": "Display a NOAA Weather Warning Layer",
         "description": "This sample shows how to display NOAA weather warnings to your map.",
         "source": "Samples/DisplayingLayers/WebServices/NOAAWeatherWarningLayerSample"
       },
