@@ -171,6 +171,9 @@
     <Compile Update="Samples\Extensibility\ExtendingLayersSample.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="Samples\ProjectingData\RasterProjectionSample.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="Samples\ProjectingData\WorldProjectionSample.cs">
       <SubType>UserControl</SubType>
     </Compile>

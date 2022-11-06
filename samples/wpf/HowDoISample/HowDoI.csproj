@@ -63,6 +63,9 @@
     <Compile Update="Samples\DisplayingLayers\Vector\KmlLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Samples\ProjectingData\RasterProjectionSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Samples\ProjectingData\WorldProjectionsSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -553,6 +556,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\PerformingGeometricOperations\BufferShapeSample.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\ProjectingData\RasterProjectionSample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\ProjectingData\WorldProjectionsSample.xaml">

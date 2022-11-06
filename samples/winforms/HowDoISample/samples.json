@@ -442,6 +442,12 @@
         "source": "Samples/ProjectingData/SetLayerProjectionSample"
       },
       {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.RasterProjectionSample",
+        "title": "Raster Projection Sample",
+        "description": "Learn how to reproject a raster layer using the ProjectionConverter class",
+        "source": "Samples/ProjectingData/RasterProjectionSample"
+      },
+      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.WorldProjectionSample",
         "title": "World Projection Sample",
         "description": "A small collection of some interesting projections",
