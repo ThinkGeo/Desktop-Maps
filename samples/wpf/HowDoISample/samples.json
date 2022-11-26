@@ -110,12 +110,6 @@
         "source": "Samples/DisplayingLayers/Database/SQLServerLayerSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.NOAARadarLayerSample",
-        "title": "Display a NOAA Radar Layer (TODO)",
-        "description": "This sample shows how to add NOAA Radar weather to your map.",
-        "source": "Samples/DisplayingLayers/WebServices/NOAARadarLayerSample"
-      },
-      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.NOAAWeatherStationLayerSample",
         "title": "Display a NOAA Weather Station Layer",
         "description": "This sample shows how to display NOAA weather stations current readings to your map.",
