@@ -94,6 +94,10 @@
     <Compile Update="Samples\CreatingStyles\CreateAreaStyleSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Page Update="Samples\CreatingStyles\CreateMultiColumnTextStyleSample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Samples\CreatingStyles\CreateTextStyleSample.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -149,6 +153,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\Extensibility\ExtendingFeatureSourcesSample.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\Misc\GetSnapShotSample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\PerformingGeometricOperations\UnionShapesSample.xaml">
