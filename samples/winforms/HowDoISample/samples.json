@@ -423,6 +423,12 @@
         "title": "Styling Across Multiple Scales",
         "description": "Learn how to style layers across multiple scales using different styles assigned to different ZoomLevels",
         "source": "Samples/CreatingStyles/StylingAcrossMultipleScales"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.CreateMultiColumnTextStyleSample",
+        "title": "Create a Multi-Column Text Style",
+        "description": "Learn how to label a feature using the data from multiple columns",
+        "source": "Samples/CreatingStyles/CreateMultiColumnTextStyleSample"
       }
     ]
   },
@@ -734,14 +740,21 @@
     ]
   },
   {
-    "title": "Interpolation",
+    "title": "Misc.",
     "children": [
       {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.Placeholder",
-        "title": "Interpolation Methods (TODO)",
-        "description": "Learn how to do grid based interpolation using various methods",
-        "source": "Samples/Interpolation/Placeholder"
+        "id": "ThinkGeo.UI.WinForms.HowDoI.GetSnapShotSample",
+        "title": "Get SnapShot",
+        "description": "Learn how to get the snapshot of the current map",
+        "source": "Samples/Misc/GetSnapShoteSample"
       }
+      //,
+      //{
+      //  "id": "ThinkGeo.UI.Wpf.HowDoI.Interpolation.Placeholder",
+      //  "title": "Interpolation Methods (TODO)",
+      //  "description": "Learn how to do grid based interpolation using various methods",
+      //  "source": "Samples/Interpolation/Placeholder"
+      //}
     ]
   }
 ]

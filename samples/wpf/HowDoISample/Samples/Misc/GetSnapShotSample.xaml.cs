@@ -43,6 +43,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
 
             var fullPath = Path.GetFullPath(@".\snapshot.png");
             MessageBox.Show($"The snapshot image was saved at this path: {fullPath}");
+            Process.Start(fullPath);
         }
 
         public void Dispose()

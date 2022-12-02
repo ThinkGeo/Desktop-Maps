@@ -137,6 +137,9 @@
     <Resource Include="Resources\ZoomOut.png" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Samples\CreatingStyles\CreateMultiColumnTextStyleSample.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="Samples\CreatingStyles\CreateDotDensityStyleSample.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -168,6 +171,9 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Samples\Extensibility\ExtendingLayersSample.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Samples\Misc\GetSnapShoteSample.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Samples\ProjectingData\RasterProjectionSample.cs">
@@ -251,4 +257,5 @@
   <ItemGroup>
     <Folder Include="Samples\Interpolation\" />
   </ItemGroup>
+  <ProjectExtensions><VisualStudio><UserProperties samples_1json__JsonSchema="https://github.com/fbecart/zinoma/releases/latest/download/zinoma-schema.json" /></VisualStudio></ProjectExtensions>
 </Project>
