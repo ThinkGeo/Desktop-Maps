@@ -354,12 +354,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Refresh/redraw the layers and reset the map extent
             LayerOverlay featureOverlay = (LayerOverlay)mapView.Overlays["Features Overlay"];
             mapView.CurrentExtent = featureOverlay.GetBoundingBox();
-            mapView.ZoomOut();
             mapView.Refresh();
 
             validatedFeaturesLayer.Close();
             filterFeaturesLayer.Close();
             resultFeaturesLayer.Close();
+            mapView.ZoomOut();
         }
 
         #region Component Designer generated code
