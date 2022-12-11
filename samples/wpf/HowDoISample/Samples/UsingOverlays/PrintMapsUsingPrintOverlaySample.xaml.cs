@@ -29,6 +29,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             AddPageTitleLabel();
             AddMapLayers();
             AddMosquitoDataGrid();
+            mapView.Refresh();
         }
 
         /// <summary>
