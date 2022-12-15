@@ -25,6 +25,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Create a WmsOverlay and add it to the map.
             WmsOverlay wmsOverlay = new WmsOverlay();
+            wmsOverlay.AxisOrder = WmsAxisOrder.XY;
             wmsOverlay.ServerUri = new Uri("http://ows.mundialis.de/services/service");
             wmsOverlay.Parameters.Add("VERSION", "1.3.0");
             wmsOverlay.Parameters.Add("LAYERS", "OSM-WMS");
