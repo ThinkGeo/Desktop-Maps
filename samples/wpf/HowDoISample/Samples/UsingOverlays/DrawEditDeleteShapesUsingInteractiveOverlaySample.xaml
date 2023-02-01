@@ -18,7 +18,10 @@
             <RadioButton Grid.Column="1" Grid.Row="6" x:Name="deleteShape" Content="Delete Shape" Click="DeleteShape_Click"></RadioButton>
 
             <Label Grid.Column="1" Grid.Row="7" Content="Instructions:" FontWeight="Bold" FontSize="16"/>
-            <TextBlock x:Name="instructions" TextWrapping="Wrap" Grid.Column="1" Grid.Row="8"></TextBlock>
+            <TextBlock x:Name="Instructions" TextWrapping="Wrap" Grid.Column="1" Grid.Row="8"></TextBlock>
+
+            <Label Grid.Column="1" Grid.Row="9" Content="Measure:" FontWeight="Bold" FontSize="16"/>
+            <TextBlock x:Name="MeasureResult" Grid.Column="1" Grid.Row="10"></TextBlock>
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />
@@ -26,6 +29,8 @@
                 <ColumnDefinition Width="5" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>

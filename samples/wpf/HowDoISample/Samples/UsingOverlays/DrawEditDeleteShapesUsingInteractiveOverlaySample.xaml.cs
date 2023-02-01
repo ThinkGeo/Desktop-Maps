@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Controls;
 using ThinkGeo.Core;
-using ThinkGeo.UI.Wpf;
+using UserControl = System.Windows.Controls.UserControl;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
@@ -50,9 +49,40 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Add the LayerOverlay to the map
             mapView.Overlays.Add("layerOverlay", layerOverlay);
+            mapView.TrackOverlay.MouseMoved += TrackOverlay_MouseMoved;
+            mapView.EditOverlay.VertexMoved += EditOverlay_VertexMoved;
 
             // Update instructions
-            instructions.Text = "Navigation Mode - The default map state. Allows you to pan and zoom the map with mouse controls.";
+            Instructions.Text = "Navigation Mode - The default map state. Allows you to pan and zoom the map with mouse controls.";
+        }
+
+        private void EditOverlay_VertexMoved(object sender, VertexMovedEditInteractiveOverlayEventArgs e)
+        {
+            var shape = e.AffectedFeature.GetShape();
+            MeasureResult.Text = GetMeasureResult(shape);
+        }
+
+        private void TrackOverlay_MouseMoved(object sender, MouseMovedTrackInteractiveOverlayEventArgs e)
+        {
+            var shape = e.AffectedFeature.GetShape();
+            MeasureResult.Text = GetMeasureResult(shape);
+        }
+
+        private static string GetMeasureResult(BaseShape shape)
+        {
+            var measureResult = string.Empty;
+            switch (shape)
+            {
+                case AreaBaseShape polygon:
+                    measureResult = polygon.GetArea(GeographyUnit.Meter, AreaUnit.SquareMiles).ToString("N2");
+                    measureResult += " square miles";
+                    break;
+                case LineBaseShape line:
+                    measureResult = line.GetLength(GeographyUnit.Meter, DistanceUnit.Mile).ToString("N2");
+                    measureResult += " miles";
+                    break;
+            }
+            return measureResult;
         }
 
         /// <summary>
@@ -98,7 +128,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.TrackOverlay.TrackMode = TrackMode.None;
 
             // Update instructions
-            instructions.Text = "Navigation Mode - The default map state. Allows you to pan and zoom the map with mouse controls.";
+            Instructions.Text = "Navigation Mode - The default map state. Allows you to pan and zoom the map with mouse controls.";
         }
 
         /// <summary>
@@ -116,7 +146,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.TrackOverlay.TrackMode = TrackMode.Point;
 
             // Update instructions
-            instructions.Text = "Draw Point Mode - Creates a Point Shape where at the location of each left mouse click event on the map.";
+            Instructions.Text = "Draw Point Mode - Creates a Point Shape where at the location of each left mouse click event on the map.";
         }
 
         /// <summary>
@@ -134,7 +164,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.TrackOverlay.TrackMode = TrackMode.Line;
 
             // Update instructions
-            instructions.Text = "Draw Line Mode - Begin creating a Line Shape by left clicking on the map. Each subsequent left click adds another vertex to the line. Double left click to finish creating the Shape. Middle mouse click and drag allows the user to pan the map while drawing the Shape.";
+            Instructions.Text = "Draw Line Mode - Begin creating a Line Shape by left clicking on the map. Each subsequent left click adds another vertex to the line. Double left click to finish creating the Shape. Middle mouse click and drag allows the user to pan the map while drawing the Shape.";
         }
 
         /// <summary>
@@ -152,7 +182,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.TrackOverlay.TrackMode = TrackMode.Polygon;
 
             // Update instructions
-            instructions.Text = "Draw Polygon Mode - Begin creating a Polygon Shape by left clicking on the map. Each subsequent left click adds another vertex to the polygon. Double left click to finish creating the Shape. Middle mouse click and drag allows the user to pan the map while drawing the Shape.";
+            Instructions.Text = "Draw Polygon Mode - Begin creating a Polygon Shape by left clicking on the map. Each subsequent left click adds another vertex to the polygon. Double left click to finish creating the Shape. Middle mouse click and drag allows the user to pan the map while drawing the Shape.";
         }
 
         /// <summary>
@@ -185,7 +215,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.Refresh(new Overlay[] { mapView.EditOverlay, layerOverlay });
 
             // Update instructions
-            instructions.Text = "Edit Shapes Mode - Allows the user to modify Shapes. Translate, rotate, or scale a shape using the anchor controls around the shape. Line and Polygon Shapes can also be modified: move a vertex by left mouse click and dragging on an existing vertex, add a vertex by left mouse clicking on a line segment, and remove a vertex by double left mouse clicking on an existing vertex.";
+            Instructions.Text = "Edit Shapes Mode - Allows the user to modify Shapes. Translate, rotate, or scale a shape using the anchor controls around the shape. Line and Polygon Shapes can also be modified: move a vertex by left mouse click and dragging on an existing vertex, add a vertex by left mouse clicking on a line segment, and remove a vertex by double left mouse clicking on an existing vertex.";
         }
 
         /// <summary>
@@ -206,7 +236,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.MapClick += MapView_MapClick;
 
             // Update instructions
-            instructions.Text = "Delete Shape Mode - Deletes a shape by left mouse clicking on the shape.";
+            Instructions.Text = "Delete Shape Mode - Deletes a shape by left mouse clicking on the shape.";
         }
 
         /// <summary>
