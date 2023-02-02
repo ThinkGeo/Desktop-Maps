@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ThinkGeoUI:MapView Grid.Column="0" Grid.Row="0" x:Name="mapView" Loaded="MapView_Loaded"/>
+        <ThinkGeoUI:MapView Grid.Column="0" Grid.Row="0" x:Name="mapView" Loaded="MapView_Loaded" MapUnit="Meter"/>
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1" Grid.Row="0" Content="Zooming:" FontSize="16" FontWeight="Bold"></Label>
             <Grid Grid.Column="1" Grid.Row="1" x:Name="zoomButtonGrid">
@@ -82,7 +82,7 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
             </Grid>
-            <Button Grid.Column="1" Grid.Row="9" x:Name="rotate" Click="Rotate_Click">
+            <Button Grid.Column="1" Grid.Row="9" x:Name="Rotate" Click="Rotate_Click">
                 Update
             </Button>
 
