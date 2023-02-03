@@ -7,6 +7,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ThinkGeoUI:MapView x:Name="mapView" Loaded="MapView_Loaded"></ThinkGeoUI:MapView>
+        <ThinkGeoUI:MapView x:Name="mapView" Loaded="MapView_Loaded" MapUnit="Meter" ></ThinkGeoUI:MapView>
     </Grid>
 </UserControl>
