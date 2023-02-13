@@ -1,6 +1,6 @@
 # ThinkGeo Desktop Maps
 
-Welcome! We're delighted that you're here. If you're new to ThinkGeo's Desktop Maps, we recommend starting with our Quick-Start Guides. These guides will walk you through the process of setting up a visually appealing map with external data and custom styling. Once you've reviewed the Quick-Start Guides, we highly suggest exploring our "How Do I" Sample, which contains numerous examples showcasing over 100 features of our Desktop Maps control.
+Welcome! We're delighted that you're here. If you're new to ThinkGeo's Desktop Maps, we recommend starting with our Quick-Start Guides. These guides will walk you through the process of setting up a visually appealing map with external data and custom styling. Once you've reviewed the Quick-Start Guides, we highly suggest exploring our "How Do I" Sample, which contains numerous examples showcasing over 100 features of our Desktop Map Control.
 
 ## Repository Layout
 
