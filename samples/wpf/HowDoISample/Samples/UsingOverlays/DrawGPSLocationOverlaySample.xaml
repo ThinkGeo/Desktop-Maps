@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ThinkGeoUI:MapView Grid.Column="0" Grid.Row="0" x:Name="mapView" Loaded="MapView_Loaded"/>
+        <ThinkGeoUI:MapView Grid.Column="0" Grid.Row="0" x:Name="mapView" Loaded="MapView_Loaded" MapUnit="Meter"/>
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Content="Feed Controls:" FontSize="16" FontWeight="Bold" Grid.Column="1" Grid.Row="0"/>
             <CheckBox x:Name="pauseDataFeed" Content="Pause Data Feed" IsChecked="False" Checked="PauseDataFeed_Checked" Unchecked="PauseDataFeed_Unchecked" Grid.Column="1" Grid.Row="1"></CheckBox>

@@ -13,6 +13,20 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
+        private void Form_Load(object sender, EventArgs e)
+        {
+            // It is important to set the map unit first to either feet, meters or decimal degrees.
+            mapView.MapUnit = GeographyUnit.Meter;
+            // Set the current extent to the whole world.
+            mapView.CurrentExtent = new RectangleShape(-10000000, 10000000, 10000000, -10000000);
+        }
+
+
+        private void TxtApplicationID_TextChanged(object sender, EventArgs e)
+        {
+            btnActivate.Enabled = txtApplicationID.Text.Length > 0;
+        }
+
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start(new ProcessStartInfo("https://www.bingmapsportal.com/"));
@@ -20,27 +34,26 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void btnActivate_Click(object sender, EventArgs e)
         {
-            // It is important to set the map unit first to either feet, meters or decimal degrees.
-            mapView.MapUnit = GeographyUnit.Meter;
+            if (txtApplicationID.Text != null && !mapView.Overlays.Contains("Bing Map"))
+            {
+                btnActivate.Enabled = false;
+                // Set the map zoom level set to the bing map zoom level set so all the zoom levels line up.
+                mapView.ZoomLevelSet = new BingMapsZoomLevelSet();
 
-            // Set the map zoom level set to the bing map zoom level set so all the zoom levels line up.
-            mapView.ZoomLevelSet = new BingMapsZoomLevelSet(256);
+                // Create the layer overlay with some additional settings and add to the map.
+                LayerOverlay layerOverlay = new LayerOverlay() { TileHeight = 256, TileWidth = 256 };
+                layerOverlay.TileSizeMode = TileSizeMode.Small;
+                layerOverlay.MaxExtent = MaxExtents.BingMaps;
+                mapView.Overlays.Add("Bing Map", layerOverlay);
 
-            // Create the layer overlay with some additional settings and add to the map.
-            LayerOverlay layerOverlay = new LayerOverlay() { TileHeight = 256, TileWidth = 256 };
-            layerOverlay.TileSizeMode = TileSizeMode.Small;
-            layerOverlay.MaxExtent = MaxExtents.BingMaps;
-            mapView.Overlays.Add("Bing Map", layerOverlay);
+                // Create the bing map layer and add it to the map.
+                BingMapsLayer bingMapsLayer = new BingMapsLayer(txtApplicationID.Text, BingMapsMapType.Road);
+                bingMapsLayer.TileCache = new FileRasterTileCache("C:\\temp", "bingMapsRoad");
+                layerOverlay.Layers.Add(bingMapsLayer);
 
-            // Create the bing map layer and add it to the map.
-            BingMapsLayer bingMapsLayer = new BingMapsLayer(txtApplicationID.Text, BingMapsMapType.Road, "C:\\temp");
-            layerOverlay.Layers.Add(bingMapsLayer);
-
-            // Set the current extent to the whole world.
-            mapView.CurrentExtent = new RectangleShape(-10000000, 10000000, 10000000, -10000000);
-
-            // Refresh the map.
-            mapView.Refresh();
+                // Refresh the map.
+                mapView.Refresh();
+            }
         }
 
         #region Component Designer generated code
@@ -116,6 +129,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.btnActivate.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnActivate.Location = new System.Drawing.Point(3, 139);
             this.btnActivate.Name = "btnActivate";
+            this.btnActivate.Enabled = false;
             this.btnActivate.Size = new System.Drawing.Size(297, 34);
             this.btnActivate.TabIndex = 4;
             this.btnActivate.Text = "Activate";
@@ -128,6 +142,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.txtApplicationID.Location = new System.Drawing.Point(3, 110);
             this.txtApplicationID.Name = "txtApplicationID";
             this.txtApplicationID.Size = new System.Drawing.Size(297, 27);
+            this.txtApplicationID.TextChanged += TxtApplicationID_TextChanged;
             this.txtApplicationID.TabIndex = 3;
             // 
             // label3
@@ -158,11 +173,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.Controls.Add(this.mapView);
             this.Name = "BingMapLayerSample";
             this.Size = new System.Drawing.Size(1296, 599);
+            this.Load += Form_Load;
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
+
         #endregion Component Designer generated code
 
 

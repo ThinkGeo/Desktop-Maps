@@ -7,16 +7,14 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ThinkGeoUI:MapView Grid.Column="0" Grid.Row="0" x:Name="mapView" Margin="0,0,0,-0.4"></ThinkGeoUI:MapView>
+        <ThinkGeoUI:MapView Grid.Column="0" Grid.Row="0" x:Name="mapView" Margin="0,0,0,-0.4" Loaded="mapView_Loaded" MapUnit="Meter"></ThinkGeoUI:MapView>
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1" Grid.Row="0" Content="Google API Key:" FontSize="16" FontWeight="Bold"></Label>
             <TextBlock Grid.Column="1" Grid.Row="1">
             <Hyperlink  NavigateUri="https://developers.google.com/maps/documentation/maps-static/get-api-key" RequestNavigate="Hyperlink_RequestNavigate">Sign up for a Google Maps Api Key</Hyperlink>
             </TextBlock>
-            <Label Grid.Column="1" Grid.Row="2" Content="Client ID"></Label>
-            <TextBox Grid.Column="1" Grid.Row="3" Name ="txtClientId"></TextBox>
-            <Label Grid.Column="1" Grid.Row="4" Content="Private Key"></Label>
-            <TextBox Grid.Column="1" Grid.Row="5" Name ="txtPrivateKey"></TextBox>
+            <Label Grid.Column="1" Grid.Row="2" Content="API Key"></Label>
+            <TextBox Grid.Column="1" Grid.Row="3" Name ="txtApiKey"></TextBox>
             <Button Grid.Column="1" Grid.Row="6" x:Name="btnActivate" Click="btnActivate_Click">Activate</Button>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />

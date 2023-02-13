@@ -326,12 +326,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
             // Refresh/redraw the layers and reset the map extent
             LayerOverlay featureOverlay = (LayerOverlay)mapView.Overlays["Features Overlay"];
             mapView.CurrentExtent = featureOverlay.GetBoundingBox();
-            mapView.ZoomOut();
             mapView.Refresh();
 
             validatedFeaturesLayer.Close();
             filterFeaturesLayer.Close();
             resultFeaturesLayer.Close();
+            mapView.ZoomOut();
         }
         public void Dispose()
         {

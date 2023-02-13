@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ThinkGeoUI:MapView Grid.Column="0" Grid.Row="0" x:Name="mapView" Loaded="MapView_Loaded"/>
+        <ThinkGeoUI:MapView Grid.Column="0" Grid.Row="0" x:Name="mapView" Loaded="MapView_Loaded" MapUnit="Meter"/>
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Content="Sample Projections:" FontSize="16" FontWeight="Bold" Grid.Column="1" Grid.Row="0"/>
             <RadioButton x:Name="rdoPolar" Content="Polar Stereographic" IsChecked="False" Checked="Radial_Checked" Grid.Column="1" Grid.Row="1"></RadioButton>

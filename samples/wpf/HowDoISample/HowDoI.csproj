@@ -1,19 +1,25 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>net472</TargetFrameworks>
+    <TargetFrameworks>net6.0-windows;net48</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <RootNamespace>ThinkGeo.UI.Wpf.HowDoI</RootNamespace>
     <AssemblyName>ThinkGeo.UI.Wpf.HowDoI</AssemblyName>
     <UserSecretsId>1d8a5313-9352-402d-84fd-6b51ca25705e</UserSecretsId>
-    <StartupObject></StartupObject>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net472|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
-
+  <Target Name="RemoveDuplicateAnalyzers" BeforeTargets="CoreCompile">
+    <!-- Work around github.com/dotnet/wpf/issues/6792 -->
+    <ItemGroup>
+      <FilteredAnalyzer Include="@(Analyzer-&gt;Distinct())" />
+      <Analyzer Remove="@(Analyzer)" />
+      <Analyzer Include="@(FilteredAnalyzer)" />
+    </ItemGroup>
+  </Target>
   <ItemGroup>
     <Compile Remove="HowDoI\**" />
     <EmbeddedResource Remove="HowDoI\**" />
@@ -45,6 +51,21 @@
       <SubType>Code</SubType>
       <DependentUpon>CreateLineStyleSample.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Samples\CreatingStyles\FleeBooleanStyle\CreateFleeBooleanStyleSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\Raster\GdalLayerSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\Vector\GeoPdfLayerSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\DisplayingLayers\Vector\KmlLayerSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\ProjectingData\RasterProjectionSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Samples\ProjectingData\WorldProjectionsSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -73,6 +94,10 @@
     <Compile Update="Samples\CreatingStyles\CreateAreaStyleSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Page Update="Samples\CreatingStyles\CreateMultiColumnTextStyleSample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Samples\CreatingStyles\CreateTextStyleSample.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -105,6 +130,22 @@
       <SubType>Code</SubType>
       <DependentUpon>CreateClusterPointStyleSample.xaml</DependentUpon>
     </Compile>
+    <Page Update="Samples\CreatingStyles\FleeBooleanStyle\CreateFleeBooleanStyleSample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\Raster\GdalLayerSample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\Vector\GeoPdfLayerSample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\Vector\KmlLayerSample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Samples\Extensibility\ExtendingStylesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -112,6 +153,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\Extensibility\ExtendingFeatureSourcesSample.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\Misc\GetSnapShotSample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\PerformingGeometricOperations\UnionShapesSample.xaml">
@@ -123,19 +168,24 @@
       <DependentUpon>UnionShapesSample.xaml</DependentUpon>
     </Compile>
     <Page Update="Samples\PerformingGeometricOperations\SimplifyShapeSample.xaml">
-      <Generator></Generator>
+      <Generator>
+      </Generator>
     </Page>
     <Page Update="Samples\PerformingGeometricOperations\DifferenceShapesSample.xaml">
-      <Generator></Generator>
+      <Generator>
+      </Generator>
     </Page>
     <Page Update="Samples\PerformingGeometricOperations\RotateShapeSample.xaml">
-      <Generator></Generator>
+      <Generator>
+      </Generator>
     </Page>
     <Page Update="Samples\PerformingGeometricOperations\ScaleShapeSample.xaml">
-      <Generator></Generator>
+      <Generator>
+      </Generator>
     </Page>
     <Page Update="Samples\PerformingGeometricOperations\TranslateShapeSample.xaml">
-      <Generator></Generator>
+      <Generator>
+      </Generator>
     </Page>
     <Page Update="Samples\CreatingStyles\CreateValueStyleSample.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -154,7 +204,6 @@
       <DependentUpon>CreateClassBreakStyleSample.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
-
   <ItemGroup>
     <None Remove="HowDoI.csproj.DotSettings" />
     <None Remove="Resources\AQUA.png" />
@@ -172,7 +221,6 @@
     <None Remove="Theme\Images\favicon.ico" />
     <None Remove="Theme\Images\logo.png" />
   </ItemGroup>
-
   <ItemGroup>
     <Content Include="Theme\Images\favicon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -181,14 +229,14 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-
   <ItemGroup>
     <Resource Include="Resources\AQUA.png" />
     <Resource Include="Resources\AQUABLANK.png" />
     <Resource Include="Resources\East.gif" />
     <Resource Include="Resources\generic-logo.png" />
     <Resource Include="Resources\loading.gif">
-      <CopyToOutputDirectory></CopyToOutputDirectory>
+      <CopyToOutputDirectory>
+      </CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\North.gif" />
     <Resource Include="Resources\South.gif" />
@@ -202,27 +250,32 @@
     <Page Remove="SampleTemplate.xaml" />
     <Resource Include="Resources\hotel_icon.png" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.0.1" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
+    <PackageReference Include="Jint" Version="2.11.58" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />
-    <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="ThinkGeo.Ecw" Version="12.3.22" />
-    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="12.3.22" />
-    <PackageReference Include="ThinkGeo.MrSid" Version="12.3.22" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="12.3.22" />
-    <PackageReference Include="ThinkGeo.Oracle" Version="12.3.22" />
-    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="12.3.22" />
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="12.3.21" />
-    <PackageReference Include="ThinkGeo.Printers" Version="12.3.21" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="12.3.21" />
-    <PackageReference Include="ThinkGeo.UI.Wpf" Version="12.3.21" />
-    <PackageReference Include="ThinkGeo.UnmanagedGeoTiff" Version="12.3.22" />
-    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="12.3.22" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="ThinkGeo.Ecw" Version="13.0.0" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="13.0.0" />
+    <PackageReference Include="ThinkGeo.GeoPdf" Version="13.0.0" />
+    <PackageReference Include="ThinkGeo.Kml" Version="13.0.0" />
+    <PackageReference Include="ThinkGeo.MrSid" Version="13.0.0" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="13.0.0" />
+    <PackageReference Include="ThinkGeo.Oracle" Version="13.0.0" />
+    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="13.0.0" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="13.0.0" />
+    <PackageReference Include="ThinkGeo.Printers" Version="13.0.0" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="13.0.0" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="13.0.0" />
+    <PackageReference Include="ThinkGeo.UnmanagedGeoTiff" Version="13.0.0" />
+    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="13.0.0" />
     <PackageReference Include="WpfAnimatedGif" Version="2.0.0" />
+    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.336902">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="6.0.0" />
   </ItemGroup>
-
   <ItemGroup>
     <None Update="Data\Railroad\Railroad.dbf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -246,7 +299,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
   <ItemGroup>
     <Compile Update="Samples\CreatingStyles\CreatePointStyleSample.xaml.cs">
       <SubType>Code</SubType>
@@ -338,7 +390,7 @@
     <Compile Update="Samples\PerformingGeometricOperations\BufferShapeSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-	<Compile Update="Samples\ProjectingData\ProjectLatLonCoordinatesSample.xaml.cs">
+    <Compile Update="Samples\ProjectingData\ProjectLatLonCoordinatesSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\ProjectingData\SetLayerProjectionSample.xaml.cs">
@@ -374,16 +426,16 @@
     <Compile Update="Samples\UsingCloudMapsServices\ReverseGeocodingCloudServicesSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-      <Compile Update="Samples\UsingCloudMapsServices\RoutingCloudServicesSample.xaml.cs">
+    <Compile Update="Samples\UsingCloudMapsServices\RoutingCloudServicesSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-      <Compile Update="Samples\UsingCloudMapsServices\TimezoneCloudServicesSample.xaml.cs">
+    <Compile Update="Samples\UsingCloudMapsServices\TimezoneCloudServicesSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\UsingCloudMapsServices\WorldMapsQueryCloudServicesSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-	<Compile Update="Samples\UsingQueryTools\ContainsSample.xaml.cs">
+    <Compile Update="Samples\UsingQueryTools\ContainsSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\UsingQueryTools\CrossesSample.xaml.cs">
@@ -417,14 +469,12 @@
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Update="Resource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-
   <ItemGroup>
     <Page Update="Samples\CreatingStyles\CreatePointStyleSample.xaml">
       <SubType>Designer</SubType>
@@ -516,11 +566,15 @@
     <Page Update="Samples\PerformingGeometricOperations\BufferShapeSample.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Samples\ProjectingData\RasterProjectionSample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Samples\ProjectingData\WorldProjectionsSample.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-	<Page Update="Samples\ProjectingData\ProjectLatLonCoordinatesSample.xaml">
+    <Page Update="Samples\ProjectingData\ProjectLatLonCoordinatesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\ProjectingData\SetLayerProjectionSample.xaml">
@@ -562,10 +616,10 @@
     <Page Update="Samples\UsingCloudMapsServices\RoutingTSPCloudServicesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-      <Page Update="Samples\UsingCloudMapsServices\RoutingCloudServicesSample.xaml">
+    <Page Update="Samples\UsingCloudMapsServices\RoutingCloudServicesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-      <Page Update="Samples\UsingCloudMapsServices\TimezoneCloudServicesSample.xaml">
+    <Page Update="Samples\UsingCloudMapsServices\TimezoneCloudServicesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\UsingCloudMapsServices\WorldMapsQueryCloudServicesSample.xaml">
@@ -635,7 +689,7 @@
     <Page Update="Samples\UsingOverlays\UsingPopupsSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-	<Page Update="Samples\UsingQueryTools\ContainsSample.xaml">
+    <Page Update="Samples\UsingQueryTools\ContainsSample.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\UsingQueryTools\CrossesSample.xaml">
@@ -669,9 +723,7 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="Data\Csv\" />
   </ItemGroup>
-
 </Project>

@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ThinkGeoUI:MapView x:Name="mapView" Loaded="MapView_Loaded" MapClick="mapView_MapClick"></ThinkGeoUI:MapView>
+        <ThinkGeoUI:MapView x:Name="mapView" Loaded="MapView_Loaded" MapClick="mapView_MapClick" MapUnit="Meter"></ThinkGeoUI:MapView>
         <Image x:Name="loadingImage" Visibility="Visible" Height="64" Width="64" gif:ImageBehavior.AnimatedSource="..\..\..\Resources\loading.gif" />
     </Grid>
 </UserControl>

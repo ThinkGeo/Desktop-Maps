@@ -74,6 +74,18 @@
         "source": "Samples/DisplayingLayers/Vector/GraticuleLayerSample"
       },
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.KmlLayerSample",
+        "title": "Display a KML Layer",
+        "description": "This sample shows how to display a KML file.",
+        "source": "Samples/DisplayingLayers/Vector/KmlLayerSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.GeoPdfLayerSample",
+        "title": "Display a GeoPdf Layer",
+        "description": "This sample shows how to display a PDF file.",
+        "source": "Samples/DisplayingLayers/Vector/GeoPdfLayerSample"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.SQLiteLayerSample",
         "title": "Display a SQLite Layer",
         "description": "This sample shows how to display a SQLite layer.",
@@ -98,12 +110,6 @@
         "source": "Samples/DisplayingLayers/Database/SQLServerLayerSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.NOAARadarLayerSample",
-        "title": "Display a NOAA Radar Layer (TODO)",
-        "description": "This sample shows how to add NOAA Radar weather to your map.",
-        "source": "Samples/DisplayingLayers/WebServices/NOAARadarLayerSample"
-      },
-      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.NOAAWeatherStationLayerSample",
         "title": "Display a NOAA Weather Station Layer",
         "description": "This sample shows how to display NOAA weather stations current readings to your map.",
@@ -111,7 +117,7 @@
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.NOAAWeatherWarningLayerSample",
-        "title": "Display a NOAA Weather Warning Layer (TODO)",
+        "title": "Display a NOAA Weather Warning Layer",
         "description": "This sample shows how to display NOAA weather warnings to your map.",
         "source": "Samples/DisplayingLayers/WebServices/NOAAWeatherWarningLayerSample"
       },
@@ -168,6 +174,12 @@
         "title": "Display a GeoTiff Layer",
         "description": "This sample shows how to display a GeoTiff image.",
         "source": "Samples/DisplayingLayers/Raster/GeoTiffLayerSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.GdalLayerSample",
+        "title": "Display a Gdal Layer",
+        "description": "This sample shows how to display raster format data supported by Gdal.",
+        "source": "Samples/DisplayingLayers/Raster/GdalLayerSample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.MrSidLayerSample",
@@ -243,7 +255,7 @@
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayGoogleMapsOverlaySample",
         "title": "Display Google Maps Overlay",
-        "description": "Learn to render Google Maps using the GoogleMapsOverlay. A Google Maps API key and secret is required. Visit the Google Maps Platform page to sign up for a key (https://cloud.google.com/maps-platform/).",
+        "description": "Learn to render Google Maps using the GoogleMapsOverlay. A Google Maps API key is required. Visit the Google Maps Platform page to sign up for a key (https://cloud.google.com/maps-platform/ *The default Google Maps Static API Key returns images up to 640 x 640 pixels).",
         "source": "Samples/UsingOverlays/DisplayGoogleMapsOverlaySample"
       },
       {
@@ -395,10 +407,22 @@
         "source": "Samples/CreatingStyles/CreateValueStyleSample"
       },
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateFleeBooleanStyleSample",
+        "title": "Create a Flee Boolean Style",
+        "description": "Learn how to style data based on data values using a FleeBooleanStyle",
+        "source": "Samples/CreatingStyles/FleeBooleanStyle/CreateFleeBooleanStyleSample"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.StylingAcrossMultipleScales",
         "title": "Styling Across Multiple Scales",
         "description": "Learn how to style layers across multiple scales using different styles assigned to different ZoomLevels",
         "source": "Samples/CreatingStyles/StylingAcrossMultipleScales"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateMultiColumnTextStyleSample",
+        "title": "Create a Multi-Column Text Style",
+        "description": "Learn how to label a feature using the data from multiple columns",
+        "source": "Samples/CreatingStyles/CreateMultiColumnTextStyleSample"
       }
     ]
   },
@@ -410,6 +434,12 @@
         "title": "Setting the Projection of a Layer",
         "description": "Learn how to automatically reproject a layer using the ProjectionConverter class",
         "source": "Samples/ProjectingData/SetLayerProjectionSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ProjectingData.RasterProjectionSample",
+        "title": "Raster Projection Sample",
+        "description": "Learn how to reproject a raster layer using the ProjectionConverter class",
+        "source": "Samples/ProjectingData/RasterProjectionSample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.WorldProjectionsSample",
@@ -704,14 +734,21 @@
     ]
   },
   {
-    "title": "Interpolation",
+    "title": "Misc.",
     "children": [
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.Interpolation.Placeholder",
-        "title": "Interpolation Methods (TODO)",
-        "description": "Learn how to do grid based interpolation using various methods",
-        "source": "Samples/Interpolation/Placeholder"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.Misc.GetSnapShotSample",
+        "title": "Get SnapShot",
+        "description": "Learn how to get the snapshot of the current map",
+        "source": "Samples/Misc/GetSnapShoteSample"
       }
+      //,
+      //{
+      //  "id": "ThinkGeo.UI.Wpf.HowDoI.Interpolation.Placeholder",
+      //  "title": "Interpolation Methods (TODO)",
+      //  "description": "Learn how to do grid based interpolation using various methods",
+      //  "source": "Samples/Interpolation/Placeholder"
+      //}
     ]
   }
 ]

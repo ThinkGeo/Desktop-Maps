@@ -32,7 +32,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void displayGoogleMaps_Click(object sender, EventArgs e)
         {
-            GoogleMapsOverlay googleMapsOverlay = new GoogleMapsOverlay(googleApiKey.Text, googleSigningSecret.Text);
+            GoogleMapsOverlay googleMapsOverlay = new GoogleMapsOverlay(googleApiKey.Text);
             mapView.Overlays.Add(googleMapsOverlay);
             mapView.Refresh();
         }
@@ -40,9 +40,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         #region Component Designer generated code
         private Panel panel1;
         private Button displayGoogleMaps;
-        private TextBox googleSigningSecret;
         private TextBox googleApiKey;
-        private Label label3;
         private Label label2;
         private LinkLabel lblGoogleMapsLink;
         private Label label1;
@@ -55,9 +53,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView = new ThinkGeo.UI.WinForms.MapView();
             this.panel1 = new System.Windows.Forms.Panel();
             this.displayGoogleMaps = new System.Windows.Forms.Button();
-            this.googleSigningSecret = new System.Windows.Forms.TextBox();
             this.googleApiKey = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.lblGoogleMapsLink = new System.Windows.Forms.LinkLabel();
             this.label1 = new System.Windows.Forms.Label();
@@ -87,9 +83,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.displayGoogleMaps);
-            this.panel1.Controls.Add(this.googleSigningSecret);
             this.panel1.Controls.Add(this.googleApiKey);
-            this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.lblGoogleMapsLink);
             this.panel1.Controls.Add(this.label1);
@@ -100,7 +94,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // displayGoogleMaps
             // 
-            this.displayGoogleMaps.Location = new System.Drawing.Point(3, 165);
+            this.displayGoogleMaps.Location = new System.Drawing.Point(3, 113);
             this.displayGoogleMaps.Name = "displayGoogleMaps";
             this.displayGoogleMaps.Size = new System.Drawing.Size(295, 36);
             this.displayGoogleMaps.TabIndex = 6;
@@ -108,30 +102,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.displayGoogleMaps.UseVisualStyleBackColor = true;
             this.displayGoogleMaps.Click += new System.EventHandler(this.displayGoogleMaps_Click);
             // 
-            // googleSigningSecret
-            // 
-            this.googleSigningSecret.Location = new System.Drawing.Point(135, 122);
-            this.googleSigningSecret.Name = "googleSigningSecret";
-            this.googleSigningSecret.Size = new System.Drawing.Size(163, 22);
-            this.googleSigningSecret.TabIndex = 5;
-            // 
             // googleApiKey
             // 
-            this.googleApiKey.Location = new System.Drawing.Point(135, 85);
+            this.googleApiKey.Location = new System.Drawing.Point(85, 85);
             this.googleApiKey.Name = "googleApiKey";
-            this.googleApiKey.Size = new System.Drawing.Size(163, 22);
+            this.googleApiKey.Size = new System.Drawing.Size(200, 22);
             this.googleApiKey.TabIndex = 4;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(24, 128);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(105, 20);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "Secrete Key:";
             // 
             // label2
             // 

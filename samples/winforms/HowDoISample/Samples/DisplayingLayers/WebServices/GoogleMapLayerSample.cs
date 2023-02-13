@@ -13,38 +13,45 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-
-
-        private void btnActivate_Click(object sender, EventArgs e)
+        private void Form_Load(object sender, EventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.Meter;
-
-            // Sets the map zoom level set to the Google maps zoom level set.
-            mapView.ZoomLevelSet = new GoogleMapsZoomLevelSet();
-
-            // Clear the current overlay
-            mapView.Overlays.Clear();
-
-            // Create a new overlay that will hold our new layer and add it to the map.
-            LayerOverlay worldOverlay = new LayerOverlay();
-            mapView.Overlays.Add("WorldOverlay", worldOverlay);
-
-            // Create the new layer.
-            GoogleMapsLayer worldLayer = new GoogleMapsLayer();
-
-            // Add the layer to the overlay we created earlier.
-            worldOverlay.Layers.Add("WorldLayer", worldLayer);
-
-            // Set the client ID and Private key from the text box on the sample.  
-            worldLayer.ClientId = txtClientId.Text;
-            worldLayer.PrivateKey = txtPrivateKey.Text;
-
             // Set the current extent to the whole world.
             mapView.CurrentExtent = new RectangleShape(-10000000, 10000000, 10000000, -10000000);
+        }
 
-            // Refresh the map.
-            mapView.Refresh();
+        private void TxtPrivateKey_TextChanged(object sender, EventArgs e)
+        {
+            btnActivate.Enabled = txtApiKey.Text.Length > 0;
+        }
+
+        private void btnActivate_Click(object sender, EventArgs e)
+        {
+            if (txtApiKey.Text != null && !mapView.Overlays.Contains("WorldOverlay"))
+            {
+                // Sets the map zoom level set to the Google maps zoom level set.
+                mapView.ZoomLevelSet = new GoogleMapsZoomLevelSet();
+
+                // Clear the current overlay
+                mapView.Overlays.Clear();
+
+                // Create a new overlay that will hold our new layer and add it to the map.
+                LayerOverlay worldOverlay = new LayerOverlay();
+                mapView.Overlays.Add("WorldOverlay", worldOverlay);
+
+                // Create the new layer.
+                GoogleMapsLayer worldLayer = new GoogleMapsLayer(txtApiKey.Text);
+
+                // Add the layer to the overlay we created earlier.
+                worldOverlay.Layers.Add("WorldLayer", worldLayer);
+
+                // Set the current extent to the whole world.
+                mapView.CurrentExtent = new RectangleShape(-10000000, 10000000, 10000000, -10000000);
+
+                // Refresh the map.
+                mapView.Refresh();
+            }
         }
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
@@ -56,10 +63,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private Panel panel1;
         private LinkLabel linkLabel1;
         private Button btnActivate;
-        private TextBox txtPrivateKey;
+        private TextBox txtApiKey;
         private Label label4;
-        private TextBox txtClientId;
-        private Label label3;
         private Label label1;
 
         private MapView mapView;
@@ -70,10 +75,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1 = new System.Windows.Forms.Panel();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.btnActivate = new System.Windows.Forms.Button();
-            this.txtPrivateKey = new System.Windows.Forms.TextBox();
+            this.txtApiKey = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.txtClientId = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -102,10 +105,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.linkLabel1);
             this.panel1.Controls.Add(this.btnActivate);
-            this.panel1.Controls.Add(this.txtPrivateKey);
+            this.panel1.Controls.Add(this.txtApiKey);
             this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.txtClientId);
-            this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(871, 0);
             this.panel1.Name = "panel1";
@@ -128,7 +129,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // btnActivate
             // 
             this.btnActivate.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnActivate.Location = new System.Drawing.Point(3, 184);
+            this.btnActivate.Location = new System.Drawing.Point(3, 154);
             this.btnActivate.Name = "btnActivate";
             this.btnActivate.Size = new System.Drawing.Size(294, 35);
             this.btnActivate.TabIndex = 6;
@@ -138,41 +139,24 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // txtPrivateKey
             // 
-            this.txtPrivateKey.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPrivateKey.Location = new System.Drawing.Point(3, 151);
-            this.txtPrivateKey.Name = "txtPrivateKey";
-            this.txtPrivateKey.Size = new System.Drawing.Size(294, 27);
-            this.txtPrivateKey.TabIndex = 5;
+            this.txtApiKey.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtApiKey.Location = new System.Drawing.Point(3, 121);
+            this.txtApiKey.Name = "txtPrivateKey";
+            this.txtApiKey.Size = new System.Drawing.Size(294, 27);
+            this.txtApiKey.TabIndex = 5;
+            this.txtApiKey.TextChanged += TxtPrivateKey_TextChanged;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(17, 131);
+            this.label4.Location = new System.Drawing.Point(17, 101);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(94, 20);
             this.label4.TabIndex = 4;
-            this.label4.Text = "Private Key";
-            // 
-            // txtClientId
-            // 
-            this.txtClientId.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtClientId.Location = new System.Drawing.Point(3, 102);
-            this.txtClientId.Name = "txtClientId";
-            this.txtClientId.Size = new System.Drawing.Size(294, 27);
-            this.txtClientId.TabIndex = 3;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(14, 82);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(74, 20);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Client ID";
+            this.label4.Text = "Api Key";
+            
             // 
             // label1
             // 
@@ -191,6 +175,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.Controls.Add(this.mapView);
             this.Name = "GoogleMapLayerSample";
             this.Size = new System.Drawing.Size(1172, 568);
+            this.Load += Form_Load;
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);

@@ -71,9 +71,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.Refresh();
         }
 
-        private async void StartDataFeed()
+        private void StartDataFeed()
         {
-            // Create a task that runs until we set the cacnelFeed variable
+            // Create a task that runs until we set the cancelFeed variable
 
             var task = Task.Run(() =>
             {
@@ -98,7 +98,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                         Feature currentFeature = vehicleLocationQueue.Dequeue();
                         vehicleLocationQueue.Enqueue(currentFeature);
 
-                        // Call the invoke on the mapview so we pop over to the main UI thread
+                        // Call the invoke on the mapView so we pop over to the main UI thread
                         // to update the map control
                         mapView.Dispatcher.Invoke(() =>
                         {

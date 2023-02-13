@@ -7,7 +7,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
-using ThinkGeo.UI.Wpf;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
@@ -30,6 +29,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             AddPageTitleLabel();
             AddMapLayers();
             AddMosquitoDataGrid();
+            mapView.Refresh();
         }
 
         /// <summary>

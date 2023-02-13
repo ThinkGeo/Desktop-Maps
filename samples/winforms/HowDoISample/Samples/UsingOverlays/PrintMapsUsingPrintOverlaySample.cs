@@ -23,6 +23,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             AddPageTitleLabel();
             AddMapLayers();
             AddMosquitoDataGrid();
+            mapView.Refresh();
         }
 
         private void printMap_Click(object sender, EventArgs e)

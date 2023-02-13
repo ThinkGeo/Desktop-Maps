@@ -74,6 +74,18 @@
         "source": "Samples/DisplayingLayers/Vector/GraticuleLayerSample"
       },
       {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.KmlLayerSample",
+        "title": "Display a KML Layer",
+        "description": "This sample shows how to display a KML file.",
+        "source": "Samples/DisplayingLayers/Vector/KmlLayerSample"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.GeoPdfLayerSample",
+        "title": "Display a GeoPdf Layer",
+        "description": "This sample shows how to display a PDF file.",
+        "source": "Samples/DisplayingLayers/Vector/GeoPdfLayerSample"
+      },
+      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.SQLiteLayerSample",
         "title": "Display a SQLite Layer",
         "description": "This sample shows how to display a SQLite layer.",
@@ -98,12 +110,6 @@
         "source": "Samples/DisplayingLayers/Database/SQLServerLayerSample"
       },
       {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.NOAARadarLayerSample",
-        "title": "Display a NOAA Radar Layer (TODO)",
-        "description": "This sample shows how to add NOAA Radar weather to your map.",
-        "source": "Samples/DisplayingLayers/WebServices/NOAARadarLayerSample"
-      },
-      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.NOAAWeatherStationLayerSample",
         "title": "Display a NOAA Weather Station Layer",
         "description": "This sample shows how to display NOAA weather stations current readings to your map.",
@@ -111,7 +117,7 @@
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.NOAAWeatherWarningLayerSample",
-        "title": "Display a NOAA Weather Warning Layer (TODO)",
+        "title": "Display a NOAA Weather Warning Layer",
         "description": "This sample shows how to display NOAA weather warnings to your map.",
         "source": "Samples/DisplayingLayers/WebServices/NOAAWeatherWarningLayerSample"
       },
@@ -170,6 +176,12 @@
         "source": "Samples/DisplayingLayers/Raster/GeoTiffLayerSample"
       },
       {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.GdalLayerSample",
+        "title": "Display a Gdal Layer",
+        "description": "This sample shows how to display raster format data supported by Gdal.",
+        "source": "Samples/DisplayingLayers/Raster/GdalLayerSample"
+      },
+      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.MrSidLayerSample",
         "title": "Display a MrSid Layer",
         "description": "This sample shows how to display a MrSids layer.",
@@ -192,6 +204,12 @@
         "title": "Display a JPEG2000 Layer",
         "description": "This sample shows how to display a JPEG2000 image.",
         "source": "Samples/DisplayingLayers/Raster/JPEG2000LayerSample"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.KmlLayerSample",
+        "title": "Display a KML Layer",
+        "description": "This sample shows how to display a KML file.",
+        "source": "Samples/DisplayingLayers/Raster/KmlLayerSample"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.GenerateMapImageSample",
@@ -395,10 +413,22 @@
         "source": "Samples/CreatingStyles/CreateValueStyleSample"
       },
       {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.CreateFleeBooleanStyleSample",
+        "title": "Create a Flee Boolean Style",
+        "description": "Learn how to style data based on data values using a FleeBooleanStyle",
+        "source": "Samples/CreatingStyles/FleeBooleanStyle/CreateFleeBooleanStyleSample"
+      },
+      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.StylingAcrossMultipleScales",
         "title": "Styling Across Multiple Scales",
         "description": "Learn how to style layers across multiple scales using different styles assigned to different ZoomLevels",
         "source": "Samples/CreatingStyles/StylingAcrossMultipleScales"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.CreateMultiColumnTextStyleSample",
+        "title": "Create a Multi-Column Text Style",
+        "description": "Learn how to label a feature using the data from multiple columns",
+        "source": "Samples/CreatingStyles/CreateMultiColumnTextStyleSample"
       }
     ]
   },
@@ -410,6 +440,12 @@
         "title": "Setting the Projection of a Layer",
         "description": "Learn how to automatically reproject a layer using the ProjectionConverter class",
         "source": "Samples/ProjectingData/SetLayerProjectionSample"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.RasterProjectionSample",
+        "title": "Raster Projection Sample",
+        "description": "Learn how to reproject a raster layer using the ProjectionConverter class",
+        "source": "Samples/ProjectingData/RasterProjectionSample"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.WorldProjectionSample",
@@ -704,14 +740,21 @@
     ]
   },
   {
-    "title": "Interpolation",
+    "title": "Misc.",
     "children": [
       {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.Placeholder",
-        "title": "Interpolation Methods (TODO)",
-        "description": "Learn how to do grid based interpolation using various methods",
-        "source": "Samples/Interpolation/Placeholder"
+        "id": "ThinkGeo.UI.WinForms.HowDoI.GetSnapShotSample",
+        "title": "Get SnapShot",
+        "description": "Learn how to get the snapshot of the current map",
+        "source": "Samples/Misc/GetSnapShoteSample"
       }
+      //,
+      //{
+      //  "id": "ThinkGeo.UI.Wpf.HowDoI.Interpolation.Placeholder",
+      //  "title": "Interpolation Methods (TODO)",
+      //  "description": "Learn how to do grid based interpolation using various methods",
+      //  "source": "Samples/Interpolation/Placeholder"
+      //}
     ]
   }
 ]

@@ -56,6 +56,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Set the extent to a view of the US
             mapView.CurrentExtent = new RectangleShape(-14927495.374917, 8262593.0543992, -6686622.84891633, 1827556.23117885);
 
+            featureSource.Open();
+            if (featureSource.GetCount() > 0)
+            {
+                loadingImage.Visibility = Visibility.Hidden;
+            }
+
             // Refresh the map.
             mapView.Refresh();
         }

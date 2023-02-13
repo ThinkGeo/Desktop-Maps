@@ -62,6 +62,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             PopupOverlay popupOverlay = new PopupOverlay();
             mapView.Overlays.Add("Info Popup Overlay", popupOverlay);
 
+            featureSource.Open();
+            if (featureSource.GetCount() > 0)
+            {
+                loadingImage.Visibility = Visibility.Hidden;
+            }
+
             // Refresh the map.
             mapView.Refresh();
         }

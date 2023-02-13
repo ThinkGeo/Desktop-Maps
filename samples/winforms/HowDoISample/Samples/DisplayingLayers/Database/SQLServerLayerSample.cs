@@ -28,7 +28,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(coyoteSightingsOverlay);
 
             // Create the new layer and set the projection as the data is in srid 2276 as our background is srid 3857 (spherical mercator).
-            SqlServerFeatureLayer coyoteSightingsLayer = new SqlServerFeatureLayer("Server=sampledatabases.thinkgeo.com;Database=ThinkGeoSamples;User Id=thinkgeouser;Password=dkjGk$%*7kS82hks;", "frisco_coyote_sightings", "id");
+            SqlServerFeatureLayer coyoteSightingsLayer = new SqlServerFeatureLayer("Server=demodb.thinkgeo.com;Database=thinkgeo;User Id=ThinkGeoTest;Password=ThinkGeoTestPassword;", "frisco_coyote_sightings", "id");
             coyoteSightingsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
             // Add the layer to the overlay we created earlier.
@@ -54,9 +54,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         //Collection<FeatureSourceColumn> columns = new Collection<FeatureSourceColumn>();
         //columns.Add(new FeatureSourceColumn("comment", "varchar", 255));
 
-        //SqlServerFeatureSource.CreateTable("Server=10.10.10.179;Database=ThinkGeoSamples;User Id={username};Password={password};", "frisco_coyote_sightings", MsSqlSpatialDataType.Geometry, columns);
+        //SqlServerFeatureSource.CreateTable("Server={server};Database={db};User Id={username};Password={password};", "frisco_coyote_sightings", MsSqlSpatialDataType.Geometry, columns);
 
-        //SqlServerFeatureSource target = new SqlServerFeatureSource("Server=10.10.10.179;Database=ThinkGeoSamples;User Id={username};Password={password};", "frisco_coyote_sightings", "id");
+        //SqlServerFeatureSource target = new SqlServerFeatureSource("Server={server};Database={db};User Id={username};Password={password};", "frisco_coyote_sightings", "id");
         //target.Open();
 
         //ShapeFileFeatureSource source = new ShapeFileFeatureSource(@"../../../data/Frisco_Coyote_Sightings.shp");

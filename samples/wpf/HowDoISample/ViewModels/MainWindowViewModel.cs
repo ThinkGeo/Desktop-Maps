@@ -1,24 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using Newtonsoft.Json;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : ObservableObject
     {
         private readonly List<MenuModel> _menus;
 
         private MenuViewModel _selectedMenu;
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(DependencyObject view)
         {
-            if (IsInDesignMode)
+            if (DesignerProperties.GetIsInDesignMode(view))
             {
                 _menus = new List<MenuModel>();
                 var group1 = new MenuModel
@@ -66,9 +67,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
 
             CodeViewer = new CodeViewerViewModel();
-            CodeViewer.PropertyChanged += (sender, e) => RaisePropertyChanged(() => CodeViewer);
-
-            MessengerInstance.Register<MenuModel>(this, menu => { });
+            CodeViewer.PropertyChanged += (sender, e) => OnPropertyChanged(nameof(CodeViewer));
         }
 
         public ICommand ExpandedMenusCommand
@@ -100,7 +99,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     _selectedMenu.IsSelected = true;
                     CodeViewer.CsharpCode = GetFileContent($"{_selectedMenu.Source}.xaml.cs");
                     CodeViewer.XamlCode = GetResourceContent($"{_selectedMenu.Source}.baml");
-                    RaisePropertyChanged(() => SelectedMenu);
+                    OnPropertyChanged(nameof(SelectedMenu));
                 }
             }
         }
