@@ -1,8 +1,7 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using ThinkGeo.Core;
 
-namespace WpfApp1
+namespace WpfSample
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
