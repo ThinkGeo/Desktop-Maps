@@ -5,7 +5,7 @@ This section will introduce you to getting a nice looking map up and running wit
 
 We will begin by creating a .NET Core WPF project in your favorite editor.  Next we will walk you through adding the required packages and getting a map on the default form.  Next we will add some code to show a nice looking background map and finally add some custom which will be styled and labeled.  After reading this you will be in a good position to look over the [How Do I Sample](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/samples/wpf/HowDoISample) and explore our other features.
 
-![alt text](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/raw/master/assets/quickstart_shapefile_pointstyle_screenshot.png "Simple Map")
+![alt text](./assets/QuickStart_ShapeFile_PointStyle_ScreenShot.png "Simple Map")
 
 ### Step 1: Setup a New Project
 
