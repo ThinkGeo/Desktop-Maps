@@ -57,7 +57,7 @@ Add the code below to the `mapView_Loaded` event of the `MainWindow.xaml.cs`.
 The first time you run your application, you will be presented with ThinkGeo's Product Center which will create and manage your licenses for all of ThinkGeo's products.
 If not it will show licenses not installed Exception.
 
-![alt text](LicenseNotInstalledException.png "Registration Exception")
+![alt text](./assets/LicenseNotInstalledException.png "Registration Exception")
 
 Create a new account to begin a 60-day free evaluation.
 
