@@ -13,7 +13,7 @@ First, to begin working on the map, you'll need to create a .NET WPF project usi
 ### Step 1: Create a WPF Project
 Create a C# WPF project with the Framework .NET 7.0. 
 
-  TODO: need image  
+![alt text](./assets/Create_WPF_Project_ScreenShot.gif "Create WPF Project") 
 
 ### Step 2: Add Nuget Packages: 
 
