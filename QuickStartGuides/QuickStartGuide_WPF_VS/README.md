@@ -69,33 +69,33 @@ Create a new account to begin a 60-day free evaluation.
 
 You should now see your map with our Cloud Maps layer!
 
-### Step 7: Add a Point Data Layer in the map
+### Step 6: Add a Point Data Layer in the map
 
 Now that you have a basic setup, you can add custom data to the map. Depending on the data, this can be complex or quite simple. We'll be going over the simple basics of adding custom data, with a pitfall or two to help you better understand how our framework can help you get around these issues.
 
 Download the [WorldCapitals.zip](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/assets/WorldCapitals.zip) shapefile data and unzip it in your project under a new folder called `AppData`. Make sure that the files are set to copy to the build output directory. From there, we can add the shapefile to the map.
 
 ```csharp
-            // Add a shapefile layer with point style.
-            var capitalLayer = new ShapeFileFeatureLayer(@"./AppData/WorldCapitals.shp");
-            var capitalStyle = new PointStyle()
-            {
-                SymbolType = PointSymbolType.Circle,
-                SymbolSize = 8,
-                FillBrush = new GeoSolidBrush(GeoColors.White),
-                OutlinePen = new GeoPen(GeoColors.Black, 2)
-            };
-            capitalLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = capitalStyle;
-            capitalLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-            // Set the projection of the capitalLayer to Spherical Mercator
-            capitalLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 3857);
+// Add a shapefile layer with point style.
+var capitalLayer = new ShapeFileFeatureLayer(@"./AppData/WorldCapitals.shp");
+var capitalStyle = new PointStyle()
+{
+    SymbolType = PointSymbolType.Circle,
+    SymbolSize = 8,
+    FillBrush = new GeoSolidBrush(GeoColors.White),
+    OutlinePen = new GeoPen(GeoColors.Black, 2)
+};
+capitalLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = capitalStyle;
+capitalLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+// Set the projection of the capitalLayer to Spherical Mercator
+capitalLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 3857);
 
-            // Create an overlay to add the layer to and add that overlay to the map.
-            var customDataOverlay = new LayerOverlay();
-            customDataOverlay.Layers.Add(capitalLayer);
-            mapView.Overlays.Add(customDataOverlay);
+// Create an overlay to add the layer to and add that overlay to the map.
+var customDataOverlay = new LayerOverlay();
+customDataOverlay.Layers.Add(capitalLayer);
+mapView.Overlays.Add(customDataOverlay);
             
-            mapView.Refresh(); 
+mapView.Refresh(); 
 ```
 Now, the data shows up properly on the map!
 
