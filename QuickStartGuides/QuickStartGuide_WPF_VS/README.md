@@ -19,7 +19,7 @@ Create a C# WPF project with the Framework .NET 7.0.
 
 Install **ThinkGeo.UI.Wpf** NuGet package through NuGet package manager
 
-TODO: need image 
+![alt text](./assets/Add_Nuget_Packages_ScreenShot.gif "Add Nuget Packages")
 
 ### Step 3: Add the Map Control to `MainWindow.xaml`
 
