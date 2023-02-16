@@ -8,7 +8,7 @@ In this section, we'll show you how to create a visually appealing map with exte
 
 First, to begin working on the map, you'll need to create a .NET WPF project using Visual Studio 2022. Once that's done, we'll guide you through the process of adding the required packages and getting the map set up on the default form. Next, we'll show you how to add a background and a shapefile to the map, and also how to customize it with labels and styles.
 
-![alt text](./assets/QuickStart_ShapeFile_PointStyle_ScreenShot.png "Simple Map")
+![alt text](./assets/QuickStart_ShapeFile_PointStyle_ScreenShot.gif "Simple Map")
 
 ### Step 1: Create a WPF Project
 Create a C# WPF project with the Framework .NET 7.0. 
