@@ -1,58 +1,58 @@
+This guide is based on using Visual Studio 2022. However, with some minor adjustments, you can create a map using other IDEs like JetBrains Rider or VS Code as well.
+
+The project created in this guide is developed in .NET 7, but you can also create a .NET Framework project using practically the same steps.
+
 # Desktop Maps Quick Start: Display a Simple Map using WPF
 
+In this section, we'll show you how to create a visually appealing map with external data and styling. We highly recommend that you also take a look at the [How Do I Sample](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/samples/wpf/HowDoISample), which contains numerous examples that cover virtually everything you can do with the control.
 
-This section will introduce you to getting a nice looking map up and running with some external data and styling.  After reviewing this we strongly recommend that you open the [How Do I Sample](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/samples/wpf/HowDoISample).  It's packed with dozens of examples covering nearly everything you can do with the control.
-
-We will begin by creating a .NET Core WPF project in your favorite editor.  Next we will walk you through adding the required packages and getting a map on the default form.  Next we will add some code to show a nice looking background map and finally add some custom which will be styled and labeled.  After reading this you will be in a good position to look over the [How Do I Sample](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/samples/wpf/HowDoISample) and explore our other features.
+First, to begin working on the map, you'll need to create a .NET WPF project using Visual Studio 2022. Once that's done, we'll guide you through the process of adding the required packages and getting the map set up on the default form. Next, we'll show you how to add a background and a shapefile to the map, and also how to customize it with labels and styles.
 
 ![alt text](./assets/QuickStart_ShapeFile_PointStyle_ScreenShot.png "Simple Map")
 
-### Step 1: Setup a New Project
+### Step 1: Create a WPF Project
+Create a C# WPF project with the Framework .NET 7.0. 
 
-  In your editor of choice you need to create a **.NET Core WPF** project.  Please see your editor's instructions on how to create the project.  Here is a [sample video](https://channel9.msdn.com/Series/Desktop-and-NET-Core-101/Create-your-first-WPF-app-on-NET-Core) using Visual Studio for reference.  
+  TODO: need image  
 
-### Step 2: Add NuGet Packages
+### Step 2: Add Nuget Packages: 
 
-You will need to install the **ThinkGeo.UI.Wpf** NuGet package.  We highly suggest you use your editors [built in NuGet package manager](https://docs.microsoft.com/en-us/nuget/quickstart/install-and-use-a-package-in-visual-studio) if possible.  If you're not using an IDE you can [install it via the the dotnet CLI](https://docs.microsoft.com/en-us/nuget/consume-packages/install-use-packages-dotnet-cli) from inside your project folder where your project file exists.
+Install **ThinkGeo.UI.Wpf** NuGet package through NuGet package manager
 
-```shell
-dotnet add package ThinkGeo.UI.Wpf
-```
+TODO: need image 
 
-### Step 3: Add the Map Control to the `MainWindow.xaml`
+### Step 3: Add the Map Control to `MainWindow.xaml`
 
-Add the new namespace to the `MainWindow.xaml` existing XAML namespaces.
+Add ThinkGeo.UI.Wpf namespace to `MainWindow.xaml` 
 
 ```xml
 xmlns:uc1="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
 ```
 
-Add the control to `MainWindow.xaml` file inside the `Grid` element.
+Add the map control within `Grid` element in `MainWindow.xaml` file.
 
 ```xml
 <uc1:MapView x:Name="mapView" Loaded="mapView_Loaded" MapUnit="Meter"></uc1:MapView>
 ```
-
-### Step 4: Add Namespaces to `MainWindow.xaml.cs`
-
-Add the required usings.
+### Step 4: Add the ThinkGeo Background
+Import the namespace at the top of 'MainWindow.xaml.cs` file.
 
 ```csharp
 using ThinkGeo.Core;
 ```
 
-### Step 5: Add the Background World Overlay
 
-Add the code below to the `mapView_Loaded` event of the `MainWindow.xaml.cs`.
+Add the following code to the mapView_Loaded event, which is triggered when the map view is fully loaded and ready to use. (The key passed in ThinkGeoCloudVectorMapsOverlay is for test only, you can apply for your own key from [ThinkGeo Cloud](https://cloud.thinkgeo.com/clients.html))
+
 
 ```csharp
-     // Add a base map overlay.
-            var cloudVectorBaseMapOverlay = new ThinkGeoCloudVectorMapsOverlay("USlbIyO5uIMja2y0qoM21RRM6NBXUad4hjK3NBD6pD0~", "f6OJsvCDDzmccnevX55nL7nXpPDXXKANe5cN6czVjCH0s8jhpCH-2A~~", ThinkGeoCloudVectorMapsMapType.Light);
-            mapView.Overlays.Add(cloudVectorBaseMapOverlay);
-            mapView.CurrentExtent = MaxExtents.ThinkGeoMaps;
+// Add a base map overlay.
+var cloudVectorBaseMapOverlay = new ThinkGeoCloudVectorMapsOverlay("USlbIyO5uIMja2y0qoM21RRM6NBXUad4hjK3NBD6pD0~", "f6OJsvCDDzmccnevX55nL7nXpPDXXKANe5cN6czVjCH0s8jhpCH-2A~~", ThinkGeoCloudVectorMapsMapType.Light);
+mapView.Overlays.Add(cloudVectorBaseMapOverlay);
+mapView.CurrentExtent = MaxExtents.ThinkGeoMaps;
 ```
 
-### Step 6: Run the Sample & Register for Your Free Evaluation
+### Step 5: Run the Sample & Register for Your Free Evaluation
 
 The first time you run your application, you will be presented with ThinkGeo's Product Center which will create and manage your licenses for all of ThinkGeo's products.
 If not it will show licenses not installed Exception.
