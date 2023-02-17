@@ -46,28 +46,28 @@ Add the following code to the mapView_Loaded event, which is triggered when the 
 
 
 ```csharp
+private void mapView_Loaded(object sender, RoutedEventArgs e)
+{
 // Add a base map overlay.
 var cloudVectorBaseMapOverlay = new ThinkGeoCloudVectorMapsOverlay("USlbIyO5uIMja2y0qoM21RRM6NBXUad4hjK3NBD6pD0~", "f6OJsvCDDzmccnevX55nL7nXpPDXXKANe5cN6czVjCH0s8jhpCH-2A~~", ThinkGeoCloudVectorMapsMapType.Light);
 mapView.Overlays.Add(cloudVectorBaseMapOverlay);
 mapView.CurrentExtent = MaxExtents.ThinkGeoMaps;
+}
 ```
 
 ### Step 5: Run the Sample & Register for Your Free Evaluation
 
-The first time you run your application, you will be presented with ThinkGeo's Product Center which will create and manage your licenses for all of ThinkGeo's products.
-If not it will show licenses not installed Exception.
+The first time you run your application, you will be directed to ThinkGeo's registration website. There, you can create an account to begin a 30-day free evaluation and manage your licenses for all of ThinkGeo's products by downloading the Product Center. 
+
+![alt text](./assets/Create_ThinkGeo_Account.png "Create Account")
+
+If you do not create an account, you may encounter a 'licenses not installed' exception.
 
 ![alt text](./assets/LicenseNotInstalledException.png "Registration Exception")
 
-Create a new account to begin a 60-day free evaluation.
+When you login to the Production Center, please click on the 'ThinkGeo UI WPF' button to start your evaluation. You should now be able to see the map with our Cloud Maps layer!
 
-1. Run the application in Debug mode.
-1. Click the "Create a new Account?" link.
-1. Fill out your name, email address, password and company name and click register.
-1. Check your email and click the "Active Your Account" link.
-1. Return to Product Center and login using the credentials your just created and hit "Continue Debugging" button.
-
-You should now see your map with our Cloud Maps layer!
+![alt text](./assets/Cloud_Maps_Layer_ScreenShot.gif "Cloud Maps Layer")
 
 ### Step 6: Add a Point Data Layer in the map
 
