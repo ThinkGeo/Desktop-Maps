@@ -6,20 +6,18 @@ The project created in this guide is developed in .NET 7, but you can also creat
 
 In this section, we'll show you how to create a visually appealing map with external data and styling. We highly recommend that you also take a look at the [How Do I Sample](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/samples/wpf/HowDoISample), which contains numerous examples that cover virtually everything you can do with the control.
 
-First, to begin working on the map, you'll need to create a .NET WPF project using Visual Studio 2022. Once that's done, we'll guide you through the process of adding the required packages and getting the map set up on the default form. Next, we'll show you how to add a background and a shapefile to the map, and also how to customize it with labels and styles.
-
-![alt text](./assets/QuickStart_ShapeFile_PointStyle_ScreenShot.gif "Simple Map")
+First, to begin working on the map, you'll need to create a .NET WPF project using Visual Studio 2022. Once that's done, we'll guide you through the process of adding the required packages and getting the map set up on the default form. Next, we'll show you how to add a background and a shapefile to the map, and also how to customize it with styles.
 
 ### Step 1: Create a WPF Project
 Create a C# WPF project with the Framework .NET 7.0. 
 
-![alt text](./assets/Create_WPF_Project_ScreenShot.gif "Create WPF Project") 
+![Create WPF Project](./assets/Create_WPF_Project_ScreenShot.gif "Create WPF Project") <img src="./assets/Create_WPF_Project_ScreenShot.gif"  width="120" height="120">
 
 ### Step 2: Add Nuget Packages: 
 
 Install **ThinkGeo.UI.Wpf** NuGet package through NuGet package manager
 
-![alt text](./assets/Add_Nuget_Packages_ScreenShot.gif "Add Nuget Packages")
+![Add Nuget Packages](./assets/Add_Nuget_Packages_ScreenShot.gif "Add Nuget Packages")
 
 ### Step 3: Add the Map Control to `MainWindow.xaml`
 
@@ -41,9 +39,7 @@ Import the namespace at the top of 'MainWindow.xaml.cs` file.
 using ThinkGeo.Core;
 ```
 
-
 Add the following code to the mapView_Loaded event, which is triggered when the map view is fully loaded and ready to use. (The key passed in ThinkGeoCloudVectorMapsOverlay is for test only, you can apply for your own key from [ThinkGeo Cloud](https://cloud.thinkgeo.com/clients.html))
-
 
 ```csharp
 private void mapView_Loaded(object sender, RoutedEventArgs e)
@@ -57,17 +53,17 @@ mapView.CurrentExtent = MaxExtents.ThinkGeoMaps;
 
 ### Step 5: Run the Sample & Register for Your Free Evaluation
 
-The first time you run your application, you will be directed to ThinkGeo's registration website. There, you can create an account to begin a 30-day free evaluation and manage your licenses for all of ThinkGeo's products by downloading the Product Center. 
+The first time you run your application, two things happen at the same time. One is that if you have not install a license, you may encounter a 'licenses not installed' exception. 
 
-![alt text](./assets/Create_ThinkGeo_Account.png "Create Account")
+![Registration Exception](./assets/LicenseNotInstalledException.png "Registration Exception")
 
-If you do not create an account, you may encounter a 'licenses not installed' exception.
+The other is that you will be directed to ThinkGeo's registration website. There, you can create an account to begin a 30-day free evaluation, and you can find instructions for downloading and installing the Production Center, as well as information on how to manage all licenses for ThinkGeo products from within the [Production Center](https://cloud.thinkgeo.com/clients.html). 
 
-![alt text](./assets/LicenseNotInstalledException.png "Registration Exception")
+![Create Account](./assets/Create_ThinkGeo_Account.png "Create Account")
 
-When you login to the Production Center, please click on the 'ThinkGeo UI WPF' button to start your evaluation. You should now be able to see the map with our Cloud Maps layer!
+Once you activate the 'ThinkGeo UI WPF' license to start your evaluation, you should be able to see the map with our Cloud Maps layer! You can zoom in on the maps in several ways, including double-clicking the left mouse key, using the mouse wheel, or selecting an area to zoom in on. You can also rotate the maps by pressing "Alt + mouse left key."
 
-![alt text](./assets/Cloud_Maps_Layer_ScreenShot.gif "Cloud Maps Layer")
+![Cloud Maps Layer](./assets/Cloud_Maps_Layer_ScreenShot.gif "Cloud Maps Layer")
 
 ### Step 6: Add a Point Data Layer in the map
 
@@ -98,6 +94,8 @@ mapView.Overlays.Add(customDataOverlay);
 mapView.Refresh(); 
 ```
 Now, the data shows up properly on the map!
+
+![Simple Map](./assets/QuickStart_ShapeFile_PointStyle_ScreenShot.gif "Simple Map")
 
 ## Summary
 
