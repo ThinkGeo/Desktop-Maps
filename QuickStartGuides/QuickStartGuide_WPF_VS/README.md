@@ -11,7 +11,7 @@ First, to begin working on the map, you'll need to create a .NET WPF project usi
 ### Step 1: Create a WPF Project
 Create a C# WPF project with the Framework .NET 7.0. 
 
-![Create WPF Project](./assets/Create_WPF_Project_ScreenShot.gif "Create WPF Project") <img src="./assets/Create_WPF_Project_ScreenShot.gif"  width="1080" height="746">
+![Create WPF Project](./assets/Create_WPF_Project_ScreenShot.gif "Create WPF Project") <img src="./assets/Create_WPF_Project_ScreenShot.gif"  width="960" height="660">
 
 ### Step 2: Add Nuget Packages: 
 
