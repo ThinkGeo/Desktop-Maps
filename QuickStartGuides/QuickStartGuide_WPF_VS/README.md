@@ -85,7 +85,7 @@ capitalLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.
 // Set the projection of the capitalLayer to Spherical Mercator
 capitalLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 3857);
 
-// Create an overlay to add the layer to and add that overlay to the map.
+// Create an overlay, and then add the layer to it. Finally, add the overlay to the map.
 var customDataOverlay = new LayerOverlay();
 customDataOverlay.Layers.Add(capitalLayer);
 mapView.Overlays.Add(customDataOverlay);
