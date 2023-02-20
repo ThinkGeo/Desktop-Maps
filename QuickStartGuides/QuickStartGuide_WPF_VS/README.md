@@ -98,12 +98,12 @@ Now, the data shows up properly on the map!
 
 ## Summary
 
-You now know the basics of using the ThinkGeo Map controls and are able to get started adding functionality into your own applications. Let's recap what we have learned about the object relationships and how the pieces of ThinkGeo UI work together:
+You now have a basic understanding of how to use the ThinkGeo Map controls and can begin adding functionality to your own applications. Let's review what we've learned about the object relationships and how the pieces of ThinkGeo UI work together:
 
-1. It is of the utmost importance that the units (feet, meters, decimal degrees, etc.) be set properly for the Map control based on the data.
+1. It is crucial to set the units (feet, meters, decimal degrees, etc.) correctly for the Map control based on the data.
 1. FeatureLayers provide the data used by a Map control to render a map.
-1. A Map is the basic control that contains all of the other objects that are used to tell how the map is to be rendered.
-1. A Map has many layers. A Layer correlates one-to-one with a single data source and typically of one type (point, polygon, line etc).
-1. A FeatureLayer can have several ZoomLevels. ZoomLevels help to define ranges (upper and lower) of when a Layer should be shown or hidden.
+1. A Map is the fundamental control that contains all the other objects used to determine how the map is rendered.
+1. A Map has multiple layers, and each Layer corresponds to a single data source and typically of one type (point, polygon, line, etc.).
+1. A FeatureLayer can have multiple ZoomLevels, which define the upper and lower ranges of when a Layer should be shown or hidden.
 
-You are now in a great position to look over the [How Do I Sample](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/samples/wpf/HowDoISample) and explore our other features.
+You are now in an excellent position to review the [How Do I Sample](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/samples/wpf/HowDoISample) and explore our other features.
