@@ -58,7 +58,7 @@ The first time you run your application, two things happen at the same time. One
 
 The other is that you will be directed to ThinkGeo's registration website. There, you can create an account to begin a 30-day free evaluation, and you can find instructions for downloading and installing the Production Center, as well as information on how to manage all licenses for ThinkGeo products from within the [Production Center](https://cloud.thinkgeo.com/clients.html). 
 
-<img src="./assets/Create_ThinkGeo_Account.png"  width="840" height="580">
+<img src="./assets/Create_ThinkGeo_Account.png"  width="710" height="580">
 
 Once you activate the 'ThinkGeo UI WPF' license to start your evaluation, you should be able to see the map with our Cloud Maps layer! You can zoom in on the maps in several ways, including double-clicking the left mouse key, using the mouse wheel, or selecting an area to zoom in on. You can also rotate the maps by pressing "Alt + mouse left key."
 
