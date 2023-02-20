@@ -11,13 +11,13 @@ First, to begin working on the map, you'll need to create a .NET WPF project usi
 ### Step 1: Create a WPF Project
 Create a C# WPF project with the Framework .NET 7.0. 
 
-<img src="./assets/Create_WPF_Project_ScreenShot.gif"  width="960" height="660">
+<img src="./assets/Create_WPF_Project_ScreenShot.gif"  width="840" height="580">
 
 ### Step 2: Add Nuget Packages: 
 
 Install **ThinkGeo.UI.Wpf** NuGet package through NuGet package manager
 
-<img src="./assets/Add_Nuget_Packages_ScreenShot.gif"  width="960" height="660">
+<img src="./assets/Add_Nuget_Packages_ScreenShot.gif"  width="840" height="580">
 
 ### Step 3: Add the Map Control to `MainWindow.xaml`
 
@@ -58,11 +58,11 @@ The first time you run your application, two things happen at the same time. One
 
 The other is that you will be directed to ThinkGeo's registration website. There, you can create an account to begin a 30-day free evaluation, and you can find instructions for downloading and installing the Production Center, as well as information on how to manage all licenses for ThinkGeo products from within the [Production Center](https://cloud.thinkgeo.com/clients.html). 
 
-<img src="./assets/Create_ThinkGeo_Account.png"  width="960" height="660">
+<img src="./assets/Create_ThinkGeo_Account.png"  width="840" height="580">
 
 Once you activate the 'ThinkGeo UI WPF' license to start your evaluation, you should be able to see the map with our Cloud Maps layer! You can zoom in on the maps in several ways, including double-clicking the left mouse key, using the mouse wheel, or selecting an area to zoom in on. You can also rotate the maps by pressing "Alt + mouse left key."
 
-<img src="./assets/Cloud_Maps_Layer_ScreenShot.gif"  width="960" height="660">
+<img src="./assets/Cloud_Maps_Layer_ScreenShot.gif"  width="840" height="580">
 
 ### Step 6: Add a Point Data Layer in the map
 
@@ -94,7 +94,7 @@ mapView.Refresh();
 ```
 Now, the data shows up properly on the map!
 
-<img src="./assets/QuickStart_ShapeFile_PointStyle_ScreenShot.gif"  width="960" height="660">
+<img src="./assets/QuickStart_ShapeFile_PointStyle_ScreenShot.gif"  width="840" height="580">
 
 ## Summary
 
