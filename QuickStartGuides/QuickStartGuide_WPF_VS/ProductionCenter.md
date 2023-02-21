@@ -16,7 +16,7 @@ Once you login to the website, you can find the instructions for downloading and
 
 Double click the downloaded "ThinkGeo.ProductCenter.exe" file to install the ThinkGeo Production Center, login by using your registered account.
 
-![Download Production Center](./assets/ThinkGeo_Account_Login_ScreenShot.png,"Download Production Center")
+![Download Production Center](./assets/ThinkGeo_Account_Login_ScreenShot.png "Download Production Center")
 
 ### Step 3: Activate and manage ThinkGeo products licenses
 
