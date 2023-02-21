@@ -1,6 +1,6 @@
-This guide is based on using Visual Studio 2022. However, with some minor adjustments, you can create a map using other IDEs like JetBrains Rider or VS Code as well.
+This guide is based on using Visual Studio 2022. However, with some minor adjustments, you can create a map using other IDEs, such as JetBrains Rider. You can also [display a map in a WPF project using VS Code](todo).
 
-The project created in this guide is developed in .NET 7, but you can also create a .NET Framework project using practically the same steps.
+The project created in this guide is developed in .NET 7, but you can also create a .NET Framework (4.6.2 and above)  project using practically the same steps.
 
 # Desktop Maps Quick Start: Display a Simple Map using WPF
 
@@ -9,7 +9,7 @@ In this section, we'll show you how to create a visually appealing map with exte
 First, to begin working on the map, you'll need to create a .NET WPF project using Visual Studio 2022. Once that's done, we'll guide you through the process of adding the required packages and getting the map set up on the default form. Next, we'll show you how to add a background and a shapefile to the map, and also how to customize it with styles.
 
 ### Step 1: Create a WPF Project
-Create a C# WPF project with the Framework .NET 7.0. 
+Create a C# WPF project with .NET 7.0. 
 
 <img src="./assets/Create_WPF_Project_ScreenShot.gif"  width="840" height="580">
 
@@ -44,10 +44,12 @@ Add the following code to the mapView_Loaded event, which is triggered when the 
 ```csharp
 private void mapView_Loaded(object sender, RoutedEventArgs e)
 {
-// Add a base map overlay.
-var cloudVectorBaseMapOverlay = new ThinkGeoCloudVectorMapsOverlay("USlbIyO5uIMja2y0qoM21RRM6NBXUad4hjK3NBD6pD0~", "f6OJsvCDDzmccnevX55nL7nXpPDXXKANe5cN6czVjCH0s8jhpCH-2A~~", ThinkGeoCloudVectorMapsMapType.Light);
-mapView.Overlays.Add(cloudVectorBaseMapOverlay);
-mapView.CurrentExtent = MaxExtents.ThinkGeoMaps;
+    // Add a base map overlay.
+    var cloudVectorBaseMapOverlay = new ThinkGeoCloudVectorMapsOverlay("USlbIyO5uIMja2y0qoM21RRM6NBXUad4hjK3NBD6pD0~", "f6OJsvCDDzmccnevX55nL7nXpPDXXKANe5cN6czVjCH0s8jhpCH-2A~~", ThinkGeoCloudVectorMapsMapType.Light);
+    mapView.Overlays.Add(cloudVectorBaseMapOverlay);
+    mapView.CurrentExtent = MaxExtents.ThinkGeoMaps;
+
+    mapView.Refresh(); 
 }
 ```
 ### Step 5: Run the Sample & Register for Your Free Evaluation
@@ -56,7 +58,7 @@ The first time you run your application, two things happen at the same time. One
 
 ![Registration Exception](./assets/LicenseNotInstalledException.png "Registration Exception")
 
-The other is that you will be directed to ThinkGeo's registration website. There, you can create an account to begin a 30-day free evaluation, and you can find instructions for downloading and installing the Production Center, as well as information on how to manage all licenses for ThinkGeo products from within the [Production Center](https://cloud.thinkgeo.com/clients.html). 
+The other is that you will be directed to ThinkGeo's registration website, where you can create an account to begin a 30-day free evaluation. From there, you can download and install the Production Center and manage licenses for ThinkGeo products. For more information, please refer to the [ThinkGeo Production Center QuickStart Guide](https://cloud.thinkgeo.com/clients.html). 
 
 <img src="./assets/Create_ThinkGeo_Account.png"  width="710" height="580">
 
@@ -88,9 +90,7 @@ capitalLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 3
 // Create an overlay, and then add the layer to it. Finally, add the overlay to the map.
 var customDataOverlay = new LayerOverlay();
 customDataOverlay.Layers.Add(capitalLayer);
-mapView.Overlays.Add(customDataOverlay);
-            
-mapView.Refresh(); 
+mapView.Overlays.Add(customDataOverlay);            
 ```
 Now, the data shows up properly on the map!
 
@@ -100,10 +100,10 @@ Now, the data shows up properly on the map!
 
 You now have a basic understanding of how to use the ThinkGeo Map controls and can begin adding functionality to your own applications. Let's review what we've learned about the object relationships and how the pieces of ThinkGeo UI work together:
 
-1. It is crucial to set the units (feet, meters, decimal degrees, etc.) correctly for the Map control based on the data.
-1. FeatureLayers provide the data used by a Map control to render a map.
-1. A Map is the fundamental control that contains all the other objects used to determine how the map is rendered.
-1. A Map has multiple layers, and each Layer corresponds to a single data source and typically of one type (point, polygon, line, etc.).
-1. A FeatureLayer can have multiple ZoomLevels, which define the upper and lower ranges of when a Layer should be shown or hidden.
+1. A `Map` is the fundamental control that contains all the other objects used to determine how the map is rendered.
+2. A `Map` has multiple `Overlays`, and each `Overlay` corresponds to a tier of images displayed on the map control.
+3. A `LayerOverlay` has multiple layers, and each `Layer` corresponds to a single data source. This can be a vector-based `FeatureLayer` (such as a shapefile or SQLite) or a raster-based `RasterLayer` (such as TIFF or MrSID).
+4. A `FeatureLayer` can have multiple `ZoomLevels`, which define the upper and lower ranges of when a layer should be shown or hidden, and the styles for how the layer is supposed to be displayed.
+5. The `MapUnit` (feet, meters, decimal degrees, etc.) and `CurrentExtent` need to be correctly set for the `Map` control.
 
-You are now in an excellent position to review the [How Do I Sample](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/samples/wpf/HowDoISample) and explore our other features.
+Congratulations, you are now in an excellent position to review the [How Do I Sample](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/samples/wpf/HowDoISample) and explore other features.
