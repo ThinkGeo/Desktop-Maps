@@ -1,4 +1,4 @@
-This guide will demonstrate how to register for a ThinkGeo account, download and install the Production Center,  activate and manage your ThinkGeo products.
+This guide will demonstrate how to register for a ThinkGeo account, download and install the Production Center,  activate and manage your ThinkGeo products licenses.
 
 # ThinkGeo Production Center: Manage all ThinkGeo Products Licenses
 
