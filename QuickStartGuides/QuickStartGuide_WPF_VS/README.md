@@ -100,8 +100,8 @@ Now, the data shows up properly on the map!
 
 You now have a basic understanding of how to use the ThinkGeo Map controls and can begin adding functionality to your own applications. Let's review what we've learned about the object relationships and how the pieces of ThinkGeo UI work together:
 
-1. A `Map` is the fundamental control that contains all the other objects used to determine how the map is rendered.
-2. A `Map` has multiple `Overlays`, and each `Overlay` corresponds to a tier of images displayed on the map control.
+1. A `MapView` is the fundamental control that contains all the other objects used to determine how the map is rendered.
+2. A `MapView` has multiple `Overlays`, and each `Overlay` corresponds to a tier of images displayed on the map control.
 3. A `LayerOverlay` has multiple layers, and each `Layer` corresponds to a single data source. This can be a vector-based `FeatureLayer` (such as a shapefile or SQLite) or a raster-based `RasterLayer` (such as TIFF or MrSID).
 4. A `FeatureLayer` can have multiple `ZoomLevels`, which define the upper and lower ranges of when a layer should be shown or hidden, and the styles for how the layer is supposed to be displayed.
 5. The `MapUnit` (feet, meters, decimal degrees, etc.) and `CurrentExtent` need to be correctly set for the `Map` control.
