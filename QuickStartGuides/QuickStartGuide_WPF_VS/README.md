@@ -62,7 +62,7 @@ The other is that you will be directed to ThinkGeo's registration website, where
 
 <img src="./assets/Create_ThinkGeo_Account.png"  width="710" height="580">
 
-Once you activate the 'ThinkGeo UI WPF' license to start your evaluation, you should be able to see the map with our Cloud Maps layer! You can zoom in on the maps in several ways, including double-clicking the left mouse key, using the mouse wheel, or selecting an area to zoom in on. You can also rotate the maps by pressing "Alt + mouse left key."
+Once you activate the 'ThinkGeo UI WPF' license to start your evaluation, you should be able to see the map with our Cloud Maps layer! You can double-click to zoom in, use the mouse wheel to zoom in/out, and track zoom in by holding down the Shift key and using the mouse. You can also rotate the map by holding down the Alt key and using the mouse.
 
 <img src="./assets/Cloud_Maps_Layer_ScreenShot.gif"  width="840" height="580">
 
