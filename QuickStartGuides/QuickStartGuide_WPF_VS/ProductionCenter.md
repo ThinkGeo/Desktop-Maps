@@ -30,3 +30,7 @@ Additionally, you can generate runtime licenses for your output EXE file from wi
 
 <img src="./assets/Generate_Runtime_License_ScreenShot.gif" width="820" height="480">
 
+You can activate ThinkGeo products offline by generating and sending the request file via email to ThinkGeo. Once you receive the license file, you can import it to activate the product.
+
+<img src="./assets/Activate_Offline_License_ScreenShot.gif" width="820" height="480">
+
