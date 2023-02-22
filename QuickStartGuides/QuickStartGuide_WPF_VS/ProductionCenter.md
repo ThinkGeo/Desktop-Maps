@@ -22,7 +22,7 @@ Double click the downloaded "ThinkGeo.ProductCenter.exe" file to install the Thi
 
 Now you can activate your ThinkGeo products licenses by choosing corresponding buttons. 
 
-<img src="./assets/ThinkGeo_Production_Center_ScreenShot.png" width="720" height="580">
+<img src="./assets/ThinkGeo_Production_Center_ScreenShot.png" width="720" height="480">
 
 Additionally you can manage your licenses for ThinkGeo products from within the Production Center. 
 
