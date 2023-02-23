@@ -12,7 +12,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
     public class ColorUtilitiesCloudServicesSample : UserControl
     {
         private ColorCloudClient colorCloudClient;
-        private Collection<RadioButton> baseColorRadioButtons;
 
         public ColorUtilitiesCloudServicesSample()
         {

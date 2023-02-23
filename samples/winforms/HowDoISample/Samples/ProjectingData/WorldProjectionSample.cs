@@ -96,7 +96,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        public void Dispose()
+        public new void Dispose()
         {
             // Dispose of unmanaged resources.
             mapView.Dispose();

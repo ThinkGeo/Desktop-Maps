@@ -42,7 +42,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = csvLayer.GetBoundingBox();
         }
 
-        public void Dispose()
+        public new void Dispose()
         {
             // Dispose of unmanaged resources.
             mapView.Dispose();

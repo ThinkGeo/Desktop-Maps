@@ -22,7 +22,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
@@ -58,18 +58,18 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             //this.Unloaded += RefreshDynamicItems_Unloaded;
 
             //  Here we call the method below to start the background data feed
-            StartDataFeed();
+            await StartDataFeed();
 
             // Refresh the map
             mapView.Refresh();
 
         }
 
-        private async void StartDataFeed()
+        private async Task StartDataFeed()
         {
             // Create a task that runs until we set the cacnelFeed variable
 
-            var task = Task.Run(() =>
+            await Task.Run(() =>
             {
                 // Create a queue and load it up with coordinated from the CSV file
                 Queue<Feature> vehicleLocationQueue = new Queue<Feature>();
