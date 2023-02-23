@@ -7,6 +7,7 @@
     <RootNamespace>ThinkGeo.UI.WinForms.HowDoI</RootNamespace>
     <AssemblyName>ThinkGeo.UI.WinForms.HowDoI</AssemblyName>
     <Platforms>AnyCPU;x86</Platforms>
+    <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>bin\Release\netcoreapp3.0\ThinkGeo.UI.Desktop.HowDoI.xml</DocumentationFile>

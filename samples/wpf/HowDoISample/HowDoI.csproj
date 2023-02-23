@@ -8,6 +8,8 @@
     <UserSecretsId>1d8a5313-9352-402d-84fd-6b51ca25705e</UserSecretsId>
     <StartupObject>
     </StartupObject>
+    <Platforms>AnyCPU;x86</Platforms>
+    <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net472|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
