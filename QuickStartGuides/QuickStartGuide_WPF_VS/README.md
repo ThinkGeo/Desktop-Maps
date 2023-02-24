@@ -15,7 +15,9 @@ Create a C# WPF project with .NET 7.0.
 
 ### Step 2: Add Nuget Packages: 
 
-Install **ThinkGeo.UI.Wpf** NuGet package through NuGet package manager
+Install **ThinkGeo.UI.Wpf** NuGet package through NuGet package manager.
+
+If you select the "Include prerelease" option in the checkbox, you will see the beta versions within the packages. If not, you will only see the release version. By default, the release version is supposed to be used, but here we have chosen the beta version(13.1.0-beta011) in order to use the tile cache function and accelerate the zoom in/out speed.
 
 <img src="./assets/Add_Nuget_Packages_ScreenShot.gif"  width="840" height="580">
 
