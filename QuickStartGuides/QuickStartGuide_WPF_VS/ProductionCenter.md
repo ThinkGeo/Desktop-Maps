@@ -20,7 +20,7 @@ Double click the downloaded "ThinkGeo.ProductCenter.exe" file to install the Thi
 
 ### Step 3: Activate and manage ThinkGeo products licenses
 
-ThinkGeo offers two different types of licenses: one for development and another for runtime. The latter is required for the output executable file to function properly.
+ThinkGeo offers two different types of licenses: one for development and the other for runtime. The latter is required for the output executable file to function properly.
 
 Now you can activate your development licenses for ThinkGeo products by selecting the corresponding buttons. 
 
