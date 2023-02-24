@@ -41,15 +41,20 @@ using ThinkGeo.Core;
 
 Add the following code to the mapView_Loaded event, which is triggered when the map view is fully loaded and ready to use. (The key passed in ThinkGeoCloudVectorMapsOverlay is for test only, you can apply for your own key from [ThinkGeo Cloud](https://cloud.thinkgeo.com/clients.html))
 
+We set up a tile cache for the base overlay to accelerate the zoom in/out speed. The cache retrieves pictures from the local disk instead of the internet.
+
 ```csharp
 private void mapView_Loaded(object sender, RoutedEventArgs e)
 {
-    // Add a base map overlay.
-    var cloudVectorBaseMapOverlay = new ThinkGeoCloudVectorMapsOverlay("USlbIyO5uIMja2y0qoM21RRM6NBXUad4hjK3NBD6pD0~", "f6OJsvCDDzmccnevX55nL7nXpPDXXKANe5cN6czVjCH0s8jhpCH-2A~~", ThinkGeoCloudVectorMapsMapType.Light);
-    mapView.Overlays.Add(cloudVectorBaseMapOverlay);
-    mapView.CurrentExtent = MaxExtents.ThinkGeoMaps;
+// Add a base map overlay.
+var baseOverlay = new ThinkGeoCloudVectorMapsOverlay("USlbIyO5uIMja2y0qoM21RRM6NBXUad4hjK3NBD6pD0~", "f6OJsvCDDzmccnevX55nL7nXpPDXXKANe5cN6czVjCH0s8jhpCH-2A~~", ThinkGeoCloudVectorMapsMapType.Light);
+// Set up the tile cache for the base overlay 
+baseOverlay.TileCache= new FileRasterTileCache(@".\cache", "basemap");
+mapView.Overlays.Add(baseOverlay);
+            
+mapView.CurrentExtent = MaxExtents.ThinkGeoMaps;
 
-    mapView.Refresh(); 
+mapView.Refresh(); 
 }
 ```
 ### Step 5: Run the Sample & Register for Your Free Evaluation
