@@ -32,7 +32,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             coyoteSightings.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
             // Add the layer to a layer overlay
-            var layerOverlay = new LayerOverlay();
+            var layerOverlay = new LayerOverlay() { TileType = TileType.SingleTile };
             layerOverlay.Layers.Add(coyoteSightings);
 
             // Add the overlay to the map
@@ -40,6 +40,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Apply HeatStyle
             AddHeatStyle(coyoteSightings);
+
+            mapView.Refresh();
         }
 
         /// <summary>
