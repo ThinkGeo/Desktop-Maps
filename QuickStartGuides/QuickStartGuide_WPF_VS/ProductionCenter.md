@@ -2,7 +2,7 @@ This guide will demonstrate how to register for a ThinkGeo account, download and
 
 # ThinkGeo Production Center: Manage all ThinkGeo Products Licenses
 
-### Step 1: Register for Your Free Evaluation
+### Step 1: Register for your free evaluation
 
 Visit [ThinkGeo's registration website](https://helpdesk.thinkgeo.com/register) to create an account and begin a 30-day free evaluation. 
 
@@ -10,11 +10,13 @@ Visit [ThinkGeo's registration website](https://helpdesk.thinkgeo.com/register) 
 
 ### Step 2: Download and install ThinkGeo Production Center
 
-Once you login to the website, you can find the instructions for downloading and installing the Production Center. 
+Once you log in to the website, you can download the ThinkGeo Production Center. There are two options available: the GUI version for Windows and the CLI version for Linux/Mac.
 
-<img src="./assets/Download_Production_Center.png" width="720" height="580">
+To install the GUI version for Windows, click the "Download for Windows" button to start downloading.  
 
-Double click the downloaded "ThinkGeo.ProductCenter.exe" file to install the ThinkGeo Production Center, login by using your registered account.
+<img src="./assets/Download_Production_Center.png" width="720" height="480">
+
+Once the download is complete, double-click the downloaded "ThinkGeo.ProductCenter.exe" file to install the ThinkGeo Production Center. Then, log in using your registered account.
 
 ![Download Production Center](./assets/ThinkGeo_Account_Login_ScreenShot.png "Download Production Center")
 
