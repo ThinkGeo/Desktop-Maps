@@ -2,6 +2,8 @@ This guide will demonstrate how to register for a ThinkGeo account, download and
 
 ThinkGeo offers two types of licenses: one for development and the other for runtime. The development license is required for developers to create and develop using ThinkGeo, and it comes with a fee. The runtime license is needed for the output executable file to function correctly, but it doesn't require payment.
 
+If you have not installed a license, you may encounter a 'license not installed' exception the first time you run your application.
+
 In a scenario where a team has three people, with one person working on a map-related project while the other two work on map-unrelated projects, the team can purchase a single development license for the person working on the map-related project and generate runtime licenses for the other two people. Although their projects can run, they will not be able to view the maps.
 
 # ThinkGeo Production Center: Manage all ThinkGeo Products Licenses
