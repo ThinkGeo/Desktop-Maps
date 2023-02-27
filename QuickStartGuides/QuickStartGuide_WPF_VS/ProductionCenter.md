@@ -1,4 +1,8 @@
-This guide will demonstrate how to register for a ThinkGeo account, download and install the Production Center,  activate and manage your ThinkGeo products licenses.
+This guide will demonstrate how to register for a ThinkGeo account, download and install the Production Center, and activate and manage your ThinkGeo product licenses.
+
+ThinkGeo offers two types of licenses: one for development and the other for runtime. The development license is required for developers to create and develop using ThinkGeo, and it comes with a fee. The runtime license is needed for the output executable file to function correctly, but it doesn't require payment.
+
+In a scenario where a team has three people, with one person working on a map-related project while the other two work on map-unrelated projects, the team can purchase a single development license for the person working on the map-related project and generate runtime licenses for the other two people. Although their projects can run, they will not be able to view the maps.
 
 # ThinkGeo Production Center: Manage all ThinkGeo Products Licenses
 
@@ -22,13 +26,11 @@ Once the download is complete, double-click the downloaded "ThinkGeo.ProductCent
 
 ### Step 3: Activate and manage ThinkGeo products licenses
 
-ThinkGeo offers two different types of licenses: one for development and the other for runtime. The latter is required for the output executable file to function properly.
-
-Now you can activate your development licenses for ThinkGeo products by selecting the corresponding buttons. 
+After logging in, you will be directed to the following page. Here, you can activate your development licenses for ThinkGeo products by selecting the corresponding buttons. 
 
 <img src="./assets/Activate_Development_License_ScreenShot.gif" width="820" height="480">
 
-Additionally, you can generate runtime licenses for your output EXE file from within the Production Center. 
+In addition, you can use the Production Center to generate runtime licenses for your output EXE file. 
 
 <img src="./assets/Generate_Runtime_License_ScreenShot.gif" width="820" height="480">
 
