@@ -4,10 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfSample"
-        mc:Ignorable="d"
-        xmlns:uc1="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+        xmlns:thinkgeo="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+        mc:Ignorable="d"        
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <uc1:MapView x:Name="mapView" Loaded="mapView_Loaded"></uc1:MapView>
+        <thinkgeo:MapView x:Name="mapView" Loaded="mapView_Loaded"></thinkgeo:MapView>
     </Grid>
 </Window>
