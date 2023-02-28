@@ -26,14 +26,17 @@ You can switch between the Beta Branch and Release Branch by checking/unchecking
 Add ThinkGeo.UI.Wpf namespace to `MainWindow.xaml` 
 
 ```xml
-xmlns:uc1="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+xmlns:thinkgeo="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
 ```
 
 Add the map control within `Grid` element in `MainWindow.xaml` file.
 
 ```xml
-<uc1:MapView x:Name="mapView" Loaded="mapView_Loaded" MapUnit="Meter"></uc1:MapView>
+<thinkgeo:MapView x:Name="mapView" Loaded="mapView_Loaded"></thinkgeo:MapView>
 ```
+
+<img src="./assets/Add_Map_Control_Screenshot.png"  width="840" height="780">
+
 ### Step 4: Add the ThinkGeo Background
 Import the namespace at the top of 'MainWindow.xaml.cs` file.
 
@@ -43,20 +46,22 @@ using ThinkGeo.Core;
 
 Add the following code to the mapView_Loaded event, which is triggered when the map view is fully loaded and ready to use. (The key passed in ThinkGeoCloudVectorMapsOverlay is for test only, you can apply for your own key from [ThinkGeo Cloud](https://cloud.thinkgeo.com/clients.html))
 
-We set up a tile cache for the base overlay to accelerate the zoom in/out speed. The cache retrieves pictures from the local disk instead of the internet.
+We have set up a tile cache for the base overlay to improve performance. The cache retrieves tiles from the local disk instead of downloading them from the internet each time they are needed.
 
 ```csharp
 private void mapView_Loaded(object sender, RoutedEventArgs e)
 {
-// Add a base map overlay.
-var baseOverlay = new ThinkGeoCloudVectorMapsOverlay("USlbIyO5uIMja2y0qoM21RRM6NBXUad4hjK3NBD6pD0~", "f6OJsvCDDzmccnevX55nL7nXpPDXXKANe5cN6czVjCH0s8jhpCH-2A~~", ThinkGeoCloudVectorMapsMapType.Light);
-// Set up the tile cache for the base overlay 
-baseOverlay.TileCache= new FileRasterTileCache(@".\cache", "basemap");
-mapView.Overlays.Add(baseOverlay);
-            
-mapView.CurrentExtent = MaxExtents.ThinkGeoMaps;
+    mapView.MapUnit = GeographyUnit.Meter;
+    // Add a base map overlay.
+    var baseOverlay = new ThinkGeoCloudVectorMapsOverlay("USlbIyO5uIMja2y0qoM21RRM6NBXUad4hjK3NBD6pD0~", "f6OJsvCDDzmccnevX55nL7nXpPDXXKANe5cN6czVjCH0s8jhpCH-2A~~", ThinkGeoCloudVectorMapsMapType.Light);
+    // Set up the tile cache for the base overlay, passing in the location and an ID to distinguish the cache. 
+    baseOverlay.TileCache = new FileRasterTileCache(@".\cache", "basemap");
+    mapView.Overlays.Add(baseOverlay);
 
-mapView.Refresh(); 
+    // Set the extent of the mapView
+    mapView.CurrentExtent = MaxExtents.ThinkGeoMaps;
+
+    mapView.Refresh(); 
 }
 ```
 ### Step 5: Run the Sample & Register for Your Free Evaluation
@@ -69,7 +74,7 @@ The other is that you will be directed to ThinkGeo's registration website, where
 
 <img src="./assets/Create_ThinkGeo_Account.png"  width="710" height="580">
 
-Once you activate the 'ThinkGeo UI WPF' license to start your evaluation, you should be able to see the map with our Cloud Maps layer! You can double-click to zoom in, use the mouse wheel to zoom in/out, and track zoom in by holding down the Shift key and using the mouse. You can also rotate the map by holding down the Alt key and using the mouse.
+Once you activate the 'ThinkGeo UI WPF' license to start your evaluation, you should be able to see the map with our Cloud Maps layer! You can double-click to zoom in, use the mouse wheel to zoom in/out, and track zoom in by holding down the Shift key and tracking the map. Additionally, you can rotate the map by holding down the Alt key and dragging the map.
 
 <img src="./assets/Cloud_Maps_Layer_ScreenShot.gif"  width="840" height="580">
 
@@ -77,11 +82,11 @@ Once you activate the 'ThinkGeo UI WPF' license to start your evaluation, you sh
 
 Now that you have a basic setup, you can add custom data to the map. Depending on the data, this can be complex or quite simple. We'll be going over the simple basics of adding custom data, with a pitfall or two to help you better understand how our framework can help you get around these issues.
 
-Download the [WorldCapitals.zip](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/assets/WorldCapitals.zip) shapefile data and unzip it in your project under a new folder called `AppData`. Make sure that the files are set to copy to the build output directory. From there, we can add the shapefile to the map.
+Download the [WorldCapitals.zip](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/assets/WorldCapitals.zip) shapefile data and unzip it in your project under a new folder called `AppData`. From there, we can add the shapefile to the map.
 
 ```csharp
 // Add a shapefile layer with point style.
-var capitalLayer = new ShapeFileFeatureLayer(@"./AppData/WorldCapitals.shp");
+var capitalLayer = new ShapeFileFeatureLayer(@"..\..\..\AppData\WorldCapitals.shp");
 var capitalStyle = new PointStyle()
 {
     SymbolType = PointSymbolType.Circle,
@@ -89,15 +94,18 @@ var capitalStyle = new PointStyle()
     FillBrush = new GeoSolidBrush(GeoColors.White),
     OutlinePen = new GeoPen(GeoColors.Black, 2)
 };
+// Have set the default to have 20 zoom levels in the layer and applied the style to zoomlevel01, which can also be applied to other zoomlevels.
 capitalLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = capitalStyle;
 capitalLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-// Set the projection of the capitalLayer to Spherical Mercator
-capitalLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 3857);
 
-// Create an overlay, and then add the layer to it. Finally, add the overlay to the map.
+// The SHP file uses the Decimal Degrees projection, while the map uses the Spherical Mercator projection.
+// To ensure compatibility, it is necessary to convert the SHP files from Decimal Degrees projection to the map's Spherical Mercator projection.
+capitalLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(Projection.GetDecimalDegreesProjString(), Projection.GetSphericalMercatorProjString());
+
+// Create an overlay to add the layer to and add that overlay to the map.
 var customDataOverlay = new LayerOverlay();
 customDataOverlay.Layers.Add(capitalLayer);
-mapView.Overlays.Add(customDataOverlay);            
+mapView.Overlays.Add(customDataOverlay);           
 ```
 Now, the data shows up properly on the map!
 
