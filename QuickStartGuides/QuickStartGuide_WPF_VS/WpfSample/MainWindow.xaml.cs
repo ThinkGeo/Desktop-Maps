@@ -18,10 +18,11 @@ namespace WpfSample
             mapView.MapUnit = GeographyUnit.Meter;
             // Add a base map overlay.
             var baseOverlay = new ThinkGeoCloudVectorMapsOverlay("USlbIyO5uIMja2y0qoM21RRM6NBXUad4hjK3NBD6pD0~", "f6OJsvCDDzmccnevX55nL7nXpPDXXKANe5cN6czVjCH0s8jhpCH-2A~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the base overlay 
-            baseOverlay.TileCache= new FileRasterTileCache(@".\cache", "basemap");
+            // Set up the tile cache for the base overlay, passing in the location and an ID to distinguish the cache. 
+            baseOverlay.TileCache = new FileRasterTileCache(@".\cache", "basemap");
             mapView.Overlays.Add(baseOverlay);
-            
+
+            // Set the extent of the mapView
             mapView.CurrentExtent = MaxExtents.ThinkGeoMaps;
 
             // Add a shapefile layer with point style.
