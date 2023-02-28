@@ -8,6 +8,6 @@
         xmlns:uc1="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <uc1:MapView x:Name="mapView" Loaded="mapView_Loaded" MapUnit="Meter"></uc1:MapView>
+        <uc1:MapView x:Name="mapView" Loaded="mapView_Loaded"></uc1:MapView>
     </Grid>
 </Window>
