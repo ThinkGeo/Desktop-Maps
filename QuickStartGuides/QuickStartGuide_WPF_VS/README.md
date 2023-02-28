@@ -35,7 +35,7 @@ Add the map control within `Grid` element in `MainWindow.xaml` file.
 <thinkgeo:MapView x:Name="mapView" Loaded="mapView_Loaded"></thinkgeo:MapView>
 ```
 
-<img src="./assets/Add_Map_Control_Screenshot.png"  width="840" height="780">
+<img src="./assets/Add_Map_Control_Screenshot.png"  width="840" height="680">
 
 ### Step 4: Add the ThinkGeo Background
 Import the namespace at the top of 'MainWindow.xaml.cs` file.
@@ -66,11 +66,11 @@ private void mapView_Loaded(object sender, RoutedEventArgs e)
 ```
 ### Step 5: Run the Sample & Register for Your Free Evaluation
 
-The first time you run your application, two things happen at the same time. One is that if you have not install a license, you may encounter a 'licenses not installed' exception. 
+The first time you run your application, if you have not install a license, you may encounter a 'licenses not installed' exception. 
 
 ![Registration Exception](./assets/LicenseNotInstalledException.png "Registration Exception")
 
-The other is that you will be directed to ThinkGeo's registration website, where you can create an account to begin a 30-day free evaluation. From there, you can download and install the Production Center and manage licenses for ThinkGeo products. For more information, please refer to the [ThinkGeo Production Center QuickStart Guide](https://cloud.thinkgeo.com/clients.html). 
+Also you will be directed to ThinkGeo's registration website, where you can create an account to begin a 30-day free evaluation. From there, you can download and install the Product Center and manage licenses for ThinkGeo products. For more information, please refer to the [ThinkGeo Product Center QuickStart Guide](https://cloud.thinkgeo.com/clients.html). 
 
 <img src="./assets/Create_ThinkGeo_Account.png"  width="710" height="580">
 
