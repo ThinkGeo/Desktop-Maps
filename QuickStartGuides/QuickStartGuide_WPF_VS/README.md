@@ -35,7 +35,7 @@ Add the map control within `Grid` element in `MainWindow.xaml` file.
 <thinkgeo:MapView x:Name="mapView" Loaded="mapView_Loaded"></thinkgeo:MapView>
 ```
 
-<img src="./assets/Add_Map_Control_Screenshot.png"  width="840" height="680">
+<img src="./assets/Add_Map_Control_Screenshot.png"  width="840" height="640">
 
 ### Step 4: Add the ThinkGeo Background
 Import the namespace at the top of 'MainWindow.xaml.cs` file.
