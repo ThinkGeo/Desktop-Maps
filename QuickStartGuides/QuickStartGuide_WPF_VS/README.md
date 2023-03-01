@@ -80,7 +80,7 @@ Once you activate the 'ThinkGeo UI WPF' license to start your evaluation, you sh
 
 ### Step 6: Add a Point Data Layer to the map
 
-Now that you have a basic setup, you can add custom data to the map. Depending on the data, this can be complex or quite simple. We'll be going over the simple basics of adding custom data, with a pitfall or two to help you better understand how our framework can help you get around these issues.
+Now that you have a basic setup, you can add custom data to the map. Depending on the data, this can be complex or quite simple. Here we are going to add a shapefile to the map. We will set the style for the shapefile, apply the style to a range of zoomlevels, and project the shapefile from one projection (Decimal Degrees) to another (Spherical Mercator). This is basically what you might need to do when displaying feature data on the map.
 
 Download the [WorldCapitals.zip](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/assets/WorldCapitals.zip) shapefile data and unzip it in your project under a new folder called AppData. From there, we can add the shapefile to the map.
 
@@ -98,11 +98,10 @@ var capitalStyle = new PointStyle()
 capitalLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = capitalStyle;
 capitalLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-// The SHP file uses the Decimal Degrees projection, while the map uses the Spherical Mercator projection.
-// To ensure compatibility, it is necessary to convert the SHP files from Decimal Degrees projection to the map's Spherical Mercator projection.
+// The shapefile is in Decimal Degrees, while the base overlay is in Spherical Mercator. It's why the shapefile needs to be reprojected to match the coordinate system of the base overlay.
 capitalLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(Projection.GetDecimalDegreesProjString(), Projection.GetSphericalMercatorProjString());
 
-// Create an overlay to add the layer to and add that overlay to the map.
+// Add the layer to an overlay, add that overlay to the map.
 var customDataOverlay = new LayerOverlay();
 customDataOverlay.Layers.Add(capitalLayer);
 mapView.Overlays.Add(customDataOverlay);           
