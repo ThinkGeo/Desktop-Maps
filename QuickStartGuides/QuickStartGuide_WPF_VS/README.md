@@ -82,7 +82,7 @@ Once you activate the 'ThinkGeo UI WPF' license to start your evaluation, you sh
 
 Now that you have a basic setup, you can add custom data to the map. Depending on the data, this can be complex or quite simple. Here we are going to add a shapefile to the map. We will set the style for the shapefile, apply the style to a range of zoomlevels, and project the shapefile from one projection (Decimal Degrees) to another (Spherical Mercator). This is basically what you might need to do when displaying feature data on the map.
 
-Download the [WorldCapitals.zip](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/assets/WorldCapitals.zip) shapefile data and unzip it in your project under a new folder called AppData. From there, we can add the shapefile to the map.
+Download the [WorldCapitals.zip](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/assets/WorldCapitals.zip) shapefile data and unzip it in your project under a new folder called _**AppData**_. From there, we can add the shapefile to the map.
 
 ```csharp
 // Add a shapefile layer with point style.
