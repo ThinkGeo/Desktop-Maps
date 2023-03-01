@@ -38,11 +38,10 @@ namespace WpfSample
             capitalLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = capitalStyle;
             capitalLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            // The SHP file uses the Decimal Degrees projection, while the map uses the Spherical Mercator projection.
-            // To ensure compatibility, it is necessary to convert the SHP files from Decimal Degrees projection to the map's Spherical Mercator projection.
+            // The shapefile is in Decimal Degrees, while the base overlay is in Spherical Mercator. It's why the shapefile needs to be reprojected to match the coordinate system of the base overlay.
             capitalLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(Projection.GetDecimalDegreesProjString(), Projection.GetSphericalMercatorProjString());
 
-            // Create an overlay to add the layer to and add that overlay to the map.
+            // Add the layer to an overlay, add that overlay to the map.
             var customDataOverlay = new LayerOverlay();
             customDataOverlay.Layers.Add(capitalLayer);
             mapView.Overlays.Add(customDataOverlay);
