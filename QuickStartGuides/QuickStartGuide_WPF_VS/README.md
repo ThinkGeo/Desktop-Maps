@@ -78,11 +78,11 @@ Once you activate the 'ThinkGeo UI WPF' license to start your evaluation, you sh
 
 <img src="./assets/Cloud_Maps_Layer_ScreenShot.gif"  width="840" height="580">
 
-### Step 6: Add a Point Data Layer in the map
+### Step 6: Add a Point Data Layer to the map
 
 Now that you have a basic setup, you can add custom data to the map. Depending on the data, this can be complex or quite simple. We'll be going over the simple basics of adding custom data, with a pitfall or two to help you better understand how our framework can help you get around these issues.
 
-Download the [WorldCapitals.zip](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/assets/WorldCapitals.zip) shapefile data and unzip it in your project under a new folder called `AppData`. From there, we can add the shapefile to the map.
+Download the [WorldCapitals.zip](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/assets/WorldCapitals.zip) shapefile data and unzip it in your project under a new folder called AppData. From there, we can add the shapefile to the map.
 
 ```csharp
 // Add a shapefile layer with point style.
