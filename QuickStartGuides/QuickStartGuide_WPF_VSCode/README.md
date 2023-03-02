@@ -4,7 +4,7 @@ This guide is based on using VS Code in .Net 7 WPF. There are tons of map servic
 
 In this section, we'll show you how to create a visually appealing map using VS Code. 
 
-First, to begin working on the map, you'll need to create a .NET VS Code project using Visual Studio 2022. Once that's done, we'll guide you through the process of adding the required packages and getting the map set up on the default form. 
+First, to begin working on the map, you'll need to create a  VS Code project using **Visual Studio Code**. Once that's done, we'll guide you through the process of adding the required packages and getting the map set up on the default form. 
 
 Next, we'll show you how to add a background to the map.
 
@@ -22,12 +22,22 @@ Second, make sure "C#" and "NuGet Package Manager" extensions have been installe
 
 To create a new WPF project using VS Code, follow these steps:
 
-First, select File → Open Folder and choose a blank folder. If the TERMINAL window is not already open, select Terminal → New Terminal to open it. In this example, we will use the folder D:\MapDemo, which will also be visible in the terminal. The name of the folder, "MAPDEMO," should show up in the explorer window on the left.
+First, select **File → Open Folder** and choose a blank folder. If the TERMINAL window is not already open, select **Terminal → New Terminal** to open it. In this example, we will use the folder "D:\MapDemo", which will also be visible in the terminal. The name of the folder, "MAPDEMO," should show up in the explorer window on the left.
 
-Second, create a WPF project by typing "dotnet new wpf" in the terminal and pressing enter. The project will be created, and the newly generated files can be seen in the explorer window on the left.
+Second, create a WPF project by typing "**dotnet new wpf**" in the terminal and pressing enter. The project will be created, and the newly generated files can be seen in the explorer window on the left.
 
-Next, select View → Command Palette and choose .NET: Generate Assets for Build and Debug to generate assets for building and debugging.
+Next, select **View → Command Palette** and choose **.NET: Generate Assets for Build and Debug** to generate assets for building and debugging.
 
-To begin debugging, press F5 or select Run → Start Debugging. If a blank window appears, congratulations! Your project is set up correctly.
+To begin debugging, press F5 or select **Run → Start Debugging**. If a blank window appears, congratulations! Your project is set up correctly.
+
+<img src="./assets/Create_WPF_Project_ScreenShot.gif"  width="840" height="580">
+
+### Step 3: Add Nuget Packages
+
+Install **ThinkGeo.UI.Wpf** NuGet package through NuGet package manager.
+
+Select **View → Command Palette** and select **NuGet Package manager: Add Package**. The Nuget Package Search Box will pop up, type in "ThinkGeo.UI" and hit enter, go ahead and select **ThinkGeo.UI.Wpf** from the popping list.
+
+Then select the latest non-beta version (12.3.10 in my case), click on it and the package is now added to the project.Then you will be prompted to restore the unresolved dependencies, hit Restore and the Nuget packages will be downloaded, and we are ready to go.
 
 <img src="./assets/Create_WPF_Project_ScreenShot.gif"  width="840" height="580">
