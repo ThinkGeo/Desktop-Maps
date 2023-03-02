@@ -38,6 +38,6 @@ Install **ThinkGeo.UI.Wpf** NuGet package through NuGet package manager.
 
 Select **View → Command Palette** and select **NuGet Package manager: Add Package**. The Nuget Package Search Box will pop up, type in "ThinkGeo.UI" and hit enter, go ahead and select **ThinkGeo.UI.Wpf** from the popping list.
 
-Then select the latest non-beta version (13.0.0 in my case), click on it and the package is now added to the project.Then you will be prompted to restore the unresolved dependencies, hit Restore and the Nuget packages will be downloaded, and we are ready to go.
+Then select the latest version (13.1.0-beta012 in my case), click on it and the package is now added to the project.Then you will be prompted to restore the unresolved dependencies, hit Restore and the Nuget packages will be downloaded, and we are ready to go.
 
 <img src="./assets/Add_Nuget_Packages_ScreenShot.gif"  width="840" height="580">
