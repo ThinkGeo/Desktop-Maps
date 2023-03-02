@@ -56,3 +56,30 @@ Add the map control within `Grid` element in `MainWindow.xaml` file.
 ```
 <img src="./assets/Add_Map_Control_Screenshot.png"  width="840" height="640">
 
+### Step 5: Add the ThinkGeo Background
+Import the namespace at the top of 'MainWindow.xaml.cs` file.
+
+```csharp
+using ThinkGeo.Core;
+```
+Add the following code to the mapView_Loaded event, which is triggered when the map view is fully loaded and ready to use. (The key passed in ThinkGeoCloudVectorMapsOverlay is for test only, you can apply for your own key from [ThinkGeo Cloud](https://cloud.thinkgeo.com/clients.html))
+
+```csharp
+private void mapView_Loaded(object sender, RoutedEventArgs e)
+{
+    // Set the Map's Unit to Meter.
+    mapView.MapUnit = GeographyUnit.Meter;
+    // Set the Current Extent to the Max Extent of ThinkGeo Map.
+    mapView.CurrentExtent = MaxExtents.ThinkGeoMaps;
+        
+    // Add a base map overlay.
+    var backgroundOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", 
+      "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+        
+    // Add the newly created overlay to mapView.
+    mapView.Overlays.Add(backgroundOverlay);
+        
+    // Refresh the Map
+    mapView.Refresh();
+}
+```
