@@ -17,3 +17,17 @@ First, install [.NET 7.0 SDK x64](https://dotnet.microsoft.com/en-us/download)
 Second, make sure "C#" and "NuGet Package Manager" extensions have been installed in VS Code. Click the Extensions button on the left in VS Code, search the 2 extensions by name and install them. You will see them under INSTALLED group once finished.
 
 <img src="./assets/Add_Extensions_ScreenShot.gif"  width="840" height="580">
+
+### Step 2: Create a WPF Project
+
+To create a new WPF project using VS Code, follow these steps:
+
+First, select File → Open Folder and choose a blank folder. If the TERMINAL window is not already open, select Terminal → New Terminal to open it. In this example, we will use the folder D:\MapDemo, which will also be visible in the terminal. The name of the folder, "MAPDEMO," should show up in the explorer window on the left.
+
+Second, create a WPF project by typing "dotnet new wpf" in the terminal and pressing enter. The project will be created, and the newly generated files can be seen in the explorer window on the left.
+
+Next, select View → Command Palette and choose .NET: Generate Assets for Build and Debug to generate assets for building and debugging.
+
+To begin debugging, press F5 or select Run → Start Debugging. If a blank window appears, congratulations! Your project is set up correctly.
+
+<img src="./assets/Create_WPF_Project_ScreenShot.gif"  width="840" height="580">
