@@ -54,4 +54,5 @@ Add the map control within `Grid` element in `MainWindow.xaml` file.
 ```xml
 <thinkgeo:MapView x:Name="mapView"></thinkgeo:MapView>
 ```
+<img src="./assets/Add_Map_Control_Screenshot.png"  width="840" height="640">
 
