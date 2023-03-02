@@ -89,3 +89,17 @@ private void mapView_Loaded(object sender, RoutedEventArgs e)
     mapView.Refresh();
 }
 ```
+
+### Step 6: Run the Sample & Register for Your Free Evaluation
+
+The first time you run your application, if you have not installed a license, you may encounter a 'licenses not installed' exception. 
+
+<img src="./assets/LicenseNotInstalledException.png"  width="840" height="640">
+
+Also you will be directed to ThinkGeo's registration website, where you can create an account to begin a 30-day free evaluation. From there, you can download and install the Product Center and manage licenses for ThinkGeo products. For more information, please refer to the [ThinkGeo Product Center QuickStart Guide](https://cloud.thinkgeo.com/clients.html). 
+
+<img src="./assets/Create_ThinkGeo_Account.png"  width="710" height="580">
+
+Once you activate the 'ThinkGeo UI WPF' license to start your evaluation, you should be able to see the map with our Cloud Maps layer! You can double-click to zoom in, use the mouse wheel to zoom in/out, and track zoom in by holding down the Shift key and tracking the map. Additionally, you can rotate the map by holding down the Alt key and dragging the map.
+
+<img src="./assets/Cloud_Maps_Layer_ScreenShot.gif"  width="840" height="580">
