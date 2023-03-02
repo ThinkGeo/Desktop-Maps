@@ -41,3 +41,17 @@ Select **View → Command Palette** and select **NuGet Package manager: Add Pack
 Then select the latest version (13.1.0-beta012 in my case), click on it and the package is now added to the project.Then you will be prompted to restore the unresolved dependencies, hit Restore and the Nuget packages will be downloaded, and we are ready to go.
 
 <img src="./assets/Add_Nuget_Packages_ScreenShot.gif"  width="840" height="580">
+
+### Step 4: Add the Map Control to `MainWindow.xaml`
+
+Add ThinkGeo.UI.Wpf namespace to `MainWindow.xaml`
+
+```xml
+xmlns:thinkgeo="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+```
+Add the map control within `Grid` element in `MainWindow.xaml` file.
+
+```xml
+<thinkgeo:MapView x:Name="mapView"></thinkgeo:MapView>
+```
+
