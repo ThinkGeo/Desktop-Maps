@@ -8,7 +8,7 @@ First, to begin working on the map, you'll need to create a .NET VS Code project
 
 Next, we'll show you how to add a background to the map.
 
-### Step 1: Create a VS Code Project
+### Step 1: Setup VS Code
 
 VS Code is a lightweight, open source development environment loved by millions of developers. I'm going to finish today's project using VS Code. This project will use .NET 7.0 on a Windows machine.
 
@@ -16,4 +16,4 @@ First, install [.NET 7.0 SDK x64](https://dotnet.microsoft.com/en-us/download)
 
 Second, make sure "C#" and "NuGet Package Manager" extensions have been installed in VS Code. Click the Extensions button on the left in VS Code, search the 2 extensions by name and install them. You will see them under INSTALLED group once finished.
 
-https://images.squarespace-cdn.com/content/v1/5e3704f18a73ef3c81be8e7e/1620681483344-KKQVFP6S78YG3968TKTE/vscode-extensions.png?format=1500w
+<img src="./assets/Add_Extensions_ScreenShot.gif"  width="840" height="580">
