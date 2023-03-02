@@ -57,6 +57,12 @@ Add the map control within `Grid` element in `MainWindow.xaml` file.
 <img src="./assets/Add_Map_Control_Screenshot.png"  width="840" height="640">
 
 ### Step 5: Add the ThinkGeo Background
+The MapView is nearly setup. All I need to do is to add a background map Overlay during the initialization. So first I add Map_Loaded event to mapView in MainWindows.xaml.
+
+```xml
+<thinkgeo:MapView x:Name="mapView" Loaded="mapView_Loaded"></thinkgeo:MapView>
+```
+
 Import the namespace at the top of 'MainWindow.xaml.cs` file.
 
 ```csharp
