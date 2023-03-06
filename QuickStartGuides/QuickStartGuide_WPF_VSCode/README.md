@@ -103,3 +103,13 @@ Also you will be directed to ThinkGeo's registration website, where you can crea
 Once you activate the 'ThinkGeo UI WPF' license to start your evaluation, you should be able to see the map with our Cloud Maps layer! You can double-click to zoom in, use the mouse wheel to zoom in/out, and track zoom in by holding down the Shift key and tracking the map. Additionally, you can rotate the map by holding down the Alt key and dragging the map.
 
 <img src="./assets/Cloud_Maps_Layer_ScreenShot.gif"  width="840" height="580">
+
+## Summary
+
+You now have a basic understanding of how to use the ThinkGeo Map controls in VS Code and can begin adding functionality to your own applications. Let's review what we've learned about the object relationships and how the pieces of ThinkGeo UI work together:
+
+1. A `MapView` is the fundamental control that contains all the other objects used to determine how the map is rendered.
+2. A `MapView` has multiple `Overlays`, and each `Overlay` corresponds to a tier of images displayed on the map control.
+3. The `MapUnit` (feet, meters, decimal degrees, etc.) and `CurrentExtent` need to be correctly set for the `Map` control.
+
+Congratulations, you are now in an excellent position to review the [How Do I Sample](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/samples/wpf/HowDoISample) and explore other features.
