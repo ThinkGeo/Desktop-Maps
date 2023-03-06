@@ -25,22 +25,25 @@ namespace MapDemo
         {
             InitializeComponent();
         }
+    
+    private void mapView_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Set the Map's Unit to Meter.
+            mapView.MapUnit = GeographyUnit.Meter;
+            // Set the Current Extent to the Max Extent of ThinkGeo Map.
+            mapView.CurrentExtent = MaxExtents.ThinkGeoMaps;
+                            
+            // Add a base map overlay.
+            var baseOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", 
+                "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            // Set up the tile cache for the base overlay, passing in the location and an ID to distinguish the cache.     
+            baseOverlay.TileCache = new FileRasterTileCache(@".\cache", "basemap");
 
-        // private void Map_Loaded(object sender, RoutedEventArgs e)
-        // {
-        //     // Set the Map's Unit to Meter.
-        //     map.MapUnit = GeographyUnit.Meter;
-        //     // Set the Current Extent to the Max Extent of ThinkGeo Map.
-        //     map.CurrentExtent = MaxExtents.ThinkGeoMaps;
-        
-        //     // Create a new ThinkGeo Map Overlay. Here I'm using a demo Key, every registered user gets an eval key which is good for 30 days
-        //     var backgroundOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
-        
-        //     // Add the newly created overlay to mapView.
-        //     map.Overlays.Add(backgroundOverlay);
-        
-        //     // Refresh the Map
-        //     map.Refresh();
-        // }
+            // Add the newly created overlay to mapView.
+            mapView.Overlays.Add(baseOverlay);
+                            
+            // Refresh the Map
+            mapView.Refresh();
+        }
     }
 }
