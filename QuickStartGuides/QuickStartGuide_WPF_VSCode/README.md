@@ -1,20 +1,18 @@
-This guide is based on using VS Code in .Net 7 WPF. There are tons of map services we can use to set up a base map, however, only a few articles talk about how to do it for a Desktop project, and they are all over-complicated. In this article, I will cover how to simply create a desktop WPF application that shows a 3rd party background map using VS Code.  
+This guide is based on using VS Code in .NET 7 WPF. Although there are numerous map services available for setting up a base map, only a few articles discuss how to do it for a desktop project, and they can be overcomplicated. In this article, I will cover how to create a desktop WPF application that displays a 3rd-party background map using VS Code in a simple manner.  
 
 # Desktop Maps Quick Start: Display a Simple Map using VS Code
 
 In this section, we'll show you how to create a visually appealing map using VS Code. 
 
-First, to begin working on the map, you'll need to create a  VS Code project using **Visual Studio Code**. Once that's done, we'll guide you through the process of adding the required packages and getting the map set up on the default form. 
-
-Next, we'll show you how to add a background to the map.
+To begin working on the map, you will need to create a project in VS Code. Afterwards, we will guide you through the process of adding the required packages and setting up the map by adding a background.
 
 ### Step 1: Setup VS Code
 
-VS Code is a lightweight, open source development environment loved by millions of developers. I'm going to finish today's project using VS Code. This project will use .NET 7.0 on a Windows machine.
+VS Code is a lightweight, open-source development environment that is beloved by millions of developers. I'm going to finish today's project using VS Code, which will use .NET 7.0 on a Windows machine.
 
 First, install [.NET 7.0 SDK x64](https://dotnet.microsoft.com/en-us/download)
 
-Second, make sure "C#" and "NuGet Package Manager" extensions have been installed in VS Code. Click the Extensions button on the left in VS Code, search the 2 extensions by name and install them. You will see them under INSTALLED group once finished.
+Second, ensure that the "C#" and "NuGet Package Manager" extensions are installed in VS Code. To do this, click on the Extensions button on the left-hand side of VS Code, search for the two extensions by name, and install them. Once the installation is complete, you will find them under the INSTALLED group.
 
 <img src="./assets/Add_Extensions_ScreenShot.gif"  width="840" height="580">
 
@@ -34,11 +32,11 @@ To begin debugging, press F5 or select **Run → Start Debugging**. If a blank w
 
 ### Step 3: Add Nuget Packages
 
-Install **ThinkGeo.UI.Wpf** NuGet package through NuGet package manager.
+To install the **ThinkGeo.UI.Wpf** NuGet package, open the NuGet Package Manager and follow these steps:
 
-Select **View → Command Palette** and select **NuGet Package manager: Add Package**. The Nuget Package Search Box will pop up, type in "ThinkGeo.UI" and hit enter, go ahead and select **ThinkGeo.UI.Wpf** from the popping list.
+First, select **View → Command Palette** and choose **NuGet Package Manager: Add Package**. This will open the NuGet Package Search Box. Type "ThinkGeo.UI" into the search box and press Enter. From the list that appears, select **ThinkGeo.UI.Wpf**.
 
-Then select the latest version (13.1.0-beta012 in my case), click on it and the package is now added to the project.Then you will be prompted to restore the unresolved dependencies, hit Restore and the Nuget packages will be downloaded, and we are ready to go.
+Next, select the latest version of the package (in my case, it's version 13.1.0-beta012). Click on the version to add it to the project. You will then be prompted to restore any unresolved dependencies. Click Restore to download the necessary NuGet packages, and you're all set!
 
 <img src="./assets/Add_Nuget_Packages_ScreenShot.gif"  width="840" height="580">
 
@@ -70,23 +68,27 @@ using ThinkGeo.Core;
 ```
 Add the following code to the mapView_Loaded event, which is triggered when the map view is fully loaded and ready to use. (The key passed in ThinkGeoCloudVectorMapsOverlay is for test only, you can apply for your own key from [ThinkGeo Cloud](https://cloud.thinkgeo.com/clients.html))
 
+We have set up a tile cache for the base overlay to improve performance. The cache retrieves tiles from the local disk instead of downloading them from the internet each time they are needed.
+
 ```csharp
 private void mapView_Loaded(object sender, RoutedEventArgs e)
 {
-    // Set the Map's Unit to Meter.
-    mapView.MapUnit = GeographyUnit.Meter;
-    // Set the Current Extent to the Max Extent of ThinkGeo Map.
-    mapView.CurrentExtent = MaxExtents.ThinkGeoMaps;
-        
-    // Add a base map overlay.
-    var backgroundOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", 
+  // Set the Map's Unit to Meter.
+  mapView.MapUnit = GeographyUnit.Meter;
+  // Set the Current Extent to the Max Extent of ThinkGeo Map.
+  mapView.CurrentExtent = MaxExtents.ThinkGeoMaps;
+                
+  // Add a base map overlay.
+  var baseOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", 
       "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
-        
-    // Add the newly created overlay to mapView.
-    mapView.Overlays.Add(backgroundOverlay);
-        
-    // Refresh the Map
-    mapView.Refresh();
+  // Set up the tile cache for the base overlay, passing in the location and an ID to distinguish the cache.     
+  baseOverlay.TileCache = new FileRasterTileCache(@".\cache", "basemap");
+
+  // Add the newly created overlay to mapView.
+  mapView.Overlays.Add(baseOverlay);
+                
+  // Refresh the Map
+  mapView.Refresh();
 }
 ```
 
