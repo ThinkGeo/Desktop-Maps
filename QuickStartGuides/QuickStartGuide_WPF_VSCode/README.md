@@ -1,14 +1,10 @@
-This guide is based on using VS Code in .NET 7 WPF. Although there are numerous map services available for setting up a base map, only a few articles discuss how to do it for a desktop project, and they can be overcomplicated. In this article, I will cover how to create a desktop WPF application that displays a 3rd-party background map using VS Code in a simple manner.  
+In this article, we will demonstrate how to create an aesthetically pleasing map in a desktop project using VS Code. The project is designed for Windows and uses .Net 7. However, you can also create a similar .Net Framework/.Net Core project using Visual Studio. 
 
 # Desktop Maps Quick Start: Display a Simple Map using VS Code
-
-In this section, we'll show you how to create a visually appealing map using VS Code. 
 
 To begin working on the map, you will need to create a project in VS Code. Afterwards, we will guide you through the process of adding the required packages and setting up the map by adding a background.
 
 ### Step 1: Setup VS Code
-
-VS Code is a lightweight, open-source development environment that is beloved by millions of developers. I'm going to finish today's project using VS Code, which will use .NET 7.0 on a Windows machine.
 
 First, install [.NET 7.0 SDK x64](https://dotnet.microsoft.com/en-us/download)
 
@@ -17,8 +13,6 @@ Second, ensure that the "C#" and "NuGet Package Manager" extensions are installe
 <img src="./assets/Add_Extensions_ScreenShot.gif"  width="840" height="580">
 
 ### Step 2: Create a WPF Project
-
-To create a new WPF project using VS Code, follow these steps:
 
 First, select **File → Open Folder** and choose a blank folder. If the TERMINAL window is not already open, select **Terminal → New Terminal** to open it. In this example, we will use the folder "D:\MapDemo", which will also be visible in the terminal. The name of the folder, "MAPDEMO," should show up in the explorer window on the left.
 
@@ -32,35 +26,24 @@ To begin debugging, press F5 or select **Run → Start Debugging**. If a blank w
 
 ### Step 3: Add Nuget Packages
 
-To install the **ThinkGeo.UI.Wpf** NuGet package, open the NuGet Package Manager and follow these steps:
-
 First, select **View → Command Palette** and choose **NuGet Package Manager: Add Package**. This will open the NuGet Package Search Box. Type "ThinkGeo.UI" into the search box and press Enter. From the list that appears, select **ThinkGeo.UI.Wpf**.
 
-Next, select the latest version of the package (in my case, it's version 13.1.0-beta012). Click on the version to add it to the project. You will then be prompted to restore any unresolved dependencies. Click Restore to download the necessary NuGet packages, and you're all set!
+Next, select the latest version of the package (in my case, it's version 13.1.0-beta012, you can also install a release version(no beta)). Click on the version to add it to the project. You will then be prompted to restore any unresolved dependencies. Click Restore to download the necessary NuGet packages, and you're all set!
 
 <img src="./assets/Add_Nuget_Packages_ScreenShot.gif"  width="840" height="580">
 
-### Step 4: Add the Map Control to `MainWindow.xaml`
+### Step 4: Add the ThinkGeo Background
 
 Add ThinkGeo.UI.Wpf namespace to `MainWindow.xaml`
 
 ```xml
 xmlns:thinkgeo="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
 ```
-Add the map control within `Grid` element in `MainWindow.xaml` file.
-
-```xml
-<thinkgeo:MapView x:Name="mapView"></thinkgeo:MapView>
-```
-<img src="./assets/Add_Map_Control_Screenshot.png"  width="840" height="640">
-
-### Step 5: Add the ThinkGeo Background
-The MapView is nearly setup. All I need to do is to add a background map Overlay during the initialization. So first I add Map_Loaded event to mapView in MainWindows.xaml.
+Add a map control named 'mapView' to the Grid element in MainWindow.xaml, and include the mapView_Loaded event.
 
 ```xml
 <thinkgeo:MapView x:Name="mapView" Loaded="mapView_Loaded"></thinkgeo:MapView>
 ```
-
 Import the namespace at the top of 'MainWindow.xaml.cs` file.
 
 ```csharp
@@ -68,7 +51,7 @@ using ThinkGeo.Core;
 ```
 Add the following code to the mapView_Loaded event, which is triggered when the map view is fully loaded and ready to use. (The key passed in ThinkGeoCloudVectorMapsOverlay is for test only, you can apply for your own key from [ThinkGeo Cloud](https://cloud.thinkgeo.com/clients.html))
 
-We have set up a tile cache for the base overlay to improve performance. The cache retrieves tiles from the local disk instead of downloading them from the internet each time they are needed.
+Set up a tile cache for the base overlay to improve performance. The cache retrieves tiles from the local disk instead of downloading them from the internet each time they are needed.
 
 ```csharp
 private void mapView_Loaded(object sender, RoutedEventArgs e)
