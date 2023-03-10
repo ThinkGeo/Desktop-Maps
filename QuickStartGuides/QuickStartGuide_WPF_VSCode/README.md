@@ -75,7 +75,7 @@ private void mapView_Loaded(object sender, RoutedEventArgs e)
 }
 ```
 
-### Step 6: Run the Sample & Register for Your Free Evaluation
+### Step 5: Run the Sample & Register for Your Free Evaluation
 
 The first time you run your application, if you have not installed a license, you may encounter a 'licenses not installed' exception. 
 
