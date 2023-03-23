@@ -7,8 +7,8 @@ Welcome! We're delighted that you're here. If you're new to ThinkGeo's Desktop M
 - `/QuickStartGuides`: A few guides to assist you in quickly getting started, including: 
 
     - [Display a map in a WPF project using VS Code (.NET 7)](./QuickStartGuides/QuickStartGuide_WPF_VSCode/README.md)
-    - [Display a map in a WPF project using Visual Studio (.NET Framework 4.8 and .NET 7)](./QuickStartGuides/QuickStartGuide_WPF_VS/README.md)
-    - [Display a map in a Winforms project using Visual Studio (.NET Framework 4.8 and .NET 7)](./QuickStartGuides/QuickStartGuide_Winforms_VS/README.md)
+    - [Display a map in a WPF project using Visual Studio (.NET 7)](./QuickStartGuides/QuickStartGuide_WPF_VS/README.md)
+    - [Display a map in a Winforms project using Visual Studio (.NET Framework 4.8)](./QuickStartGuides/QuickStartGuide_Winforms_VS/README.md)
 
 - `/Samples`: A comprehensive collection of feature-specific "How Do I" samples, showcasing over 100 features in a single, easy-to-use application.
     - [HowDoI Sample - WPF](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/samples/wpf/HowDoISample)
