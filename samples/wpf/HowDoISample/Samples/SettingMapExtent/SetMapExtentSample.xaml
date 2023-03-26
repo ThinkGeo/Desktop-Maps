@@ -8,7 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <!-- MapView Control -->
-        <ThinkGeoUI:MapView x:Name="mapView" Loaded="MapView_Loaded" Grid.Column="0" MapUnit="Meter"/>
+        <ThinkGeoUI:MapView x:Name="mapView" Loaded="MapView_Loaded" Grid.Column="0"/>
 
         <!-- Sample Controls -->
         <Border Grid.Column="1">

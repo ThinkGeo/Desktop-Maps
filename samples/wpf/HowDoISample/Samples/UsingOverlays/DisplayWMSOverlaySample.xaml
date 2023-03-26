@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ThinkGeoUI:MapView Grid.Column="0" Grid.Row="0" x:Name="mapView" Loaded="MapView_Loaded" MapUnit="Meter"/>
+        <ThinkGeoUI:MapView Grid.Column="0" Grid.Row="0" x:Name="mapView" Loaded="MapView_Loaded"/>
 
         <!-- Grid Layout -->
         <Grid.ColumnDefinitions>
