@@ -9,7 +9,7 @@
     <Grid x:Name="sampleGrid">
 
         <!-- mapView -->
-        <ThinkGeoUI:MapView x:Name="mapView" Loaded="MapView_Loaded" Grid.Column="0" MapUnit="Meter"/>
+        <ThinkGeoUI:MapView x:Name="mapView" Loaded="MapView_Loaded" Grid.Column="0"/>
 
         <!-- sampleGrid Layout -->
         <Grid.ColumnDefinitions>

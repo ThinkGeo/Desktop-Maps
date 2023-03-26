@@ -30,6 +30,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Create the layer overlay with some additional settings and add to the map.
             ThinkGeoCloudVectorMapsOverlay cloudOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~");
             cloudOverlay.MapType = ThinkGeoCloudVectorMapsMapType.Light;
+            // Set up the tile cache for the cloudOverlay, passing in the location and an ID to distinguish the cache. 
+            cloudOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add("Cloud Overlay", cloudOverlay);
             
             // Set the current extent to a neighborhood in Frisco Texas.

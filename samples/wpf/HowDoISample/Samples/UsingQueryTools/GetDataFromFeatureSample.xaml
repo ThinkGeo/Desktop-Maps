@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ThinkGeoUI:MapView Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" x:Name="mapView" Loaded="MapView_Loaded" MapClick="MapView_MapClick" MapUnit="Meter"></ThinkGeoUI:MapView>
+        <ThinkGeoUI:MapView Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" x:Name="mapView" Loaded="MapView_Loaded" MapClick="MapView_MapClick"></ThinkGeoUI:MapView>
         <Label Grid.Column="1" Grid.Row="0">
             <Label.Content>
                 <AccessText HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" TextWrapping="Wrap"   Text="Click on a Park to View More Information"/>

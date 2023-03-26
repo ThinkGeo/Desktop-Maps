@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ThinkGeoUI:MapView Grid.Column="0" Grid.Row="0"  x:Name="mapView" Loaded="MapView_Loaded" MapUnit="Meter"/>
+        <ThinkGeoUI:MapView Grid.Column="0" Grid.Row="0"  x:Name="mapView" Loaded="MapView_Loaded"/>
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Content="Bing Maps Controls:" FontWeight="Bold" FontSize="16"/>
 
