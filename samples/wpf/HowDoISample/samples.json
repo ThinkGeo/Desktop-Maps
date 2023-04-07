@@ -56,6 +56,12 @@
         "source": "Samples/DisplayingLayers/Vector/TABLayerSample"
       },
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector.CADLayerSample",
+        "title": "Display a CAD Layer",
+        "description": "This sample shows how to display a CAD layer using data from a .dwg file.",
+        "source": "Samples/DisplayingLayers/Vector/CADLayerSample"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.ISOLineLayerSample",
         "title": "Display an ISOLine Layer",
         "description": "This sample shows how to display an ISOLine layer.",
