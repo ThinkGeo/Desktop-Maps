@@ -148,6 +148,9 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Samples\DisplayingLayers\Vector\CADLayerSample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Samples\Extensibility\ExtendingStylesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -258,6 +261,7 @@
     <PackageReference Include="Jint" Version="2.11.58" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="ThinkGeo.Cad" Version="13.0.0" />
     <PackageReference Include="ThinkGeo.Ecw" Version="13.0.0" />
     <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="13.0.0" />
     <PackageReference Include="ThinkGeo.GeoPdf" Version="13.0.0" />
@@ -727,5 +731,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\Csv\" />
+    <Folder Include="Data\CAD\" />
   </ItemGroup>
 </Project>
