@@ -28,9 +28,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Set the map background color
             mapView.Background = new SolidColorBrush(Color.FromRgb(234, 232, 226));
 
-            ShapeFileFeatureLayer hotelsLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Hotels.shp");
-            ShapeFileFeatureLayer streetsLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Streets.shp");
-            ShapeFileFeatureLayer parksLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Parks.shp");
+            ShapeFileFeatureLayer hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
+            ShapeFileFeatureLayer streetsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Streets.shp");
+            ShapeFileFeatureLayer parksLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
 
             // Project the layer's data to match the projection of the map
             hotelsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);

@@ -35,7 +35,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.Overlays.Add(tinyGeoOverlay);
 
             // Create the new layer and set the projection as the data is in srid 2276 and our background is srid 3857 (spherical mercator).
-            TinyGeoFeatureLayer tinyGeoLayer = new TinyGeoFeatureLayer(@"../../../Data/TinyGeo/Zoning.tgeo");
+            TinyGeoFeatureLayer tinyGeoLayer = new TinyGeoFeatureLayer(@"./Data/TinyGeo/Zoning.tgeo");
             tinyGeoLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
             // Add the layer to the overlay we created earlier.

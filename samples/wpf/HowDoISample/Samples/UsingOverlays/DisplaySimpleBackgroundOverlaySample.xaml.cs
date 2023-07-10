@@ -24,7 +24,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.Meter;
 
-            ShapeFileFeatureLayer housingUnitsLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco 2010 Census Housing Units.shp");
+            ShapeFileFeatureLayer housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
 
             // Project the layer's data to match the projection of the map
             housingUnitsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);

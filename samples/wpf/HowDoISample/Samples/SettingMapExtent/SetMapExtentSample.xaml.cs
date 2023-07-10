@@ -33,7 +33,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Load the Frisco data to a layer
-            friscoCityBoundary = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/City_ETJ.shp");
+            friscoCityBoundary = new ShapeFileFeatureLayer(@"./Data/Shapefile/City_ETJ.shp");
 
             // Convert the Frisco shapefile from its native projection to Spherical Mercator, to match the map
             friscoCityBoundary.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);

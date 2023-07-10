@@ -36,7 +36,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.Overlays.Add(restuarantsOverlay);
 
             // Create the new layer and set the projection as the data is in srid 2276 as our background is srid 3857 (spherical mercator).
-            SqliteFeatureLayer restaurantsLayer = new SqliteFeatureLayer(@"Data Source=../../../Data/SQLite/frisco-restaurants.sqlite;", "restaurants", "id","geometry" );
+            SqliteFeatureLayer restaurantsLayer = new SqliteFeatureLayer(@"Data Source=./Data/SQLite/frisco-restaurants.sqlite;", "restaurants", "id","geometry" );
             restaurantsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
             
             // Add the layer to the overlay we created earlier.

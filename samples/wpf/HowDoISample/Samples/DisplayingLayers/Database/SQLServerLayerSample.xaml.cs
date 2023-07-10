@@ -65,7 +65,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             //SqlServerFeatureSource target = new SqlServerFeatureSource("Server={server};Database={db};User Id={username};Password={password};", "frisco_coyote_sightings", "id");
             //target.Open();
 
-            //ShapeFileFeatureSource source = new ShapeFileFeatureSource(@"../../../data/Frisco_Coyote_Sightings.shp");
+            //ShapeFileFeatureSource source = new ShapeFileFeatureSource(@"./Data/Frisco_Coyote_Sightings.shp");
             //source.Open();
 
             //var sourceFeatures = source.GetAllFeatures(ReturningColumnsType.AllColumns);

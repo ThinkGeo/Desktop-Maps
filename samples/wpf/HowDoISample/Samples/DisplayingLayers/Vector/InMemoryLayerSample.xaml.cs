@@ -36,7 +36,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.Overlays.Add(inMemoryOverlay);
 
             // Create a new layer that we will pull features from to populate the in memory layer.
-            ShapeFileFeatureLayer shapeFileLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco_Mosquitos.shp");
+            ShapeFileFeatureLayer shapeFileLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Mosquitos.shp");
             shapeFileLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
             shapeFileLayer.Open();
 

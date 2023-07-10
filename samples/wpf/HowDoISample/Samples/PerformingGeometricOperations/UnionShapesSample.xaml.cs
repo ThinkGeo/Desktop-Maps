@@ -30,7 +30,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            ShapeFileFeatureLayer dividedCityLimits = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/FriscoCityLimitsDivided.shp");
+            ShapeFileFeatureLayer dividedCityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimitsDivided.shp");
             InMemoryFeatureLayer unionLayer = new InMemoryFeatureLayer();
             LayerOverlay layerOverlay = new LayerOverlay();
 

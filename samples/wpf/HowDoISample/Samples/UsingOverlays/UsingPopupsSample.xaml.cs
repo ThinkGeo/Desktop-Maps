@@ -45,7 +45,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var popupOverlay = new PopupOverlay();
 
             // Create a layer in order to query the data
-            var hotelsLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Hotels.shp");
+            var hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
             
             // Project the data to match the map's projection
             hotelsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);

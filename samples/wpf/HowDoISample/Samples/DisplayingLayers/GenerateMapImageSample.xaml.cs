@@ -23,12 +23,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers
             Collection<Layer> layersToDraw = new Collection<Layer>();
             
             // Create the background world maps using vector tiles stored locally in our MBTiles file and also set the styling though a json file
-            ThinkGeoMBTilesLayer mbTilesLayer = new ThinkGeoMBTilesLayer(@"../../../Data/Mbtiles/Frisco.mbtiles", new Uri(@"../../../Data/Json/thinkgeo-world-streets-light.json", UriKind.Relative));
+            ThinkGeoMBTilesLayer mbTilesLayer = new ThinkGeoMBTilesLayer(@"./Data/Mbtiles/Frisco.mbtiles", new Uri(@"./Data/Json/thinkgeo-world-streets-light.json", UriKind.Relative));
             mbTilesLayer.Open();
             layersToDraw.Add(mbTilesLayer);
 
             // Create the new layer and set the projection as the data is in srid 2276 and our background is srid 3857 (spherical mercator).
-            ShapeFileFeatureLayer zoningLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Zoning.shp");
+            ShapeFileFeatureLayer zoningLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Zoning.shp");
             zoningLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
             zoningLayer.Open();
 

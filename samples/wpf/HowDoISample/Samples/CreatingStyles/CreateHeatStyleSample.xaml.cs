@@ -33,7 +33,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
 
-            ShapeFileFeatureLayer coyoteSightings = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco_Coyote_Sightings.shp");
+            ShapeFileFeatureLayer coyoteSightings = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Coyote_Sightings.shp");
 
             // Project the layer's data to match the projection of the map
             coyoteSightings.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);

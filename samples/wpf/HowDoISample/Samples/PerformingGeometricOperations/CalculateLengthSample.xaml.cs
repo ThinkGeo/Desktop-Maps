@@ -32,7 +32,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            ShapeFileFeatureLayer friscoTrails = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Hike_Bike.shp");
+            ShapeFileFeatureLayer friscoTrails = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hike_Bike.shp");
             InMemoryFeatureLayer selectedLineLayer = new InMemoryFeatureLayer();
             LayerOverlay layerOverlay = new LayerOverlay();
 

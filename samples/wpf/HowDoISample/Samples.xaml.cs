@@ -52,7 +52,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var mainWindowVm = (MainWindowViewModel)DataContext;
 
             // Dynamically read the samples to load into the tree view
-            string json = File.ReadAllText(@"../../../samples.json");
+            string json = File.ReadAllText(@"./samples.json");
             menus = JsonConvert.DeserializeObject<List<MenuModel>>(json);
 
             // Add each item into the tree view

@@ -40,7 +40,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Create a new ShapeFileFeatureLayer using a shapefile containing Frisco Census data
-            ShapeFileFeatureLayer housingUnitsLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco 2010 Census Housing Units.shp");
+            ShapeFileFeatureLayer housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
             housingUnitsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Create a new ProjectionConverter to convert between Texas North Central (2276) and Spherical Mercator (3857)

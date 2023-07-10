@@ -33,7 +33,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             ShapeFileFeatureLayer friscoSubdivisions;
 
             // Create a layer with polygon data
-            friscoSubdivisions = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Parks.shp");
+            friscoSubdivisions = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
             
             // Project the layer's data to match the projection of the map
             friscoSubdivisions.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);

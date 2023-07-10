@@ -32,7 +32,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Create a feature layer to hold the Frisco hotels data
-            ShapeFileFeatureLayer hotelsLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Hotels.shp");
+            ShapeFileFeatureLayer hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
 
             // Convert the Frisco shapefile from its native projection to Spherical Mercator, to match the map
             ProjectionConverter projectionConverter = new ProjectionConverter(2276, 3857);

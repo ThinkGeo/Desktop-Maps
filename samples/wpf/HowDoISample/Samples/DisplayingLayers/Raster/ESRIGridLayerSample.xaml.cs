@@ -66,7 +66,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.Refresh();
         }
 
-        //var mos = new ShapeFileFeatureSource(@"../../../data/Frisco_Mosquitos.shp");
+        //var mos = new ShapeFileFeatureSource(@"./Data/Frisco_Mosquitos.shp");
         //mos.Open();
         //var features = mos.GetAllFeatures(ReturningColumnsType.AllColumns);
 

@@ -33,7 +33,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10780196.9469504, 3916119.49665258, -10776231.7761301, 3912703.71697007);
 
-            ShapeFileFeatureLayer friscoCrimeLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco_Crime.shp");
+            ShapeFileFeatureLayer friscoCrimeLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Crime.shp");
 
             // Project the layer's data to match the projection of the map
             friscoCrimeLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);

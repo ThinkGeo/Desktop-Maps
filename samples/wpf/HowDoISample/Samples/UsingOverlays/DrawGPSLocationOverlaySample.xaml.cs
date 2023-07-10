@@ -82,7 +82,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Create a queue and load it up with coordinated from the CSV file
                 Queue<Feature> vehicleLocationQueue = new Queue<Feature>();
 
-                string[] locations = File.ReadAllLines(@"../../../Data/Csv/vehicle-route.csv");
+                string[] locations = File.ReadAllLines(@"./Data/Csv/vehicle-route.csv");
 
                 foreach (var location in locations)
                 {
