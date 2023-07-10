@@ -26,7 +26,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(cityboundaryOverlay);
 
             // Create the new layer and set the projection as the data is in srid 2276 and our background is srid 3857 (spherical mercator).
-            TabFeatureLayer cityBoundaryLayer = new TabFeatureLayer(@"../../../Data/Tab/City_ETJ.tab");
+            TabFeatureLayer cityBoundaryLayer = new TabFeatureLayer(@"./Data/Tab/City_ETJ.tab");
             cityBoundaryLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
             // Add the layer to the overlay we created earlier.

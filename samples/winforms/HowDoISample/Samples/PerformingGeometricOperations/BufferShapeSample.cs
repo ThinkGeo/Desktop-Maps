@@ -7,7 +7,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public class BufferShapeSample: UserControl 
     {
-        private readonly ShapeFileFeatureLayer cityLimits = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/FriscoCityLimits.shp");
+        private readonly ShapeFileFeatureLayer cityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimits.shp");
         private readonly InMemoryFeatureLayer bufferLayer = new InMemoryFeatureLayer();
         private readonly LayerOverlay layerOverlay = new LayerOverlay();
 

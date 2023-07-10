@@ -32,7 +32,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             zoningLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(50, GeoColors.MediumPurple), GeoColors.MediumPurple, 2);
 
             // Import the features from the Frisco zoning data shapefile
-            ShapeFileFeatureSource zoningDataFeatureSource = new ShapeFileFeatureSource(@"../../../Data/Shapefile/Zoning.shp");
+            ShapeFileFeatureSource zoningDataFeatureSource = new ShapeFileFeatureSource(@"./Data/Shapefile/Zoning.shp");
 
             // Create a ProjectionConverter to convert the shapefile data from North Central Texas (2276) to Spherical Mercator (3857)
             ProjectionConverter projectionConverter = new ProjectionConverter(3857, 2276);

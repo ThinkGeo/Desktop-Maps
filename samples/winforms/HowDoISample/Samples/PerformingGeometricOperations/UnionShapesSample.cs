@@ -21,7 +21,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            ShapeFileFeatureLayer dividedCityLimits = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/FriscoCityLimitsDivided.shp");
+            ShapeFileFeatureLayer dividedCityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimitsDivided.shp");
             InMemoryFeatureLayer unionLayer = new InMemoryFeatureLayer();
             LayerOverlay layerOverlay = new LayerOverlay();
 

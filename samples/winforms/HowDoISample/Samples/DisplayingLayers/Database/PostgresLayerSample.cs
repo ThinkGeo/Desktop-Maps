@@ -56,7 +56,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         //PostgreSqlFeatureSource target = new PostgreSqlFeatureSource("User ID={username};Password={password};Host={server};Port=5432;Database={db};Pooling=true;", "frisco_coyote_sightings", "ID", 2276);
         //target.Open();
 
-        //ShapeFileFeatureSource source = new ShapeFileFeatureSource(@"../../../data/Frisco_Coyote_Sightings.shp");
+        //ShapeFileFeatureSource source = new ShapeFileFeatureSource(@"./Data/Frisco_Coyote_Sightings.shp");
         //source.Open();
 
         //var sourceFeatures = source.GetAllFeatures(ReturningColumnsType.AllColumns);

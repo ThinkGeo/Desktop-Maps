@@ -28,7 +28,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(chartOverlay);
 
             // Create the new layer.
-            NauticalChartsFeatureLayer nauticalLayer = new NauticalChartsFeatureLayer(@"../../../Data/S57/US1GC09M/US1GC09M.000");
+            NauticalChartsFeatureLayer nauticalLayer = new NauticalChartsFeatureLayer(@"./Data/S57/US1GC09M/US1GC09M.000");
 
             // Add the layer to the overlay we created earlier.
             chartOverlay.Layers.Add("Charts", nauticalLayer);

@@ -139,7 +139,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
 
             // Grab the .cs source file
-            string mainFolder = ((new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory)).Parent.Parent.Parent).FullName + "\\";
+            string mainFolder = ((new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory)).Parent.Parent.Parent).FullName;
+            if (mainFolder.EndsWith("bin"))
+                mainFolder = ((new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory)).Parent.Parent.Parent.Parent).FullName; // for x64 or x86 instead of AnyCPU
+
+            mainFolder += "\\";
             string[] files = Directory.GetFiles(mainFolder, filename, SearchOption.AllDirectories);
             string tmpFileName = Path.GetFileNameWithoutExtension(new FileInfo(files[0]).Name) + ".htm";
             string htmlFileName = path + "\\" + tmpFileName;

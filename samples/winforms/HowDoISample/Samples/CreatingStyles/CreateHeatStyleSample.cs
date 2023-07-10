@@ -7,7 +7,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public class CreateHeatStyleSample : UserControl
     {
-        private readonly ShapeFileFeatureLayer coyoteSightings = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco_Coyote_Sightings.shp");
+        private readonly ShapeFileFeatureLayer coyoteSightings = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Coyote_Sightings.shp");
 
         public CreateHeatStyleSample()
         {
@@ -26,7 +26,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
 
-            ShapeFileFeatureLayer coyoteSightings = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco_Coyote_Sightings.shp");
+            ShapeFileFeatureLayer coyoteSightings = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Coyote_Sightings.shp");
 
             // Project the layer's data to match the projection of the map
             coyoteSightings.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);

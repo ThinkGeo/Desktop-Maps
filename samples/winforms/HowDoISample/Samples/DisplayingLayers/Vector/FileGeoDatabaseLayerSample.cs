@@ -26,7 +26,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(fileGeoDatabaseOverlay);
 
             // Create the new layer and set the projection as the data is in srid 2276 and our background is srid 3857 (spherical mercator).
-            FileGeoDatabaseFeatureLayer fileGeoDatabaseFeatureLayer = new FileGeoDatabaseFeatureLayer(@"../../../Data/FileGeoDatabase/zoning.gdb");
+            FileGeoDatabaseFeatureLayer fileGeoDatabaseFeatureLayer = new FileGeoDatabaseFeatureLayer(@"./Data/FileGeoDatabase/zoning.gdb");
             fileGeoDatabaseFeatureLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
             fileGeoDatabaseFeatureLayer.ActiveLayer = "zoning";
 

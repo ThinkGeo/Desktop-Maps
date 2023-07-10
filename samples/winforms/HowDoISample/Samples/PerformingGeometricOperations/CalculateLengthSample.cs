@@ -23,7 +23,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            ShapeFileFeatureLayer friscoTrails = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Hike_Bike.shp");
+            ShapeFileFeatureLayer friscoTrails = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hike_Bike.shp");
             InMemoryFeatureLayer selectedLineLayer = new InMemoryFeatureLayer();
             LayerOverlay layerOverlay = new LayerOverlay();
 

@@ -9,7 +9,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public class CreateValueStyleSample : UserControl
     {
-        private readonly ShapeFileFeatureLayer friscoCrime = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco_Crime.shp");
+        private readonly ShapeFileFeatureLayer friscoCrime = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Crime.shp");
         private readonly LegendAdornmentLayer legend = new LegendAdornmentLayer();
 
         public CreateValueStyleSample()
