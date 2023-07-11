@@ -29,7 +29,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // See the implementation of the new layer and feature source below.
-            SimpleCsvFeatureLayer csvLayer = new SimpleCsvFeatureLayer(@"../../../Data/Csv/vehicle-route.csv");
+            SimpleCsvFeatureLayer csvLayer = new SimpleCsvFeatureLayer(@"./Data/Csv/vehicle-route.csv");
 
             // Set the points image to an car icon and then apply it to all zoomlevels
             PointStyle vehiclePointStyle = new PointStyle(new GeoImage(@"../../../Resources/vehicle-location.png"));
