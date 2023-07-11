@@ -26,18 +26,21 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
 
-            ShapeFileFeatureLayer coyoteSightings = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco_Coyote_Sightings.shp");
+            ShapeFileFeatureLayer coyoteSightings = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Coyote_Sightings.shp");
 
             // Project the layer's data to match the projection of the map
             coyoteSightings.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
             // Add the layer to a layer overlay
-            var layerOverlay = new LayerOverlay() { TileType = TileType.SingleTile };
+            var layerOverlay = new LayerOverlay();
+            layerOverlay.TileType = TileType.SingleTile;
             layerOverlay.Layers.Add(coyoteSightings);
 
             // Add the overlay to the map
@@ -45,7 +48,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Apply HeatStyle
             AddHeatStyle(coyoteSightings);
-
             mapView.Refresh();
         }
 

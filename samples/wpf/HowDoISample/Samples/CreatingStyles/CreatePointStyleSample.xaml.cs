@@ -26,12 +26,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10778329.017082, 3909598.36751101, -10776250.8853871, 3907890.47766975);
 
-            ShapeFileFeatureLayer hotelsLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Hotels.shp");
+            ShapeFileFeatureLayer hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
             LayerOverlay layerOverlay = new LayerOverlay();
 
             // Project the layer's data to match the projection of the map
@@ -80,7 +82,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             ShapeFileFeatureLayer hotelsLayer = (ShapeFileFeatureLayer)layerOverlay.Layers["hotels"];
 
             // Create a point style
-            var pointStyle = new PointStyle(new GeoImage(@"../../../Resources/hotel_icon.png"))
+            var pointStyle = new PointStyle(new GeoImage(@"./Resources/hotel_icon.png"))
             {
                 ImageScale = .25
             };

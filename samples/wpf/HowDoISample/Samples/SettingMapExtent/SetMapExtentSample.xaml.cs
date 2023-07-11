@@ -28,10 +28,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Load the Frisco data to a layer
-            friscoCityBoundary = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/City_ETJ.shp");
+            friscoCityBoundary = new ShapeFileFeatureLayer(@"./Data/Shapefile/City_ETJ.shp");
 
             // Convert the Frisco shapefile from its native projection to Spherical Mercator, to match the map
             friscoCityBoundary.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);

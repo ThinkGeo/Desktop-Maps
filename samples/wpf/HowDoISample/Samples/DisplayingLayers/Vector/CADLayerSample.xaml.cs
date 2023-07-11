@@ -34,7 +34,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector
             mapView.Overlays.Add("CAD overlay", cadOverlay);
 
             // Create the new cad layer
-            cadLayer = new CadFeatureLayer(@"../../../Data/CAD/Zipcodes.DWG");
+            cadLayer = new CadFeatureLayer(@"./Data/CAD/Zipcodes.DWG");
 
             // Create a new ProjectionConverter to convert between Lambert Conformal Conic and Spherical Mercator (3857)
             ProjectionConverter projectionConverter = new ProjectionConverter(103376, 3857);

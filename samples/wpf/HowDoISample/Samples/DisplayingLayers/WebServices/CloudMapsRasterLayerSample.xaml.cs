@@ -30,7 +30,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Create the layer overlay with some additional settings and add to the map.
             ThinkGeoCloudRasterMapsOverlay cloudOverlay = new ThinkGeoCloudRasterMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~");
-            cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid;
+            cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1;
             mapView.Overlays.Add("Cloud Overlay",cloudOverlay);
 
             // Set the current extent to a neighborhood in Frisco Texas.
@@ -50,16 +50,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 switch (button.Content.ToString())
                 {
                     case "Light":
-                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Light;
+                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Light_V2_X1;
                         break;
                     case "Dark":
-                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Dark;
+                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Dark_V2_X1;
                         break;
                     case "Aerial":
-                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Aerial;
+                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1;
                         break;
                     case "Hybrid":
-                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid;
+                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1;
                         break;
                     default:
                         break;

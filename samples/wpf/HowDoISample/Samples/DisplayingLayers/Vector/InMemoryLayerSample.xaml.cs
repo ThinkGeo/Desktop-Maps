@@ -27,6 +27,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
             ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a new overlay that will hold our new layer and add it to the map.
@@ -34,7 +36,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.Overlays.Add(inMemoryOverlay);
 
             // Create a new layer that we will pull features from to populate the in memory layer.
-            ShapeFileFeatureLayer shapeFileLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco_Mosquitos.shp");
+            ShapeFileFeatureLayer shapeFileLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Mosquitos.shp");
             shapeFileLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
             shapeFileLayer.Open();
 

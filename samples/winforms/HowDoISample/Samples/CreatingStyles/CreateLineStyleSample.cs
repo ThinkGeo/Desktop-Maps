@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Windows;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
@@ -19,14 +17,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudRasterMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudRasterMapsMapType.Aerial);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudRasterMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10779675.1746605, 3914631.77546835, -10779173.5566652, 3914204.80300804);
 
             // Create a layer with line data
-            ShapeFileFeatureLayer friscoRailroad = new ShapeFileFeatureLayer(@"../../../Data/Railroad/Railroad.shp");
+            ShapeFileFeatureLayer friscoRailroad = new ShapeFileFeatureLayer(@"./Data/Railroad/Railroad.shp");
             LayerOverlay layerOverlay = new LayerOverlay();
 
             // Project the layer's data to match the projection of the map
@@ -42,11 +40,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        public new void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            // Dispose of unmanaged resources.
             mapView.Dispose();
-            // Suppress finalization.
             GC.SuppressFinalize(this);
         }
 

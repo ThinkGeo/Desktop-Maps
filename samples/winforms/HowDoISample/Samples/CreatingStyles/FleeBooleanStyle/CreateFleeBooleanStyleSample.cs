@@ -23,7 +23,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a layer with polygon data
-            ShapeFileFeatureLayer countries02Layer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Countries02.shp");
+            ShapeFileFeatureLayer countries02Layer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Countries02.shp");
 
             // Project the layer's data to match the projection of the map
             countries02Layer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 3857);

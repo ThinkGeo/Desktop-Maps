@@ -25,6 +25,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
             ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the Map Unit to meters (used in Spherical Mercator)
@@ -38,7 +40,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
             zoningLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(50, GeoColors.MediumPurple), GeoColors.MediumPurple, 2);
 
             // Import the features from the Frisco zoning data shapefile
-            ShapeFileFeatureSource zoningDataFeatureSource = new ShapeFileFeatureSource(@"../../../Data/Shapefile/Zoning.shp");
+            ShapeFileFeatureSource zoningDataFeatureSource = new ShapeFileFeatureSource(@"./Data/Shapefile/Zoning.shp");
 
             // Create a ProjectionConverter to convert the shapefile data from North Central Texas (2276) to Spherical Mercator (3857)
             ProjectionConverter projectionConverter = new ProjectionConverter(3857, 2276);

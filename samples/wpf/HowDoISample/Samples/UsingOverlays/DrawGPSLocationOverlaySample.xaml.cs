@@ -36,6 +36,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Add Cloud Maps as a background overlay
             ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Setup the overlay that we will refresh often
@@ -45,7 +47,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InMemoryFeatureLayer vehicleLayer = new InMemoryFeatureLayer();
 
             // Set the points image to an car icon and then apply it to all zoomlevels
-            PointStyle vehiclePointStyle = new PointStyle(new GeoImage(@"../../../Resources/vehicle-location.png"));
+            PointStyle vehiclePointStyle = new PointStyle(new GeoImage(@"./Resources/vehicle-location.png"));
             vehiclePointStyle.YOffsetInPixel = -12;
 
             vehicleLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = vehiclePointStyle;
@@ -80,7 +82,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Create a queue and load it up with coordinated from the CSV file
                 Queue<Feature> vehicleLocationQueue = new Queue<Feature>();
 
-                string[] locations = File.ReadAllLines(@"../../../Data/Csv/vehicle-route.csv");
+                string[] locations = File.ReadAllLines(@"./Data/Csv/vehicle-route.csv");
 
                 foreach (var location in locations)
                 {

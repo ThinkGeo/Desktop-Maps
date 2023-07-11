@@ -32,13 +32,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
             ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map's unit of measurement to meters (Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Create a new ShapeFileFeatureLayer using a shapefile containing Frisco Census data
-            ShapeFileFeatureLayer housingUnitsLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco 2010 Census Housing Units.shp");
+            ShapeFileFeatureLayer housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
             housingUnitsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Create a new ProjectionConverter to convert between Texas North Central (2276) and Spherical Mercator (3857)

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
@@ -28,7 +26,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Create a new ShapeFileFeatureLayer using a shapefile containing Frisco Census data
-            ShapeFileFeatureLayer housingUnitsLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco 2010 Census Housing Units.shp");
+            ShapeFileFeatureLayer housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
             housingUnitsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Create a new ProjectionConverter to convert between Texas North Central (2276) and Spherical Mercator (3857)
@@ -67,7 +65,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             {
                 UpdateHousingUnitsLayerColors(colors);
             }
-
         }
 
 

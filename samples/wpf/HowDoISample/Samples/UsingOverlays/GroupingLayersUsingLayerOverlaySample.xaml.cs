@@ -26,6 +26,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             /**********************
@@ -33,7 +35,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
              **********************/
 
             // Create cityLimits layer
-            var cityLimits = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/FriscoCityLimits.shp");
+            var cityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimits.shp");
 
             // Style cityLimits layer
             cityLimits.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.Transparent, GeoColors.DimGray, 2);
@@ -49,7 +51,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             landuseOverlay.Layers.Add(cityLimits);
 
             // Create Parks landuse layer
-            var parks = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Parks.shp");
+            var parks = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
 
             // Style Parks landuse layer
             parks.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(128, GeoColors.Green), GeoColors.Transparent);
@@ -69,7 +71,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
              ******************/
 
             // Create Hotel POI layer
-            var hotels = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Hotels.shp");
+            var hotels = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
 
             // Style Hotel POI layer
             hotels.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Blue, 8, GeoColors.White, 2);
@@ -82,7 +84,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             poiOverlay.Layers.Add(hotels);
 
             // Create School POI layer
-            var schools = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Schools.shp");
+            var schools = new ShapeFileFeatureLayer(@"./Data/Shapefile/Schools.shp");
 
             // Style School POI layer
             schools.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimpleSquareStyle(GeoColors.Red, 8, GeoColors.White, 2);

@@ -9,7 +9,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public class CreateClassBreakStyleSample : UserControl
     {
-        private readonly ShapeFileFeatureLayer housingUnitsLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco 2010 Census Housing Units.shp");
+        private readonly ShapeFileFeatureLayer housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
         private readonly LegendAdornmentLayer legend = new LegendAdornmentLayer();
 
         public CreateClassBreakStyleSample()
@@ -26,7 +26,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            ShapeFileFeatureLayer housingUnitsLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco 2010 Census Housing Units.shp");
+            ShapeFileFeatureLayer housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
             LegendAdornmentLayer legend = new LegendAdornmentLayer();
 
             // Setup the legend adornment

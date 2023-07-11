@@ -26,12 +26,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10780196.9469504, 3916119.49665258, -10776231.7761301, 3912703.71697007);
 
-            ShapeFileFeatureLayer friscoCrimeLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco_Crime.shp");
+            ShapeFileFeatureLayer friscoCrimeLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Crime.shp");
 
             // Project the layer's data to match the projection of the map
             friscoCrimeLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
@@ -57,7 +59,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 Conditions = { new FilterCondition("OffenseGro", "Drugs") },
                 Styles = {
                     new PointStyle(PointSymbolType.Circle, 28, GeoBrushes.White,GeoPens.Red),
-                    new PointStyle(new GeoImage(@"../../../Resources/drugs_icon.png")) { ImageScale = .60 }
+                    new PointStyle(new GeoImage(@"./Resources/drugs_icon.png")) { ImageScale = .60 }
                 }
             };
 
@@ -67,7 +69,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 Conditions = { new FilterCondition("OffenseGro", "Weapons") },
                 Styles = {
                     new PointStyle(PointSymbolType.Circle, 28, GeoBrushes.White,GeoPens.Red),
-                    new PointStyle(new GeoImage(@"../../../Resources/weapon_icon.png")) { ImageScale = .25 }
+                    new PointStyle(new GeoImage(@"./Resources/weapon_icon.png")) { ImageScale = .25 }
                 }
             };
 
@@ -77,7 +79,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 Conditions = { new FilterCondition("OffenseGro", "Vandalism") },
                 Styles = {
                     new PointStyle(PointSymbolType.Circle, 28, GeoBrushes.White,GeoPens.Red),
-                    new PointStyle(new GeoImage(@"../../../Resources/vandalism_icon.png")) { ImageScale = .25 }
+                    new PointStyle(new GeoImage(@"./Resources/vandalism_icon.png")) { ImageScale = .25 }
                 }
             };
 

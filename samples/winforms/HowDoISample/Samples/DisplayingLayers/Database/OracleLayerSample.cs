@@ -25,17 +25,17 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             LayerOverlay schoolOverlay = new LayerOverlay();
             mapView.Overlays.Add(schoolOverlay);
 
-            // Create the new layer and set the projection as the data is in srid 2276 as our background is srid 3857 (spherical mercator).
-            //OracleFeatureLayer schoolLayer = new OracleFeatureLayer(@"OCI:system/ThinkGeodatabasepassword!@sampledatabases.thinkgeo.com/xe", "SCHOOLS", "OGR_FID");
-            OracleFeatureLayer schoolLayer = new OracleFeatureLayer(@"OCI:ThinkGeoSampleUser/ThinkGeoSamplePassword@sampledatabases.thinkgeo.com/xe", "SYSTEM.SCHOOLS", "OGR_FID");
-            schoolLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+            //// Create the new layer and set the projection as the data is in srid 2276 as our background is srid 3857 (spherical mercator).
+            ////OracleFeatureLayer schoolLayer = new OracleFeatureLayer(@"OCI:system/ThinkGeodatabasepassword!@sampledatabases.thinkgeo.com/xe", "SCHOOLS", "OGR_FID");
+            //OracleFeatureLayer schoolLayer = new OracleFeatureLayer(@"OCI:ThinkGeoSampleUser/ThinkGeoSamplePassword@sampledatabases.thinkgeo.com/xe", "SYSTEM.SCHOOLS", "OGR_FID");
+            //schoolLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
-            // Add the layer to the overlay we created earlier.
-            schoolOverlay.Layers.Add("Coyote Sightings", schoolLayer);
+            //// Add the layer to the overlay we created earlier.
+            //schoolOverlay.Layers.Add("Coyote Sightings", schoolLayer);
 
-            // Set a point style to zoom level 1 and then apply it to all zoom levels up to 20.
-            schoolLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Circle, 12, GeoBrushes.Blue, new GeoPen(GeoColors.White, 2));
-            schoolLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            //// Set a point style to zoom level 1 and then apply it to all zoom levels up to 20.
+            //schoolLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Circle, 12, GeoBrushes.Blue, new GeoPen(GeoColors.White, 2));
+            //schoolLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Set the map view current extent to a bounding box that shows just a few sightings.  
             mapView.CurrentExtent = new RectangleShape(-10789388.4602951, 3923878.18083465, -10768258.7082788, 3906668.46719412);

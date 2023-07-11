@@ -25,6 +25,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
             ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a new overlay that will hold our new layer and add it to the map.
@@ -32,7 +34,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector
             mapView.Overlays.Add("parks overlay",parksOverlay);
 
             // Create the new layer and set the projection as the data is in srid 2276 and our background is srid 3857 (spherical mercator).
-            ShapeFileFeatureLayer parksLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Parks.shp");
+            ShapeFileFeatureLayer parksLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
             parksLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
             // Add the layer to the overlay we created earlier.

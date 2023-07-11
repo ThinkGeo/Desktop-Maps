@@ -30,6 +30,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                         
             // Create background world map with vector tile requested from ThinkGeo Cloud Service. 
             ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a new overlay that will hold our new layer and add it to the map.
@@ -37,7 +39,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.Overlays.Add("isoLineOverlay", isoLineOverlay);
 
             // Load a csv file with the mosquito data that we will use for the iso line.
-            Dictionary<PointShape, double> csvPointData = GetDataFromCSV(@"../../../data/Csv/Frisco_Mosquitos.csv");
+            Dictionary<PointShape, double> csvPointData = GetDataFromCSV(@"./Data/Csv/Frisco_Mosquitos.csv");
 
             // Create the layer based on the method GetDynamicIsoLineLayer and pass in the points we loaded above and add it to the map.
             //  We then set the drawing quality high so we get a crisp rendering.
@@ -47,7 +49,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Create a layer that so we can get the current extent below to set the maps extend 
             // We wont use it after so later in the code we will just close it.
-            var mosquitosLayer = new ShapeFileFeatureSource(@"../../../data/Shapefile/Frisco_Mosquitos.shp");
+            var mosquitosLayer = new ShapeFileFeatureSource(@"./Data/Shapefile/Frisco_Mosquitos.shp");
             mosquitosLayer.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
             // Open the layer and set the map view current extent to the bounding box of the layer scaled up just a bit then close the layer
@@ -146,7 +148,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         // ========================================================
         // Code for creating the grid file from a point shapefile
         // ========================================================
-        //var mos = new ShapeFileFeatureSource(@"../../../data/Frisco_Mosquitos.shp");
+        //var mos = new ShapeFileFeatureSource(@"./Data/Frisco_Mosquitos.shp");
         //mos.ProjectionConverter = new ProjectionConverter(2276, 3857);
         //mos.Open();
         //var features = mos.GetAllFeatures(ReturningColumnsType.AllColumns);
@@ -171,6 +173,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         //        builder.AppendLine($"{feature.GetBoundingBox().GetCenterPoint().X},{feature.GetBoundingBox().GetCenterPoint().Y},{male + female}");
         //    }
         //}
-        //File.WriteAllText(@"../../../data/Frisco_Mosquitos.csv", builder.ToString());
+        //File.WriteAllText(@"./Data/Frisco_Mosquitos.csv", builder.ToString());
     }
 }

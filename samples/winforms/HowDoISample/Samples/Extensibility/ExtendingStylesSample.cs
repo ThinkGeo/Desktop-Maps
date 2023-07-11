@@ -36,11 +36,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Refresh();
         }
 
-        public new void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            // Dispose of unmanaged resources.
             mapView.Dispose();
-            // Suppress finalization.
             GC.SuppressFinalize(this);
         }
 

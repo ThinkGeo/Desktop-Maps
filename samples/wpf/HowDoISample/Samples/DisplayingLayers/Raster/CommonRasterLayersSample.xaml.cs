@@ -26,6 +26,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
             ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a new overlay that will hold our new layer and add it to the map.
@@ -33,7 +35,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.Overlays.Add(layerOverlay);
 
             // Create the new layer and dd the layer to the overlay we created earlier.
-            NativeImageRasterLayer commonRasterLayer = new NativeImageRasterLayer("../../../Data/Jpg/m_3309650_sw_14_1_20160911_20161121.jpg");           
+            NativeImageRasterLayer commonRasterLayer = new NativeImageRasterLayer("./Data/Jpg/m_3309650_sw_14_1_20160911_20161121.jpg");           
             layerOverlay.Layers.Add(commonRasterLayer);
 
             // Set the map view current extent to a slightly zoomed in area of the image.

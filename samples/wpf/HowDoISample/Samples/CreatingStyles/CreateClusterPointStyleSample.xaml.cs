@@ -26,9 +26,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            ShapeFileFeatureLayer coyoteSightings = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco_Coyote_Sightings.shp");
+            ShapeFileFeatureLayer coyoteSightings = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Coyote_Sightings.shp");
 
             // Project the layer's data to match the projection of the map
             coyoteSightings.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
@@ -53,7 +55,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void AddClusterPointStyle(ShapeFileFeatureLayer layer)
         {
             // Create the point style that will serve as the basis of the cluster style
-            var pointStyle = new PointStyle(new GeoImage(@"../../../Resources/coyote_paw.png"))
+            var pointStyle = new PointStyle(new GeoImage(@"./Resources/coyote_paw.png"))
             {
                 ImageScale = .25,
                 Mask = new AreaStyle(GeoPens.Black, GeoBrushes.White),

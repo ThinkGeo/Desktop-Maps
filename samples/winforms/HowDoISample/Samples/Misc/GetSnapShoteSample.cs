@@ -38,8 +38,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             snapShot.Save(@".\snapshot.png");
 
             var fullPath = Path.GetFullPath(@".\snapshot.png");
-            MessageBox.Show($"The snapshot image was saved at this path: {fullPath}");
-            Process.Start(fullPath);
+            MessageBox.Show($"The snapshot image was saved at this path: {fullPath}");            
         }
 
         #region Component Designer generated code

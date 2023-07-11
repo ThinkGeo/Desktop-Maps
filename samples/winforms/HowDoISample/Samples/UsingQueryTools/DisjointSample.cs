@@ -25,7 +25,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Create a feature layer to hold the Frisco zoning data
-            ShapeFileFeatureLayer zoningLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Zoning.shp");
+            ShapeFileFeatureLayer zoningLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Zoning.shp");
 
             // Convert the Frisco shapefile from its native projection to Spherical Mercator, to match the map
             ProjectionConverter projectionConverter = new ProjectionConverter(2276, 3857);

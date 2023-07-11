@@ -26,7 +26,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
             
             // Create a layer with polygon data
-            ShapeFileFeatureLayer friscoSubdivisions = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Parks.shp");
+            ShapeFileFeatureLayer friscoSubdivisions = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
 
             // Project the layer's data to match the projection of the map
             friscoSubdivisions.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);

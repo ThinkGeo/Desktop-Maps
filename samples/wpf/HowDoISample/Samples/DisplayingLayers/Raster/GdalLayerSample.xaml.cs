@@ -25,7 +25,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColors.ShallowOcean);
 
             // Create the new layer and dd the layer to the overlay we created earlier.
-            GdalRasterLayer worldLayer = new GdalRasterLayer("../../../Data/GeoTiff/World.tif");
+            GdalRasterLayer worldLayer = new GdalRasterLayer("./Data/GeoTiff/World.tif");
             worldLayer.LowerThreshold = 0;
             worldLayer.UpperThreshold = double.MaxValue;
 

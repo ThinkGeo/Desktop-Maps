@@ -12,7 +12,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public class DrawGPSLocationOverlaySample : UserControl
     {
-        bool cancelFeed;        
+        bool cancelFeed;
         bool pauseFeed;
 
         private delegate void InvokeDelegate(Feature currentFeature);
@@ -69,40 +69,38 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             // Create a task that runs until we set the cacnelFeed variable
 
-            await Task.Run(() =>
+
+            // Create a queue and load it up with coordinated from the CSV file
+            Queue<Feature> vehicleLocationQueue = new Queue<Feature>();
+
+            string[] locations = File.ReadAllLines(@"./Data/Csv/vehicle-route.csv");
+
+            foreach (var location in locations)
             {
-                // Create a queue and load it up with coordinated from the CSV file
-                Queue<Feature> vehicleLocationQueue = new Queue<Feature>();
+                vehicleLocationQueue.Enqueue(new Feature(double.Parse(location.Split(',')[0]), double.Parse(location.Split(',')[1])));
+            }
 
-                string[] locations = File.ReadAllLines(@"../../../Data/Csv/vehicle-route.csv");
-
-                foreach (var location in locations)
+            // Keep looping as long as it's not canceled
+            do
+            {
+                // If the feed is not paused then update the vehicle location
+                if (!pauseFeed)
                 {
-                    vehicleLocationQueue.Enqueue(new Feature(double.Parse(location.Split(',')[0]), double.Parse(location.Split(',')[1])));
+                    // Get the latest point from the queue and then re-add it so the points
+                    // will loop forever
+                    Feature currentFeature = vehicleLocationQueue.Dequeue();
+                    vehicleLocationQueue.Enqueue(currentFeature);
+
+                    // This event fires when the feature source has new data.  We need to make sure we refresh the map
+                    // on the UI threat so we use the Invoke method on the map using the delegate we created at the top.                                    
+                    mapView.BeginInvoke(new InvokeDelegate(UpdateMap), new object[] { currentFeature });
                 }
 
-                // Keep looping as long as it's not canceled
-                do
-                {
-                    // If the feed is not paused then update the vehicle location
-                    if (!pauseFeed)
-                    {
-                        // Get the latest point from the queue and then re-add it so the points
-                        // will loop forever
-                        Feature currentFeature = vehicleLocationQueue.Dequeue();
-                        vehicleLocationQueue.Enqueue(currentFeature);
+                // Sleep for two second
+                Debug.WriteLine($"Sleeping Vehicle Location Data Feed: {DateTime.Now}");
+                await Task.Delay(1000);
 
-                        // This event fires when the feature source has new data.  We need to make sure we refresh the map
-                        // on the UI threat so we use the Invoke method on the map using the delegate we created at the top.                                    
-                        mapView.BeginInvoke(new InvokeDelegate(UpdateMap),new object[] { currentFeature } );
-                    }
-
-                    // Sleep for two second
-                    Debug.WriteLine($"Sleeping Vehicle Location Data Feed: {DateTime.Now.ToString()}");
-                    Thread.Sleep(1000);
-
-                } while (cancelFeed == false);
-            });
+            } while (cancelFeed == false);
         }
 
         protected override void Dispose(bool disposing)
@@ -156,8 +154,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -173,7 +171,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.centerOnVehicle);

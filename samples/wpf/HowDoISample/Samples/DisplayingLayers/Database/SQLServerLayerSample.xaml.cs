@@ -28,6 +28,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
             ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a new overlay that will hold our new layer and add it to the map.
@@ -63,7 +65,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             //SqlServerFeatureSource target = new SqlServerFeatureSource("Server={server};Database={db};User Id={username};Password={password};", "frisco_coyote_sightings", "id");
             //target.Open();
 
-            //ShapeFileFeatureSource source = new ShapeFileFeatureSource(@"../../../data/Frisco_Coyote_Sightings.shp");
+            //ShapeFileFeatureSource source = new ShapeFileFeatureSource(@"./Data/Frisco_Coyote_Sightings.shp");
             //source.Open();
 
             //var sourceFeatures = source.GetAllFeatures(ReturningColumnsType.AllColumns);

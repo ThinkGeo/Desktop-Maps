@@ -26,7 +26,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add("world overlay", layerOverlay);
 
             // Create the world layer, it will be decimal degrees at first but we will be able to change it
-            ShapeFileFeatureLayer worldLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Countries02.shp");
+            ShapeFileFeatureLayer worldLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Countries02.shp");
 
             // Setup the styles for the countries for zoom level 1 and then apply it until zoom level 20
             worldLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle.OutlinePen.Color = GeoColors.DarkSlateGray;
@@ -96,11 +96,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        public new void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            // Dispose of unmanaged resources.
             mapView.Dispose();
-            // Suppress finalization.
             GC.SuppressFinalize(this);
         }
 

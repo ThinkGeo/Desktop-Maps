@@ -24,7 +24,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10778329.017082, 3909598.36751101, -10776250.8853871, 3907890.47766975);
 
-            ShapeFileFeatureLayer hotelsLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Hotels.shp");
+            ShapeFileFeatureLayer hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
             LayerOverlay layerOverlay = new LayerOverlay();
 
             // Project the layer's data to match the projection of the map
@@ -184,7 +184,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.pointSymbol.Size = new System.Drawing.Size(170, 24);
             this.pointSymbol.TabIndex = 1;
             this.pointSymbol.TabStop = true;
-            this.pointSymbol.Text = "Point Symbol Style";
+            this.pointSymbol.Text = "Predefined Style";
             this.pointSymbol.UseVisualStyleBackColor = true;
             this.pointSymbol.CheckedChanged += new System.EventHandler(this.pointSymbol_CheckedChanged);
             // 
@@ -198,7 +198,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.icon.Size = new System.Drawing.Size(146, 24);
             this.icon.TabIndex = 2;
             this.icon.TabStop = true;
-            this.icon.Text = "Point Icon Style";
+            this.icon.Text = "Image Style";
             this.icon.UseVisualStyleBackColor = true;
             this.icon.CheckedChanged += new System.EventHandler(this.icon_CheckedChanged);
             // 
@@ -212,7 +212,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.symbol.Size = new System.Drawing.Size(170, 24);
             this.symbol.TabIndex = 3;
             this.symbol.TabStop = true;
-            this.symbol.Text = "Point Symbol Style";
+            this.symbol.Text = "Font Style";
             this.symbol.UseVisualStyleBackColor = true;
             this.symbol.CheckedChanged += new System.EventHandler(this.symbol_CheckedChanged);
             // 

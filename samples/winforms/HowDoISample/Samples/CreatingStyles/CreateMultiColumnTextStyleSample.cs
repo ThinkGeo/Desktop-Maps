@@ -18,7 +18,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.DecimalDegree;
 
             // Create a layer with polygon data
-            var countries02Layer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Countries02.shp");
+            var countries02Layer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Countries02.shp");
             countries02Layer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle =
                 AreaStyle.CreateSimpleAreaStyle(GeoColors.SandyBrown, GeoColors.Black);
 

@@ -221,11 +221,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
         }
 
-        public new void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            // Dispose of unmanaged resources.
             mapView.Dispose();
-            // Suppress finalization.
             GC.SuppressFinalize(this);
         }
 
@@ -337,11 +335,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
 
         #endregion Component Designer generated code
-
-
-
-
-
 
     }
 }

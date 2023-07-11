@@ -29,7 +29,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.Overlays.Add(layerOverlay);
 
             // Create the new layer and dd the layer to the overlay we created earlier.
-            GeoPdfFeatureLayer geoPdfLayer = new GeoPdfFeatureLayer(@"../../../Data/GeoPdf/bangalore.pdf");
+            GeoPdfFeatureLayer geoPdfLayer = new GeoPdfFeatureLayer(@"./Data/GeoPdf/bangalore.pdf");
             geoPdfLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Circle, 5, GeoBrushes.LightGray, GeoPens.Black);
             geoPdfLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.Black, 2, true);
             geoPdfLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;

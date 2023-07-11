@@ -26,13 +26,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
             ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the Map Unit to meters (used in Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Create a feature layer to hold the Frisco zoning data
-            ShapeFileFeatureLayer zoningLayer = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Zoning.shp");
+            ShapeFileFeatureLayer zoningLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Zoning.shp");
 
             // Convert the Frisco shapefile from its native projection to Spherical Mercator, to match the map
             ProjectionConverter projectionConverter = new ProjectionConverter(2276, 3857);

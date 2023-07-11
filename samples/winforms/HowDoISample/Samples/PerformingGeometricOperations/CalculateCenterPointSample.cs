@@ -23,7 +23,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            ShapeFileFeatureLayer censusHousing = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Frisco 2010 Census Housing Units.shp");
+            ShapeFileFeatureLayer censusHousing = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
             InMemoryFeatureLayer centerPointLayer = new InMemoryFeatureLayer();
             LayerOverlay layerOverlay = new LayerOverlay();
 

@@ -26,7 +26,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
              **********************/
 
             // Create cityLimits layer
-            var cityLimits = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/FriscoCityLimits.shp");
+            var cityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimits.shp");
 
             // Style cityLimits layer
             cityLimits.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.Transparent, GeoColors.DimGray, 2);
@@ -42,7 +42,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             landuseOverlay.Layers.Add(cityLimits);
 
             // Create Parks landuse layer
-            var parks = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Parks.shp");
+            var parks = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
 
             // Style Parks landuse layer
             parks.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(128, GeoColors.Green), GeoColors.Transparent);
@@ -62,7 +62,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
              ******************/
 
             // Create Hotel POI layer
-            var hotels = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Hotels.shp");
+            var hotels = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
 
             // Style Hotel POI layer
             hotels.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Blue, 8, GeoColors.White, 2);
@@ -75,7 +75,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             poiOverlay.Layers.Add(hotels);
 
             // Create School POI layer
-            var schools = new ShapeFileFeatureLayer(@"../../../Data/Shapefile/Schools.shp");
+            var schools = new ShapeFileFeatureLayer(@"./Data/Shapefile/Schools.shp");
 
             // Style School POI layer
             schools.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimpleSquareStyle(GeoColors.Red, 8, GeoColors.White, 2);

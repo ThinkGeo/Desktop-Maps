@@ -26,7 +26,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(layerOverlay);
 
             // Create the new layer and dd the layer to the overlay we created earlier.
-            NativeImageRasterLayer commonRasterLayer = new NativeImageRasterLayer("../../../Data/Jpg/m_3309650_sw_14_1_20160911_20161121.jpg");
+            NativeImageRasterLayer commonRasterLayer = new NativeImageRasterLayer("./Data/Jpg/m_3309650_sw_14_1_20160911_20161121.jpg");
             layerOverlay.Layers.Add(commonRasterLayer);
 
             // Set the map view current extent to a slightly zoomed in area of the image.
