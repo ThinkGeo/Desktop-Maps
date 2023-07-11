@@ -37,7 +37,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.Overlays.Add(staticOverlay);
 
             // Create the new layer and set the projection as the data is in srid 2276 and our background is srid 3857 (spherical mercator).
-            GridFeatureLayer gridFeatureLayer = new GridFeatureLayer(@"..\..\..\data\GridFile\Mosquitos.grd");
+            GridFeatureLayer gridFeatureLayer = new GridFeatureLayer(@".\data\GridFile\Mosquitos.grd");
             gridFeatureLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
             // Add the layer to the overlay we created earlier.
