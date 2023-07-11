@@ -32,7 +32,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             SimpleCsvFeatureLayer csvLayer = new SimpleCsvFeatureLayer(@"./Data/Csv/vehicle-route.csv");
 
             // Set the points image to an car icon and then apply it to all zoomlevels
-            PointStyle vehiclePointStyle = new PointStyle(new GeoImage(@"../../../Resources/vehicle-location.png"));
+            PointStyle vehiclePointStyle = new PointStyle(new GeoImage(@"./Resources/vehicle-location.png"));
             vehiclePointStyle.YOffsetInPixel = -12;
 
             csvLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = vehiclePointStyle;

@@ -27,7 +27,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            ShapeFileFeatureLayer worldCapitalsLayer = new ShapeFileFeatureLayer(@"..\..\..\Data\Shapefile\WorldCapitals.shp");
+            ShapeFileFeatureLayer worldCapitalsLayer = new ShapeFileFeatureLayer(@".\Data\Shapefile\WorldCapitals.shp");
             worldCapitalsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 3857);
             worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 

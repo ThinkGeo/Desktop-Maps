@@ -47,7 +47,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InMemoryFeatureLayer vehicleLayer = new InMemoryFeatureLayer();
 
             // Set the points image to an car icon and then apply it to all zoomlevels
-            PointStyle vehiclePointStyle = new PointStyle(new GeoImage(@"../../../Resources/vehicle-location.png"));
+            PointStyle vehiclePointStyle = new PointStyle(new GeoImage(@"./Resources/vehicle-location.png"));
             vehiclePointStyle.YOffsetInPixel = -12;
 
             vehicleLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = vehiclePointStyle;

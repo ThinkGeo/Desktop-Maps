@@ -55,7 +55,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void AddClusterPointStyle(ShapeFileFeatureLayer layer)
         {
             // Create the point style that will serve as the basis of the cluster style
-            var pointStyle = new PointStyle(new GeoImage(@"../../../Resources/coyote_paw.png"))
+            var pointStyle = new PointStyle(new GeoImage(@"./Resources/coyote_paw.png"))
             {
                 ImageScale = .25,
                 Mask = new AreaStyle(GeoPens.Black, GeoBrushes.White),

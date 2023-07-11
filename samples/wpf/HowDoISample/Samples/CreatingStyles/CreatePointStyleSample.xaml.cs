@@ -82,7 +82,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             ShapeFileFeatureLayer hotelsLayer = (ShapeFileFeatureLayer)layerOverlay.Layers["hotels"];
 
             // Create a point style
-            var pointStyle = new PointStyle(new GeoImage(@"../../../Resources/hotel_icon.png"))
+            var pointStyle = new PointStyle(new GeoImage(@"./Resources/hotel_icon.png"))
             {
                 ImageScale = .25
             };

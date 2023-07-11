@@ -59,7 +59,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 Conditions = { new FilterCondition("OffenseGro", "Drugs") },
                 Styles = {
                     new PointStyle(PointSymbolType.Circle, 28, GeoBrushes.White,GeoPens.Red),
-                    new PointStyle(new GeoImage(@"../../../Resources/drugs_icon.png")) { ImageScale = .60 }
+                    new PointStyle(new GeoImage(@"./Resources/drugs_icon.png")) { ImageScale = .60 }
                 }
             };
 
@@ -69,7 +69,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 Conditions = { new FilterCondition("OffenseGro", "Weapons") },
                 Styles = {
                     new PointStyle(PointSymbolType.Circle, 28, GeoBrushes.White,GeoPens.Red),
-                    new PointStyle(new GeoImage(@"../../../Resources/weapon_icon.png")) { ImageScale = .25 }
+                    new PointStyle(new GeoImage(@"./Resources/weapon_icon.png")) { ImageScale = .25 }
                 }
             };
 
@@ -79,7 +79,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 Conditions = { new FilterCondition("OffenseGro", "Vandalism") },
                 Styles = {
                     new PointStyle(PointSymbolType.Circle, 28, GeoBrushes.White,GeoPens.Red),
-                    new PointStyle(new GeoImage(@"../../../Resources/vandalism_icon.png")) { ImageScale = .25 }
+                    new PointStyle(new GeoImage(@"./Resources/vandalism_icon.png")) { ImageScale = .25 }
                 }
             };
 

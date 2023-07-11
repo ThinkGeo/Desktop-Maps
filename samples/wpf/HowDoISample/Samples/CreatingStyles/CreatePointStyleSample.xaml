@@ -11,9 +11,9 @@
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1" Grid.Row="0" Content="PointStyle Controls:" FontSize="16" FontWeight="Bold"></Label>
             
-            <RadioButton Grid.Column="1" Grid.Row="1" x:Name="pointSymbol" Content="Point Symbol Style" Checked="PointSymbol_OnChecked"></RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="2" x:Name="icon" Content="Point Icon Style" Checked="Icon_OnChecked"></RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="3" x:Name="symbol" Content="Point Symbol Style" Checked="Symbol_Checked"></RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="1" x:Name="pointSymbol" Content="Predefined Style" Checked="PointSymbol_OnChecked"></RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="2" x:Name="icon" Content="Image Style" Checked="Icon_OnChecked"></RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="3" x:Name="symbol" Content="Font Style" Checked="Symbol_Checked"></RadioButton>
             
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />

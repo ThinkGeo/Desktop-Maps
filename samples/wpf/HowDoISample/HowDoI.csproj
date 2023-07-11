@@ -237,25 +237,48 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\AQUA.png" />
-    <Resource Include="Resources\AQUABLANK.png" />
-    <Resource Include="Resources\East.gif" />
-    <Resource Include="Resources\generic-logo.png" />
-    <Resource Include="Resources\loading.gif">
-      <CopyToOutputDirectory>
-      </CopyToOutputDirectory>
+    <Resource Include="Resources\AQUA.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\North.gif" />
-    <Resource Include="Resources\South.gif" />
-    <Resource Include="Resources\ThinkGeoLogo.png" />
-    <Resource Include="Resources\West.gif" />
-    <Resource Include="Resources\ZoomIn.png" />
-    <Resource Include="Resources\ZoomOut.png" />
+    <Resource Include="Resources\AQUABLANK.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\East.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\generic-logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\loading.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\North.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\South.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ThinkGeoLogo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\West.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ZoomIn.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ZoomOut.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <None Remove="Resources\coyote_paw.png" />
-    <Resource Include="Resources\coyote_paw.png" />
+    <Resource Include="Resources\coyote_paw.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <None Remove="Resources\hotel_icon.png" />
     <Page Remove="SampleTemplate.xaml" />
-    <Resource Include="Resources\hotel_icon.png" />
+    <Resource Include="Resources\hotel_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.0.1" />
@@ -907,6 +930,21 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\UsgsDem\mobile-e.dem">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\drugs_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\vandalism_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\vehicle-location.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\vehicle.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\weapon_icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="samples.json">
