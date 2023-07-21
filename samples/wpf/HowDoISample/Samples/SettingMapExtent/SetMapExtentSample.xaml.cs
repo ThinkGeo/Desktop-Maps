@@ -55,6 +55,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             featureIds.ItemsSource = friscoCityBoundary.FeatureSource.GetFeatureIds();
             friscoCityBoundary.Close();
             featureIds.SelectedIndex = 0;
+
+            mapView.Refresh();
         }
 
         /// <summary>
