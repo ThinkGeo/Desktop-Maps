@@ -71,6 +71,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var stadium = new Feature(new PointShape(-10779651.500992451, 3915933.0023557912));
             stadiumLayer.InternalFeatures.Add(stadium);
 
+            mapView.Refresh();
         }
 
         /// <summary>
