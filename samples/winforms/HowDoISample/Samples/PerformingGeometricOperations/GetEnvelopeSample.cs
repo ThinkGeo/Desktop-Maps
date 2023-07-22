@@ -51,6 +51,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Add LayerOverlay to Map
             mapView.Overlays.Add("layerOverlay", layerOverlay);
+
+            mapView.Refresh();
         }
 
         private void shapeEnvelope_Click(object sender, EventArgs e)

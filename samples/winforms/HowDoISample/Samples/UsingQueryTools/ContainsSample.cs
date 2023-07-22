@@ -64,6 +64,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Set the map extent to the sample shape
             mapView.CurrentExtent = new RectangleShape(-10781407.8544813, 3916678.62545891, -10777442.6836611, 3913262.84577639);
+        
+            mapView.Refresh();
         }
 
         private Collection<Feature> PerformSpatialQuery(BaseShape shape, FeatureLayer layer)

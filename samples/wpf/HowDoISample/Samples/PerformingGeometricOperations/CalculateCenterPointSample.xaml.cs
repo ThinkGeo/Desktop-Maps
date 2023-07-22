@@ -63,6 +63,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.Overlays.Add("layerOverlay",layerOverlay);
 
             centroidCenter.IsChecked = true;
+
+            mapView.Refresh();
         }
 
         /// <summary>

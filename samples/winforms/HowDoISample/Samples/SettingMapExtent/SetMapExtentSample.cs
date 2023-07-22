@@ -46,6 +46,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             featureIds.DataSource = friscoCityBoundary.FeatureSource.GetFeatureIds();
             friscoCityBoundary.Close();
             featureIds.SelectedIndex = 0;
+
+            mapView.Refresh();
         }
 
         private void ZoomToScale_Click(object sender, EventArgs e)

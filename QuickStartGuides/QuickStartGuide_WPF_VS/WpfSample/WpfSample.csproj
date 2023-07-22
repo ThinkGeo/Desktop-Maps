@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ThinkGeo.UI.Wpf" Version="13.1.0-beta012" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="13.1.0" />
   </ItemGroup>
 
   <ItemGroup>

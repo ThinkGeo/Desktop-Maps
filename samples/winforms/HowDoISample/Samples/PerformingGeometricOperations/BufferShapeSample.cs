@@ -52,6 +52,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Add LayerOverlay to Map
             mapView.Overlays.Add(layerOverlay);
+
+            mapView.Refresh();
         }
 
         private void bufferShape_Click(object sender, EventArgs e)

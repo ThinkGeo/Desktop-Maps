@@ -61,6 +61,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Add Toyota Stadium feature to stadiumLayer
             var stadium = new Feature(new PointShape(-10779651.500992451, 3915933.0023557912));
             stadiumLayer.InternalFeatures.Add(stadium);
+
+            mapView.Refresh();
         }
 
         private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)

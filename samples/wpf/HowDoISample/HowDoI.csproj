@@ -270,15 +270,7 @@
     <Resource Include="Resources\ZoomOut.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <None Remove="Resources\coyote_paw.png" />
-    <Resource Include="Resources\coyote_paw.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <None Remove="Resources\hotel_icon.png" />
     <Page Remove="SampleTemplate.xaml" />
-    <Resource Include="Resources\hotel_icon.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.0.1" />
@@ -932,7 +924,13 @@
     <None Update="Data\UsgsDem\mobile-e.dem">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\coyote_paw.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\drugs_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\hotel_icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Resources\vandalism_icon.png">
