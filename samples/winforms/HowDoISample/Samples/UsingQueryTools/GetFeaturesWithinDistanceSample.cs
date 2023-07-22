@@ -62,6 +62,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Set the map extent to the initial area
             mapView.CurrentExtent = new RectangleShape(-10781338.5834248, 3916678.62545891, -10777511.9547176, 3913262.84577639);
             txtSlider.DataBindings.Add("Text", searchRadius, "Value");
+
+            mapView.Refresh();
         }
 
         private Collection<Feature> PerformSpatialQuery(BaseShape shape, FeatureLayer layer)

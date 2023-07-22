@@ -52,6 +52,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Add LayerOverlay to Map
             mapView.Overlays.Add("layerOverlay", layerOverlay);
+
+            mapView.Refresh();
         }
 
         /// <summary>
