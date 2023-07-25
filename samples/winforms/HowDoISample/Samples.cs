@@ -111,8 +111,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             currentUserControl.Size = pnlOption.Size;               
 
             if (pnlOption.Controls.Count > 0)
-            {
-                pnlOption.Controls[0].Dispose();
+            {                
                 pnlOption.Controls.Clear();
             }
 
