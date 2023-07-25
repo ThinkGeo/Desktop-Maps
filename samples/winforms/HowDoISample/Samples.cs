@@ -112,6 +112,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             if (pnlOption.Controls.Count > 0)
             {
+                pnlOption.Controls[0].Dispose();
                 pnlOption.Controls.Clear();
             }
 
