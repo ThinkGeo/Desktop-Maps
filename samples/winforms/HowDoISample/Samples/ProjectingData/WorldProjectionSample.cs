@@ -39,6 +39,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = new RectangleShape(-176.885988320039, 121.810205234135, 168.699949179961, -92.642919765865);
 
             rdoPolar.Checked = true;
+
+            mapView.Refresh();
         }
 
         private void Radial_CheckChanged(object sender, EventArgs e)

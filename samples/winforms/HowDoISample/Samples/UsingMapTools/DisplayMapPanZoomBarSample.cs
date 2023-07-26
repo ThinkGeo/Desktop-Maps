@@ -23,6 +23,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
+
+            mapView.Refresh();
         }        
 
         private void DisplayPanZoomBar_CheckedChanged(object sender, EventArgs e)

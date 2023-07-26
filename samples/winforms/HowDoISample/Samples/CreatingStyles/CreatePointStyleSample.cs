@@ -37,9 +37,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add("hotels", layerOverlay);
 
             pointSymbol.Checked = true;
+
+            mapView.Refresh();
         }
-
-
 
         private void pointSymbol_CheckedChanged(object sender, EventArgs e)
         {

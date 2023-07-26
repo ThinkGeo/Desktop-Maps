@@ -25,6 +25,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
             txtPanPercent.DataBindings.Add("Text", panPercentage, "Value");
             txtCurrentAngle.DataBindings.Add("Text", rotateAngle, "Value");
+
+            mapView.Refresh();
         }
 
 

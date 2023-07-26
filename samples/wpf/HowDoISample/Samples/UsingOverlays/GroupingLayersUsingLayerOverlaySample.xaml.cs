@@ -106,6 +106,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             ShowPoi.IsChecked = true;
             ShowLandUse.IsChecked = true;
+
+            mapView.Refresh();
         }
 
         /// <summary>

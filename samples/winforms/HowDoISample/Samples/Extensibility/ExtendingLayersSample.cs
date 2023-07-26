@@ -22,7 +22,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+           
             LayerOverlay layerOverlay = new LayerOverlay();
             layerOverlay.TileType = TileType.SingleTile;
             mapView.Overlays.Add(layerOverlay);
@@ -33,8 +35,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             radiusLayer.RingDistance = 5;
 
             layerOverlay.Layers.Add(radiusLayer);
-
             mapView.CurrentExtent = new RectangleShape(-10812042.5236828, 3942445.36497713, -10748599.7905585, 3887792.89005685);
+
+            mapView.Refresh();
         }
 
         protected override void Dispose(bool disposing)

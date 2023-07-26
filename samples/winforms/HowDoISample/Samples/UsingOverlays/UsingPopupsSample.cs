@@ -25,6 +25,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = new RectangleShape(-10778329.017082, 3909598.36751101, -10776250.8853871, 3907890.47766975);
 
             AddHotelPopups();
+
+            mapView.Refresh();
         }
 
         /// <summary>

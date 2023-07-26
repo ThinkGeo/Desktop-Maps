@@ -25,6 +25,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
 
             mapView.MapTools.Logo.Source = new BitmapImage(new Uri(@"..\..\..\Resources\ThinkGeoLogo.png", UriKind.RelativeOrAbsolute));
+
+            mapView.Refresh();
         }
 
         private void thinkGeoLogo_CheckedChanged(object sender, EventArgs e)

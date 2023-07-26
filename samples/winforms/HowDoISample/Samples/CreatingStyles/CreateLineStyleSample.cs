@@ -38,12 +38,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             rbLineStyle.Checked = true;
 
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            mapView.Dispose();
-            GC.SuppressFinalize(this);
+            mapView.Refresh();
         }
 
         private void rbLineStyle_CheckedChanged(object sender, EventArgs e)

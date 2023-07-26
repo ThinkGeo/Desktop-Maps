@@ -41,6 +41,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             //Set the maps current extent so we start there
             mapView.CurrentExtent = currentExtent;
+
+            mapView.Refresh();
         }
 
         private void AddPolygonOverlay(RectangleShape boundingRectangle)

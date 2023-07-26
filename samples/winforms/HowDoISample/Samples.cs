@@ -108,11 +108,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             UserControl currentUserControl = (UserControl)Activator.CreateInstance(userControlType);
 
             // Remove the old control and add the new one
-            currentUserControl.Size = pnlOption.Size;
+            currentUserControl.Size = pnlOption.Size;               
 
             if (pnlOption.Controls.Count > 0)
-            {
-                pnlOption.Controls[0].Dispose();            
+            {                
+                pnlOption.Controls.Clear();
             }
 
             pnlOption.Controls.Add(currentUserControl);

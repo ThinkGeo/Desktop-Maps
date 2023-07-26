@@ -56,6 +56,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Update instructions
             Instructions.Text = "Navigation Mode - The default map state. Allows you to pan and zoom the map with mouse controls.";
+
+            mapView.Refresh();
         }
 
         private void EditOverlay_VertexMoved(object sender, VertexMovedEditInteractiveOverlayEventArgs e)

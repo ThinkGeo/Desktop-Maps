@@ -48,6 +48,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             rbLineStyle.IsChecked = true;
 
+            mapView.Refresh();
         }
 
         public void Dispose()

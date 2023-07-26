@@ -51,6 +51,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             rdoCheckIfPointsAreTouchingLines.Checked = true;
 
+            mapView.Refresh();
         }
 
         private void rdoCheckIfPointsAreTouchingLines_CheckedChanged(object sender, EventArgs e)

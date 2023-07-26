@@ -79,6 +79,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             {
                 UpdateHousingUnitsLayerColors(colors);
             }
+
+            mapView.Refresh();
         }
 
         /// <summary>

@@ -13,7 +13,7 @@ using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class RefreshDynamicItemsSample : UserControl
+    public class RefreshDynamicItemsSample : UserControl, IDisposable
     {
         DispatcherTimer timer;
 
@@ -39,6 +39,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             //Set the maps current extent so we start there
             mapView.CurrentExtent = currentExtent;
 
+            mapView.Refresh();
         }
 
         private void AddPolygonOverlay(RectangleShape boundingRectangle)

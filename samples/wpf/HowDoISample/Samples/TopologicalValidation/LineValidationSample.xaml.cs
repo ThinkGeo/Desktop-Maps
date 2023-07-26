@@ -56,6 +56,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
             mapView.CurrentExtent = new RectangleShape(0, 200, 200, 0);
 
             rdoCheckLineEndpointsMustTouchPoints.IsChecked = true;
+
+            mapView.Refresh();
         }
 
         /// <summary>
