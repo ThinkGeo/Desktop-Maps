@@ -65,6 +65,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             {
                 UpdateHousingUnitsLayerColors(colors);
             }
+
+            mapView.Refresh();
         }
 
 

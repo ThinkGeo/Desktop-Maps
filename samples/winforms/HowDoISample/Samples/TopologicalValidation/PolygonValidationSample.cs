@@ -50,6 +50,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = new RectangleShape(0, 200, 200, 0);
 
             rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries.Checked = true;
+
+            mapView.Refresh();
         }
 
 

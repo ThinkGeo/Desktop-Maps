@@ -29,8 +29,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Refresh();
         }
 
-
-
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
             // Based on the radio buttons we switch between using the overlay and layer.

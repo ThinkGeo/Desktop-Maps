@@ -46,6 +46,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Update instructions
             instructions.Text = "Navigation Mode - The default map state. Allows you to pan and zoom the map with mouse controls.";
+
+            mapView.Refresh();
         }
 
         private void UpdateLayerFeatures(InMemoryFeatureLayer featureLayer, LayerOverlay layerOverlay)

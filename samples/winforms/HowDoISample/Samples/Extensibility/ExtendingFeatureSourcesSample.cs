@@ -41,6 +41,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             csvLayer.Open();
             mapView.CurrentExtent = csvLayer.GetBoundingBox();
+
+            mapView.Refresh();
         }
 
         protected override void Dispose(bool disposing)

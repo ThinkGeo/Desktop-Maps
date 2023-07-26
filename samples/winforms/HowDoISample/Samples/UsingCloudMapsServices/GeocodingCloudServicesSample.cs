@@ -36,6 +36,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             cboSearchType.SelectedIndex = 0;
             cboLocationType.SelectedIndex = 0;
+
+            mapView.Refresh();
         }
 
         private async Task<CloudGeocodingResult> PerformGeocodingQuery()

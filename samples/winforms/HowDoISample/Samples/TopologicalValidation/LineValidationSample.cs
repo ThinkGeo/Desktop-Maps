@@ -51,6 +51,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = new RectangleShape(0, 200, 200, 0);
 
             rdoCheckLineEndpointsMustTouchPoints.Checked = true;
+
+            mapView.Refresh();
         }
 
         private void rdoCheckLineEndpointsMustTouchPoints_CheckedChanged(object sender, EventArgs e)

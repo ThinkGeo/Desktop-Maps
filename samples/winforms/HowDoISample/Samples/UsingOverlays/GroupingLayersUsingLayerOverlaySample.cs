@@ -97,6 +97,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             ShowPoi.Checked = true;
             ShowLandUse.Checked = true;
+
+            mapView.Refresh();
         }
 
         private void ShowPoi_CheckedChanged(object sender, EventArgs e)

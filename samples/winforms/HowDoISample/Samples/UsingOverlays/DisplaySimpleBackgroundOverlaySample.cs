@@ -39,6 +39,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             housingUnitsLayer.Open();
             mapView.CurrentExtent = housingUnitsLayer.GetBoundingBox();
             housingUnitsLayer.Close();
+
+            mapView.Refresh();
         }
 
         #region Component Designer generated code
