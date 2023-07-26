@@ -45,6 +45,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
 
             cboSearchType.SelectedIndex = 0;
             cboLocationType.SelectedIndex = 0;
+
+            mapView.Refresh();
         }
 
         /// <summary>

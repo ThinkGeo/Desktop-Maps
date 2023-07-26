@@ -99,6 +99,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
 
             // Set the map extent to the sample shape
             mapView.CurrentExtent = new RectangleShape(-10778499.3056056, 3920951.91647677, -10774534.1347853, 3917536.13679426);
+
+            mapView.Refresh();
         }
 
         /// <summary>

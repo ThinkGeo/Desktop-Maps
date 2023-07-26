@@ -67,6 +67,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             reverseGeocodingCloudClient = new ReverseGeocodingCloudClient("FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~", "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~");
 
             cboLocationCategories.SelectedIndex = 0;
+
+            mapView.Refresh();
         }
 
         /// <summary>

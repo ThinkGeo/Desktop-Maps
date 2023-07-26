@@ -54,6 +54,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             housingUnitsLayer.Open();
             mapView.CurrentExtent = housingUnitsLayer.GetBoundingBox();
             housingUnitsLayer.Close();
+
+            mapView.Refresh();
         }
         public void Dispose()
         {
