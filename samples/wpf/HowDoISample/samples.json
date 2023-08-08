@@ -212,6 +212,12 @@
         "source": "Samples/DisplayingLayers/Raster/JPEG2000LayerSample"
       },
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ESRIGridLayerGenerationSample",
+        "title": "Generate an ESRI Grid File",
+        "description": "This sample shows how to generate an ESRI .grd Grid File from point data and display it on the map.",
+        "source": "Samples/DisplayingLayers/Raster/ESRIGridLayerGenerationSample"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.GenerateMapImageSample",
         "title": "Generate a Map as an Image",
         "description": "This sample shows how to draw your map onto an image file",

@@ -58,6 +58,9 @@
     <Compile Update="Samples\CreatingStyles\FleeBooleanStyle\CreateFleeBooleanStyleSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Samples\DisplayingLayers\Raster\ESRIGridLayerGenerationSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Samples\DisplayingLayers\Raster\GdalLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -135,6 +138,10 @@
       <DependentUpon>CreateClusterPointStyleSample.xaml</DependentUpon>
     </Compile>
     <Page Update="Samples\CreatingStyles\FleeBooleanStyle\CreateFleeBooleanStyleSample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\Raster\ESRIGridLayerGenerationSample.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
@@ -808,6 +815,21 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\Shapefile\Parks.shx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Shapefile\sample_ph_2.dbf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Shapefile\sample_ph_2.ids">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Shapefile\sample_ph_2.idx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Shapefile\sample_ph_2.shp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Shapefile\sample_ph_2.shx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\Shapefile\Schools.dbf">
