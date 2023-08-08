@@ -26,13 +26,13 @@ The ThinkGeo HowDoI Samples feature over 100 straightforward examples that demon
 
 
 ## More Resources:
-1. [ThinkGeo Desktop Edition Online Docs](https://docs.thinkgeo.com/products/desktop-maps/quickstart/)
+- [ThinkGeo Desktop Edition Online Docs](https://docs.thinkgeo.com/products/desktop-maps/quickstart/)
     
-2. [ThinkGeo Forum](https://community.thinkgeo.com/c/thinkgeo-ui-for-desktop)
+- [ThinkGeo Forum](https://community.thinkgeo.com/c/thinkgeo-ui-for-desktop)
         
-3. [ThinkGeo Blog](https://www.thinkgeo.com/blog/) 
+- [ThinkGeo Blog](https://www.thinkgeo.com/blog/) 
 
-4. ThinkGeo Desktop Edition Legacy Samples
+- ThinkGeo Desktop Edition Legacy Samples
    - [ThinkGeo Version 9 Winforms Samples](http://wiki.thinkgeo.com/wiki/map_suite_desktop_edition_all_samples)
    - [ThinkGeo Version 9 WPF Samples](http://wiki.thinkgeo.com/wiki/map_suite_wpf_desktop_edition_all_samples)
    - [ThinkGeo Version 10 WPF/Winforms Samples](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10)
