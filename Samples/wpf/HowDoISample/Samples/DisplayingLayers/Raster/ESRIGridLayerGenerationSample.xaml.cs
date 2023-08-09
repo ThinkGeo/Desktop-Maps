@@ -10,7 +10,7 @@ using ThinkGeo.UI.Wpf;
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Learn how to display an ESRI Grid Layer on the map
+    /// Learn how to generate and display an ESRI Grid Layer on the map
     /// </summary>
     public partial class ESRIGridLayerGenerationSample : UserControl, IDisposable
     {
@@ -46,15 +46,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             classBreakStyle.ClassBreaks.Add(new ClassBreak(7.21, new PointStyle(PointSymbolType.Circle, symbolSize, new GeoSolidBrush(GeoColor.FromArgb(Alpha, 128, 255, 128)))));
             classBreakStyle.ClassBreaks.Add(new ClassBreak(7.54, new PointStyle(PointSymbolType.Circle, symbolSize, new GeoSolidBrush(GeoColor.FromArgb(Alpha, 0, 255, 0)))));
 
+            //load the point shapefile containing ph values in different points of a field.
             ShapeFileFeatureLayer samplesLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/sample_ph_2.shp");
             samplesLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(classBreakStyle);
             samplesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
+            //Create an overlay for our points (and later the grid) and add our points layer to it.
             LayerOverlay gridOverlay = new LayerOverlay();
             gridOverlay.TileType = TileType.SingleTile;
             gridOverlay.Layers.Add("GridFeatureLayer", samplesLayer);
             mapView.Overlays.Add("GridFeatureOverlay", gridOverlay);
 
+            //set the map's current extent to the point shapefile location.
             samplesLayer.Open();
             mapView.CurrentExtent = samplesLayer.GetBoundingBox();
             samplesLayer.Close();
@@ -65,6 +68,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private void btnGenerateGridFile_Click(object sender, RoutedEventArgs e)
         {
+            // call the functions to generate the grid file and render it.
             string filename = @"./Data/GridFile/generated.grd";
             GenerateGrid(filename);
             LoadGrid(filename);
