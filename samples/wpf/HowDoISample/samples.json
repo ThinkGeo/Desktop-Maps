@@ -212,6 +212,12 @@
         "source": "Samples/DisplayingLayers/Raster/JPEG2000LayerSample"
       },
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ESRIGridLayerGenerationSample",
+        "title": "Generate an ESRI Grid File",
+        "description": "This sample shows how to generate an ESRI .grd Grid File from point data and display it on the map.  We start with a shapefile of points with each point containing a soil PH value.  Clicking the Generate button will build a .grd file using an Inverse Distance Weighted (IDW) interpolation model and then displays the grid.   Although this sample is a soil map, this same technique can be used to translate any other point-based data to a grid.",
+        "source": "Samples/DisplayingLayers/Raster/ESRIGridLayerGenerationSample"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.GenerateMapImageSample",
         "title": "Generate a Map as an Image",
         "description": "This sample shows how to draw your map onto an image file",

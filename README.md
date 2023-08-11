@@ -1,33 +1,38 @@
 # ThinkGeo Desktop Maps
 
-Welcome! We're delighted that you're here. If you're new to ThinkGeo's Desktop Maps, we recommend starting with our Quick-Start Guides. These guides will walk you through the process of setting up a visually appealing map with external data and custom styling. Once you've reviewed the Quick-Start Guides, we highly suggest exploring our "How Do I" Sample, which contains numerous examples showcasing over 100 features of our Desktop Map Control.
+If you're new to ThinkGeo's Desktop Maps, start with our Quick-Start Guides to set up a map with custom styling and external data. After that, explore our "How Do I" Sample, showcasing over 100 features of our Desktop Map Control.
 
 ## Repository Layout
 
-- `/QuickStartGuides`: A few guides to assist you in quickly getting started, including: 
+- `/quick-start-guide`: A guide to quickly get started.
 
-    - [Display a map in a WPF project using VS Code (.NET 7)](./QuickStartGuides/QuickStartGuide_WPF_VSCode/README.md)
-    - [Display a map in a WPF project using Visual Studio (.NET 7)](./QuickStartGuides/QuickStartGuide_WPF_VS/README.md)
+- `/samples`: A collection of "How Do I" samples, showcasing around 100 features in a user-friendly application.
 
-- `/Samples`: A comprehensive collection of feature-specific "How Do I" samples, showcasing over 100 features in a single, easy-to-use application.
-    - [HowDoI Sample - WPF](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/samples/wpf/HowDoISample)
-    - [HowDoI Sample - Winforms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/samples/wpf/HowDoISample)
+- `/docs`: Offline API documentation in Markdown format.
 
 
-- `/Docs`: An offline version of the API documentation in MarkDown format.
+## Quick Start Guide
+The Quick Start Guide introduces ThinkGeo Desktop Maps by guiding you through setting up a visually appealing map using Windows WPF.
+
+- [Display a map in a WPF project using VS Code (.NET 7)](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/develop/quick-start-guide/QuickStartGuide_WPF_VSCode?ref_type=heads)
+- [Display a map in a WPF project using Visual Studio (.NET 7)](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/develop/quick-start-guide/QuickStartGuide_WPF_VS?ref_type=heads)
+
+## HowDoI Samples
+
+The ThinkGeo HowDoI Samples feature over 100 straightforward examples that demonstrate the capabilities of ThinkGeo's Desktop Components. You can use these samples as a foundation for your own application or refer to them to understand how to use our controls following best practices.
+
+- [HowDoI Sample - WPF](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/develop/samples/wpf/HowDoISample?ref_type=heads)
+- [HowDoI Sample - Winforms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/develop/samples/winforms/HowDoISample?ref_type=heads)
 
 
 ## More Resources:
-1. ThinkGeo Desktop Edition Online Docs: [https://docs.thinkgeo.com/products/desktop-maps/quickstart/](https://docs.thinkgeo.com/products/desktop-maps/quickstart/)
+- [ThinkGeo Desktop Edition Online Docs](https://docs.thinkgeo.com/products/desktop-maps/quickstart-vs/)
     
-2. ThinkGeo Forum: [https://community.thinkgeo.com/c/thinkgeo-ui-for-desktop](https://community.thinkgeo.com/c/thinkgeo-ui-for-desktop)
+- [ThinkGeo Forum](https://community.thinkgeo.com/c/thinkgeo-ui-for-desktop)
         
-3. ThinkGeo Blog: [https://www.thinkgeo.com/blog/](https://www.thinkgeo.com/blog/) 
+- [ThinkGeo Blog](https://www.thinkgeo.com/blog/) 
 
-6. ThinkGeo Desktop Edition Legacy Samples
-   - ThinkGeo Version 9 Winforms Samples: http://wiki.thinkgeo.com/wiki/map_suite_desktop_edition_all_samples
-   - ThinkGeo Version 9 WPF Samples: http://wiki.thinkgeo.com/wiki/map_suite_wpf_desktop_edition_all_samples
-   - ThinkGeo Version 10 WPF/Winforms Samples: https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10
-
-
-
+- ThinkGeo Desktop Edition Legacy Samples
+   - [ThinkGeo Version 9 Winforms Samples](http://wiki.thinkgeo.com/wiki/map_suite_desktop_edition_all_samples)
+   - [ThinkGeo Version 9 WPF Samples](http://wiki.thinkgeo.com/wiki/map_suite_wpf_desktop_edition_all_samples)
+   - [ThinkGeo Version 10 WPF/Winforms Samples](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/support/v10)

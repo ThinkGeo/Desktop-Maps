@@ -58,6 +58,9 @@
     <Compile Update="Samples\CreatingStyles\FleeBooleanStyle\CreateFleeBooleanStyleSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Samples\DisplayingLayers\Raster\ESRIGridLayerGenerationSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Samples\DisplayingLayers\Raster\GdalLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -135,6 +138,10 @@
       <DependentUpon>CreateClusterPointStyleSample.xaml</DependentUpon>
     </Compile>
     <Page Update="Samples\CreatingStyles\FleeBooleanStyle\CreateFleeBooleanStyleSample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\Raster\ESRIGridLayerGenerationSample.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
@@ -278,21 +285,21 @@
     <PackageReference Include="Jint" Version="2.11.58" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="ThinkGeo.Cad" Version="13.1.0" />   
-    <PackageReference Include="ThinkGeo.Ecw" Version="13.1.0" />
-    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="13.1.0" />
-    <PackageReference Include="ThinkGeo.GeoPdf" Version="13.1.0" />
-    <PackageReference Include="ThinkGeo.Kml" Version="13.1.0" />
-    <PackageReference Include="ThinkGeo.MrSid" Version="13.1.0" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="13.1.0" />
-    <PackageReference Include="ThinkGeo.Oracle" Version="13.1.0" />
-    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="13.1.0" />
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="13.1.0" />
-    <PackageReference Include="ThinkGeo.Printers" Version="13.1.0" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="13.1.0" />
-    <PackageReference Include="ThinkGeo.UI.Wpf" Version="13.1.0" />
-    <PackageReference Include="ThinkGeo.UnmanagedGeoTiff" Version="13.1.0" />
-    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="13.1.0" />
+    <PackageReference Include="ThinkGeo.Cad" Version="13.2.0-beta012" />   
+    <PackageReference Include="ThinkGeo.Ecw" Version="13.2.0-beta012" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="13.2.0-beta012" />
+    <PackageReference Include="ThinkGeo.GeoPdf" Version="13.2.0-beta012" />
+    <PackageReference Include="ThinkGeo.Kml" Version="13.2.0-beta012" />
+    <PackageReference Include="ThinkGeo.MrSid" Version="13.2.0-beta012" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="13.2.0-beta012" />
+    <PackageReference Include="ThinkGeo.Oracle" Version="13.2.0-beta012" />
+    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="13.2.0-beta012" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="13.2.0-beta012" />
+    <PackageReference Include="ThinkGeo.Printers" Version="13.2.0-beta012" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="13.2.0-beta012" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="13.2.0-beta013" />
+    <PackageReference Include="ThinkGeo.UnmanagedGeoTiff" Version="13.2.0-beta012" />
+    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="13.2.0-beta012" />
     <PackageReference Include="WpfAnimatedGif" Version="2.0.0" />
     <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.336902">
       <PrivateAssets>all</PrivateAssets>
@@ -808,6 +815,21 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\Shapefile\Parks.shx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Shapefile\sample_ph_2.dbf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Shapefile\sample_ph_2.ids">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Shapefile\sample_ph_2.idx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Shapefile\sample_ph_2.shp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Shapefile\sample_ph_2.shx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\Shapefile\Schools.dbf">
