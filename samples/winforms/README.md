@@ -1,3 +1,3 @@
-# WinForms Samples
+# Winforms Samples
 
-These are the samples for ThinkGeo Desktop Maps for WinForms.
+These are the samples for ThinkGeo Desktop Maps for Winforms.
