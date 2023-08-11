@@ -47,7 +47,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             //schoolLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Set the map view current extent to a bounding box that shows just a few sightings.  
-            mapView.CurrentExtent = new RectangleShape(-10789388.4602951, 3923878.18083465, -10768258.7082788, 3906668.46719412);
+            mapView.CurrentExtent = new RectangleShape(-10789388, 3923878, -10768258, 3906668);
 
             // Refresh the map.
             mapView.Refresh();
