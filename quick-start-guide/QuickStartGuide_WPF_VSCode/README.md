@@ -81,7 +81,7 @@ The first time you run your application, if you have not installed a license, yo
 
 <img src="./assets/LicenseNotInstalledException.png"  width="840" height="640">
 
-Also you will be directed to ThinkGeo's registration website, where you can create an account to begin a 30-day free evaluation. From there, you can download and install the Product Center and manage licenses for ThinkGeo products. For more information, please refer to the [ThinkGeo Product Center QuickStart Guide](https://cloud.thinkgeo.com/clients.html). 
+Also you will be directed to [ThinkGeo's Registration Website](https://helpdesk.thinkgeo.com/register), where you can create an account to begin a 30-day free evaluation. From there, you can download and install the Product Center and manage licenses for ThinkGeo products. 
 
 <img src="./assets/Create_ThinkGeo_Account.png"  width="710" height="580">
 

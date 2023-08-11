@@ -21,8 +21,8 @@ The Quick Start Guide introduces ThinkGeo Desktop Maps by guiding you through se
 
 The ThinkGeo HowDoI Samples feature over 100 straightforward examples that demonstrate the capabilities of ThinkGeo's Desktop Components. You can use these samples as a foundation for your own application or refer to them to understand how to use our controls following best practices.
 
-- [HowDoI Sample - WPF](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/develop/samples/wpf/HowDoISample?ref_type=heads)
-- [HowDoI Sample - Winforms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/develop/samples/winforms/HowDoISample?ref_type=heads)
+- [HowDoI Sample - WPF](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/develop/samples/wpf?ref_type=heads)
+- [HowDoI Sample - Winforms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/develop/samples/winforms?ref_type=heads)
 
 
 ## More Resources:
