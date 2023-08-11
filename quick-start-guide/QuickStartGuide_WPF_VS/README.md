@@ -1,4 +1,4 @@
-This guide is based on using Visual Studio 2022. However, with some minor adjustments, you can create a map using other IDEs, such as JetBrains Rider. You can also [display a map in a WPF project using VS Code](todo).
+This guide is based on using Visual Studio 2022. However, with some minor adjustments, you can create a map using other IDEs, such as JetBrains Rider. You can also [display a map in a WPF project using VS Code](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/develop/quick-start-guide/QuickStartGuide_WPF_VSCode?ref_type=heads).
 
 The project created in this guide is developed in .NET 7, but you can also create a .NET Framework (4.6.2 and above)  project using practically the same steps.
 
@@ -71,7 +71,7 @@ The first time you run your application, if you have not installed a license, yo
 
 ![Registration Exception](./assets/LicenseNotInstalledException.png "Registration Exception")
 
-Also you will be directed to ThinkGeo's registration website, where you can create an account to begin a 30-day free evaluation. From there, you can download and install the Product Center and manage licenses for ThinkGeo products. For more information, please refer to the [ThinkGeo Product Center QuickStart Guide](https://cloud.thinkgeo.com/clients.html). 
+Also you will be directed to [ThinkGeo's Registration Website](https://helpdesk.thinkgeo.com/register), where you can create an account to begin a 30-day free evaluation. From there, you can download and install the Product Center and manage licenses for ThinkGeo products.  
 
 <img src="./assets/Create_ThinkGeo_Account.png"  width="710" height="580">
 
@@ -83,7 +83,7 @@ Once you activate the 'ThinkGeo UI WPF' license to start your evaluation, you sh
 
 Now that you have a basic setup, you can add custom data to the map. Depending on the data, this can be complex or quite simple. Here we are going to add a shapefile to the map. We will set the style for the shapefile, apply the style to a range of zoomlevels, and project the shapefile from one projection (Decimal Degrees) to another (Spherical Mercator). This is basically what you might need to do when displaying feature data on the map.
 
-Download the [WorldCapitals.zip](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/assets/WorldCapitals.zip) shapefile data and unzip it in your project under a new folder called _**AppData**_. From there, we can add the shapefile to the map.
+Download the [WorldCapitals](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/quick-start-guide/QuickStartGuide_WPF_VS/WpfSample/AppData) shapefile data and use it in your project under a new folder called _**AppData**_. From there, we can add the shapefile to the map.
 
 ```csharp
 // Add a shapefile layer with point style.
