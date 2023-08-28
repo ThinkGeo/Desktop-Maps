@@ -19,7 +19,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, load landuse and POI layers into a grouped LayerOverlay and display them on the map.
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
@@ -107,7 +107,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             ShowPoi.IsChecked = true;
             ShowLandUse.IsChecked = true;
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>

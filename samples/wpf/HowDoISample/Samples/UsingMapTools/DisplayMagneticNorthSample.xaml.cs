@@ -19,7 +19,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Setup the map with the ThinkGeo Cloud Maps overlay.
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.Meter;
@@ -49,7 +49,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.CurrentExtent = new RectangleShape(-10781708.9749424, 3913502.90429046, -10777685.1114043, 3910360.79646662);
 
             // Refresh the map.
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
         public void Dispose()
         {
@@ -59,9 +59,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             GC.SuppressFinalize(this);
         }
 
-        private void mapView_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        private async void mapView_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            mapView.AdornmentOverlay.Refresh();
+            await mapView.AdornmentOverlay.RefreshAsync();
         }
     }
 }

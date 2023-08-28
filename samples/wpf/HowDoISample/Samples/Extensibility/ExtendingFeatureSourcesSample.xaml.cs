@@ -18,7 +18,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InitializeComponent();
         }
 
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             mapView.MapUnit = GeographyUnit.Meter;
 
@@ -46,7 +46,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             csvLayer.Open();
             mapView.CurrentExtent = csvLayer.GetBoundingBox();
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }        
 
         public void Dispose()

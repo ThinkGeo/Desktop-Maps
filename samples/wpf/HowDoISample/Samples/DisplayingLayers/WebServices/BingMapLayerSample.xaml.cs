@@ -29,7 +29,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Add the Bing Maps layer to the map
         /// </summary>
-        private void btnActivate_Click(object sender, RoutedEventArgs e)
+        private async void btnActivate_Click(object sender, RoutedEventArgs e)
         {
             if (txtApplicationID.Text != null && !mapView.Overlays.Contains("Bing Map"))
             {
@@ -48,7 +48,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 layerOverlay.Layers.Add(bingMapsLayer);
 
                 // Refresh the map.
-                mapView.Refresh();
+                await mapView.RefreshAsync();
             }
         }
 

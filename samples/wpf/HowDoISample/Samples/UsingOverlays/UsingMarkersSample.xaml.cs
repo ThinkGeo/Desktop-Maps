@@ -20,7 +20,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Setup the map with the ThinkGeo Cloud Maps overlay to show a basic map
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
@@ -36,7 +36,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             AddSimpleMarkers();
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Adds a marker to the simpleMarkerOverlay where the map click event occurred.
         /// </summary>
-        private void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
+        private async void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
         {
             SimpleMarkerOverlay simpleMarkerOverlay = (SimpleMarkerOverlay)mapView.Overlays["simpleMarkerOverlay"];
 
@@ -66,7 +66,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Add the marker to the simpleMarkerOverlay and refresh the map
             simpleMarkerOverlay.Markers.Add(marker);
-            simpleMarkerOverlay.Refresh();
+            await simpleMarkerOverlay.RefreshAsync();
         }
 
         /// <summary>

@@ -74,7 +74,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Splits the first feature in the cityLimits layer and adds them to the splitLayer to display on the map
         /// </summary>
-        private void SplitShape_OnClick(object sender, RoutedEventArgs e)
+        private async void SplitShape_OnClick(object sender, RoutedEventArgs e)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
 
@@ -96,7 +96,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             splitLayer.InternalFeatures.Add(split);
 
             // Redraw the layerOverlay to see the split features on the map
-            layerOverlay.Refresh();
+            await layerOverlay.RefreshAsync();
         }
         public void Dispose()
         {

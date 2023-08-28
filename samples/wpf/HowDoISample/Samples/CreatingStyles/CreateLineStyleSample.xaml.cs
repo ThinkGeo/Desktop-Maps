@@ -19,7 +19,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, load Frisco Railroad shapefile data and add it to the map
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
@@ -48,7 +48,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             rbLineStyle.IsChecked = true;
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         public void Dispose()
@@ -59,7 +59,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             GC.SuppressFinalize(this);
         }
 
-        private void rbLineType_Checked(object sender, RoutedEventArgs e)
+        private async void rbLineType_Checked(object sender, RoutedEventArgs e)
         {
             if (mapView.Overlays.Count > 0)
             {
@@ -77,11 +77,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 friscoRailroad.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
                 // Refresh the layerOverlay to show the new style
-                layerOverlay.Refresh();
+                await layerOverlay.RefreshAsync();
             }
         }
 
-        private void rbDashedLineType_Checked(object sender, RoutedEventArgs e)
+        private async void rbDashedLineType_Checked(object sender, RoutedEventArgs e)
         {
             if (mapView.Overlays.Count > 0)
             {
@@ -107,7 +107,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 friscoRailroad.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
                 // Refresh the layerOverlay to show the new style
-                layerOverlay.Refresh();
+                await layerOverlay.RefreshAsync();
             }
         }
 

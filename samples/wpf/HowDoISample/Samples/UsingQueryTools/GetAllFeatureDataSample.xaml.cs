@@ -20,7 +20,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay and a feature layer containing Frisco hotels data
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
             ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
@@ -81,13 +81,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
             hotelsLayer.Close();
 
             // Refresh and redraw the map
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>
         /// When a hotel is selected in the UI, center the map on it
         /// </summary>
-        private void lsbHotels_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void lsbHotels_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             InMemoryFeatureLayer highlightedHotelLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Highlighted Hotel");
             highlightedHotelLayer.Open();
@@ -102,8 +102,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
                 // Center the map on the chosen location
                 mapView.CurrentExtent = hotel.Location.GetBoundingBox();
                 ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
-                mapView.ZoomToScale(standardZoomLevelSet.ZoomLevel18.Scale);
-                mapView.Refresh();
+                await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
+                await mapView.RefreshAsync();
             }
 
             highlightedHotelLayer.Close();

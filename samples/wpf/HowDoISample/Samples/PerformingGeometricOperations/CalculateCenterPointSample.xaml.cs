@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -21,7 +22,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, add the censusHousing and centerPointLayer layers
         /// into a grouped LayerOverlay and display it on the map.
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
@@ -64,14 +65,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             centroidCenter.IsChecked = true;
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>
         /// Calculates the center point of a feature
         /// </summary>
         /// <param name="feature"> The target feature to calculate it's center point</param>
-        private void CalculateCenterPoint(Feature feature)
+        private async Task CalculateCenterPointAsync(Feature feature)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];            
             InMemoryFeatureLayer centerPointLayer = (InMemoryFeatureLayer)layerOverlay.Layers["centerPointLayer"];
@@ -96,14 +97,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             centerPointLayer.InternalFeatures.Add("centerPoint", new Feature(centerPoint));
 
             // Refresh the overlay to show the results
-            layerOverlay.Refresh();
+            await layerOverlay.RefreshAsync();
 
         }
 
         /// <summary>
         /// Map event that fires whenever the user clicks on the map. Gets the closest feature from the click event and calculates the center point
         /// </summary>
-        private void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
+        private async void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
             ShapeFileFeatureLayer censusHousing = (ShapeFileFeatureLayer)layerOverlay.Layers["censusHousing"];
@@ -112,13 +113,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var feature = censusHousing.QueryTools.GetFeaturesNearestTo(e.WorldLocation, GeographyUnit.Meter, 1,
                 ReturningColumnsType.NoColumns).First();
 
-            CalculateCenterPoint(feature);
+            await CalculateCenterPointAsync(feature);
         }
 
         /// <summary>
         /// RadioButton checked event that will recalculate the center point so long as a feature was already selected
         /// </summary>
-        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        private async void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
             InMemoryFeatureLayer centerPointLayer = (InMemoryFeatureLayer)layerOverlay.Layers["centerPointLayer"];
@@ -126,7 +127,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Recalculate the center point if a feature has already been selected
             if (centerPointLayer.InternalFeatures.Contains("selectedFeature"))
             {
-                CalculateCenterPoint(centerPointLayer.InternalFeatures["selectedFeature"]);
+                await CalculateCenterPointAsync(centerPointLayer.InternalFeatures["selectedFeature"]);
             }
         }
 

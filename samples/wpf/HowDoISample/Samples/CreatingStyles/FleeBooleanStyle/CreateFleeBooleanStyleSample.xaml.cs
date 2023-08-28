@@ -16,7 +16,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InitializeComponent();
         }
 
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
@@ -45,7 +45,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Set the map extent
             mapView.CurrentExtent = MaxExtents.SphericalMercator;
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>

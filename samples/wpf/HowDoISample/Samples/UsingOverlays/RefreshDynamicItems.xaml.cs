@@ -24,7 +24,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Setup the map with the ThinkGeo Cloud Maps overlay to show a basic map
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
@@ -42,7 +42,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             //Set the maps current extent so we start there
             mapView.CurrentExtent = currentExtent;
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         private void AddPolygonOverlay(RectangleShape boundingRectangle)
@@ -128,7 +128,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             timer.Start();
         }
 
-        private void Timer_Tick(object sender, EventArgs e)
+        private async void Timer_Tick(object sender, EventArgs e)
         {
             //I go to find the layer and then loop through all of the features and assign them new
             // random colors and refresh just the overlay that we are using to draw the polygons
@@ -143,10 +143,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
 
             // We are only going to refresh the one overlay that draws the polygons.  This saves us having toe refresh the background data.            
-            mapView.Refresh(mapView.Overlays["PolygonOverlay"]);
+            await mapView.RefreshAsync(mapView.Overlays["PolygonOverlay"]);
         }
 
-        private void btnRotate_Click(object sender, RoutedEventArgs e)
+        private async void btnRotate_Click(object sender, RoutedEventArgs e)
         {
             //I go to find the layer and then loop through all of the features and rotate them
             var polygonLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("PolygonLayer");
@@ -176,10 +176,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
 
             // We are only going to refresh the one overlay that draws the polygons.  This saves us having toe refresh the background data.
-            mapView.Refresh(mapView.Overlays["PolygonOverlay"]);
+            await mapView.RefreshAsync(mapView.Overlays["PolygonOverlay"]);
         }
 
-        private void btnOffset_Click(object sender, RoutedEventArgs e)
+        private async void btnOffset_Click(object sender, RoutedEventArgs e)
         {
             //I go to find the layer and then loop through all of the features and rotate them
             var polygonLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("PolygonLayer");
@@ -209,7 +209,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
 
             // We are only going to refresh the one overlay that draws the polygons.  This saves us having toe refresh the background data.
-            mapView.Refresh(mapView.Overlays["PolygonOverlay"]);
+            await mapView.RefreshAsync(mapView.Overlays["PolygonOverlay"]);
         }
 
         private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)

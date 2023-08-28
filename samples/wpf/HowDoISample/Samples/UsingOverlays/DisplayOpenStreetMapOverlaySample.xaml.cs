@@ -34,11 +34,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Create an OpenStretMaps overlay and add it to the map view.
         /// </summary>
-        private void DisplayOsmMaps_Click(object sender, RoutedEventArgs e)
+        private async void DisplayOsmMaps_Click(object sender, RoutedEventArgs e)
         {
             OpenStreetMapOverlay osmMapsOverlay = new OpenStreetMapOverlay(osmUserAgent.Text);
             mapView.Overlays.Add(osmMapsOverlay);
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
         public void Dispose()
         {

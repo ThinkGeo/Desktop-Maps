@@ -19,7 +19,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, load Frisco Hotels shapefile data and add it to the map
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
@@ -47,13 +47,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             pointSymbol.IsChecked = true;
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>
         /// Create a pointStyle using a PointSymbol and add it to the Hotels layer
         /// </summary>
-        private void PointSymbol_OnChecked(object sender, RoutedEventArgs e)
+        private async void PointSymbol_OnChecked(object sender, RoutedEventArgs e)
         {
             if (mapView.Overlays.Count > 0)
             {
@@ -71,14 +71,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 hotelsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
                 // Refresh the layerOverlay to show the new style
-                layerOverlay.Refresh();
+                await layerOverlay.RefreshAsync();
             }
         }
 
         /// <summary>
         /// Create a pointStyle using an icon image and add it to the Hotels layer
         /// </summary>
-        private void Icon_OnChecked(object sender, RoutedEventArgs e)
+        private async void Icon_OnChecked(object sender, RoutedEventArgs e)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["hotels"];
             ShapeFileFeatureLayer hotelsLayer = (ShapeFileFeatureLayer)layerOverlay.Layers["hotels"];
@@ -97,14 +97,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             hotelsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Refresh the layerOverlay to show the new style
-            layerOverlay.Refresh();
+            await layerOverlay.RefreshAsync();
         }
 
 
         /// <summary>
         /// Create a pointStyle using a font symbol and add it to the Hotels layer
         /// </summary>
-        private void Symbol_Checked(object sender, RoutedEventArgs e)
+        private async void Symbol_Checked(object sender, RoutedEventArgs e)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["hotels"];
             ShapeFileFeatureLayer hotelsLayer = (ShapeFileFeatureLayer)layerOverlay.Layers["hotels"];
@@ -124,7 +124,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             hotelsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Refresh the layerOverlay to show the new style
-            layerOverlay.Refresh();
+            await layerOverlay.RefreshAsync();
         }
         public void Dispose()
         {

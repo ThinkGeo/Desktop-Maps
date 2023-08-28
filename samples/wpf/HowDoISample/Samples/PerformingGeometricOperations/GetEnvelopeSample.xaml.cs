@@ -21,7 +21,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, add the cityLimits and envelopeLayer layers
         /// into a grouped LayerOverlay and display them on the map.
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
@@ -61,13 +61,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Add LayerOverlay to Map
             mapView.Overlays.Add("layerOverlay",layerOverlay);
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>
         /// Gets the Envelope of the first feature in the cityLimits layer and adds them to the envelopeLayer to display on the map
         /// </summary>
-        private void ShapeEnvelope_OnClick(object sender, RoutedEventArgs e)
+        private async void ShapeEnvelope_OnClick(object sender, RoutedEventArgs e)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
 
@@ -87,7 +87,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             envelopeLayer.InternalFeatures.Add(new Feature(envelope));
 
             // Redraw the layerOverlay to see the envelope feature on the map
-            layerOverlay.Refresh();
+            await layerOverlay.RefreshAsync();
         }
         public void Dispose()
         {

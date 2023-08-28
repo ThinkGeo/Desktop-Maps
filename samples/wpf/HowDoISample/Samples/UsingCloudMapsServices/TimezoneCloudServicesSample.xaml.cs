@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -24,7 +25,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
             ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
@@ -60,25 +61,25 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             mapView.CurrentExtent = new RectangleShape(-14269933.09, 6354969.40, -6966221.89, 2759371.58);
 
             // Get Timezone info for Frisco, TX
-            GetTimeZoneInfo(-10779572.80, 3915268.68);
+            await GetTimeZoneInfoAsync(-10779572.80, 3915268.68);
         }
 
         /// <summary>
         /// Perform the timezone query when the user clicks on the map
         /// </summary>
-        private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        private async void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
             if (e.MouseButton == MapMouseButton.Left)
             {
                 // Run the timezone info query
-                GetTimeZoneInfo(e.WorldX, e.WorldY);
+                await GetTimeZoneInfoAsync(e.WorldX, e.WorldY);
             }
         }
 
         /// <summary>
         /// Use the TimezoneCloudClient to query for timezone information
         /// </summary>
-        private async void GetTimeZoneInfo(double lon, double lat)
+        private async Task GetTimeZoneInfoAsync(double lon, double lat)
         {
             CloudTimeZoneResult result;
             try
@@ -133,7 +134,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             timezonesFeatureLayer.Close();
 
             // Refresh and redraw the map
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
         public void Dispose()
         {

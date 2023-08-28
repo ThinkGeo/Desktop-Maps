@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
@@ -23,7 +24,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay and a feature layer containing Frisco zoning data
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
             ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
@@ -74,7 +75,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
             // Set the map extent to the sample shape
             mapView.CurrentExtent = new RectangleShape(-10781407.8544813, 3916678.62545891, -10777442.6836611, 3913262.84577639);
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>
@@ -93,7 +94,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
         /// <summary>
         /// Highlight the features that were found by the spatial query
         /// </summary>
-        private void HighlightQueriedFeatures(IEnumerable<Feature> features)
+        private async Task HighlightQueriedFeaturesAsync(IEnumerable<Feature> features)
         {
             // Find the layers we will be modifying in the MapView dictionary
             LayerOverlay highlightedFeaturesOverlay = (LayerOverlay)mapView.Overlays["Highlighted Features Overlay"];
@@ -111,7 +112,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
             highlightedFeaturesLayer.Close();
 
             // Refresh the overlay so the layer is redrawn
-            highlightedFeaturesOverlay.Refresh();
+            await highlightedFeaturesOverlay.RefreshAsync();
 
             // Update the number of matching features found in the UI
             txtNumberOfFeaturesFound.Text = string.Format("Number of features containing the drawn shape: {0}", features.Count());
@@ -120,7 +121,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
         /// <summary>
         /// Perform the spatial query and draw the shapes on the map
         /// </summary>
-        private void GetFeaturesContaining(PointShape point)
+        private async void GetFeaturesContaining(PointShape point)
         {
             // Find the layers we will be modifying in the MapView
             SimpleMarkerOverlay queryFeatureMarkerOverlay = (SimpleMarkerOverlay)mapView.Overlays["Query Feature Marker Overlay"];
@@ -132,11 +133,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
             // Create a marker with a static marker image and add it to the map
             var marker = CreateNewMarker(point);
             queryFeatureMarkerOverlay.Markers.Add(marker);
-            queryFeatureMarkerOverlay.Refresh();
+            await queryFeatureMarkerOverlay.RefreshAsync();
 
             // Perform the spatial query using the drawn point and highlight features that were found
             var queriedFeatures = PerformSpatialQuery(point, zoningLayer);
-            HighlightQueriedFeatures(queriedFeatures);
+            await HighlightQueriedFeaturesAsync(queriedFeatures);
 
             // Clear the drawn point
             mapView.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();

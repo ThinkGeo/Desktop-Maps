@@ -19,7 +19,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, add the TAB layer to the map
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.Meter;
@@ -53,7 +53,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.CurrentExtent = cityBoundaryLayer.GetBoundingBox();
 
             // Refresh the map.
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
         public void Dispose()
         {

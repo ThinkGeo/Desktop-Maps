@@ -32,7 +32,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Add the Google Maps Layer to the map
         /// </summary>
-        private void btnActivate_Click(object sender, RoutedEventArgs e)
+        private async void btnActivate_Click(object sender, RoutedEventArgs e)
         {
             // Sets the map zoom level set to the Google maps zoom level set.
             mapView.ZoomLevelSet = new GoogleMapsZoomLevelSet();
@@ -54,7 +54,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.CurrentExtent = new RectangleShape(-10000000, 10000000, 10000000, -10000000);
            
             // Refresh the map.
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)

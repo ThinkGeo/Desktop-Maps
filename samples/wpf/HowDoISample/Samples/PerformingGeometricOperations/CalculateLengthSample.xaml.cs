@@ -21,7 +21,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, add the friscoTrails and selectedLineLayer layers
         /// into a grouped LayerOverlay and display it on the map.
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
@@ -59,13 +59,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Add LayerOverlay to Map
             mapView.Overlays.Add("layerOverlay", layerOverlay);
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>
         /// Calculates the length of a line selected on the map and displays it in the lengthResult TextBox
         /// </summary>
-        private void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
+        private async void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
 
@@ -79,7 +79,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Show the selected feature on the map
             selectedLineLayer.InternalFeatures.Clear();
             selectedLineLayer.InternalFeatures.Add(feature);
-            layerOverlay.Refresh();
+            await layerOverlay.RefreshAsync();
 
             // Get the length of the first feature
             var length = ((LineBaseShape)feature.GetShape()).GetLength(GeographyUnit.Meter, DistanceUnit.Kilometer);

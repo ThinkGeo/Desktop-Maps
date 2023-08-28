@@ -18,7 +18,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector
         /// <summary>
         /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, add the shapefile layer to the map
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.Meter;
@@ -53,7 +53,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector
             mapView.CurrentExtent = new RectangleShape(-10785086.173498387, 3913489.693302595, -10779919.030415015, 3910065.3144544438);
 
             // Refresh the map.
-            mapView.Refresh();            
+            await mapView.RefreshAsync();            
         }
 
         public void Dispose()

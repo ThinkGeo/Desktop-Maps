@@ -36,11 +36,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Create a Bing Maps overlay and add it to the map view.
         /// </summary>
-        private void DisplayBingMaps_Click(object sender, RoutedEventArgs e)
+        private async void DisplayBingMaps_Click(object sender, RoutedEventArgs e)
         {
             BingMapsOverlay bingMapsOverlay = new BingMapsOverlay(bingApplicationId.Text, BingMapsMapType.Road);
             mapView.Overlays.Add(bingMapsOverlay);
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)

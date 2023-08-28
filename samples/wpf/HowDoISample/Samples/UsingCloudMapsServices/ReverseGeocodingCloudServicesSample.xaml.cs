@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -23,7 +24,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay, as well as several feature layers to display the reverse geocoding search area and locations
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
             ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
@@ -68,7 +69,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
 
             cboLocationCategories.SelectedIndex = 0;
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>
@@ -148,14 +149,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
                 }
 
                 // Update the UI
-                DisplaySearchResults(searchPoint, searchRadius, searchResult);
+                await DisplaySearchResultsAsync(searchPoint, searchRadius, searchResult);
             }
         }
 
         /// <summary>
         /// Update the UI based on the search results from the reverse geocode
         /// </summary>
-        private void DisplaySearchResults(PointShape searchPoint, int searchRadius, CloudReverseGeocodingResult searchResult)
+        private async Task DisplaySearchResultsAsync(PointShape searchPoint, int searchRadius, CloudReverseGeocodingResult searchResult)
         {
             // Get the 'Search Radius' layer from the MapView
             InMemoryFeatureLayer searchRadiusFeatureLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Search Radius");
@@ -231,15 +232,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
             if (mapView.CurrentScale < standardZoomLevelSet.ZoomLevel18.Scale)
             {
-                mapView.ZoomToScale(standardZoomLevelSet.ZoomLevel18.Scale);
+                await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
             }
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>
         /// When a location is selected in the UI, draw the matching feature found and center the map on it
         /// </summary>
-        private void lsbSearchResults_SelectionChanged(object sender, RoutedEventArgs e)
+        private async void lsbSearchResults_SelectionChanged(object sender, RoutedEventArgs e)
         {
             ListBox selectedResultList = (ListBox)sender;
             if (selectedResultList.SelectedItem != null)
@@ -259,9 +260,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
                 ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
                 if(mapView.CurrentScale < standardZoomLevelSet.ZoomLevel18.Scale)
                 {
-                    mapView.ZoomToScale(standardZoomLevelSet.ZoomLevel18.Scale);
+                    await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
                 }
-                mapView.Refresh();
+                await mapView.RefreshAsync();
             }
         }
 

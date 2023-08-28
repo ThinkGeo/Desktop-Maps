@@ -20,7 +20,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Add the WMS layer to the map
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.DecimalDegree;
@@ -32,10 +32,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.CurrentExtent = new RectangleShape(-96.8538765269409, 33.1618647290098, -96.7987487018851, 33.1054126590461);
 
             // Refresh the map.
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
-        private void rbLayerOrOverlay_Checked(object sender, RoutedEventArgs e)
+        private async void rbLayerOrOverlay_Checked(object sender, RoutedEventArgs e)
         {
             // Based on the radio buttons we switch between using the overlay and layer.
             RadioButton button = (RadioButton)sender;
@@ -52,7 +52,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     default:
                         break;
                 }
-                mapView.Refresh();
+                await mapView.RefreshAsync();
             }
         }
         private void UseOverlay()

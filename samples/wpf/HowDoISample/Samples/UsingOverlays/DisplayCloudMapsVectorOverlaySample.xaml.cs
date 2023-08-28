@@ -35,13 +35,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Create a ThinkGeo Cloud Maps vector overlay and add it to the map view.
         /// </summary>
-        private void DisplayVectorCloudMaps_Click(object sender, RoutedEventArgs e)
+        private async void DisplayVectorCloudMaps_Click(object sender, RoutedEventArgs e)
         {
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)

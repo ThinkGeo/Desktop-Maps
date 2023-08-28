@@ -20,7 +20,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
         /// <summary>
         /// Setup the map with the ThinkGeo Cloud Maps overlay to show a basic map
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
@@ -37,7 +37,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
             simpleMarkerOverlay.Markers.Add(marker);
             mapView.Overlays.Add(simpleMarkerOverlay);
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
         private void btnGetSnapshot_Click(object sender, RoutedEventArgs e)
         {

@@ -150,9 +150,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             // Set the map extent to the elevation query feature
             drawnShapesLayer.Open();
             mapView.CurrentExtent = drawnShapesLayer.GetBoundingBox();
-            mapView.ZoomToScale(mapView.CurrentScale * 2);
+            await mapView.ZoomToScaleAsync(mapView.CurrentScale * 2);
             drawnShapesLayer.Close();
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>
@@ -191,14 +191,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         /// <summary>
         /// Center the map on a point when it's selected in the UI
         /// </summary>
-        private void lsbElevations_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void lsbElevations_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (lsbElevations.SelectedItem != null)
             {
                 // Set the map extent to the selected point
                 CloudElevationPointResult elevationPoint = (CloudElevationPointResult)lsbElevations.SelectedItem;
                 mapView.CurrentExtent = elevationPoint.Point.GetBoundingBox();
-                mapView.Refresh();
+                await mapView.RefreshAsync();
             }
         }
 

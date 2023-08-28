@@ -29,7 +29,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Setup the map with the ThinkGeo Cloud Maps overlay.
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
@@ -70,7 +70,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             StartDataFeed();
 
             // Refresh the map
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         private void StartDataFeed()
@@ -102,9 +102,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                         // Call the invoke on the mapView so we pop over to the main UI thread
                         // to update the map control
-                        mapView.Dispatcher.Invoke(() =>
+                        mapView.Dispatcher.InvokeAsync(async() => 
                         {
-                            UpdateMap(currentFeature);
+                            await UpdateMapAsync(currentFeature);
                         });
                     }
 
@@ -116,7 +116,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             });
         }
 
-        private void UpdateMap(Feature currentFeature)
+        private async Task UpdateMapAsync(Feature currentFeature)
         {
             // We need to first find our vehicle overlay and in memory layer in the map
             LayerOverlay vehicleOverlay = (LayerOverlay)mapView.Overlays["Vehicle Overlay"];
@@ -129,11 +129,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // If we have the center on vehicle check box checked then we center the map on the new location
             if (centerOnVehicle.IsChecked ?? false)
             {
-                mapView.CenterAt(currentFeature);
+                await mapView.CenterAtAsync(currentFeature);
             }
 
             // Refresh the vehicle overlay
-            mapView.Refresh(mapView.Overlays["Vehicle Overlay"]);
+            await mapView.RefreshAsync(mapView.Overlays["Vehicle Overlay"]);
         }
 
         private void RefreshDynamicItems_Unloaded(object sender, RoutedEventArgs e)

@@ -21,7 +21,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, add the railway and subLineLayer layers into a
         /// grouped LayerOverlay and display them on the map.
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
@@ -61,13 +61,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Add LayerOverlay to Map
             mapView.Overlays.Add("layerOverlay",layerOverlay);
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>
         /// Get a subLine of a line and displays it on the map
         /// </summary>
-        private void GetSubLine_OnClick(object sender, RoutedEventArgs e)
+        private async void GetSubLine_OnClick(object sender, RoutedEventArgs e)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
 
@@ -88,7 +88,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             subLineLayer.InternalFeatures.Add(new Feature(subLine));
 
             // Redraw the layerOverlay to see the subLine on the map
-            layerOverlay.Refresh();
+            await layerOverlay.RefreshAsync();
         }
         public void Dispose()
         {

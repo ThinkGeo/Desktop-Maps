@@ -24,7 +24,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, add the NOAA Weather Station layer to the map
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.Meter;
@@ -65,7 +65,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
 
             // Refresh the map.
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         private void FeatureSource_StationsUpdated(object sender, StationsUpdatedNoaaWeatherStationFeatureSourceEventArgs e)
@@ -75,10 +75,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.Dispatcher.Invoke(new RefreshWeatherStations(this.UpdateWeatherStations), new object[] { });
         }
 
-        private void UpdateWeatherStations()
+        private async void UpdateWeatherStations()
         {
             // Here we fresh the map based on the delegate that fires when the feature source has new data.            
-            mapView.Refresh(mapView.Overlays["Weather"]);
+            await mapView.RefreshAsync(mapView.Overlays["Weather"]);
             loadingImage.Visibility = Visibility.Hidden;
         }
 

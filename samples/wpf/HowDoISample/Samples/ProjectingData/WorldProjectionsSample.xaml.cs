@@ -18,7 +18,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Setup the map with the ThinkGeo Cloud Maps overlay.
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.DecimalDegree;
@@ -44,10 +44,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.CurrentExtent = new RectangleShape(-139.971925820039, 140.267236484135, 151.824949179961, -111.099951015865);
             rdoPolar.IsChecked = true;
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
-        private void Radial_Checked(object sender, RoutedEventArgs e)
+        private async void Radial_Checked(object sender, RoutedEventArgs e)
         {
             RadioButton radioButton = (RadioButton)sender;
             FeatureLayer layer = mapView.FindFeatureLayer("world layer");
@@ -95,7 +95,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                         break;
                 }
 
-                mapView.Refresh();
+                await mapView.RefreshAsync();
             }
         }
         public void Dispose()

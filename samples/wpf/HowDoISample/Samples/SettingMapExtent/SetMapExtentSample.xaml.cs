@@ -21,7 +21,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Setup the map with the ThinkGeo Cloud Maps overlay to show a basic map and a shapefile with simple data to work with
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
@@ -56,40 +56,40 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             friscoCityBoundary.Close();
             featureIds.SelectedIndex = 0;
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>
         /// Zoom to a scale programmatically. Note that the scales are bound by a ZoomLevelSet.
         /// </summary>
-        private void ZoomToScale_Click(object sender, RoutedEventArgs e)
+        private async void ZoomToScale_Click(object sender, RoutedEventArgs e)
         {
-            mapView.ZoomToScale(Convert.ToDouble(zoomScale.Text));
+            await mapView.ZoomToScaleAsync(Convert.ToDouble(zoomScale.Text));
         }
 
         /// <summary>
         /// Set the map extent to fix a layer's bounding box
         /// </summary>
-        private void LayerBoundingBox_Click(object sender, RoutedEventArgs e)
+        private async void LayerBoundingBox_Click(object sender, RoutedEventArgs e)
         {
             mapView.CurrentExtent = friscoCityBoundary.GetBoundingBox();
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>
         /// Set the map extent to fix a feature's bounding box
         /// </summary>
-        private void FeatureBoundingBox_Click(object sender, RoutedEventArgs e)
+        private async void FeatureBoundingBox_Click(object sender, RoutedEventArgs e)
         {
             var feature = friscoCityBoundary.FeatureSource.GetFeatureById(featureIds.SelectedItem.ToString(), ReturningColumnsType.NoColumns);
             mapView.CurrentExtent = feature.GetBoundingBox();
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>
         /// Zoom to a lat/lon at a desired scale by converting the lat/lon to match the map's projection
         /// </summary>
-        private void ZoomToLatLon_Click(object sender, RoutedEventArgs e)
+        private async void ZoomToLatLon_Click(object sender, RoutedEventArgs e)
         {
             // Create a PointShape from the lat-lon
             var latlonPoint = new PointShape(Convert.ToDouble(latitude.Text), Convert.ToDouble(longitude.Text));
@@ -101,7 +101,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             projectionConverter.Close();
 
             // Zoom to the converted lat-lon at the desired scale
-            mapView.ZoomTo(convertedPoint, Convert.ToDouble(latlonScale.Text));
+            await mapView.ZoomToAsync(convertedPoint, Convert.ToDouble(latlonScale.Text));
         }
         public void Dispose()
         {

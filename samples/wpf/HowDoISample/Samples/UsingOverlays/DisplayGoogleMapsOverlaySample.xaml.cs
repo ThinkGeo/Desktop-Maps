@@ -36,11 +36,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Create a Google Maps overlay and add it to the map view.
         /// </summary>
-        private void DisplayGoogleMaps_Click(object sender, RoutedEventArgs e)
+        private async void DisplayGoogleMaps_Click(object sender, RoutedEventArgs e)
         {
             GoogleMapsOverlay googleMapsOverlay = new GoogleMapsOverlay(googleApiKey.Text, String.Empty);
             mapView.Overlays.Add(googleMapsOverlay);
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
