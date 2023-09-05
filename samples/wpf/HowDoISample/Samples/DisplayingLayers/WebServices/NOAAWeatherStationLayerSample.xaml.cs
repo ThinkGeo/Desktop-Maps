@@ -84,6 +84,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         public void Dispose()
         {
+            var noaaWeatherWarningsOverlay = mapView.Overlays["Weather"] as LayerOverlay;
+            var noaaWeatherStationFeatureLayer = noaaWeatherWarningsOverlay.Layers[0] as NoaaWeatherStationFeatureLayer;
+            var featureSource = (NoaaWeatherStationFeatureSource)noaaWeatherStationFeatureLayer.FeatureSource;
+            featureSource.StationsUpdated -= FeatureSource_StationsUpdated;
+
             // Dispose of unmanaged resources.
             mapView.Dispose();
             // Suppress finalization.

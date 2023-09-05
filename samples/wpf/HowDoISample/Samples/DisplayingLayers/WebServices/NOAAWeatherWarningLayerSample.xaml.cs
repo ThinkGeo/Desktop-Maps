@@ -68,7 +68,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             featureSource.Open();
             if (featureSource.GetCount() > 0)
             {
-                loadingImage.Visibility = Visibility.Hidden;
+                loadingImage.Visibility = Visibility.Hidden; 
             }
 
             // Refresh the map.
@@ -143,6 +143,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         public void Dispose()
         {
+            var noaaWeatherWarningsOverlay = mapView.Overlays["Noaa Weather Warning"] as LayerOverlay;
+            var noaaWeatherWarningsFeatureLayer = noaaWeatherWarningsOverlay.Layers["Noaa Weather Warning"] as NoaaWeatherWarningsFeatureLayer;
+            var featureSource = (NoaaWeatherWarningsFeatureSource)noaaWeatherWarningsFeatureLayer.FeatureSource;
+            featureSource.WarningsUpdated -= FeatureSource_WarningsUpdated;
+            featureSource.WarningsUpdating -= FeatureSource_WarningsUpdating;
+
             // Dispose of unmanaged resources.
             mapView.Dispose();
             // Suppress finalization.
