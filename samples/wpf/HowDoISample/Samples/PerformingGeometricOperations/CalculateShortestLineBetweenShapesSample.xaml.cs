@@ -59,8 +59,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             layerOverlay.Layers.Add("stadiumLayer",stadiumLayer);
 
             // Add shortestLineLayer to the layerOverlay
-            layerOverlay.Layers.Add("shortestLineLayer",shortestLineLayer);
-
+            LayerOverlay shortestLineOverlay = new LayerOverlay();
+            shortestLineOverlay.Layers.Add("shortestLineLayer", shortestLineLayer);
+            mapView.Overlays.Add("shortestLineOverlay", shortestLineOverlay);
+            
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10782307.6877106, 3918904.87378907, -10774377.3460701, 3912073.31442403);
 
@@ -80,10 +82,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private async void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
+            LayerOverlay shortestLineOverlay = (LayerOverlay)mapView.Overlays["shortestLineOverlay"];
 
             ShapeFileFeatureLayer friscoParks = (ShapeFileFeatureLayer)layerOverlay.Layers["friscoParks"];
             InMemoryFeatureLayer stadiumLayer = (InMemoryFeatureLayer)layerOverlay.Layers["stadiumLayer"];
-            InMemoryFeatureLayer shortestLineLayer = (InMemoryFeatureLayer)layerOverlay.Layers["shortestLineLayer"];
+            InMemoryFeatureLayer shortestLineLayer = (InMemoryFeatureLayer)shortestLineOverlay.Layers["shortestLineLayer"];
 
             // Query the friscoParks layer to get the first feature closest to the map click event
             var park = friscoParks.QueryTools.GetFeaturesNearestTo(e.WorldLocation, GeographyUnit.Meter, 1,
@@ -98,7 +101,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Show the shortestLine on the map
             shortestLineLayer.InternalFeatures.Clear();
             shortestLineLayer.InternalFeatures.Add(new Feature(shortestLine));
-            await layerOverlay.RefreshAsync();
+            await shortestLineOverlay.RefreshAsync();
 
             // Get the area of the first feature
             var length = shortestLine.GetLength(GeographyUnit.Meter, DistanceUnit.Kilometer);

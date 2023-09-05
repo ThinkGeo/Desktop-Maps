@@ -144,6 +144,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
             // Disable map drawing and clear the drawn shape
             mapView.TrackOverlay.TrackMode = TrackMode.None;
             mapView.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
+            await mapView.TrackOverlay.RefreshAsync();
         }
 
         /// <summary>
