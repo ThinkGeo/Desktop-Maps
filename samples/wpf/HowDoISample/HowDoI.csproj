@@ -70,6 +70,9 @@
     <Compile Update="Samples\DisplayingLayers\Vector\KmlLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Samples\DisplayingLayers\WebServices\WMTSLayerSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Samples\ProjectingData\RasterProjectionSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -159,6 +162,10 @@
     </Page>
     <Page Update="Samples\DisplayingLayers\Vector\CADLayerSample.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Samples\DisplayingLayers\WebServices\WMTSLayerSample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\Extensibility\ExtendingStylesSample.xaml">
       <SubType>Designer</SubType>
