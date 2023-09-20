@@ -16,7 +16,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             mapView.MapUnit = GeographyUnit.Meter;
 
@@ -42,7 +42,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             csvLayer.Open();
             mapView.CurrentExtent = csvLayer.GetBoundingBox();
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         protected override void Dispose(bool disposing)

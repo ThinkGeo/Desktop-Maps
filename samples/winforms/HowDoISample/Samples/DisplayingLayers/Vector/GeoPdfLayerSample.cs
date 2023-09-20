@@ -12,7 +12,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             mapView.BackgroundOverlay.BackgroundBrush = GeoBrushes.White;
             // It is important to set the map unit first to either feet, meters or decimal degrees.
@@ -30,7 +30,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             layerOverlay.Layers.Add(geoPdfLayer);
 
             // Refresh the map.
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         #region Component Designer generated code

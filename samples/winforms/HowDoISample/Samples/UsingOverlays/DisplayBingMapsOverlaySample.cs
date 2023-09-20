@@ -30,11 +30,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             Process.Start(new ProcessStartInfo("https://www.bingmapsportal.com/"));
         }
 
-        private void displayBingMaps_Click(object sender, EventArgs e)
+        private async void displayBingMaps_Click(object sender, EventArgs e)
         {
             BingMapsOverlay bingMapsOverlay = new BingMapsOverlay(bingApplicationId.Text, BingMapsMapType.Road);
             mapView.Overlays.Add(bingMapsOverlay);
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         #region Component Designer generated code

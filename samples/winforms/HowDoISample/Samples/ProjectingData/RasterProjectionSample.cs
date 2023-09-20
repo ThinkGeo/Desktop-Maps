@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using ThinkGeo.Core;
 
@@ -17,7 +18,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// <summary>
         /// Set up the map
         /// </summary>
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // Set the Map Unit to meters (Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
@@ -27,13 +28,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(layerOverlay);
 
             // Reproject a raster layer and set the extent
-            ReprojectRasterLayer(layerOverlay);
+            await ReprojectRasterLayerAsync(layerOverlay);
         }
 
         /// <summary>
         /// Use the ProjectionConverter class to reproject a raster layer
         /// </summary>
-        private void ReprojectRasterLayer(LayerOverlay layerOverlay)
+        private async Task ReprojectRasterLayerAsync(LayerOverlay layerOverlay)
         {
             GeoTiffRasterLayer worldRasterLayer = new GeoTiffRasterLayer(@"./Data/GeoTiff/World.tif");
 
@@ -48,7 +49,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             worldRasterLayer.Open();
             mapView.CurrentExtent = worldRasterLayer.GetBoundingBox();
             worldRasterLayer.Close();
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         #region Component Designer generated code

@@ -12,7 +12,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
@@ -50,10 +50,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Add LayerOverlay to Map
             mapView.Overlays.Add("layerOverlay", layerOverlay);
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
-        private void simplifyShape_Click(object sender, EventArgs e)
+        private async void simplifyShape_Click(object sender, EventArgs e)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
 
@@ -74,7 +74,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             simplifyLayer.InternalFeatures.Add(new Feature(simplify));
 
             // Redraw the layerOverlay to see the simplified feature on the map
-            layerOverlay.Refresh();
+            await layerOverlay.RefreshAsync();
         }
 
         #region Component Designer generated code

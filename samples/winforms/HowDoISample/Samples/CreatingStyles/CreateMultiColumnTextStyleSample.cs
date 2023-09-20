@@ -12,7 +12,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.DecimalDegree;
@@ -39,7 +39,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-8.70, 62.60, 38.81, 31.11);
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         #region Component Designer generated code

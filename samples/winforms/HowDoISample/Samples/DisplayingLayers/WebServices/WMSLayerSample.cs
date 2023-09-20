@@ -14,7 +14,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.DecimalDegree;
@@ -26,10 +26,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = new RectangleShape(-96.8538765269409, 33.1618647290098, -96.7987487018851, 33.1054126590461);
 
             // Refresh the map.
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        private async void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
             // Based on the radio buttons we switch between using the overlay and layer.
             RadioButton button = (RadioButton)sender;
@@ -46,11 +46,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                     default:
                         break;
                 }
-                mapView.Refresh();
+                await mapView.RefreshAsync();
             }
         }
 
-        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        private async void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
             // Based on the radio buttons we switch between using the overlay and layer.
             RadioButton button = (RadioButton)sender;
@@ -67,7 +67,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                     default:
                         break;
                 }
-                mapView.Refresh();
+                await mapView.RefreshAsync();
             }
         }
 

@@ -30,13 +30,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             Process.Start(new ProcessStartInfo("https://cloud.thinkgeo.com/"));
         }
 
-        private void displayRasterCloudMaps_Click(object sender, EventArgs e)
+        private async void displayRasterCloudMaps_Click(object sender, EventArgs e)
         {
             if(mapView.Overlays.Count == 0)
             {
                 var thinkGeoCloudRasterMapsOverlay = new ThinkGeoCloudRasterMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1);
                 mapView.Overlays.Add(thinkGeoCloudRasterMapsOverlay);
-                mapView.Refresh();
+                await mapView.RefreshAsync();
             }            
         }
 

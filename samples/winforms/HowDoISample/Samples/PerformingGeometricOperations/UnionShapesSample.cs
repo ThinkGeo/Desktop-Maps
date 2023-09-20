@@ -12,7 +12,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
@@ -51,10 +51,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Add LayerOverlay to Map
             mapView.Overlays.Add("layerOverlay", layerOverlay);
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
-        private void unionShapes_Click(object sender, EventArgs e)
+        private async void unionShapes_Click(object sender, EventArgs e)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
 
@@ -78,7 +78,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             dividedCityLimits.IsVisible = false;
 
             // Redraw the layerOverlay to see the unioned features on the map
-            layerOverlay.Refresh();
+            await layerOverlay.RefreshAsync();
         }
 
         #region Component Designer generated code

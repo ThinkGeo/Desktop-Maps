@@ -19,7 +19,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// <summary>
         /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, add the cityLimits and bufferLayer layers into a grouped LayerOverlay and display them on the map.
         /// </summary>
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
@@ -53,10 +53,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Add LayerOverlay to Map
             mapView.Overlays.Add(layerOverlay);
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
-        private void bufferShape_Click(object sender, EventArgs e)
+        private async void bufferShape_Click(object sender, EventArgs e)
         {
             // Query the cityLimits layer to get all the features
             cityLimits.Open();
@@ -72,7 +72,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             bufferLayer.InternalFeatures.Add(buffer);
 
             // Redraw the layerOverlay to see the buffered features on the map
-            layerOverlay.Refresh();
+            await layerOverlay.RefreshAsync();
         }
 
         #region Component Designer generated code

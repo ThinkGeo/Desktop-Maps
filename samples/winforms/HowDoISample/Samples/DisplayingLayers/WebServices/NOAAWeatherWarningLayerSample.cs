@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using ThinkGeo.Core;
 using ThinkGeo.UI.WinForms;
@@ -16,7 +17,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.Meter;
@@ -56,7 +57,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add("Info Popup Overlay", popupOverlay);
 
             // Refresh the map.
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         private void FeatureSource_WarningsUpdating(object sender, WarningsUpdatingNoaaWeatherWarningsFeatureSourceEventArgs e)
@@ -71,12 +72,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.BeginInvoke(new InvokeDelegate(InvokeMethod));
         }
 
-        public void InvokeMethod()
+        public async void InvokeMethod()
         {
-            mapView.Refresh(mapView.Overlays["Noaa Weather Warning"]);
+            await mapView.RefreshAsync(mapView.Overlays["Noaa Weather Warning"]);
         }       
 
-        private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        private async void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
             // Get the selected feature based on the map click location
             Collection<Feature> selectedFeatures = GetFeaturesFromLocation(e.WorldLocation);
@@ -84,7 +85,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // If a feature was selected, get the data from it and display it
             if (selectedFeatures != null)
             {
-                DisplayFeatureInfo(selectedFeatures);
+                await DisplayFeatureInfoAsync(selectedFeatures);
             }
         }
         private Collection<Feature> GetFeaturesFromLocation(PointShape location)
@@ -101,7 +102,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// <summary>
         /// Display a popup containing a feature's info
         /// </summary>
-        private void DisplayFeatureInfo(Collection<Feature> features)
+        private async Task DisplayFeatureInfoAsync(Collection<Feature> features)
         {
             if (features.Count > 0)
             {
@@ -128,7 +129,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 popupOverlay.Popups.Add(popup);
 
                 // Refresh the overlay to redraw the popups
-                popupOverlay.Refresh();
+                await popupOverlay.RefreshAsync();
             }
         }
 

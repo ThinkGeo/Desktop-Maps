@@ -26,7 +26,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             btnActivate.Enabled = txtApiKey.Text.Length > 0;
         }
 
-        private void btnActivate_Click(object sender, EventArgs e)
+        private async void btnActivate_Click(object sender, EventArgs e)
         {
             if (txtApiKey.Text != null && !mapView.Overlays.Contains("WorldOverlay"))
             {
@@ -50,7 +50,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 mapView.CurrentExtent = new RectangleShape(-10000000, 10000000, 10000000, -10000000);
 
                 // Refresh the map.
-                mapView.Refresh();
+                await mapView.RefreshAsync();
             }
         }
 

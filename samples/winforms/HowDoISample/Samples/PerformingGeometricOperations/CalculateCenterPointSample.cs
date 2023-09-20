@@ -4,6 +4,7 @@ using ThinkGeo.Core;
 using ThinkGeo.UI.WinForms;
 using System.Linq;
 using System.Windows;
+using System.Threading.Tasks;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
@@ -14,7 +15,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
@@ -53,14 +54,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Add LayerOverlay to Map
             mapView.Overlays.Add("layerOverlay", layerOverlay);
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>
         /// Calculates the center point of a feature
         /// </summary>
         /// <param name="feature"> The target feature to calculate it's center point</param>
-        private void CalculateCenterPoint(Feature feature)
+        private async Task CalculateCenterPointAsync(Feature feature)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
             InMemoryFeatureLayer centerPointLayer = (InMemoryFeatureLayer)layerOverlay.Layers["centerPointLayer"];
@@ -85,14 +86,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             centerPointLayer.InternalFeatures.Add("centerPoint", new Feature(centerPoint));
 
             // Refresh the overlay to show the results
-            layerOverlay.Refresh();
+            await layerOverlay.RefreshAsync();
 
         }
 
         /// <summary>
         /// RadioButton checked event that will recalculate the center point so long as a feature was already selected
         /// </summary>
-        private void centroidCenter_CheckedChanged(object sender, EventArgs e)
+        private async void centroidCenter_CheckedChanged(object sender, EventArgs e)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
             InMemoryFeatureLayer centerPointLayer = (InMemoryFeatureLayer)layerOverlay.Layers["centerPointLayer"];
@@ -100,14 +101,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Recalculate the center point if a feature has already been selected
             if (centerPointLayer.InternalFeatures.Contains("selectedFeature"))
             {
-                CalculateCenterPoint(centerPointLayer.InternalFeatures["selectedFeature"]);
+                await CalculateCenterPointAsync(centerPointLayer.InternalFeatures["selectedFeature"]);
             }
         }
 
         /// <summary>
         /// Map event that fires whenever the user clicks on the map. Gets the closest feature from the click event and calculates the center point
         /// </summary>
-        private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        private async void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
             ShapeFileFeatureLayer censusHousing = (ShapeFileFeatureLayer)layerOverlay.Layers["censusHousing"];
@@ -116,10 +117,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var feature = censusHousing.QueryTools.GetFeaturesNearestTo(e.WorldLocation, GeographyUnit.Meter, 1,
                 ReturningColumnsType.NoColumns).First();
 
-            CalculateCenterPoint(feature);
+            await CalculateCenterPointAsync(feature);
         }
 
-        private void bboxCenter_CheckedChanged(object sender, EventArgs e)
+        private async void bboxCenter_CheckedChanged(object sender, EventArgs e)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
             InMemoryFeatureLayer centerPointLayer = (InMemoryFeatureLayer)layerOverlay.Layers["centerPointLayer"];
@@ -127,7 +128,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Recalculate the center point if a feature has already been selected
             if (centerPointLayer.InternalFeatures.Contains("selectedFeature"))
             {
-                CalculateCenterPoint(centerPointLayer.InternalFeatures["selectedFeature"]);
+                await CalculateCenterPointAsync(centerPointLayer.InternalFeatures["selectedFeature"]);
             }
         }
 

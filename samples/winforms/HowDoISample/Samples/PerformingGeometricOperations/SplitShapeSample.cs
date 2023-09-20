@@ -61,7 +61,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add("layerOverlay", layerOverlay);
         }
 
-        private void splitShape_Click(object sender, EventArgs e)
+        private async void splitShape_Click(object sender, EventArgs e)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
 
@@ -83,7 +83,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             splitLayer.InternalFeatures.Add(split);
 
             // Redraw the layerOverlay to see the split features on the map
-            layerOverlay.Refresh();
+            await layerOverlay.RefreshAsync();
         }
 
         #region Component Designer generated code

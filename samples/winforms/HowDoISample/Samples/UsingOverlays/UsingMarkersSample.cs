@@ -13,7 +13,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
@@ -27,7 +27,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             AddSimpleMarkers();
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         private void AddSimpleMarkers()
@@ -54,7 +54,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             simpleMarkerOverlay.DragMode = MarkerDragMode.CopyWithShiftKey;
         }
 
-        private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        private async void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
             SimpleMarkerOverlay simpleMarkerOverlay = (SimpleMarkerOverlay)mapView.Overlays["simpleMarkerOverlay"];
 
@@ -69,7 +69,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Add the marker to the simpleMarkerOverlay and refresh the map
             simpleMarkerOverlay.Markers.Add(marker);
-            simpleMarkerOverlay.Refresh();
+            await simpleMarkerOverlay.RefreshAsync();
 
         }
 

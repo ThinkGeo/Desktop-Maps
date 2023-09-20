@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using ThinkGeo.Core;
 using ThinkGeo.UI.WinForms;
@@ -60,7 +61,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             cboLocationCategories.SelectedIndex = 0;
         }
 
-        private async void PerformReverseGeocode()
+        private async Task PerformReverseGeocodeAsync()
         {
             //Perform some simple validation on the input text boxes
             if (ValidateSearchParameters())
@@ -110,11 +111,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 }
 
                 // Update the UI
-                DisplaySearchResults(searchPoint, searchRadius, searchResult);
+                await DisplaySearchResultsAsync(searchPoint, searchRadius, searchResult);
             }
         }
 
-        private void DisplaySearchResults(PointShape searchPoint, int searchRadius, CloudReverseGeocodingResult searchResult)
+        private async Task DisplaySearchResultsAsync(PointShape searchPoint, int searchRadius, CloudReverseGeocodingResult searchResult)
         {
             // Get the 'Search Radius' layer from the MapView
             InMemoryFeatureLayer searchRadiusFeatureLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Search Radius");
@@ -196,9 +197,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
             if (mapView.CurrentScale < standardZoomLevelSet.ZoomLevel18.Scale)
             {
-                mapView.ZoomToScale(standardZoomLevelSet.ZoomLevel18.Scale);
+                await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
             }
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
         private bool ValidateSearchParameters()
         {
@@ -247,13 +248,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             return true;
         }
 
-        private void btnSearch_Click(object sender, EventArgs e)
+        private async void btnSearch_Click(object sender, EventArgs e)
         {
             // Run the reverse geocode using the coordinates in the 'Location' text box
-            PerformReverseGeocode();
+            await PerformReverseGeocodeAsync();
         }
 
-        private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        private async void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
             if (e.MouseButton == MapMouseButton.Left)
             {
@@ -261,7 +262,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 txtCoordinates.Text = string.Format("{0},{1}", e.WorldY.ToString("0.000000"), e.WorldX.ToString("0.000000"));
 
                 // Run the reverse geocode
-                PerformReverseGeocode();
+                await PerformReverseGeocodeAsync();
             }
         }
 
@@ -288,7 +289,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
         }
              
-        private void lsbAddresses_SelectedIndexChanged(object sender, EventArgs e)
+        private async void lsbAddresses_SelectedIndexChanged(object sender, EventArgs e)
         {
             ListBox selectedResultList = (ListBox)sender;
             if (selectedResultList.SelectedItem != null)
@@ -308,9 +309,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
                 if (mapView.CurrentScale < standardZoomLevelSet.ZoomLevel18.Scale)
                 {
-                    mapView.ZoomToScale(standardZoomLevelSet.ZoomLevel18.Scale);
+                    await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
                 }
-                mapView.Refresh();
+                await mapView.RefreshAsync();
             }
 
         }

@@ -12,7 +12,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
@@ -38,10 +38,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             pointSymbol.Checked = true;
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
-        private void pointSymbol_CheckedChanged(object sender, EventArgs e)
+        private async void pointSymbol_CheckedChanged(object sender, EventArgs e)
         {
             if (mapView.Overlays.Count > 0)
             {
@@ -59,11 +59,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 hotelsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
                 // Refresh the layerOverlay to show the new style
-                layerOverlay.Refresh();
+                await layerOverlay.RefreshAsync();
             }
         }
 
-        private void icon_CheckedChanged(object sender, EventArgs e)
+        private async void icon_CheckedChanged(object sender, EventArgs e)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["hotels"];
             ShapeFileFeatureLayer hotelsLayer = (ShapeFileFeatureLayer)layerOverlay.Layers["hotels"];
@@ -82,10 +82,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             hotelsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Refresh the layerOverlay to show the new style
-            layerOverlay.Refresh();
+            await layerOverlay.RefreshAsync();
         }
 
-        private void symbol_CheckedChanged(object sender, EventArgs e)
+        private async void symbol_CheckedChanged(object sender, EventArgs e)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["hotels"];
             ShapeFileFeatureLayer hotelsLayer = (ShapeFileFeatureLayer)layerOverlay.Layers["hotels"];
@@ -105,7 +105,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             hotelsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Refresh the layerOverlay to show the new style
-            layerOverlay.Refresh();
+            await layerOverlay.RefreshAsync();
         }
 
         #region Component Designer generated code

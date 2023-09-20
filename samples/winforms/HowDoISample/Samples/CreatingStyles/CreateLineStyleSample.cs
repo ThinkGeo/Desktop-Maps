@@ -11,7 +11,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
@@ -38,10 +38,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             rbLineStyle.Checked = true;
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
-        private void rbLineStyle_CheckedChanged(object sender, EventArgs e)
+        private async void rbLineStyle_CheckedChanged(object sender, EventArgs e)
         {
             if (mapView.Overlays.Count > 0)
             {
@@ -59,11 +59,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 friscoRailroad.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
                 // Refresh the layerOverlay to show the new style
-                layerOverlay.Refresh();
+                await layerOverlay.RefreshAsync();
             }
         }
 
-        private void rbDashedLineStyle_CheckedChanged(object sender, EventArgs e)
+        private async void rbDashedLineStyle_CheckedChanged(object sender, EventArgs e)
         {
             if (mapView.Overlays.Count > 0)
             {
@@ -89,7 +89,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 friscoRailroad.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
                 // Refresh the layerOverlay to show the new style
-                layerOverlay.Refresh();
+                await layerOverlay.RefreshAsync();
             }
         }
 

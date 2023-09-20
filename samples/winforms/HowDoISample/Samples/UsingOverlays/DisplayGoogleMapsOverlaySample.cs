@@ -30,11 +30,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             Process.Start(new ProcessStartInfo("https://developers.google.com/maps/documentation/maps-static/get-api-key"));
         }
 
-        private void displayGoogleMaps_Click(object sender, EventArgs e)
+        private async void displayGoogleMaps_Click(object sender, EventArgs e)
         {
             GoogleMapsOverlay googleMapsOverlay = new GoogleMapsOverlay(googleApiKey.Text);
             mapView.Overlays.Add(googleMapsOverlay);
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         #region Component Designer generated code

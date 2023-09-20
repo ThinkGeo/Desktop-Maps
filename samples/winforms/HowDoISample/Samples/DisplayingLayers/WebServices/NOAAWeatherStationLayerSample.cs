@@ -15,7 +15,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             //// It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.Meter;
@@ -48,7 +48,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = new RectangleShape(-14927495.374917, 8262593.0543992, -6686622.84891633, 1827556.23117885);
 
             // Refresh the map.
-            mapView.Refresh();         
+            await mapView.RefreshAsync();         
         }
 
         private void FeatureSource_StationsUpdated(object sender, StationsUpdatedNoaaWeatherStationFeatureSourceEventArgs e)
@@ -58,9 +58,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.BeginInvoke(new InvokeDelegate(InvokeMethod));
         }
 
-        public void InvokeMethod()
+        public async void InvokeMethod()
         {
-           mapView.Refresh(mapView.Overlays["Weather"]);
+           await mapView.RefreshAsync(mapView.Overlays["Weather"]);
         }
 
         #region Component Designer generated code

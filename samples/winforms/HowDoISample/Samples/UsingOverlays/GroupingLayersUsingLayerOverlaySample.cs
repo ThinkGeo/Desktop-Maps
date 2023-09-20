@@ -12,7 +12,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
@@ -98,7 +98,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             ShowPoi.Checked = true;
             ShowLandUse.Checked = true;
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         private void ShowPoi_CheckedChanged(object sender, EventArgs e)

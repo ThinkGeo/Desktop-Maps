@@ -32,7 +32,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             Process.Start(new ProcessStartInfo("https://www.bingmapsportal.com/"));
         }
 
-        private void btnActivate_Click(object sender, EventArgs e)
+        private async void btnActivate_Click(object sender, EventArgs e)
         {
             if (txtApplicationID.Text != null && !mapView.Overlays.Contains("Bing Map"))
             {
@@ -52,7 +52,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 layerOverlay.Layers.Add(bingMapsLayer);
 
                 // Refresh the map.
-                mapView.Refresh();
+                await mapView.RefreshAsync();
             }
         }
 

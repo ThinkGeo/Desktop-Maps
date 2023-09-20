@@ -17,7 +17,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
             ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
@@ -59,7 +59,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             routingCloudClient = new RoutingCloudClient("FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~", "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~");
 
             // Run the routing request
-            RouteWaypoints();
+            await RouteWaypointsAsync();
         }
         private async Task<CloudRoutingGetRouteResult> GetRoute(Collection<PointShape> waypoints)
         {
@@ -74,7 +74,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// <summary>
         /// Draw the result of a Cloud Routing request on the map
         /// </summary>
-        private void DrawRoute(CloudRoutingGetRouteResult routingResult)
+        private async Task DrawRouteAsync(CloudRoutingGetRouteResult routingResult)
         {
             // Get the routing feature layer from the MapView
             InMemoryFeatureLayer routingLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Routing Layer");
@@ -122,15 +122,15 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             routingLayer.Open();
             mapView.CurrentExtent = routingLayer.GetBoundingBox();
             ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
-            mapView.ZoomToScale(standardZoomLevelSet.ZoomLevel13.Scale);
+            await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel13.Scale);
             routingLayer.Close();
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>
         /// Perform routing using the RoutingCloudClient through a preset set of waypoints
         /// </summary>
-        private async void RouteWaypoints()
+        private async Task RouteWaypointsAsync()
         {
             // Create a set of preset waypoints to route through
             PointShape startPoint = new PointShape(-10776986.85, 3908680.24);
@@ -155,10 +155,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
 
             // Draw the result on the map
-            DrawRoute(routingResult);
+            await DrawRouteAsync(routingResult);
         }
 
-        private void lsbRouteSegments_SelectedIndexChanged(object sender, EventArgs e)
+        private async void lsbRouteSegments_SelectedIndexChanged(object sender, EventArgs e)
         {
             ListBox routeSegments = (ListBox)sender;
             if (routeSegments.SelectedItem != null)
@@ -174,9 +174,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
                 if (mapView.CurrentScale < standardZoomLevelSet.ZoomLevel15.Scale)
                 {
-                    mapView.ZoomToScale(standardZoomLevelSet.ZoomLevel15.Scale);
+                    await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel15.Scale);
                 }
-                mapView.Refresh();
+                await mapView.RefreshAsync();
             }
         }
 

@@ -12,7 +12,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             InitializeComponent();
         }
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
@@ -26,7 +26,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             mapView.MapTools.Logo.Source = new BitmapImage(new Uri(@"..\..\..\Resources\ThinkGeoLogo.png", UriKind.RelativeOrAbsolute));
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         private void thinkGeoLogo_CheckedChanged(object sender, EventArgs e)

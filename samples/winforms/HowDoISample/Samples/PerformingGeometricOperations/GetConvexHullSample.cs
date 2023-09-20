@@ -14,7 +14,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
@@ -52,13 +52,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Add LayerOverlay to Map
             mapView.Overlays.Add("layerOverlay", layerOverlay);
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>
         /// Gets Convex Hull of the first feature in the cityLimits layer and adds them to the convexHullLayer to display on the map
         /// </summary>
-        private void shapeConvexHull_Click(object sender, EventArgs e)
+        private async void shapeConvexHull_Click(object sender, EventArgs e)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
 
@@ -78,7 +78,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             convexHullLayer.InternalFeatures.Add(convexHull);
 
             // Redraw the layerOverlay to see the convexHull feature on the map
-            layerOverlay.Refresh();
+            await layerOverlay.RefreshAsync();
         }
 
         #region Component Designer generated code

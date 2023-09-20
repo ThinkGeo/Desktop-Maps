@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using ThinkGeo.Core;
 using ThinkGeo.UI.WinForms;
 using System.Collections.ObjectModel;
-
+using System.Threading.Tasks;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
@@ -18,7 +18,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map
         /// </summary>
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
             ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
@@ -32,13 +32,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add("Frisco Subdivisions Overlay", subdivisionsOverlay);
 
             // Reproject a shapefile and set the extent
-            ReprojectFeaturesFromShapefile();
+            await ReprojectFeaturesFromShapefileAsync();
         }
 
         /// <summary>
         /// Use the ProjectionConverter class to reproject features in a ShapeFileFeatureLayer
         /// </summary>
-        private void ReprojectFeaturesFromShapefile()
+        private async Task ReprojectFeaturesFromShapefileAsync()
         {
             // Create a feature layer to hold the Frisco subdivisions data
             ShapeFileFeatureLayer subdivisionsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Subdivisions.shp");
@@ -62,7 +62,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             subdivisionsLayer.Open();
             mapView.CurrentExtent = subdivisionsLayer.GetBoundingBox();
             subdivisionsLayer.Close();
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         #region Component Designer generated code

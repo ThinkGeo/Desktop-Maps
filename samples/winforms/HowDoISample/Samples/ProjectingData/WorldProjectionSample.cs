@@ -13,7 +13,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.DecimalDegree;
@@ -40,10 +40,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             rdoPolar.Checked = true;
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
-        private void Radial_CheckChanged(object sender, EventArgs e)
+        private async void Radial_CheckChanged(object sender, EventArgs e)
         {
 
             RadioButton radioButton = (RadioButton)sender;
@@ -92,7 +92,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                         break;
                 }
 
-                mapView.Refresh();
+                await mapView.RefreshAsync();
             }
 
 

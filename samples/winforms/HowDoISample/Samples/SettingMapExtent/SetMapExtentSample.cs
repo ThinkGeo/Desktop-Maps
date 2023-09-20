@@ -14,7 +14,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
@@ -47,15 +47,15 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             friscoCityBoundary.Close();
             featureIds.SelectedIndex = 0;
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
-        private void ZoomToScale_Click(object sender, EventArgs e)
+        private async void ZoomToScale_Click(object sender, EventArgs e)
         {
-            mapView.ZoomToScale(Convert.ToDouble(zoomScale.Text));
+            await mapView.ZoomToScaleAsync(Convert.ToDouble(zoomScale.Text));
         }
 
-        private void latlonZoom_Click(object sender, EventArgs e)
+        private async void latlonZoom_Click(object sender, EventArgs e)
         {
             // Create a PointShape from the lat-lon
             var latlonPoint = new PointShape(Convert.ToDouble(latitude.Text), Convert.ToDouble(longitude.Text));
@@ -67,20 +67,20 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             projectionConverter.Close();
 
             // Zoom to the converted lat-lon at the desired scale
-            mapView.ZoomTo(convertedPoint, Convert.ToDouble(latlonScale.Text));
+            await mapView.ZoomToAsync(convertedPoint, Convert.ToDouble(latlonScale.Text));
         }
 
-        private void layerBoundingBox_Click(object sender, EventArgs e)
+        private async void layerBoundingBox_Click(object sender, EventArgs e)
         {
             mapView.CurrentExtent = friscoCityBoundary.GetBoundingBox();
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
-        private void featureBoundingBox_Click(object sender, EventArgs e)
+        private async void featureBoundingBox_Click(object sender, EventArgs e)
         {
             var feature = friscoCityBoundary.FeatureSource.GetFeatureById(featureIds.SelectedItem.ToString(), ReturningColumnsType.NoColumns);
             mapView.CurrentExtent = feature.GetBoundingBox();
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         #region Component Designer generated code

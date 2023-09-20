@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using ThinkGeo.Core;
 using ThinkGeo.UI.WinForms;
@@ -15,7 +16,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
             ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
@@ -49,19 +50,19 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = new RectangleShape(-14269933.09, 6354969.40, -6966221.89, 2759371.58);
 
             // Get Timezone info for Frisco, TX
-            GetTimeZoneInfo(-10779572.80, 3915268.68);
+            await GetTimeZoneInfoAsync(-10779572.80, 3915268.68);
         }
 
-        private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        private async void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
             if (e.MouseButton == MapMouseButton.Left)
             {
                 // Run the timezone info query
-                GetTimeZoneInfo(e.WorldX, e.WorldY);
+                await GetTimeZoneInfoAsync(e.WorldX, e.WorldY);
             }
         }
 
-        private async void GetTimeZoneInfo(double lon, double lat)
+        private async Task GetTimeZoneInfoAsync(double lon, double lat)
         {
             CloudTimeZoneResult result;
             try
@@ -116,7 +117,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             timezonesFeatureLayer.Close();
 
             // Refresh and redraw the map
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         #region Component Designer generated code

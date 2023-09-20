@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using ThinkGeo.Core;
 using ThinkGeo.UI.WinForms;
@@ -14,7 +15,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
             ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
@@ -46,11 +47,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Set the map extent to the bounding box of the parks
             parksLayer.Open();
             mapView.CurrentExtent = parksLayer.GetBoundingBox();
-            mapView.ZoomIn();
+            await mapView.ZoomInAsync();
             parksLayer.Close();
 
             // Refresh and redraw the map
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
         private Feature GetFeatureFromLocation(PointShape location)
         {
@@ -68,7 +69,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// <summary>
         /// Display a popup containing a feature's info
         /// </summary>
-        private void DisplayFeatureInfo(Feature feature)
+        private async Task DisplayFeatureInfoAsync(Feature feature)
         {
             StringBuilder parkInfoString = new StringBuilder();
 
@@ -91,10 +92,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             popupOverlay.Popups.Add(popup);
 
             // Refresh the overlay to redraw the popups
-            popupOverlay.Refresh();
+            await popupOverlay.RefreshAsync();
         }
 
-        private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        private async void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
             // Get the selected feature based on the map click location
             Feature selectedFeature = GetFeatureFromLocation(e.WorldLocation);
@@ -102,7 +103,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // If a feature was selected, get the data from it and display it
             if (selectedFeature != null)
             {
-                DisplayFeatureInfo(selectedFeature);
+                await DisplayFeatureInfoAsync(selectedFeature);
             }
         }
 
