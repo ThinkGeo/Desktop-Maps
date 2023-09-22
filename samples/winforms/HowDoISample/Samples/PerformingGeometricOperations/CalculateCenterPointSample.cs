@@ -24,35 +24,37 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            ShapeFileFeatureLayer censusHousing = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
-            InMemoryFeatureLayer centerPointLayer = new InMemoryFeatureLayer();
-            LayerOverlay layerOverlay = new LayerOverlay();
-
+            // Create a feature layer to hold the Census Housing data
+            ShapeFileFeatureLayer censusHousingLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
+                       
             // Project censusHousing layer to Spherical Mercator to match the map projection
-            censusHousing.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+            censusHousingLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
-            // Style censusHousing layer
-            censusHousing.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(32, GeoColors.Orange), GeoColors.DimGray);
-            censusHousing.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            // Add a style to use to draw the censusHousing layer
+            censusHousingLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(32, GeoColors.Orange), GeoColors.DimGray);
+            censusHousingLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            // Style centerPointLayer
+            var censusHousingOverlay = new LayerOverlay();
+            censusHousingOverlay.Layers.Add("CensusHousingLayer", censusHousingLayer);
+            mapView.Overlays.Add("CensusHousingOverlay", censusHousingOverlay);
+
+            // Create a layer to hold the centerPointLayer and Style it
+            InMemoryFeatureLayer centerPointLayer = new InMemoryFeatureLayer();
             centerPointLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Green, 12, GeoColors.White, 4);
             centerPointLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(64, GeoColors.Green), GeoColors.Black, 2);
             centerPointLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            // Add censusHousing layer to a LayerOverlay
-            layerOverlay.Layers.Add("censusHousing", censusHousing);
-
-            // Add centerPointLayer to the layerOverlay
-            layerOverlay.Layers.Add("centerPointLayer", centerPointLayer);
+            LayerOverlay centerPointOverlay = new LayerOverlay();
+            centerPointOverlay.Layers.Add("CenterPointLayer", centerPointLayer);
+            mapView.Overlays.Add("CenterPointOverlay", centerPointOverlay);            
 
             // Set the map extent to the censusHousing layer bounding box
-            censusHousing.Open();
-            mapView.CurrentExtent = censusHousing.GetBoundingBox();
-            censusHousing.Close();
+            censusHousingLayer.Open();
+            mapView.CurrentExtent = censusHousingLayer.GetBoundingBox();
+            censusHousingLayer.Close();
 
             // Add LayerOverlay to Map
-            mapView.Overlays.Add("layerOverlay", layerOverlay);
+            centroidCenter.Checked = true;
 
             await mapView.RefreshAsync();
         }
@@ -63,8 +65,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// <param name="feature"> The target feature to calculate it's center point</param>
         private async Task CalculateCenterPointAsync(Feature feature)
         {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
-            InMemoryFeatureLayer centerPointLayer = (InMemoryFeatureLayer)layerOverlay.Layers["centerPointLayer"];
+            LayerOverlay centerPointOverlay = (LayerOverlay)mapView.Overlays["CenterPointOverlay"];
+            InMemoryFeatureLayer centerPointLayer = (InMemoryFeatureLayer)centerPointOverlay.Layers["CenterPointLayer"];
 
             PointShape centerPoint;
 
@@ -86,23 +88,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             centerPointLayer.InternalFeatures.Add("centerPoint", new Feature(centerPoint));
 
             // Refresh the overlay to show the results
-            await layerOverlay.RefreshAsync();
+            await centerPointOverlay.RefreshAsync();
 
-        }
-
-        /// <summary>
-        /// RadioButton checked event that will recalculate the center point so long as a feature was already selected
-        /// </summary>
-        private async void centroidCenter_CheckedChanged(object sender, EventArgs e)
-        {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
-            InMemoryFeatureLayer centerPointLayer = (InMemoryFeatureLayer)layerOverlay.Layers["centerPointLayer"];
-
-            // Recalculate the center point if a feature has already been selected
-            if (centerPointLayer.InternalFeatures.Contains("selectedFeature"))
-            {
-                await CalculateCenterPointAsync(centerPointLayer.InternalFeatures["selectedFeature"]);
-            }
         }
 
         /// <summary>
@@ -110,20 +97,23 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// </summary>
         private async void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
-            ShapeFileFeatureLayer censusHousing = (ShapeFileFeatureLayer)layerOverlay.Layers["censusHousing"];
+            LayerOverlay censusHousingOverlay = (LayerOverlay)mapView.Overlays["CensusHousingOverlay"];
+            ShapeFileFeatureLayer censusHousingLayer = (ShapeFileFeatureLayer)censusHousingOverlay.Layers["CensusHousingLayer"];
 
             // Query the censusHousing layer to get the first feature closest to the map click event
-            var feature = censusHousing.QueryTools.GetFeaturesNearestTo(e.WorldLocation, GeographyUnit.Meter, 1,
+            var feature = censusHousingLayer.QueryTools.GetFeaturesNearestTo(e.WorldLocation, GeographyUnit.Meter, 1,
                 ReturningColumnsType.NoColumns).First();
 
             await CalculateCenterPointAsync(feature);
         }
 
-        private async void bboxCenter_CheckedChanged(object sender, EventArgs e)
+        /// <summary>
+        /// RadioButton checked event that will recalculate the center point so long as a feature was already selected
+        /// </summary>
+        private async void centroidCenter_CheckedChanged(object sender, EventArgs e)
         {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
-            InMemoryFeatureLayer centerPointLayer = (InMemoryFeatureLayer)layerOverlay.Layers["centerPointLayer"];
+            LayerOverlay centerPointOverlay = (LayerOverlay)mapView.Overlays["CenterPointOverlay"];
+            InMemoryFeatureLayer centerPointLayer = (InMemoryFeatureLayer)centerPointOverlay.Layers["CenterPointLayer"];
 
             // Recalculate the center point if a feature has already been selected
             if (centerPointLayer.InternalFeatures.Contains("selectedFeature"))
@@ -132,6 +122,18 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
         }
 
+        private async void bboxCenter_CheckedChanged(object sender, EventArgs e)
+        {
+            LayerOverlay centerPointOverlay = (LayerOverlay)mapView.Overlays["CenterPointOverlay"];
+            InMemoryFeatureLayer centerPointLayer = (InMemoryFeatureLayer)centerPointOverlay.Layers["CenterPointLayer"];
+
+            // Recalculate the center point if a feature has already been selected
+            if (centerPointLayer.InternalFeatures.Contains("selectedFeature"))
+            {
+                await CalculateCenterPointAsync(centerPointLayer.InternalFeatures["selectedFeature"]);
+            }
+        }
+              
         #region Component Designer generated code
         private Panel panel1;
         private RadioButton bboxCenter;
