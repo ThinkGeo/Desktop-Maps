@@ -45,7 +45,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.Overlays.Add("WorldOverlay", worldOverlay);
 
             // Create the new layer.
-            GoogleMapsLayer worldLayer = new GoogleMapsLayer(txtApiKey.Text, string.Empty);
+            Core.Async.GoogleMapsLayer worldLayer = new Core.Async.GoogleMapsLayer(txtApiKey.Text, string.Empty);
 
             // Add the layer to the overlay we created earlier.
             worldOverlay.Layers.Add("WorldLayer", worldLayer);

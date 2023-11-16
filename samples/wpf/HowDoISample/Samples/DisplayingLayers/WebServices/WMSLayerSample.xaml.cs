@@ -63,7 +63,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Create a WMS overlay using the WMS parameters below.
             // This is a public service and is very slow most of the time.
             WmsOverlay wmsOverlay = new WmsOverlay();
-            wmsOverlay.ServerUri = new Uri("http://ows.mundialis.de/services/service");
+            wmsOverlay.Uri = new Uri("http://ows.mundialis.de/services/service");
             wmsOverlay.Parameters.Add("layers", "OSM-WMS");
             wmsOverlay.Parameters.Add("STYLES", "default");            
             
@@ -82,7 +82,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Create the WMS layer using the parameters below.
             // This is a public service and is very slow most of the time.
-            WmsRasterLayer wmsImageLayer = new WmsRasterLayer(new Uri("http://ows.mundialis.de/services/service"));
+            Core.Async.WmsRasterLayer wmsImageLayer = new Core.Async.WmsRasterLayer(new Uri("http://ows.mundialis.de/services/service"));
             wmsImageLayer.UpperThreshold = double.MaxValue;
             wmsImageLayer.LowerThreshold = 0;
             wmsImageLayer.ActiveLayerNames.Add("OSM-WMS");

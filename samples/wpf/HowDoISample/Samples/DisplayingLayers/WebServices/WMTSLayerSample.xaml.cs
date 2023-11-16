@@ -27,7 +27,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Create a WMTS overlay using the WMS parameters below.
             // This is a public service and performance may be slow.
-            WmtsLayer wmtsLayer = new WmtsLayer
+            Core.Async.WmtsLayer wmtsLayer = new Core.Async.WmtsLayer
             {
                 DrawingExceptionMode = DrawingExceptionMode.DrawException,
                 WmtsSeverEncodingType = WmtsSeverEncodingType.Restful

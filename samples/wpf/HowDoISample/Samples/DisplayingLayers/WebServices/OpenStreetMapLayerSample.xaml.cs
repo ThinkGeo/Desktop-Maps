@@ -35,7 +35,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Create the new layer and add it to the overlay.  We set the user agent to specify the requests are coming from our samples.
             // You need to change this to your application so they can identify you for usage.
-            var openStreetMapLayer = new ThinkGeo.Core.OpenStreetMapLayer("ThinkGeo Samples/12.0 (http://thinkgeo.com/; system@thinkgeo.com)");           
+            var openStreetMapLayer = new Core.Async.OpenStreetMapLayer("ThinkGeo Samples/12.0 (http://thinkgeo.com/; system@thinkgeo.com)");           
             layerOverlay.Layers.Add(openStreetMapLayer);
                                    
             // Set the current extent to a local area.
