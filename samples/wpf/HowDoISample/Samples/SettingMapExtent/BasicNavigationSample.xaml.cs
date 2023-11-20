@@ -64,16 +64,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             switch (((Button)sender).Name)
             {
                 case "panNorth":
-                    await mapView.PanAsync(PanDirection.Up, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Up, percentage);
                     break;
                 case "panEast":
-                    await mapView.PanAsync(PanDirection.Right, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Right, percentage);
                     break;
                 case "panWest":
-                    await mapView.PanAsync(PanDirection.Left, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Left, percentage);
                     break;
                 case "panSouth":
-                    await mapView.PanAsync(PanDirection.Down, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Down, percentage);
                     break;
             }
         }
