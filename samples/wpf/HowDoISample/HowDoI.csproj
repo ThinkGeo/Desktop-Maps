@@ -308,10 +308,6 @@
     <PackageReference Include="ThinkGeo.UnmanagedGeoTiff" Version="13.2.0-beta062" />
     <PackageReference Include="ThinkGeo.UnmanagedProj" Version="13.2.0-beta063" />
     <PackageReference Include="WpfAnimatedGif" Version="2.0.0" />
-    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.336902">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Windows.Compatibility" Version="6.0.0" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Data\Bmp\m_3309650_sw_14_1_20160911_20161121.bmp">
