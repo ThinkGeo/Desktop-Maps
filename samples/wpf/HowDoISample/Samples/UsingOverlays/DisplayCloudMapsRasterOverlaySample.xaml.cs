@@ -37,7 +37,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void DisplayRasterCloudMaps_Click(object sender, RoutedEventArgs e)
         {
-            var thinkGeoCloudRasterMapsOverlay = new ThinkGeoCloudRasterMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1);
+            var thinkGeoCloudRasterMapsOverlay = new ThinkGeoCloudRasterMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1);
             mapView.Overlays.Add(thinkGeoCloudRasterMapsOverlay);
             await mapView.RefreshAsync();
         }

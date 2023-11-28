@@ -29,7 +29,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColors.Snow);
 
             // Create background hybrid satellite map requested from ThinkGeo Cloud Service. 
-            ThinkGeoCloudRasterMapsOverlay cloudOverlay = new ThinkGeoCloudRasterMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~");
+            ThinkGeoCloudRasterMapsOverlay cloudOverlay = new ThinkGeoCloudRasterMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~");
             cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1;
             mapView.Overlays.Add("Cloud Overlay", cloudOverlay);
 
