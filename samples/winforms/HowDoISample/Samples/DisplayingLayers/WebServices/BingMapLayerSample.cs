@@ -47,7 +47,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 mapView.Overlays.Add("Bing Map", layerOverlay);
 
                 // Create the bing map layer and add it to the map.
-                BingMapsLayer bingMapsLayer = new BingMapsLayer(txtApplicationID.Text, BingMapsMapType.Road);
+                Core.Async.BingMapsLayer bingMapsLayer = new Core.Async.BingMapsLayer(txtApplicationID.Text, BingMapsMapType.Road);
                 bingMapsLayer.TileCache = new FileRasterTileCache("C:\\temp", "bingMapsRoad");
                 layerOverlay.Layers.Add(bingMapsLayer);
 

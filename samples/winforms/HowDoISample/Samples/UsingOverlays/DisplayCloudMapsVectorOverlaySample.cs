@@ -32,7 +32,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void displayVectorCloudMaps_Click(object sender, EventArgs e)
         {
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
             await mapView.RefreshAsync();
         }
@@ -114,7 +114,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.cloudMapsSecretKey.Name = "cloudMapsSecretKey";
             this.cloudMapsSecretKey.Size = new System.Drawing.Size(167, 22);
             this.cloudMapsSecretKey.TabIndex = 5;
-            this.cloudMapsSecretKey.Text = "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~";
+            this.cloudMapsSecretKey.Text = "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~";
             // 
             // cloudMapsApiKey
             // 
@@ -122,7 +122,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.cloudMapsApiKey.Name = "cloudMapsApiKey";
             this.cloudMapsApiKey.Size = new System.Drawing.Size(167, 22);
             this.cloudMapsApiKey.TabIndex = 4;
-            this.cloudMapsApiKey.Text = "itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~";
+            this.cloudMapsApiKey.Text = "AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~";
             // 
             // label3
             // 

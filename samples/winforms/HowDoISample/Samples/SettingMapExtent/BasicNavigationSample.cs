@@ -18,7 +18,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
@@ -46,16 +46,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             switch (((Button)sender).Name)
             {
                 case "panNorth":
-                    await mapView.PanAsync(PanDirection.Up, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Up, percentage);
                     break;
                 case "panEast":
-                    await mapView.PanAsync(PanDirection.Right, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Right, percentage);
                     break;
                 case "panWest":
-                    await mapView.PanAsync(PanDirection.Left, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Left, percentage);
                     break;
                 case "panSouth":
-                    await mapView.PanAsync(PanDirection.Down, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Down, percentage);
                     break;
             }
         }
@@ -66,16 +66,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             switch (((Button)sender).Name)
             {
                 case "panNorth":
-                    await mapView.PanAsync(PanDirection.Up, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Up, percentage);
                     break;
                 case "panEast":
-                    await mapView.PanAsync(PanDirection.Right, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Right, percentage);
                     break;
                 case "panWest":
-                    await mapView.PanAsync(PanDirection.Left, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Left, percentage);
                     break;
                 case "panSouth":
-                    await mapView.PanAsync(PanDirection.Down, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Down, percentage);
                     break;
             }
         }
@@ -86,16 +86,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             switch (((Button)sender).Name)
             {
                 case "panNorth":
-                    await mapView.PanAsync(PanDirection.Up, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Up, percentage);
                     break;
                 case "panEast":
-                    await mapView.PanAsync(PanDirection.Right, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Right, percentage);
                     break;
                 case "panWest":
-                    await mapView.PanAsync(PanDirection.Left, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Left, percentage);
                     break;
                 case "panSouth":
-                    await mapView.PanAsync(PanDirection.Down, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Down, percentage);
                     break;
             }
         }
@@ -106,16 +106,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             switch (((Button)sender).Name)
             {
                 case "panNorth":
-                    await mapView.PanAsync(PanDirection.Up, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Up, percentage);
                     break;
                 case "panEast":
-                    await mapView.PanAsync(PanDirection.Right, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Right, percentage);
                     break;
                 case "panWest":
-                    await mapView.PanAsync(PanDirection.Left, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Left, percentage);
                     break;
                 case "panSouth":
-                    await mapView.PanAsync(PanDirection.Down, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Down, percentage);
                     break;
             }
         }
