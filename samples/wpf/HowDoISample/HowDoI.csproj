@@ -304,7 +304,7 @@
     <PackageReference Include="ThinkGeo.PostgreSql" Version="13.2.0-beta065" />
     <PackageReference Include="ThinkGeo.Printers" Version="13.2.0-beta066" />
     <PackageReference Include="ThinkGeo.SqlServer" Version="13.2.0-beta065" />
-    <PackageReference Include="ThinkGeo.UI.Wpf" Version="13.2.0-beta088" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="13.2.0-beta089" />
     <PackageReference Include="ThinkGeo.UnmanagedGeoTiff" Version="13.2.0-beta065" />
     <PackageReference Include="ThinkGeo.UnmanagedProj" Version="13.2.0-beta066" />
     <PackageReference Include="WpfAnimatedGif" Version="2.0.0" />
