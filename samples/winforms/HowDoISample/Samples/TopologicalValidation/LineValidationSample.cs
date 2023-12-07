@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using ThinkGeo.Core;
 using ThinkGeo.UI.WinForms;
 using System.Collections.ObjectModel;
-
+using System.Threading.Tasks;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
@@ -14,7 +14,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // Create an InMemoryFeatureLayer to hold the shapes to be validated
             // Add styles to display points, lines, and polygons on this layer in green
@@ -52,10 +52,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             rdoCheckLineEndpointsMustTouchPoints.Checked = true;
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
-        private void rdoCheckLineEndpointsMustTouchPoints_CheckedChanged(object sender, EventArgs e)
+        private async void rdoCheckLineEndpointsMustTouchPoints_CheckedChanged(object sender, EventArgs e)
         {
             // Create a sample set of point and line features to use for the validation
             Feature lineFeature = new Feature("LINESTRING(0 0,100 0,100 50)");
@@ -70,13 +70,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { lineFeature }, invalidResultFeatures, new Collection<Feature>() { pointOnEndpointFeature });
+            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { lineFeature }, invalidResultFeatures, new Collection<Feature>() { pointOnEndpointFeature });
 
             // Update the help text
             txtValidationInfo.Text = "Features being validated against are shown in blue. \n\nLine endpoints touching points are shown in green. \n\nInvalid endpoints are shown in red.";
         }
 
-        private void rdoCheckLinesMustOverlapPolygonBoundaries_CheckedChanged(object sender, EventArgs e)
+        private async void rdoCheckLinesMustOverlapPolygonBoundaries_CheckedChanged(object sender, EventArgs e)
         {
             // Create a sample set of line and polygon features to use for the validation
             Feature lineFeature = new Feature("LINESTRING(-50 0,150 0)");
@@ -92,14 +92,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { lineFeature, lineOnBoundaryFeature }, invalidResultFeatures, new Collection<Feature>() { polygonFeature });
+            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { lineFeature, lineOnBoundaryFeature }, invalidResultFeatures, new Collection<Feature>() { polygonFeature });
 
             // Update the help text
             txtValidationInfo.Text = "Features being validated against are shown in blue. \n\nLine segments overlapping polygon boundaries are shown in green. \n\nInvalid line segments are shown in red.";
 
         }
 
-        private void rdoCheckLinesMustOverlapLines_CheckedChanged(object sender, EventArgs e)
+        private async void rdoCheckLinesMustOverlapLines_CheckedChanged(object sender, EventArgs e)
         {
             // Create a sample set of line features to use for the validation
             Feature lineFeature = new Feature("LINESTRING(0 0,100 0,100 100,0 100)");
@@ -114,14 +114,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { lineFeature }, invalidResultFeatures, new Collection<Feature>() { coveringLineFeature });
+            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { lineFeature }, invalidResultFeatures, new Collection<Feature>() { coveringLineFeature });
 
             // Update the help text
             txtValidationInfo.Text = "Features being validated against are shown in blue. \n\nLine segments overlapping lines are shown in green. \n\nInvalid line segments are shown in red.";
 
         }
 
-        private void rdoCheckLinesMustBeSinglePart_CheckedChanged(object sender, EventArgs e)
+        private async void rdoCheckLinesMustBeSinglePart_CheckedChanged(object sender, EventArgs e)
         {
             // Create a sample set of line features to use for the validation
             Feature singleLineFeature = new Feature("MULTILINESTRING((0 -50,100 -50,100 -100,0 -100))");
@@ -135,14 +135,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { singleLineFeature, multiLineFeature }, invalidResultFeatures);
+            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { singleLineFeature, multiLineFeature }, invalidResultFeatures);
 
             // Update the help text
             txtValidationInfo.Text = "Lines made of single segments are shown in green. \n\nLines with disjoint segments are shown in red.";
 
         }
 
-        private void rdoCheckLinesMustFormClosedPolygon_CheckedChanged(object sender, EventArgs e)
+        private async void rdoCheckLinesMustFormClosedPolygon_CheckedChanged(object sender, EventArgs e)
         {
             // Create a sample set of line features to use for the validation
             Feature lineFeature1 = new Feature("LINESTRING(0 0,100 0,100 100,20 100)");
@@ -156,14 +156,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(lines, invalidResultFeatures);
+            await ClearMapAndAddFeaturesAsync(lines, invalidResultFeatures);
 
             // Update the help text
             txtValidationInfo.Text = "Lines being validated are shown in green. \n\nLine endpoints that do not form a closed polygon are shown in red.";
 
         }
 
-        private void rdoCheckLinesMustNotHavePseudonodes_CheckedChanged(object sender, EventArgs e)
+        private async void rdoCheckLinesMustNotHavePseudonodes_CheckedChanged(object sender, EventArgs e)
         {
             // Create a sample set of line features to use for the validation
             Feature lineSegmentFeature1 = new Feature("LINESTRING(0 0,50 0,50 50,0 0)");
@@ -181,14 +181,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(lines, invalidResultFeatures);
+            await ClearMapAndAddFeaturesAsync(lines, invalidResultFeatures);
 
             // Update the help text
             txtValidationInfo.Text = "Lines being validated are shown in green. \n\nPseudonodes are shown in red.";
 
         }
 
-        private void rdoCheckLinesMustNotIntersect_CheckedChanged(object sender, EventArgs e)
+        private async void rdoCheckLinesMustNotIntersect_CheckedChanged(object sender, EventArgs e)
         {
             // Create a sample set of line features to use for the validation
             Feature lineFeature1 = new Feature("LINESTRING(0 0,100 0,100 100)");
@@ -203,14 +203,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { lineFeature1, lineFeature2, lineFeature3 }, invalidResultFeatures);
+            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { lineFeature1, lineFeature2, lineFeature3 }, invalidResultFeatures);
 
             // Update the help text
             txtValidationInfo.Text = "Lines being validated are shown in green. \n\nIntersections are shown in red.";
 
         }
 
-        private void rdoCheckLinesMustNotSelfIntersectOrTouch_CheckedChanged(object sender, EventArgs e)
+        private async void rdoCheckLinesMustNotSelfIntersectOrTouch_CheckedChanged(object sender, EventArgs e)
         {
             // Create a sample set of line features to use for the validation
             Feature lineFeature1 = new Feature("LINESTRING(0 0,100 0,100 100)");
@@ -225,14 +225,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { lineFeature1, lineFeature2, lineFeature3 }, invalidResultFeatures);
+            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { lineFeature1, lineFeature2, lineFeature3 }, invalidResultFeatures);
 
             // Update the help text
             txtValidationInfo.Text = "Lines being validated are shown in green. \n\nIntersecting points and overlapping segments are shown in red.";
 
         }
 
-        private void rdoCheckLinesMustNotOverlap_CheckedChanged(object sender, EventArgs e)
+        private async void rdoCheckLinesMustNotOverlap_CheckedChanged(object sender, EventArgs e)
         {
             // Create a sample set of line features to use for the validation
             Feature lineFeature1 = new Feature("LINESTRING(0 0,100 0,100 100)");
@@ -247,14 +247,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { lineFeature1, lineFeature2, lineFeature3 }, invalidResultFeatures);
+            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { lineFeature1, lineFeature2, lineFeature3 }, invalidResultFeatures);
 
             // Update the help text
             txtValidationInfo.Text = "Lines being validated are shown in green. \n\nOverlapping segments are shown in red.";
 
         }
 
-        private void rdoCheckLinesMustNotOverlapLines_CheckedChanged(object sender, EventArgs e)
+        private async void rdoCheckLinesMustNotOverlapLines_CheckedChanged(object sender, EventArgs e)
         {
             // Create a sample set of line features to use for the validation
             Feature overlappingLineFeature = new Feature("LINESTRING(0 0,100 0,100 100,0 100)");
@@ -269,14 +269,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { overlappedLineFeature }, invalidResultFeatures, new Collection<Feature>() { overlappingLineFeature });
+            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { overlappedLineFeature }, invalidResultFeatures, new Collection<Feature>() { overlappingLineFeature });
 
             // Update the help text
             txtValidationInfo.Text = "Features being validated against are shown in blue. \n\nLines being validated are shown in green. \n\nOverlapping line segments are shown in red.";
 
         }
 
-        private void rdoCheckLinesMustNotSelfIntersect_CheckedChanged(object sender, EventArgs e)
+        private async void rdoCheckLinesMustNotSelfIntersect_CheckedChanged(object sender, EventArgs e)
         {
             // Create a sample set of line features to use for the validation
             Feature selfIntersectingLine = new Feature("LINESTRING(0 0,100 0,100 100,50 100,50 -50)");
@@ -289,14 +289,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { selfIntersectingLine }, invalidResultFeatures);
+            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { selfIntersectingLine }, invalidResultFeatures);
 
             // Update the help text
             txtValidationInfo.Text = "Lines being validated are shown in green. \n\nSelf-intersections are shown in red.";
 
         }
 
-        private void rdoCheckLinesMustNotSelfOverlap_CheckedChanged(object sender, EventArgs e)
+        private async void rdoCheckLinesMustNotSelfOverlap_CheckedChanged(object sender, EventArgs e)
         {
             // Create a sample set of line features to use for the validation
             Feature selfOverlappingLine = new Feature("LINESTRING(0 0,100 0,100 100,0 100,20 0,40 0,40 -50)");
@@ -309,14 +309,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { selfOverlappingLine }, invalidResultFeatures);
+            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { selfOverlappingLine }, invalidResultFeatures);
 
             // Update the help text
             txtValidationInfo.Text = "Lines being validated are shown in green. \n\nOverlapping segments are shown in red.";
 
         }
 
-        private void ClearMapAndAddFeatures(Collection<Feature> validatedFeatures, Collection<Feature> resultFeatures, Collection<Feature> filterFeatures = null)
+        private async Task ClearMapAndAddFeaturesAsync(Collection<Feature> validatedFeatures, Collection<Feature> resultFeatures, Collection<Feature> filterFeatures = null)
         {
             // Get the InMemoryFeatureLayers from the MapView
             InMemoryFeatureLayer validatedFeaturesLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Validated Features");
@@ -356,12 +356,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Refresh/redraw the layers and reset the map extent
             LayerOverlay featureOverlay = (LayerOverlay)mapView.Overlays["Features Overlay"];
             mapView.CurrentExtent = featureOverlay.GetBoundingBox();
-            mapView.Refresh();
+            await mapView.RefreshAsync();
 
             validatedFeaturesLayer.Close();
             filterFeaturesLayer.Close();
             resultFeaturesLayer.Close();
-            mapView.ZoomOut();
+            await mapView.ZoomOutAsync();
         }
 
         #region Component Designer generated code

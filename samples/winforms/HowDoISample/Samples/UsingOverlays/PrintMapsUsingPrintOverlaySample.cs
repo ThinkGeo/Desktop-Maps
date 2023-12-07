@@ -17,13 +17,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             SetupMapForPrinting();
             AddPageTitleLabel();
             AddMapLayers();
             AddMosquitoDataGrid();
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         private void printMap_Click(object sender, EventArgs e)

@@ -12,13 +12,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
@@ -26,104 +26,104 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             txtPanPercent.DataBindings.Add("Text", panPercentage, "Value");
             txtCurrentAngle.DataBindings.Add("Text", rotateAngle, "Value");
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
 
-        private void zoomIn_Click(object sender, EventArgs e)
+        private async void zoomIn_Click(object sender, EventArgs e)
         {
-            mapView.ZoomIn();
+            await mapView.ZoomInAsync();
         }
 
-        private void zoomOut_Click(object sender, EventArgs e)
+        private async void zoomOut_Click(object sender, EventArgs e)
         {
-            mapView.ZoomOut();
+            await mapView.ZoomOutAsync();
         }
 
-        private void panNorth_Click(object sender, EventArgs e)
-        {
-            var percentage = (int)panPercentage.Value;
-            switch (((Button)sender).Name)
-            {
-                case "panNorth":
-                    mapView.Pan(PanDirection.Up, percentage);
-                    break;
-                case "panEast":
-                    mapView.Pan(PanDirection.Right, percentage);
-                    break;
-                case "panWest":
-                    mapView.Pan(PanDirection.Left, percentage);
-                    break;
-                case "panSouth":
-                    mapView.Pan(PanDirection.Down, percentage);
-                    break;
-            }
-        }
-
-        private void panWest_Click(object sender, EventArgs e)
+        private async void panNorth_Click(object sender, EventArgs e)
         {
             var percentage = (int)panPercentage.Value;
             switch (((Button)sender).Name)
             {
                 case "panNorth":
-                    mapView.Pan(PanDirection.Up, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Up, percentage);
                     break;
                 case "panEast":
-                    mapView.Pan(PanDirection.Right, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Right, percentage);
                     break;
                 case "panWest":
-                    mapView.Pan(PanDirection.Left, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Left, percentage);
                     break;
                 case "panSouth":
-                    mapView.Pan(PanDirection.Down, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Down, percentage);
                     break;
             }
         }
 
-        private void panEast_Click(object sender, EventArgs e)
+        private async void panWest_Click(object sender, EventArgs e)
         {
             var percentage = (int)panPercentage.Value;
             switch (((Button)sender).Name)
             {
                 case "panNorth":
-                    mapView.Pan(PanDirection.Up, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Up, percentage);
                     break;
                 case "panEast":
-                    mapView.Pan(PanDirection.Right, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Right, percentage);
                     break;
                 case "panWest":
-                    mapView.Pan(PanDirection.Left, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Left, percentage);
                     break;
                 case "panSouth":
-                    mapView.Pan(PanDirection.Down, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Down, percentage);
                     break;
             }
         }
 
-        private void panSouth_Click(object sender, EventArgs e)
+        private async void panEast_Click(object sender, EventArgs e)
         {
             var percentage = (int)panPercentage.Value;
             switch (((Button)sender).Name)
             {
                 case "panNorth":
-                    mapView.Pan(PanDirection.Up, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Up, percentage);
                     break;
                 case "panEast":
-                    mapView.Pan(PanDirection.Right, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Right, percentage);
                     break;
                 case "panWest":
-                    mapView.Pan(PanDirection.Left, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Left, percentage);
                     break;
                 case "panSouth":
-                    mapView.Pan(PanDirection.Down, percentage);
+                    await mapView.PanByDirectionAsync(PanDirection.Down, percentage);
                     break;
             }
         }
 
-        private void rotate_Click(object sender, EventArgs e)
+        private async void panSouth_Click(object sender, EventArgs e)
+        {
+            var percentage = (int)panPercentage.Value;
+            switch (((Button)sender).Name)
+            {
+                case "panNorth":
+                    await mapView.PanByDirectionAsync(PanDirection.Up, percentage);
+                    break;
+                case "panEast":
+                    await mapView.PanByDirectionAsync(PanDirection.Right, percentage);
+                    break;
+                case "panWest":
+                    await mapView.PanByDirectionAsync(PanDirection.Left, percentage);
+                    break;
+                case "panSouth":
+                    await mapView.PanByDirectionAsync(PanDirection.Down, percentage);
+                    break;
+            }
+        }
+
+        private async void rotate_Click(object sender, EventArgs e)
         {
             mapView.RotatedAngle = (float)rotateAngle.Value;
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         #region Component Designer generated code

@@ -14,13 +14,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             ShapeFileFeatureLayer friscoTrails = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hike_Bike.shp");
@@ -50,10 +50,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Add LayerOverlay to Map
             mapView.Overlays.Add("layerOverlay", layerOverlay);
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
-        private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        private async void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
 
@@ -67,7 +67,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Show the selected feature on the map
             selectedLineLayer.InternalFeatures.Clear();
             selectedLineLayer.InternalFeatures.Add(feature);
-            layerOverlay.Refresh();
+            await layerOverlay.RefreshAsync();
 
             // Get the length of the first feature
             var length = ((LineBaseShape)feature.GetShape()).GetLength(GeographyUnit.Meter, DistanceUnit.Kilometer);

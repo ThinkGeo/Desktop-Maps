@@ -24,10 +24,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay, as well as a feature layer to display the route
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
@@ -83,7 +83,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             routingCloudClient = new RoutingCloudClient("FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~", "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~");
 
             // Run the routing request
-            RouteWaypoints();
+            await RouteWaypointsAsync();
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         /// <summary>
         /// Draw the result of an optimized routing request on the map
         /// </summary>
-        private void DrawOptimizedRoute(CloudRoutingOptimizationResult optimizedRoutingResult)
+        private async Task DrawOptimizedRouteAsync(CloudRoutingOptimizationResult optimizedRoutingResult)
         {
             // Get the routing feature layer from the MapView
             InMemoryFeatureLayer routingLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Routing Layer");
@@ -159,16 +159,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             routingLayer.Open();
             mapView.CurrentExtent = routingLayer.GetBoundingBox();
             ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
-            mapView.ZoomToScale(standardZoomLevelSet.ZoomLevel13.Scale);
+            await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel13.Scale);
             routingLayer.Close();
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
 
         /// <summary>
         /// Perform routing using the RoutingCloudClient through a preset set of waypoints
         /// </summary>
-        private async void RouteWaypoints()
+        private async Task RouteWaypointsAsync()
         {
             // Show a loading graphic to let users know the request is running
             loadingImage.Visibility = Visibility.Visible;
@@ -187,13 +187,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             }
 
             // Draw the result on the map
-            DrawOptimizedRoute(optimizedRoutingResult);
+            await DrawOptimizedRouteAsync(optimizedRoutingResult);
         }
 
         /// <summary>
         /// When a route segment is selected in the UI, center the map on it
         /// </summary>
-        private void lsbRouteSegments_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void lsbRouteSegments_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ListBox routeSegments = (ListBox)sender;
             if (routeSegments.SelectedItem != null)
@@ -209,9 +209,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
                 ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
                 if (mapView.CurrentScale < standardZoomLevelSet.ZoomLevel15.Scale)
                 {
-                    mapView.ZoomToScale(standardZoomLevelSet.ZoomLevel15.Scale);
+                    await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel15.Scale);
                 }
-                mapView.Refresh();
+                await mapView.RefreshAsync();
             }
         }
         public void Dispose()

@@ -14,13 +14,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             ShapeFileFeatureLayer friscoParks = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
@@ -62,10 +62,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var stadium = new Feature(new PointShape(-10779651.500992451, 3915933.0023557912));
             stadiumLayer.InternalFeatures.Add(stadium);
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
-        private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        private async void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
 
@@ -86,7 +86,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Show the shortestLine on the map
             shortestLineLayer.InternalFeatures.Clear();
             shortestLineLayer.InternalFeatures.Add(new Feature(shortestLine));
-            layerOverlay.Refresh();
+            await layerOverlay.RefreshAsync();
 
             // Get the area of the first feature
             var length = shortestLine.GetLength(GeographyUnit.Meter, DistanceUnit.Kilometer);

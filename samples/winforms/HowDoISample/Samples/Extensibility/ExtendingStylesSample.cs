@@ -15,12 +15,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             ShapeFileFeatureLayer worldCapitalsLayer = new ShapeFileFeatureLayer(@"..\..\..\Data\Shapefile\WorldCapitals.shp");
@@ -33,7 +33,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             mapView.CurrentExtent = new RectangleShape(-15360785.1188513, 14752615.1010077, 16260907.558937, -12603279.9259404);
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         protected override void Dispose(bool disposing)
@@ -154,7 +154,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         }
         #endregion Component Designer generated code
 
-        private void TimeBasedPointStyle_Click(object sender, EventArgs e)
+        private async void TimeBasedPointStyle_Click(object sender, EventArgs e)
         {
             FeatureLayer worldCapitalsLayer = mapView.FindFeatureLayer("WorldCapitals");
 
@@ -166,10 +166,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
             worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(timeBasedPointStyle);
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
-        private void SizedBasedPointStyle_Click(object sender, EventArgs e)
+        private async void SizedBasedPointStyle_Click(object sender, EventArgs e)
         {
             FeatureLayer worldCapitalsLayer = mapView.FindFeatureLayer("WorldCapitals");
 
@@ -178,7 +178,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
             worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(sizedpointStyle);
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
     }

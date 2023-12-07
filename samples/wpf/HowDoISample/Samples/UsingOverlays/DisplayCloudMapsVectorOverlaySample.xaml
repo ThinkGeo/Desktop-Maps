@@ -16,10 +16,10 @@
             </TextBlock>
 
             <Label Grid.Column="1" Grid.Row="2" Content="API Key:"></Label>
-            <TextBox Grid.Column="2" Grid.Row="2" x:Name="cloudMapsApiKey" Text="itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~"></TextBox>
+            <TextBox Grid.Column="2" Grid.Row="2" x:Name="cloudMapsApiKey" Text="AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~"></TextBox>
 
             <Label Grid.Column="1" Grid.Row="3" Content="Secret Key:"></Label>
-            <TextBox Grid.Column="2" Grid.Row="3" x:Name="cloudMapsSecretKey" Text="bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~"></TextBox>
+            <TextBox Grid.Column="2" Grid.Row="3" x:Name="cloudMapsSecretKey" Text="xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~"></TextBox>
 
             <Button Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" x:Name="displayVectorCloudMaps" Content="Update" Click="DisplayVectorCloudMaps_Click"></Button>
 

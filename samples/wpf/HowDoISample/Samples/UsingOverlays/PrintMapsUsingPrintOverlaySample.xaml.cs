@@ -23,13 +23,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Setup the mapView to display a print preview
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             SetupMapForPrinting();
             AddPageTitleLabel();
             AddMapLayers();
             AddMosquitoDataGrid();
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>

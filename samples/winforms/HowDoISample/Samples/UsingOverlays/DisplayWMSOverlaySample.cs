@@ -12,7 +12,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
@@ -26,14 +26,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Create a WmsOverlay and add it to the map.
             WmsOverlay wmsOverlay = new WmsOverlay();
             wmsOverlay.AxisOrder = WmsAxisOrder.XY;
-            wmsOverlay.ServerUri = new Uri("http://ows.mundialis.de/services/service");
+            wmsOverlay.Uri = new Uri("http://ows.mundialis.de/services/service");
             wmsOverlay.Parameters.Add("VERSION", "1.3.0");
             wmsOverlay.Parameters.Add("LAYERS", "OSM-WMS");
             wmsOverlay.Parameters.Add("STYLES", "default");
             wmsOverlay.Parameters.Add("CRS", "EPSG:3857");  // Make sure to match the WMS CRS to the Map's projection
             mapView.Overlays.Add(wmsOverlay);
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         #region Component Designer generated code

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -19,10 +20,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.ProjectingData
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
@@ -51,7 +52,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.ProjectingData
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10779751.80, 3915369.33, -10779407.60, 3915141.57);
         
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>
@@ -91,7 +92,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.ProjectingData
         /// <summary>
         /// Draw reprojected features on the map
         /// </summary>
-        private void ClearMapAndAddFeatures(Collection<Feature> reprojectedFeatures)
+        private async Task ClearMapAndAddFeaturesAsync(Collection<Feature> reprojectedFeatures)
         {
             // Get the layer we prepared from the MapView
             InMemoryFeatureLayer reprojectedFeatureLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Reprojected Features Layer");
@@ -108,16 +109,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI.ProjectingData
             mapView.CurrentExtent = reprojectedFeatureLayer.GetBoundingBox();
 
             ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
-            mapView.ZoomToScale(standardZoomLevelSet.ZoomLevel18.Scale);
+            await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
 
             reprojectedFeatureLayer.Close();
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>
         /// Use the ProjectionConverter class to reproject a single feature
         /// </summary>
-        private void ReprojectFeature_Click(object sender, RoutedEventArgs e)
+        private async void ReprojectFeature_Click(object sender, RoutedEventArgs e)
         {
             // Create a feature with coordinates in Decimal Degrees (4326)
             Feature decimalDegreeFeature = new Feature(-96.834516, 33.150083);
@@ -126,13 +127,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.ProjectingData
             Feature sphericalMercatorFeature = ReprojectFeature(decimalDegreeFeature);
 
             // Add the reprojected features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { sphericalMercatorFeature });
+            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { sphericalMercatorFeature });
         }
 
         /// <summary>
         /// Use the ProjectionConverter class to reproject multiple different features
         /// </summary>
-        private void ReprojectMultipleFeatures_Click(object sender, RoutedEventArgs e)
+        private async void ReprojectMultipleFeatures_Click(object sender, RoutedEventArgs e)
         {
             // Create features based on the WKT in the textbox in the UI
             Collection<Feature> decimalDegreeFeatures = new Collection<Feature>();
@@ -154,7 +155,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.ProjectingData
             Collection<Feature> sphericalMercatorFeatures = ReprojectMultipleFeatures(decimalDegreeFeatures);
             
             // Add the reprojected features to the map
-            ClearMapAndAddFeatures(sphericalMercatorFeatures);
+            await ClearMapAndAddFeaturesAsync(sphericalMercatorFeatures);
         }
         public void Dispose()
         {

@@ -14,13 +14,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             ShapeFileFeatureLayer cityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimits.shp");
@@ -52,13 +52,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Add LayerOverlay to Map
             mapView.Overlays.Add("layerOverlay", layerOverlay);
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>
         /// Gets Convex Hull of the first feature in the cityLimits layer and adds them to the convexHullLayer to display on the map
         /// </summary>
-        private void shapeConvexHull_Click(object sender, EventArgs e)
+        private async void shapeConvexHull_Click(object sender, EventArgs e)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
 
@@ -78,7 +78,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             convexHullLayer.InternalFeatures.Add(convexHull);
 
             // Redraw the layerOverlay to see the convexHull feature on the map
-            layerOverlay.Refresh();
+            await layerOverlay.RefreshAsync();
         }
 
         #region Component Designer generated code

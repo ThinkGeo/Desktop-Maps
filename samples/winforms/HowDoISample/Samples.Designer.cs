@@ -31,339 +31,333 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Samples));
-            this.lblInformation = new System.Windows.Forms.Label();
-            this.miViewCode = new System.Windows.Forms.ToolStripMenuItem();
-            this.pnlTop = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.splitContainerMain = new System.Windows.Forms.SplitContainer();
-            this.splitContainerLeft = new System.Windows.Forms.SplitContainer();
-            this.txtSearch = new System.Windows.Forms.TextBox();
-            this.lblSearch = new System.Windows.Forms.Label();
-            this.treeViewLeft = new System.Windows.Forms.TreeView();
-            this.SplitContainerRight = new System.Windows.Forms.SplitContainer();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.btnSource = new System.Windows.Forms.Button();
-            this.labelSampleDescription = new System.Windows.Forms.Label();
-            this.labelSampleName = new System.Windows.Forms.Label();
-            this.splitContainerSampleSource = new System.Windows.Forms.SplitContainer();
-            this.cSharpBrowser = new System.Windows.Forms.WebBrowser();
-            this.pnlOption = new System.Windows.Forms.Panel();
-            this.pnlTop.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
-            this.splitContainerMain.Panel1.SuspendLayout();
-            this.splitContainerMain.Panel2.SuspendLayout();
-            this.splitContainerMain.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerLeft)).BeginInit();
-            this.splitContainerLeft.Panel1.SuspendLayout();
-            this.splitContainerLeft.Panel2.SuspendLayout();
-            this.splitContainerLeft.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.SplitContainerRight)).BeginInit();
-            this.SplitContainerRight.Panel1.SuspendLayout();
-            this.SplitContainerRight.Panel2.SuspendLayout();
-            this.SplitContainerRight.SuspendLayout();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerSampleSource)).BeginInit();
-            this.splitContainerSampleSource.Panel1.SuspendLayout();
-            this.splitContainerSampleSource.Panel2.SuspendLayout();
-            this.splitContainerSampleSource.SuspendLayout();
-            this.SuspendLayout();
+            lblInformation = new Label();
+            miViewCode = new ToolStripMenuItem();
+            pnlTop = new Panel();
+            label2 = new Label();
+            label1 = new Label();
+            pictureBox1 = new PictureBox();
+            splitContainerMain = new SplitContainer();
+            splitContainerLeft = new SplitContainer();
+            txtSearch = new TextBox();
+            lblSearch = new Label();
+            treeViewLeft = new TreeView();
+            SplitContainerRight = new SplitContainer();
+            panel1 = new Panel();
+            btnSource = new Button();
+            labelSampleDescription = new Label();
+            labelSampleName = new Label();
+            splitContainerSampleSource = new SplitContainer();
+            cSharpBrowser = new WebBrowser();
+            pnlOption = new Panel();
+            pnlTop.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)splitContainerMain).BeginInit();
+            splitContainerMain.Panel1.SuspendLayout();
+            splitContainerMain.Panel2.SuspendLayout();
+            splitContainerMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainerLeft).BeginInit();
+            splitContainerLeft.Panel1.SuspendLayout();
+            splitContainerLeft.Panel2.SuspendLayout();
+            splitContainerLeft.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)SplitContainerRight).BeginInit();
+            SplitContainerRight.Panel1.SuspendLayout();
+            SplitContainerRight.Panel2.SuspendLayout();
+            SplitContainerRight.SuspendLayout();
+            panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainerSampleSource).BeginInit();
+            splitContainerSampleSource.Panel1.SuspendLayout();
+            splitContainerSampleSource.Panel2.SuspendLayout();
+            splitContainerSampleSource.SuspendLayout();
+            SuspendLayout();
             // 
             // lblInformation
             // 
-            this.lblInformation.AutoSize = true;
-            this.lblInformation.BackColor = System.Drawing.Color.Maroon;
-            this.lblInformation.Location = new System.Drawing.Point(224, 29);
-            this.lblInformation.Name = "lblInformation";
-            this.lblInformation.Size = new System.Drawing.Size(0, 13);
-            this.lblInformation.TabIndex = 4;
+            lblInformation.AutoSize = true;
+            lblInformation.BackColor = System.Drawing.Color.Maroon;
+            lblInformation.Location = new System.Drawing.Point(224, 29);
+            lblInformation.Name = "lblInformation";
+            lblInformation.Size = new System.Drawing.Size(0, 13);
+            lblInformation.TabIndex = 4;
             // 
             // miViewCode
             // 
-            this.miViewCode.Name = "miViewCode";
-            this.miViewCode.Size = new System.Drawing.Size(135, 22);
-            this.miViewCode.Text = "View Code";
+            miViewCode.Name = "miViewCode";
+            miViewCode.Size = new System.Drawing.Size(135, 22);
+            miViewCode.Text = "View Code";
             // 
             // pnlTop
             // 
-            this.pnlTop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(40)))), ((int)(((byte)(44)))));
-            this.pnlTop.Controls.Add(this.label2);
-            this.pnlTop.Controls.Add(this.label1);
-            this.pnlTop.Controls.Add(this.pictureBox1);
-            this.pnlTop.Location = new System.Drawing.Point(0, 0);
-            this.pnlTop.Margin = new System.Windows.Forms.Padding(0);
-            this.pnlTop.Name = "pnlTop";
-            this.pnlTop.Size = new System.Drawing.Size(1776, 94);
-            this.pnlTop.TabIndex = 8;
+            pnlTop.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            pnlTop.BackColor = System.Drawing.Color.FromArgb(38, 40, 44);
+            pnlTop.Controls.Add(label2);
+            pnlTop.Controls.Add(label1);
+            pnlTop.Controls.Add(pictureBox1);
+            pnlTop.Location = new System.Drawing.Point(0, 0);
+            pnlTop.Margin = new Padding(0);
+            pnlTop.Name = "pnlTop";
+            pnlTop.Size = new System.Drawing.Size(1554, 88);
+            pnlTop.TabIndex = 8;
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.Transparent;
-            this.label2.Location = new System.Drawing.Point(93, 49);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(264, 14);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "Explore samples of ThinkGeo UI Controls for Desktop.";
+            label2.AutoSize = true;
+            label2.Font = (System.Drawing.Font)resources.GetObject("label2.Font");
+            label2.ForeColor = System.Drawing.Color.Transparent;
+            label2.Location = new System.Drawing.Point(81, 46);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(264, 14);
+            label2.TabIndex = 8;
+            label2.Text = "Explore samples of ThinkGeo UI Controls for Desktop.";
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.Transparent;
-            this.label1.Location = new System.Drawing.Point(92, 25);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(380, 18);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "ThinkGeo UI Control Samples for Desktop(WinForms)";
+            label1.AutoSize = true;
+            label1.Font = (System.Drawing.Font)resources.GetObject("label1.Font");
+            label1.ForeColor = System.Drawing.Color.Transparent;
+            label1.Location = new System.Drawing.Point(80, 23);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(380, 18);
+            label1.TabIndex = 8;
+            label1.Text = "ThinkGeo UI Control Samples for Desktop(WinForms)";
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::ThinkGeo.UI.WinForms.HowDoI.Properties.Resources.logo;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 0);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(97, 86);
-            this.pictureBox1.TabIndex = 7;
-            this.pictureBox1.TabStop = false;
+            pictureBox1.Image = Properties.Resources.logo;
+            pictureBox1.Location = new System.Drawing.Point(3, 0);
+            pictureBox1.Margin = new Padding(3, 2, 3, 2);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new System.Drawing.Size(85, 81);
+            pictureBox1.TabIndex = 7;
+            pictureBox1.TabStop = false;
             // 
             // splitContainerMain
             // 
-            this.splitContainerMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainerMain.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainerMain.IsSplitterFixed = true;
-            this.splitContainerMain.Location = new System.Drawing.Point(0, 94);
-            this.splitContainerMain.Margin = new System.Windows.Forms.Padding(0);
-            this.splitContainerMain.Name = "splitContainerMain";
+            splitContainerMain.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            splitContainerMain.FixedPanel = FixedPanel.Panel1;
+            splitContainerMain.IsSplitterFixed = true;
+            splitContainerMain.Location = new System.Drawing.Point(0, 88);
+            splitContainerMain.Margin = new Padding(0);
+            splitContainerMain.Name = "splitContainerMain";
             // 
             // splitContainerMain.Panel1
             // 
-            this.splitContainerMain.Panel1.Controls.Add(this.splitContainerLeft);
+            splitContainerMain.Panel1.Controls.Add(splitContainerLeft);
             // 
             // splitContainerMain.Panel2
             // 
-            this.splitContainerMain.Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(61)))), ((int)(((byte)(62)))));
-            this.splitContainerMain.Panel2.Controls.Add(this.SplitContainerRight);
-            this.splitContainerMain.Size = new System.Drawing.Size(1776, 880);
-            this.splitContainerMain.SplitterDistance = 345;
-            this.splitContainerMain.SplitterWidth = 5;
-            this.splitContainerMain.TabIndex = 0;
+            splitContainerMain.Panel2.BackColor = System.Drawing.Color.FromArgb(61, 61, 62);
+            splitContainerMain.Panel2.Controls.Add(SplitContainerRight);
+            splitContainerMain.Size = new System.Drawing.Size(1554, 825);
+            splitContainerMain.SplitterDistance = 302;
+            splitContainerMain.TabIndex = 0;
             // 
             // splitContainerLeft
             // 
-            this.splitContainerLeft.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainerLeft.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainerLeft.IsSplitterFixed = true;
-            this.splitContainerLeft.Location = new System.Drawing.Point(0, 0);
-            this.splitContainerLeft.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.splitContainerLeft.Name = "splitContainerLeft";
-            this.splitContainerLeft.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            splitContainerLeft.Dock = DockStyle.Fill;
+            splitContainerLeft.FixedPanel = FixedPanel.Panel1;
+            splitContainerLeft.IsSplitterFixed = true;
+            splitContainerLeft.Location = new System.Drawing.Point(0, 0);
+            splitContainerLeft.Margin = new Padding(4);
+            splitContainerLeft.Name = "splitContainerLeft";
+            splitContainerLeft.Orientation = Orientation.Horizontal;
             // 
             // splitContainerLeft.Panel1
             // 
-            this.splitContainerLeft.Panel1.Controls.Add(this.txtSearch);
-            this.splitContainerLeft.Panel1.Controls.Add(this.lblSearch);
+            splitContainerLeft.Panel1.Controls.Add(txtSearch);
+            splitContainerLeft.Panel1.Controls.Add(lblSearch);
             // 
             // splitContainerLeft.Panel2
             // 
-            this.splitContainerLeft.Panel2.Controls.Add(this.treeViewLeft);
-            this.splitContainerLeft.Size = new System.Drawing.Size(345, 880);
-            this.splitContainerLeft.SplitterWidth = 5;
-            this.splitContainerLeft.TabIndex = 7;
+            splitContainerLeft.Panel2.Controls.Add(treeViewLeft);
+            splitContainerLeft.Size = new System.Drawing.Size(302, 825);
+            splitContainerLeft.SplitterDistance = 47;
+            splitContainerLeft.SplitterWidth = 5;
+            splitContainerLeft.TabIndex = 7;
             // 
             // txtSearch
             // 
-            this.txtSearch.Location = new System.Drawing.Point(108, 18);
-            this.txtSearch.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(336, 22);
-            this.txtSearch.TabIndex = 1;
-            this.txtSearch.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyUp);
+            txtSearch.Location = new System.Drawing.Point(94, 17);
+            txtSearch.Margin = new Padding(4);
+            txtSearch.Name = "txtSearch";
+            txtSearch.Size = new System.Drawing.Size(294, 23);
+            txtSearch.TabIndex = 1;
+            txtSearch.KeyUp += txtSearch_KeyUp;
             // 
             // lblSearch
             // 
-            this.lblSearch.AutoSize = true;
-            this.lblSearch.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.lblSearch.Location = new System.Drawing.Point(37, 22);
-            this.lblSearch.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblSearch.Name = "lblSearch";
-            this.lblSearch.Size = new System.Drawing.Size(57, 16);
-            this.lblSearch.TabIndex = 0;
-            this.lblSearch.Text = "Search: ";
+            lblSearch.AutoSize = true;
+            lblSearch.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            lblSearch.Location = new System.Drawing.Point(32, 21);
+            lblSearch.Margin = new Padding(4, 0, 4, 0);
+            lblSearch.Name = "lblSearch";
+            lblSearch.Size = new System.Drawing.Size(48, 15);
+            lblSearch.TabIndex = 0;
+            lblSearch.Text = "Search: ";
             // 
             // treeViewLeft
             // 
-            this.treeViewLeft.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(48)))), ((int)(((byte)(53)))));
-            this.treeViewLeft.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeViewLeft.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.treeViewLeft.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(185)))), ((int)(((byte)(226)))));
-            this.treeViewLeft.Location = new System.Drawing.Point(0, 0);
-            this.treeViewLeft.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.treeViewLeft.Name = "treeViewLeft";
-            this.treeViewLeft.ShowNodeToolTips = true;
-            this.treeViewLeft.Size = new System.Drawing.Size(345, 825);
-            this.treeViewLeft.TabIndex = 6;
-            this.treeViewLeft.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewLeft_BeforeSelect);
-            this.treeViewLeft.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewLeft_AfterSelect);
+            treeViewLeft.BackColor = System.Drawing.Color.FromArgb(45, 48, 53);
+            treeViewLeft.Dock = DockStyle.Fill;
+            treeViewLeft.Font = (System.Drawing.Font)resources.GetObject("treeViewLeft.Font");
+            treeViewLeft.ForeColor = System.Drawing.Color.FromArgb(96, 185, 226);
+            treeViewLeft.Location = new System.Drawing.Point(0, 0);
+            treeViewLeft.Margin = new Padding(4);
+            treeViewLeft.Name = "treeViewLeft";
+            treeViewLeft.ShowNodeToolTips = true;
+            treeViewLeft.Size = new System.Drawing.Size(302, 773);
+            treeViewLeft.TabIndex = 6;
+            treeViewLeft.BeforeSelect += treeViewLeft_BeforeSelect;
+            treeViewLeft.AfterSelect += treeViewLeft_AfterSelect;
             // 
             // SplitContainerRight
             // 
-            this.SplitContainerRight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SplitContainerRight.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.SplitContainerRight.IsSplitterFixed = true;
-            this.SplitContainerRight.Location = new System.Drawing.Point(0, 0);
-            this.SplitContainerRight.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.SplitContainerRight.Name = "SplitContainerRight";
-            this.SplitContainerRight.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            SplitContainerRight.Dock = DockStyle.Fill;
+            SplitContainerRight.FixedPanel = FixedPanel.Panel1;
+            SplitContainerRight.IsSplitterFixed = true;
+            SplitContainerRight.Location = new System.Drawing.Point(0, 0);
+            SplitContainerRight.Margin = new Padding(4);
+            SplitContainerRight.Name = "SplitContainerRight";
+            SplitContainerRight.Orientation = Orientation.Horizontal;
             // 
             // SplitContainerRight.Panel1
             // 
-            this.SplitContainerRight.Panel1.Controls.Add(this.panel1);
+            SplitContainerRight.Panel1.Controls.Add(panel1);
             // 
             // SplitContainerRight.Panel2
             // 
-            this.SplitContainerRight.Panel2.Controls.Add(this.splitContainerSampleSource);
-            this.SplitContainerRight.Size = new System.Drawing.Size(1426, 880);
-            this.SplitContainerRight.SplitterDistance = 102;
-            this.SplitContainerRight.SplitterWidth = 5;
-            this.SplitContainerRight.TabIndex = 12;
+            SplitContainerRight.Panel2.Controls.Add(splitContainerSampleSource);
+            SplitContainerRight.Size = new System.Drawing.Size(1248, 825);
+            SplitContainerRight.SplitterDistance = 96;
+            SplitContainerRight.SplitterWidth = 5;
+            SplitContainerRight.TabIndex = 12;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.btnSource);
-            this.panel1.Controls.Add(this.labelSampleDescription);
-            this.panel1.Controls.Add(this.labelSampleName);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1426, 102);
-            this.panel1.TabIndex = 9;
+            panel1.Controls.Add(btnSource);
+            panel1.Controls.Add(labelSampleDescription);
+            panel1.Controls.Add(labelSampleName);
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new System.Drawing.Point(0, 0);
+            panel1.Margin = new Padding(4, 2, 4, 2);
+            panel1.Name = "panel1";
+            panel1.Size = new System.Drawing.Size(1248, 96);
+            panel1.TabIndex = 9;
             // 
             // btnSource
             // 
-            this.btnSource.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(102)))), ((int)(((byte)(102)))));
-            this.btnSource.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnSource.ForeColor = System.Drawing.Color.White;
-            this.btnSource.Location = new System.Drawing.Point(4, 86);
-            this.btnSource.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.btnSource.Name = "btnSource";
-            this.btnSource.Size = new System.Drawing.Size(115, 36);
-            this.btnSource.TabIndex = 11;
-            this.btnSource.Text = "Source";
-            this.btnSource.UseVisualStyleBackColor = false;
-            this.btnSource.Click += new System.EventHandler(this.btnSource_Click);
+            btnSource.BackColor = System.Drawing.Color.FromArgb(102, 102, 102);
+            btnSource.FlatStyle = FlatStyle.Popup;
+            btnSource.ForeColor = System.Drawing.Color.White;
+            btnSource.Location = new System.Drawing.Point(4, 63);
+            btnSource.Margin = new Padding(4);
+            btnSource.Name = "btnSource";
+            btnSource.Size = new System.Drawing.Size(101, 34);
+            btnSource.TabIndex = 11;
+            btnSource.Text = "Source";
+            btnSource.UseVisualStyleBackColor = false;
+            btnSource.Click += btnSource_Click;
             // 
             // labelSampleDescription
             // 
-            this.labelSampleDescription.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.labelSampleDescription.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSampleDescription.ForeColor = System.Drawing.Color.Transparent;
-            this.labelSampleDescription.Location = new System.Drawing.Point(0, 26);
-            this.labelSampleDescription.Name = "labelSampleDescription";
-            this.labelSampleDescription.Size = new System.Drawing.Size(1426, 76);
-            this.labelSampleDescription.TabIndex = 8;
-            this.labelSampleDescription.Text = "labelSampleDescription";
+            labelSampleDescription.Dock = DockStyle.Bottom;
+            labelSampleDescription.Font = (System.Drawing.Font)resources.GetObject("labelSampleDescription.Font");
+            labelSampleDescription.ForeColor = System.Drawing.Color.Transparent;
+            labelSampleDescription.Location = new System.Drawing.Point(0, 44);
+            labelSampleDescription.Name = "labelSampleDescription";
+            labelSampleDescription.Size = new System.Drawing.Size(1248, 52);
+            labelSampleDescription.TabIndex = 8;
+            labelSampleDescription.Text = "labelSampleDescription";
             // 
             // labelSampleName
             // 
-            this.labelSampleName.AutoSize = true;
-            this.labelSampleName.Font = new System.Drawing.Font("Arial", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSampleName.ForeColor = System.Drawing.Color.Transparent;
-            this.labelSampleName.Location = new System.Drawing.Point(1, 15);
-            this.labelSampleName.Name = "labelSampleName";
-            this.labelSampleName.Size = new System.Drawing.Size(138, 19);
-            this.labelSampleName.TabIndex = 8;
-            this.labelSampleName.Text = "labelSampleName";
+            labelSampleName.AutoSize = true;
+            labelSampleName.Font = (System.Drawing.Font)resources.GetObject("labelSampleName.Font");
+            labelSampleName.ForeColor = System.Drawing.Color.Transparent;
+            labelSampleName.Location = new System.Drawing.Point(1, 14);
+            labelSampleName.Name = "labelSampleName";
+            labelSampleName.Size = new System.Drawing.Size(138, 19);
+            labelSampleName.TabIndex = 8;
+            labelSampleName.Text = "labelSampleName";
             // 
             // splitContainerSampleSource
             // 
-            this.splitContainerSampleSource.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainerSampleSource.Location = new System.Drawing.Point(0, 0);
-            this.splitContainerSampleSource.Margin = new System.Windows.Forms.Padding(0);
-            this.splitContainerSampleSource.Name = "splitContainerSampleSource";
+            splitContainerSampleSource.Dock = DockStyle.Fill;
+            splitContainerSampleSource.Location = new System.Drawing.Point(0, 0);
+            splitContainerSampleSource.Margin = new Padding(0);
+            splitContainerSampleSource.Name = "splitContainerSampleSource";
             // 
             // splitContainerSampleSource.Panel1
             // 
-            this.splitContainerSampleSource.Panel1.Controls.Add(this.cSharpBrowser);
-            this.splitContainerSampleSource.Panel1Collapsed = true;
-            this.splitContainerSampleSource.Panel1MinSize = 20;
+            splitContainerSampleSource.Panel1.Controls.Add(cSharpBrowser);
+            splitContainerSampleSource.Panel1Collapsed = true;
+            splitContainerSampleSource.Panel1MinSize = 20;
             // 
             // splitContainerSampleSource.Panel2
             // 
-            this.splitContainerSampleSource.Panel2.Controls.Add(this.pnlOption);
-            this.splitContainerSampleSource.Size = new System.Drawing.Size(1426, 773);
-            this.splitContainerSampleSource.SplitterDistance = 512;
-            this.splitContainerSampleSource.SplitterWidth = 5;
-            this.splitContainerSampleSource.TabIndex = 11;
+            splitContainerSampleSource.Panel2.Controls.Add(pnlOption);
+            splitContainerSampleSource.Size = new System.Drawing.Size(1248, 724);
+            splitContainerSampleSource.SplitterDistance = 448;
+            splitContainerSampleSource.TabIndex = 11;
             // 
             // cSharpBrowser
             // 
-            this.cSharpBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cSharpBrowser.Location = new System.Drawing.Point(0, 0);
-            this.cSharpBrowser.Margin = new System.Windows.Forms.Padding(0);
-            this.cSharpBrowser.MinimumSize = new System.Drawing.Size(36, 31);
-            this.cSharpBrowser.Name = "cSharpBrowser";
-            this.cSharpBrowser.Size = new System.Drawing.Size(683, 123);
-            this.cSharpBrowser.TabIndex = 0;
+            cSharpBrowser.Dock = DockStyle.Fill;
+            cSharpBrowser.Location = new System.Drawing.Point(0, 0);
+            cSharpBrowser.Margin = new Padding(0);
+            cSharpBrowser.MinimumSize = new System.Drawing.Size(32, 29);
+            cSharpBrowser.Name = "cSharpBrowser";
+            cSharpBrowser.Size = new System.Drawing.Size(448, 94);
+            cSharpBrowser.TabIndex = 0;
             // 
             // pnlOption
             // 
-            this.pnlOption.AutoSize = true;
-            this.pnlOption.BackColor = System.Drawing.Color.LightBlue;
-            this.pnlOption.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlOption.Location = new System.Drawing.Point(0, 0);
-            this.pnlOption.Margin = new System.Windows.Forms.Padding(0);
-            this.pnlOption.Name = "pnlOption";
-            this.pnlOption.Size = new System.Drawing.Size(1426, 773);
-            this.pnlOption.TabIndex = 8;
+            pnlOption.AutoSize = true;
+            pnlOption.BackColor = System.Drawing.Color.LightBlue;
+            pnlOption.Dock = DockStyle.Fill;
+            pnlOption.Location = new System.Drawing.Point(0, 0);
+            pnlOption.Margin = new Padding(0);
+            pnlOption.Name = "pnlOption";
+            pnlOption.Size = new System.Drawing.Size(1248, 724);
+            pnlOption.TabIndex = 8;
             // 
             // Samples
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(48)))), ((int)(((byte)(53)))));
-            this.ClientSize = new System.Drawing.Size(1776, 964);
-            this.Controls.Add(this.pnlTop);
-            this.Controls.Add(this.splitContainerMain);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.Name = "Samples";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "C# Sample App";
-            this.Load += new System.EventHandler(this.Samples_Load);
-            this.pnlTop.ResumeLayout(false);
-            this.pnlTop.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.splitContainerMain.Panel1.ResumeLayout(false);
-            this.splitContainerMain.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).EndInit();
-            this.splitContainerMain.ResumeLayout(false);
-            this.splitContainerLeft.Panel1.ResumeLayout(false);
-            this.splitContainerLeft.Panel1.PerformLayout();
-            this.splitContainerLeft.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerLeft)).EndInit();
-            this.splitContainerLeft.ResumeLayout(false);
-            this.SplitContainerRight.Panel1.ResumeLayout(false);
-            this.SplitContainerRight.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.SplitContainerRight)).EndInit();
-            this.SplitContainerRight.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.splitContainerSampleSource.Panel1.ResumeLayout(false);
-            this.splitContainerSampleSource.Panel2.ResumeLayout(false);
-            this.splitContainerSampleSource.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerSampleSource)).EndInit();
-            this.splitContainerSampleSource.ResumeLayout(false);
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = System.Drawing.Color.FromArgb(45, 48, 53);
+            ClientSize = new System.Drawing.Size(1554, 904);
+            Controls.Add(pnlTop);
+            Controls.Add(splitContainerMain);
+            Margin = new Padding(4);
+            Name = "Samples";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "C# Sample App";
+            Load += Samples_Load;
+            pnlTop.ResumeLayout(false);
+            pnlTop.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            splitContainerMain.Panel1.ResumeLayout(false);
+            splitContainerMain.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)splitContainerMain).EndInit();
+            splitContainerMain.ResumeLayout(false);
+            splitContainerLeft.Panel1.ResumeLayout(false);
+            splitContainerLeft.Panel1.PerformLayout();
+            splitContainerLeft.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)splitContainerLeft).EndInit();
+            splitContainerLeft.ResumeLayout(false);
+            SplitContainerRight.Panel1.ResumeLayout(false);
+            SplitContainerRight.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)SplitContainerRight).EndInit();
+            SplitContainerRight.ResumeLayout(false);
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            splitContainerSampleSource.Panel1.ResumeLayout(false);
+            splitContainerSampleSource.Panel2.ResumeLayout(false);
+            splitContainerSampleSource.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainerSampleSource).EndInit();
+            splitContainerSampleSource.ResumeLayout(false);
+            ResumeLayout(false);
         }
 
         #endregion

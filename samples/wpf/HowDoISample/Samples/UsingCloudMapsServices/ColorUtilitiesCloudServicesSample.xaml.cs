@@ -31,7 +31,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
@@ -65,8 +65,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
 
             // Get the exttent of the features from the housing units shapefile, and set the map extent.
             housingUnitsLayer.Open();
-            mapView.CurrentExtent = housingUnitsLayer.GetBoundingBox();
-            mapView.ZoomOut();
+            mapView.CurrentExtent = housingUnitsLayer.GetBoundingBox();            
+            await mapView.ZoomOutAsync();
             housingUnitsLayer.Close();
 
             // Initialize the ColorCloudClient using our ThinkGeo Cloud credentials
@@ -77,10 +77,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             // If colors were successfully generated, update the map
             if (colors.Count > 0)
             {
-                UpdateHousingUnitsLayerColors(colors);
+                await UpdateHousingUnitsLayerColorsAsync(colors);
             }
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         /// <summary>
         /// Update the colors for the housing units layers
         /// </summary>
-        private void UpdateHousingUnitsLayerColors(Collection<GeoColor> colors)
+        private async Task UpdateHousingUnitsLayerColorsAsync(Collection<GeoColor> colors)
         {
             // Get the housing units layer from the MapView
             LayerOverlay housingUnitsOverlay = (LayerOverlay)mapView.Overlays["Frisco Housing Units Overlay"];
@@ -169,13 +169,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             housingUnitsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(classBreakStyle);
             housingUnitsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            GenerateNewLegendItems(classBreaks);
+            await GenerateNewLegendItemsAsync(classBreaks);
 
             // Refresh the overlay to redraw the features
-            housingUnitsOverlay.Refresh();
+            await housingUnitsOverlay.RefreshAsync();
         }
 
-        private void GenerateNewLegendItems(Collection<ClassBreak> classBreaks)
+        private async Task GenerateNewLegendItemsAsync(Collection<ClassBreak> classBreaks)
         {
             // Clear the previous legend adornment
             LegendAdornmentLayer legend = (LegendAdornmentLayer)mapView.AdornmentOverlay.Layers["Legend"];
@@ -192,7 +192,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
                 legend.LegendItems.Add(legendItem);
             }
 
-            mapView.AdornmentOverlay.Refresh();
+            await mapView.AdornmentOverlay.RefreshAsync();
         }
 
         /// <summary>
@@ -206,7 +206,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             // If colors were successfully generated, update the map
             if (colors.Count > 0)
             {
-                UpdateHousingUnitsLayerColors(colors);
+                await UpdateHousingUnitsLayerColorsAsync(colors);
             }
         }
 

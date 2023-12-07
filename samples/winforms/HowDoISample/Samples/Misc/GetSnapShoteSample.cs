@@ -14,10 +14,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // set the map extent to Frisco, TX
@@ -29,7 +29,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             simpleMarkerOverlay.Markers.Add(marker);
             mapView.Overlays.Add(simpleMarkerOverlay);
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         private void Snapshot_Click(object sender, EventArgs e)

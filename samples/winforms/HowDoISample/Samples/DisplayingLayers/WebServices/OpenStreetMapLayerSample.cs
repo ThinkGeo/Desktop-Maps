@@ -12,7 +12,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.Meter;
@@ -28,14 +28,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Create the new layer and add it to the overlay.  We set the user agent to specify the requests are coming from our samples.
             // You need to change this to your application so they can identify you for usage.
-            var openStreetMapLayer = new ThinkGeo.Core.OpenStreetMapLayer("ThinkGeo Samples/12.0 (http://thinkgeo.com/; system@thinkgeo.com)");
+            var openStreetMapLayer = new Core.Async.OpenStreetMapLayer("ThinkGeo Samples/12.0 (http://thinkgeo.com/; system@thinkgeo.com)");
             layerOverlay.Layers.Add(openStreetMapLayer);
 
             // Set the current extent to a local area.
             mapView.CurrentExtent = new RectangleShape(-10789388.4602951, 3923878.18083465, -10768258.7082788, 3906668.46719412);
 
             // Refresh the map.
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         #region Component Designer generated code

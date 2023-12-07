@@ -12,7 +12,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.Meter;
@@ -21,7 +21,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.ZoomLevelSet = new ThinkGeoCloudMapsZoomLevelSet();
 
             // Create the layer overlay with some additional settings and add to the map.
-            ThinkGeoCloudVectorMapsOverlay cloudOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~");
+            ThinkGeoCloudVectorMapsOverlay cloudOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~");
             cloudOverlay.MapType = ThinkGeoCloudVectorMapsMapType.Light;
             mapView.Overlays.Add("Cloud Overlay", cloudOverlay);
 
@@ -29,7 +29,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = new RectangleShape(-10781708.9749424, 3913502.90429046, -10777685.1114043, 3910360.79646662);
 
             // Refresh the map.
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         #region Component Designer generated code

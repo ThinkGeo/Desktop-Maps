@@ -24,11 +24,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
         }
 
-        private void displayOsmMaps_Click(object sender, EventArgs e)
+        private async void displayOsmMaps_Click(object sender, EventArgs e)
         {
             OpenStreetMapOverlay osmMapsOverlay = new OpenStreetMapOverlay(osmUserAgent.Text);
             mapView.Overlays.Add(osmMapsOverlay);
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         #region Component Designer generated code

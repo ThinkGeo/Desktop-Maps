@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -19,7 +20,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
         /// <summary>
         /// Set up feature layers in the MapView to display the validated features
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Create an InMemoryFeatureLayer to hold the shapes to be validated
             // Add styles to display points, lines, and polygons on this layer in green
@@ -57,13 +58,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
 
             rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries.IsChecked = true;
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>
         /// Validate polygons based on whether their boundaries overlap with the boundaries of a second set of polygons, and display the results on the map
         /// </summary>
-        private void CheckIfPolygonBoundariesOverlapPolygonBoundaries(object sender, RoutedEventArgs e)
+        private async void CheckIfPolygonBoundariesOverlapPolygonBoundaries(object sender, RoutedEventArgs e)
         {
             // Create a sample set of polygon features to use for the validation
             Feature coveringPolygonFeature = new Feature("POLYGON((0 0,100 0,100 100,0 100,0 0))");
@@ -78,7 +79,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { coveredPolygonFeature }, invalidResultFeatures, new Collection<Feature>() { coveringPolygonFeature });
+            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { coveredPolygonFeature }, invalidResultFeatures, new Collection<Feature>() { coveringPolygonFeature });
 
             // Update the help text
             txtValidationInfo.Text = "Features being validated against are shown in blue. \n\nPolygons being validated are shown in green. \n\nNon-overlapping polygon boundaries are shown in red.";
@@ -87,7 +88,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
         /// <summary>
         /// Validate polygons based on whether their boundaries overlap with a separate set of lines, and display the results on the map
         /// </summary>
-        private void CheckIfPolygonBoundariesOverlapLines(object sender, RoutedEventArgs e)
+        private async void CheckIfPolygonBoundariesOverlapLines(object sender, RoutedEventArgs e)
         {
             // Create a sample set of polygon and line features to use for the validation
             Feature polygonFeature = new Feature("POLYGON((0 0,100 0,100 100,0 100,0 0))");
@@ -102,7 +103,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { polygonFeature }, invalidResultFeatures, new Collection<Feature>() { lineFeature });
+            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { polygonFeature }, invalidResultFeatures, new Collection<Feature>() { lineFeature });
 
             // Update the help text
             txtValidationInfo.Text = "Features being validated against are shown in blue. \n\nPolygons being validated are shown in green. \n\nNon-overlapping polygon boundaries are shown in red.";
@@ -111,7 +112,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
         /// <summary>
         /// Validate polygons based on whether they overlap a second set of polygons, and display the results on the map
         /// </summary>
-        private void CheckIfPolygonsOverlapPolygons(object sender, RoutedEventArgs e)
+        private async void CheckIfPolygonsOverlapPolygons(object sender, RoutedEventArgs e)
         {
             // Create a sample set of polygon features to use for the validation
             Feature polygonFeature1 = new Feature("POLYGON((25 25,50 25,50 50,25 50,25 25))");
@@ -128,7 +129,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { polygonFeature1, polygonFeature2, polygonFeature3 }, invalidResultFeatures, new Collection<Feature>() { coveringPolygonFeature });
+            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { polygonFeature1, polygonFeature2, polygonFeature3 }, invalidResultFeatures, new Collection<Feature>() { coveringPolygonFeature });
 
             // Update the help text
             txtValidationInfo.Text = "Features being validated against are shown in blue. \n\nOverlapping regions are shown in green. \n\nNon-overlapping regions are shown in red.";
@@ -137,7 +138,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
         /// <summary>
         /// Validate polygons based on whether they lie within other polygons, and display the results on the map
         /// </summary>
-        private void CheckIfPolygonsAreWithinPolygons(object sender, RoutedEventArgs e)
+        private async void CheckIfPolygonsAreWithinPolygons(object sender, RoutedEventArgs e)
         {
             // Create a sample set of polygon features to use for the validation
             Feature polygonFeature1 = new Feature("POLYGON((25 25,50 25,50 50,25 50,25 25))");
@@ -154,7 +155,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { polygonFeature1, polygonFeature2, polygonFeature3 }, invalidResultFeatures, new Collection<Feature>() { coveringPolygonFeature });
+            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { polygonFeature1, polygonFeature2, polygonFeature3 }, invalidResultFeatures, new Collection<Feature>() { coveringPolygonFeature });
 
             // Update the help text
             txtValidationInfo.Text = "Features being validated against are shown in blue. \n\nPolygons fully within polygons are shown in green. \n\nPolygons not within polygons are shown in red.";
@@ -163,7 +164,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
         /// <summary>
         /// Validate polygons based on whether they contain points, and display the results on the map
         /// </summary>
-        private void CheckIfPolygonsContainPoints(object sender, RoutedEventArgs e)
+        private async void CheckIfPolygonsContainPoints(object sender, RoutedEventArgs e)
         {
             // Create a sample set of points and polygon features to use for the validation
             Feature pointFeature = new Feature("POINT(50 50)");
@@ -179,7 +180,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { polygonFeature, polygonWithPointFeature }, invalidResultFeatures, new Collection<Feature>() { pointFeature });
+            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { polygonFeature, polygonWithPointFeature }, invalidResultFeatures, new Collection<Feature>() { pointFeature });
 
             // Update the help text
             txtValidationInfo.Text = "Features being validated against are shown in blue. \n\nPolygons containing points are shown in green. \n\nPolygons not containing points are shown in red.";
@@ -188,7 +189,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
         /// <summary>
         /// Validate polygons based on whether they overlap each other, and display the results on the map. Unlike other validations, this function validates and returns invalid polygons from both input sets
         /// </summary>
-        private void CheckIfPolygonsCoverEachOther(object sender, RoutedEventArgs e)
+        private async void CheckIfPolygonsCoverEachOther(object sender, RoutedEventArgs e)
         {
             // Create a sample set of polygon features to use for the validation
             Feature polygonFeature1 = new Feature("POLYGON((0 0,100 0,100 100,0 100,0 0))");
@@ -203,7 +204,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { polygonFeature1, polygonFeature2 }, invalidResultFeatures);
+            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { polygonFeature1, polygonFeature2 }, invalidResultFeatures);
 
             // Update the help text
             txtValidationInfo.Text = "All non-overlapping regions from two different sets of polygons are shown in red. \n\nOverlapping regions are shown in green";
@@ -212,7 +213,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
         /// <summary>
         /// Validate polygons based on whether the union of the polygons has any interior gaps, and display the results on the map
         /// </summary>
-        private void CheckIfPolygonsHaveGaps(object sender, RoutedEventArgs e)
+        private async void CheckIfPolygonsHaveGaps(object sender, RoutedEventArgs e)
         {
             // Create a sample set of polygon features to use for the validation
             Feature polygonFeature1 = new Feature("POLYGON((0 0,40 0,40 40,0 40,0 0))");
@@ -228,7 +229,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { polygonFeature1, polygonFeature2, polygonFeature3, polygonFeature4 }, invalidResultFeatures);
+            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { polygonFeature1, polygonFeature2, polygonFeature3, polygonFeature4 }, invalidResultFeatures);
 
             // Update the help text
             txtValidationInfo.Text = "Features being validated are shown in green. \n\nGaps (Inner rings) within the union of the polygons are shown in red.";
@@ -237,7 +238,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
         /// <summary>
         /// Validate polygons based on whether polygons within the same set overlap, and display the results on the map
         /// </summary>
-        private void CheckPolygonsMustNotOverlap(object sender, RoutedEventArgs e)
+        private async void CheckPolygonsMustNotOverlap(object sender, RoutedEventArgs e)
         {
             // Create a sample set of polygon features to use for the validation
             Feature polygonFeature1 = new Feature("POLYGON((25 25,50 25,50 50,25 50,25 25))");
@@ -253,7 +254,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { polygonFeature1, polygonFeature2, polygonFeature3, polygonFeature4 }, invalidResultFeatures);
+            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { polygonFeature1, polygonFeature2, polygonFeature3, polygonFeature4 }, invalidResultFeatures);
 
             // Update the help text
             txtValidationInfo.Text = "Features being validated are shown in green. \n\nOverlapping polygon regions are shown in red.";
@@ -262,7 +263,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
         /// <summary>
         /// Validate polygons based on whether they overlap polygons from a separate set, and display the results on the map
         /// </summary>
-        private void CheckPolygonsMustNotOverlapPolygons(object sender, RoutedEventArgs e)
+        private async void CheckPolygonsMustNotOverlapPolygons(object sender, RoutedEventArgs e)
         {
             // Create a sample set of polygon features to use for the validation
             Feature polygonFeature1 = new Feature("POLYGON((25 25,50 25,50 50,25 50,25 25))");
@@ -279,7 +280,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { polygonFeature1, polygonFeature2, polygonFeature3 }, invalidResultFeatures, new Collection<Feature>() { coveringPolygonFeature });
+            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { polygonFeature1, polygonFeature2, polygonFeature3 }, invalidResultFeatures, new Collection<Feature>() { coveringPolygonFeature });
 
             // Update the help text
             txtValidationInfo.Text = "Features being validated against are shown in blue. \n\nNon-overlapping polygon regions are shown in green. \n\nOverlapping polygon regions are shown in red.";
@@ -288,7 +289,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
         /// <summary>
         /// Clear the previously displayed features from the map, and add new features
         /// </summary>
-        private void ClearMapAndAddFeatures(Collection<Feature> validatedFeatures, Collection<Feature> resultFeatures, Collection<Feature> filterFeatures = null)
+        private async Task ClearMapAndAddFeaturesAsync(Collection<Feature> validatedFeatures, Collection<Feature> resultFeatures, Collection<Feature> filterFeatures = null)
         {
             // Get the InMemoryFeatureLayers from the MapView
             InMemoryFeatureLayer validatedFeaturesLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Validated Features");
@@ -328,12 +329,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
             // Refresh/redraw the layers and reset the map extent
             LayerOverlay featureOverlay = (LayerOverlay)mapView.Overlays["Features Overlay"];
             mapView.CurrentExtent = featureOverlay.GetBoundingBox();
-            mapView.Refresh();
+            await mapView.RefreshAsync();
 
             validatedFeaturesLayer.Close();
             filterFeaturesLayer.Close();
             resultFeaturesLayer.Close();
-            mapView.ZoomOut();
+            await mapView.ZoomOutAsync();
         }
         public void Dispose()
         {

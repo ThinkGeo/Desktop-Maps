@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using ThinkGeo.Core;
 using ThinkGeo.UI.WinForms;
 using NetTopologySuite.Geometries;
-
+using System.Threading.Tasks;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
@@ -17,10 +17,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map's unit of measurement to meters (Spherical Mercator)
@@ -59,11 +59,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Create a sample line and get elevation along that line
             LineShape sampleShape = new LineShape("LINESTRING(-10776298.0601626 3912306.29684573,-10776496.3187036 3912399.45447343,-10776675.4679876 3912478.28015841,-10776890.4471285 3912516.49867234,-10777189.0292686 3912509.33270098,-10777329.9600387 3912442.4503016,-10777664.3720356 3912174.92070409)");
-            PerformElevationQuery(sampleShape);
+            await PerformElevationQueryAsync(sampleShape);
             txtSliderValue.DataBindings.Add("Text", intervalDistance, "Value");
         }
 
-        private async void PerformElevationQuery(BaseShape queryShape)
+        private async Task PerformElevationQueryAsync(BaseShape queryShape)
         {
             // Get feature layers from the MapView
             LayerOverlay elevationPointsOverlay = (LayerOverlay)mapView.Overlays["Elevation Features Overlay"];
@@ -142,11 +142,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Set the map extent to the elevation query feature
             drawnShapesLayer.Open();
             mapView.CurrentExtent = drawnShapesLayer.GetBoundingBox();
-            mapView.ZoomToScale(mapView.CurrentScale * 2);
+            await mapView.ZoomToScaleAsync(mapView.CurrentScale * 2);
             drawnShapesLayer.Close();
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
-        private void OnShapeDrawn(object sender, TrackEndedTrackInteractiveOverlayEventArgs e)
+        private async void OnShapeDrawn(object sender, TrackEndedTrackInteractiveOverlayEventArgs e)
         {
             // Disable drawing mode and clear the drawing layer
             mapView.TrackOverlay.TrackMode = TrackMode.None;
@@ -173,7 +173,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
 
             // Get elevation data for the drawn shape and update the UI
-            PerformElevationQuery(e.TrackShape);
+            await PerformElevationQueryAsync(e.TrackShape);
         }
 
 
@@ -195,14 +195,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.TrackOverlay.TrackMode = TrackMode.Polygon;
         }
 
-        private void lsbElevations_SelectedIndexChanged(object sender, EventArgs e)
+        private async void lsbElevations_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (lsbElevations.SelectedItem != null)
             {
                 // Set the map extent to the selected point
                 CloudElevationPointResult elevationPoint = (CloudElevationPointResult)lsbElevations.SelectedItem;
                 mapView.CurrentExtent = elevationPoint.Point.GetBoundingBox();
-                mapView.Refresh();
+                await mapView.RefreshAsync();
             }
         }
 

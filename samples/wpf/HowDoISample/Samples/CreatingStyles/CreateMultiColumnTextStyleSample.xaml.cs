@@ -19,7 +19,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, project and add styles to the Hotels, Streets, and Parks layer.
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.DecimalDegree;
@@ -48,7 +48,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-8.70, 62.60, 38.81, 31.11);
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         public void Dispose()

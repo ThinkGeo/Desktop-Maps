@@ -7,6 +7,7 @@ using System.Threading;
 using System.Collections.ObjectModel;
 using System.Text;
 using System;
+using System.Threading.Tasks;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
@@ -23,13 +24,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, add the NOAA Weather Warning layer to the map
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Create background world map with vector tile requested from ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
@@ -67,11 +68,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             featureSource.Open();
             if (featureSource.GetCount() > 0)
             {
-                loadingImage.Visibility = Visibility.Hidden;
+                loadingImage.Visibility = Visibility.Hidden; 
             }
 
             // Refresh the map.
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         private void FeatureSource_WarningsUpdating(object sender, WarningsUpdatingNoaaWeatherWarningsFeatureSourceEventArgs e)
@@ -84,16 +85,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // This event fires when the the feature source has new data.  We need to make sure we refresh the map
             // on the UI threat so we use the Invoke method on the map using the delegate we created at the top.                        
             loadingImage.Dispatcher.Invoke(() => loadingImage.Visibility = Visibility.Hidden);
-            mapView.Dispatcher.Invoke(() => mapView.Refresh(mapView.Overlays["Noaa Weather Warning"]));
-
+            mapView.Dispatcher.InvokeAsync(async() => await mapView.RefreshAsync(mapView.Overlays["Noaa Weather Warning"]));
         }
 
-        public void InvokeMethod()
-        {
-            mapView.Refresh(mapView.Overlays["Noaa Weather Warning"]);
-        }
 
-        private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        private async void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
             // Get the selected feature based on the map click location
             Collection<Feature> selectedFeatures = GetFeaturesFromLocation(e.WorldLocation);
@@ -101,7 +97,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // If a feature was selected, get the data from it and display it
             if (selectedFeatures != null)
             {
-                DisplayFeatureInfo(selectedFeatures);
+                await DisplayFeatureInfoAsync(selectedFeatures);
             }
         }
         private Collection<Feature> GetFeaturesFromLocation(PointShape location)
@@ -114,7 +110,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             return selectedFeatures;
         }
-        private void DisplayFeatureInfo(Collection<Feature> features)
+        private async Task DisplayFeatureInfoAsync(Collection<Feature> features)
         {
             if (features.Count > 0)
             {
@@ -141,12 +137,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 popupOverlay.Popups.Add(popup);
 
                 // Refresh the overlay to redraw the popups
-                popupOverlay.Refresh();
+                await popupOverlay.RefreshAsync();
             }
         }
 
         public void Dispose()
         {
+            var noaaWeatherWarningsOverlay = mapView.Overlays["Noaa Weather Warning"] as LayerOverlay;
+            var noaaWeatherWarningsFeatureLayer = noaaWeatherWarningsOverlay.Layers["Noaa Weather Warning"] as NoaaWeatherWarningsFeatureLayer;
+            var featureSource = (NoaaWeatherWarningsFeatureSource)noaaWeatherWarningsFeatureLayer.FeatureSource;
+            featureSource.WarningsUpdated -= FeatureSource_WarningsUpdated;
+            featureSource.WarningsUpdating -= FeatureSource_WarningsUpdating;
+
             // Dispose of unmanaged resources.
             mapView.Dispose();
             // Suppress finalization.

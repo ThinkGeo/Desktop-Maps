@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -19,7 +20,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
         /// <summary>
         /// Set up feature layers in the MapView to display the validated features
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Create an InMemoryFeatureLayer to hold the shapes to be validated
             // Add styles to display points, lines, and polygons on this layer in green
@@ -57,13 +58,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
 
             rdoCheckLineEndpointsMustTouchPoints.IsChecked = true;
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>
         /// Validate lines based on whether their endpoints are touching points, and display the results on the map
         /// </summary>
-        private void CheckLineEndpointsMustTouchPoints(object sender, RoutedEventArgs e)
+        private async void CheckLineEndpointsMustTouchPoints(object sender, RoutedEventArgs e)
         {
             // Create a sample set of point and line features to use for the validation
             Feature lineFeature = new Feature("LINESTRING(0 0,100 0,100 50)");
@@ -78,7 +79,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { lineFeature }, invalidResultFeatures, new Collection<Feature>() { pointOnEndpointFeature });
+            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { lineFeature }, invalidResultFeatures, new Collection<Feature>() { pointOnEndpointFeature });
 
             // Update the help text
             txtValidationInfo.Text = "Features being validated against are shown in blue. \n\nLine endpoints touching points are shown in green. \n\nInvalid endpoints are shown in red.";
@@ -87,7 +88,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
         /// <summary>
         /// Validate lines based on whether they are overlapping polygon boundaries, and display the results on the map
         /// </summary>
-        private void CheckLinesMustOverlapPolygonBoundaries(object sender, RoutedEventArgs e)
+        private async void CheckLinesMustOverlapPolygonBoundaries(object sender, RoutedEventArgs e)
         {
             // Create a sample set of line and polygon features to use for the validation
             Feature lineFeature = new Feature("LINESTRING(-50 0,150 0)");
@@ -103,7 +104,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { lineFeature, lineOnBoundaryFeature }, invalidResultFeatures, new Collection<Feature>() { polygonFeature });
+            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { lineFeature, lineOnBoundaryFeature }, invalidResultFeatures, new Collection<Feature>() { polygonFeature });
 
             // Update the help text
             txtValidationInfo.Text = "Features being validated against are shown in blue. \n\nLine segments overlapping polygon boundaries are shown in green. \n\nInvalid line segments are shown in red.";
@@ -112,7 +113,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
         /// <summary>
         /// Validate lines based on whether they are overlapping lines from a separate set of features, and display the results on the map
         /// </summary>
-        private void CheckLinesMustOverlapLines(object sender, RoutedEventArgs e)
+        private async void CheckLinesMustOverlapLines(object sender, RoutedEventArgs e)
         {
             // Create a sample set of line features to use for the validation
             Feature lineFeature = new Feature("LINESTRING(0 0,100 0,100 100,0 100)");
@@ -127,7 +128,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { lineFeature }, invalidResultFeatures, new Collection<Feature>() { coveringLineFeature });
+            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { lineFeature }, invalidResultFeatures, new Collection<Feature>() { coveringLineFeature });
 
             // Update the help text
             txtValidationInfo.Text = "Features being validated against are shown in blue. \n\nLine segments overlapping lines are shown in green. \n\nInvalid line segments are shown in red.";
@@ -136,7 +137,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
         /// <summary>
         /// Validate lines based on whether they are composed of a single part, and display the results on the map
         /// </summary>
-        private void CheckLinesMustBeSinglePart(object sender, RoutedEventArgs e)
+        private async void CheckLinesMustBeSinglePart(object sender, RoutedEventArgs e)
         {
             // Create a sample set of line features to use for the validation
             Feature singleLineFeature = new Feature("MULTILINESTRING((0 -50,100 -50,100 -100,0 -100))");
@@ -150,7 +151,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { singleLineFeature, multiLineFeature }, invalidResultFeatures);
+            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { singleLineFeature, multiLineFeature }, invalidResultFeatures);
 
             // Update the help text
             txtValidationInfo.Text = "Lines made of single segments are shown in green. \n\nLines with disjoint segments are shown in red.";
@@ -159,7 +160,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
         /// <summary>
         /// Validate lines based on whether they form a closed polygon, and display the results on the map
         /// </summary>
-        private void CheckLinesMustFormClosedPolygon(object sender, RoutedEventArgs e)
+        private async void CheckLinesMustFormClosedPolygon(object sender, RoutedEventArgs e)
         {
             // Create a sample set of line features to use for the validation
             Feature lineFeature1 = new Feature("LINESTRING(0 0,100 0,100 100,20 100)");
@@ -173,7 +174,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(lines, invalidResultFeatures);
+            await ClearMapAndAddFeaturesAsync(lines, invalidResultFeatures);
 
             // Update the help text
             txtValidationInfo.Text = "Lines being validated are shown in green. \n\nLine endpoints that do not form a closed polygon are shown in red.";
@@ -182,7 +183,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
         /// <summary>
         /// Validate lines based on whether they form pseudonodes, and display the results on the map
         /// </summary>
-        private void CheckLinesMustNotHavePseudonodes(object sender, RoutedEventArgs e)
+        private async void CheckLinesMustNotHavePseudonodes(object sender, RoutedEventArgs e)
         {
             // Create a sample set of line features to use for the validation
             Feature lineSegmentFeature1 = new Feature("LINESTRING(0 0,50 0,50 50,0 0)");
@@ -200,7 +201,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(lines, invalidResultFeatures);
+            await ClearMapAndAddFeaturesAsync(lines, invalidResultFeatures);
 
             // Update the help text
             txtValidationInfo.Text = "Lines being validated are shown in green. \n\nPseudonodes are shown in red.";
@@ -209,7 +210,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
         /// <summary>
         /// Validate lines based on whether they intersect other lines, and display the results on the map
         /// </summary>
-        private void CheckLinesMustNotIntersect(object sender, RoutedEventArgs e)
+        private async void CheckLinesMustNotIntersect(object sender, RoutedEventArgs e)
         {
             // Create a sample set of line features to use for the validation
             Feature lineFeature1 = new Feature("LINESTRING(0 0,100 0,100 100)");
@@ -224,7 +225,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { lineFeature1, lineFeature2, lineFeature3 }, invalidResultFeatures);
+            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { lineFeature1, lineFeature2, lineFeature3 }, invalidResultFeatures);
 
             // Update the help text
             txtValidationInfo.Text = "Lines being validated are shown in green. \n\nIntersections are shown in red.";
@@ -233,7 +234,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
         /// <summary>
         /// Validate lines based on whether they intersect or touch other lines, and display the results on the map
         /// </summary>
-        private void CheckLinesMustNotSelfIntersectOrTouch(object sender, RoutedEventArgs e)
+        private async void CheckLinesMustNotSelfIntersectOrTouch(object sender, RoutedEventArgs e)
         {
             // Create a sample set of line features to use for the validation
             Feature lineFeature1 = new Feature("LINESTRING(0 0,100 0,100 100)");
@@ -248,7 +249,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { lineFeature1, lineFeature2, lineFeature3 }, invalidResultFeatures);
+            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { lineFeature1, lineFeature2, lineFeature3 }, invalidResultFeatures);
 
             // Update the help text
             txtValidationInfo.Text = "Lines being validated are shown in green. \n\nIntersecting points and overlapping segments are shown in red.";
@@ -257,7 +258,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
         /// <summary>
         /// Validate lines based on whether they overlap other lines, and display the results on the map
         /// </summary>
-        private void CheckLinesMustNotOverlap(object sender, RoutedEventArgs e)
+        private async void CheckLinesMustNotOverlap(object sender, RoutedEventArgs e)
         {
             // Create a sample set of line features to use for the validation
             Feature lineFeature1 = new Feature("LINESTRING(0 0,100 0,100 100)");
@@ -272,7 +273,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { lineFeature1, lineFeature2, lineFeature3 }, invalidResultFeatures);
+            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { lineFeature1, lineFeature2, lineFeature3 }, invalidResultFeatures);
 
             // Update the help text
             txtValidationInfo.Text = "Lines being validated are shown in green. \n\nOverlapping segments are shown in red.";
@@ -281,7 +282,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
         /// <summary>
         /// Validate lines based on whether they overlap other lines from a separate set of features, and display the results on the map
         /// </summary>
-        private void CheckLinesMustNotOverlapLines(object sender, RoutedEventArgs e)
+        private async void CheckLinesMustNotOverlapLines(object sender, RoutedEventArgs e)
         {
             // Create a sample set of line features to use for the validation
             Feature overlappingLineFeature = new Feature("LINESTRING(0 0,100 0,100 100,0 100)");
@@ -296,7 +297,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { overlappedLineFeature }, invalidResultFeatures, new Collection<Feature>() { overlappingLineFeature });
+            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { overlappedLineFeature }, invalidResultFeatures, new Collection<Feature>() { overlappingLineFeature });
 
             // Update the help text
             txtValidationInfo.Text = "Features being validated against are shown in blue. \n\nLines being validated are shown in green. \n\nOverlapping line segments are shown in red.";
@@ -305,7 +306,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
         /// <summary>
         /// Validate lines based on whether they self-intersect, and display the results on the map
         /// </summary>
-        private void CheckLinesMustNotSelfIntersect(object sender, RoutedEventArgs e)
+        private async void CheckLinesMustNotSelfIntersect(object sender, RoutedEventArgs e)
         {
             // Create a sample set of line features to use for the validation
             Feature selfIntersectingLine = new Feature("LINESTRING(0 0,100 0,100 100,50 100,50 -50)");
@@ -318,7 +319,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { selfIntersectingLine }, invalidResultFeatures);
+            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { selfIntersectingLine }, invalidResultFeatures);
 
             // Update the help text
             txtValidationInfo.Text = "Lines being validated are shown in green. \n\nSelf-intersections are shown in red.";
@@ -327,7 +328,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
         /// <summary>
         /// Validate lines based on whether they elf-overlap, and display the results on the map
         /// </summary>
-        private void CheckLinesMustNotSelfOverlap(object sender, RoutedEventArgs e)
+        private async void CheckLinesMustNotSelfOverlap(object sender, RoutedEventArgs e)
         {
             // Create a sample set of line features to use for the validation
             Feature selfOverlappingLine = new Feature("LINESTRING(0 0,100 0,100 100,0 100,20 0,40 0,40 -50)");
@@ -340,7 +341,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
             Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { selfOverlappingLine }, invalidResultFeatures);
+            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { selfOverlappingLine }, invalidResultFeatures);
 
             // Update the help text
             txtValidationInfo.Text = "Lines being validated are shown in green. \n\nOverlapping segments are shown in red.";
@@ -349,7 +350,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
         /// <summary>
         /// Clear the previously displayed features from the map, and add new features
         /// </summary>
-        private void ClearMapAndAddFeatures(Collection<Feature> validatedFeatures, Collection<Feature> resultFeatures, Collection<Feature> filterFeatures = null)
+        private async Task ClearMapAndAddFeaturesAsync(Collection<Feature> validatedFeatures, Collection<Feature> resultFeatures, Collection<Feature> filterFeatures = null)
         {
             // Get the InMemoryFeatureLayers from the MapView
             InMemoryFeatureLayer validatedFeaturesLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Validated Features");
@@ -389,12 +390,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
             // Refresh/redraw the layers and reset the map extent
             LayerOverlay featureOverlay = (LayerOverlay)mapView.Overlays["Features Overlay"];
             mapView.CurrentExtent = featureOverlay.GetBoundingBox();
-            mapView.Refresh();
+            await mapView.RefreshAsync();
 
             validatedFeaturesLayer.Close();
             filterFeaturesLayer.Close();
             resultFeaturesLayer.Close();
-            mapView.ZoomOut();
+            await mapView.ZoomOutAsync();
         }
         public void Dispose()
         {

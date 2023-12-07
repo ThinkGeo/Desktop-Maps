@@ -24,10 +24,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay and a feature layer for the reprojected features
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
@@ -59,7 +59,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             // Initialize the ProjectionCloudClient with our ThinkGeo Cloud credentials
             projectionCloudClient = new ProjectionCloudClient("FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~", "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~");
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         /// <summary>
         /// Draw reprojected features on the map
         /// </summary>
-        private void ClearMapAndAddFeatures(Collection<Feature> features)
+        private async Task ClearMapAndAddFeaturesAsync(Collection<Feature> features)
         {
             // Get the layer we prepared from the MapView
             InMemoryFeatureLayer reprojectedFeatureLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Reprojected Features Layer");
@@ -115,10 +115,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             mapView.CurrentExtent = reprojectedFeatureLayer.GetBoundingBox();
 
             ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
-            mapView.ZoomToScale(standardZoomLevelSet.ZoomLevel18.Scale);
+            await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
 
             reprojectedFeatureLayer.Close();
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             Feature sphericalMercatorFeature = await ReprojectAFeature(decimalDegreeFeature);
 
             // Add the reprojected features to the map
-            ClearMapAndAddFeatures(new Collection<Feature>() { sphericalMercatorFeature });
+            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { sphericalMercatorFeature });
         }
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             Collection<Feature> sphericalMercatorFeatures = await ReprojectMultipleFeatures(decimalDegreeFeatures);
 
             // Add the reprojected features to the map
-            ClearMapAndAddFeatures(sphericalMercatorFeatures);
+            await ClearMapAndAddFeaturesAsync(sphericalMercatorFeatures);
         }
         public void Dispose()
         {

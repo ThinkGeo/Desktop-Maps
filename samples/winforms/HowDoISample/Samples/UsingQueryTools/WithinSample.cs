@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using ThinkGeo.Core;
 using ThinkGeo.UI.WinForms;
@@ -15,10 +16,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the Map Unit to meters (used in Spherical Mercator)
@@ -64,12 +65,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Add a sample shape to the map for the initial query
             PolygonShape sampleShape = new PolygonShape("POLYGON((-10779148.1848451 3916088.62700432,-10779960.3282662 3913862.39842209,-10777189.4860062 3911913.25450323,-10777179.9313777 3915754.21500743,-10779148.1848451 3916088.62700432))");
-            GetFeaturesWithin(sampleShape);
+            await GetFeaturesWithinAsync(sampleShape);
 
             // Set the map extent to the sample shapes
             mapView.CurrentExtent = sampleShape.GetBoundingBox();
-            mapView.ZoomOut();
-            mapView.Refresh();
+            await mapView.ZoomOutAsync();
+            await mapView.RefreshAsync();
         }
         private Collection<Feature> PerformSpatialQuery(BaseShape shape, FeatureLayer layer)
         {
@@ -84,7 +85,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// <summary>
         /// Highlight the features that were found by the spatial query
         /// </summary>
-        private void HighlightQueriedFeatures(IEnumerable<Feature> features)
+        private async Task HighlightQueriedFeaturesAsync(IEnumerable<Feature> features)
         {
             // Find the layers we will be modifying in the MapView dictionary
             LayerOverlay highlightedFeaturesOverlay = (LayerOverlay)mapView.Overlays["Highlighted Features Overlay"];
@@ -102,7 +103,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             highlightedFeaturesLayer.Close();
 
             // Refresh the overlay so the layer is redrawn
-            highlightedFeaturesOverlay.Refresh();
+            await highlightedFeaturesOverlay.RefreshAsync();
 
             // Update the number of matching features found in the UI
             txtNumberOfFeaturesFound.Text = string.Format("Number of features within the drawn shape: {0}", features.Count());
@@ -111,7 +112,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// <summary>
         /// Perform the spatial query and draw the shapes on the map
         /// </summary>
-        private void GetFeaturesWithin(PolygonShape polygon)
+        private async Task GetFeaturesWithinAsync(PolygonShape polygon)
         {
             // Find the layers we will be modifying in the MapView
             LayerOverlay queryFeaturesOverlay = (LayerOverlay)mapView.Overlays["Query Features Overlay"];
@@ -121,11 +122,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Clear the query shape layer and add the newly drawn shape
             queryFeatureLayer.InternalFeatures.Clear();
             queryFeatureLayer.InternalFeatures.Add(new Feature(polygon));
-            queryFeaturesOverlay.Refresh();
+            await queryFeaturesOverlay.RefreshAsync();
 
             // Perform the spatial query using the drawn shape and highlight features that were found
             var queriedFeatures = PerformSpatialQuery(polygon, zoningLayer);
-            HighlightQueriedFeatures(queriedFeatures);
+            await HighlightQueriedFeaturesAsync(queriedFeatures);
 
             // Disable map drawing and clear the drawn shape
             mapView.TrackOverlay.TrackMode = TrackMode.None;
@@ -135,9 +136,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// <summary>
         /// Performs the spatial query when a new polygon is drawn
         /// </summary>
-        private void OnPolygonDrawn(object sender, TrackEndedTrackInteractiveOverlayEventArgs e)
+        private async void OnPolygonDrawn(object sender, TrackEndedTrackInteractiveOverlayEventArgs e)
         {
-            GetFeaturesWithin((PolygonShape)e.TrackShape);
+            await GetFeaturesWithinAsync((PolygonShape)e.TrackShape);
         }
 
         private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)

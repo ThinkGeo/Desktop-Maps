@@ -21,65 +21,65 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, add the friscoParks and selectedAreaLayer layers
         /// into a grouped LayerOverlay and display it on the map.
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            ShapeFileFeatureLayer friscoParks = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
-            InMemoryFeatureLayer selectedAreaLayer = new InMemoryFeatureLayer();
-            LayerOverlay layerOverlay = new LayerOverlay();
-
+            // Create a feature layer to hold the Frisco Parks data
+            ShapeFileFeatureLayer friscoParksLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");            
+            
             // Project friscoParks layer to Spherical Mercator to match the map projection
-            friscoParks.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+            friscoParksLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
             // Style friscoParks layer
-            friscoParks.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(32, GeoColors.Orange), GeoColors.DimGray);
-            friscoParks.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            friscoParksLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(32, GeoColors.Orange), GeoColors.DimGray);
+            friscoParksLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
+            LayerOverlay friscoParkOverlay = new LayerOverlay();
+            friscoParkOverlay.Layers.Add("FriscoParksLayer", friscoParksLayer);
+            mapView.Overlays.Add("FriscoParksOverlay", friscoParkOverlay);
 
             // Style selectedAreaLayer
+            InMemoryFeatureLayer selectedAreaLayer = new InMemoryFeatureLayer();
             selectedAreaLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(64, GeoColors.Green), GeoColors.DimGray);
             selectedAreaLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            // Add friscoParks layer to a LayerOverlay
-            layerOverlay.Layers.Add("friscoParks",friscoParks);
-
-            // Add selectedAreaLayer to the layerOverlay
-            layerOverlay.Layers.Add("selectedAreaLayer", selectedAreaLayer);
-
+            LayerOverlay selectedAreaOverlay = new LayerOverlay();
+            selectedAreaOverlay.Layers.Add("SelectedAreaLayer", selectedAreaLayer);
+            mapView.Overlays.Add("SelectedAreaOverlay", selectedAreaOverlay);
+                      
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10782307.6877106, 3918904.87378907, -10774377.3460701, 3912073.31442403);
-
-            // Add LayerOverlay to Map
-            mapView.Overlays.Add("layerOverlay",layerOverlay);
-
-            mapView.Refresh();
+                      
+            await mapView.RefreshAsync();
         }
 
         /// <summary>
         /// Calculates the area of a feature selected on the map and displays it in the areaResult TextBox
         /// </summary>
-        private void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
-        {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
+        private async void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
+        {           
+            LayerOverlay friscoParkOverlay = (LayerOverlay)mapView.Overlays["FriscoParksOverlay"];
+            ShapeFileFeatureLayer friscoParksLayer = (ShapeFileFeatureLayer)friscoParkOverlay.Layers["FriscoParksLayer"];
 
-            ShapeFileFeatureLayer friscoParks = (ShapeFileFeatureLayer)layerOverlay.Layers["friscoParks"];
-            InMemoryFeatureLayer selectedAreaLayer = (InMemoryFeatureLayer)layerOverlay.Layers["selectedAreaLayer"];
+            LayerOverlay selectedAreaOverlay = (LayerOverlay)mapView.Overlays["SelectedAreaOverlay"];
+            InMemoryFeatureLayer selectedAreaLayer = (InMemoryFeatureLayer)selectedAreaOverlay.Layers["SelectedAreaLayer"];
 
             // Query the friscoParks layer to get the first feature closest to the map click event
-            var feature = friscoParks.QueryTools.GetFeaturesNearestTo(e.WorldLocation, GeographyUnit.Meter, 1,
+            var feature = friscoParksLayer.QueryTools.GetFeaturesNearestTo(e.WorldLocation, GeographyUnit.Meter, 1,
                 ReturningColumnsType.NoColumns).First();
 
             // Show the selected feature on the map
             selectedAreaLayer.InternalFeatures.Clear();
             selectedAreaLayer.InternalFeatures.Add(feature);
-            layerOverlay.Refresh();
+            await selectedAreaOverlay.RefreshAsync();
 
             // Get the area of the first feature
             var area = ((AreaBaseShape)feature.GetShape()).GetArea(GeographyUnit.Meter, AreaUnit.SquareKilometers);

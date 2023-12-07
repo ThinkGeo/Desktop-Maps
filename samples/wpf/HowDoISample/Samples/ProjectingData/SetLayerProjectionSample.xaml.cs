@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -19,10 +20,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.ProjectingData
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
@@ -35,13 +36,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.ProjectingData
             mapView.Overlays.Add("Frisco Subdivisions Overlay", subdivisionsOverlay);
 
             // Reproject a shapefile and set the extent
-            ReprojectFeaturesFromShapefile();
+            await ReprojectFeaturesFromShapefileAsync();
         }
 
         /// <summary>
         /// Use the ProjectionConverter class to reproject features in a ShapeFileFeatureLayer
         /// </summary>
-        private void ReprojectFeaturesFromShapefile()
+        private async Task ReprojectFeaturesFromShapefileAsync()
         {
             // Create a feature layer to hold the Frisco subdivisions data
             ShapeFileFeatureLayer subdivisionsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Subdivisions.shp");
@@ -65,7 +66,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.ProjectingData
             subdivisionsLayer.Open();
             mapView.CurrentExtent = subdivisionsLayer.GetBoundingBox();
             subdivisionsLayer.Close();
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
         public void Dispose()
         {

@@ -18,10 +18,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map's unit of measurement to meters (Spherical Mercator)
@@ -69,7 +69,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Run a sample query
             PointShape samplePoint = new PointShape(-10776836.140633, 3912350.714164);
-            GetAndDrawServiceArea(samplePoint);
+            await GetAndDrawServiceAreaAsync(samplePoint);
         }
 
         private async Task<CloudRoutingGetServiceAreaResult> GetServiceArea(PointShape centerpoint)
@@ -88,7 +88,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             return getServiceAreaResult;
         }
 
-        private void DrawServiceArea(CloudRoutingGetServiceAreaResult result)
+        private async Task DrawServiceAreaAsync(CloudRoutingGetServiceAreaResult result)
         {
             CloudRoutingServiceAreaResult serviceAreaResult = result.ServiceAreaResult;
 
@@ -124,13 +124,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = serviceAreaLayer.GetBoundingBox();
             serviceAreaLayer.Close();
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>
         /// Draw the new point and service area on the map
         /// </summary>
-        private async void GetAndDrawServiceArea(PointShape point)
+        private async Task GetAndDrawServiceAreaAsync(PointShape point)
         {
             // Show a loading graphic to let users know the request is running
             //loadingImage.Visibility = Visibility.Visible;
@@ -149,7 +149,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
 
             // Draw the result on the map
-            DrawServiceArea(getServiceAreaResult);
+            await DrawServiceAreaAsync(getServiceAreaResult);
         }
 
         private void SetUpLegendAdornment(Collection<ClassBreak> classBreaks)
@@ -177,9 +177,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
         }
 
-        private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        private async void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
-            GetAndDrawServiceArea(e.WorldLocation);
+            await GetAndDrawServiceAreaAsync(e.WorldLocation);
         }
         private Marker CreateNewMarker(PointShape point)
         {

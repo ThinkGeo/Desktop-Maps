@@ -24,13 +24,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, add the NOAA Weather Station layer to the map
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Create background world map with vector tile requested from ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
@@ -65,7 +65,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
 
             // Refresh the map.
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         private void FeatureSource_StationsUpdated(object sender, StationsUpdatedNoaaWeatherStationFeatureSourceEventArgs e)
@@ -75,15 +75,20 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.Dispatcher.Invoke(new RefreshWeatherStations(this.UpdateWeatherStations), new object[] { });
         }
 
-        private void UpdateWeatherStations()
+        private async void UpdateWeatherStations()
         {
             // Here we fresh the map based on the delegate that fires when the feature source has new data.            
-            mapView.Refresh(mapView.Overlays["Weather"]);
+            await mapView.RefreshAsync(mapView.Overlays["Weather"]);
             loadingImage.Visibility = Visibility.Hidden;
         }
 
         public void Dispose()
         {
+            var noaaWeatherWarningsOverlay = mapView.Overlays["Weather"] as LayerOverlay;
+            var noaaWeatherStationFeatureLayer = noaaWeatherWarningsOverlay.Layers[0] as NoaaWeatherStationFeatureLayer;
+            var featureSource = (NoaaWeatherStationFeatureSource)noaaWeatherStationFeatureLayer.FeatureSource;
+            featureSource.StationsUpdated -= FeatureSource_StationsUpdated;
+
             // Dispose of unmanaged resources.
             mapView.Dispose();
             // Suppress finalization.

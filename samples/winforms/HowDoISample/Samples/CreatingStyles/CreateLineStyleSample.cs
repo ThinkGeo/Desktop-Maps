@@ -11,13 +11,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudRasterMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudRasterMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
@@ -38,10 +38,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             rbLineStyle.Checked = true;
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
-        private void rbLineStyle_CheckedChanged(object sender, EventArgs e)
+        private async void rbLineStyle_CheckedChanged(object sender, EventArgs e)
         {
             if (mapView.Overlays.Count > 0)
             {
@@ -59,11 +59,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 friscoRailroad.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
                 // Refresh the layerOverlay to show the new style
-                layerOverlay.Refresh();
+                await layerOverlay.RefreshAsync();
             }
         }
 
-        private void rbDashedLineStyle_CheckedChanged(object sender, EventArgs e)
+        private async void rbDashedLineStyle_CheckedChanged(object sender, EventArgs e)
         {
             if (mapView.Overlays.Count > 0)
             {
@@ -89,7 +89,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 friscoRailroad.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
                 // Refresh the layerOverlay to show the new style
-                layerOverlay.Refresh();
+                await layerOverlay.RefreshAsync();
             }
         }
 

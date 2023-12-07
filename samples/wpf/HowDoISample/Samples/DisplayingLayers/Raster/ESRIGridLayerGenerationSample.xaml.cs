@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -22,13 +23,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, add the ESRI Grid layer to the map
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             mapView.MapUnit = GeographyUnit.Meter;
             mapView.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColors.Snow);
 
             // Create background hybrid satellite map requested from ThinkGeo Cloud Service. 
-            ThinkGeoCloudRasterMapsOverlay cloudOverlay = new ThinkGeoCloudRasterMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~");
+            ThinkGeoCloudRasterMapsOverlay cloudOverlay = new ThinkGeoCloudRasterMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~");
             cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1;
             mapView.Overlays.Add("Cloud Overlay", cloudOverlay);
 
@@ -62,16 +63,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.CurrentExtent = samplesLayer.GetBoundingBox();
             samplesLayer.Close();
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
 
-        private void btnGenerateGridFile_Click(object sender, RoutedEventArgs e)
+        private async void btnGenerateGridFile_Click(object sender, RoutedEventArgs e)
         {
             // call the functions to generate the grid file and render it.
             string filename = @"./Data/GridFile/generated.grd";
             GenerateGrid(filename);
-            LoadGrid(filename);
+            await LoadGridAsync(filename);
         }
 
         private void GenerateGrid(string filename)
@@ -111,7 +112,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             GridFeatureSource.GenerateGrid(definition, interpolationModel, outputStream);
         }
 
-        private void LoadGrid(string filename)
+        private async Task LoadGridAsync(string filename)
         {
             //Shows how to set the class breaks to display grid cell with color according to its value.
             GridFeatureLayer gridFeatureLayer = new GridFeatureLayer(filename);
@@ -135,7 +136,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
             layerOverlay.Layers.Add("GridFeatureLayer", gridFeatureLayer);
 
-            mapView.Refresh(layerOverlay);
+            await mapView.RefreshAsync(layerOverlay);
         }
 
         public void Dispose()

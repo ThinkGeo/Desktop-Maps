@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -20,10 +21,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay and a feature layer containing Frisco parks data
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
@@ -54,11 +55,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
             // Set the map extent to the bounding box of the parks
             parksLayer.Open();
             mapView.CurrentExtent = parksLayer.GetBoundingBox();
-            mapView.ZoomIn();
+            await mapView.ZoomInAsync();
             parksLayer.Close();
 
             // Refresh and redraw the map
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>
@@ -80,7 +81,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
         /// <summary>
         /// Display a popup containing a feature's info
         /// </summary>
-        private void DisplayFeatureInfo(Feature feature)
+        private async Task DisplayFeatureInfoAsync(Feature feature)
         {
             StringBuilder parkInfoString = new StringBuilder();
 
@@ -103,13 +104,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
             popupOverlay.Popups.Add(popup);
 
             // Refresh the overlay to redraw the popups
-            popupOverlay.Refresh();
+            await popupOverlay.RefreshAsync();
         }
 
         /// <summary>
         /// Pull data from the selected feature and display it when clicked
         /// </summary>
-        private void MapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        private async void MapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
             // Get the selected feature based on the map click location
             Feature selectedFeature = GetFeatureFromLocation(e.WorldLocation);
@@ -117,7 +118,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
             // If a feature was selected, get the data from it and display it
             if (selectedFeature != null)
             {
-                DisplayFeatureInfo(selectedFeature);
+                await DisplayFeatureInfoAsync(selectedFeature);
             }
         }
         public void Dispose()

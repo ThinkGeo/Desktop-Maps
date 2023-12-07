@@ -20,13 +20,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector
         /// <summary>
         /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, add the shapefile layer to the map
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a new overlay that will hold our new layer and add it to the map.
@@ -50,7 +50,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector
             cadLayer.Open();
             mapView.CurrentExtent = cadLayer.GetBoundingBox();
             // Refresh the map.
-            mapView.Refresh();            
+            await mapView.RefreshAsync();            
 
         }
 
@@ -62,17 +62,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector
             GC.SuppressFinalize(this);
         }
 
-        private void rbtnEmbeddedStyling_Checked(object sender, RoutedEventArgs e)
+        private async void rbtnEmbeddedStyling_Checked(object sender, RoutedEventArgs e)
         {
             if (cadLayer != null)
             {
                 // Create an Area style on zoom level 1 and then apply it to all zoom levels up to 20.
                 cadLayer.StylingType = CadStylingType.EmbeddedStyling;
-                mapView.Refresh();
+                await mapView.RefreshAsync();
             }
         }
 
-        private void rbtnProgrammaticStyling_Checked(object sender, RoutedEventArgs e)
+        private async void rbtnProgrammaticStyling_Checked(object sender, RoutedEventArgs e)
         {
             if (cadLayer != null)
             {
@@ -80,7 +80,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector
                 cadLayer.StylingType = CadStylingType.StandardStyling;
                 cadLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = new LineStyle(new GeoPen(GeoColors.Blue, 2));
                 cadLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-                mapView.Refresh();
+                await mapView.RefreshAsync();
             }
         }
     }

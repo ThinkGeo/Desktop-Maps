@@ -141,7 +141,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             foreach (Feature feature in features)
             {
-                if (canvas.CancellationTokenSource.IsCancellationRequested)
+                if (canvas.CancellationToken.IsCancellationRequested)
                     return;
 
                 // update the variables we get from the feature
@@ -156,7 +156,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 {
                     foreach (Style style in customTrueStyles)
                     {
-                        if (canvas.CancellationTokenSource.IsCancellationRequested)
+                        if (canvas.CancellationToken.IsCancellationRequested)
                             return;
 
                         style.Draw(new Collection<Feature>() { feature }, canvas, labelsInThisLayer, labelsInAllLayers);
@@ -166,7 +166,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 {
                     foreach (Style style in customFalseStyles)
                     {
-                        if (canvas.CancellationTokenSource.IsCancellationRequested)
+                        if (canvas.CancellationToken.IsCancellationRequested)
                             return;
 
                         style.Draw(new Collection<Feature>() { feature }, canvas, labelsInThisLayer, labelsInAllLayers);

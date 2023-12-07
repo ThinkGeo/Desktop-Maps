@@ -28,7 +28,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Setup the overlay that we will refresh often
@@ -61,7 +61,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             await StartDataFeed();
 
             // Refresh the map
-            mapView.Refresh();
+            await mapView.RefreshAsync();
 
         }
 
@@ -109,7 +109,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             base.Dispose(disposing);
         }
 
-        private void UpdateMap(Feature currentFeature)
+        private async void UpdateMap(Feature currentFeature)
         {
             // We need to first find our vehicle overlay and in memory layer in the map
             LayerOverlay vehicleOverlay = (LayerOverlay)mapView.Overlays["Vehicle Overlay"];
@@ -122,11 +122,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // If we have the center on vehicle check box checked then we center the map on the new location
             if (centerOnVehicle.Checked)
             {
-                mapView.CenterAt(currentFeature);
+                await mapView.CenterAtAsync(currentFeature);
             }
 
             // Refresh the vehicle overlay
-            mapView.Refresh(mapView.Overlays["Vehicle Overlay"]);
+            await mapView.RefreshAsync(mapView.Overlays["Vehicle Overlay"]);
         }
 
         private void pauseDataFeed_Click(object sender, EventArgs e)

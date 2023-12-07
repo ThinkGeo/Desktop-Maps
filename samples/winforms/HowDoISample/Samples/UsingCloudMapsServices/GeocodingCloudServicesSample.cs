@@ -15,10 +15,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map's unit of measurement to meters (Spherical Mercator)
@@ -37,7 +37,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             cboSearchType.SelectedIndex = 0;
             cboLocationType.SelectedIndex = 0;
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         private async Task<CloudGeocodingResult> PerformGeocodingQuery()
@@ -66,13 +66,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// <summary>
         /// Update the UI based on the results of a Cloud Geocoding Query
         /// </summary>
-        private void UpdateSearchResultsOnUI(CloudGeocodingResult searchResult)
+        private async Task UpdateSearchResultsOnUIAsync(CloudGeocodingResult searchResult)
         {
             // Clear the locations list and existing location markers on the map
             SimpleMarkerOverlay geocodedLocationOverlay = (SimpleMarkerOverlay)mapView.Overlays["Geocoded Locations Overlay"];
             geocodedLocationOverlay.Markers.Clear();
             lsbLocations.DataSource = null;
-            geocodedLocationOverlay.Refresh();
+            await geocodedLocationOverlay.RefreshAsync();
 
             // Update the UI with the number of results found and the list of locations found
             txtSearchResultsDescription.Text = $"Found {searchResult.Locations.Count} matching locations.";
@@ -101,11 +101,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 }
 
                 // Update the UI based on the results
-                UpdateSearchResultsOnUI(searchResult);
+                await UpdateSearchResultsOnUIAsync(searchResult);
             }
         }
 
-        private void lsbLocations_SelectedIndexChanged(object sender, EventArgs e)
+        private async void lsbLocations_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Get the selected location
             var chosenLocation = lsbLocations.SelectedItem as CloudGeocodingLocation;
@@ -121,8 +121,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 // Center the map on the chosen location
                 mapView.CurrentExtent = chosenLocation.BoundingBox;
                 ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
-                mapView.ZoomToScale(standardZoomLevelSet.ZoomLevel18.Scale);
-                mapView.Refresh();
+                await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
+                await mapView.RefreshAsync();
             }
         }
 

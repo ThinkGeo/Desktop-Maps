@@ -19,7 +19,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Setup the map with a background overlay and set the map's extent to Frisco, Tx.
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
@@ -33,14 +33,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Create a WmsOverlay and add it to the map.
             WmsOverlay wmsOverlay = new WmsOverlay();
             wmsOverlay.AxisOrder = WmsAxisOrder.XY;
-            wmsOverlay.ServerUri = new Uri("http://ows.mundialis.de/services/service");
+            wmsOverlay.Uri = new Uri("http://ows.mundialis.de/services/service");
             wmsOverlay.Parameters.Add("VERSION", "1.3.0");
             wmsOverlay.Parameters.Add("LAYERS", "OSM-WMS");
             wmsOverlay.Parameters.Add("STYLES", "default");
             wmsOverlay.Parameters.Add("CRS", "EPSG:3857");  // Make sure to match the WMS CRS to the Map's projection
             mapView.Overlays.Add(wmsOverlay);
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
         public void Dispose()
         {

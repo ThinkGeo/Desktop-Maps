@@ -26,10 +26,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay, as well as a feature layer to display the route
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
@@ -79,7 +79,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
 
             // Run a sample query
             PointShape samplePoint = new PointShape(-10776836.140633, 3912350.714164);
-            GetAndDrawServiceArea(samplePoint);
+            await GetAndDrawServiceAreaAsync(samplePoint);
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         /// <summary>
         /// Draw the ServiceArea polygons on the map
         /// </summary> 
-        private void DrawServiceArea(CloudRoutingGetServiceAreaResult result)
+        private async Task DrawServiceAreaAsync(CloudRoutingGetServiceAreaResult result)
         {
             CloudRoutingServiceAreaResult serviceAreaResult = result.ServiceAreaResult;
 
@@ -140,13 +140,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             mapView.CurrentExtent = serviceAreaLayer.GetBoundingBox();
             serviceAreaLayer.Close();
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>
         /// Draw the new point and service area on the map
         /// </summary>
-        private async void GetAndDrawServiceArea(PointShape point)
+        private async Task GetAndDrawServiceAreaAsync(PointShape point)
         {
             // Show a loading graphic to let users know the request is running
             loadingImage.Visibility = Visibility.Visible;
@@ -165,7 +165,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             }
 
             // Draw the result on the map
-            DrawServiceArea(getServiceAreaResult);
+            await DrawServiceAreaAsync(getServiceAreaResult);
         }
 
         private void SetUpLegendAdornment(Collection<ClassBreak> classBreaks)
@@ -196,9 +196,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         /// <summary>
         /// Perform the service area query when a new point is drawn
         /// </summary>
-        private void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
+        private async void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
         {
-            GetAndDrawServiceArea(e.WorldLocation);
+            await GetAndDrawServiceAreaAsync(e.WorldLocation);
         }
 
         /// <summary>

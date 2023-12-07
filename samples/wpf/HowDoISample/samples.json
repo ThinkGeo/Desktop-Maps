@@ -170,6 +170,12 @@
         "source": "Samples/DisplayingLayers/WebServices/WMSLayerSample"
       },
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.WMTSLayerSample",
+        "title": "Display a WMTS Layer",
+        "description": "This sample shows how to display a WMTS layer. (This sample may be slow as we use a public WMTS sever)",
+        "source": "Samples/DisplayingLayers/WebServices/WMTSLayerSample"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.ECWLayerSample",
         "title": "Display an ECW Layer",
         "description": "This sample shows how to display a ECW image.",

@@ -28,7 +28,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
@@ -74,7 +74,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Splits the first feature in the cityLimits layer and adds them to the splitLayer to display on the map
         /// </summary>
-        private void SplitShape_OnClick(object sender, RoutedEventArgs e)
+        private async void SplitShape_OnClick(object sender, RoutedEventArgs e)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
 
@@ -96,7 +96,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             splitLayer.InternalFeatures.Add(split);
 
             // Redraw the layerOverlay to see the split features on the map
-            layerOverlay.Refresh();
+            await layerOverlay.RefreshAsync();
         }
         public void Dispose()
         {

@@ -20,7 +20,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Setup the map with the ThinkGeo Cloud Maps overlay.
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.Meter;
@@ -29,7 +29,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.ZoomLevelSet = new ThinkGeoCloudMapsZoomLevelSet();
 
             // Create the layer overlay with some additional settings and add to the map.
-            ThinkGeoCloudRasterMapsOverlay cloudOverlay = new ThinkGeoCloudRasterMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~");
+            ThinkGeoCloudRasterMapsOverlay cloudOverlay = new ThinkGeoCloudRasterMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~");
             cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1;
             mapView.Overlays.Add("Cloud Overlay",cloudOverlay);
 
@@ -37,10 +37,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.CurrentExtent = new RectangleShape(-10781708.9749424, 3913502.90429046, -10777685.1114043, 3910360.79646662);
             
             // Refresh the map.
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
-        private void rbMapType_Checked(object sender, RoutedEventArgs e)
+        private async void rbMapType_Checked(object sender, RoutedEventArgs e)
         {
             RadioButton button = (RadioButton)sender;
             if (mapView.Overlays.Contains("Cloud Overlay"))
@@ -64,7 +64,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     default:
                         break;
                 }
-                mapView.Refresh();
+                await mapView.RefreshAsync();
             }
         }
         public void Dispose()

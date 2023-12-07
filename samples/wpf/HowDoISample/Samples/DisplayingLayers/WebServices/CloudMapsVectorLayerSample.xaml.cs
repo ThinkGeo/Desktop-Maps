@@ -19,7 +19,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Setup the map with the ThinkGeo Cloud Maps overlay.
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.Meter;
@@ -28,7 +28,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.ZoomLevelSet = new ThinkGeoCloudMapsZoomLevelSet();
 
             // Create the layer overlay with some additional settings and add to the map.
-            ThinkGeoCloudVectorMapsOverlay cloudOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~");
+            ThinkGeoCloudVectorMapsOverlay cloudOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~");
             cloudOverlay.MapType = ThinkGeoCloudVectorMapsMapType.Light;
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             cloudOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
@@ -38,7 +38,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.CurrentExtent = new RectangleShape(-10781708.9749424, 3913502.90429046, -10777685.1114043, 3910360.79646662);
 
             // Refresh the map.
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
         public void Dispose()
         {

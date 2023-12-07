@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using ThinkGeo.Core;
 using ThinkGeo.UI.WinForms;
@@ -14,10 +15,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        private async void Form_Load(object sender, EventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map's unit of measurement to meters (Spherical Mercator)
@@ -63,13 +64,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             queryShapeFeatureLayer.InternalFeatures.Add(new Feature(sampleShape));
 
             // Run the world maps query
-            PerformWorldMapsQuery();
+            await PerformWorldMapsQueryAsync();
 
             txtMaximumResults.DataBindings.Add("Text", maxResults, "Value");
 
         }
 
-        private async void PerformWorldMapsQuery()
+        private async Task PerformWorldMapsQueryAsync()
         {
             //Get the feature layers from the MapView
 
@@ -124,13 +125,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 if (ex is ArgumentException)
                 {
                     MessageBox.Show(string.Format("{0} {1}", ex.InnerException.Message, ex.Message), "Invalid Request");
-                    mapView.Refresh();
+                    await mapView.RefreshAsync();
                     return;
                 }
                 else
                 {
                     MessageBox.Show(ex.Message, "Unexpected Error");
-                    mapView.Refresh();
+                    await mapView.RefreshAsync();
                     return;
                 }
             }
@@ -159,10 +160,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
 
             //Refresh and redraw the map
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
-        private void OnShapeDrawn(object sender, TrackEndedTrackInteractiveOverlayEventArgs e)
+        private async void OnShapeDrawn(object sender, TrackEndedTrackInteractiveOverlayEventArgs e)
         {
             // Disable drawing mode and clear the drawing layer
             mapView.TrackOverlay.TrackMode = TrackMode.None;
@@ -174,38 +175,38 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Add the newly drawn shape, then redraw the overlay
             queryShapeFeatureLayer.InternalFeatures.Add(new Feature(e.TrackShape));
-            queriedFeaturesOverlay.Refresh();
+            await queriedFeaturesOverlay.RefreshAsync();
 
-            PerformWorldMapsQuery();
+            await PerformWorldMapsQueryAsync();
         }
 
-        private void btnDrawNewPointAndQuery_Click(object sender, EventArgs e)
+        private async void btnDrawNewPointAndQuery_Click(object sender, EventArgs e)
         {
             // Set the drawing mode to 'Point'
             mapView.TrackOverlay.TrackMode = TrackMode.Point;
 
             // Clear the old shapes from the map
-            ClearQueryShapes();
+            await ClearQueryShapesAsync();
         }
 
-        private void btnDrawNewLineAndQuery_Click(object sender, EventArgs e)
+        private async void btnDrawNewLineAndQuery_Click(object sender, EventArgs e)
         {
             // Set the drawing mode to 'Line'
             mapView.TrackOverlay.TrackMode = TrackMode.Line;
 
             // Clear the old shapes from the map
-            ClearQueryShapes();
+            await ClearQueryShapesAsync();
         }
 
-        private void btnDrawNewPolygonAndQuery_Click(object sender, EventArgs e)
+        private async void btnDrawNewPolygonAndQuery_Click(object sender, EventArgs e)
         {
             // Set the drawing mode to 'Polygon'
             mapView.TrackOverlay.TrackMode = TrackMode.Polygon;
 
             // Clear the old shapes from the map
-            ClearQueryShapes();
+            await ClearQueryShapesAsync();
         }
-        private void ClearQueryShapes()
+        private async Task ClearQueryShapesAsync()
         {
             // Get the query shape layer from the MapView
             LayerOverlay queriedFeaturesOverlay = (LayerOverlay)mapView.Overlays["Queried Features Overlay"];
@@ -215,7 +216,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Clear the old query result and query shape from the map
             queriedFeaturesLayer.InternalFeatures.Clear();
             queryShapeFeatureLayer.InternalFeatures.Clear();
-            queriedFeaturesOverlay.Refresh();
+            await queriedFeaturesOverlay.RefreshAsync();
         }
 
         #region Component Designer generated code

@@ -22,10 +22,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
+            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
@@ -46,7 +46,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             cboSearchType.SelectedIndex = 0;
             cboLocationType.SelectedIndex = 0;
 
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         /// <summary>
@@ -78,13 +78,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         /// <summary>
         /// Update the UI based on the results of a Cloud Geocoding Query
         /// </summary>
-        private void UpdateSearchResultsOnUI(CloudGeocodingResult searchResult)
+        private async Task UpdateSearchResultsOnUIAsync(CloudGeocodingResult searchResult)
         {
             // Clear the locations list and existing location markers on the map
             SimpleMarkerOverlay geocodedLocationOverlay = (SimpleMarkerOverlay)mapView.Overlays["Geocoded Locations Overlay"];
             geocodedLocationOverlay.Markers.Clear();
             lsbLocations.ItemsSource = null;
-            geocodedLocationOverlay.Refresh();
+            await geocodedLocationOverlay.RefreshAsync();
 
             // Update the UI with the number of results found and the list of locations found
             txtSearchResultsDescription.Text = $"Found {searchResult.Locations.Count} matching locations.";
@@ -115,14 +115,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
                 }
 
                 // Update the UI based on the results
-                UpdateSearchResultsOnUI(searchResult);
+                await UpdateSearchResultsOnUIAsync(searchResult);
             }
         }
 
         /// <summary>
         /// When a location is selected in the UI, add a marker at that location and center the map on it
         /// </summary>
-        private void lsbLocations_SelectionChanged(object sender, RoutedEventArgs e)
+        private async void lsbLocations_SelectionChanged(object sender, RoutedEventArgs e)
         {
             // Get the selected location
             var chosenLocation = lsbLocations.SelectedItem as CloudGeocodingLocation;
@@ -138,8 +138,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
                 // Center the map on the chosen location
                 mapView.CurrentExtent = chosenLocation.BoundingBox;
                 ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
-                mapView.ZoomToScale(standardZoomLevelSet.ZoomLevel18.Scale);
-                mapView.Refresh();
+                await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
+                await mapView.RefreshAsync();
             }
         }
 

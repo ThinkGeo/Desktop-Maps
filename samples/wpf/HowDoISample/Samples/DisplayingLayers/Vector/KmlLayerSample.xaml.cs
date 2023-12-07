@@ -19,7 +19,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Add the GeoTiff layer to the map
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.Meter;
@@ -40,7 +40,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapView.CurrentExtent = new RectangleShape(-10777998.2731192, 3913070.41013283, -10774999.3141042, 3911542.86390418);
 
             // Refresh the map.
-            mapView.Refresh();
+            await mapView.RefreshAsync();
         }
 
         public void Dispose()
