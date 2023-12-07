@@ -1,4 +1,4 @@
-This guide is based on using Visual Studio 2022. However, with some minor adjustments, you can create a map using other IDEs, such as JetBrains Rider. You can also [display a map in a WPF project using VS Code](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/develop/quick-start-guide/QuickStartGuide_WPF_VSCode?ref_type=heads).
+This guide is based on using Visual Studio 2022. However, with some minor adjustments, you can create a map using other IDEs, such as JetBrains Rider. You can also [display a map in a WPF project using VS Code](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/quick-start-guide/QuickStartGuide_WPF_VSCode?ref_type=heads).
 
 The project created in this guide is developed in .NET 7, but you can also create a .NET Framework (4.6.2 and above)  project using practically the same steps.
 
