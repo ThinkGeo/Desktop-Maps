@@ -759,6 +759,12 @@
         "title": "Get SnapShot",
         "description": "Learn how to get the snapshot of the current map",
         "source": "Samples/Misc/GetSnapShoteSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.Misc.MapResizingSample",
+        "title": "Resize Map",
+        "description": "Learn how to resize map while keeping width of world extend unchanged",
+        "source": "Samples/Misc/MapResizingSample"
       }
       //,
       //{
