@@ -765,6 +765,20 @@
         "title": "Resize Map",
         "description": "Learn how to resize map while keeping width of world extend unchanged",
         "source": "Samples/Misc/MapResizingSample"
+      },
+
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.Misc.ShapesAcrossDateLine",
+        "title": "Shapes Across Date Line",
+        "description": "Learn how to work with different shapes across the Date Line",
+        "source": "Samples/Misc/ShapesAcrossDateLine"
+      },
+
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.Misc.GPSNavigatorSample",
+        "title": "GPS Navigator",
+        "description": "Learn how to show GPS track on the map",
+        "source": "Samples/Misc/GPSNavigatorSample"
       }
       //,
       //{

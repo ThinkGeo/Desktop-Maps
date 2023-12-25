@@ -9,7 +9,7 @@ using ThinkGeo.Core;
 namespace ThinkGeo.UI.Wpf.HowDoI.Misc
 {
     /// <summary>
-    /// This samples shows how to refresh points on the map based on some outside event
+    /// This samples shows how to resize map while keeping width of world extend unchanged.
     /// </summary>
     public partial class MapResizingSample : UserControl
     {
