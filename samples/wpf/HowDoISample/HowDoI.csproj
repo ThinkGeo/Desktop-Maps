@@ -78,6 +78,9 @@
     <Compile Update="Samples\DisplayingLayers\WebServices\WMTSLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Samples\Misc\DrawingExceptionModeSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Samples\ProjectingData\RasterProjectionSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -195,6 +198,10 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Samples\Misc\GetSnapShotSample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\Misc\DrawingExceptionModeSample.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

@@ -755,6 +755,12 @@
     "title": "Misc.",
     "children": [
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.Misc.DrawingExceptionModeSample",
+        "title": "Drawing Exception Mode",
+        "description": "Learn how to use DrawingExceptionMode",
+        "source": "Samples/Misc/DrawingExceptionModeSample"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.Misc.GetSnapShotSample",
         "title": "Get SnapShot",
         "description": "Learn how to get the snapshot of the current map",
