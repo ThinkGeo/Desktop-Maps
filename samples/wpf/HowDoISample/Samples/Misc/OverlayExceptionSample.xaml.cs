@@ -10,9 +10,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
     /// <summary>
     /// Learn how to display a WMS Layer on the map
     /// </summary>
-    public partial class DrawingExceptionModeSample : UserControl, IDisposable
+    public partial class OverlayExceptionSample : UserControl, IDisposable
     {
-        public DrawingExceptionModeSample()
+        public OverlayExceptionSample()
         {
             InitializeComponent();
         }
@@ -26,7 +26,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
             mapView.MapUnit = GeographyUnit.DecimalDegree;
 
             // This code sets up the sample to use the overlay versus the layer.
-            UseLayer(DrawingExceptionMode.Default, false);
+            UseLayer(DrawingExceptionMode.DrawException, false);
             
             // Set the current extent to a local area.
             mapView.CurrentExtent = new RectangleShape(-96.8538765269409, 33.1618647290098, -96.7987487018851, 33.1054126590461);
@@ -40,20 +40,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
             RadioButton button = (RadioButton)sender;
             if (button.Content != null)
             {
+                txtException.Text = "";
                 switch (button.Content.ToString())
                 {
-                    case "Default":
-                    default:
-                        UseLayer(DrawingExceptionMode.Default, false);
-                        break;
                     case "Throw Exception":
                         UseLayer(DrawingExceptionMode.ThrowException, false);
                         break;
-                    case "Draw Exception":
-                        UseLayer(DrawingExceptionMode.DrawException, false);
-                        break;
-                    case "Draw Custom Exception":
+                    case "Customize Drawing Exception":
                         UseLayer(DrawingExceptionMode.DrawException, true);
+                        break;
+                    case "Draw Exception":
+                    default:
+                        UseLayer(DrawingExceptionMode.DrawException, false);
                         break;
                 }
                 await mapView.RefreshAsync();
@@ -111,7 +109,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
 
         protected override Task DrawAsyncCore(GeoCanvas canvas, Collection<SimpleCandidate> labelsInAllLayers)
         {
-            throw new Exception("mock exception");
+            throw new Exception("Internal Exception Message");
             return base.DrawAsyncCore(canvas, labelsInAllLayers);
         }
 
@@ -125,7 +123,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
             {
                 // customize the drawing exception. Here below we draw the the error in red on orange canvas.
                 canvas.DrawArea(canvas.CurrentWorldExtent, GeoBrushes.LightOrange, DrawingLevel.LevelOne);
-                canvas.DrawText("Something went wrong", new GeoFont("Arial", 10), GeoBrushes.Red, new ScreenPointF[] { new ScreenPointF(canvas.Width / 2, canvas.Height / 2) }, DrawingLevel.LabelLevel);
+                canvas.DrawText("Customized Exception Message", new GeoFont("Arial", 10), GeoBrushes.Red, new ScreenPointF[] { new ScreenPointF(canvas.Width / 2, canvas.Height / 2) }, DrawingLevel.LabelLevel);
             }
         }
     }

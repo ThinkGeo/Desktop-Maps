@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>net8.0-windows;net48</TargetFrameworks>
+    <TargetFrameworks>net48</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <RootNamespace>ThinkGeo.UI.Wpf.HowDoI</RootNamespace>
     <AssemblyName>ThinkGeo.UI.Wpf.HowDoI</AssemblyName>
@@ -78,7 +78,7 @@
     <Compile Update="Samples\DisplayingLayers\WebServices\WMTSLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Misc\DrawingExceptionModeSample.xaml.cs">
+    <Compile Update="Samples\Misc\OverlayExceptionSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\ProjectingData\RasterProjectionSample.xaml.cs">
@@ -201,7 +201,7 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Misc\DrawingExceptionModeSample.xaml">
+    <Page Update="Samples\Misc\OverlayExceptionSample.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

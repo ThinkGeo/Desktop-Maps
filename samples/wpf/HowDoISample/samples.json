@@ -755,10 +755,10 @@
     "title": "Misc.",
     "children": [
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.Misc.DrawingExceptionModeSample",
-        "title": "Drawing Exception Mode",
-        "description": "Learn how to use DrawingExceptionMode",
-        "source": "Samples/Misc/DrawingExceptionModeSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.Misc.OverlayExceptionSample",
+        "title": "Overlay Exception",
+        "description": "Learn how to throw an overlay exception, or draw the exception on the map.",
+        "source": "Samples/Misc/OverlayExceptionSample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.Misc.GetSnapShotSample",
