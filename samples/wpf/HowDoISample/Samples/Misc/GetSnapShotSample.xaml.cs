@@ -8,7 +8,7 @@ using ThinkGeo.Core;
 namespace ThinkGeo.UI.Wpf.HowDoI.Misc
 {
     /// <summary>
-    /// This samples shows how to refresh points on the map based on some outside event
+    /// This sample shows how to refresh points on the map based on some outside event.
     /// </summary>
     public partial class GetSnapShotSample : UserControl
     {
