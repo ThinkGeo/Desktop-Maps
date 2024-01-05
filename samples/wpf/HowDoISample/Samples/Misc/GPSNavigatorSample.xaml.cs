@@ -103,7 +103,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
 
         private void LoadTestGPSPoints()
         {
-            string[] lines = File.ReadAllLines(parentFolder + "\\Data\\GPSNavigator\\gps3.log");
+            string[] lines = File.ReadAllLines(parentFolder + "\\Data\\GPSNavigator\\gps3.txt");
             for (int i = 0; i < lines.Length; i++)
             {
                 if (lines[i].Trim() != "")

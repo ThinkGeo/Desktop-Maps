@@ -534,7 +534,7 @@
     <None Update="Data\GPSNavigator\GoogleMapImage.bpw">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\GPSNavigator\gps3.log">
+    <None Update="Data\GPSNavigator\gps3.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\Gpx\Hike_Bike.gpx">
