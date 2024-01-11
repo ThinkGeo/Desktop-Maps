@@ -109,8 +109,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
 
         protected override Task DrawAsyncCore(GeoCanvas canvas, Collection<SimpleCandidate> labelsInAllLayers)
         {
+            // mimicking an exception thrown when drawing a tile. 
             throw new Exception("Internal Exception Message");
-            return base.DrawAsyncCore(canvas, labelsInAllLayers);
         }
 
         protected override void DrawExceptionCore(GeoCanvas canvas, Exception e)
@@ -121,7 +121,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
             }
             else
             {
-                // customize the drawing exception. Here below we draw the the error in red on orange canvas.
+                // customize the drawing exception. Here below we draw the error in red on orange canvas.
                 canvas.DrawArea(canvas.CurrentWorldExtent, GeoBrushes.LightOrange, DrawingLevel.LevelOne);
                 canvas.DrawText("Customized Exception Message", new GeoFont("Arial", 10), GeoBrushes.Red, new ScreenPointF[] { new ScreenPointF(canvas.Width / 2, canvas.Height / 2) }, DrawingLevel.LabelLevel);
             }
