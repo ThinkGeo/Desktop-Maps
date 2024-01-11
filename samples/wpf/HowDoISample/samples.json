@@ -755,6 +755,12 @@
     "title": "Misc.",
     "children": [
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.Misc.OverlayExceptionSample",
+        "title": "Overlay Exception",
+        "description": "Learn how to throw an overlay exception, or draw the exception on the map.",
+        "source": "Samples/Misc/OverlayExceptionSample"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.Misc.GetSnapShotSample",
         "title": "Get SnapShot",
         "description": "Learn how to get the snapshot of the current map",
@@ -763,22 +769,14 @@
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.Misc.MapResizingSample",
         "title": "Resize Map",
-        "description": "Learn how to resize map while keeping width of world extend unchanged",
+        "description": "Learn how to resize the map while keeping the width of the world extent the same",
         "source": "Samples/Misc/MapResizingSample"
       },
-
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.Misc.ShapesAcrossDateLine",
-        "title": "Shapes Across Date Line",
-        "description": "Learn how to work with different shapes across the Date Line",
+        "title": "WrapDateLine mode",
+        "description": "Say the world width is 0 ~ 1, here shows what the shapes with different length look like in the multi-world map",
         "source": "Samples/Misc/ShapesAcrossDateLine"
-      },
-
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.Misc.GPSNavigatorSample",
-        "title": "GPS Navigator",
-        "description": "Learn how to show GPS track on the map",
-        "source": "Samples/Misc/GPSNavigatorSample"
       }
       //,
       //{

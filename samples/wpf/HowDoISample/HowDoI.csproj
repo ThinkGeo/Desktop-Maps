@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>net8.0-windows;net48</TargetFrameworks>
+    <TargetFrameworks>net48</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <RootNamespace>ThinkGeo.UI.Wpf.HowDoI</RootNamespace>
     <AssemblyName>ThinkGeo.UI.Wpf.HowDoI</AssemblyName>
@@ -76,6 +76,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\DisplayingLayers\WebServices\WMTSLayerSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\Misc\OverlayExceptionSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\ProjectingData\RasterProjectionSample.xaml.cs">
@@ -181,9 +184,6 @@
     <Page Update="Samples\Extensibility\ExtendingFeatureSourcesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Misc\GPSNavigatorSample.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
     <Page Update="Samples\Misc\ShapesAcrossDateLine.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
@@ -195,6 +195,10 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Samples\Misc\GetSnapShotSample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Samples\Misc\OverlayExceptionSample.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
@@ -244,7 +248,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Data\GPSNavigator\arrow.png" />
     <None Remove="HowDoI.csproj.DotSettings" />
     <None Remove="Resources\AQUA.png" />
     <None Remove="Resources\AQUABLANK.png" />
@@ -262,9 +265,6 @@
     <None Remove="Theme\Images\logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Data\GPSNavigator\arrow.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
     <Content Include="Theme\Images\favicon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -314,7 +314,7 @@
     <PackageReference Include="Jint" Version="2.11.58" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="ThinkGeo.Cad" Version="13.2.1" />   
+    <PackageReference Include="ThinkGeo.Cad" Version="13.2.1" />
     <PackageReference Include="ThinkGeo.Ecw" Version="13.2.0" />
     <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="13.2.0" />
     <PackageReference Include="ThinkGeo.GeoPdf" Version="13.2.0" />
@@ -510,24 +510,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\Gif\m_3309650_sw_14_1_20160911_20161121.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\GPSNavigator\car.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\GPSNavigator\compass1_circle_digits.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\GPSNavigator\compass1_needle_letters_disc.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\GPSNavigator\GoogleMapImage.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\GPSNavigator\GoogleMapImage.bpw">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\GPSNavigator\gps3.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\Gpx\Hike_Bike.gpx">
