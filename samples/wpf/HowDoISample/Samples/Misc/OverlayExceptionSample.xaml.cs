@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -68,8 +66,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
             staticOverlay.DrawingExceptionMode = drawingExceptionMode;
             if (drawingExceptionMode == DrawingExceptionMode.ThrowException)
             {
-                staticOverlay.ThrowingException += (object sender, ThrowingExceptionOverlayEventArgs e) => {
-                    txtException.Text = e.Exception.Message;
+                staticOverlay.ThrowingException += (sender, e) =>
+                {
+                    txtException.Text = e.Exception?.InnerException.Message;
                 };
             }
 
@@ -77,13 +76,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
 
             // Create the WMS layer using the parameters below.
             // This is a public service and is very slow most of the time.
-            CustomWmsRasterLayer wmsImageLayer = new CustomWmsRasterLayer(new Uri("http://ows.mundialis.de/services/service"), drawCustomException);
+            CustomWmsRasterLayer wmsImageLayer = new CustomWmsRasterLayer(new Uri("http://not_exist.com/services/service"), drawCustomException);
             wmsImageLayer.DrawingExceptionMode = drawingExceptionMode;
-            wmsImageLayer.UpperThreshold = double.MaxValue;
-            wmsImageLayer.LowerThreshold = 0;
-            wmsImageLayer.ActiveLayerNames.Add("OSM-WMS");
-            wmsImageLayer.ActiveStyleNames.Add("default");            
-            wmsImageLayer.Exceptions = "application/vnd.ogc.se_xml";
 
             // Add the layer to the overlay.
             staticOverlay.Layers.Add("wmsImageLayer", wmsImageLayer);          
@@ -100,17 +94,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
 
     public class CustomWmsRasterLayer: Core.Async.WmsRasterLayer
     {
-        private bool drawCustomException;
+        private readonly bool drawCustomException;
         public CustomWmsRasterLayer(Uri uri, bool drawCustomException)
             :base(uri)
         {
             this.drawCustomException = drawCustomException;
-        }
-
-        protected override Task DrawAsyncCore(GeoCanvas canvas, Collection<SimpleCandidate> labelsInAllLayers)
-        {
-            // mimicking an exception thrown when drawing a tile. 
-            throw new Exception("Internal Exception Message");
         }
 
         protected override void DrawExceptionCore(GeoCanvas canvas, Exception e)

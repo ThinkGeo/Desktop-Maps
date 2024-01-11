@@ -34,8 +34,8 @@
             <RadioButton Grid.Column="1" Grid.Row="1" Checked="DrawingExceptionMode_Checked" IsChecked="True" Content="Draw Exception" />
             <RadioButton Grid.Column="1" Grid.Row="2" Checked="DrawingExceptionMode_Checked" Content="Customize Drawing Exception" />
             <RadioButton Grid.Column="1" Grid.Row="3" Checked="DrawingExceptionMode_Checked" Content="Throw Exception" />
-            <TextBlock Grid.Column="1" Grid.Row="4" Text="Here shows the exception message:" TextWrapping="Wrap" />
-            <TextBox x:Name="txtException" Grid.Column="1" Grid.Row="5" IsReadOnly="True" />
+            <Label Grid.Column="1" Grid.Row="4" Content="The exception message:" />
+            <TextBox x:Name="txtException" Grid.Column="1" Grid.Row="5" IsReadOnly="True" TextWrapping="Wrap" Height="50"/>
         </Grid>
     </Grid>
     <UserControl.Resources>
