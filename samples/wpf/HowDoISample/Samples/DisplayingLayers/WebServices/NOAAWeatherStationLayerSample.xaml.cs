@@ -1,28 +1,21 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using ThinkGeo.UI.Wpf;
 using ThinkGeo.Core;
-using System;
-using System.Diagnostics;
-using System.Threading;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to display a NOAA Weather Station Layer on the map
     /// </summary>
-    public partial class NOAAWeatherStationLayerSample : UserControl, IDisposable
+    public partial class NOAAWeatherStationLayerSample : UserControl
     {
         public NOAAWeatherStationLayerSample()
         {
             InitializeComponent();
         }
 
-        //  We use this delegate for refresing the map from another thread
-        public delegate void RefreshWeatherStations();
-
         /// <summary>
-        /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, add the NOAA Weather Station layer to the map
+        /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the NOAA Weather Station layer to the map
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
@@ -35,64 +28,27 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
+            // Set the extent to a view of the US
+            mapView.CurrentExtent = new RectangleShape(-14927495, 8262593, -6686622, 1827556);
+            await mapView.RefreshAsync();
+
             // Create a new overlay that will hold our new layer and add it to the map.
             LayerOverlay weatherOverlay = new LayerOverlay();
+            weatherOverlay.TileType = TileType.SingleTile;
             mapView.Overlays.Add("Weather", weatherOverlay);
 
             // Create the new layer and set the projection as the data is in srid 4326 and our background is srid 3857 (spherical mercator).
-            NoaaWeatherStationFeatureLayer nOAAWeatherStationLayer = new NoaaWeatherStationFeatureLayer();
-            nOAAWeatherStationLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 3857);
+            var noaaWeatherStationLayer = new NoaaWeatherStationFeatureLayer();
+            noaaWeatherStationLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 3857);
+            // Create the weather stations style and add it on zoom level 1 and then apply it to all zoom levels up to 20.
+            noaaWeatherStationLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(new NoaaWeatherStationStyle());
+            noaaWeatherStationLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Add the new layer to the overlay we created earlier
-            weatherOverlay.Layers.Add(nOAAWeatherStationLayer);
-
-            // Get the layers feature source and setup an event that will refresh the map when the data refreshes
-            var featureSource = (NoaaWeatherStationFeatureSource) nOAAWeatherStationLayer.FeatureSource;            
-            featureSource.StationsUpdated -= FeatureSource_StationsUpdated; 
-            featureSource.StationsUpdated += FeatureSource_StationsUpdated;
-
-            // Create the weather stations style and add it on zoom level 1 and then apply it to all zoom levels up to 20.
-            nOAAWeatherStationLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(new NoaaWeatherStationStyle());
-            nOAAWeatherStationLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-
-            // Set the extent to a view of the US
-            mapView.CurrentExtent = new RectangleShape(-14927495.374917, 8262593.0543992, -6686622.84891633, 1827556.23117885);
-
-            featureSource.Open();
-            if (featureSource.GetCount() > 0)
-            {
-                loadingImage.Visibility = Visibility.Hidden;
-            }
-
-            // Refresh the map.
+            weatherOverlay.Layers.Add(noaaWeatherStationLayer);
             await mapView.RefreshAsync();
-        }
 
-        private void FeatureSource_StationsUpdated(object sender, StationsUpdatedNoaaWeatherStationFeatureSourceEventArgs e)
-        {
-            // This event fires when the the feature source has new data.  We need to make sure we refresh the map
-            // on the UI threat so we use the Invoke method on the map using the delegate we created at the top.
-            mapView.Dispatcher.Invoke(new RefreshWeatherStations(this.UpdateWeatherStations), new object[] { });
-        }
-
-        private async void UpdateWeatherStations()
-        {
-            // Here we fresh the map based on the delegate that fires when the feature source has new data.            
-            await mapView.RefreshAsync(mapView.Overlays["Weather"]);
             loadingImage.Visibility = Visibility.Hidden;
-        }
-
-        public void Dispose()
-        {
-            var noaaWeatherWarningsOverlay = mapView.Overlays["Weather"] as LayerOverlay;
-            var noaaWeatherStationFeatureLayer = noaaWeatherWarningsOverlay.Layers[0] as NoaaWeatherStationFeatureLayer;
-            var featureSource = (NoaaWeatherStationFeatureSource)noaaWeatherStationFeatureLayer.FeatureSource;
-            featureSource.StationsUpdated -= FeatureSource_StationsUpdated;
-
-            // Dispose of unmanaged resources.
-            mapView.Dispose();
-            // Suppress finalization.
-            GC.SuppressFinalize(this);
         }
     }
 }

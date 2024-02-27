@@ -1,20 +1,16 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using ThinkGeo.UI.Wpf;
-using ThinkGeo.Core;
-using System.Windows.Threading;
-using System.Threading;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Text;
-using System;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to display a NOAA Weather Warning Layer on the map
     /// </summary>
-    public partial class NOAAWeatherWarningLayerSample : UserControl, IDisposable
+    public partial class NOAAWeatherWarningLayerSample : UserControl
     {
         public NOAAWeatherWarningLayerSample()
         {
@@ -48,11 +44,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Get the layers feature source and setup an event that will refresh the map when the data refreshes
             var featureSource = (NoaaWeatherWarningsFeatureSource)noaaWeatherWarningsFeatureLayer.FeatureSource;
-            featureSource.WarningsUpdated -= FeatureSource_WarningsUpdated;
-            featureSource.WarningsUpdated += FeatureSource_WarningsUpdated;
-
-            featureSource.WarningsUpdating -= FeatureSource_WarningsUpdating;
-            featureSource.WarningsUpdating += FeatureSource_WarningsUpdating;
 
             // Create the weather warnings style and add it on zoom level 1 and then apply it to all zoom levels up to 20.
             noaaWeatherWarningsFeatureLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(new NoaaWeatherWarningsStyle());
@@ -68,31 +59,20 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             featureSource.Open();
             if (featureSource.GetCount() > 0)
             {
-                loadingImage.Visibility = Visibility.Hidden; 
+                loadingImage.Visibility = Visibility.Hidden;
             }
 
             // Refresh the map.
             await mapView.RefreshAsync();
         }
 
-        private void FeatureSource_WarningsUpdating(object sender, WarningsUpdatingNoaaWeatherWarningsFeatureSourceEventArgs e)
-        {
-            loadingImage.Dispatcher.Invoke(() => loadingImage.Visibility = Visibility.Visible);
-        }
-
-        private void FeatureSource_WarningsUpdated(object sender, WarningsUpdatedNoaaWeatherWarningsFeatureSourceEventArgs e)
-        {
-            // This event fires when the the feature source has new data.  We need to make sure we refresh the map
-            // on the UI threat so we use the Invoke method on the map using the delegate we created at the top.                        
-            loadingImage.Dispatcher.Invoke(() => loadingImage.Visibility = Visibility.Hidden);
-            mapView.Dispatcher.InvokeAsync(async() => await mapView.RefreshAsync(mapView.Overlays["Noaa Weather Warning"]));
-        }
-
-
         private async void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
-            // Get the selected feature based on the map click location
-            Collection<Feature> selectedFeatures = GetFeaturesFromLocation(e.WorldLocation);
+            // Get the parks layer from the MapView
+            FeatureLayer weatherWarnings = mapView.FindFeatureLayer("Noaa Weather Warning");
+
+            // Find the feature that was clicked on by querying the layer for features containing the clicked coordinates            
+            Collection<Feature> selectedFeatures = weatherWarnings.QueryTools.GetFeaturesContaining(e.WorldLocation, ReturningColumnsType.AllColumns);
 
             // If a feature was selected, get the data from it and display it
             if (selectedFeatures != null)
@@ -100,16 +80,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 await DisplayFeatureInfoAsync(selectedFeatures);
             }
         }
-        private Collection<Feature> GetFeaturesFromLocation(PointShape location)
-        {
-            // Get the parks layer from the MapView
-            FeatureLayer weatherWarnings = mapView.FindFeatureLayer("Noaa Weather Warning");
 
-            // Find the feature that was clicked on by querying the layer for features containing the clicked coordinates            
-            Collection<Feature> selectedFeatures = weatherWarnings.QueryTools.GetFeaturesContaining(location, ReturningColumnsType.AllColumns);
-
-            return selectedFeatures;
-        }
         private async Task DisplayFeatureInfoAsync(Collection<Feature> features)
         {
             if (features.Count > 0)
@@ -118,7 +89,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 // Each column in a feature is a data attribute
                 // Add all attribute pairs to the info string
-
 
                 foreach (Feature feature in features)
                 {
@@ -140,20 +110,5 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 await popupOverlay.RefreshAsync();
             }
         }
-
-        public void Dispose()
-        {
-            var noaaWeatherWarningsOverlay = mapView.Overlays["Noaa Weather Warning"] as LayerOverlay;
-            var noaaWeatherWarningsFeatureLayer = noaaWeatherWarningsOverlay.Layers["Noaa Weather Warning"] as NoaaWeatherWarningsFeatureLayer;
-            var featureSource = (NoaaWeatherWarningsFeatureSource)noaaWeatherWarningsFeatureLayer.FeatureSource;
-            featureSource.WarningsUpdated -= FeatureSource_WarningsUpdated;
-            featureSource.WarningsUpdating -= FeatureSource_WarningsUpdating;
-
-            // Dispose of unmanaged resources.
-            mapView.Dispose();
-            // Suppress finalization.
-            GC.SuppressFinalize(this);
-        }
-
     }
 }

@@ -76,7 +76,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
 
             // Create the WMS layer using the parameters below.
             // This is a public service and is very slow most of the time.
-            CustomWmsRasterLayer wmsImageLayer = new CustomWmsRasterLayer(new Uri("http://not_exist.com/services/service"), drawCustomException);
+            CustomWmsLayer wmsImageLayer = new CustomWmsLayer(new Uri("http://not_exist.com/services/service"), drawCustomException);
             wmsImageLayer.DrawingExceptionMode = drawingExceptionMode;
 
             // Add the layer to the overlay.
@@ -92,10 +92,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
         }
     }
 
-    public class CustomWmsRasterLayer: Core.Async.WmsRasterLayer
+    public class CustomWmsLayer: Core.Async.WmsLayer
     {
         private readonly bool drawCustomException;
-        public CustomWmsRasterLayer(Uri uri, bool drawCustomException)
+        public CustomWmsLayer(Uri uri, bool drawCustomException)
             :base(uri)
         {
             this.drawCustomException = drawCustomException;
