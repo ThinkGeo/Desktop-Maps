@@ -184,6 +184,12 @@
     <Page Update="Samples\Extensibility\ExtendingFeatureSourcesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Samples\Misc\WFSV2FeatureLayerSample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Samples\Misc\OGCAPIFeatureSample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Samples\Misc\ShapesAcrossDateLine.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
@@ -327,7 +333,7 @@
     <PackageReference Include="ThinkGeo.PostgreSql" Version="13.3.0-beta024" />
     <PackageReference Include="ThinkGeo.Printers" Version="13.3.0-beta024" />
     <PackageReference Include="ThinkGeo.SqlServer" Version="13.3.0-beta024" />
-    <PackageReference Include="ThinkGeo.UI.Wpf" Version="13.3.0-beta029" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="13.3.0-beta058" />
     <PackageReference Include="ThinkGeo.UnmanagedGeoTiff" Version="13.3.0-beta026" />
     <PackageReference Include="ThinkGeo.UnmanagedProj" Version="13.3.0-beta024" />
     <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
