@@ -1,15 +1,13 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using ThinkGeo.UI.Wpf;
+﻿using System;
+using System.Windows;
 using ThinkGeo.Core;
-using System;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to display a CloudMapsVector Layer on the map
     /// </summary>
-    public partial class CreateRegexStyleSample : UserControl, IDisposable
+    public partial class CreateRegexStyleSample : IDisposable
     {
         public CreateRegexStyleSample()
         {
@@ -17,41 +15,52 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Setup the map with the ThinkGeo Cloud Maps overlay.
+        /// Set up the map with the ThinkGeo Cloud Maps overlay.
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
-
-            ShapeFileFeatureLayer coyoteSightings = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Coyote_Sightings.shp");
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Project the layer's data to match the projection of the map
-            coyoteSightings.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+            var coyoteSightings = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Coyote_Sightings.shp")
+                {
+                    FeatureSource =
+                    {
+                        ProjectionConverter = new ProjectionConverter(2276, 3857)
+                    }
+                };
 
             // Add the layer to a layer overlay
             var layerOverlay = new LayerOverlay();
             layerOverlay.Layers.Add("coyoteSightings", coyoteSightings);
 
             // Add the overlay to the map
-            mapView.Overlays.Add(layerOverlay);
+            MapView.Overlays.Add(layerOverlay);
 
             // Create a regex style and item that looks for big / large / huge based on the comments
             // from users and draws them differently
-            RegexStyle regexStyle = new RegexStyle();
-            regexStyle.ColumnName = "Comments";
+            var regexStyle = new RegexStyle
+            {
+                ColumnName = "Comments"
+            };
 
-            RegexItem largeItem = new RegexItem("big|large|huge", new PointStyle(PointSymbolType.Circle, 12, GeoBrushes.Red));
+            var largeItem = new RegexItem("big|large|huge", new PointStyle(PointSymbolType.Circle, 12, GeoBrushes.Red));
             regexStyle.RegexItems.Add(largeItem);
 
             // We have a default drawing style for every sighting
-            PointStyle allSightingsStyle = new PointStyle(PointSymbolType.Circle, 5, GeoBrushes.Green);
+            var allSightingsStyle = new PointStyle(PointSymbolType.Circle, 5, GeoBrushes.Green);
 
             // Add the point style to the collection of custom styles for ZoomLevel 1.
             coyoteSightings.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(allSightingsStyle);
@@ -61,17 +70,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             coyoteSightings.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(-10781794.4716492, 3917077.66579861, -10775416.8466492, 3913528.63559028);
-
-            await mapView.RefreshAsync();
+            MapView.CurrentExtent = new RectangleShape(-10781794.4716492, 3917077.66579861, -10775416.8466492, 3913528.63559028);
+            await MapView.RefreshAsync();
         }
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
-
     }
 }

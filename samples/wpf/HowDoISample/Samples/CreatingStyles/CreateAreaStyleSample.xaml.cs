@@ -52,7 +52,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Add the area style to the historicSites layer
             AddAreaStyle(friscoSubdivisions);
-
             await MapView.RefreshAsync();
         }
 

@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using ThinkGeo.Core;
-using ThinkGeo.UI.Wpf;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to style layers across multiple scales using different styles assigned to different ZoomLevels.
     /// </summary>
-    public partial class StylingAcrossMultipleScales : UserControl, IDisposable
+    public partial class StylingAcrossMultipleScales : IDisposable
     {
         public StylingAcrossMultipleScales()
         {
@@ -18,19 +16,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, project and add styles to the Hotels, Streets, and Parks layer.
+        /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, project and add styles to the Hotels, Streets, and Parks layer.
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Set the map background color
-            mapView.Background = new SolidColorBrush(Color.FromRgb(234, 232, 226));
+            MapView.Background = new SolidColorBrush(Color.FromRgb(234, 232, 226));
 
-            ShapeFileFeatureLayer hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
-            ShapeFileFeatureLayer streetsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Streets.shp");
-            ShapeFileFeatureLayer parksLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
+            var hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
+            var streetsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Streets.shp");
+            var parksLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
 
             // Project the layer's data to match the projection of the map
             hotelsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
@@ -49,31 +47,28 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             layerOverlay.Layers.Add(hotelsLayer);
 
             // Add overlay to map
-            mapView.Overlays.Add(layerOverlay);
+            MapView.Overlays.Add(layerOverlay);
 
             // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(-10778329.017082, 3909598.36751101, -10776250.8853871, 3907890.47766975);
-
-            await mapView.RefreshAsync();
+            MapView.CurrentExtent = new RectangleShape(-10778329.017082, 3909598.36751101, -10776250.8853871, 3907890.47766975);
+            await MapView.RefreshAsync();
         }
 
         /// <summary>
         /// Adds a PointStyle and TextStyle to the Hotels Layer
         /// </summary>
-        private void StyleHotelsLayer(ShapeFileFeatureLayer hotelsLayer)
+        private static void StyleHotelsLayer(FeatureLayer hotelsLayer)
         {
             /********************
              * Zoom Level 12-13 *
              ********************/
             hotelsLayer.ZoomLevelSet.ZoomLevel12.DefaultPointStyle = new PointStyle(PointSymbolType.Circle, 4, GeoBrushes.DarkRed, new GeoPen(GeoBrushes.White, 2));
-
             hotelsLayer.ZoomLevelSet.ZoomLevel12.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level13;
 
             /********************
              * Zoom Level 14-15 *
              ********************/
             hotelsLayer.ZoomLevelSet.ZoomLevel14.DefaultPointStyle = new PointStyle(PointSymbolType.Circle, 8, GeoBrushes.DarkRed, new GeoPen(GeoBrushes.White, 2));
-
             hotelsLayer.ZoomLevelSet.ZoomLevel14.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level15;
 
             /********************
@@ -88,20 +83,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 DrawingLevel = DrawingLevel.LabelLevel,
                 AllowLineCarriage = true
             };
-
             hotelsLayer.ZoomLevelSet.ZoomLevel16.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
         }
 
         /// <summary>
         /// Adds a LineStyle and TextStyle to the Streets Layer
         /// </summary>
-        private void StyleStreetsLayer(ShapeFileFeatureLayer streetsLayer)
+        private static void StyleStreetsLayer(FeatureLayer streetsLayer)
         {
             /********************
              * Zoom Level 10-11 *
              ********************/
             streetsLayer.ZoomLevelSet.ZoomLevel10.DefaultLineStyle = new LineStyle(new GeoPen(GeoBrushes.LightGray, 1));
-
             streetsLayer.ZoomLevelSet.ZoomLevel10.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level11;
 
             /*****************
@@ -168,7 +161,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 DrawingLevel = DrawingLevel.LabelLevel,
                 GridSize = 20
             };
-
             streetsLayer.ZoomLevelSet.ZoomLevel17.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level18;
 
             /********************
@@ -182,20 +174,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 DrawingLevel = DrawingLevel.LabelLevel,
                 GridSize = 20
             };
-
             streetsLayer.ZoomLevelSet.ZoomLevel19.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
         }
 
         /// <summary>
         /// Adds an AreaStyle and TextStyle to the Parks Layer
         /// </summary>
-        private void StyleParksLayer(ShapeFileFeatureLayer parksLayer)
+        private static void StyleParksLayer(FeatureLayer parksLayer)
         {
             /********************
              * Zoom Level 10-14 *
              ********************/
             parksLayer.ZoomLevelSet.ZoomLevel10.DefaultAreaStyle = new AreaStyle(GeoBrushes.PastelGreen);
-
             parksLayer.ZoomLevelSet.ZoomLevel10.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level14;
 
             /********************
@@ -210,13 +200,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 AllowLineCarriage = true,
                 FittingPolygonFactor = 1
             };
-
             parksLayer.ZoomLevelSet.ZoomLevel15.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
         }
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

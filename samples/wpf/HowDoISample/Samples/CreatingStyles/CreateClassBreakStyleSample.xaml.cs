@@ -63,7 +63,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             housingUnitsLayer.Open();
             MapView.CurrentExtent = housingUnitsLayer.GetBoundingBox();
             housingUnitsLayer.Close();
-
             await MapView.RefreshAsync();
         }
 
