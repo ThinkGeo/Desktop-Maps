@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using ThinkGeo.Core;
-using ThinkGeo.UI.Wpf;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to selectively style features using a FilterStyle
     /// </summary>
-    public partial class CreateFilterStyleSample : UserControl, IDisposable
+    public partial class CreateFilterStyleSample : IDisposable
     {
         public CreateFilterStyleSample()
         {
@@ -17,26 +15,35 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, project and style the Frisco Crime layer
+        /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, project and style the Frisco Crime layer
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(-10780196.9469504, 3916119.49665258, -10776231.7761301, 3912703.71697007);
-
-            ShapeFileFeatureLayer friscoCrimeLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Crime.shp");
+            MapView.CurrentExtent = new RectangleShape(-10780196.9469504, 3916119.49665258, -10776231.7761301, 3912703.71697007);
 
             // Project the layer's data to match the projection of the map
-            friscoCrimeLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+            var friscoCrimeLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Crime.shp")
+                {
+                    FeatureSource =
+                    {
+                        ProjectionConverter = new ProjectionConverter(2276, 3857)
+                    }
+                };
 
             // Add friscoCrimeLayer to a LayerOverlay
             var layerOverlay = new LayerOverlay();
@@ -45,15 +52,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             AddFilterStyle(friscoCrimeLayer);
 
             // Add layerOverlay to the mapView
-            mapView.Overlays.Add(layerOverlay);
+            MapView.Overlays.Add(layerOverlay);
 
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         /// <summary>
         /// Adds a filter style to various categories of the Frisco Crime layer
         /// </summary>
-        private void AddFilterStyle(ShapeFileFeatureLayer layer)
+        private static void AddFilterStyle(FeatureLayer layer)
         {
             // Create a filter style based on the "Drugs" Offense Group 
             var drugFilterStyle = new FilterStyle()
@@ -91,10 +98,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(vandalismFilterStyle);
             layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
         }
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

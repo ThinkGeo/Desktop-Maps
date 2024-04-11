@@ -5,7 +5,7 @@ using System.Windows.Navigation;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
-    class HyperlinkHelper
+    internal class HyperlinkHelper
     {
         public static readonly DependencyProperty LaunchBrowserProperty =
             DependencyProperty.RegisterAttached("LaunchBrowser", typeof(bool),
