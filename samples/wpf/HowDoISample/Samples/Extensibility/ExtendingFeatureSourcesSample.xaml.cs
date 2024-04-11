@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
-using System.Windows.Controls;
 using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
@@ -11,7 +10,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Interaction logic for SampleTemplate.xaml
     /// </summary>
-    public partial class ExtendingFeatureSourcesSample : UserControl, IDisposable
+    public partial class ExtendingFeatureSourcesSample : IDisposable
     {
         public ExtendingFeatureSourcesSample()
         {
@@ -20,39 +19,39 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // See the implementation of the new layer and feature source below.
-            SimpleCsvFeatureLayer csvLayer = new SimpleCsvFeatureLayer(@"./Data/Csv/vehicle-route.csv");
+            var csvLayer = new SimpleCsvFeatureLayer(@"./Data/Csv/vehicle-route.csv");
 
-            // Set the points image to an car icon and then apply it to all zoomlevels
-            PointStyle vehiclePointStyle = new PointStyle(new GeoImage(@"./Resources/vehicle-location.png"));
+            // Set the points image to a car icon and then apply it to all zoomlevels
+            var vehiclePointStyle = new PointStyle(new GeoImage(@"./Resources/vehicle-location.png"));
             vehiclePointStyle.YOffsetInPixel = -12;
 
             csvLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = vehiclePointStyle;
             csvLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-          
-            LayerOverlay layerOverlay = new LayerOverlay();
+
+            var layerOverlay = new LayerOverlay();
             layerOverlay.TileType = TileType.SingleTile;
             layerOverlay.Layers.Add(csvLayer);
-            mapView.Overlays.Add(layerOverlay);
+            MapView.Overlays.Add(layerOverlay);
 
             csvLayer.Open();
-            mapView.CurrentExtent = csvLayer.GetBoundingBox();
+            MapView.CurrentExtent = csvLayer.GetBoundingBox();
 
-            await mapView.RefreshAsync();
-        }        
+            await MapView.RefreshAsync();
+        }
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
@@ -62,7 +61,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     // Since CSV doesn't include a way to do spatial queries we only need to return all the features
     // in the method below and the base class will do the rest.  Of course if you had large dataset this
     // would be slow so I recommend you look at other overloads and implement optimized versions of these methods
-    
+
     public class SimpleCsvFeatureSource : FeatureSource
     {
         public string CsvPathFileName { get; set; }
@@ -78,7 +77,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         protected override Collection<Feature> GetAllFeaturesCore(IEnumerable<string> returningColumnNames)
         {
             // If we haven't loaded the CSV then load it and return all the features
-            if(features.Count == 0)
+            if (features.Count == 0)
             {
                 string[] locations = File.ReadAllLines(CsvPathFileName);
 
@@ -88,7 +87,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 }
             }
 
-            return features;           
+            return features;
         }
     }
 
@@ -97,7 +96,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     public class SimpleCsvFeatureLayer : FeatureLayer
     {
         public SimpleCsvFeatureLayer(string csvPathFileName)
-        {            
+        {
             this.FeatureSource = new SimpleCsvFeatureSource(csvPathFileName);
         }
 

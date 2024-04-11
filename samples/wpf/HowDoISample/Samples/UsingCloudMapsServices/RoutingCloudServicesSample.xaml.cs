@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,7 +11,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
     /// <summary>
     /// Learn how to use the RoutingCloudClient to route through a set of waypoints with the ThinkGeo Cloud
     /// </summary>
-    public partial class RoutingCloudServicesSample : UserControl, IDisposable
+    public partial class RoutingCloudServicesSample : IDisposable
     {
         private RoutingCloudClient routingCloudClient;
 
@@ -30,10 +29,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map's unit of measurement to meters (Spherical Mercator)
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Create a new feature layer to display the route
             InMemoryFeatureLayer routingLayer = new InMemoryFeatureLayer();
@@ -59,10 +58,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             LayerOverlay routingOverlay = new LayerOverlay();
             routingOverlay.Layers.Add("Routing Layer", routingLayer);
             routingOverlay.Layers.Add("Highlight Layer", highlightLayer);
-            mapView.Overlays.Add("Routing Overlay", routingOverlay);
+            MapView.Overlays.Add("Routing Overlay", routingOverlay);
 
             // Set the map extent to Frisco, TX
-            mapView.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
+            MapView.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
 
             // Initialize the RoutingCloudClient with our ThinkGeo Cloud Client credentials
             routingCloudClient = new RoutingCloudClient("FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~", "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~");
@@ -90,7 +89,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         private async Task DrawRouteAsync(CloudRoutingGetRouteResult routingResult)
         {
             // Get the routing feature layer from the MapView
-            InMemoryFeatureLayer routingLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Routing Layer");
+            InMemoryFeatureLayer routingLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Routing Layer");
 
             // Clear the previous features from the routing layer
             routingLayer.InternalFeatures.Clear();
@@ -126,11 +125,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
 
             // Set the map extent to the newly displayed route
             routingLayer.Open();
-            mapView.CurrentExtent = routingLayer.GetBoundingBox();
-            ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();            
-            await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel13.Scale);
+            MapView.CurrentExtent = routingLayer.GetBoundingBox();
+            ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
+            await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel13.Scale);
             routingLayer.Close();
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         /// <summary>
@@ -172,29 +171,29 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             ListBox routeSegments = (ListBox)sender;
             if (routeSegments.SelectedItem != null)
             {
-                InMemoryFeatureLayer highlightLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Highlight Layer");
+                InMemoryFeatureLayer highlightLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Highlight Layer");
                 highlightLayer.InternalFeatures.Clear();
 
                 // Highlight the selected route segment
                 highlightLayer.InternalFeatures.Add(new Feature(((CloudRoutingSegment)routeSegments.SelectedItem).Shape));
 
                 // Zoom to the selected feature and zoom out to an appropriate level
-                mapView.CurrentExtent = ((CloudRoutingSegment)routeSegments.SelectedItem).Shape.GetBoundingBox();
+                MapView.CurrentExtent = ((CloudRoutingSegment)routeSegments.SelectedItem).Shape.GetBoundingBox();
                 ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
-                if(mapView.CurrentScale < standardZoomLevelSet.ZoomLevel15.Scale)
+                if (MapView.CurrentScale < standardZoomLevelSet.ZoomLevel15.Scale)
                 {
-                    await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel15.Scale);
+                    await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel15.Scale);
                 }
-                await mapView.RefreshAsync();
+                await MapView.RefreshAsync();
             }
         }
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
-
     }
 }

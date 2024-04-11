@@ -2,18 +2,15 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
 using ThinkGeo.Core;
-using ThinkGeo.UI.Wpf;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to display an ISOLine Layer on the map
     /// </summary>
-    public partial class ISOLineLayerSample : UserControl, IDisposable
+    public partial class ISOLineLayerSample : IDisposable
     {
         public ISOLineLayerSample()
         {
@@ -26,24 +23,24 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            mapView.MapUnit = GeographyUnit.Meter;            
-                        
+            MapView.MapUnit = GeographyUnit.Meter;
+
             // Create background world map with vector tile requested from ThinkGeo Cloud Service. 
             ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a new overlay that will hold our new layer and add it to the map.
             LayerOverlay isoLineOverlay = new LayerOverlay();
-            mapView.Overlays.Add("isoLineOverlay", isoLineOverlay);
+            MapView.Overlays.Add("isoLineOverlay", isoLineOverlay);
 
             // Load a csv file with the mosquito data that we will use for the iso line.
             Dictionary<PointShape, double> csvPointData = GetDataFromCSV(@"./Data/Csv/Frisco_Mosquitos.csv");
 
             // Create the layer based on the method GetDynamicIsoLineLayer and pass in the points we loaded above and add it to the map.
             //  We then set the drawing quality high so we get a crisp rendering.
-            var isoLineLayer = GetDynamicIsoLineLayer(csvPointData);           
+            var isoLineLayer = GetDynamicIsoLineLayer(csvPointData);
             isoLineOverlay.Layers.Add("IsoLineLayer", isoLineLayer);
             isoLineOverlay.DrawingQuality = DrawingQuality.HighQuality;
 
@@ -54,11 +51,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Open the layer and set the map view current extent to the bounding box of the layer scaled up just a bit then close the layer
             mosquitosLayer.Open();
-            mapView.CurrentExtent = mosquitosLayer.GetBoundingBox();
+            MapView.CurrentExtent = mosquitosLayer.GetBoundingBox();
             mosquitosLayer.Close();
 
             // Refresh the map.
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
 
         }
 
@@ -96,8 +93,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             DynamicIsoLineLayer dynamicIsoLineLayer = new DynamicIsoLineLayer(csvPointData, isoLineLevels, new InverseDistanceWeightedGridInterpolationModel(), IsoLineType.LinesOnly);
 
             // Set the cell height and width dynamically based on the map view size
-            dynamicIsoLineLayer.CellHeightInPixel = (int)(mapView.ActualHeight / 80);
-            dynamicIsoLineLayer.CellWidthInPixel = (int)(mapView.ActualWidth / 80);
+            dynamicIsoLineLayer.CellHeightInPixel = (int)(MapView.ActualHeight / 80);
+            dynamicIsoLineLayer.CellWidthInPixel = (int)(MapView.ActualWidth / 80);
 
             //Create a series of colors from blue to red that we will use for the breaks based on the number of iso line levels we want.
             Collection<GeoColor> colors = GeoColor.GetColorsInQualityFamily(GeoColors.Blue, GeoColors.Red, isoLineLevels.Count, ColorWheelDirection.Clockwise);
@@ -109,9 +106,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Create a collection of styles that we use we will use for the minimum value
             Collection<Core.Style> firstStyles = new Collection<ThinkGeo.Core.Style>();
             firstStyles.Add(new LineStyle(new GeoPen(colors[0], 3)));
-            firstStyles.Add(new AreaStyle(new GeoPen(GeoColors.LightBlue, 3), new GeoSolidBrush(new GeoColor(150, colors[0]))));            
+            firstStyles.Add(new AreaStyle(new GeoPen(GeoColors.LightBlue, 3), new GeoSolidBrush(new GeoColor(150, colors[0]))));
             classBreakStyle.ClassBreaks.Add(new ClassBreak(double.MinValue, firstStyles));
-            
+
             // Loop through all the colors we created as they will be class breaks
             for (int i = 0; i < colors.Count - 1; i++)
             {
@@ -119,11 +116,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 Collection<Core.Style> styles = new Collection<Core.Style>();
                 styles.Add(new LineStyle(new GeoPen(colors[i + 1], 3)));
                 styles.Add(new AreaStyle(new GeoPen(GeoColors.LightBlue, 3), new GeoSolidBrush(new GeoColor(150, colors[i + 1]))));
-                
+
                 // Add the class break with the styles
                 classBreakStyle.ClassBreaks.Add(new ClassBreak(isoLineLevels[i], styles));
             }
-                                
+
             //Create the text styles to label the lines and add it to the iso line layer
             TextStyle textStyle = TextStyle.CreateSimpleTextStyle(dynamicIsoLineLayer.DataValueColumnName, "Arial", 10, DrawingFontStyles.Bold, GeoColors.Black, 0, 0);
             textStyle.HaloPen = new GeoPen(GeoColors.White, 2);
@@ -137,10 +134,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             return dynamicIsoLineLayer;
         }
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

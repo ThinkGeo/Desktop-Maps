@@ -8,7 +8,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
     /// <summary>
     /// Learn how to display a WMS Layer on the map
     /// </summary>
-    public partial class OverlayExceptionSample : UserControl, IDisposable
+    public partial class OverlayExceptionSample : IDisposable
     {
         public OverlayExceptionSample()
         {
@@ -21,16 +21,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            mapView.MapUnit = GeographyUnit.DecimalDegree;
+            MapView.MapUnit = GeographyUnit.DecimalDegree;
 
             // This code sets up the sample to use the overlay versus the layer.
             UseLayer(DrawingExceptionMode.DrawException, false);
-            
+
             // Set the current extent to a local area.
-            mapView.CurrentExtent = new RectangleShape(-96.8538765269409, 33.1618647290098, -96.7987487018851, 33.1054126590461);
+            MapView.CurrentExtent = new RectangleShape(-96.8538765269409, 33.1618647290098, -96.7987487018851, 33.1054126590461);
 
             // Refresh the map.
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         private async void DrawingExceptionMode_Checked(object sender, RoutedEventArgs e)
@@ -52,14 +52,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
                         UseLayer(DrawingExceptionMode.DrawException, false);
                         break;
                 }
-                await mapView.RefreshAsync();
+                await MapView.RefreshAsync();
             }
         }
 
         private void UseLayer(DrawingExceptionMode drawingExceptionMode, bool drawCustomException)
         {
             // Clear out the overlays so we start fresh
-            mapView.Overlays.Clear();
+            MapView.Overlays.Clear();
 
             // Create an overlay that we will add the layer to.
             LayerOverlay staticOverlay = new LayerOverlay();
@@ -72,7 +72,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
                 };
             }
 
-            mapView.Overlays.Add(staticOverlay);
+            MapView.Overlays.Add(staticOverlay);
 
             // Create the WMS layer using the parameters below.
             // This is a public service and is very slow most of the time.
@@ -80,23 +80,23 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
             wmsImageLayer.DrawingExceptionMode = drawingExceptionMode;
 
             // Add the layer to the overlay.
-            staticOverlay.Layers.Add("wmsImageLayer", wmsImageLayer);          
+            staticOverlay.Layers.Add("wmsImageLayer", wmsImageLayer);
         }
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
     }
 
-    public class CustomWmsLayer: Core.Async.WmsLayer
+    public class CustomWmsLayer : Core.Async.WmsLayer
     {
         private readonly bool drawCustomException;
         public CustomWmsLayer(Uri uri, bool drawCustomException)
-            :base(uri)
+            : base(uri)
         {
             this.drawCustomException = drawCustomException;
         }

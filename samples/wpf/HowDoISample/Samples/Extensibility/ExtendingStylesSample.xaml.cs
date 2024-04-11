@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Controls;
 using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
@@ -10,7 +9,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Interaction logic for SampleTemplate.xaml
     /// </summary>
-    public partial class ExtendingStylesSample : UserControl, IDisposable
+    public partial class ExtendingStylesSample : IDisposable
     {
         public ExtendingStylesSample()
         {
@@ -19,39 +18,38 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             ShapeFileFeatureLayer worldCapitalsLayer = new ShapeFileFeatureLayer(@".\Data\Shapefile\WorldCapitals.shp");
             worldCapitalsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 3857);
             worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             LayerOverlay worldOverlay = new LayerOverlay();
-            worldOverlay.Layers.Add("WorldCapitals",worldCapitalsLayer);
-            mapView.Overlays.Add("Overlay",worldOverlay);
+            worldOverlay.Layers.Add("WorldCapitals", worldCapitalsLayer);
+            MapView.Overlays.Add("Overlay", worldOverlay);
 
-            mapView.CurrentExtent = new RectangleShape(-15360785.1188513, 14752615.1010077, 16260907.558937, -12603279.9259404);
+            MapView.CurrentExtent = new RectangleShape(-15360785.1188513, 14752615.1010077, 16260907.558937, -12603279.9259404);
 
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
-        
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
 
         private async void TimeBasedPointStyle_Click(object sender, RoutedEventArgs e)
         {
-            FeatureLayer worldCapitalsLayer = mapView.FindFeatureLayer("WorldCapitals");
+            FeatureLayer worldCapitalsLayer = MapView.FindFeatureLayer("WorldCapitals");
 
             TimeBasedPointStyle timeBasedPointStyle = new TimeBasedPointStyle();
             timeBasedPointStyle.TimeZoneColumnName = "TimeZone";
@@ -61,19 +59,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
             worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(timeBasedPointStyle);
 
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         private async void SizedBasedPointStyle_Click(object sender, RoutedEventArgs e)
         {
-            FeatureLayer worldCapitalsLayer = mapView.FindFeatureLayer("WorldCapitals");
+            FeatureLayer worldCapitalsLayer = MapView.FindFeatureLayer("WorldCapitals");
 
             SizedPointStyle sizedpointStyle = new SizedPointStyle(PointStyle.CreateSimpleCircleStyle(GeoColors.Blue, 1), "population", 500000);
 
             worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
             worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(sizedpointStyle);
 
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
     }
 
@@ -219,7 +217,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 pointStyle.SymbolSize = symbolSize;
                 pointStyle.Draw(new Collection<Feature>() { feature }, canvas, labelsInThisLayer, labelsInAllLayers);
             }
-        }        
+        }
 
         protected override Collection<string> GetRequiredColumnNamesCore()
         {
@@ -232,9 +230,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             {
                 columns.Add(sizeColumnName);
             }
-
             return columns;
         }
     }
-
 }

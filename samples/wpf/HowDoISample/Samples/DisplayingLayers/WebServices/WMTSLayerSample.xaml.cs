@@ -23,7 +23,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Create a WMTS overlay using the WMS parameters below.
             // This is a public service and performance may be slow.
@@ -46,19 +46,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             layerOverlay.Layers.Add(wmtsLayer);
 
             //Add the overlay to the mapView's Overlay collection.
-            mapView.Overlays.Add(layerOverlay);
+            MapView.Overlays.Add(layerOverlay);
 
             // Set the current extent to the Eiger - a famous peak in Switzerland.
-            mapView.CurrentExtent = new RectangleShape(641202.9893498598, 159695.95554381475, 645651.6243713424, 156646.11813217978);
+            MapView.CurrentExtent = new RectangleShape(641202.9893498598, 159695.95554381475, 645651.6243713424, 156646.11813217978);
 
             // Refresh the map.
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

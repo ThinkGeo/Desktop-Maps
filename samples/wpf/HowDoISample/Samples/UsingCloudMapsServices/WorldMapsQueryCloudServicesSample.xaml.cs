@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.IO;
-using System.Net;
+﻿using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,7 +9,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
     /// <summary>
     /// Learn how to use the MapsQueryClient to query the WorldMaps dataset available from the ThinkGeo Cloud
     /// </summary>
-    public partial class WorldMapsQueryCloudServicesSample : UserControl, IDisposable
+    public partial class WorldMapsQueryCloudServicesSample : IDisposable
     {
         private MapsQueryCloudClient mapsQueryCloudClient;
 
@@ -27,13 +24,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map's unit of measurement to meters (Spherical Mercator)
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Create a new feature layer to display the query shape used to perform the query
             InMemoryFeatureLayer queryShapeFeatureLayer = new InMemoryFeatureLayer();
@@ -59,13 +56,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             LayerOverlay queriedFeaturesOverlay = new LayerOverlay();
             queriedFeaturesOverlay.Layers.Add("Queried Features Layer", queriedFeaturesLayer);
             queriedFeaturesOverlay.Layers.Add("Query Shape Layer", queryShapeFeatureLayer);
-            mapView.Overlays.Add("Queried Features Overlay", queriedFeaturesOverlay);
+            MapView.Overlays.Add("Queried Features Overlay", queriedFeaturesOverlay);
 
             // Set the map extent to Frisco, TX
-            mapView.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
+            MapView.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
 
             // Add an event to handle new shapes that are drawn on the map
-            mapView.TrackOverlay.TrackEnded += OnShapeDrawn;
+            MapView.TrackOverlay.TrackEnded += OnShapeDrawn;
 
             // Initialize the MapsQueryCloudClient with our ThinkGeo Cloud credentials
             mapsQueryCloudClient = new MapsQueryCloudClient("FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~", "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~");
@@ -84,7 +81,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         private async Task PerformWorldMapsQueryAsync()
         {
             // Get the feature layers from the MapView
-            LayerOverlay queriedFeaturesOverlay = (LayerOverlay)mapView.Overlays["Queried Features Overlay"];
+            LayerOverlay queriedFeaturesOverlay = (LayerOverlay)MapView.Overlays["Queried Features Overlay"];
             InMemoryFeatureLayer queryShapeFeatureLayer = (InMemoryFeatureLayer)queriedFeaturesOverlay.Layers["Query Shape Layer"];
             InMemoryFeatureLayer queriedFeaturesLayer = (InMemoryFeatureLayer)queriedFeaturesOverlay.Layers["Queried Features Layer"];
 
@@ -135,13 +132,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
                 if (ex is ArgumentException)
                 {
                     MessageBox.Show(string.Format("{0} {1}", ex.InnerException.Message, ex.Message), "Invalid Request");
-                    await mapView.RefreshAsync();
+                    await MapView.RefreshAsync();
                     return;
                 }
                 else
                 {
                     MessageBox.Show(ex.Message, "Unexpected Error");
-                    await mapView.RefreshAsync();
+                    await MapView.RefreshAsync();
                     return;
                 }
             }
@@ -161,7 +158,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
 
                 // Set the map extent to the extent of the query results
                 queriedFeaturesLayer.Open();
-                mapView.CurrentExtent = queriedFeaturesLayer.GetBoundingBox();
+                MapView.CurrentExtent = queriedFeaturesLayer.GetBoundingBox();
                 queriedFeaturesLayer.Close();
             }
             else
@@ -170,7 +167,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             }
 
             // Refresh and redraw the map
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         /// <summary>
@@ -179,11 +176,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         private async void OnShapeDrawn(object sender, TrackEndedTrackInteractiveOverlayEventArgs e)
         {
             // Disable drawing mode and clear the drawing layer
-            mapView.TrackOverlay.TrackMode = TrackMode.None;
-            mapView.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
+            MapView.TrackOverlay.TrackMode = TrackMode.None;
+            MapView.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
 
             // Get the query shape layer from the MapView
-            LayerOverlay queriedFeaturesOverlay = (LayerOverlay)mapView.Overlays["Queried Features Overlay"];
+            LayerOverlay queriedFeaturesOverlay = (LayerOverlay)MapView.Overlays["Queried Features Overlay"];
             InMemoryFeatureLayer queryShapeFeatureLayer = (InMemoryFeatureLayer)queriedFeaturesOverlay.Layers["Query Shape Layer"];
 
             // Add the newly drawn shape, then redraw the overlay
@@ -199,7 +196,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         private async void DrawPoint_Click(object sender, RoutedEventArgs e)
         {
             // Set the drawing mode to 'Point'
-            mapView.TrackOverlay.TrackMode = TrackMode.Point;
+            MapView.TrackOverlay.TrackMode = TrackMode.Point;
 
             // Clear the old shapes from the map
             await ClearQueryShapesAsync();
@@ -211,7 +208,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         private async void DrawLine_Click(object sender, RoutedEventArgs e)
         {
             // Set the drawing mode to 'Line'
-            mapView.TrackOverlay.TrackMode = TrackMode.Line;
+            MapView.TrackOverlay.TrackMode = TrackMode.Line;
 
             // Clear the old shapes from the map
             await ClearQueryShapesAsync();
@@ -223,7 +220,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         private async void DrawPolygon_Click(object sender, RoutedEventArgs e)
         {
             // Set the drawing mode to 'Polygon'
-            mapView.TrackOverlay.TrackMode = TrackMode.Polygon;
+            MapView.TrackOverlay.TrackMode = TrackMode.Polygon;
 
             // Clear the old shapes from the map
             await ClearQueryShapesAsync();
@@ -235,7 +232,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         private async Task ClearQueryShapesAsync()
         {
             // Get the query shape layer from the MapView
-            LayerOverlay queriedFeaturesOverlay = (LayerOverlay)mapView.Overlays["Queried Features Overlay"];
+            LayerOverlay queriedFeaturesOverlay = (LayerOverlay)MapView.Overlays["Queried Features Overlay"];
             InMemoryFeatureLayer queryShapeFeatureLayer = (InMemoryFeatureLayer)queriedFeaturesOverlay.Layers["Query Shape Layer"];
             InMemoryFeatureLayer queriedFeaturesLayer = (InMemoryFeatureLayer)queriedFeaturesOverlay.Layers["Queried Features Layer"];
 
@@ -244,13 +241,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             queryShapeFeatureLayer.InternalFeatures.Clear();
             await queriedFeaturesOverlay.RefreshAsync();
         }
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
-
     }
 }

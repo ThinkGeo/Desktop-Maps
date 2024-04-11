@@ -1,15 +1,13 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using ThinkGeo.UI.Wpf;
+﻿using System;
+using System.Windows;
 using ThinkGeo.Core;
-using System;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to display a CloudMapsVector Layer on the map
     /// </summary>
-    public partial class DisplaySimpleBackgroundOverlaySample : UserControl, IDisposable
+    public partial class DisplaySimpleBackgroundOverlaySample : IDisposable
     {
         public DisplaySimpleBackgroundOverlaySample()
         {
@@ -17,14 +15,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Setup the map with the ThinkGeo Cloud Maps overlay.
+        /// Set up the map with the ThinkGeo Cloud Maps overlay.
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
-            ShapeFileFeatureLayer housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
+            var housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
 
             // Project the layer's data to match the projection of the map
             housingUnitsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
@@ -38,21 +36,22 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             layerOverlay.Layers.Add(housingUnitsLayer);
 
             // Add layerOverlay to the mapView
-            mapView.Overlays.Add(layerOverlay);
+            MapView.Overlays.Add(layerOverlay);
 
-            mapView.BackgroundOverlay.BackgroundBrush = new GeoLinearGradientBrush(GeoColors.Blue, GeoColors.White, 90);
+            MapView.BackgroundOverlay.BackgroundBrush = new GeoLinearGradientBrush(GeoColors.Blue, GeoColors.White, 90);
 
             // Set the map extent
             housingUnitsLayer.Open();
-            mapView.CurrentExtent = housingUnitsLayer.GetBoundingBox();
+            MapView.CurrentExtent = housingUnitsLayer.GetBoundingBox();
             housingUnitsLayer.Close();
 
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

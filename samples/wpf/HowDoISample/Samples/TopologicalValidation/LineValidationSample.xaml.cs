@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
@@ -10,7 +9,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
     /// <summary>
     /// Learn how to use the TopologyValidator APIs to perform validation on points
     /// </summary>
-    public partial class LineValidationSample : UserControl, IDisposable
+    public partial class LineValidationSample : IDisposable
     {
         public LineValidationSample()
         {
@@ -51,14 +50,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
             featuresOverlay.Layers.Add("Filter Features", filterFeaturesLayer);
             featuresOverlay.Layers.Add("Validated Features", validatedFeaturesLayer);
             featuresOverlay.Layers.Add("Result Features", resultFeaturesLayer);
-            mapView.Overlays.Add("Features Overlay", featuresOverlay);
+            MapView.Overlays.Add("Features Overlay", featuresOverlay);
 
             // Set a default extent for the map
-            mapView.CurrentExtent = new RectangleShape(0, 200, 200, 0);
+            MapView.CurrentExtent = new RectangleShape(0, 200, 200, 0);
 
             rdoCheckLineEndpointsMustTouchPoints.IsChecked = true;
 
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         /// <summary>
@@ -353,9 +352,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
         private async Task ClearMapAndAddFeaturesAsync(Collection<Feature> validatedFeatures, Collection<Feature> resultFeatures, Collection<Feature> filterFeatures = null)
         {
             // Get the InMemoryFeatureLayers from the MapView
-            InMemoryFeatureLayer validatedFeaturesLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Validated Features");
-            InMemoryFeatureLayer filterFeaturesLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Filter Features");
-            InMemoryFeatureLayer resultFeaturesLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Result Features");
+            InMemoryFeatureLayer validatedFeaturesLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Validated Features");
+            InMemoryFeatureLayer filterFeaturesLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Filter Features");
+            InMemoryFeatureLayer resultFeaturesLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Result Features");
 
             validatedFeaturesLayer.Open();
             filterFeaturesLayer.Open();
@@ -388,19 +387,20 @@ namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
             }
 
             // Refresh/redraw the layers and reset the map extent
-            LayerOverlay featureOverlay = (LayerOverlay)mapView.Overlays["Features Overlay"];
-            mapView.CurrentExtent = featureOverlay.GetBoundingBox();
-            await mapView.RefreshAsync();
+            LayerOverlay featureOverlay = (LayerOverlay)MapView.Overlays["Features Overlay"];
+            MapView.CurrentExtent = featureOverlay.GetBoundingBox();
+            await MapView.RefreshAsync();
 
             validatedFeaturesLayer.Close();
             filterFeaturesLayer.Close();
             resultFeaturesLayer.Close();
-            await mapView.ZoomOutAsync();
+            await MapView.ZoomOutAsync();
         }
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

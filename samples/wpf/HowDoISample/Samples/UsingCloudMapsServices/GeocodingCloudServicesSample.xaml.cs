@@ -10,7 +10,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
     /// <summary>
     /// Learn how to use the GeocodingCloudClient to access the Geocoding APIs available from the ThinkGeo Cloud
     /// </summary>
-    public partial class GeocodingCloudServicesSample : UserControl, IDisposable
+    public partial class GeocodingCloudServicesSample : IDisposable
     {
         private GeocodingCloudClient geocodingCloudClient;
 
@@ -25,20 +25,20 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map's unit of measurement to meters (Spherical Mercator)
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Create a marker overlay to display the geocoded locations that will be generated, and add it to the map
             MarkerOverlay geocodedLocationsOverlay = new SimpleMarkerOverlay();
-            mapView.Overlays.Add("Geocoded Locations Overlay", geocodedLocationsOverlay);
+            MapView.Overlays.Add("Geocoded Locations Overlay", geocodedLocationsOverlay);
 
             // Set the map extent to Frisco, TX
-            mapView.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
+            MapView.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
 
             // Initialize the GeocodingCloudClient using our ThinkGeo Cloud credentials
             geocodingCloudClient = new GeocodingCloudClient("FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~", "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~");
@@ -46,7 +46,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             cboSearchType.SelectedIndex = 0;
             cboLocationType.SelectedIndex = 0;
 
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         private async Task UpdateSearchResultsOnUIAsync(CloudGeocodingResult searchResult)
         {
             // Clear the locations list and existing location markers on the map
-            SimpleMarkerOverlay geocodedLocationOverlay = (SimpleMarkerOverlay)mapView.Overlays["Geocoded Locations Overlay"];
+            SimpleMarkerOverlay geocodedLocationOverlay = (SimpleMarkerOverlay)MapView.Overlays["Geocoded Locations Overlay"];
             geocodedLocationOverlay.Markers.Clear();
             lsbLocations.ItemsSource = null;
             await geocodedLocationOverlay.RefreshAsync();
@@ -129,17 +129,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             if (chosenLocation != null)
             {
                 // Get the MarkerOverlay from the MapView
-                SimpleMarkerOverlay geocodedLocationOverlay = (SimpleMarkerOverlay)mapView.Overlays["Geocoded Locations Overlay"];
+                SimpleMarkerOverlay geocodedLocationOverlay = (SimpleMarkerOverlay)MapView.Overlays["Geocoded Locations Overlay"];
 
                 // Clear the existing markers and add a new marker at the chosen location
                 geocodedLocationOverlay.Markers.Clear();
                 geocodedLocationOverlay.Markers.Add(CreateNewMarker(chosenLocation.LocationPoint));
 
                 // Center the map on the chosen location
-                mapView.CurrentExtent = chosenLocation.BoundingBox;
+                MapView.CurrentExtent = chosenLocation.BoundingBox;
                 ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
-                await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
-                await mapView.RefreshAsync();
+                await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
+                await MapView.RefreshAsync();
             }
         }
 
@@ -245,7 +245,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

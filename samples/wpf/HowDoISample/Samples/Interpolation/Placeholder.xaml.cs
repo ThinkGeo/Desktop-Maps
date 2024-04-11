@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
-using ThinkGeo.UI.Wpf;
 
 namespace ThinkGeo.UI.Wpf.HowDoI.Interpolation
 {
     /// <summary>
     /// Interaction logic for Placeholder.xaml
     /// </summary>
-    public partial class Placeholder : UserControl, IDisposable
+    public partial class Placeholder : IDisposable
     {
         public Placeholder()
         {
@@ -19,10 +17,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Interpolation
         {
 
         }
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using ThinkGeo.Core;
-using ThinkGeo.UI.Wpf;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to improve performance by locally caching map tiles
     /// </summary>
-    public partial class CachingMapTilesSample : UserControl, IDisposable
+    public partial class CachingMapTilesSample : IDisposable
     {
         ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay;
 
@@ -19,21 +17,21 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Setup the map with the ThinkGeo Cloud Maps overlay to show a basic map
+        /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
             thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
+            MapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
 
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         /// <summary>
@@ -51,13 +49,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             thinkGeoCloudVectorMapsOverlay.TileCache = null;
         }
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
-
     }
 }

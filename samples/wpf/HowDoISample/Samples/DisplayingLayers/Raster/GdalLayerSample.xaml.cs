@@ -21,8 +21,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            mapView.MapUnit = GeographyUnit.DecimalDegree;
-            mapView.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColors.ShallowOcean);
+            MapView.MapUnit = GeographyUnit.DecimalDegree;
+            MapView.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColors.ShallowOcean);
 
             // Create the new layer and dd the layer to the overlay we created earlier.
             GdalRasterLayer worldLayer = new GdalRasterLayer("./Data/GeoTiff/World.tif");
@@ -30,7 +30,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             worldLayer.UpperThreshold = double.MaxValue;
 
             worldLayer.Open();
-            mapView.CurrentExtent = worldLayer.GetBoundingBox();
+            MapView.CurrentExtent = worldLayer.GetBoundingBox();
             worldLayer.Close();
 
             // Create a new overlay that will hold our new layer and add it to the map.
@@ -38,16 +38,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             staticOverlay.DrawingExceptionMode = DrawingExceptionMode.DrawException;
 
             staticOverlay.Layers.Add("WorldLayer", worldLayer);
-            mapView.Overlays.Add(staticOverlay);
+            MapView.Overlays.Add(staticOverlay);
 
             // Refresh the map.
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

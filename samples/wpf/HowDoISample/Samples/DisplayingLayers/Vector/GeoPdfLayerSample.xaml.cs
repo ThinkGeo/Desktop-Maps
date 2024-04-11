@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
@@ -8,7 +7,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to display a GeoTiff Layer on the map
     /// </summary>
-    public partial class GeoPdfLayerSample : UserControl, IDisposable
+    public partial class GeoPdfLayerSample : IDisposable
     {
         public GeoPdfLayerSample()
         {
@@ -20,13 +19,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            mapView.BackgroundOverlay.BackgroundBrush = GeoBrushes.White;
+            MapView.BackgroundOverlay.BackgroundBrush = GeoBrushes.White;
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            mapView.MapUnit = GeographyUnit.DecimalDegree;
+            MapView.MapUnit = GeographyUnit.DecimalDegree;
 
             // Create a new overlay that will hold our new layer and add it to the map.
             LayerOverlay layerOverlay = new LayerOverlay();
-            mapView.Overlays.Add(layerOverlay);
+            MapView.Overlays.Add(layerOverlay);
 
             // Create the new layer and dd the layer to the overlay we created earlier.
             GeoPdfFeatureLayer geoPdfLayer = new GeoPdfFeatureLayer(@"./Data/GeoPdf/bangalore.pdf");
@@ -36,13 +35,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             layerOverlay.Layers.Add(geoPdfLayer);
 
             // Refresh the map.
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

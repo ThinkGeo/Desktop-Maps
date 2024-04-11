@@ -4,11 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:gif="http://wpfanimatedgif.codeplex.com"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:ThinkGeoUI="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ThinkGeoUI:MapView x:Name="mapView" Loaded="MapView_Loaded"></ThinkGeoUI:MapView>
+        <thinkGeoUi:MapView x:Name="MapView" Loaded="MapView_Loaded"></thinkGeoUi:MapView>
         <Image x:Name="loadingImage"  Height="64" Width="64" Visibility="Hidden" gif:ImageBehavior.AnimatedSource="..\..\Resources\loading.gif" />
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1" Grid.Row="0">

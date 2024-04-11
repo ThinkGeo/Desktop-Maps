@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,7 +11,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
     /// <summary>
     /// Learn how to use the ReverseGeocodingCloudClient to access the ReverseGeocoding APIs available from the ThinkGeo Cloud
     /// </summary>
-    public partial class ReverseGeocodingCloudServicesSample : UserControl, IDisposable
+    public partial class ReverseGeocodingCloudServicesSample : IDisposable
     {
         private ReverseGeocodingCloudClient reverseGeocodingCloudClient;
 
@@ -30,10 +29,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map's unit of measurement to meters (Spherical Mercator)
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Create a new feature layer to display the search radius of the reverse geocode and create a style for it
             InMemoryFeatureLayer searchRadiusFeatureLayer = new InMemoryFeatureLayer();
@@ -58,18 +57,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             PopupOverlay bestMatchPopupOverlay = new PopupOverlay();
 
             // Add the overlays to the map
-            mapView.Overlays.Add("Search Features Overlay", searchFeaturesOverlay);
-            mapView.Overlays.Add("Best Match Popup Overlay", bestMatchPopupOverlay);
+            MapView.Overlays.Add("Search Features Overlay", searchFeaturesOverlay);
+            MapView.Overlays.Add("Best Match Popup Overlay", bestMatchPopupOverlay);
 
             // Set the map extent to Frisco, TX
-            mapView.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
+            MapView.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
 
             // Initialize the ReverseGeocodingCloudClient with our ThinkGeo Cloud credentials
             reverseGeocodingCloudClient = new ReverseGeocodingCloudClient("FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~", "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~");
 
             cboLocationCategories.SelectedIndex = 0;
 
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         /// <summary>
@@ -115,8 +114,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
                 int pointProjectionInSrid = 3857;
                 PointShape searchPoint = new PointShape(lon, lat);
                 options.MaxResults = int.Parse(txtMaxResults.Text);
-                
-                switch(((ComboBoxItem)cboLocationCategories.SelectedItem).Content.ToString()) 
+
+                switch (((ComboBoxItem)cboLocationCategories.SelectedItem).Content.ToString())
                 {
                     case "All":
                         options.LocationCategories = CloudLocationCategories.All;
@@ -159,7 +158,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         private async Task DisplaySearchResultsAsync(PointShape searchPoint, int searchRadius, CloudReverseGeocodingResult searchResult)
         {
             // Get the 'Search Radius' layer from the MapView
-            InMemoryFeatureLayer searchRadiusFeatureLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Search Radius");
+            InMemoryFeatureLayer searchRadiusFeatureLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Search Radius");
 
             // Clear the existing features and add new features showing the area that was searched by the reverse geocode
             searchRadiusFeatureLayer.Clear();
@@ -167,14 +166,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             searchRadiusFeatureLayer.InternalFeatures.Add(new Feature(searchPoint));
 
             // Get the 'Result Feature' layer and clear it
-            InMemoryFeatureLayer selectedResultItemFeatureLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Result Feature Geometry");
+            InMemoryFeatureLayer selectedResultItemFeatureLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Result Feature Geometry");
             selectedResultItemFeatureLayer.Clear();
 
             // If a match was found for the geocode, update the UI
             if (searchResult?.BestMatchLocation != null)
             {
                 // Get the 'Best Match' PopupOverlay from the MapView and clear it
-                PopupOverlay bestMatchPopupOverlay = (PopupOverlay)mapView.Overlays["Best Match Popup Overlay"];
+                PopupOverlay bestMatchPopupOverlay = (PopupOverlay)MapView.Overlays["Best Match Popup Overlay"];
                 bestMatchPopupOverlay.Popups.Clear();
 
                 // Get the location of the 'Best Match' found within the search radius
@@ -196,7 +195,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
                 Collection<CloudReverseGeocodingLocation> nearbyAddresses = new Collection<CloudReverseGeocodingLocation>();
                 Collection<CloudReverseGeocodingLocation> nearbyPlaces = new Collection<CloudReverseGeocodingLocation>();
                 Collection<CloudReverseGeocodingLocation> nearbyRoads = new Collection<CloudReverseGeocodingLocation>();
-                foreach (CloudReverseGeocodingLocation foundLocation in nearbyLocations) 
+                foreach (CloudReverseGeocodingLocation foundLocation in nearbyLocations)
                 {
                     if (foundLocation.LocationCategory.ToLower().Contains("addresspoint"))
                     {
@@ -228,13 +227,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             }
 
             // Set the map extent to show the results of the search
-            mapView.CurrentExtent = searchRadiusFeatureLayer.GetBoundingBox();
+            MapView.CurrentExtent = searchRadiusFeatureLayer.GetBoundingBox();
             ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
-            if (mapView.CurrentScale < standardZoomLevelSet.ZoomLevel18.Scale)
+            if (MapView.CurrentScale < standardZoomLevelSet.ZoomLevel18.Scale)
             {
-                await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
+                await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
             }
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         /// <summary>
@@ -249,20 +248,20 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
                 Feature locationFeature = ((CloudReverseGeocodingLocation)selectedResultList.SelectedItem).LocationFeature;
 
                 // Get the 'Result Feature' layer from the MapView
-                InMemoryFeatureLayer selectedResultItemFeatureLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Result Feature Geometry");
+                InMemoryFeatureLayer selectedResultItemFeatureLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Result Feature Geometry");
 
                 // Clear the existing features and add the geometry of the selected location
                 selectedResultItemFeatureLayer.Clear();
                 selectedResultItemFeatureLayer.InternalFeatures.Add(new Feature(locationFeature.GetShape()));
 
                 // Center the map on the chosen location
-                mapView.CurrentExtent = locationFeature.GetBoundingBox();
+                MapView.CurrentExtent = locationFeature.GetBoundingBox();
                 ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
-                if(mapView.CurrentScale < standardZoomLevelSet.ZoomLevel18.Scale)
+                if (MapView.CurrentScale < standardZoomLevelSet.ZoomLevel18.Scale)
                 {
-                    await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
+                    await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
                 }
-                await mapView.RefreshAsync();
+                await MapView.RefreshAsync();
             }
         }
 
@@ -341,13 +340,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
 
             return true;
         }
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
-
     }
 }

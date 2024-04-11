@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Controls;
 using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
@@ -10,7 +8,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Interaction logic for SampleTemplate.xaml
     /// </summary>
-    public partial class ExtendingLayersSample : UserControl, IDisposable
+    public partial class ExtendingLayersSample : IDisposable
     {
         public ExtendingLayersSample()
         {
@@ -20,17 +18,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             LayerOverlay layerOverlay = new LayerOverlay();
             layerOverlay.TileType = TileType.SingleTile;
-            mapView.Overlays.Add(layerOverlay);
+            MapView.Overlays.Add(layerOverlay);
 
             RadiusLayer radiusLayer = new RadiusLayer();
             radiusLayer.RingDistanceUnit = DistanceUnit.Mile;
@@ -38,15 +36,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             radiusLayer.RingDistance = 5;
 
             layerOverlay.Layers.Add(radiusLayer);
-            mapView.CurrentExtent = new RectangleShape(-10812042.5236828, 3942445.36497713, -10748599.7905585, 3887792.89005685);
+            MapView.CurrentExtent = new RectangleShape(-10812042.5236828, 3942445.36497713, -10748599.7905585, 3887792.89005685);
 
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
-        
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
@@ -54,7 +52,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
     // This layer overrides the DrawCore and draws circles every x miles based on the center point
     // of the screen.  You notice in the DrawCore we can draw directly on the canvas which gives us
-    // allot of power.  This is similar to custom styles where we can also draw directly on the canvas
+    // a lot of power.  This is similar to custom styles where we can also draw directly on the canvas
     // from the style.
     public class RadiusLayer : Layer
     {

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using ThinkGeo.Core;
 
@@ -13,7 +11,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
     /// <summary>
     /// Learn how to use the RoutingCloudClient to find the service area of a location with the ThinkGeo Cloud
     /// </summary>
-    public partial class RoutingServiceAreaCloudServicesSample : UserControl, IDisposable
+    public partial class RoutingServiceAreaCloudServicesSample : IDisposable
     {
         private RoutingCloudClient routingCloudClient;
         private Collection<TimeSpan> serviceAreaIntervals;
@@ -32,10 +30,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map's unit of measurement to meters (Spherical Mercator)
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Create a new feature layer to display the service areas
             InMemoryFeatureLayer serviceAreasLayer = new InMemoryFeatureLayer();
@@ -58,13 +56,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             // Add the layer to an overlay, and add the overlay to the mapview
             LayerOverlay serviceAreaOverlay = new LayerOverlay();
             serviceAreaOverlay.Layers.Add("Service Area Layer", serviceAreasLayer);
-            mapView.Overlays.Add("Service Area Overlay", serviceAreaOverlay);
+            MapView.Overlays.Add("Service Area Overlay", serviceAreaOverlay);
 
             // Add a simple marker overlay to display the center point of the service area
             SimpleMarkerOverlay serviceAreaMarkerOverlay = new SimpleMarkerOverlay();
-            mapView.Overlays.Add("Service Area Marker Overlay", serviceAreaMarkerOverlay);
+            MapView.Overlays.Add("Service Area Marker Overlay", serviceAreaMarkerOverlay);
 
-            mapView.CurrentExtent = new RectangleShape(-10895153.061011, 4016319.51333112, -10653612.0529718, 3797709.61365001);
+            MapView.CurrentExtent = new RectangleShape(-10895153.061011, 4016319.51333112, -10653612.0529718, 3797709.61365001);
 
             // Create a new set of time spans for 15, 30, 45, 60 minutes. These will be used to create the classbreaks for the routing service area request
             serviceAreaIntervals = new Collection<TimeSpan>() {
@@ -109,7 +107,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             CloudRoutingServiceAreaResult serviceAreaResult = result.ServiceAreaResult;
 
             // Get the simple marker overlay from the map
-            SimpleMarkerOverlay serviceAreaMarkerOverlay = (SimpleMarkerOverlay)mapView.Overlays["Service Area Marker Overlay"];
+            SimpleMarkerOverlay serviceAreaMarkerOverlay = (SimpleMarkerOverlay)MapView.Overlays["Service Area Marker Overlay"];
 
             // Clear the previous markers
             serviceAreaMarkerOverlay.Markers.Clear();
@@ -118,13 +116,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             serviceAreaMarkerOverlay.Markers.Add(CreateNewMarker(new PointShape(serviceAreaResult.Waypoint.Coordinate)));
 
             // Get the service area polygons layer from the map
-            InMemoryFeatureLayer serviceAreaLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Service Area Layer");
+            InMemoryFeatureLayer serviceAreaLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Service Area Layer");
 
             // Clear the previous polygons
             serviceAreaLayer.InternalFeatures.Clear();
 
             // Add the new service area polygons to the map
-            for(int i = 0; i < serviceAreaIntervals.Count; i++)
+            for (int i = 0; i < serviceAreaIntervals.Count; i++)
             {
                 // Add a 'TravelTimeFromCenterPoint' attribute for the class break style
                 Dictionary<string, string> columnValues = new Dictionary<string, string>();
@@ -137,10 +135,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
 
             // Zoom to the extent of the service area and refresh the map
             serviceAreaLayer.Open();
-            mapView.CurrentExtent = serviceAreaLayer.GetBoundingBox();
+            MapView.CurrentExtent = serviceAreaLayer.GetBoundingBox();
             serviceAreaLayer.Close();
 
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         /// <summary>
@@ -153,7 +151,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
 
             // Run the service area query
             CloudRoutingGetServiceAreaResult getServiceAreaResult = await GetServiceArea(point);
-            
+
             // Hide the loading graphic
             loadingImage.Visibility = Visibility.Hidden;
 
@@ -179,7 +177,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
                 TextStyle = new TextStyle("Travel Times", new GeoFont("Verdana", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
             };
             legend.Location = AdornmentLocation.LowerRight;
-            mapView.AdornmentOverlay.Layers.Add(legend);
+            MapView.AdornmentOverlay.Layers.Add(legend);
 
             // Add a LegendItems to the legend adornment for each ClassBreak
             foreach (var classBreak in classBreaks)
@@ -214,13 +212,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
                 YOffset = -17
             };
         }
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
-
     }
 }

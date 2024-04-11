@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Windows;
-using System.Windows.Controls;
 using ThinkGeo.Core;
-using ThinkGeo.UI.Wpf;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to display an ESRI Grid Layer on the map
     /// </summary>
-    public partial class ESRIGridLayerSample : UserControl, IDisposable
+    public partial class ESRIGridLayerSample : IDisposable
     {
         public ESRIGridLayerSample()
         {
@@ -19,22 +15,22 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, add the ESRI Grid layer to the map
+        /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the ESRI Grid layer to the map
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            mapView.MapUnit = GeographyUnit.Meter;            
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Create background world map with vector tile requested from ThinkGeo Cloud Service. 
             ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a new overlay that will hold our new layer and add it to the map.
-            LayerOverlay staticOverlay = new LayerOverlay();            
-            mapView.Overlays.Add(staticOverlay);
+            LayerOverlay staticOverlay = new LayerOverlay();
+            MapView.Overlays.Add(staticOverlay);
 
             // Create the new layer and set the projection as the data is in srid 2276 and our background is srid 3857 (spherical mercator).
             GridFeatureLayer gridFeatureLayer = new GridFeatureLayer(@".\data\GridFile\Mosquitos.grd");
@@ -60,10 +56,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Open the layer and set the map view current extent to the bounding box of the layer.  
             gridFeatureLayer.Open();
-            mapView.CurrentExtent = gridFeatureLayer.GetBoundingBox();
+            MapView.CurrentExtent = gridFeatureLayer.GetBoundingBox();
 
             // Refresh the map.
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         //var mos = new ShapeFileFeatureSource(@"./Data/Frisco_Mosquitos.shp");
@@ -91,13 +87,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         //FileStream stream = new FileStream(@"C:\temp\Mosquitos.grd", FileMode.Create, FileAccess.ReadWrite);
         //GridFeatureSource.GenerateGrid(new GridDefinition(RectangleShape.ScaleUp(mos.GetBoundingBox(),30).GetBoundingBox(), 300, -999, points), new InverseDistanceWeightedGridInterpolationModel(), stream);
         //stream.Close();
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
     }
-
 }

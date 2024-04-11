@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using ThinkGeo.Core;
-using ThinkGeo.UI.Wpf;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to get part of a line from an existing line
     /// </summary>
-    public partial class GetLineOnALineSample : UserControl, IDisposable
+    public partial class GetLineOnALineSample : IDisposable
     {
         public GetLineOnALineSample()
         {
@@ -18,19 +16,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, add the railway and subLineLayer layers into a
+        /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the railway and subLineLayer layers into a
         /// grouped LayerOverlay and display them on the map.
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             InMemoryFeatureLayer railway = new InMemoryFeatureLayer();
             InMemoryFeatureLayer subLineLayer = new InMemoryFeatureLayer();
@@ -48,20 +46,20 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             subLineLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Add railway to the layerOverlay
-            layerOverlay.Layers.Add("railway",railway);
+            layerOverlay.Layers.Add("railway", railway);
 
             // Add subLineLayer to the layerOverlay
-            layerOverlay.Layers.Add("subLineLayer",subLineLayer);
+            layerOverlay.Layers.Add("subLineLayer", subLineLayer);
 
             // Set the map extent to the railway layer bounding box
             railway.Open();
-            mapView.CurrentExtent = railway.GetBoundingBox();
+            MapView.CurrentExtent = railway.GetBoundingBox();
             railway.Close();
 
             // Add LayerOverlay to Map
-            mapView.Overlays.Add("layerOverlay",layerOverlay);
+            MapView.Overlays.Add("layerOverlay", layerOverlay);
 
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         /// <summary>
@@ -69,7 +67,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void GetSubLine_OnClick(object sender, RoutedEventArgs e)
         {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
+            LayerOverlay layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
 
             InMemoryFeatureLayer railway = (InMemoryFeatureLayer)layerOverlay.Layers["railway"];
             InMemoryFeatureLayer subLineLayer = (InMemoryFeatureLayer)layerOverlay.Layers["subLineLayer"];
@@ -90,13 +88,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Redraw the layerOverlay to see the subLine on the map
             await layerOverlay.RefreshAsync();
         }
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
-
     }
 }

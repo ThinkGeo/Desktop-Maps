@@ -20,22 +20,22 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Create background world map with vector tile requested from ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the extent to a view of the US
-            mapView.CurrentExtent = new RectangleShape(-14927495, 8262593, -6686622, 1827556);
-            await mapView.RefreshAsync();
+            MapView.CurrentExtent = new RectangleShape(-14927495, 8262593, -6686622, 1827556);
+            await MapView.RefreshAsync();
 
             // Create a new overlay that will hold our new layer and add it to the map.
-            LayerOverlay weatherOverlay = new LayerOverlay();
+            var weatherOverlay = new LayerOverlay();
             weatherOverlay.TileType = TileType.SingleTile;
-            mapView.Overlays.Add("Weather", weatherOverlay);
+            MapView.Overlays.Add("Weather", weatherOverlay);
 
             // Create the new layer and set the projection as the data is in srid 4326 and our background is srid 3857 (spherical mercator).
             var noaaWeatherStationLayer = new NoaaWeatherStationFeatureLayer();
@@ -46,7 +46,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Add the new layer to the overlay we created earlier
             weatherOverlay.Layers.Add(noaaWeatherStationLayer);
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
 
             loadingImage.Visibility = Visibility.Hidden;
         }

@@ -12,7 +12,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
     /// <summary>
     /// Learn how to use the ColorCloudClient class to access the ColorUtilities APIs available from the ThinkGeo Cloud
     /// </summary>
-    public partial class ColorUtilitiesCloudServicesSample : UserControl, IDisposable
+    public partial class ColorUtilitiesCloudServicesSample : IDisposable
     {
         private ColorCloudClient colorCloudClient;
         private Collection<RadioButton> baseColorRadioButtons;
@@ -31,13 +31,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map's unit of measurement to meters (Spherical Mercator)
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Create a new ShapeFileFeatureLayer using a shapefile containing Frisco Census data
             ShapeFileFeatureLayer housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
@@ -50,7 +50,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             // Create a new overlay and add the census feature layer
             LayerOverlay housingUnitsOverlay = new LayerOverlay();
             housingUnitsOverlay.Layers.Add("Frisco Housing Units", housingUnitsLayer);
-            mapView.Overlays.Add("Frisco Housing Units Overlay", housingUnitsOverlay);
+            MapView.Overlays.Add("Frisco Housing Units Overlay", housingUnitsOverlay);
 
             // Create a legend adornment to display classbreaks
             LegendAdornmentLayer legend = new LegendAdornmentLayer();
@@ -61,12 +61,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
                 TextStyle = new TextStyle("Housing Unit Counts", new GeoFont("Verdana", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
             };
             legend.Location = AdornmentLocation.LowerRight;
-            mapView.AdornmentOverlay.Layers.Add("Legend", legend);
+            MapView.AdornmentOverlay.Layers.Add("Legend", legend);
 
             // Get the exttent of the features from the housing units shapefile, and set the map extent.
             housingUnitsLayer.Open();
-            mapView.CurrentExtent = housingUnitsLayer.GetBoundingBox();            
-            await mapView.ZoomOutAsync();
+            MapView.CurrentExtent = housingUnitsLayer.GetBoundingBox();            
+            await MapView.ZoomOutAsync();
             housingUnitsLayer.Close();
 
             // Initialize the ColorCloudClient using our ThinkGeo Cloud credentials
@@ -80,7 +80,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
                 await UpdateHousingUnitsLayerColorsAsync(colors);
             }
 
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         private async Task UpdateHousingUnitsLayerColorsAsync(Collection<GeoColor> colors)
         {
             // Get the housing units layer from the MapView
-            LayerOverlay housingUnitsOverlay = (LayerOverlay)mapView.Overlays["Frisco Housing Units Overlay"];
+            LayerOverlay housingUnitsOverlay = (LayerOverlay)MapView.Overlays["Frisco Housing Units Overlay"];
             ShapeFileFeatureLayer housingUnitsLayer = (ShapeFileFeatureLayer)housingUnitsOverlay.Layers["Frisco Housing Units"];
 
             // Clear the previous style from the housing units layer
@@ -178,7 +178,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         private async Task GenerateNewLegendItemsAsync(Collection<ClassBreak> classBreaks)
         {
             // Clear the previous legend adornment
-            LegendAdornmentLayer legend = (LegendAdornmentLayer)mapView.AdornmentOverlay.Layers["Legend"];
+            LegendAdornmentLayer legend = (LegendAdornmentLayer)MapView.AdornmentOverlay.Layers["Legend"];
 
             legend.LegendItems.Clear();
             // Add a LegendItems to the legend adornment for each ClassBreak
@@ -192,7 +192,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
                 legend.LegendItems.Add(legendItem);
             }
 
-            await mapView.AdornmentOverlay.RefreshAsync();
+            await MapView.AdornmentOverlay.RefreshAsync();
         }
 
         /// <summary>
@@ -593,13 +593,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
                 }
             }
         }
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
-
     }
 }

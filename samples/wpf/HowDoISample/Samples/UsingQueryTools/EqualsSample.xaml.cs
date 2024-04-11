@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
@@ -12,7 +11,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
     /// <summary>
     /// Learn how to use layer query tools to find which features in a layer are topologically equal to a shape
     /// </summary>
-    public partial class EqualsSample : UserControl, IDisposable
+    public partial class EqualsSample : IDisposable
     {
         public EqualsSample()
         {
@@ -25,65 +24,65 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the Map Unit to meters (used in Spherical Mercator)
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Create a feature layer to hold and display the zoning data
-            InMemoryFeatureLayer zoningLayer = new InMemoryFeatureLayer();
+            var zoningLayer = new InMemoryFeatureLayer();
 
             // Add a style to use to draw the Frisco zoning polygons
             zoningLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
             zoningLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(50, GeoColors.MediumPurple), GeoColors.MediumPurple, 2);
 
             // Import the features from the Frisco zoning data shapefile
-            ShapeFileFeatureSource zoningDataFeatureSource = new ShapeFileFeatureSource(@"./Data/Shapefile/Zoning.shp");
+            var zoningDataFeatureSource = new ShapeFileFeatureSource(@"./Data/Shapefile/Zoning.shp");
 
             // Create a ProjectionConverter to convert the shapefile data from North Central Texas (2276) to Spherical Mercator (3857)
-            ProjectionConverter projectionConverter = new ProjectionConverter(3857, 2276);
+            var projectionConverter = new ProjectionConverter(3857, 2276);
 
             // For this sample, we have to reproject the features before adding them to the feature layer
             // This is because the topological equality query often does not work when used on a feature layer with a ProjectionConverter, due to rounding issues between projections
             zoningDataFeatureSource.Open();
             projectionConverter.Open();
-            foreach (Feature zoningFeature in zoningDataFeatureSource.GetAllFeatures(ReturningColumnsType.AllColumns))
+            foreach (var zoningFeature in zoningDataFeatureSource.GetAllFeatures(ReturningColumnsType.AllColumns))
             {
-                Feature reprojectedFeature = projectionConverter.ConvertToInternalProjection(zoningFeature);
+                var reprojectedFeature = projectionConverter.ConvertToInternalProjection(zoningFeature);
                 zoningLayer.InternalFeatures.Add(reprojectedFeature);
             }
             zoningDataFeatureSource.Close();
             projectionConverter.Close();
 
             // Set the map extent to Frisco, TX
-            mapView.CurrentExtent = new RectangleShape(-10779646.71, 3920258.95, -10774442.97, 3915699.48);
+            MapView.CurrentExtent = new RectangleShape(-10779646.71, 3920258.95, -10774442.97, 3915699.48);
 
             // Create a layer to hold the feature we will perform the spatial query against
-            InMemoryFeatureLayer queryFeatureLayer = new InMemoryFeatureLayer();
+            var queryFeatureLayer = new InMemoryFeatureLayer();
             queryFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(75, GeoColors.LightRed), GeoColors.LightRed);
             queryFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Create a layer to hold features found by the spatial query
-            InMemoryFeatureLayer highlightedFeaturesLayer = new InMemoryFeatureLayer();
+            var highlightedFeaturesLayer = new InMemoryFeatureLayer();
             highlightedFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(90, GeoColors.MidnightBlue), GeoColors.MidnightBlue);
             highlightedFeaturesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            // Add each feature layer to it's own overlay
-            // We do this so we can control and refresh/redraw each layer individually
+            // Add each feature layer to its own overlay
+            // We do this, so we can control and refresh/redraw each layer individually
             LayerOverlay zoningOverlay = new LayerOverlay();
             zoningOverlay.Layers.Add("Frisco Zoning", zoningLayer);
-            mapView.Overlays.Add("Frisco Zoning Overlay", zoningOverlay);
+            MapView.Overlays.Add("Frisco Zoning Overlay", zoningOverlay);
 
             LayerOverlay queryFeaturesOverlay = new LayerOverlay();
             queryFeaturesOverlay.Layers.Add("Query Feature", queryFeatureLayer);
-            mapView.Overlays.Add("Query Features Overlay", queryFeaturesOverlay);
+            MapView.Overlays.Add("Query Features Overlay", queryFeaturesOverlay);
 
             LayerOverlay highlightedFeaturesOverlay = new LayerOverlay();
             highlightedFeaturesOverlay.Layers.Add("Highlighted Features", highlightedFeaturesLayer);
-            mapView.Overlays.Add("Highlighted Features Overlay", highlightedFeaturesOverlay);
+            MapView.Overlays.Add("Highlighted Features Overlay", highlightedFeaturesOverlay);
 
             // Add a sample shape to the map for the initial query
             // To ensure topological equality for this sample, we create a new shape using the same geometry as an existing feature
@@ -93,9 +92,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
             await GetFeaturesEqualAsync(sampleShape);
 
             // Set the map extent to the sample shape
-            mapView.CurrentExtent = new RectangleShape(-10778499.3056056, 3920954.39858245, -10774534.1347853, 3917538.61889993);
+            MapView.CurrentExtent = new RectangleShape(-10778499.3056056, 3920954.39858245, -10774534.1347853, 3917538.61889993);
 
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         /// <summary>
@@ -117,8 +116,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
         private async Task HighlightQueriedFeaturesAsync(IEnumerable<Feature> features)
         {
             // Find the layers we will be modifying in the MapView dictionary
-            LayerOverlay highlightedFeaturesOverlay = (LayerOverlay)mapView.Overlays["Highlighted Features Overlay"];
-            InMemoryFeatureLayer highlightedFeaturesLayer = (InMemoryFeatureLayer)highlightedFeaturesOverlay.Layers["Highlighted Features"];
+            var highlightedFeaturesOverlay = (LayerOverlay)MapView.Overlays["Highlighted Features Overlay"];
+            var highlightedFeaturesLayer = (InMemoryFeatureLayer)highlightedFeaturesOverlay.Layers["Highlighted Features"];
 
             // Clear the currently highlighted features
             highlightedFeaturesLayer.Open();
@@ -144,9 +143,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
         private async Task GetFeaturesEqualAsync(BaseShape shape)
         {
             // Find the layers we will be modifying in the MapView
-            LayerOverlay queryFeaturesOverlay = (LayerOverlay)mapView.Overlays["Query Features Overlay"];
-            InMemoryFeatureLayer queryFeatureLayer = (InMemoryFeatureLayer)queryFeaturesOverlay.Layers["Query Feature"];
-            InMemoryFeatureLayer zoningLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Frisco Zoning");
+            var queryFeaturesOverlay = (LayerOverlay)MapView.Overlays["Query Features Overlay"];
+            var queryFeatureLayer = (InMemoryFeatureLayer)queryFeaturesOverlay.Layers["Query Feature"];
+            var zoningLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Frisco Zoning");
 
             // Clear the query shape layer and add the newly drawn shape
             queryFeatureLayer.InternalFeatures.Clear();
@@ -158,16 +157,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
             await HighlightQueriedFeaturesAsync(queriedFeatures);
 
             // Disable map drawing and clear the drawn shape
-            mapView.TrackOverlay.TrackMode = TrackMode.None;
-            mapView.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
+            MapView.TrackOverlay.TrackMode = TrackMode.None;
+            MapView.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
         }
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
-
     }
 }

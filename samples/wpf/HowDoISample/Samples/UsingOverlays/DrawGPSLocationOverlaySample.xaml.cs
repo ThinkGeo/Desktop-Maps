@@ -1,22 +1,18 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using ThinkGeo.Core;
-using ThinkGeo.UI.Wpf;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to display a CloudMapsVector Layer on the map
     /// </summary>
-    public partial class DrawGPSLocationOverlaySample : UserControl, IDisposable
+    public partial class DrawGPSLocationOverlaySample : IDisposable
     {
         bool cancelFeed;
         bool pauseFeed;
@@ -27,27 +23,27 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Setup the map with the ThinkGeo Cloud Maps overlay.
+        /// Set up the map with the ThinkGeo Cloud Maps overlay.
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            // Setup the overlay that we will refresh often
-            LayerOverlay vehicleOverlay = new LayerOverlay();
+            // Set up the overlay that we will refresh often
+            var vehicleOverlay = new LayerOverlay();
 
             // This in memory layer will hold the active point, we will be adding and removing from it frequently
-            InMemoryFeatureLayer vehicleLayer = new InMemoryFeatureLayer();
+            var vehicleLayer = new InMemoryFeatureLayer();
 
-            // Set the points image to an car icon and then apply it to all zoomlevels
-            PointStyle vehiclePointStyle = new PointStyle(new GeoImage(@"./Resources/vehicle-location.png"));
+            // Set the points image to a car icon and then apply it to all zoom levels
+            var vehiclePointStyle = new PointStyle(new GeoImage(@"./Resources/vehicle-location.png"));
             vehiclePointStyle.YOffsetInPixel = -12;
 
             vehicleLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = vehiclePointStyle;
@@ -57,12 +53,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             vehicleOverlay.Layers.Add("Vehicle Layer", vehicleLayer);
 
             // Add the overlay to the map
-            mapView.Overlays.Add("Vehicle Overlay", vehicleOverlay);
+            MapView.Overlays.Add("Vehicle Overlay", vehicleOverlay);
 
             // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(-10779430.188014803, 3912668.1732483786, -10778438.895309737, 3911814.2283277493);
+            MapView.CurrentExtent = new RectangleShape(-10779430.188014803, 3912668.1732483786, -10778438.895309737, 3911814.2283277493);
 
-            // We hookup this even so when you leave this sample we stop the background data feed task
+            // We hook up this even so when you leave this sample we stop the background data feed task
             this.Unloaded -= RefreshDynamicItems_Unloaded;
             this.Unloaded += RefreshDynamicItems_Unloaded;
 
@@ -70,7 +66,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             StartDataFeed();
 
             // Refresh the map
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         private void StartDataFeed()
@@ -97,12 +93,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     {
                         // Get the latest point from the queue and then re-add it so the points
                         // will loop forever
-                        Feature currentFeature = vehicleLocationQueue.Dequeue();
+                        var currentFeature = vehicleLocationQueue.Dequeue();
                         vehicleLocationQueue.Enqueue(currentFeature);
 
-                        // Call the invoke on the mapView so we pop over to the main UI thread
+                        // Call to invoke on the mapView, so we pop over to the main UI thread
                         // to update the map control
-                        mapView.Dispatcher.InvokeAsync(async() => 
+                        MapView.Dispatcher.InvokeAsync(async () =>
                         {
                             await UpdateMapAsync(currentFeature);
                         });
@@ -119,8 +115,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private async Task UpdateMapAsync(Feature currentFeature)
         {
             // We need to first find our vehicle overlay and in memory layer in the map
-            LayerOverlay vehicleOverlay = (LayerOverlay)mapView.Overlays["Vehicle Overlay"];
-            InMemoryFeatureLayer vehicleLayer = (InMemoryFeatureLayer)vehicleOverlay.Layers["Vehicle Layer"];
+            var vehicleOverlay = (LayerOverlay)MapView.Overlays["Vehicle Overlay"];
+            var vehicleLayer = (InMemoryFeatureLayer)vehicleOverlay.Layers["Vehicle Layer"];
 
             // Let's clear the old location and add the new one
             vehicleLayer.InternalFeatures.Clear();
@@ -129,11 +125,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // If we have the center on vehicle check box checked then we center the map on the new location
             if (centerOnVehicle.IsChecked ?? false)
             {
-                await mapView.CenterAtAsync(currentFeature);
+                await MapView.CenterAtAsync(currentFeature);
             }
 
             // Refresh the vehicle overlay
-            await mapView.RefreshAsync(mapView.Overlays["Vehicle Overlay"]);
+            await MapView.RefreshAsync(MapView.Overlays["Vehicle Overlay"]);
         }
 
         private void RefreshDynamicItems_Unloaded(object sender, RoutedEventArgs e)
@@ -160,7 +156,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

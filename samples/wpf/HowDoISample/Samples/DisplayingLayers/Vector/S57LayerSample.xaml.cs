@@ -22,7 +22,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            mapView.MapUnit = GeographyUnit.DecimalDegree;
+            MapView.MapUnit = GeographyUnit.DecimalDegree;
 
             // Create a new overlay that will hold our new layer and add it to the map.
             LayerOverlay chartOverlay = new LayerOverlay();
@@ -32,7 +32,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             chartOverlay.TileType = TileType.SingleTile;
             
             // Add the chart to the overlay for display
-            mapView.Overlays.Add(chartOverlay);
+            MapView.Overlays.Add(chartOverlay);
 
             // Create the new layer.
             NauticalChartsFeatureLayer nauticalLayer = new NauticalChartsFeatureLayer(@"./Data/S57/US1GC09M/US1GC09M.000");
@@ -41,15 +41,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             chartOverlay.Layers.Add("Charts", nauticalLayer);         
 
             // Set the current extent to a portion of the data
-            mapView.CurrentExtent = new RectangleShape(-83.79534200990409, 25.87521424320395, -80.82463888490409, 23.90646424320395);
+            MapView.CurrentExtent = new RectangleShape(-83.79534200990409, 25.87521424320395, -80.82463888490409, 23.90646424320395);
             
             // Refresh the map.
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

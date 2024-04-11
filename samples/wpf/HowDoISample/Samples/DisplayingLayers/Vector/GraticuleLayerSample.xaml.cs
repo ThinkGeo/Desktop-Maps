@@ -1,15 +1,13 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using ThinkGeo.UI.Wpf;
+﻿using System;
+using System.Windows;
 using ThinkGeo.Core;
-using System;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to display a Graticule Layer on the map
     /// </summary>
-    public partial class GraticuleLayerSample : UserControl, IDisposable
+    public partial class GraticuleLayerSample : IDisposable
     {
         public GraticuleLayerSample()
         {
@@ -17,43 +15,44 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, add the graticule layer to the map
+        /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the graticule layer to the map
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
             ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
-            
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+
             // Create a new overlay that will hold our new layer and add it to the map.
             LayerOverlay layerOverlay = new LayerOverlay();
-            mapView.Overlays.Add(layerOverlay);
+            MapView.Overlays.Add(layerOverlay);
 
             // Create the new layer and set the projection as the data is in srid 4326 and our background is srid 3857 (spherical mercator).
             GraticuleFeatureLayer graticuleFeatureLayer = new GraticuleFeatureLayer();
             graticuleFeatureLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 3857);
-           
+
             // We set the pen color to the graticule layer.
             graticuleFeatureLayer.GraticuleLineStyle.OuterPen.Color = GeoColor.FromArgb(125, GeoColors.Navy);
 
             // Add the layer to the overlay we created earlier.
-            layerOverlay.Layers.Add("graticule", graticuleFeatureLayer);            
+            layerOverlay.Layers.Add("graticule", graticuleFeatureLayer);
 
             // Set the current extent of the map to start in Frisco TX
-            mapView.CurrentExtent = new RectangleShape(-10782364.041857453,3914916.6811720245,-10772029.75569071,3908067.923475721);
+            MapView.CurrentExtent = new RectangleShape(-10782364.041857453, 3914916.6811720245, -10772029.75569071, 3908067.923475721);
 
             //Refresh the map.
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

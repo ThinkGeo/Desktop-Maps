@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using ThinkGeo.Core;
-using ThinkGeo.UI.Wpf;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to set the map extent using a variety of different methods.
     /// </summary>
-    public partial class SetMapExtentSample : UserControl, IDisposable
+    public partial class SetMapExtentSample : IDisposable
     {
         ShapeFileFeatureLayer friscoCityBoundary;
 
@@ -24,13 +22,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Load the Frisco data to a layer
             friscoCityBoundary = new ShapeFileFeatureLayer(@"./Data/Shapefile/City_ETJ.shp");
@@ -45,10 +43,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Add Frisco data to a LayerOverlay and add it to the map
             var layerOverlay = new LayerOverlay();
             layerOverlay.Layers.Add(friscoCityBoundary);
-            mapView.Overlays.Add(layerOverlay);
+            MapView.Overlays.Add(layerOverlay);
 
             // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
+            MapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
 
             // Populate Controls
             friscoCityBoundary.Open();
@@ -56,7 +54,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             friscoCityBoundary.Close();
             featureIds.SelectedIndex = 0;
 
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         /// <summary>
@@ -64,7 +62,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void ZoomToScale_Click(object sender, RoutedEventArgs e)
         {
-            await mapView.ZoomToScaleAsync(Convert.ToDouble(zoomScale.Text));
+            await MapView.ZoomToScaleAsync(Convert.ToDouble(zoomScale.Text));
         }
 
         /// <summary>
@@ -72,8 +70,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void LayerBoundingBox_Click(object sender, RoutedEventArgs e)
         {
-            mapView.CurrentExtent = friscoCityBoundary.GetBoundingBox();
-            await mapView.RefreshAsync();
+            MapView.CurrentExtent = friscoCityBoundary.GetBoundingBox();
+            await MapView.RefreshAsync();
         }
 
         /// <summary>
@@ -82,8 +80,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private async void FeatureBoundingBox_Click(object sender, RoutedEventArgs e)
         {
             var feature = friscoCityBoundary.FeatureSource.GetFeatureById(featureIds.SelectedItem.ToString(), ReturningColumnsType.NoColumns);
-            mapView.CurrentExtent = feature.GetBoundingBox();
-            await mapView.RefreshAsync();
+            MapView.CurrentExtent = feature.GetBoundingBox();
+            await MapView.RefreshAsync();
         }
 
         /// <summary>
@@ -101,15 +99,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             projectionConverter.Close();
 
             // Zoom to the converted lat-lon at the desired scale
-            await mapView.ZoomToAsync(convertedPoint, Convert.ToDouble(latlonScale.Text));
+            await MapView.ZoomToAsync(convertedPoint, Convert.ToDouble(latlonScale.Text));
         }
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
-
     }
 }
