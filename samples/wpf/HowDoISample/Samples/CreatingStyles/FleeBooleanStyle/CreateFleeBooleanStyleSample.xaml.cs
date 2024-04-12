@@ -20,16 +20,25 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+                {
+                    ClientId = SampleKeys.ClientId,
+                    ClientSecret = SampleKeys.ClientSecret,
+                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a layer with polygon data
-            ShapeFileFeatureLayer countries02Layer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Countries02.shp");
-
-            // Project the layer's data to match the projection of the map
-            countries02Layer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 3857);
+            var countries02Layer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Countries02.shp")
+                {
+                    FeatureSource =
+                    {
+                        // Project the layer's data to match the projection of the map
+                        ProjectionConverter = new ProjectionConverter(4326, 3857)
+                    }
+                };
 
             // Add the layer to a layer overlay
             var layerOverlay = new LayerOverlay();
@@ -49,15 +58,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Create a fleeBooleanStyle and add it to the countries02 layer
         /// </summary>
-        private void AddFleeBooleanStyle(ShapeFileFeatureLayer layer)
+        private static void AddFleeBooleanStyle(FeatureLayer layer)
         {
             // Highlight the countries that are land locked and have a population greater than 10 million  
-            string expression = "(POP_CNTRY>10000000 && LANDLOCKED=='Y')";
-            FleeBooleanStyle landLockedCountryStyle = new FleeBooleanStyle(expression);
+            const string expression = "(POP_CNTRY>10000000 && LANDLOCKED=='Y')";
+            var landLockedCountryStyle = new FleeBooleanStyle(expression);
 
             // You can access the static methods on these types.  We use this  
             // to access the Convert.Toxxx methods to convert variable types  
-            landLockedCountryStyle.StaticTypes.Add(typeof(System.Convert));
+            landLockedCountryStyle.StaticTypes.Add(typeof(Convert));
 
             // The math class might be handy to include but in this sample we do not use it  
             //landLockedCountryStyle.StaticTypes.Add(typeof(System.Math));  

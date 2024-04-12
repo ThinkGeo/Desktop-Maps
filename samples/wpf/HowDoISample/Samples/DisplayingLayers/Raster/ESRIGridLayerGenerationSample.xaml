@@ -15,7 +15,8 @@
             <Grid>
                 <TextBlock Text="Generate Grid File:" Grid.Row="0" Grid.ColumnSpan="2"/>
 
-                <Button x:Name="btnGenerateGridFile" Click="btnGenerateGridFile_Click"  Content="Generate Grid File" Grid.Row="2" Grid.ColumnSpan="2"/>
+                <Button x:Name="BtnGenerateGridFile" Click="BtnGenerateGridFile_Click"  Content="Generate Grid File" Grid.Row="2" Grid.ColumnSpan="2"
+                        Grid.Column="0" />
 
                 <!-- Controls Grid Layout -->
                 <Grid.ColumnDefinitions>

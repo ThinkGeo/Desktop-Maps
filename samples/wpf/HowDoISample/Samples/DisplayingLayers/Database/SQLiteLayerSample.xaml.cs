@@ -1,16 +1,13 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using ThinkGeo.UI.Wpf;
+﻿using System;
+using System.Windows;
 using ThinkGeo.Core;
-using System.Diagnostics;
-using System;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to display a SQLite Layer on the map
     /// </summary>
-    public partial class SQLiteLayerSample : UserControl, IDisposable
+    public partial class SQLiteLayerSample : IDisposable
     {
         public SQLiteLayerSample()
         {
@@ -18,7 +15,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, add the SQLite layer to the map
+        /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the SQLite layer to the map
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
@@ -26,29 +23,41 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a new overlay that will hold our new layer and add it to the map.
-            LayerOverlay restuarantsOverlay = new LayerOverlay();
+            var restuarantsOverlay = new LayerOverlay();
             MapView.Overlays.Add(restuarantsOverlay);
 
             // Create the new layer and set the projection as the data is in srid 2276 as our background is srid 3857 (spherical mercator).
-            SqliteFeatureLayer restaurantsLayer = new SqliteFeatureLayer(@"Data Source=./Data/SQLite/frisco-restaurants.sqlite;", "restaurants", "id","geometry" );
-            restaurantsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
-            
+            var restaurantsLayer = new SqliteFeatureLayer(@"Data Source=./Data/SQLite/frisco-restaurants.sqlite;", "restaurants", "id", "geometry")
+                {
+                    FeatureSource =
+                    {
+                        ProjectionConverter = new ProjectionConverter(2276, 3857)
+                    }
+                };
+
             // Add the layer to the overlay we created earlier.
             restuarantsOverlay.Layers.Add("Frisco Restaurants", restaurantsLayer);
 
             // Create a new text style and set various settings to make it look good.
-            var textStyle = new TextStyle("Name", new GeoFont("Arial", 12), GeoBrushes.Black);
-            textStyle.MaskType = MaskType.RoundedCorners;
-            textStyle.OverlappingRule = LabelOverlappingRule.NoOverlapping;
-            textStyle.Mask = new AreaStyle(GeoBrushes.WhiteSmoke);
-            textStyle.SuppressPartialLabels = true;
-            textStyle.YOffsetInPixel = -5;
+            var textStyle = new TextStyle("Name", new GeoFont("Arial", 12), GeoBrushes.Black)
+            {
+                MaskType = MaskType.RoundedCorners,
+                OverlappingRule = LabelOverlappingRule.NoOverlapping,
+                Mask = new AreaStyle(GeoBrushes.WhiteSmoke),
+                SuppressPartialLabels = true,
+                YOffsetInPixel = -5
+            };
 
             // Set a point style and the above text style to zoom level 1 and then apply it to all zoom levels up to 20.
             restaurantsLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Circle, 12, GeoBrushes.Green, new GeoPen(GeoColors.White, 2));
@@ -57,10 +66,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Set the map view current extent to a bounding box that shows just a few restaurants.  
             MapView.CurrentExtent = new RectangleShape(-10776971.1234695, 3915454.06613793, -10775965.157585, 3914668.53918197);
-
-            // Refresh the map.
             await MapView.RefreshAsync();
         }
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.

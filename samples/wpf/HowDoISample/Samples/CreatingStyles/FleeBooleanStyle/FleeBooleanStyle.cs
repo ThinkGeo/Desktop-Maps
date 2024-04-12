@@ -11,17 +11,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     public class FleeBooleanStyle : Style
     {
         [Obfuscation(Exclude = true)]
-        private string fleeExpression;
+        private string _fleeExpression;
         [Obfuscation(Exclude = true)]
-        private Collection<Style> customTrueStyles;
+        private Collection<Style> _customTrueStyles;
         [Obfuscation(Exclude = true)]
-        private Collection<Style> customFalseStyles;
+        private Collection<Style> _customFalseStyles;
         [Obfuscation(Exclude = true)]
-        private Dictionary<string, object> userVariables;
+        private Dictionary<string, object> _userVariables;
         [Obfuscation(Exclude = true)]
-        private Collection<string> columnVariables;
+        private Collection<string> _columnVariables;
         [Obfuscation(Exclude = true)]
-        private Collection<Type> staticTypes;
+        private Collection<Type> _staticTypes;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FleeBooleanStyle"/> class.
@@ -47,12 +47,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private FleeBooleanStyle(string fleeExpression, Collection<Style> trueCustomStyles, Collection<Style> falseCustomStyles)
         {
-            this.fleeExpression = fleeExpression;
-            customTrueStyles = trueCustomStyles;
-            customFalseStyles = falseCustomStyles;
-            userVariables = new Dictionary<string, object>();
-            columnVariables = new Collection<string>();
-            staticTypes = new Collection<Type>();
+            this._fleeExpression = fleeExpression;
+            _customTrueStyles = trueCustomStyles;
+            _customFalseStyles = falseCustomStyles;
+            _userVariables = new Dictionary<string, object>();
+            _columnVariables = new Collection<string>();
+            _staticTypes = new Collection<Type>();
         }
 
         /// <summary>
@@ -63,8 +63,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </value>
         public string FleeExpression
         {
-            get => fleeExpression;
-            set => fleeExpression = value;
+            get => _fleeExpression;
+            set => _fleeExpression = value;
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <value>
         /// The static types.
         /// </value>
-        public Collection<Type> StaticTypes => staticTypes;
+        public Collection<Type> StaticTypes => _staticTypes;
 
         /// <summary>
         /// Gets the column variables.
@@ -81,7 +81,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <value>
         /// The column variables.
         /// </value>
-        public Collection<string> ColumnVariables => columnVariables;
+        public Collection<string> ColumnVariables => _columnVariables;
 
         /// <summary>
         /// Gets the user variables.
@@ -89,7 +89,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <value>
         /// The user variables.
         /// </value>
-        public Dictionary<string, object> UserVariables => userVariables;
+        public Dictionary<string, object> UserVariables => _userVariables;
 
         /// <summary>
         /// Gets the custom true styles.
@@ -97,7 +97,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <value>
         /// The custom true styles.
         /// </value>
-        public Collection<Style> CustomTrueStyles => customTrueStyles;
+        public Collection<Style> CustomTrueStyles => _customTrueStyles;
 
         /// <summary>
         /// Gets the custom false styles.
@@ -105,7 +105,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <value>
         /// The custom false styles.
         /// </value>
-        public Collection<Style> CustomFalseStyles => customFalseStyles;
+        public Collection<Style> CustomFalseStyles => _customFalseStyles;
 
         /// <summary>
         /// This method draws the features on the view you provided.
@@ -128,33 +128,33 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         protected override void DrawCore(IEnumerable<Feature> features, GeoCanvas canvas, Collection<SimpleCandidate> labelsInThisLayer, Collection<SimpleCandidate> labelsInAllLayers)
         {
             var engine = new Engine();
-            // Add all of the user variables
-            foreach (string customVariableKey in userVariables.Keys)
+            // Add all the user variables
+            foreach (var customVariableKey in _userVariables.Keys)
             {
-                engine.SetValue(customVariableKey, userVariables[customVariableKey]);
+                engine.SetValue(customVariableKey, _userVariables[customVariableKey]);
             }
-            // Add all of the column variables
-            foreach (string columnVariable in columnVariables)
+            // Add all the column variables
+            foreach (var columnVariable in _columnVariables)
             {
                 engine.SetValue(columnVariable, string.Empty);
             }
 
-            foreach (Feature feature in features)
+            foreach (var feature in features)
             {
                 if (canvas.CancellationToken.IsCancellationRequested)
                     return;
 
                 // update the variables we get from the feature
-                foreach (string columnName in columnVariables)
+                foreach (var columnName in _columnVariables)
                 {
                     engine.SetValue(columnName, feature.ColumnValues[columnName]);
                 }
 
-                bool evaluatedTrue = engine.Execute(fleeExpression).GetCompletionValue().AsBoolean();
+                var evaluatedTrue = engine.Execute(_fleeExpression).GetCompletionValue().AsBoolean();
 
                 if (evaluatedTrue)
                 {
-                    foreach (Style style in customTrueStyles)
+                    foreach (var style in _customTrueStyles)
                     {
                         if (canvas.CancellationToken.IsCancellationRequested)
                             return;
@@ -164,7 +164,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 }
                 else
                 {
-                    foreach (Style style in customFalseStyles)
+                    foreach (var style in _customFalseStyles)
                     {
                         if (canvas.CancellationToken.IsCancellationRequested)
                             return;
@@ -198,7 +198,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var requiredFieldNames = new Collection<string>();
 
             // Column Variables
-            foreach (var columnName in columnVariables)
+            foreach (var columnName in _columnVariables)
             {
                 if (!requiredFieldNames.Contains(columnName))
                 {
@@ -207,7 +207,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
 
             // Custom True Styles
-            foreach (var style in customTrueStyles)
+            foreach (var style in _customTrueStyles)
             {
                 var tmpCollection = style.GetRequiredColumnNames();
 
@@ -221,7 +221,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
 
             // Custom False Styles
-            foreach (var style in customFalseStyles)
+            foreach (var style in _customFalseStyles)
             {
                 var tmpCollection = style.GetRequiredColumnNames();
 

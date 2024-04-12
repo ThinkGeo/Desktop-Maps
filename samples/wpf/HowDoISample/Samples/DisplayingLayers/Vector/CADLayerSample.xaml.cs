@@ -9,7 +9,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector
     /// </summary>
     public partial class CADLayerSample : IDisposable
     {
-        private CadFeatureLayer cadLayer;
+        private CadFeatureLayer _cadLayer;
 
         public CADLayerSample()
         {
@@ -33,21 +33,21 @@ namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector
             MapView.Overlays.Add("CAD overlay", cadOverlay);
 
             // Create the new cad layer
-            cadLayer = new CadFeatureLayer(@"./Data/CAD/Zipcodes.DWG");
+            _cadLayer = new CadFeatureLayer(@"./Data/CAD/Zipcodes.DWG");
 
             // Create a new ProjectionConverter to convert between Lambert Conformal Conic and Spherical Mercator (3857)
             var projectionConverter = new ProjectionConverter(103376, 3857);
-            cadLayer.FeatureSource.ProjectionConverter = projectionConverter;
+            _cadLayer.FeatureSource.ProjectionConverter = projectionConverter;
 
             // Create an Area style on zoom level 1 and then apply it to all zoom levels up to 20.
-            cadLayer.StylingType = CadStylingType.EmbeddedStyling;
+            _cadLayer.StylingType = CadStylingType.EmbeddedStyling;
 
             // Add the layer to the overlay we created earlier.
-            cadOverlay.Layers.Add("CAD Drawing", cadLayer);
+            cadOverlay.Layers.Add("CAD Drawing", _cadLayer);
 
             // Set the current extent of the map to the extent of the CAD data
-            cadLayer.Open();
-            MapView.CurrentExtent = cadLayer.GetBoundingBox();
+            _cadLayer.Open();
+            MapView.CurrentExtent = _cadLayer.GetBoundingBox();
             // Refresh the map.
             await MapView.RefreshAsync();
 
@@ -63,24 +63,20 @@ namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector
 
         private async void rbtnEmbeddedStyling_Checked(object sender, RoutedEventArgs e)
         {
-            if (cadLayer != null)
-            {
-                // Create an Area style on zoom level 1 and then apply it to all zoom levels up to 20.
-                cadLayer.StylingType = CadStylingType.EmbeddedStyling;
-                await MapView.RefreshAsync();
-            }
+            if (_cadLayer == null) return;
+            // Create an Area style on zoom level 1 and then apply it to all zoom levels up to 20.
+            _cadLayer.StylingType = CadStylingType.EmbeddedStyling;
+            await MapView.RefreshAsync();
         }
 
         private async void rbtnProgrammaticStyling_Checked(object sender, RoutedEventArgs e)
         {
-            if (cadLayer != null)
-            {
-                // Create an Area style on zoom level 1 and then apply it to all zoom levels up to 20.
-                cadLayer.StylingType = CadStylingType.StandardStyling;
-                cadLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = new LineStyle(new GeoPen(GeoColors.Blue, 2));
-                cadLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-                await MapView.RefreshAsync();
-            }
+            if (_cadLayer == null) return;
+            // Create an Area style on zoom level 1 and then apply it to all zoom levels up to 20.
+            _cadLayer.StylingType = CadStylingType.StandardStyling;
+            _cadLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = new LineStyle(new GeoPen(GeoColors.Blue, 2));
+            _cadLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            await MapView.RefreshAsync();
         }
     }
 }
