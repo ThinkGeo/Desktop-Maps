@@ -15,7 +15,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, add the cityLimits and scaledLayer layers
+        /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the cityLimits and scaledLayer layers
         /// into a grouped LayerOverlay and display them on the map.
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
@@ -25,14 +25,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             ShapeFileFeatureLayer.BuildIndexFile(@"./Data/Shapefile/FriscoCityLimits.shp");
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+                {
+                    ClientId = SampleKeys.ClientId,
+                    ClientSecret = SampleKeys.ClientSecret,
+                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            ShapeFileFeatureLayer cityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimits.shp");
-            InMemoryFeatureLayer scaledLayer = new InMemoryFeatureLayer();
-            LayerOverlay layerOverlay = new LayerOverlay();
+            var cityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimits.shp");
+            var scaledLayer = new InMemoryFeatureLayer();
+            var layerOverlay = new LayerOverlay();
 
             // Project cityLimits layer to Spherical Mercator to match the map projection
             cityLimits.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
@@ -67,10 +72,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void ScaleShape_OnClick(object sender, RoutedEventArgs e)
         {
-            LayerOverlay layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
+            var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
 
-            ShapeFileFeatureLayer cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
-            InMemoryFeatureLayer scaledLayer = (InMemoryFeatureLayer)layerOverlay.Layers["scaledLayer"];
+            var cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
+            var scaledLayer = (InMemoryFeatureLayer)layerOverlay.Layers["scaledLayer"];
 
             // Query the cityLimits layer to get all the features
             cityLimits.Open();
@@ -78,7 +83,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             cityLimits.Close();
 
             // Scale the first feature by the scaleFactor TextBox on the UI
-            var scale = AreaBaseShape.ScaleTo(features[0].GetShape(), Convert.ToSingle(scaleFactor.Text));
+            var scale = BaseShape.ScaleTo(features[0].GetShape(), Convert.ToSingle(scaleFactor.Text));
 
             // Add the scaled shape into scaledLayer to display the result.
             // If this were to be a permanent change to the cityLimits FeatureSource, you would modify the
@@ -89,6 +94,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Redraw the layerOverlay to see the scaled feature on the map
             await layerOverlay.RefreshAsync();
         }
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.
@@ -96,6 +102,5 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
-
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
@@ -8,7 +7,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to display a GeoTiff Layer on the map
     /// </summary>
-    public partial class GdalLayerSample : UserControl, IDisposable
+    public partial class GdalLayerSample : IDisposable
     {
         public GdalLayerSample()
         {
@@ -25,16 +24,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColors.ShallowOcean);
 
             // Create the new layer and dd the layer to the overlay we created earlier.
-            GdalRasterLayer worldLayer = new GdalRasterLayer("./Data/GeoTiff/World.tif");
-            worldLayer.LowerThreshold = 0;
-            worldLayer.UpperThreshold = double.MaxValue;
+            var worldLayer = new GdalRasterLayer("./Data/GeoTiff/World.tif")
+            {
+                LowerThreshold = 0,
+                UpperThreshold = double.MaxValue
+            };
 
             worldLayer.Open();
             MapView.CurrentExtent = worldLayer.GetBoundingBox();
             worldLayer.Close();
 
             // Create a new overlay that will hold our new layer and add it to the map.
-            LayerOverlay staticOverlay = new LayerOverlay();
+            var staticOverlay = new LayerOverlay();
             staticOverlay.DrawingExceptionMode = DrawingExceptionMode.DrawException;
 
             staticOverlay.Layers.Add("WorldLayer", worldLayer);

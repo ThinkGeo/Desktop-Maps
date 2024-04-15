@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
@@ -7,7 +6,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to display a NOAA Weather Station Layer on the map
     /// </summary>
-    public partial class NOAAWeatherStationLayerSample : UserControl
+    public partial class NOAAWeatherStationLayerSample
     {
         public NOAAWeatherStationLayerSample()
         {
