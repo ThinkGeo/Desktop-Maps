@@ -15,7 +15,7 @@
             <TextBlock Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Text="Click on a Park (green) on the map to get the shortest line to the Frisco Stadium (blue)." TextWrapping="Wrap"></TextBlock>
 
             <Label Grid.Column="1" Grid.Row="2" Content="Distance: "></Label>
-            <TextBox Grid.Column="2" Grid.Row="2" x:Name="distanceResult" IsReadOnly="True"></TextBox>
+            <TextBox Grid.Column="2" Grid.Row="2" x:Name="DistanceResult" IsReadOnly="True"></TextBox>
 
             <!-- Controls Grid Layout -->
             <Grid.ColumnDefinitions>

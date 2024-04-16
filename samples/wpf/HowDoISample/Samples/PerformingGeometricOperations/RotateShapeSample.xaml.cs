@@ -23,14 +23,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             var cityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimits.shp");
@@ -81,7 +81,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             cityLimits.Close();
 
             // Rotate the first feature using its center point as the anchor
-            var rotate = BaseShape.Rotate(features[0], features[0].GetShape().GetCenterPoint(), Convert.ToSingle(rotateDegree.Text));
+            var rotate = BaseShape.Rotate(features[0], features[0].GetShape().GetCenterPoint(), Convert.ToSingle(RotateDegree.Text));
 
             // Add the rotated shape into rotatedLayer to display the result.
             // If this were to be a permanent change to the cityLimits FeatureSource, you would modify the underlying data using BeginTransaction and CommitTransaction instead.

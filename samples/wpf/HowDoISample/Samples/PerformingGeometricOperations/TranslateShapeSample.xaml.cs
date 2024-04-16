@@ -25,14 +25,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             ShapeFileFeatureLayer.BuildIndexFile(@"./Data/Shapefile/FriscoCityLimits.shp");
 
             // Add Cloud Maps as a background overlay
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             var cityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimits.shp");
@@ -83,7 +83,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             cityLimits.Close();
 
             // Translate the first feature's shape by the X and Y values on the UI in meters
-            var translate = BaseShape.TranslateByOffset(features[0].GetShape(), Convert.ToDouble(translateX.Text), Convert.ToDouble(translateY.Text), GeographyUnit.Meter, DistanceUnit.Meter);
+            var translate = BaseShape.TranslateByOffset(features[0].GetShape(), Convert.ToDouble(TranslateX.Text), Convert.ToDouble(TranslateY.Text), GeographyUnit.Meter, DistanceUnit.Meter);
 
             // Add the translated shape into translatedLayer to display the result.
             // If this were to be a permanent change to the cityLimits FeatureSource, you would modify the
@@ -108,7 +108,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             cityLimits.Close();
 
             // Translate the first feature's shape by the X and Y values on the UI in meters
-            var translate = BaseShape.TranslateByDegree(features[0].GetShape(), Convert.ToDouble(translateDistance.Text), Convert.ToDouble(translateAngle.Text), GeographyUnit.Meter, DistanceUnit.Meter);
+            var translate = BaseShape.TranslateByDegree(features[0].GetShape(), Convert.ToDouble(TranslateDistance.Text), Convert.ToDouble(TranslateAngle.Text), GeographyUnit.Meter, DistanceUnit.Meter);
 
             // Add the translated shape into translatedLayer to display the result.
             // If this were to be a permanent change to the cityLimits FeatureSource, you would modify the

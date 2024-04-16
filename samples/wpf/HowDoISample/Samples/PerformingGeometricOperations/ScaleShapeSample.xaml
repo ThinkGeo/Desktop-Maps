@@ -13,9 +13,9 @@
             <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Content="Scale Shape Controls:" FontSize="16" FontWeight="Bold"/>
 
             <Label Grid.Column="1" Grid.Row="1" Content="Scale Factor: "></Label>
-            <TextBox Grid.Column="2" Grid.Row="1" x:Name="scaleFactor" Text=".5"></TextBox>
+            <TextBox Grid.Column="2" Grid.Row="1" x:Name="ScaleFactor" Text=".5"></TextBox>
 
-            <Button Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" x:Name="scaleShape" Content="Scale" Click="ScaleShape_OnClick"></Button>
+            <Button Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" x:Name="ScaleShape" Content="Scale" Click="ScaleShape_OnClick"></Button>
 
             <!-- Controls Grid Layout -->
             <Grid.ColumnDefinitions>

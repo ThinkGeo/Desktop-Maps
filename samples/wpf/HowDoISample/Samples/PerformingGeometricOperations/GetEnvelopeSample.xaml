@@ -12,7 +12,7 @@
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1" Grid.Row="0" Content="Envelope Controls:" FontSize="16" FontWeight="Bold"/>
 
-            <Button Grid.Column="1" Grid.Row="1" x:Name="shapeEnvelope" Content="Get Envelope" Click="ShapeEnvelope_OnClick"></Button>
+            <Button Grid.Column="1" Grid.Row="1" x:Name="ShapeEnvelope" Content="Get Envelope" Click="ShapeEnvelope_OnClick"></Button>
 
             <!-- Controls Grid Layout -->
             <Grid.ColumnDefinitions>

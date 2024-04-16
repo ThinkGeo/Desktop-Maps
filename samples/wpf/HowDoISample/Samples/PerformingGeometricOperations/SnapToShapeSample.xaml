@@ -12,7 +12,7 @@
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1" Grid.Row="0" Content="(WIP) Snap To Shape Controls:" FontSize="16" FontWeight="Bold"/>
 
-            <Button Grid.Column="1" Grid.Row="1" x:Name="snapToShape" Content="Snap To Shape" Click="SnapToShape_Click"></Button>
+            <Button Grid.Column="1" Grid.Row="1" x:Name="SnapToShape" Content="Snap To Shape" Click="SnapToShape_Click"></Button>
 
             <!-- Controls Grid Layout -->
             <Grid.ColumnDefinitions>

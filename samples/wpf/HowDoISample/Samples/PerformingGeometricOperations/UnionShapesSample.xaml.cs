@@ -15,7 +15,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, add the dividedCityLimits and unionLayer layers into a grouped LayerOverlay and display them on the map.
+        /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the dividedCityLimits and unionLayer layers into a grouped LayerOverlay and display them on the map.
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
@@ -23,14 +23,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            ShapeFileFeatureLayer dividedCityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimitsDivided.shp");
-            InMemoryFeatureLayer unionLayer = new InMemoryFeatureLayer();
-            LayerOverlay layerOverlay = new LayerOverlay();
+            var dividedCityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimitsDivided.shp");
+            var unionLayer = new InMemoryFeatureLayer();
+            var layerOverlay = new LayerOverlay();
 
             // Project dividedCityLimits layer to Spherical Mercator to match the map projection
             dividedCityLimits.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
@@ -66,10 +71,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void UnionShapes_OnClick(object sender, RoutedEventArgs e)
         {
-            LayerOverlay layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
+            var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
 
-            ShapeFileFeatureLayer dividedCityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["dividedCityLimits"];
-            InMemoryFeatureLayer unionLayer = (InMemoryFeatureLayer)layerOverlay.Layers["unionLayer"];
+            var dividedCityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["dividedCityLimits"];
+            var unionLayer = (InMemoryFeatureLayer)layerOverlay.Layers["unionLayer"];
 
             // Query the dividedCityLimits layer to get all the features
             dividedCityLimits.Open();
@@ -87,9 +92,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Hide the dividedCityLimits layer
             dividedCityLimits.IsVisible = false;
 
-            // Redraw the layerOverlay to see the unioned features on the map
+            // Redraw the layerOverlay to see the union features on the map
             await layerOverlay.RefreshAsync();
         }
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.
@@ -97,6 +103,5 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
-
     }
 }

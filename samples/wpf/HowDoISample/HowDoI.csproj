@@ -321,21 +321,21 @@
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
-    <PackageReference Include="ThinkGeo.Cad" Version="13.3.0-beta025" />
-    <PackageReference Include="ThinkGeo.Ecw" Version="13.3.0-beta026" />
-    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="13.3.0-beta024" />
-    <PackageReference Include="ThinkGeo.GeoPdf" Version="13.3.0-beta026" />
-    <PackageReference Include="ThinkGeo.Kml" Version="13.3.0-beta026" />
-    <PackageReference Include="ThinkGeo.MrSid" Version="13.3.0-beta026" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="13.3.0-beta026" />
-    <PackageReference Include="ThinkGeo.Oracle" Version="13.3.0-beta026" />
-    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="13.3.0-beta026" />
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="13.3.0-beta024" />
-    <PackageReference Include="ThinkGeo.Printers" Version="13.3.0-beta024" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="13.3.0-beta024" />
-    <PackageReference Include="ThinkGeo.UI.Wpf" Version="13.3.0-beta059" />
-    <PackageReference Include="ThinkGeo.UnmanagedGeoTiff" Version="13.3.0-beta026" />
-    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="13.3.0-beta024" />
+    <PackageReference Include="ThinkGeo.Cad" Version="13.3.0-beta057" />
+    <PackageReference Include="ThinkGeo.Ecw" Version="13.3.0-beta060" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="13.3.0-beta056" />
+    <PackageReference Include="ThinkGeo.GeoPdf" Version="13.3.0-beta060" />
+    <PackageReference Include="ThinkGeo.Kml" Version="13.3.0-beta060" />
+    <PackageReference Include="ThinkGeo.MrSid" Version="13.3.0-beta060" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="13.3.0-beta060" />
+    <PackageReference Include="ThinkGeo.Oracle" Version="13.3.0-beta060" />
+    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="13.3.0-beta060" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="13.3.0-beta056" />
+    <PackageReference Include="ThinkGeo.Printers" Version="13.3.0-beta056" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="13.3.0-beta056" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="13.3.0-beta063" />
+    <PackageReference Include="ThinkGeo.UnmanagedGeoTiff" Version="13.3.0-beta060" />
+    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="13.3.0-beta056" />
     <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
   </ItemGroup>
   <ItemGroup>

@@ -15,7 +15,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, add the cityLimits and bufferLayer layers into a grouped LayerOverlay and display them on the map.
+        /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the cityLimits and bufferLayer layers into a grouped LayerOverlay and display them on the map.
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
@@ -23,14 +23,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            ShapeFileFeatureLayer cityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimits.shp");
-            InMemoryFeatureLayer bufferLayer = new InMemoryFeatureLayer();
-            LayerOverlay layerOverlay = new LayerOverlay();
+            var cityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimits.shp");
+            var bufferLayer = new InMemoryFeatureLayer();
+            var layerOverlay = new LayerOverlay();
 
             // Project cityLimits layer to Spherical Mercator to match the map projection
             cityLimits.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
@@ -65,10 +70,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void BufferShape_OnClick(object sender, RoutedEventArgs e)
         {
-            LayerOverlay layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
+            var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
 
-            ShapeFileFeatureLayer cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
-            InMemoryFeatureLayer bufferLayer = (InMemoryFeatureLayer)layerOverlay.Layers["bufferLayer"];
+            var cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
+            var bufferLayer = (InMemoryFeatureLayer)layerOverlay.Layers["bufferLayer"];
 
             // Query the cityLimits layer to get all the features
             cityLimits.Open();
@@ -76,7 +81,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             cityLimits.Close();
 
             // Buffer the first feature by the amount of the bufferDistance TextBox
-            var buffer = features[0].Buffer(Convert.ToInt32(bufferDistance.Text), GeographyUnit.Meter, DistanceUnit.Meter);
+            var buffer = features[0].Buffer(Convert.ToInt32(BufferDistance.Text), GeographyUnit.Meter, DistanceUnit.Meter);
 
             // Add the buffer shape into an InMemoryFeatureLayer to display the result.
             // If this were to be a permanent change to the cityLimits FeatureSource, you would modify the underlying data using BeginTransaction and CommitTransaction instead.

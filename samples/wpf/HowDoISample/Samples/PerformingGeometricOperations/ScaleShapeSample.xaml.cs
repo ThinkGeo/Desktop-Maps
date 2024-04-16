@@ -25,14 +25,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             ShapeFileFeatureLayer.BuildIndexFile(@"./Data/Shapefile/FriscoCityLimits.shp");
 
             // Add Cloud Maps as a background overlay
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             var cityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimits.shp");
@@ -83,7 +83,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             cityLimits.Close();
 
             // Scale the first feature by the scaleFactor TextBox on the UI
-            var scale = BaseShape.ScaleTo(features[0].GetShape(), Convert.ToSingle(scaleFactor.Text));
+            var scale = BaseShape.ScaleTo(features[0].GetShape(), Convert.ToSingle(ScaleFactor.Text));
 
             // Add the scaled shape into scaledLayer to display the result.
             // If this were to be a permanent change to the cityLimits FeatureSource, you would modify the

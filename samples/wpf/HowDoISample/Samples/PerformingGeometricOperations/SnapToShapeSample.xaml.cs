@@ -21,14 +21,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            ShapeFileFeatureLayer friscoParks = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
-            InMemoryFeatureLayer snapLayer = new InMemoryFeatureLayer();
-            LayerOverlay layerOverlay = new LayerOverlay();
+            var friscoParks = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
+            var snapLayer = new InMemoryFeatureLayer();
+            var layerOverlay = new LayerOverlay();
 
             // Project friscoParks layer to Spherical Mercator to match the map projection
             friscoParks.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
@@ -63,12 +68,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void SnapToShape_Click(object sender, RoutedEventArgs e)
         {
-            LayerOverlay layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
+            var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
 
-            ShapeFileFeatureLayer friscoParks = (ShapeFileFeatureLayer)layerOverlay.Layers["friscoParks"];
-            InMemoryFeatureLayer snapLayer = (InMemoryFeatureLayer)layerOverlay.Layers["snapLayer"];
-
-            // WIP
+            var friscoParks = (ShapeFileFeatureLayer)layerOverlay.Layers["friscoParks"];
+            var snapLayer = (InMemoryFeatureLayer)layerOverlay.Layers["snapLayer"];
         }
 
         public void Dispose()

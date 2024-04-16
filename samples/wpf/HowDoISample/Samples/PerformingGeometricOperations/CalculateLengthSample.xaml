@@ -12,10 +12,10 @@
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Content="Calculate Length Controls:" FontSize="16" FontWeight="Bold"/>
             
-            <TextBlock Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Text="Click on a feature to get it's length displayed in the TextBox below." TextWrapping="Wrap"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Text="Click on a feature to get its length displayed in the TextBox below." TextWrapping="Wrap"></TextBlock>
             
             <Label Grid.Column="1" Grid.Row="2" Content="Length: "></Label>
-            <TextBox Grid.Column="2" Grid.Row="2" x:Name="lengthResult" IsReadOnly="True"></TextBox>
+            <TextBox Grid.Column="2" Grid.Row="2" x:Name="LengthResult" IsReadOnly="True"></TextBox>
 
             <!-- Controls Grid Layout -->
             <Grid.ColumnDefinitions>

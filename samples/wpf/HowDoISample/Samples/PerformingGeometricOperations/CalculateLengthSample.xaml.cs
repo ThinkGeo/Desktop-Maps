@@ -25,14 +25,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            ShapeFileFeatureLayer friscoTrails = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hike_Bike.shp");
-            InMemoryFeatureLayer selectedLineLayer = new InMemoryFeatureLayer();
-            LayerOverlay layerOverlay = new LayerOverlay();
+            var friscoTrails = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hike_Bike.shp");
+            var selectedLineLayer = new InMemoryFeatureLayer();
+            var layerOverlay = new LayerOverlay();
 
             // Project friscoTrails layer to Spherical Mercator to match the map projection
             friscoTrails.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
@@ -65,10 +70,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
         {
-            LayerOverlay layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
+            var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
 
-            ShapeFileFeatureLayer friscoTrails = (ShapeFileFeatureLayer)layerOverlay.Layers["friscoTrails"];
-            InMemoryFeatureLayer selectedLineLayer = (InMemoryFeatureLayer)layerOverlay.Layers["selectedLineLayer"];
+            var friscoTrails = (ShapeFileFeatureLayer)layerOverlay.Layers["friscoTrails"];
+            var selectedLineLayer = (InMemoryFeatureLayer)layerOverlay.Layers["selectedLineLayer"];
 
             // Query the friscoTrails layer to get the first feature closest to the map click event
             var feature = friscoTrails.QueryTools.GetFeaturesNearestTo(e.WorldLocation, GeographyUnit.Meter, 1,
@@ -83,7 +88,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var length = ((LineBaseShape)feature.GetShape()).GetLength(GeographyUnit.Meter, DistanceUnit.Kilometer);
 
             // Display the selectedLine's length in the lengthResult TextBox
-            lengthResult.Text = $"{length:f3} km";
+            LengthResult.Text = $"{length:f3} km";
         }
 
         public void Dispose()

@@ -13,12 +13,12 @@
             <Label Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="0" Content="Get SubLine Controls:" FontSize="16" FontWeight="Bold"/>
 
             <Label  Grid.Column="1" Grid.Row="1" Content="Starting Offset (m):"></Label>
-            <TextBox  Grid.Column="2" Grid.Row="1" x:Name="startingOffset" Text="5000"></TextBox>
+            <TextBox  Grid.Column="2" Grid.Row="1" x:Name="StartingOffset" Text="5000"></TextBox>
 
             <Label  Grid.Column="1" Grid.Row="2" Content="Distance (m):"></Label>
-            <TextBox  Grid.Column="2" Grid.Row="2" x:Name="distance" Text="10000"></TextBox>
+            <TextBox  Grid.Column="2" Grid.Row="2" x:Name="Distance" Text="10000"></TextBox>
 
-            <Button Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" x:Name="getSubLine" Content="Get Subline" Click="GetSubLine_OnClick"></Button>
+            <Button Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" x:Name="GetSubLine" Content="Get Sublime" Click="GetSubLine_OnClick"></Button>
 
             <!-- Controls Grid Layout -->
             <Grid.ColumnDefinitions>

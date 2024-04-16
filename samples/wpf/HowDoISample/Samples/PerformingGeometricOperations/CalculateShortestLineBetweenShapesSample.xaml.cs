@@ -25,9 +25,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             var friscoParks = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
@@ -75,7 +80,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Calculates the shortest line from the selected park to the stadium and displays it's length and shows the line on the map
+        /// Calculates the shortest line from the selected park to the stadium and displays its length and shows the line on the map
         /// </summary>
         private async void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
         {
@@ -105,7 +110,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var length = shortestLine.GetLength(GeographyUnit.Meter, DistanceUnit.Kilometer);
 
             // Display the shortestLine's length in the distanceResult TextBox
-            distanceResult.Text = $"{length:f3} km";
+            DistanceResult.Text = $"{length:f3} km";
         }
 
         public void Dispose()

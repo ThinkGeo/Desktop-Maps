@@ -25,14 +25,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            InMemoryFeatureLayer railway = new InMemoryFeatureLayer();
-            InMemoryFeatureLayer subLineLayer = new InMemoryFeatureLayer();
-            LayerOverlay layerOverlay = new LayerOverlay();
+            var railway = new InMemoryFeatureLayer();
+            var subLineLayer = new InMemoryFeatureLayer();
+            var layerOverlay = new LayerOverlay();
 
             // Add the rail line feature to the railway layer
             railway.InternalFeatures.Add(new Feature("LineString (-10776730.91861553490161896 3925750.69222266925498843, -10778989.31895966082811356 3915278.00731692276895046, -10781766.12723691388964653 3909228.15506267035380006, -10782065.98029803484678268 3907458.59967381786555052, -10781867.48601813986897469 3905465.21030976390466094)"));
@@ -67,10 +72,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void GetSubLine_OnClick(object sender, RoutedEventArgs e)
         {
-            LayerOverlay layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
+            var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
 
-            InMemoryFeatureLayer railway = (InMemoryFeatureLayer)layerOverlay.Layers["railway"];
-            InMemoryFeatureLayer subLineLayer = (InMemoryFeatureLayer)layerOverlay.Layers["subLineLayer"];
+            var railway = (InMemoryFeatureLayer)layerOverlay.Layers["railway"];
+            var subLineLayer = (InMemoryFeatureLayer)layerOverlay.Layers["subLineLayer"];
 
             // Query the railway layer to get all the features
             railway.Open();
@@ -78,7 +83,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             railway.Close();
 
             // Get the subLine from the railway line shape
-            var subLine = ((LineShape)feature.GetShape()).GetLineOnALine(StartingPoint.FirstPoint, Convert.ToDouble(startingOffset.Text), Convert.ToDouble(distance.Text), GeographyUnit.Meter,
+            var subLine = ((LineShape)feature.GetShape()).GetLineOnALine(StartingPoint.FirstPoint, Convert.ToDouble(StartingOffset.Text), Convert.ToDouble(Distance.Text), GeographyUnit.Meter,
                 DistanceUnit.Meter);
 
             // Add the subLine into an InMemoryFeatureLayer to display the result.
