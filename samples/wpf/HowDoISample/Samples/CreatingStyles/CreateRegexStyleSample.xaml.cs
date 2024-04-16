@@ -23,24 +23,24 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
                 ClientId = SampleKeys.ClientId,
                 ClientSecret = SampleKeys.ClientSecret,
                 MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Project the layer's data to match the projection of the map
             var coyoteSightings = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Coyote_Sightings.shp")
-                {
-                    FeatureSource =
+            {
+                FeatureSource =
                     {
                         ProjectionConverter = new ProjectionConverter(2276, 3857)
                     }
-                };
+            };
 
             // Add the layer to a layer overlay
             var layerOverlay = new LayerOverlay();
@@ -71,6 +71,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Set the map extent
             MapView.CurrentExtent = new RectangleShape(-10781794.4716492, 3917077.66579861, -10775416.8466492, 3913528.63559028);
+
             await MapView.RefreshAsync();
         }
 

@@ -49,6 +49,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Set the map extent
             MapView.CurrentExtent = new RectangleShape(-8.70, 62.60, 38.81, 31.11);
+
             await MapView.RefreshAsync();
         }
 

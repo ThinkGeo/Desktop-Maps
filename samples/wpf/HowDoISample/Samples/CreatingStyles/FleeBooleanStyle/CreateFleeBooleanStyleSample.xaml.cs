@@ -20,25 +20,25 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a layer with polygon data
             var countries02Layer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Countries02.shp")
-                {
-                    FeatureSource =
+            {
+                FeatureSource =
                     {
                         // Project the layer's data to match the projection of the map
                         ProjectionConverter = new ProjectionConverter(4326, 3857)
                     }
-                };
+            };
 
             // Add the layer to a layer overlay
             var layerOverlay = new LayerOverlay();
@@ -52,6 +52,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Set the map extent
             MapView.CurrentExtent = MaxExtents.SphericalMercator;
+
             await MapView.RefreshAsync();
         }
 

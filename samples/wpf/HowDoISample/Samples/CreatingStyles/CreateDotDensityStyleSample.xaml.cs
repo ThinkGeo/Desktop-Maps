@@ -23,24 +23,24 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
                 ClientId = SampleKeys.ClientId,
                 ClientSecret = SampleKeys.ClientSecret,
                 MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Project the layer's data to match the projection of the map
             var housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp")
-                {
-                    FeatureSource =
+            {
+                FeatureSource =
                     {
                         ProjectionConverter = new ProjectionConverter(2276, 3857)
                     }
-                };
+            };
 
             // Here we use a dot density type based on the number of housing units in the area.
             // It draws 1 sized blue circles with a ratio of one dot per 10 housing units in the data
@@ -61,6 +61,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             housingUnitsLayer.Open();
             MapView.CurrentExtent = housingUnitsLayer.GetBoundingBox();
             housingUnitsLayer.Close();
+
             await MapView.RefreshAsync();
         }
 

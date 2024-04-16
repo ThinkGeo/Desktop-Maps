@@ -23,12 +23,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
                 ClientId = SampleKeys.ClientId,
                 ClientSecret = SampleKeys.ClientSecret,
                 MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
@@ -38,12 +38,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Project the layer's data to match the projection of the map
             var friscoCrimeLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Crime.shp")
-                {
-                    FeatureSource =
+            {
+                FeatureSource =
                     {
                         ProjectionConverter = new ProjectionConverter(2276, 3857)
                     }
-                };
+            };
 
             // Add friscoCrimeLayer to a LayerOverlay
             var layerOverlay = new LayerOverlay();
@@ -53,6 +53,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Add layerOverlay to the mapView
             MapView.Overlays.Add(layerOverlay);
+
             await MapView.RefreshAsync();
         }
 
