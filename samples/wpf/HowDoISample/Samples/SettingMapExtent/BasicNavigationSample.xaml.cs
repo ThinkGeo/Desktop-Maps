@@ -24,9 +24,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
@@ -59,19 +64,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void PanArrow_Click(object sender, RoutedEventArgs e)
         {
-            var percentage = (int)panPercentage.Value;
+            var percentage = (int)PanPercentage.Value;
             switch (((Button)sender).Name)
             {
-                case "panNorth":
+                case "PanNorth":
                     await MapView.PanByDirectionAsync(PanDirection.Up, percentage);
                     break;
-                case "panEast":
+                case "PanEast":
                     await MapView.PanByDirectionAsync(PanDirection.Right, percentage);
                     break;
-                case "panWest":
+                case "PanWest":
                     await MapView.PanByDirectionAsync(PanDirection.Left, percentage);
                     break;
-                case "panSouth":
+                case "PanSouth":
                     await MapView.PanByDirectionAsync(PanDirection.Down, percentage);
                     break;
             }
@@ -83,7 +88,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void Rotate_Click(object sender, RoutedEventArgs e)
         {
-            MapView.RotatedAngle = (float)rotateAngle.Value;
+            MapView.RotatedAngle = (float)RotateAngle.Value;
             await MapView.RefreshAsync();
         }
 
