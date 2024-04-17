@@ -29,7 +29,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
             ignLayer.ZoomLevelSet.ZoomLevel13.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             Overlay overlay = null;
-            overlay = new ProgressiveFeaturesOverlay()
+            overlay = new OgcApiFeaturesOverlay()
             {
                 FeatureLayer = ignLayer,
                 DrawingBulkCount = 100

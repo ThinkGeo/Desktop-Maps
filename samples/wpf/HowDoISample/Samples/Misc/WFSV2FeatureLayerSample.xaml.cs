@@ -29,7 +29,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
             helsinkiParcelsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(3067, 3857);
 
             Overlay overlay = null;
-            overlay = new ProgressiveFeaturesOverlay()
+            overlay = new WfsV2Overlay()
             {
                 FeatureLayer = helsinkiParcelsLayer,
                 DrawingBulkCount = 500
