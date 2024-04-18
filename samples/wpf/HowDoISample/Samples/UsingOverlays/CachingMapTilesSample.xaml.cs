@@ -9,7 +9,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class CachingMapTilesSample : IDisposable
     {
-        ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay;
+        ThinkGeoCloudVectorMapsOverlay _thinkGeoCloudVectorMapsOverlay;
 
         public CachingMapTilesSample()
         {
@@ -25,8 +25,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            _thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+            };
+            MapView.Overlays.Add(_thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
             MapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
@@ -39,7 +44,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void UseCache_Checked(object sender, RoutedEventArgs e)
         {
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache("cache", "thinkgeo_vector_light", RasterTileFormat.Png);
+            _thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache("cache", "thinkgeo_vector_light", RasterTileFormat.Png);
         }
 
         /// <summary>
@@ -47,7 +52,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void UseCache_Unchecked(object sender, RoutedEventArgs e)
         {
-            thinkGeoCloudVectorMapsOverlay.TileCache = null;
+            _thinkGeoCloudVectorMapsOverlay.TileCache = null;
         }
 
         public void Dispose()

@@ -30,16 +30,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Set the map extent
             MapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
-            await MapView.RefreshAsync();
 
+            await MapView.RefreshAsync();
         }
 
         /// <summary>
-        /// Create an OpenStretMaps overlay and add it to the map view.
+        /// Create an OpenStreetMaps overlay and add it to the map view.
         /// </summary>
         private async void DisplayOsmMaps_Click(object sender, RoutedEventArgs e)
         {
-            var osmMapsOverlay = new OpenStreetMapOverlay(osmUserAgent.Text);
+            var osmMapsOverlay = new OpenStreetMapOverlay(OsmUserAgent.Text);
             MapView.Overlays.Add(osmMapsOverlay);
             await MapView.RefreshAsync();
         }

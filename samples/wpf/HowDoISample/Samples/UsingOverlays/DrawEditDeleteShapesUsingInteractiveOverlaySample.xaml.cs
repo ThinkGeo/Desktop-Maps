@@ -25,19 +25,21 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
             MapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
 
-            LayerOverlay layerOverlay;
-            InMemoryFeatureLayer featureLayer;
-
             // Create the layer that will store the drawn shapes
-            featureLayer = new InMemoryFeatureLayer();
+            var featureLayer = new InMemoryFeatureLayer();
 
             // Add styles for the layer
             featureLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Blue, 8, GeoColors.Black);
@@ -46,7 +48,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             featureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Add the layer to a LayerOverlay
-            layerOverlay = new LayerOverlay();
+            var layerOverlay = new LayerOverlay();
             layerOverlay.Layers.Add("featureLayer", featureLayer);
 
             // Add the LayerOverlay to the map
@@ -95,7 +97,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private async Task UpdateLayerFeaturesAsync(InMemoryFeatureLayer featureLayer, LayerOverlay layerOverlay)
         {
             // If the user switched away from a Drawing Mode, add all the newly drawn shapes in the TrackOverlay into the featureLayer
-            foreach (Feature feature in MapView.TrackOverlay.TrackShapeLayer.InternalFeatures)
+            foreach (var feature in MapView.TrackOverlay.TrackShapeLayer.InternalFeatures)
             {
                 featureLayer.InternalFeatures.Add(feature.Id, feature);
             }
@@ -103,7 +105,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
 
             // If the user switched away from Edit Mode, add all the shapes that were in the EditOverlay back into the featureLayer
-            foreach (Feature feature in MapView.EditOverlay.EditShapesLayer.InternalFeatures)
+            foreach (var feature in MapView.EditOverlay.EditShapesLayer.InternalFeatures)
             {
                 featureLayer.InternalFeatures.Add(feature.Id, feature);
             }
@@ -128,7 +130,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Update the layer's features from any previous mode
             await UpdateLayerFeaturesAsync(featureLayer, layerOverlay);
 
-            // Set TrackMode to None, so that the user will no longer draw shapes and will be able to naviage the map normally
+            // Set TrackMode to None, so that the user will no longer draw shapes and will be able to navigate the map normally
             MapView.TrackOverlay.TrackMode = TrackMode.None;
 
             // Update instructions
@@ -204,11 +206,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.TrackOverlay.TrackMode = TrackMode.None;
 
             // Put all features in the featureLayer into the EditOverlay
-            foreach (Feature feature in featureLayer.InternalFeatures)
+            foreach (var feature in featureLayer.InternalFeatures)
             {
                 MapView.EditOverlay.EditShapesLayer.InternalFeatures.Add(feature.Id, feature);
             }
-            // Clear all the features inthe featureLayer so that the editing features don't overlap with the original shapes
+            // Clear all the features in the featureLayer so that the editing features don't overlap with the original shapes
             // In UpdateLayerFeatures, we will add them all back to the featureLayer once the user switches modes
             featureLayer.InternalFeatures.Clear();
 
@@ -252,16 +254,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
 
             // Query the layer for the closest feature within 100 meters
-            Collection<Feature> closestFeatures = featureLayer.QueryTools.GetFeaturesNearestTo(e.WorldLocation, GeographyUnit.Meter, 1, new Collection<string>(), 100, DistanceUnit.Meter);
+            var closestFeatures = featureLayer.QueryTools.GetFeaturesNearestTo(e.WorldLocation, GeographyUnit.Meter, 1, new Collection<string>(), 100, DistanceUnit.Meter);
 
             // If a feature was found, remove it from the layer
-            if (closestFeatures.Count > 0)
-            {
-                featureLayer.InternalFeatures.Remove(closestFeatures[0]);
+            if (closestFeatures.Count <= 0) return;
+            featureLayer.InternalFeatures.Remove(closestFeatures[0]);
 
-                // Refresh the layerOverlay to show the results
-                await MapView.RefreshAsync(layerOverlay);
-            }
+            // Refresh the layerOverlay to show the results
+            await MapView.RefreshAsync(layerOverlay);
         }
 
         public void Dispose()

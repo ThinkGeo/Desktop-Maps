@@ -10,12 +10,12 @@
         <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded"/>
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1" Grid.Row="0" Content="Interactive Controls:" FontWeight="Bold" FontSize="16"/>
-            <RadioButton Grid.Column="1" Grid.Row="1" x:Name="navMode" Content="Navigation Mode" IsChecked="True" Click="NavMode_Click"></RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="2" x:Name="drawPoint" Content="Draw Point" Click="DrawPoint_Click"></RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="3" x:Name="drawLine" Content="Draw Line" Click="DrawLine_Click"></RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="4" x:Name="drawPolygon" Content="Draw Polygon" Click="DrawPolygon_Click"></RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="5" x:Name="editShape" Content="Edit Shape" Click="EditShape_Click"></RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="6" x:Name="deleteShape" Content="Delete Shape" Click="DeleteShape_Click"></RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="1" x:Name="NavMode" Content="Navigation Mode" IsChecked="True" Click="NavMode_Click"></RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="2" x:Name="DrawPoint" Content="Draw Point" Click="DrawPoint_Click"></RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="3" x:Name="DrawLine" Content="Draw Line" Click="DrawLine_Click"></RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="4" x:Name="DrawPolygon" Content="Draw Polygon" Click="DrawPolygon_Click"></RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="5" x:Name="EditShape" Content="Edit Shape" Click="EditShape_Click"></RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="6" x:Name="DeleteShape" Content="Delete Shape" Click="DeleteShape_Click"></RadioButton>
 
             <Label Grid.Column="1" Grid.Row="7" Content="Instructions:" FontWeight="Bold" FontSize="16"/>
             <TextBlock x:Name="Instructions" TextWrapping="Wrap" Grid.Column="1" Grid.Row="8"></TextBlock>

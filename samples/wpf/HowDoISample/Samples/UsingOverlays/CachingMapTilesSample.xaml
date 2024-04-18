@@ -10,7 +10,7 @@
         <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded"/>
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Content="Tile Cache Controls:" FontSize="16" FontWeight="Bold" Grid.Column="1" Grid.Row="0"/>
-            <CheckBox x:Name="useCache" Content="Use Tile Cache" IsChecked="False" Checked="UseCache_Checked" Unchecked="UseCache_Unchecked" Grid.Column="1" Grid.Row="1"></CheckBox>
+            <CheckBox x:Name="UseCache" Content="Use Tile Cache" IsChecked="False" Checked="UseCache_Checked" Unchecked="UseCache_Unchecked" Grid.Column="1" Grid.Row="1"></CheckBox>
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />

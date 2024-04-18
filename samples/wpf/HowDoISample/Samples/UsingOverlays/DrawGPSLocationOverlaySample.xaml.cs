@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,8 +15,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class DrawGPSLocationOverlaySample : IDisposable
     {
-        bool cancelFeed;
-        bool pauseFeed;
+        private bool _cancelFeed;
+        private bool _pauseFeed;
 
         public DrawGPSLocationOverlaySample()
         {
@@ -31,9 +32,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set up the overlay that we will refresh often
@@ -43,8 +49,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var vehicleLayer = new InMemoryFeatureLayer();
 
             // Set the points image to a car icon and then apply it to all zoom levels
-            var vehiclePointStyle = new PointStyle(new GeoImage(@"./Resources/vehicle-location.png"));
-            vehiclePointStyle.YOffsetInPixel = -12;
+            var vehiclePointStyle = new PointStyle(new GeoImage(@"./Resources/vehicle-location.png"))
+            {
+                YOffsetInPixel = -12
+            };
 
             vehicleLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = vehiclePointStyle;
             vehicleLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
@@ -72,13 +80,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void StartDataFeed()
         {
             // Create a task that runs until we set the cancelFeed variable
-
-            var task = Task.Run(() =>
+            Task.Run(() =>
             {
                 // Create a queue and load it up with coordinated from the CSV file
-                Queue<Feature> vehicleLocationQueue = new Queue<Feature>();
+                var vehicleLocationQueue = new Queue<Feature>();
 
-                string[] locations = File.ReadAllLines(@"./Data/Csv/vehicle-route.csv");
+                var locations = File.ReadAllLines(@"./Data/Csv/vehicle-route.csv");
 
                 foreach (var location in locations)
                 {
@@ -89,7 +96,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 do
                 {
                     // If the feed is not paused then update the vehicle location
-                    if (!pauseFeed)
+                    if (!_pauseFeed)
                     {
                         // Get the latest point from the queue and then re-add it so the points
                         // will loop forever
@@ -105,10 +112,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     }
 
                     // Sleep for two second
-                    Debug.WriteLine($"Sleeping Vehicle Location Data Feed: {DateTime.Now.ToString()}");
+                    Debug.WriteLine($"Sleeping Vehicle Location Data Feed: {DateTime.Now.ToString(CultureInfo.InvariantCulture)}");
                     Thread.Sleep(1000);
 
-                } while (cancelFeed == false);
+                } while (_cancelFeed == false);
             });
         }
 
@@ -123,7 +130,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             vehicleLayer.InternalFeatures.Add(currentFeature);
 
             // If we have the center on vehicle check box checked then we center the map on the new location
-            if (centerOnVehicle.IsChecked ?? false)
+            if (CenterOnVehicle.IsChecked ?? false)
             {
                 await MapView.CenterAtAsync(currentFeature);
             }
@@ -134,7 +141,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private void RefreshDynamicItems_Unloaded(object sender, RoutedEventArgs e)
         {
-            cancelFeed = true;
+            _cancelFeed = true;
         }
 
         /// <summary>
@@ -142,7 +149,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void PauseDataFeed_Checked(object sender, RoutedEventArgs e)
         {
-            pauseFeed = true;
+            _pauseFeed = true;
         }
 
         /// <summary>
@@ -150,7 +157,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void PauseDataFeed_Unchecked(object sender, RoutedEventArgs e)
         {
-            pauseFeed = false;
+            _pauseFeed = false;
         }
 
         public void Dispose()

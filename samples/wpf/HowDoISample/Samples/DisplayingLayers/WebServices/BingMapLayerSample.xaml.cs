@@ -29,31 +29,29 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void btnActivate_Click(object sender, RoutedEventArgs e)
         {
-            if (txtApplicationID.Text != null && !MapView.Overlays.Contains("Bing Map"))
+            if (string.IsNullOrEmpty(txtApplicationID.Text) || MapView.Overlays.Contains("Bing Map")) return;
+            btnActivate.IsEnabled = false;
+            // Set the map zoom level set to the bing map zoom level set so all the zoom levels line up.
+            MapView.ZoomLevelSet = new BingMapsZoomLevelSet();
+
+            // Create the layer overlay with some additional settings and add to the map.
+            var layerOverlay = new LayerOverlay
             {
-                btnActivate.IsEnabled = false;
-                // Set the map zoom level set to the bing map zoom level set so all the zoom levels line up.
-                MapView.ZoomLevelSet = new BingMapsZoomLevelSet();
+                TileHeight = 256,
+                TileWidth = 256,
+                TileSizeMode = TileSizeMode.Small
+            };
+            MapView.Overlays.Add("Bing Map", layerOverlay);
 
-                // Create the layer overlay with some additional settings and add to the map.
-                var layerOverlay = new LayerOverlay
-                {
-                    TileHeight = 256,
-                    TileWidth = 256,
-                    TileSizeMode = TileSizeMode.Small
-                };
-                MapView.Overlays.Add("Bing Map", layerOverlay);
+            // Create the bing map layer and add it to the map.                
+            var bingMapsLayer = new Core.Async.BingMapsLayer(txtApplicationID.Text, BingMapsMapType.Road)
+            {
+                TileCache = new FileRasterTileCache("C:\\temp", "bingMapsRoad")
+            };
+            layerOverlay.Layers.Add(bingMapsLayer);
 
-                // Create the bing map layer and add it to the map.                
-                var bingMapsLayer = new Core.Async.BingMapsLayer(txtApplicationID.Text, BingMapsMapType.Road)
-                {
-                    TileCache = new FileRasterTileCache("C:\\temp", "bingMapsRoad")
-                };
-                layerOverlay.Layers.Add(bingMapsLayer);
-
-                // Refresh the map.
-                await MapView.RefreshAsync();
-            }
+            // Refresh the map.
+            await MapView.RefreshAsync();
         }
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)

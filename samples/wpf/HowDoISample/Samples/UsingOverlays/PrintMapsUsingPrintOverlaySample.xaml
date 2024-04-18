@@ -10,7 +10,7 @@
         <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded"/>
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1" Grid.Row="0" Content="Print Controls"/>
-            <Button Grid.Column="1" Grid.Row="1" x:Name="printMap" Content="Print Map" Click="PrintMap_OnClick"></Button>
+            <Button Grid.Column="1" Grid.Row="1" x:Name="PrintMap" Content="Print Map" Click="PrintMap_OnClick"></Button>
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />

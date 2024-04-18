@@ -10,8 +10,8 @@
         <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded"/>
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Content="Feed Controls:" FontSize="16" FontWeight="Bold" Grid.Column="1" Grid.Row="0"/>
-            <CheckBox x:Name="pauseDataFeed" Content="Pause Data Feed" IsChecked="False" Checked="PauseDataFeed_Checked" Unchecked="PauseDataFeed_Unchecked" Grid.Column="1" Grid.Row="1"></CheckBox>
-            <CheckBox x:Name="centerOnVehicle" Content="Center on Vehicle" IsChecked="False" Grid.Column="1" Grid.Row="2"></CheckBox>
+            <CheckBox x:Name="PauseDataFeed" Content="Pause Data Feed" IsChecked="False" Checked="PauseDataFeed_Checked" Unchecked="PauseDataFeed_Unchecked" Grid.Column="1" Grid.Row="1"></CheckBox>
+            <CheckBox x:Name="CenterOnVehicle" Content="Center on Vehicle" IsChecked="False" Grid.Column="1" Grid.Row="2"></CheckBox>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />
                 <ColumnDefinition Width="240" />

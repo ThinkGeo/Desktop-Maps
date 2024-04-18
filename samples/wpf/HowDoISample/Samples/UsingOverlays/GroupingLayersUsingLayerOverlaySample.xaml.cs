@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using ThinkGeo.Core;
-using ThinkGeo.UI.Wpf;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
@@ -25,9 +23,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             /**********************
@@ -115,7 +118,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void ShowLanduseGroup_Checked(object sender, RoutedEventArgs e)
         {
-            LayerOverlay landuseOverlay = (LayerOverlay)MapView.Overlays["landuseOverlay"];
+            var landuseOverlay = (LayerOverlay)MapView.Overlays["landuseOverlay"];
             landuseOverlay.IsVisible = true;
         }
 
@@ -124,7 +127,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void ShowLanduseGroup_Unchecked(object sender, RoutedEventArgs e)
         {
-            LayerOverlay landuseOverlay = (LayerOverlay)MapView.Overlays["landuseOverlay"];
+            var landuseOverlay = (LayerOverlay)MapView.Overlays["landuseOverlay"];
             landuseOverlay.IsVisible = false;
         }
 
@@ -133,7 +136,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void ShowPoiGroup_Checked(object sender, RoutedEventArgs e)
         {
-            LayerOverlay poiOverlay = (LayerOverlay)MapView.Overlays["poiOverlay"];
+            var poiOverlay = (LayerOverlay)MapView.Overlays["poiOverlay"];
             poiOverlay.IsVisible = true;
         }
 

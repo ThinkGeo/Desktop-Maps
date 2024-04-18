@@ -29,7 +29,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
 
             // Create a WmsOverlay and add it to the map.
-            WmsOverlay wmsOverlay = new WmsOverlay();
+            var wmsOverlay = new WmsOverlay();
             wmsOverlay.AxisOrder = WmsAxisOrder.XY;
             wmsOverlay.Uri = new Uri("http://ows.mundialis.de/services/service");
             wmsOverlay.Parameters.Add("VERSION", "1.3.0");

@@ -89,10 +89,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MinimumScale = MapView.ZoomLevelSet.ZoomLevel20.Scale;
 
             var printerOverlay = new PrinterInteractiveOverlay();
-            var pageLayer = new PagePrinterLayer(PrinterPageSize.AnsiA, PrinterOrientation.Portrait);
-
-            // Style the pageLayer to appear to look like a piece of paper
-            pageLayer.BackgroundMask = AreaStyle.CreateSimpleAreaStyle(GeoColors.White, GeoColors.Black);
+            var pageLayer = new PagePrinterLayer(PrinterPageSize.AnsiA, PrinterOrientation.Portrait)
+            {
+                // Style the pageLayer to appear to look like a piece of paper
+                BackgroundMask = AreaStyle.CreateSimpleAreaStyle(GeoColors.White, GeoColors.Black)
+            };
 
             // Add the pageLayer to the printerOverlay
             printerOverlay.PrinterLayers.Add("pageLayer", pageLayer);
@@ -110,7 +111,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void AddPageTitleLabel()
         {
             var printerOverlay = (PrinterInteractiveOverlay)MapView.InteractiveOverlays["printerOverlay"];
-            var pageLayer = (PagePrinterLayer)printerOverlay.PrinterLayers["pageLayer"];
 
             var titleLabel = new LabelPrinterLayer("Frisco Mosquito Report - 5/5/2020", new GeoFont("Verdana", 8), GeoBrushes.Black)
             {

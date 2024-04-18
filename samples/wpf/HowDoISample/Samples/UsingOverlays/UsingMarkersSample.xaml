@@ -11,9 +11,9 @@
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1" Grid.Row="0" Content="MarkerOverlay Controls" VerticalAlignment="Top" FontWeight="Bold" FontSize="16"/>
             
-            <RadioButton Grid.Column="1" Grid.Row="1" x:Name="staticMode" Content="Static Mode" IsChecked="True" Click="StaticMode_OnClick"></RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="2" x:Name="dragMode" Content="Drag Mode" Click="DragMode_OnClick"></RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="3" x:Name="copyMode" Content="Copy Mode (with Shift key)" Click="CopyMode_OnClick"></RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="1" x:Name="StaticMode" Content="Static Mode" IsChecked="True" Click="StaticMode_OnClick"></RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="2" x:Name="DragMode" Content="Drag Mode" Click="DragMode_OnClick"></RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="3" x:Name="CopyMode" Content="Copy Mode (with Shift key)" Click="CopyMode_OnClick"></RadioButton>
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />

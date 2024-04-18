@@ -16,7 +16,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Setup the map with the ThinkGeo Cloud Maps overlay to show a basic map
+        /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
@@ -24,9 +24,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
@@ -44,10 +49,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var popupOverlay = new PopupOverlay();
 
             // Create a layer in order to query the data
-            var hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
-
-            // Project the data to match the map's projection
-            hotelsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+            var hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp")
+            {
+                FeatureSource =
+                {
+                    // Project the data to match the map's projection
+                    ProjectionConverter = new ProjectionConverter(2276, 3857)
+                }
+            };
 
             // Open the layer so that we can begin querying
             hotelsLayer.Open();
@@ -70,6 +79,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Add the popupOverlay to the map and refresh
             MapView.Overlays.Add(popupOverlay);
+
             await MapView.RefreshAsync();
         }
 
