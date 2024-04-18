@@ -36,14 +36,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void DisplayBingMaps_Click(object sender, RoutedEventArgs e)
         {
-            var bingMapsOverlay = new BingMapsOverlay(bingApplicationId.Text, BingMapsMapType.Road);
+            var bingMapsOverlay = new BingMapsOverlay(BingApplicationId.Text, BingMapsMapType.Road);
             MapView.Overlays.Add(bingMapsOverlay);
             await MapView.RefreshAsync();
         }
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
         {
-            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
             e.Handled = true;
         }
 

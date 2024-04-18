@@ -36,14 +36,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void DisplayGoogleMaps_Click(object sender, RoutedEventArgs e)
         {
-            var googleMapsOverlay = new GoogleMapsOverlay(googleApiKey.Text, String.Empty);
+            var googleMapsOverlay = new GoogleMapsOverlay(GoogleApiKey.Text, string.Empty);
             MapView.Overlays.Add(googleMapsOverlay);
             await MapView.RefreshAsync();
         }
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
         {
-            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
             e.Handled = true;
         }
 

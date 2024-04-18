@@ -35,14 +35,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void DisplayRasterCloudMaps_Click(object sender, RoutedEventArgs e)
         {
-            var thinkGeoCloudRasterMapsOverlay = new ThinkGeoCloudRasterMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1);
+            var thinkGeoCloudRasterMapsOverlay = new ThinkGeoCloudRasterMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1,
+            };
             MapView.Overlays.Add(thinkGeoCloudRasterMapsOverlay);
             await MapView.RefreshAsync();
         }
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
         {
-            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
             e.Handled = true;
         }
 
