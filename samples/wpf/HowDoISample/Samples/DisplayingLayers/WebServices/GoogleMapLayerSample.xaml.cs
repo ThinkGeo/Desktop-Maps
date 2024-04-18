@@ -15,7 +15,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InitializeComponent();
         }
 
-        private void mapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             MapView.MapUnit = GeographyUnit.Meter;
@@ -39,11 +39,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.Overlays.Clear();
 
             // Create a new overlay that will hold our new layer and add it to the map.
-            LayerOverlay worldOverlay = new LayerOverlay();
+            var worldOverlay = new LayerOverlay();
             MapView.Overlays.Add("WorldOverlay", worldOverlay);
 
             // Create the new layer.
-            Core.Async.GoogleMapsLayer worldLayer = new Core.Async.GoogleMapsLayer(txtApiKey.Text, string.Empty);
+            var worldLayer = new Core.Async.GoogleMapsLayer(txtApiKey.Text, string.Empty);
 
             // Add the layer to the overlay we created earlier.
             worldOverlay.Layers.Add("WorldLayer", worldLayer);
@@ -51,7 +51,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Set the current extent to the whole world.
             MapView.CurrentExtent = new RectangleShape(-10000000, 10000000, 10000000, -10000000);
 
-            // Refresh the map.
             await MapView.RefreshAsync();
         }
 

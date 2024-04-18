@@ -23,18 +23,28 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a new overlay that will hold our new layer and add it to the map.
-            LayerOverlay cityboundaryOverlay = new LayerOverlay();
+            var cityboundaryOverlay = new LayerOverlay();
             MapView.Overlays.Add(cityboundaryOverlay);
 
             // Create the new layer and set the projection as the data is in srid 2276 and our background is srid 3857 (spherical mercator).
-            TabFeatureLayer cityBoundaryLayer = new TabFeatureLayer(@"./Data/Tab/City_ETJ.tab");
-            cityBoundaryLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+            var cityBoundaryLayer = new TabFeatureLayer(@"./Data/Tab/City_ETJ.tab")
+            {
+                FeatureSource =
+                {
+                    ProjectionConverter = new ProjectionConverter(2276, 3857)
+                }
+            };
 
             // Add the layer to the overlay we created earlier.
             cityboundaryOverlay.Layers.Add("City Boundary", cityBoundaryLayer);
@@ -50,7 +60,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             cityBoundaryLayer.Open();
             MapView.CurrentExtent = cityBoundaryLayer.GetBoundingBox();
 
-            // Refresh the map.
             await MapView.RefreshAsync();
         }
 

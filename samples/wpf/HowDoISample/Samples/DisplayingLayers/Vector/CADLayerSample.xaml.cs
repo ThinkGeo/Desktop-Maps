@@ -25,7 +25,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a new overlay that will hold our new layer and add it to the map.
@@ -48,7 +53,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector
             // Set the current extent of the map to the extent of the CAD data
             _cadLayer.Open();
             MapView.CurrentExtent = _cadLayer.GetBoundingBox();
-            // Refresh the map.
+
             await MapView.RefreshAsync();
 
         }
@@ -66,6 +71,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector
             if (_cadLayer == null) return;
             // Create an Area style on zoom level 1 and then apply it to all zoom levels up to 20.
             _cadLayer.StylingType = CadStylingType.EmbeddedStyling;
+
             await MapView.RefreshAsync();
         }
 
@@ -76,6 +82,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector
             _cadLayer.StylingType = CadStylingType.StandardStyling;
             _cadLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = new LineStyle(new GeoPen(GeoColors.Blue, 2));
             _cadLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
             await MapView.RefreshAsync();
         }
     }

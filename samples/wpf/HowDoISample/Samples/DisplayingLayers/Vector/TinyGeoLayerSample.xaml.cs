@@ -15,7 +15,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, add the TinyGeo layer to the map
+        /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the TinyGeo layer to the map
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
@@ -23,18 +23,28 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a new overlay that will hold our new layer and add it to the map.
-            LayerOverlay tinyGeoOverlay = new LayerOverlay();
+            var tinyGeoOverlay = new LayerOverlay();
             MapView.Overlays.Add(tinyGeoOverlay);
 
             // Create the new layer and set the projection as the data is in srid 2276 and our background is srid 3857 (spherical mercator).
-            TinyGeoFeatureLayer tinyGeoLayer = new TinyGeoFeatureLayer(@"./Data/TinyGeo/Zoning.tgeo");
-            tinyGeoLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+            var tinyGeoLayer = new TinyGeoFeatureLayer(@"./Data/TinyGeo/Zoning.tgeo")
+            {
+                FeatureSource =
+                {
+                    ProjectionConverter = new ProjectionConverter(2276, 3857)
+                }
+            };
 
             // Add the layer to the overlay we created earlier.
             tinyGeoOverlay.Layers.Add("Zoning", tinyGeoLayer);
@@ -47,7 +57,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             tinyGeoLayer.Open();
             MapView.CurrentExtent = tinyGeoLayer.GetBoundingBox();
 
-            // Refresh the map.
             await MapView.RefreshAsync();
         }
 

@@ -23,18 +23,28 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a new overlay that will hold our new layer and add it to the map.
-            LayerOverlay layerOverlay = new LayerOverlay();
+            var layerOverlay = new LayerOverlay();
             MapView.Overlays.Add(layerOverlay);
 
             // Create the new layer and set the projection as the data is in srid 4326 and our background is srid 3857 (spherical mercator).
-            GraticuleFeatureLayer graticuleFeatureLayer = new GraticuleFeatureLayer();
-            graticuleFeatureLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 3857);
+            var graticuleFeatureLayer = new GraticuleFeatureLayer
+            {
+                FeatureSource =
+                {
+                    ProjectionConverter = new ProjectionConverter(4326, 3857)
+                }
+            };
 
             // We set the pen color to the graticule layer.
             graticuleFeatureLayer.GraticuleLineStyle.OuterPen.Color = GeoColor.FromArgb(125, GeoColors.Navy);
@@ -45,7 +55,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Set the current extent of the map to start in Frisco TX
             MapView.CurrentExtent = new RectangleShape(-10782364.041857453, 3914916.6811720245, -10772029.75569071, 3908067.923475721);
 
-            //Refresh the map.
             await MapView.RefreshAsync();
         }
 

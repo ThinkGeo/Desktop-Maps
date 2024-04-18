@@ -32,7 +32,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Set the current extent of the map to an area in the data
             MapView.CurrentExtent = new RectangleShape(-10785086.173498387, 3913489.693302595, -10779919.030415015, 3910065.3144544438);
 
-            // Refresh the map.
             await MapView.RefreshAsync();
         }
 

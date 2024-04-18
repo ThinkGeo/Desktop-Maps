@@ -27,43 +27,42 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.ZoomLevelSet = new ThinkGeoCloudMapsZoomLevelSet();
 
             // Create the layer overlay with some additional settings and add to the map.
-            ThinkGeoCloudRasterMapsOverlay cloudOverlay = new ThinkGeoCloudRasterMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~");
-            cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1;
+            var cloudOverlay = new ThinkGeoCloudRasterMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1
+            };
             MapView.Overlays.Add("Cloud Overlay", cloudOverlay);
 
             // Set the current extent to a neighborhood in Frisco Texas.
             MapView.CurrentExtent = new RectangleShape(-10781708.9749424, 3913502.90429046, -10777685.1114043, 3910360.79646662);
 
-            // Refresh the map.
             await MapView.RefreshAsync();
         }
 
         private async void rbMapType_Checked(object sender, RoutedEventArgs e)
         {
-            RadioButton button = (RadioButton)sender;
-            if (MapView.Overlays.Contains("Cloud Overlay"))
-            {
-                ThinkGeoCloudRasterMapsOverlay cloudOverlay = (ThinkGeoCloudRasterMapsOverlay)MapView.Overlays["Cloud Overlay"];
+            var button = (RadioButton)sender;
+            if (!MapView.Overlays.Contains("Cloud Overlay")) return;
+            var cloudOverlay = (ThinkGeoCloudRasterMapsOverlay)MapView.Overlays["Cloud Overlay"];
 
-                switch (button.Content.ToString())
-                {
-                    case "Light":
-                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Light_V2_X1;
-                        break;
-                    case "Dark":
-                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Dark_V2_X1;
-                        break;
-                    case "Aerial":
-                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1;
-                        break;
-                    case "Hybrid":
-                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1;
-                        break;
-                    default:
-                        break;
-                }
-                await MapView.RefreshAsync();
+            switch (button.Content.ToString())
+            {
+                case "Light":
+                    cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Light_V2_X1;
+                    break;
+                case "Dark":
+                    cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Dark_V2_X1;
+                    break;
+                case "Aerial":
+                    cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1;
+                    break;
+                case "Hybrid":
+                    cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1;
+                    break;
             }
+            await MapView.RefreshAsync();
         }
 
         public void Dispose()

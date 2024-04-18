@@ -23,18 +23,28 @@ namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a new overlay that will hold our new layer and add it to the map.
-            LayerOverlay parksOverlay = new LayerOverlay();
+            var parksOverlay = new LayerOverlay();
             MapView.Overlays.Add("parks overlay", parksOverlay);
 
             // Create the new layer and set the projection as the data is in srid 2276 and our background is srid 3857 (spherical mercator).
-            ShapeFileFeatureLayer parksLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
-            parksLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+            var parksLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp")
+            {
+                FeatureSource =
+                {
+                    ProjectionConverter = new ProjectionConverter(2276, 3857)
+                }
+            };
 
             // Add the layer to the overlay we created earlier.
             parksOverlay.Layers.Add("Frisco Parks", parksLayer);
@@ -51,7 +61,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector
             // Set the current extent of the map to a few parks in the area
             MapView.CurrentExtent = new RectangleShape(-10785086.173498387, 3913489.693302595, -10779919.030415015, 3910065.3144544438);
 
-            // Refresh the map.
             await MapView.RefreshAsync();
         }
 

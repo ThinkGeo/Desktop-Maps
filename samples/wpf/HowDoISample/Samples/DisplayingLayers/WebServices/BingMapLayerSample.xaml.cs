@@ -15,7 +15,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InitializeComponent();
         }
 
-        private void mapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             MapView.MapUnit = GeographyUnit.Meter;
@@ -36,13 +36,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapView.ZoomLevelSet = new BingMapsZoomLevelSet();
 
                 // Create the layer overlay with some additional settings and add to the map.
-                LayerOverlay layerOverlay = new LayerOverlay() { TileHeight = 256, TileWidth = 256 };
-                layerOverlay.TileSizeMode = TileSizeMode.Small;
+                var layerOverlay = new LayerOverlay
+                {
+                    TileHeight = 256,
+                    TileWidth = 256,
+                    TileSizeMode = TileSizeMode.Small
+                };
                 MapView.Overlays.Add("Bing Map", layerOverlay);
 
                 // Create the bing map layer and add it to the map.                
-                Core.Async.BingMapsLayer bingMapsLayer = new Core.Async.BingMapsLayer(txtApplicationID.Text, BingMapsMapType.Road);
-                bingMapsLayer.TileCache = new FileRasterTileCache("C:\\temp", "bingMapsRoad");
+                var bingMapsLayer = new Core.Async.BingMapsLayer(txtApplicationID.Text, BingMapsMapType.Road)
+                {
+                    TileCache = new FileRasterTileCache("C:\\temp", "bingMapsRoad")
+                };
                 layerOverlay.Layers.Add(bingMapsLayer);
 
                 // Refresh the map.

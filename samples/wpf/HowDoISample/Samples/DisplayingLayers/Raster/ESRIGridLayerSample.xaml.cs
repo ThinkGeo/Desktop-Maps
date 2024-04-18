@@ -23,24 +23,34 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Create background world map with vector tile requested from ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a new overlay that will hold our new layer and add it to the map.
-            LayerOverlay staticOverlay = new LayerOverlay();
+            var staticOverlay = new LayerOverlay();
             MapView.Overlays.Add(staticOverlay);
 
             // Create the new layer and set the projection as the data is in srid 2276 and our background is srid 3857 (spherical mercator).
-            GridFeatureLayer gridFeatureLayer = new GridFeatureLayer(@".\data\GridFile\Mosquitos.grd");
-            gridFeatureLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+            var gridFeatureLayer = new GridFeatureLayer(@".\data\GridFile\Mosquitos.grd")
+            {
+                FeatureSource =
+                {
+                    ProjectionConverter = new ProjectionConverter(2276, 3857)
+                }
+            };
 
             // Add the layer to the overlay we created earlier.
             staticOverlay.Layers.Add("GridFeatureLayer", gridFeatureLayer);
 
             // Create a class break style based on the cell values and set area styles based on the values
-            ClassBreakStyle gridClassBreakStyle = new ClassBreakStyle("CellValue");
+            var gridClassBreakStyle = new ClassBreakStyle("CellValue");
             gridClassBreakStyle.ClassBreaks.Add(new ClassBreak(double.MinValue, new AreaStyle(new GeoSolidBrush(GeoColor.FromArgb(100, 0, 255, 0)))));
             gridClassBreakStyle.ClassBreaks.Add(new ClassBreak(12, new AreaStyle(new GeoSolidBrush(GeoColor.FromArgb(100, 128, 255, 128)))));
             gridClassBreakStyle.ClassBreaks.Add(new ClassBreak(24, new AreaStyle(new GeoSolidBrush(GeoColor.FromArgb(100, 224, 251, 132)))));

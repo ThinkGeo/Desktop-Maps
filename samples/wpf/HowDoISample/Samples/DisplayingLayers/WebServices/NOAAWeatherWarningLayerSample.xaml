@@ -9,6 +9,6 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <thinkGeoUi:MapView x:Name="MapView" Loaded="MapView_Loaded" MapClick="mapView_MapClick"></thinkGeoUi:MapView>
-        <Image x:Name="loadingImage" Visibility="Visible" Height="64" Width="64" gif:ImageBehavior.AnimatedSource="..\..\..\Resources\loading.gif" />
+        <Image x:Name="LoadingImage" Visibility="Visible" Height="64" Width="64" gif:ImageBehavior.AnimatedSource="..\..\..\Resources\loading.gif" />
     </Grid>
 </UserControl>

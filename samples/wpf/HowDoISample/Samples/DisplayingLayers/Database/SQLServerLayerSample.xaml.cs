@@ -23,12 +23,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
                 ClientId = SampleKeys.ClientId,
                 ClientSecret = SampleKeys.ClientSecret,
                 MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
@@ -39,12 +39,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Create the new layer and set the projection as the data is in srid 2276 as our background is srid 3857 (spherical mercator).
             var coyoteSightingsLayer = new SqlServerFeatureLayer("Server=demodb.thinkgeo.com;Database=thinkgeo;User Id=ThinkGeoTest;Password=ThinkGeoTestPassword;", "frisco_coyote_sightings", "id")
-                {
-                    FeatureSource =
+            {
+                FeatureSource =
                     {
                         ProjectionConverter = new ProjectionConverter(2276, 3857)
                     }
-                };
+            };
 
             // Add the layer to the overlay we created earlier.
             coyoteSightingsOverlay.Layers.Add("Coyote Sightings", coyoteSightingsLayer);

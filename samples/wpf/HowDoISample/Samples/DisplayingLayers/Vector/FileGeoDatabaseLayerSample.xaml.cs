@@ -23,14 +23,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a new overlay that will hold our new layer and add it to the map.
@@ -39,13 +39,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Create the new layer and set the projection as the data is in srid 2276 and our background is srid 3857 (spherical mercator).
             var fileGeoDatabaseFeatureLayer = new FileGeoDatabaseFeatureLayer(@"./Data/FileGeoDatabase/zoning.gdb")
-                {
-                    FeatureSource =
+            {
+                FeatureSource =
                     {
                         ProjectionConverter = new ProjectionConverter(2276, 3857)
                     },
-                    ActiveLayer = "zoning"
-                };
+                ActiveLayer = "zoning"
+            };
 
             // Add the layer to the overlay we created earlier.
             fileGeoDatabaseOverlay.Layers.Add("Zoning", fileGeoDatabaseFeatureLayer);
@@ -58,7 +58,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             fileGeoDatabaseFeatureLayer.Open();
             MapView.CurrentExtent = fileGeoDatabaseFeatureLayer.GetBoundingBox();
 
-            //Refresh the map.
             await MapView.RefreshAsync();
         }
 
