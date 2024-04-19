@@ -8,9 +8,6 @@ If you're new to ThinkGeo's Desktop Maps, start with our Quick-Start Guides to s
 
 - `/samples`: A collection of "How Do I" samples, showcasing around 100 features in a user-friendly application.
 
-- `/docs`: Offline API documentation in Markdown format.
-
-
 ## Quick Start Guide
 The Quick Start Guide introduces ThinkGeo Desktop Maps by guiding you through setting up a visually appealing map using Windows WPF.
 
