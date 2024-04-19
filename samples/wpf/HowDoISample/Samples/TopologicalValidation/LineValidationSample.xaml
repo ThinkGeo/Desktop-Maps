@@ -14,19 +14,19 @@
                     <AccessText HorizontalAlignment="Center" FontSize="17" TextWrapping="Wrap" Text="Line Validation Tests"/>
                 </Label.Content>
             </Label>
-            <RadioButton Grid.Column="1" Grid.Row="1" x:Name="rdoCheckLineEndpointsMustTouchPoints" Checked="CheckLineEndpointsMustTouchPoints">Line Endpoints Must Touch Points</RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="2" x:Name="rdoCheckLinesMustOverlapPolygonBoundaries" Checked="CheckLinesMustOverlapPolygonBoundaries">Lines Must Overlap Polygon Boundaries</RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="3" x:Name="rdoCheckLinesMustOverlapLines" Checked="CheckLinesMustOverlapLines">Lines Must Overlap Lines</RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="4" x:Name="rdoCheckLinesMustBeSinglePart" Checked="CheckLinesMustBeSinglePart">Lines Must Be Single Part</RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="5" x:Name="rdoCheckLinesMustFormClosedPolygon" Checked="CheckLinesMustFormClosedPolygon">Lines Must Form Closed Polygons</RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="6" x:Name="rdoCheckLinesMustNotHavePseudonodes" Checked="CheckLinesMustNotHavePseudonodes">Lines Must Not Have Pseudonodes</RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="7" x:Name="rdoCheckLinesMustNotIntersect" Checked="CheckLinesMustNotIntersect">Lines Must Not Intersect</RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="8" x:Name="rdoCheckLinesMustNotSelfIntersectOrTouch" Checked="CheckLinesMustNotSelfIntersectOrTouch">Lines Must Not Self-Intersect Or Touch</RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="9" x:Name="rdoCheckLinesMustNotOverlap" Checked="CheckLinesMustNotOverlap">Lines Must Not Overlap</RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="10" x:Name="rdoCheckLinesMustNotOverlapLines" Checked="CheckLinesMustNotOverlapLines">Lines Must Not Overlap With Lines</RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="11" x:Name="rdoCheckLinesMustNotSelfIntersect" Checked="CheckLinesMustNotSelfIntersect">Lines Must Not Self-Intersect</RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="12" x:Name="rdoCheckLinesMustNotSelfOverlap" Checked="CheckLinesMustNotSelfOverlap">Lines Must Not Self-Overlap</RadioButton>
-            <TextBlock Grid.Column="1" Grid.Row="13" x:Name="txtValidationInfo"></TextBlock>
+            <RadioButton Grid.Column="1" Grid.Row="1" x:Name="RdoCheckLineEndpointsMustTouchPoints" Checked="CheckLineEndpointsMustTouchPoints">Line Endpoints Must Touch Points</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="2" x:Name="RdoCheckLinesMustOverlapPolygonBoundaries" Checked="CheckLinesMustOverlapPolygonBoundaries">Lines Must Overlap Polygon Boundaries</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="3" x:Name="RdoCheckLinesMustOverlapLines" Checked="CheckLinesMustOverlapLines">Lines Must Overlap Lines</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="4" x:Name="RdoCheckLinesMustBeSinglePart" Checked="CheckLinesMustBeSinglePart">Lines Must Be Single Part</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="5" x:Name="RdoCheckLinesMustFormClosedPolygon" Checked="CheckLinesMustFormClosedPolygon">Lines Must Form Closed Polygons</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="6" x:Name="RdoCheckLinesMustNotHavePseudonodes" Checked="CheckLinesMustNotHavePseudonodes">Lines Must Not Have Pseudonodes</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="7" x:Name="RdoCheckLinesMustNotIntersect" Checked="CheckLinesMustNotIntersect">Lines Must Not Intersect</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="8" x:Name="RdoCheckLinesMustNotSelfIntersectOrTouch" Checked="CheckLinesMustNotSelfIntersectOrTouch">Lines Must Not Self-Intersect Or Touch</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="9" x:Name="RdoCheckLinesMustNotOverlap" Checked="CheckLinesMustNotOverlap">Lines Must Not Overlap</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="10" x:Name="RdoCheckLinesMustNotOverlapLines" Checked="CheckLinesMustNotOverlapLines">Lines Must Not Overlap With Lines</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="11" x:Name="RdoCheckLinesMustNotSelfIntersect" Checked="CheckLinesMustNotSelfIntersect">Lines Must Not Self-Intersect</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="12" x:Name="RdoCheckLinesMustNotSelfOverlap" Checked="CheckLinesMustNotSelfOverlap">Lines Must Not Self-Overlap</RadioButton>
+            <TextBlock Grid.Column="1" Grid.Row="13" x:Name="TxtValidationInfo"></TextBlock>
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />
@@ -60,6 +60,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
+            <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
     </Grid>

@@ -14,11 +14,11 @@
                     <AccessText HorizontalAlignment="Center" FontSize="17" TextWrapping="Wrap" Text="Point Validation Tests"/>
                 </Label.Content>
             </Label>
-            <RadioButton Grid.Column="1" Grid.Row="1" x:Name="rdoCheckIfPointsAreTouchingLines" Checked="CheckIfPointsAreTouchingLines">Points Must Be Touching Lines</RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="2" x:Name="rdoCheckIfPointsAreTouchingLineEndpoints" Checked="CheckIfPointsAreTouchingLineEndpoints">Points Must Be Touching Line Endpoints</RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="3" x:Name="rdoCheckIfPointsAreTouchingPolygonBoundaries" Checked="CheckIfPointsAreTouchingPolygonBoundaries">Points Must Be Touching Polygon Boundaries</RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="4" x:Name="rdoCheckIfPointsAreWithinPolygons" Checked="CheckIfPointsAreWithinPolygons">Points Must Be Within Polygons</RadioButton>
-            <TextBlock Grid.Column="1" Grid.Row="5" x:Name="txtValidationInfo"></TextBlock>
+            <RadioButton Grid.Column="1" Grid.Row="1" x:Name="RdoCheckIfPointsAreTouchingLines" Checked="CheckIfPointsAreTouchingLines">Points Must Be Touching Lines</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="2" x:Name="RdoCheckIfPointsAreTouchingLineEndpoints" Checked="CheckIfPointsAreTouchingLineEndpoints">Points Must Be Touching Line Endpoints</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="3" x:Name="RdoCheckIfPointsAreTouchingPolygonBoundaries" Checked="CheckIfPointsAreTouchingPolygonBoundaries">Points Must Be Touching Polygon Boundaries</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="4" x:Name="RdoCheckIfPointsAreWithinPolygons" Checked="CheckIfPointsAreWithinPolygons">Points Must Be Within Polygons</RadioButton>
+            <TextBlock Grid.Column="1" Grid.Row="5" x:Name="TxtValidationInfo"></TextBlock>
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />
@@ -44,6 +44,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
+            <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
     </Grid>

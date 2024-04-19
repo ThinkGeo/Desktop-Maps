@@ -14,16 +14,16 @@
                     <AccessText HorizontalAlignment="Center" FontSize="17" TextWrapping="Wrap" Text="Polygon Validation Tests"/>
                 </Label.Content>
             </Label>
-            <RadioButton Grid.Column="1" Grid.Row="1" x:Name="rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries" Checked="CheckIfPolygonBoundariesOverlapPolygonBoundaries">Polygon Boundaries Must Overlap Polygon Boundaries</RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="2" x:Name="rdoCheckIfPolygonBoundariesOverlapLines" Checked="CheckIfPolygonBoundariesOverlapLines">Polygon Boundaries Must Overlap Lines</RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="3" x:Name="rdoCheckIfPolygonsOverlapPolygons" Checked="CheckIfPolygonsOverlapPolygons">Polygons Must Overlap Polygons</RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="4" x:Name="rdoCheckIfPolygonsAreWithinPolygons" Checked="CheckIfPolygonsAreWithinPolygons">Polygons Must Be Within Polygons</RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="5" x:Name="rdoCheckIfPolygonsContainPoints" Checked="CheckIfPolygonsContainPoints">Polygons Must Contain Points</RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="6" x:Name="rdoCheckIfPolygonsCoverEachOther" Checked="CheckIfPolygonsCoverEachOther">Polygons Must Overlap Each Other</RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="7" x:Name="rdoCheckIfPolygonsHaveGaps" Checked="CheckIfPolygonsHaveGaps">Union of Polygons Must Not Have Gaps</RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="8" x:Name="rdoCheckPolygonsMustNotOverlap" Checked="CheckPolygonsMustNotOverlap">Polygons Must Not Overlap</RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="9" x:Name="rdoCheckPolygonsMustNotOverlapPolygons" Checked="CheckPolygonsMustNotOverlapPolygons">Polygons Must Not Overlap Other Polygons</RadioButton>
-            <TextBlock Grid.Column="1" Grid.Row="10" x:Name="txtValidationInfo"></TextBlock>
+            <RadioButton Grid.Column="1" Grid.Row="1" x:Name="RdoCheckIfPolygonBoundariesOverlapPolygonBoundaries" Checked="CheckIfPolygonBoundariesOverlapPolygonBoundaries">Polygon Boundaries Must Overlap Polygon Boundaries</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="2" x:Name="RdoCheckIfPolygonBoundariesOverlapLines" Checked="CheckIfPolygonBoundariesOverlapLines">Polygon Boundaries Must Overlap Lines</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="3" x:Name="RdoCheckIfPolygonsOverlapPolygons" Checked="CheckIfPolygonsOverlapPolygons">Polygons Must Overlap Polygons</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="4" x:Name="RdoCheckIfPolygonsAreWithinPolygons" Checked="CheckIfPolygonsAreWithinPolygons">Polygons Must Be Within Polygons</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="5" x:Name="RdoCheckIfPolygonsContainPoints" Checked="CheckIfPolygonsContainPoints">Polygons Must Contain Points</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="6" x:Name="RdoCheckIfPolygonsCoverEachOther" Checked="CheckIfPolygonsCoverEachOther">Polygons Must Overlap Each Other</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="7" x:Name="RdoCheckIfPolygonsHaveGaps" Checked="CheckIfPolygonsHaveGaps">Union of Polygons Must Not Have Gaps</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="8" x:Name="RdoCheckPolygonsMustNotOverlap" Checked="CheckPolygonsMustNotOverlap">Polygons Must Not Overlap</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="9" x:Name="RdoCheckPolygonsMustNotOverlapPolygons" Checked="CheckPolygonsMustNotOverlapPolygons">Polygons Must Not Overlap Other Polygons</RadioButton>
+            <TextBlock Grid.Column="1" Grid.Row="10" x:Name="TxtValidationInfo"></TextBlock>
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />
@@ -54,6 +54,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
+            <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
     </Grid>
