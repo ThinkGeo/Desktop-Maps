@@ -54,24 +54,24 @@ Add the following code to the mapView_Loaded event, which is triggered when the 
 Set up a tile cache for the base overlay to improve performance. The cache retrieves tiles from the local disk instead of downloading them from the internet each time they are needed.
 
 ```csharp
-private void mapView_Loaded(object sender, RoutedEventArgs e)
+private async void mapView_Loaded(object sender, RoutedEventArgs e)
 {
-  // Set the Map's Unit to Meter.
-  mapView.MapUnit = GeographyUnit.Meter;
-  // Set the Current Extent to the Max Extent of ThinkGeo Map.
-  mapView.CurrentExtent = MaxExtents.ThinkGeoMaps;
-                
-  // Add a base map overlay.
-  var baseOverlay = new ThinkGeoCloudVectorMapsOverlay("itZGOI8oafZwmtxP-XGiMvfWJPPc-dX35DmESmLlQIU~", 
-      "bcaCzPpmOG6le2pUz5EAaEKYI-KSMny_WxEAe7gMNQgGeN9sqL12OA~~", ThinkGeoCloudVectorMapsMapType.Light);
-  // Set up the tile cache for the base overlay, passing in the location and an ID to distinguish the cache.     
-  baseOverlay.TileCache = new FileRasterTileCache(@".\cache", "basemap");
+// Set the Map's Unit to Meter.
+mapView.MapUnit = GeographyUnit.Meter;
+// Set the Current Extent to the Max Extent of ThinkGeo Map.
+mapView.CurrentExtent = MaxExtents.ThinkGeoMaps;
+                        
+// Add a base map overlay.
+var baseOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", 
+"xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+// Set up the tile cache for the base overlay, passing in the location and an ID to distinguish the cache.     
+baseOverlay.TileCache = new FileRasterTileCache(@".\cache", "basemap");
 
-  // Add the newly created overlay to mapView.
-  mapView.Overlays.Add(baseOverlay);
-                
-  // Refresh the Map
-  mapView.Refresh();
+// Add the newly created overlay to mapView.
+mapView.Overlays.Add(baseOverlay);
+                        
+// Refresh the Map
+await mapView.RefreshAsync();
 }
 ```
 
