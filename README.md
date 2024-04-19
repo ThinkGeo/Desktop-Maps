@@ -11,8 +11,8 @@ If you're new to ThinkGeo's Desktop Maps, start with our Quick-Start Guides to s
 ## Quick Start Guide
 The Quick Start Guide introduces ThinkGeo Desktop Maps by guiding you through setting up a visually appealing map using Windows WPF.
 
-- [Display a map in a WPF project using VS Code (.NET 7)](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/quick-start-guide/QuickStartGuide_WPF_VSCode?ref_type=heads)
-- [Display a map in a WPF project using Visual Studio (.NET 7)](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/quick-start-guide/QuickStartGuide_WPF_VS?ref_type=heads)
+- [Display a map in a WPF project using VS Code (.NET 8)](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/quick-start-guide/QuickStartGuide_WPF_VSCode?ref_type=heads)
+- [Display a map in a WPF project using Visual Studio (.NET 8)](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/quick-start-guide/QuickStartGuide_WPF_VS?ref_type=heads)
 
 ## HowDoI Samples
 

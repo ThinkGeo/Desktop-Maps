@@ -1,6 +1,6 @@
 This guide is based on using Visual Studio 2022. However, with some minor adjustments, you can create a map using other IDEs, such as JetBrains Rider. You can also [display a map in a WPF project using VS Code](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/quick-start-guide/QuickStartGuide_WPF_VSCode?ref_type=heads).
 
-The project created in this guide is developed in .NET 7, but you can also create a .NET Framework (4.6.2 and above)  project using practically the same steps.
+The project created in this guide is developed in .NET 8, but you can also create a .NET Framework (4.6.2 and above)  project using practically the same steps.
 
 # Desktop Maps Quick Start: Display a Simple Map using WPF
 
@@ -9,7 +9,7 @@ In this section, we'll show you how to create a visually appealing map with exte
 First, to begin working on the map, you'll need to create a .NET WPF project using Visual Studio 2022. Once that's done, we'll guide you through the process of adding the required packages and getting the map set up on the default form. Next, we'll show you how to add a background and a shapefile to the map, and also how to customize it with styles.
 
 ### Step 1: Create a WPF Project
-Create a C# WPF project with .NET 7.0. 
+Create a C# WPF project with .NET 8.0. 
 
 <img src="./assets/Create_WPF_Project_ScreenShot.gif"  width="840" height="580">
 
