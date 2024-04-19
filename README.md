@@ -23,7 +23,7 @@ The ThinkGeo HowDoI Samples feature over 100 straightforward examples that demon
 
 
 ## More Resources:
-- [ThinkGeo Desktop Edition Online Docs](https://docs.thinkgeo.com/products/desktop-maps/quickstart-vs/)
+- [ThinkGeo Desktop Edition Online Docs](https://docs.thinkgeo.com/products/desktop-maps/quickstart/)
     
 - [ThinkGeo Forum](https://community.thinkgeo.com/c/thinkgeo-ui-for-desktop)
         
