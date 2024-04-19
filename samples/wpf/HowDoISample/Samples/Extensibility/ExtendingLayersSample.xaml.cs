@@ -21,19 +21,28 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            LayerOverlay layerOverlay = new LayerOverlay();
-            layerOverlay.TileType = TileType.SingleTile;
+            var layerOverlay = new LayerOverlay
+            {
+                TileType = TileType.SingleTile
+            };
             MapView.Overlays.Add(layerOverlay);
 
-            RadiusLayer radiusLayer = new RadiusLayer();
-            radiusLayer.RingDistanceUnit = DistanceUnit.Mile;
-            radiusLayer.RingGeography = GeographyUnit.Meter;
-            radiusLayer.RingDistance = 5;
+            var radiusLayer = new RadiusLayer
+            {
+                RingDistanceUnit = DistanceUnit.Mile,
+                RingGeography = GeographyUnit.Meter,
+                RingDistance = 5
+            };
 
             layerOverlay.Layers.Add(radiusLayer);
             MapView.CurrentExtent = new RectangleShape(-10812042.5236828, 3942445.36497713, -10748599.7905585, 3887792.89005685);
@@ -56,27 +65,20 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     // from the style.
     public class RadiusLayer : Layer
     {
-        public RadiusLayer()
-        {
-            RingDistanceUnit = DistanceUnit.Mile;
-            RingGeography = GeographyUnit.Meter;
-            RingDistance = 1;
-            RingAreaStyle = new AreaStyle(new GeoPen(new GeoSolidBrush(GeoColor.FromArgb(50, GeoColors.Blue)), 4));
-        }
+        public double RingDistance { get; set; } = 1;
 
-        public double RingDistance { get; set; }
+        public DistanceUnit RingDistanceUnit { get; set; } = DistanceUnit.Mile;
 
-        public DistanceUnit RingDistanceUnit { get; set; }
+        public GeographyUnit RingGeography { get; set; } = GeographyUnit.Meter;
 
-        public GeographyUnit RingGeography { get; set; }
+        public AreaStyle RingAreaStyle { get; set; } = new AreaStyle(new GeoPen(new GeoSolidBrush(GeoColor.FromArgb(50, GeoColors.Blue)), 4));
 
-        public AreaStyle RingAreaStyle { get; set; }
         protected override void DrawCore(GeoCanvas canvas, Collection<SimpleCandidate> labelsInAllLayers)
         {
-            PointShape centerPoint = canvas.CurrentWorldExtent.GetCenterPoint();
+            var centerPoint = canvas.CurrentWorldExtent.GetCenterPoint();
 
-            double currentRingDistance = RingDistance;
-            MultipolygonShape circle = null;
+            var currentRingDistance = RingDistance;
+            MultipolygonShape circle;
 
             // Keep drawing rings until the only barley fit inside the current extent.
             do

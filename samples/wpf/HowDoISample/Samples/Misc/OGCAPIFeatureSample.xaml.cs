@@ -18,12 +18,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
+            {
                 ClientId = SampleKeys.ClientId,
                 ClientSecret = SampleKeys.ClientSecret,
                 MapType = ThinkGeoCloudVectorMapsMapType.Light,
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             var ignLayer = new OgcApiFeaturesLayer("https://api-features.ign.es", "namedplace")
@@ -36,7 +36,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
             ignLayer.ZoomLevelSet.ZoomLevel13.DefaultPointStyle = PointStyle.CreateSimplePointStyle(PointSymbolType.Circle, GeoColors.Black, 10);
             ignLayer.ZoomLevelSet.ZoomLevel13.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            var overlay = new ProgressiveFeaturesOverlay()
+            var overlay = new OgcApiFeaturesOverlay()
             {
                 FeatureLayer = ignLayer,
                 DrawingBulkCount = 100

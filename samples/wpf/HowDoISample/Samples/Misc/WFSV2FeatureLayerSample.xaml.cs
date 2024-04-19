@@ -34,7 +34,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
             helsinkiParcelsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
             helsinkiParcelsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(3067, 3857);
 
-            var overlay = new ProgressiveFeaturesOverlay()
+            var overlay = new WfsV2Overlay()
             {
                 FeatureLayer = helsinkiParcelsLayer,
                 DrawingBulkCount = 500

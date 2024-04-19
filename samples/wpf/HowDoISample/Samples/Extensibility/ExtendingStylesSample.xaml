@@ -9,7 +9,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <thinkGeoUi:MapView x:Name="MapView" Loaded="MapView_Loaded"></thinkGeoUi:MapView>
-        <uc2:InstructionPanel Width="200" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="8" Opacity="0.95">
+        <uc2:InstructionPanel Grid.Column="0" Width="200" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="8" Opacity="0.95">
             <StackPanel>
                 <TextBlock x:Name="InstructionLabel" Margin="0,0,0,5" TextWrapping="Wrap">This is a test.</TextBlock>
             </StackPanel>
@@ -19,16 +19,18 @@
             <Grid>
                 <!-- Select Custom Style -->
                 <TextBlock Text="Daylight Point Style:" Grid.Row="0" TextWrapping="Wrap" Grid.ColumnSpan="2"/>
-                <Button x:Name="TimeBasedPointStyle" Content="Apply Style" Click="TimeBasedPointStyle_Click" Grid.Row="2" Grid.ColumnSpan="2"/>
+                <Button x:Name="TimeBasedPointStyle" Content="Apply Style" Click="TimeBasedPointStyle_Click" Grid.Row="2" Grid.ColumnSpan="2"
+                        Grid.Column="0" />
 
-                <Separator Grid.Row="3"></Separator>
+                <Separator Grid.Row="3" Grid.Column="0"></Separator>
 
                 <!-- Layer BBox Controls -->
-                <TextBlock Text="Capitol Population Point Style:" Grid.Row="4" Grid.ColumnSpan="2"/>
+                <TextBlock Text="Capitol Population Point Style:" Grid.Row="4" Grid.ColumnSpan="2" Grid.Column="0" />
 
-                <Button x:Name="SizedBasedPointStyle" Content="Apply Style" Click="SizedBasedPointStyle_Click" Grid.Row="5" Grid.ColumnSpan="2"/>
+                <Button x:Name="SizedBasedPointStyle" Content="Apply Style" Click="SizedBasedPointStyle_Click" Grid.Row="5" Grid.ColumnSpan="2"
+                        Grid.Column="0" />
 
-                <Separator Grid.Row="6"></Separator>
+                <Separator Grid.Row="6" Grid.Column="0"></Separator>
 
                 <!-- Controls Grid Layout -->
                 <Grid.ColumnDefinitions>
