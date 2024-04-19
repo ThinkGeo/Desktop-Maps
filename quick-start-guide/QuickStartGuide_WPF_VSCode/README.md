@@ -1,4 +1,4 @@
-In this article, we will demonstrate how to create an aesthetically pleasing map in a desktop project using VS Code. The project is designed for Windows and uses .Net 7. However, you can also create a similar .Net Framework/.Net Core project using Visual Studio. 
+In this article, we will demonstrate how to create an aesthetically pleasing map in a desktop project using VS Code. The project is designed for Windows and uses .Net 8. However, you can also create a similar .Net Framework/.Net Core project using Visual Studio. 
 
 # Desktop Maps Quick Start: Display a Simple Map using VS Code
 
@@ -6,7 +6,7 @@ To begin working on the map, you will need to create a project in VS Code. After
 
 ### Step 1: Setup VS Code
 
-First, install [.NET 7.0 SDK x64](https://dotnet.microsoft.com/en-us/download)
+First, install [.NET 8.0 SDK x64](https://dotnet.microsoft.com/en-us/download)
 
 Second, ensure that the "C#" and "NuGet Package Manager" extensions are installed in VS Code. To do this, click on the Extensions button on the left-hand side of VS Code, search for the two extensions by name, and install them. Once the installation is complete, you will find them under the INSTALLED group.
 
