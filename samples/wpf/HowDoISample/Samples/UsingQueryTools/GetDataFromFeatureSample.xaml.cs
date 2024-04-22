@@ -23,9 +23,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the Map Unit to meters (used in Spherical Mercator)
@@ -88,15 +93,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
             // Add all attribute pairs to the info string
             foreach (var column in feature.ColumnValues)
             {
-                parkInfoString.AppendLine(String.Format("{0}: {1}", column.Key, column.Value));
+                parkInfoString.AppendLine($"{column.Key}: {column.Value}");
             }
 
             // Create a new popup with the park info string
             var popupOverlay = (PopupOverlay)MapView.Overlays["Info Popup Overlay"];
-            var popup = new Popup(feature.GetShape().GetCenterPoint());
-            popup.Content = parkInfoString.ToString();
-            popup.FontSize = 10d;
-            popup.FontFamily = new System.Windows.Media.FontFamily("Verdana");
+            var popup = new Popup(feature.GetShape().GetCenterPoint())
+            {
+                Content = parkInfoString.ToString(),
+                FontSize = 10d,
+                FontFamily = new System.Windows.Media.FontFamily("Verdana")
+            };
 
             // Clear the popup overlay and add the new popup to it
             popupOverlay.Popups.Clear();

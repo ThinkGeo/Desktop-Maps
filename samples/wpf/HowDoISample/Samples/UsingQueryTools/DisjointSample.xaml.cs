@@ -25,9 +25,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a feature layer to hold the Frisco zoning data
@@ -54,8 +59,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
             highlightLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(90, GeoColors.MidnightBlue), GeoColors.MidnightBlue);
             highlightLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            // Add each feature layer to it's own overlay
-            // We do this so we can control and refresh/redraw each layer individually
+            // Add each feature layer to its own overlay
+            // We do this, so we can control and refresh/redraw each layer individually
             var friscoOverlay = new LayerOverlay();
             friscoOverlay.Layers.Add("FriscoLayer", friscoLayer);
             MapView.Overlays.Add("FriscoOverlay", friscoOverlay);
@@ -81,7 +86,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
         /// <summary>
         /// Perform the spatial query and draw the shapes on the map
         /// </summary>
-        private async Task GetFeaturesDisjointAsync(PolygonShape polygon)
+        private async Task GetFeaturesDisjointAsync(BaseShape polygon)
         {
             // Find the layers we will be modifying in the MapView
             var highlightOverlay = (LayerOverlay)MapView.Overlays["HighlightOverlay"];
@@ -110,7 +115,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
             await highlightOverlay.RefreshAsync();
 
             // Update the number of matching features found in the UI
-            txtNumberOfFeaturesFound.Text = string.Format("Number of features disjoint from the drawn shape: {0}", queriedFeatures.Count());
+            TxtNumberOfFeaturesFound.Text =
+                $"Number of features disjoint from the drawn shape: {queriedFeatures.Count()}";
 
             // Disable map drawing and clear the drawn shape
             MapView.TrackOverlay.TrackMode = TrackMode.None;
@@ -131,7 +137,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
         /// </summary>
         private void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
         {
-            if (!(MapView.TrackOverlay.TrackMode == TrackMode.Polygon))
+            if (MapView.TrackOverlay.TrackMode != TrackMode.Polygon)
             {
                 // Set the drawing mode to 'Polygon'
                 MapView.TrackOverlay.TrackMode = TrackMode.Polygon;

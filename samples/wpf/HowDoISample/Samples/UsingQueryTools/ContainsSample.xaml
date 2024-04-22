@@ -15,7 +15,7 @@
                 </Label.Content>
             </Label>
             <TextBlock Grid.Column="1" Grid.Row="1" FontWeight="Bold">Click On The Map To Draw A New Point</TextBlock>
-            <TextBlock Grid.Column="1" Grid.Row="2" x:Name="txtNumberOfFeaturesFound"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="2" x:Name="TxtNumberOfFeaturesFound"></TextBlock>
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />

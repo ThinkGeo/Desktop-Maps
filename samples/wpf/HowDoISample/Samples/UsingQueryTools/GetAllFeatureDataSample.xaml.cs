@@ -22,9 +22,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the Map Unit to meters (used in Spherical Mercator)
@@ -51,7 +56,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
             hotelsOverlay.Layers.Add("Highlighted Hotel", highlightedHotelLayer);
             MapView.Overlays.Add(hotelsOverlay);
 
-            // Open the hotels layer so we can read the data from it
+            // Open the hotels layer, so we can read the data from it
             hotelsLayer.Open();
 
             // Get all features from the hotels layer
@@ -59,48 +64,46 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
             var features = hotelsLayer.QueryTools.GetAllFeatures(ReturningColumnsType.AllColumns);
 
             // Create a collection of Hotel objects to use as the data source for our list box
-            Collection<Hotel> hotels = new Collection<Hotel>();
+            var hotels = new Collection<Hotel>();
 
             // Create a hotel object based on the data from each hotel feature, and add them to the collection
-            foreach (Feature feature in features)
+            foreach (var feature in features)
             {
-                string name = feature.ColumnValues["NAME"];
-                string address = feature.ColumnValues["ADDRESS"];
-                int rooms = int.Parse(feature.ColumnValues["ROOMS"]);
-                PointShape location = (PointShape)feature.GetShape();
+                var name = feature.ColumnValues["NAME"];
+                var address = feature.ColumnValues["ADDRESS"];
+                var rooms = int.Parse(feature.ColumnValues["ROOMS"]);
+                var location = (PointShape)feature.GetShape();
 
                 hotels.Add(new Hotel(name, address, rooms, location));
             }
 
             // Set the hotel collection as the data source of the list box
-            lsbHotels.ItemsSource = hotels;
+            LsbHotels.ItemsSource = hotels;
 
             // Set the map extent to the extent of the hotel features
             MapView.CurrentExtent = hotelsLayer.GetBoundingBox();
             hotelsLayer.Close();
 
-            // Refresh and redraw the map
             await MapView.RefreshAsync();
         }
 
         /// <summary>
         /// When a hotel is selected in the UI, center the map on it
         /// </summary>
-        private async void lsbHotels_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void LsbHotels_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var highlightedHotelLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Highlighted Hotel");
             highlightedHotelLayer.Open();
             highlightedHotelLayer.InternalFeatures.Clear();
 
             // Get the selected location
-            Hotel hotel = lsbHotels.SelectedItem as Hotel;
-            if (hotel != null)
+            if (LsbHotels.SelectedItem is Hotel hotel)
             {
                 highlightedHotelLayer.InternalFeatures.Add(new Feature(hotel.Location));
 
                 // Center the map on the chosen location
                 MapView.CurrentExtent = hotel.Location.GetBoundingBox();
-                ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
+                var standardZoomLevelSet = new ZoomLevelSet();
                 await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
                 await MapView.RefreshAsync();
             }

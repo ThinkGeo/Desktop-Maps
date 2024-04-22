@@ -16,7 +16,7 @@
             </Label>
             <TextBlock Grid.Column="1" Grid.Row="1" FontWeight="Bold">Click On The Map To Start Drawing a New Line</TextBlock>
             <TextBlock Grid.Column="1" Grid.Row="2" FontWeight="Bold">Double-Click On The Map To Finish Drawing</TextBlock>
-            <TextBlock Grid.Column="1" Grid.Row="3" x:Name="txtNumberOfFeaturesFound"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="3" x:Name="TxtNumberOfFeaturesFound"></TextBlock>
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />

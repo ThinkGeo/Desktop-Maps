@@ -17,8 +17,8 @@
             <Label Grid.Column="1" Grid.Row="1" FontWeight="Bold">Click On The Map To Draw A New Point</Label>
             <Label Grid.Column="1" Grid.Row="2" Content="Search Radius: (m)"/>
             <Grid Grid.Column="1" Grid.Row="3">
-                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding ElementName=searchRadius, Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="40" DockPanel.Dock="Right"></TextBox>
-                <Slider Grid.Column="0" Grid.Row="0" x:Name="searchRadius" Maximum="1600" Minimum="100" Value="400" AutoToolTipPlacement="TopLeft" TickFrequency="50" IsSnapToTickEnabled="True"></Slider>
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding ElementName=SearchRadius, Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="40" DockPanel.Dock="Right"></TextBox>
+                <Slider Grid.Column="0" Grid.Row="0" x:Name="SearchRadius" Maximum="1600" Minimum="100" Value="400" AutoToolTipPlacement="TopLeft" TickFrequency="50" IsSnapToTickEnabled="True"></Slider>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
@@ -28,7 +28,7 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
             </Grid>
-            <TextBlock Grid.Column="1" Grid.Row="5" x:Name="txtNumberOfFeaturesFound" TextWrapping="Wrap" Foreground="WhiteSmoke"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="5" x:Name="TxtNumberOfFeaturesFound" TextWrapping="Wrap" Foreground="WhiteSmoke"></TextBlock>
             
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />
@@ -42,6 +42,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition />
             </Grid.RowDefinitions>
         </Grid>
 
@@ -53,6 +54,10 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
     </Grid>
     <UserControl.Resources>

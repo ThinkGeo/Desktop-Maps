@@ -14,7 +14,7 @@
                     <AccessText HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" TextWrapping="Wrap" Text="Perform an 'Equals' Query"/>
                 </Label.Content>
             </Label>
-            <TextBlock Grid.Column="1" Grid.Row="3" x:Name="txtNumberOfFeaturesFound"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="3" x:Name="TxtNumberOfFeaturesFound"></TextBlock>
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />

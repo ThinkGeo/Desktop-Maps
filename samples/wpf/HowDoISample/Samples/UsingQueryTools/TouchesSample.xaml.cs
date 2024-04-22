@@ -24,9 +24,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the Map Unit to meters (used in Spherical Mercator)
@@ -49,9 +54,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
             // This is because the topological equality query often does not work when used on a feature layer with a ProjectionConverter, due to rounding issues between projections
             zoningDataFeatureSource.Open();
             projectionConverter.Open();
-            foreach (Feature zoningFeature in zoningDataFeatureSource.GetAllFeatures(ReturningColumnsType.AllColumns))
+            foreach (var zoningFeature in zoningDataFeatureSource.GetAllFeatures(ReturningColumnsType.AllColumns))
             {
-                Feature reprojectedFeature = projectionConverter.ConvertToInternalProjection(zoningFeature);
+                var reprojectedFeature = projectionConverter.ConvertToInternalProjection(zoningFeature);
                 zoningLayer.InternalFeatures.Add(reprojectedFeature);
             }
             zoningDataFeatureSource.Close();
@@ -71,7 +76,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
             highlightedFeaturesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Add each feature layer to its own overlay
-            // We do this so we can control and refresh/redraw each layer individually
+            // We do this, so we can control and refresh/redraw each layer individually
             var zoningOverlay = new LayerOverlay();
             zoningOverlay.Layers.Add("Frisco Zoning", zoningLayer);
             MapView.Overlays.Add("Frisco Zoning Overlay", zoningOverlay);
@@ -106,7 +111,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
         /// <summary>
         /// Perform the 'Touches' spatial query using the layer's QueryTools
         /// </summary>
-        private Collection<Feature> PerformSpatialQuery(BaseShape shape, FeatureLayer layer)
+        private static IEnumerable<Feature> PerformSpatialQuery(BaseShape shape, FeatureLayer layer)
         {
             // Perform the spatial query on features in the specified layer
             layer.Open();
@@ -122,15 +127,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
         private async Task HighlightQueriedFeaturesAsync(IEnumerable<Feature> features)
         {
             // Find the layers we will be modifying in the MapView dictionary
-            LayerOverlay highlightedFeaturesOverlay = (LayerOverlay)MapView.Overlays["Highlighted Features Overlay"];
-            InMemoryFeatureLayer highlightedFeaturesLayer = (InMemoryFeatureLayer)highlightedFeaturesOverlay.Layers["Highlighted Features"];
+            var highlightedFeaturesOverlay = (LayerOverlay)MapView.Overlays["Highlighted Features Overlay"];
+            var highlightedFeaturesLayer = (InMemoryFeatureLayer)highlightedFeaturesOverlay.Layers["Highlighted Features"];
 
             // Clear the currently highlighted features
             highlightedFeaturesLayer.Open();
             highlightedFeaturesLayer.InternalFeatures.Clear();
 
             // Add new features to the layer
-            foreach (var feature in features)
+            var enumerable = features as Feature[] ?? features.ToArray();
+            foreach (var feature in enumerable)
             {
                 highlightedFeaturesLayer.InternalFeatures.Add(feature);
             }
@@ -140,7 +146,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
             await highlightedFeaturesOverlay.RefreshAsync();
 
             // Update the number of matching features found in the UI
-            txtNumberOfFeaturesFound.Text = string.Format("Number of features touching the drawn shape: {0}", features.Count());
+            TxtNumberOfFeaturesFound.Text = $"Number of features touching the drawn shape: {enumerable.Count()}";
         }
 
         /// <summary>
@@ -149,9 +155,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
         private async Task GetFeaturesTouchingAsync(BaseShape shape)
         {
             // Find the layers we will be modifying in the MapView
-            LayerOverlay queryFeaturesOverlay = (LayerOverlay)MapView.Overlays["Query Features Overlay"];
-            InMemoryFeatureLayer queryFeatureLayer = (InMemoryFeatureLayer)queryFeaturesOverlay.Layers["Query Feature"];
-            InMemoryFeatureLayer zoningLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Frisco Zoning");
+            var queryFeaturesOverlay = (LayerOverlay)MapView.Overlays["Query Features Overlay"];
+            var queryFeatureLayer = (InMemoryFeatureLayer)queryFeaturesOverlay.Layers["Query Feature"];
+            var zoningLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Frisco Zoning");
 
             // Clear the query shape layer and add the newly drawn shape
             queryFeatureLayer.InternalFeatures.Clear();
