@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
 
-namespace ThinkGeo.UI.Wpf.HowDoI.Misc
+namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to display a WMS Layer on the map
@@ -35,7 +35,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
 
         private async void DrawingExceptionMode_Checked(object sender, RoutedEventArgs e)
         {
-            RadioButton button = (RadioButton)sender;
+            var button = (RadioButton)sender;
             if (button.Content != null)
             {
                 txtException.Text = "";
@@ -62,8 +62,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
             MapView.Overlays.Clear();
 
             // Create an overlay that we will add the layer to.
-            LayerOverlay staticOverlay = new LayerOverlay();
-            staticOverlay.DrawingExceptionMode = drawingExceptionMode;
+            var staticOverlay = new LayerOverlay
+            {
+                DrawingExceptionMode = drawingExceptionMode
+            };
             if (drawingExceptionMode == DrawingExceptionMode.ThrowException)
             {
                 staticOverlay.ThrowingException += (sender, e) =>
@@ -76,8 +78,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
 
             // Create the WMS layer using the parameters below.
             // This is a public service and is very slow most of the time.
-            CustomWmsLayer wmsImageLayer = new CustomWmsLayer(new Uri("http://not_exist.com/services/service"), drawCustomException);
-            wmsImageLayer.DrawingExceptionMode = drawingExceptionMode;
+            var wmsImageLayer = new CustomWmsLayer(new Uri("http://not_exist.com/services/service"), drawCustomException)
+                {
+                    DrawingExceptionMode = drawingExceptionMode
+                };
 
             // Add the layer to the overlay.
             staticOverlay.Layers.Add("wmsImageLayer", wmsImageLayer);
@@ -94,16 +98,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
 
     public class CustomWmsLayer : Core.Async.WmsLayer
     {
-        private readonly bool drawCustomException;
+        private readonly bool _drawCustomException;
         public CustomWmsLayer(Uri uri, bool drawCustomException)
             : base(uri)
         {
-            this.drawCustomException = drawCustomException;
+            this._drawCustomException = drawCustomException;
         }
 
         protected override void DrawExceptionCore(GeoCanvas canvas, Exception e)
         {
-            if (!drawCustomException)
+            if (!_drawCustomException)
             {
                 base.DrawExceptionCore(canvas, e);
             }

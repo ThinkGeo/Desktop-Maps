@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using ThinkGeo.Core;
 
-namespace ThinkGeo.UI.Wpf.HowDoI.Misc
+namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// This sample shows learn how to work with different shapes across the Date Line.
@@ -68,8 +68,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
                 maxX * MaxExtents.ThinkGeoMaps.Width + MaxExtents.ThinkGeoMaps.MinX,
                 minY * MaxExtents.ThinkGeoMaps.Height + MaxExtents.ThinkGeoMaps.MinY);
 
-            var feature = new Feature(shape);
-            feature.ColumnValues["Text"] = content;
+            var feature = new Feature(shape)
+            {
+                ColumnValues =
+                {
+                    ["Text"] = content
+                }
+            };
             return feature;
         }
     }

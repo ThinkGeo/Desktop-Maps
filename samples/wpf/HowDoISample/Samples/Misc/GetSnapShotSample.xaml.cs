@@ -3,7 +3,7 @@ using System.IO;
 using System.Windows;
 using ThinkGeo.Core;
 
-namespace ThinkGeo.UI.Wpf.HowDoI.Misc
+namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// This sample shows how to refresh points on the map based on some outside event.

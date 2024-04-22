@@ -755,37 +755,37 @@
     "title": "Misc.",
     "children": [
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.Misc.OverlayExceptionSample",
+        "id": "ThinkGeo.UI.Wpf.HowDoI.OverlayExceptionSample",
         "title": "Overlay Exception",
         "description": "Learn how to throw an overlay exception, or draw the exception on the map.",
         "source": "Samples/Misc/OverlayExceptionSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.Misc.GetSnapShotSample",
+        "id": "ThinkGeo.UI.Wpf.HowDoI.GetSnapShotSample",
         "title": "Get SnapShot",
         "description": "Learn how to get the snapshot of the current map",
         "source": "Samples/Misc/GetSnapShoteSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.Misc.MapResizingSample",
+        "id": "ThinkGeo.UI.Wpf.HowDoI.MapResizingSample",
         "title": "Resize Map",
         "description": "Learn how to resize the map while keeping the width of the world extent the same",
         "source": "Samples/Misc/MapResizingSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.Misc.ShapesAcrossDateLine",
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ShapesAcrossDateLine",
         "title": "WrapDateLine mode",
         "description": "Say the world width is 0 ~ 1, here shows what the shapes with different length look like in the multi-world map",
         "source": "Samples/Misc/ShapesAcrossDateLine"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.Misc.OGCAPIFeatureSample",
+        "id": "ThinkGeo.UI.Wpf.HowDoI.OGCAPIFeatureSample",
         "title": "Display a OGC API Feature Layer",
         "description": "This sample shows how to display a OGC API Feature layer.",
         "source": "Samples/Misc/OGCAPIFeatureSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.Misc.WFSV2FeatureLayerSample",
+        "id": "ThinkGeo.UI.Wpf.HowDoI.WFSV2FeatureLayerSample",
         "title": "Display a WFS V2 Feature Layer",
         "description": "This sample shows how to display a WFS V2 Feature Layer.",
         "source": "Samples/Misc/WFSV2FeatureLayerSample"
