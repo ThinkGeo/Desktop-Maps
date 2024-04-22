@@ -21,9 +21,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.ProjectingData
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the Map Unit to meters (Spherical Mercator)
@@ -49,7 +54,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.ProjectingData
             var projectionConverter = new ProjectionConverter(2276, 3857);
             subdivisionsLayer.FeatureSource.ProjectionConverter = projectionConverter;
 
-            // Add a style to use to draw the Frisco subdivions polygons
+            // Add a style for drawing Frisco subdivisions polygons
             subdivisionsLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(50, GeoColors.MediumPurple), GeoColors.MediumPurple, 2);
 
             // Apply the styles across all zoom levels
@@ -64,6 +69,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.ProjectingData
             subdivisionsLayer.Open();
             MapView.CurrentExtent = subdivisionsLayer.GetBoundingBox();
             subdivisionsLayer.Close();
+
             await MapView.RefreshAsync();
         }
 
