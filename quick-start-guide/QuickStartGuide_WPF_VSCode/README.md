@@ -30,7 +30,7 @@ First, select **View → Command Palette** and choose **NuGet Package Manager: A
 
 Next, select the latest version of the package (in my case, it's version 13.1.0-beta012, you can also install a release version(no beta)). Click on the version to add it to the project. You will then be prompted to restore any unresolved dependencies. Click Restore to download the necessary NuGet packages, and you're all set!
 
-<img src="./assets/Add_Nuget_Packages_ScreenShot.gif"  width="840" height="580">
+<img src="./assets/Add_Nuget_Packages_ScreenShot.gif"  width="840" height="530">
 
 ### Step 4: Add the ThinkGeo Background
 
