@@ -11,7 +11,7 @@ First, to begin working on the map, you'll need to create a .NET WPF project usi
 ### Step 1: Create a WPF Project
 Create a C# WPF project with .NET 8.0. 
 
-<img src="./assets/Create_WPF_Project_ScreenShot.gif"  width="840" height="580">
+<img src="./assets/Create_WPF_Project_ScreenShot.gif"  width="840" height="550">
 
 ### Step 2: Add Nuget Packages: 
 
@@ -19,7 +19,7 @@ Install **ThinkGeo.UI.Wpf** NuGet package through NuGet package manager.
 
 You can switch between the Beta Branch and Release Branch by checking/unchecking the "Include prerelease" checkbox. The Beta Branch contains the latest features/bug fixes, while the Release Branch is more stable and better tested.
 
-<img src="./assets/Add_Nuget_Packages_ScreenShot.gif"  width="840" height="580">
+<img src="./assets/Add_Nuget_Packages_ScreenShot.gif"  width="840" height="550">
 
 ### Step 3: Add the Map Control to `MainWindow.xaml`
 
@@ -49,20 +49,20 @@ Add the following code to the mapView_Loaded event, which is triggered when the 
 We have set up a tile cache for the base overlay to improve performance. The cache retrieves tiles from the local disk instead of downloading them from the internet each time they are needed.
 
 ```csharp
-private void mapView_Loaded(object sender, RoutedEventArgs e)
-{            
-    mapView.MapUnit = GeographyUnit.Meter;
-    // Add a base map overlay.
-    var baseOverlay = new ThinkGeoCloudVectorMapsOverlay("USlbIyO5uIMja2y0qoM21RRM6NBXUad4hjK3NBD6pD0~", 
-        "f6OJsvCDDzmccnevX55nL7nXpPDXXKANe5cN6czVjCH0s8jhpCH-2A~~", ThinkGeoCloudVectorMapsMapType.Light);
-    // Set up the tile cache for the base overlay, passing in the location and an ID to distinguish the cache. 
-    baseOverlay.TileCache = new FileRasterTileCache(@".\cache", "basemap");
-    mapView.Overlays.Add(baseOverlay);
+private async void mapView_Loaded(object sender, RoutedEventArgs e)
+{
+mapView.MapUnit = GeographyUnit.Meter;
+// Add a base map overlay.
+var baseOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~",
+"xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+// Set up the tile cache for the base overlay, passing in the location and an ID to distinguish the cache. 
+baseOverlay.TileCache = new FileRasterTileCache(@".\cache", "basemap");
+mapView.Overlays.Add(baseOverlay);
 
-    // Set the extent of the mapView
-    mapView.CurrentExtent = MaxExtents.ThinkGeoMaps;
+// Set the extent of the mapView
+mapView.CurrentExtent = new RectangleShape(-14910723.898808584, 6701313.058217316, -7200979.520684462, 2773061.32240915);
 
-    mapView.Refresh(); 
+await mapView.RefreshAsync();
 }
 ```
 ### Step 5: Run the Sample & Register for Your Free Evaluation
