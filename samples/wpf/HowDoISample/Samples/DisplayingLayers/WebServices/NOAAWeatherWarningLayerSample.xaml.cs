@@ -74,7 +74,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             await MapView.RefreshAsync();
         }
 
-        private async void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        private async void MapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
             // Get the parks layer from the MapView
             var weatherWarnings = MapView.FindFeatureLayer("Noaa Weather Warning");

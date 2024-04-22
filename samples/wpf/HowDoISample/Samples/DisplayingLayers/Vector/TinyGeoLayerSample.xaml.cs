@@ -50,7 +50,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             tinyGeoOverlay.Layers.Add("Zoning", tinyGeoLayer);
 
             // Create an Area style on zoom level 1 and then apply it to all zoom levels up to 20.
-            tinyGeoLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = new AreaStyle(GeoPens.Black, new GeoSolidBrush(new GeoColor(50, GeoColors.Blue)));
+            tinyGeoLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = new AreaStyle(GeoPens.Black, new GeoSolidBrush(new GeoColor(75, GeoColors.MediumPurple)));
             tinyGeoLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Open the layer and set the map view current extent to the bounding box of the layer.  

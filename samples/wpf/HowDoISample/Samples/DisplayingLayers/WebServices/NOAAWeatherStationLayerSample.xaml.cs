@@ -23,13 +23,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Create background world map with vector tile requested from ThinkGeo Cloud Service. 
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
-// Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the extent to a view of the US

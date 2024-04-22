@@ -34,8 +34,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a new overlay that will hold our new layer and add it to the map.
-            var restuarantsOverlay = new LayerOverlay();
-            MapView.Overlays.Add(restuarantsOverlay);
+            var restaurantsOverlay = new LayerOverlay();
+            MapView.Overlays.Add(restaurantsOverlay);
 
             // Create the new layer and set the projection as the data is in srid 2276 as our background is srid 3857 (spherical mercator).
             var restaurantsLayer = new SqliteFeatureLayer(@"Data Source=./Data/SQLite/frisco-restaurants.sqlite;", "restaurants", "id", "geometry")
@@ -47,7 +47,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
 
             // Add the layer to the overlay we created earlier.
-            restuarantsOverlay.Layers.Add("Frisco Restaurants", restaurantsLayer);
+            restaurantsOverlay.Layers.Add("Frisco Restaurants", restaurantsLayer);
 
             // Create a new text style and set various settings to make it look good.
             var textStyle = new TextStyle("Name", new GeoFont("Arial", 12), GeoBrushes.Black)
