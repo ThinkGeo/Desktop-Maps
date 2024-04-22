@@ -26,10 +26,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.ZoomLevelSet = new ThinkGeoCloudMapsZoomLevelSet();
 
             // Create the layer overlay with some additional settings and add to the map.
-            var cloudOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~");
-            cloudOverlay.MapType = ThinkGeoCloudVectorMapsMapType.Light;
-            // Set up the tile cache for the cloudOverlay, passing in the location and an ID to distinguish the cache. 
-            cloudOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            var cloudOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the cloudOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
             MapView.Overlays.Add("Cloud Overlay", cloudOverlay);
 
             var magneticDeclinationAdornmentLayer = new MagneticDeclinationAdornmentLayer(AdornmentLocation.LowerLeft);
@@ -58,7 +62,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             GC.SuppressFinalize(this);
         }
 
-        private async void mapView_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        private async void MapView_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
             await MapView.AdornmentOverlay.RefreshAsync();
         }

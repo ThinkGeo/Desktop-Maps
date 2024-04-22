@@ -12,9 +12,9 @@
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1" Grid.Row="0" Content="Mouse Coordinates Controls:" FontSize="16" FontWeight="Bold"/>
             
-            <CheckBox Grid.Column="1" Grid.Row="1" x:Name="displayMouseCoordinates" Content="Display Mouse Coordinates" IsChecked="True" Checked="DisplayMouseCoordinates_Checked" Unchecked="DisplayMouseCoordinates_Unchecked"></CheckBox>
+            <CheckBox Grid.Column="1" Grid.Row="1" x:Name="DisplayMouseCoordinates" Content="Display Mouse Coordinates" IsChecked="True" Checked="DisplayMouseCoordinates_Checked" Unchecked="DisplayMouseCoordinates_Unchecked"></CheckBox>
             
-            <ComboBox Grid.Column="1" Grid.Row="2" x:Name="coordinateType" SelectionChanged="CoordinateType_SelectionChanged">
+            <ComboBox Grid.Column="1" Grid.Row="2" x:Name="CoordinateType" SelectionChanged="CoordinateType_SelectionChanged">
                 <ComboBoxItem Content="(lat), (lon)" IsSelected="True"></ComboBoxItem>
                 <ComboBoxItem Content="(lon), (lat)"></ComboBoxItem>
                 <ComboBoxItem Content="(degrees), (minutes), (seconds)"></ComboBoxItem>

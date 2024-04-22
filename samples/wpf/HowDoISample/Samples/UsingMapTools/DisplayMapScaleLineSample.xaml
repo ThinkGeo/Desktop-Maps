@@ -12,7 +12,7 @@
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1" Grid.Row="0" Content="ScaleBar Controls:" FontSize="16" FontWeight="Bold"/>
 
-            <CheckBox Grid.Column="1" Grid.Row="1" x:Name="displayScaleLine" Content="Display ScaleBar" IsChecked="True" Checked="DisplayScaleLine_Checked" Unchecked="DisplayScaleLine_Unchecked"></CheckBox>
+            <CheckBox Grid.Column="1" Grid.Row="1" x:Name="DisplayScaleLine" Content="Display ScaleBar" IsChecked="True" Checked="DisplayScaleLine_Checked" Unchecked="DisplayScaleLine_Unchecked"></CheckBox>
 
             <!-- Controls Grid Layout -->
             <Grid.ColumnDefinitions>

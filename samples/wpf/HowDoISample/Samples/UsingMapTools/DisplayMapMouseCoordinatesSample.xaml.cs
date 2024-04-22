@@ -25,9 +25,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
@@ -57,7 +62,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void CoordinateType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            switch (((ComboBoxItem)coordinateType.SelectedItem).Content)
+            switch (((ComboBoxItem)CoordinateType.SelectedItem).Content)
             {
                 case "(lat), (lon)":
                     // Set to Lat, Lon format
@@ -75,7 +80,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     // Set to a custom format
                     MapView.MapTools.MouseCoordinate.MouseCoordinateType = MouseCoordinateType.Custom;
                     // Add an EventHandler to handle what the formatted output should look like
-                    MapView.MapTools.MouseCoordinate.CustomFormatted += new System.EventHandler<CustomFormattedMouseCoordinateMapToolEventArgs>(MouseCoordinate_CustomMouseCoordinateFormat);
+                    MapView.MapTools.MouseCoordinate.CustomFormatted += MouseCoordinate_CustomMouseCoordinateFormat;
                     break;
             }
         }
@@ -84,10 +89,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// Event handler that formats the MouseCoordinates to use WorldCoordinates and changes the Foreground color to red.
         /// Other modifications to the display of the MouseCoordinates can be safely done here.
         /// </summary>
-        private void MouseCoordinate_CustomMouseCoordinateFormat(object sender, CustomFormattedMouseCoordinateMapToolEventArgs e)
+        private static void MouseCoordinate_CustomMouseCoordinateFormat(object sender, CustomFormattedMouseCoordinateMapToolEventArgs e)
         {
             ((MouseCoordinateMapTool)sender).Foreground = new SolidColorBrush(Colors.Red);
-            e.Result = $"X: {e.WorldCoordinate.X.ToString("N0")}, Y: {e.WorldCoordinate.Y.ToString("N0")}";
+            e.Result = $"X: {e.WorldCoordinate.X:N0}, Y: {e.WorldCoordinate.Y:N0}";
         }
         public void Dispose()
         {
