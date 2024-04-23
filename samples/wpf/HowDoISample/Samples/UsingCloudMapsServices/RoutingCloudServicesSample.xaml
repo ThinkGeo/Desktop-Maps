@@ -9,14 +9,14 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <thinkGeoUi:MapView  Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" x:Name="MapView" Loaded="MapView_Loaded"></thinkGeoUi:MapView>
-        <Image x:Name="loadingImage"  Height="64" Width="64" Visibility="Hidden" gif:ImageBehavior.AnimatedSource="..\..\Resources\loading.gif" />
+        <Image x:Name="LoadingImage"  Height="64" Width="64" Visibility="Hidden" gif:ImageBehavior.AnimatedSource="..\..\Resources\loading.gif" />
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1" Grid.Row="0">
                 <Label.Content>
                     <AccessText HorizontalAlignment="Center" FontSize="17" TextWrapping="Wrap" Text="Make a Turn-By-Turn Routing Request"/>
                 </Label.Content>
             </Label>
-            <ListBox Grid.Column="1" Grid.Row="1" Name="lsbRouteSegments" SelectionChanged="lsbRouteSegments_SelectionChanged">
+            <ListBox Grid.Column="1" Grid.Row="1" Name="LsbRouteSegments" SelectionChanged="lsbRouteSegments_SelectionChanged">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>

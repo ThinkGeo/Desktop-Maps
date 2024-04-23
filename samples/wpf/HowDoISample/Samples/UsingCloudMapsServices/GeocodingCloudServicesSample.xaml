@@ -9,7 +9,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <thinkGeoUi:MapView  Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded"></thinkGeoUi:MapView>
-        <Image x:Name="loadingImage"  Height="64" Width="64" Visibility="Hidden" gif:ImageBehavior.AnimatedSource="..\..\Resources\loading.gif" />
+        <Image Grid.Column="0" x:Name="LoadingImage"  Height="64" Width="64" Visibility="Hidden" gif:ImageBehavior.AnimatedSource="..\..\Resources\loading.gif" />
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2">
                 <Label.Content>
@@ -17,19 +17,19 @@
                 </Label.Content>
             </Label>
             <Label Grid.Column="1" Grid.Row="1" FontSize="14">Search Text:</Label>
-            <TextBox Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" x:Name="txtSearchString" Text="6101 Frisco Square Blvd, Frisco, TX 75034"></TextBox>
+            <TextBox Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" x:Name="TxtSearchString" Text="6101 Frisco Square Blvd, Frisco, TX 75034"></TextBox>
             <Label Grid.Column="1" Grid.Row="3" FontSize="14">Maximum Results:</Label>
-            <TextBox  Grid.Column="2" Grid.Row="3" x:Name="txtMaxResults" Text="10"></TextBox>
+            <TextBox  Grid.Column="2" Grid.Row="3" x:Name="TxtMaxResults" Text="10"></TextBox>
             
             <Label Grid.Column="1" Grid.Row="4" FontSize="14">SearchType:</Label>
-            <ComboBox Grid.Column="2" Grid.Row="4" x:Name="cboSearchType" SelectionChanged="cboSearchType_SelectionChanged">
+            <ComboBox Grid.Column="2" Grid.Row="4" x:Name="CboSearchType" SelectionChanged="cboSearchType_SelectionChanged">
                 <ComboBoxItem>Fuzzy</ComboBoxItem>
                 <ComboBoxItem>Exact</ComboBoxItem>
             </ComboBox>
-            <TextBlock Grid.Column="1"  Grid.Row="5" Grid.ColumnSpan="2" x:Name="txtSearchTypeDescription"></TextBlock>
+            <TextBlock Grid.Column="1"  Grid.Row="5" Grid.ColumnSpan="2" x:Name="TxtSearchTypeDescription"></TextBlock>
 
             <Label Grid.Column="1" Grid.Row="6" FontSize="14">LocationType:</Label>
-            <ComboBox Grid.Column="2" Grid.Row="6" x:Name="cboLocationType" SelectionChanged="cboLocationType_SelectionChanged">
+            <ComboBox Grid.Column="2" Grid.Row="6" x:Name="CboLocationType" SelectionChanged="cboLocationType_SelectionChanged">
                 <ComboBoxItem>Default</ComboBoxItem>
                 <ComboBoxItem>Address</ComboBoxItem>
                 <ComboBoxItem>Street</ComboBoxItem>
@@ -38,13 +38,13 @@
                 <ComboBoxItem>Zipcode</ComboBoxItem>
                 <ComboBoxItem>State</ComboBoxItem>
             </ComboBox>
-            <TextBlock Grid.Column="1"  Grid.Row="7" Grid.ColumnSpan="2" x:Name="txtLocationTypeDescription"></TextBlock>
+            <TextBlock Grid.Column="1"  Grid.Row="7" Grid.ColumnSpan="2" x:Name="TxtLocationTypeDescription"></TextBlock>
 
             <Button Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="2" Click="Search_Click">Search</Button>
 
-            <TextBlock Grid.Column="1"  Grid.Row="10" Grid.ColumnSpan="2" x:Name="txtSearchResultsDescription"></TextBlock>
+            <TextBlock Grid.Column="1"  Grid.Row="10" Grid.ColumnSpan="2" x:Name="TxtSearchResultsDescription"></TextBlock>
 
-            <ListBox Grid.Column="1"  Grid.Row="11" Grid.ColumnSpan="2" Name="lsbLocations" SelectionChanged="lsbLocations_SelectionChanged" Visibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ListBox Grid.Column="1"  Grid.Row="11" Grid.ColumnSpan="2" Name="LsbLocations" SelectionChanged="lsbLocations_SelectionChanged" Visibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Auto">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid Width="Auto" Height="Auto">

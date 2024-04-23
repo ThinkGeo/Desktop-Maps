@@ -9,7 +9,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0"  x:Name="MapView" Loaded="MapView_Loaded"></thinkGeoUi:MapView>
-        <Image x:Name="loadingImage"  Height="64" Width="64" Visibility="Hidden" gif:ImageBehavior.AnimatedSource="..\..\Resources\loading.gif" />
+        <Image Grid.Column="0" x:Name="LoadingImage"  Height="64" Width="64" Visibility="Hidden" gif:ImageBehavior.AnimatedSource="..\..\Resources\loading.gif" />
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2">
                 <Label.Content>
@@ -18,8 +18,8 @@
             </Label>
             <Label Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" FontSize="14">Interval Distance (m):</Label>
             <Grid Grid.Column="1" Grid.Row="2">
-                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding ElementName=intervalDistance, Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="40" DockPanel.Dock="Right"></TextBox>
-                <Slider Grid.Column="0" Grid.Row="0" x:Name="intervalDistance" Maximum="1000" Minimum="50" Value="100" AutoToolTipPlacement="TopLeft" TickFrequency="50" IsSnapToTickEnabled="True"></Slider>
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding ElementName=IntervalDistance, Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="40" DockPanel.Dock="Right"></TextBox>
+                <Slider Grid.Column="0" Grid.Row="0" x:Name="IntervalDistance" Maximum="1000" Minimum="50" Value="100" AutoToolTipPlacement="TopLeft" TickFrequency="50" IsSnapToTickEnabled="True"></Slider>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
@@ -32,11 +32,11 @@
             <Button Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Click="DrawPoint_Click">Draw a New Point</Button>
             <Button Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" Click="DrawLine_Click">Draw a New Line</Button>
             <Button Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2" Click="DrawPolygon_Click">Draw a New Polygon</Button>
-            <TextBlock Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="2" x:Name="txtAverageElevation" TextWrapping="Wrap" Foreground="WhiteSmoke"></TextBlock>
-            <TextBlock Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="2" x:Name="txtHighestElevation" TextWrapping="Wrap" Foreground="WhiteSmoke"></TextBlock>
-            <TextBlock Grid.Column="1" Grid.Row="8" Grid.ColumnSpan="2" x:Name="txtLowestElevation" TextWrapping="Wrap" Foreground="WhiteSmoke"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="2" x:Name="TxtAverageElevation" TextWrapping="Wrap" Foreground="WhiteSmoke"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="2" x:Name="TxtHighestElevation" TextWrapping="Wrap" Foreground="WhiteSmoke"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="8" Grid.ColumnSpan="2" x:Name="TxtLowestElevation" TextWrapping="Wrap" Foreground="WhiteSmoke"></TextBlock>
 
-            <ListBox Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="2" Name="lsbElevations" SelectionChanged="lsbElevations_SelectionChanged">
+            <ListBox Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="2" Name="LsbElevations" SelectionChanged="lsbElevations_SelectionChanged">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid Width="180">

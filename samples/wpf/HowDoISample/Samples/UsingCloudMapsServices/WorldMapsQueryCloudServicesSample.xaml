@@ -8,8 +8,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <thinkGeoUi:MapView  Grid.Column="0" Grid.Row="0" Grid.RowSpan="8" x:Name="MapView" Loaded="MapView_Loaded"></thinkGeoUi:MapView>
-        <Image x:Name="loadingImage" Height="64" Width="64" Visibility="Hidden" gif:ImageBehavior.AnimatedSource="..\..\Resources\loading.gif" />
+        <thinkGeoUi:MapView  Grid.Column="0" Grid.Row="0"  x:Name="MapView" Loaded="MapView_Loaded"></thinkGeoUi:MapView>
+        <Image Grid.Column="0" x:Name="LoadingImage" Height="64" Width="64" Visibility="Hidden" gif:ImageBehavior.AnimatedSource="..\..\Resources\loading.gif" />
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2">
                 <Label.Content>
@@ -17,7 +17,7 @@
                 </Label.Content>
             </Label>
             <Label Grid.Column="1" Grid.Row="1" FontSize="14">Query Layer:</Label>
-            <ComboBox Grid.Column="2" Grid.Row="1" x:Name="cboQueryLayer">
+            <ComboBox Grid.Column="2" Grid.Row="1" x:Name="CboQueryLayer">
                 <ComboBoxItem IsSelected="True">Buildings</ComboBoxItem>
                 <ComboBoxItem>Countries</ComboBoxItem>
                 <ComboBoxItem>States</ComboBoxItem>
@@ -33,7 +33,7 @@
                 <ComboBoxItem>Waterways</ComboBoxItem>
             </ComboBox>
             <Label Grid.Column="1" Grid.Row="2" FontSize="14">Query Type:</Label>
-            <ComboBox Grid.Column="2" Grid.Row="2" x:Name="cboQueryType">
+            <ComboBox Grid.Column="2" Grid.Row="2" x:Name="CboQueryType">
                 <ComboBoxItem>Containing</ComboBoxItem>
                 <ComboBoxItem>Nearest</ComboBoxItem>
                 <ComboBoxItem IsSelected="True">Intersecting</ComboBoxItem>
@@ -43,8 +43,8 @@
 
             <Label Grid.Column="1" Grid.Row="3" Content="Maximum Results:"/>
             <Grid Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2">
-                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding ElementName=maxResults, Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="40" DockPanel.Dock="Right"></TextBox>
-                <Slider Grid.Column="0" Grid.Row="0" x:Name="maxResults" Maximum="1000" Minimum="10" Value="100" AutoToolTipPlacement="TopLeft" TickFrequency="50" IsSnapToTickEnabled="True"></Slider>
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding ElementName=MaxResults, Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="40" DockPanel.Dock="Right"></TextBox>
+                <Slider Grid.Column="0" Grid.Row="0" x:Name="MaxResults" Maximum="1000" Minimum="10" Value="100" AutoToolTipPlacement="TopLeft" TickFrequency="50" IsSnapToTickEnabled="True"></Slider>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>

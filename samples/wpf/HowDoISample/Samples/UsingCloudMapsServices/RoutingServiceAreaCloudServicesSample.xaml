@@ -8,8 +8,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <thinkGeoUi:MapView  Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" x:Name="MapView" Loaded="MapView_Loaded" MapClick="MapView_OnMapClick"></thinkGeoUi:MapView>
-        <Image x:Name="loadingImage"  Height="64" Width="64" Visibility="Hidden" gif:ImageBehavior.AnimatedSource="..\..\Resources\loading.gif" />
+        <thinkGeoUi:MapView  Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded" MapClick="MapView_OnMapClick"></thinkGeoUi:MapView>
+        <Image Grid.Column="0" x:Name="LoadingImage"  Height="64" Width="64" Visibility="Hidden" gif:ImageBehavior.AnimatedSource="..\..\Resources\loading.gif" />
         <Grid  Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1" Grid.Row="0">
                 <Label.Content>

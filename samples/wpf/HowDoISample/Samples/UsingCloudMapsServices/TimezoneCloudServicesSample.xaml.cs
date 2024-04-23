@@ -11,7 +11,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
     /// </summary>
     public partial class TimezoneCloudServicesSample : IDisposable
     {
-        private TimeZoneCloudClient timeZoneCloudClient;
+        private TimeZoneCloudClient _timeZoneCloudClient;
 
         public TimezoneCloudServicesSample()
         {
@@ -24,9 +24,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map's unit of measurement to meters (Spherical Mercator)
@@ -51,7 +56,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             MapView.Overlays.Add("Timezone Layer Overlay", timezonesLayerOverlay);
 
             // Initialize the TimezoneCloudClient with our ThinkGeo Cloud credentials
-            timeZoneCloudClient = new TimeZoneCloudClient("FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~", "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~");
+            _timeZoneCloudClient = new TimeZoneCloudClient
+            {
+                ClientId = SampleKeys.ClientId2,
+                ClientSecret = SampleKeys.ClientSecret2,
+            };
 
             // Set the Map Extent
             MapView.CurrentExtent = new RectangleShape(-14269933.09, 6354969.40, -6966221.89, 2759371.58);
@@ -63,7 +72,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         /// <summary>
         /// Perform the timezone query when the user clicks on the map
         /// </summary>
-        private async void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        private async void MapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
             if (e.MouseButton == MapMouseButton.Left)
             {
@@ -81,47 +90,49 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             try
             {
                 // Show a loading graphic to let users know the request is running
-                loadingImage.Visibility = Visibility.Visible;
+                LoadingImage.Visibility = Visibility.Visible;
 
                 // Get timezone info based on the lon, lat, and input projection (Spherical Mercator in this case)
-                result = await timeZoneCloudClient.GetTimeZoneByCoordinateAsync(lon, lat, 3857);
+                result = await _timeZoneCloudClient.GetTimeZoneByCoordinateAsync(lon, lat, 3857);
 
                 // Hide the loading graphic
-                loadingImage.Visibility = Visibility.Hidden;
+                LoadingImage.Visibility = Visibility.Hidden;
             }
             catch (Exception ex)
             {
                 // Hide the loading graphic
-                loadingImage.Visibility = Visibility.Hidden;
+                LoadingImage.Visibility = Visibility.Hidden;
 
                 MessageBox.Show(ex.Message, "Error");
                 return;
             }
 
             // Get the timezone info popup overlay from the mapview
-            PopupOverlay timezoneInfoPopupOverlay = (PopupOverlay)MapView.Overlays["Timezone Info Popup Overlay"];
+            var timezoneInfoPopupOverlay = (PopupOverlay)MapView.Overlays["Timezone Info Popup Overlay"];
 
             // Clear the existing info popups from the map
             timezoneInfoPopupOverlay.Popups.Clear();
 
             // Generate a new info popup and add it to the map
-            StringBuilder timezoneInfoString = new StringBuilder();
-            timezoneInfoString.AppendLine(String.Format("{0}: {1}", "Time Zone", result.TimeZone));
-            timezoneInfoString.AppendLine(String.Format("{0}: {1}", "Current Local Time", result.CurrentLocalTime));
-            timezoneInfoString.AppendLine(String.Format("{0}: {1}", "Daylight Savings Active", result.DaylightSavingsActive));
-            Popup popup = new Popup(new PointShape(lon, lat));
-            popup.Content = timezoneInfoString.ToString();
-            popup.FontSize = 10d;
-            popup.FontFamily = new System.Windows.Media.FontFamily("Verdana");
+            var timezoneInfoString = new StringBuilder();
+            timezoneInfoString.AppendLine($"Time Zone: {result.TimeZone}");
+            timezoneInfoString.AppendLine($"Current Local Time: {result.CurrentLocalTime}");
+            timezoneInfoString.AppendLine($"Daylight Savings Active: {result.DaylightSavingsActive}");
+            var popup = new Popup(new PointShape(lon, lat))
+            {
+                Content = timezoneInfoString.ToString(),
+                FontSize = 10d,
+                FontFamily = new System.Windows.Media.FontFamily("Verdana")
+            };
             timezoneInfoPopupOverlay.Popups.Add(popup);
 
             // Clear the timezone feature layer of previous features
-            InMemoryFeatureLayer timezonesFeatureLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Timezone Feature Layer");
+            var timezonesFeatureLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Timezone Feature Layer");
             timezonesFeatureLayer.Open();
             timezonesFeatureLayer.InternalFeatures.Clear();
 
             // Use a ProjectionConverter to convert the shape to Spherical Mercator
-            ProjectionConverter converter = new ProjectionConverter(3857, 4326);
+            var converter = new ProjectionConverter(3857, 4326);
             converter.Open();
 
             // Add the new timezone polygon to the map
