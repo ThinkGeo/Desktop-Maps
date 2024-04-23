@@ -173,9 +173,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         public SizedPointStyle(PointStyle pointStyle, string sizeColumnName, float ratio)
         {
-            this.PointStyle = pointStyle;
-            this.SizeColumnName = sizeColumnName;
-            this.Ratio = ratio;
+            PointStyle = pointStyle;
+            SizeColumnName = sizeColumnName;
+            Ratio = ratio;
         }
 
         public PointStyle PointStyle { get; set; }

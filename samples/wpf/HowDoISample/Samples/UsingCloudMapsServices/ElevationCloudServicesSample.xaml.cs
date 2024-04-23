@@ -66,7 +66,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             MapView.TrackOverlay.TrackEnded += OnShapeDrawn;
 
             // Initialize the ElevationCloudClient with our ThinkGeo Cloud credentials
-            _elevationCloudClient = new ElevationCloudClient("FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~", "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~");
+            _elevationCloudClient = new ElevationCloudClient
+            {
+                ClientId = SampleKeys.ClientId2,
+                ClientSecret = SampleKeys.ClientSecret2,
+            };
 
             // Create a sample line and get elevation along that line
             var sampleShape = new LineShape("LINESTRING(-10776298.0601626 3912306.29684573,-10776496.3187036 3912399.45447343,-10776675.4679876 3912478.28015841,-10776890.4471285 3912516.49867234,-10777189.0292686 3912509.33270098,-10777329.9600387 3912442.4503016,-10777664.3720356 3912174.92070409)");

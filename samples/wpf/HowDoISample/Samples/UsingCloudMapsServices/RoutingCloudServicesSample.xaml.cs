@@ -69,7 +69,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             MapView.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
 
             // Initialize the RoutingCloudClient with our ThinkGeo Cloud Client credentials
-            _routingCloudClient = new RoutingCloudClient("FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~", "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~");
+            _routingCloudClient = new RoutingCloudClient
+            {
+                ClientId = SampleKeys.ClientId2,
+                ClientSecret = SampleKeys.ClientSecret2,
+            };
 
             // Run the routing request
             await RouteWaypointsAsync();
