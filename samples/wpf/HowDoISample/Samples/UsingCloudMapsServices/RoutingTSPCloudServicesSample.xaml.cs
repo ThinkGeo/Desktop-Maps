@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
@@ -11,7 +10,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
     /// <summary>
     /// Learn how to use the RoutingCloudClient to find an optimized route through a set of waypoints with the ThinkGeo Cloud
     /// </summary>
-    public partial class RoutingTSPCloudServicesSample : IDisposable
+    public partial class RoutingTSPCloudServicesSample
     {
         private RoutingCloudClient _routingCloudClient;
         private Collection<PointShape> _routingWaypoints;
@@ -203,7 +202,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         /// <summary>
         /// When a route segment is selected in the UI, center the map on it
         /// </summary>
-        private async void lsbRouteSegments_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void LsbRouteSegments_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var routeSegments = (ListBox)sender;
             if (routeSegments.SelectedItem == null) return;
@@ -221,14 +220,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
                 await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel15.Scale);
             }
             await MapView.RefreshAsync();
-        }
-
-        public void Dispose()
-        {
-            // Dispose of unmanaged resources.
-            MapView.Dispose();
-            // Suppress finalization.
-            GC.SuppressFinalize(this);
         }
     }
 }

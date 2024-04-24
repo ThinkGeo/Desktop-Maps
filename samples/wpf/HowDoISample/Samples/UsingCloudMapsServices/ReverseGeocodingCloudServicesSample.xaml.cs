@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -11,7 +10,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
     /// <summary>
     /// Learn how to use the ReverseGeocodingCloudClient to access the ReverseGeocoding APIs available from the ThinkGeo Cloud
     /// </summary>
-    public partial class ReverseGeocodingCloudServicesSample : IDisposable
+    public partial class ReverseGeocodingCloudServicesSample
     {
         private ReverseGeocodingCloudClient _reverseGeocodingCloudClient;
 
@@ -75,7 +74,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
                 ClientSecret = SampleKeys.ClientSecret2,
             };
 
-            cboLocationCategories.SelectedIndex = 0;
+            CboLocationCategories.SelectedIndex = 0;
 
             await MapView.RefreshAsync();
         }
@@ -83,12 +82,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         /// <summary>
         /// Perform the reverse geocode when the user clicks on the map
         /// </summary>
-        private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        private void MapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
             if (e.MouseButton == MapMouseButton.Left)
             {
                 // Set the coordinates in the UI
-                txtCoordinates.Text = $"{e.WorldY:0.000000},{e.WorldX:0.000000}";
+                TxtCoordinates.Text = $"{e.WorldY:0.000000},{e.WorldX:0.000000}";
 
                 // Run the reverse geocode
                 PerformReverseGeocode();
@@ -114,16 +113,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             var options = new CloudReverseGeocodingOptions();
 
             // Set up the CloudReverseGeocodingOptions object based on the parameters set in the UI
-            var coordinates = txtCoordinates.Text.Split(',');
+            var coordinates = TxtCoordinates.Text.Split(',');
             var lat = double.Parse(coordinates[0].Trim());
             var lon = double.Parse(coordinates[1].Trim());
-            var searchRadius = int.Parse(txtSearchRadius.Text);
+            var searchRadius = int.Parse(TxtSearchRadius.Text);
             const DistanceUnit searchRadiusDistanceUnit = DistanceUnit.Meter;
             const int pointProjectionInSrid = 3857;
             var searchPoint = new PointShape(lon, lat);
-            options.MaxResults = int.Parse(txtMaxResults.Text);
+            options.MaxResults = int.Parse(TxtMaxResults.Text);
 
-            switch (((ComboBoxItem)cboLocationCategories.SelectedItem).Content.ToString())
+            switch (((ComboBoxItem)CboLocationCategories.SelectedItem).Content.ToString())
             {
                 case "All":
                     options.LocationCategories = CloudLocationCategories.All;
@@ -140,13 +139,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             }
 
             // Show a loading graphic to let users know the request is running
-            loadingImage.Visibility = Visibility.Visible;
+            LoadingImage.Visibility = Visibility.Visible;
 
             // Run the reverse geocode
             var searchResult = await _reverseGeocodingCloudClient.SearchPointAsync(lon, lat, pointProjectionInSrid, searchRadius, searchRadiusDistanceUnit, options);
 
             // Hide the loading graphic
-            loadingImage.Visibility = Visibility.Hidden;
+            LoadingImage.Visibility = Visibility.Hidden;
 
             // Handle an exception returned from the service
             if (searchResult.Exception != null)
@@ -221,15 +220,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
                 }
 
                 // Set the data sources for the addresses, roads, and places list boxes
-                lsbAddresses.ItemsSource = nearbyAddresses;
-                lsbRoads.ItemsSource = nearbyRoads;
-                lsbPlaces.ItemsSource = nearbyPlaces;
+                LsbAddresses.ItemsSource = nearbyAddresses;
+                LsbRoads.ItemsSource = nearbyRoads;
+                LsbPlaces.ItemsSource = nearbyPlaces;
 
-                txtSearchResultsBestMatch.Text = "Best Match: " + searchResult.BestMatchLocation.Address;
+                TxtSearchResultsBestMatch.Text = "Best Match: " + searchResult.BestMatchLocation.Address;
             }
             else
             {
-                txtSearchResultsBestMatch.Text = "No address or place matches found for this location";
+                TxtSearchResultsBestMatch.Text = "No address or place matches found for this location";
             }
 
             // Set the map extent to show the results of the search
@@ -245,7 +244,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         /// <summary>
         /// When a location is selected in the UI, draw the matching feature found and center the map on it
         /// </summary>
-        private async void lsbSearchResults_SelectionChanged(object sender, RoutedEventArgs e)
+        private async void LsbSearchResults_SelectionChanged(object sender, RoutedEventArgs e)
         {
             var selectedResultList = (ListBox)sender;
             if (selectedResultList.SelectedItem != null)
@@ -274,21 +273,21 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         /// <summary>
         /// Helper function to change the tip shown for different CloudLocationCategories
         /// </summary>
-        private void cboLocationType_SelectionChanged(object sender, RoutedEventArgs e)
+        private void CboLocationType_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            var comboBoxContent = (cboLocationCategories.SelectedItem as ComboBoxItem)?.Content;
+            var comboBoxContent = (CboLocationCategories.SelectedItem as ComboBoxItem)?.Content;
 
             if (comboBoxContent == null) return;
             switch (comboBoxContent.ToString())
             {
                 case "All":
-                    txtLocationCategoriesDescription.Text = "(Includes all available location types in the search)";
+                    TxtLocationCategoriesDescription.Text = "(Includes all available location types in the search)";
                     break;
                 case "Common":
-                    txtLocationCategoriesDescription.Text = "(Includes only commonly-used 'Place' types in the search)";
+                    TxtLocationCategoriesDescription.Text = "(Includes only commonly-used 'Place' types in the search)";
                     break;
                 case "None":
-                    txtLocationCategoriesDescription.Text = "(Only the best matching result will be returned)";
+                    TxtLocationCategoriesDescription.Text = "(Only the best matching result will be returned)";
                     break;
             }
         }
@@ -299,56 +298,48 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         private bool ValidateSearchParameters()
         {
             // Check if the 'Location' text box has a valid value
-            if (!string.IsNullOrWhiteSpace(txtCoordinates.Text))
+            if (!string.IsNullOrWhiteSpace(TxtCoordinates.Text))
             {
-                var coordinates = txtCoordinates.Text.Split(',');
+                var coordinates = TxtCoordinates.Text.Split(',');
 
                 if (coordinates.Count() != 2)
                 {
-                    txtCoordinates.Focus();
+                    TxtCoordinates.Focus();
                     MessageBox.Show("Please enter a valid set of coordinates to search", "Error");
                     return false;
                 }
 
                 if (!(double.TryParse(coordinates[0].Trim(), out double lat) && double.TryParse(coordinates[1].Trim(), out double lon)))
                 {
-                    txtCoordinates.Focus();
+                    TxtCoordinates.Focus();
                     MessageBox.Show("Please enter a valid set of coordinates to search", "Error");
                     return false;
                 }
             }
             else
             {
-                txtCoordinates.Focus();
+                TxtCoordinates.Focus();
                 MessageBox.Show("Please enter a valid set of coordinates to search", "Error");
                 return false;
             }
 
             // Check if the 'Search Radius' text box has a valid value
-            if (string.IsNullOrWhiteSpace(txtSearchRadius.Text) || !(int.TryParse(txtSearchRadius.Text, out int searchRadiusInt) && searchRadiusInt > 0))
+            if (string.IsNullOrWhiteSpace(TxtSearchRadius.Text) || !(int.TryParse(TxtSearchRadius.Text, out int searchRadiusInt) && searchRadiusInt > 0))
             {
-                txtSearchRadius.Focus();
+                TxtSearchRadius.Focus();
                 MessageBox.Show("Please enter an integer greater than 0", "Error");
                 return false;
             }
 
             // Check if the 'Max Results' text box has a valid value
-            if (string.IsNullOrWhiteSpace(txtMaxResults.Text) || !(int.TryParse(txtMaxResults.Text, out int maxResultsInt) && maxResultsInt > 0))
+            if (string.IsNullOrWhiteSpace(TxtMaxResults.Text) || !(int.TryParse(TxtMaxResults.Text, out int maxResultsInt) && maxResultsInt > 0))
             {
-                txtMaxResults.Focus();
+                TxtMaxResults.Focus();
                 MessageBox.Show("Please enter an integer greater than 0", "Error");
                 return false;
             }
 
             return true;
-        }
-
-        public void Dispose()
-        {
-            // Dispose of unmanaged resources.
-            MapView.Dispose();
-            // Suppress finalization.
-            GC.SuppressFinalize(this);
         }
     }
 }

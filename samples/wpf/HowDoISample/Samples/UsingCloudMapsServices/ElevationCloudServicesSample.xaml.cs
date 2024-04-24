@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -9,7 +8,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
     /// <summary>
     /// Learn how to use the ElevationCloudClient class to get elevation data from the ThinkGeo Cloud
     /// </summary>
-    public partial class ElevationCloudServicesSample : IDisposable
+    public partial class ElevationCloudServicesSample
     {
         private ElevationCloudClient _elevationCloudClient;
 
@@ -204,7 +203,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         /// <summary>
         /// Center the map on a point when it's selected in the UI
         /// </summary>
-        private async void lsbElevations_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void LsbElevations_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (LsbElevations.SelectedItem == null) return;
             // Set the map extent to the selected point
@@ -238,14 +237,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         {
             // Set the drawing mode to 'Polygon'
             MapView.TrackOverlay.TrackMode = TrackMode.Polygon;
-        }
-
-        public void Dispose()
-        {
-            // Dispose of unmanaged resources.
-            MapView.Dispose();
-            // Suppress finalization.
-            GC.SuppressFinalize(this);
         }
     }
 }

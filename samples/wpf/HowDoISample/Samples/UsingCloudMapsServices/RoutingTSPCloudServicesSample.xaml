@@ -5,6 +5,7 @@
              xmlns:gif="http://wpfanimatedgif.codeplex.com"             
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             xmlns:core="clr-namespace:ThinkGeo.Core;assembly=ThinkGeo.Core"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -16,9 +17,9 @@
                     <AccessText HorizontalAlignment="Center" FontSize="17" TextWrapping="Wrap" Text="Find the Optimal Route Through a Set of Waypoints"/>
                 </Label.Content>
             </Label>
-            <ListBox Grid.Column="1" Grid.Row="1" Name="LsbRouteSegments" Height="650" SelectionChanged="lsbRouteSegments_SelectionChanged">
+            <ListBox Grid.Column="1" Grid.Row="1" Name="LsbRouteSegments" Height="650" SelectionChanged="LsbRouteSegments_SelectionChanged">
                 <ListBox.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate DataType="{x:Type core:CloudRoutingSegment}">
                         <Grid Width="180">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" ></RowDefinition>

@@ -48,13 +48,5 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             await MapView.RefreshAsync();
         }
-
-        public void Dispose()
-        {
-            // Dispose of unmanaged resources.
-            MapView.Dispose();
-            // Suppress finalization.
-            GC.SuppressFinalize(this);
-        }
     }
 }

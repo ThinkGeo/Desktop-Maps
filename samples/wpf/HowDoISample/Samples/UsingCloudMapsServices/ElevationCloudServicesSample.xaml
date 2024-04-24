@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:gif="http://wpfanimatedgif.codeplex.com"
              xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             xmlns:code="clr-namespace:ThinkGeo.Core;assembly=ThinkGeo.Core"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -36,9 +37,9 @@
             <TextBlock Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="2" x:Name="TxtHighestElevation" TextWrapping="Wrap" Foreground="WhiteSmoke"></TextBlock>
             <TextBlock Grid.Column="1" Grid.Row="8" Grid.ColumnSpan="2" x:Name="TxtLowestElevation" TextWrapping="Wrap" Foreground="WhiteSmoke"></TextBlock>
 
-            <ListBox Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="2" Name="LsbElevations" SelectionChanged="lsbElevations_SelectionChanged">
+            <ListBox Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="2" Name="LsbElevations" SelectionChanged="LsbElevations_SelectionChanged">
                 <ListBox.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate DataType="{x:Type code:CloudElevationPointResult}">
                         <Grid Width="180">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" ></RowDefinition>

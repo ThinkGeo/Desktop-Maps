@@ -168,7 +168,7 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\Vector\CADLayerSample.xaml">
+    <Page Update="Samples\DisplayingLayers\Vector\CadLayerSample.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Samples\DisplayingLayers\WebServices\WMTSLayerSample.xaml">
