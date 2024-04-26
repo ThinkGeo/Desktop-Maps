@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
 
-namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
+namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to use the ReverseGeocodingCloudClient to access the ReverseGeocoding APIs available from the ThinkGeo Cloud
@@ -142,8 +142,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             LoadingImage.Visibility = Visibility.Visible;
 
             // Run the reverse geocode
-            var searchResult = await _reverseGeocodingCloudClient.SearchPointAsync(lon, lat, pointProjectionInSrid, searchRadius, searchRadiusDistanceUnit, options);
+            //var searchResult = await _reverseGeocodingCloudClient.SearchPointAsync(lon, lat, pointProjectionInSrid, searchRadius, searchRadiusDistanceUnit, options);
+            CloudReverseGeocodingResult searchResult;
+            try
+            {
+                searchResult = await _reverseGeocodingCloudClient.SearchPointAsync(lon, lat, pointProjectionInSrid, searchRadius, searchRadiusDistanceUnit, options);
 
+            }
+            catch (System.ArgumentNullException)
+            {
+                MessageBox.Show("Please enter a valid set of coordinates to search", "Error");
+                return;
+            }
             // Hide the loading graphic
             LoadingImage.Visibility = Visibility.Hidden;
 
@@ -309,7 +319,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
                     return false;
                 }
 
-                if (!(double.TryParse(coordinates[0].Trim(), out double lat) && double.TryParse(coordinates[1].Trim(), out double lon)))
+                if (!(double.TryParse(coordinates[0].Trim(), out _) && double.TryParse(coordinates[1].Trim(), out _)))
                 {
                     TxtCoordinates.Focus();
                     MessageBox.Show("Please enter a valid set of coordinates to search", "Error");
@@ -324,7 +334,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             }
 
             // Check if the 'Search Radius' text box has a valid value
-            if (string.IsNullOrWhiteSpace(TxtSearchRadius.Text) || !(int.TryParse(TxtSearchRadius.Text, out int searchRadiusInt) && searchRadiusInt > 0))
+            if (string.IsNullOrWhiteSpace(TxtSearchRadius.Text) || !(int.TryParse(TxtSearchRadius.Text, out var searchRadiusInt) && searchRadiusInt > 0))
             {
                 TxtSearchRadius.Focus();
                 MessageBox.Show("Please enter an integer greater than 0", "Error");
@@ -332,14 +342,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             }
 
             // Check if the 'Max Results' text box has a valid value
-            if (string.IsNullOrWhiteSpace(TxtMaxResults.Text) || !(int.TryParse(TxtMaxResults.Text, out int maxResultsInt) && maxResultsInt > 0))
-            {
-                TxtMaxResults.Focus();
-                MessageBox.Show("Please enter an integer greater than 0", "Error");
-                return false;
-            }
+            if (!string.IsNullOrWhiteSpace(TxtMaxResults.Text) &&
+                (int.TryParse(TxtMaxResults.Text, out var maxResultsInt) && maxResultsInt > 0)) return true;
+            TxtMaxResults.Focus();
+            MessageBox.Show("Please enter an integer greater than 0", "Error");
+            return false;
 
-            return true;
         }
     }
 }

@@ -7,9 +7,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to display a JPEG2000 Layer on the map
     /// </summary>
-    public partial class JPEG2000LayerSample : IDisposable
+    public partial class Jpeg2000LayerSample : IDisposable
     {
-        public JPEG2000LayerSample()
+        public Jpeg2000LayerSample()
         {
             InitializeComponent();
         }

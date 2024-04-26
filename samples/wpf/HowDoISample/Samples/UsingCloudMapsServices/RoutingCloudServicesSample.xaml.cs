@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
 
-namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
+namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to use the RoutingCloudClient to route through a set of waypoints with the ThinkGeo Cloud
@@ -112,11 +112,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             // Add the route waypoints and route segments to the map
             foreach (var waypoint in routingResult.RouteResult.Waypoints)
             {
-                var columnValues = new Dictionary<string, string>();
+                var columnValues = new Dictionary<string, string> {
+                    // Get the order of the stops and label the point
+                    // '0' represents the start/end point of the route for a round trip route, so we change the label to indicate that for readability
+                    { "SequenceNumber", (index == 0 ? "Start Point" : "Stop " + index) } };
 
-                // Get the order of the stops and label the point
-                // '0' represents the start/end point of the route for a round trip route, so we change the label to indicate that for readability
-                columnValues.Add("SequenceNumber", (index == 0 ? "Start Point" : "Stop " + index));
                 var routeWaypoint = new PointShape(waypoint.Coordinate);
 
                 // Add the point to the map
@@ -177,7 +177,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         /// <summary>
         /// When a route segment is selected in the UI, highlight it
         /// </summary>
-        private async void lsbRouteSegments_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void LsbRouteSegments_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var routeSegments = (ListBox)sender;
             if (routeSegments.SelectedItem == null) return;

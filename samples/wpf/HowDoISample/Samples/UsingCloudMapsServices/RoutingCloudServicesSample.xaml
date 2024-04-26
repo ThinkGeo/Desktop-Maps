@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices.RoutingCloudServicesSample"
+﻿<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.RoutingCloudServicesSample"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -17,10 +17,10 @@
                     <AccessText HorizontalAlignment="Center" FontSize="17" TextWrapping="Wrap" Text="Make a Turn-By-Turn Routing Request"/>
                 </Label.Content>
             </Label>
-            <ListBox Grid.Column="1" Grid.Row="1" Name="LsbRouteSegments" SelectionChanged="lsbRouteSegments_SelectionChanged">
+            <ListBox Grid.Column="1" Grid.Row="1" Name="LsbRouteSegments" Height="650" SelectionChanged="LsbRouteSegments_SelectionChanged">
                 <ListBox.ItemTemplate>
                     <DataTemplate DataType="{x:Type core:CloudRoutingSegment}">
-                        <Grid>
+                        <Grid Width="180">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" ></RowDefinition>
                                 <RowDefinition Height="Auto" ></RowDefinition>
@@ -49,7 +49,10 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
     </Grid>
     <UserControl.Resources>
             <Style TargetType="Label">

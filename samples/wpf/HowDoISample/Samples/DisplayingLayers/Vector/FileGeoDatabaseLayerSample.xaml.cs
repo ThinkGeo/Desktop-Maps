@@ -69,6 +69,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             GC.SuppressFinalize(this);
         }
 
+        #region Code for creating the sample data in FileGeoDatabase Layer
+
         //if (Directory.Exists("zoning.gdb"))
         //    Directory.Delete("zoning.gdb", true);
 
@@ -123,5 +125,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         //shapeFileFeatureSource.Close();
         //MessageBox.Show(counter.ToString() + " records processed!");
 
+        #endregion
     }
 }

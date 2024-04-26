@@ -22,6 +22,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             MapView.MapUnit = GeographyUnit.Meter;
 
+            // Add Cloud Maps as a background overlay
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+
             // Create a new overlay that will hold our new layer and add it to the map.
             var layerOverlay = new LayerOverlay();
             MapView.Overlays.Add(layerOverlay);

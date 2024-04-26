@@ -10,9 +10,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to display an ISOLine Layer on the map
     /// </summary>
-    public partial class ISOLineLayerSample : IDisposable
+    public partial class IsoLineLayerSample : IDisposable
     {
-        public ISOLineLayerSample()
+        public IsoLineLayerSample()
         {
             InitializeComponent();
         }
@@ -41,7 +41,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.Overlays.Add("isoLineOverlay", isoLineOverlay);
 
             // Load a csv file with the mosquito data that we will use for the iso line.
-            var csvPointData = GetDataFromCSV(@"./Data/Csv/Frisco_Mosquitos.csv");
+            var csvPointData = GetDataFromCsv(@"./Data/Csv/Frisco_Mosquitos.csv");
 
             // Create the layer based on the method GetDynamicIsoLineLayer and pass in the points we loaded above and add it to the map.
             //  We then set the drawing quality high, so we get a crisp rendering.
@@ -65,7 +65,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         }
 
-        private static Dictionary<PointShape, double> GetDataFromCSV(string csvFilePath)
+        private static Dictionary<PointShape, double> GetDataFromCsv(string csvFilePath)
         {
             // This code just reads the csv file into a dictionary of point shapes for the locations and mosquito population at those points.
             StreamReader streamReader = null;
@@ -156,9 +156,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             GC.SuppressFinalize(this);
         }
 
-        // ========================================================
-        // Code for creating the grid file from a point shapefile
-        // ========================================================
+        #region Code for creating the grid file from a point shapefile
+
         //var mos = new ShapeFileFeatureSource(@"./Data/Frisco_Mosquitos.shp");
         //mos.ProjectionConverter = new ProjectionConverter(2276, 3857);
         //mos.Open();
@@ -185,5 +184,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         //    }
         //}
         //File.WriteAllText(@"./Data/Frisco_Mosquitos.csv", builder.ToString());
+
+        #endregion
     }
 }

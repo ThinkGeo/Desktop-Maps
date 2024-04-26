@@ -2,7 +2,7 @@
 using System.Windows;
 using ThinkGeo.Core;
 
-namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector
+namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to display a Shapefile Layer on the map

@@ -4,9 +4,9 @@ using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
-    public partial class WFSV2FeatureLayerSample
+    public partial class WfsV2FeatureLayerSample
     {
-        public WFSV2FeatureLayerSample()
+        public WfsV2FeatureLayerSample()
         {
             InitializeComponent();
         }

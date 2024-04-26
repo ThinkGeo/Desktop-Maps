@@ -63,7 +63,7 @@
     <Compile Update="Samples\CreatingStyles\FleeBooleanStyle\CreateFleeBooleanStyleSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\Raster\ESRIGridLayerGenerationSample.xaml.cs">
+    <Compile Update="Samples\DisplayingLayers\Raster\EsriGridLayerGenerationSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\DisplayingLayers\Raster\GdalLayerSample.xaml.cs">
@@ -75,7 +75,7 @@
     <Compile Update="Samples\DisplayingLayers\Vector\KmlLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\WebServices\WMTSLayerSample.xaml.cs">
+    <Compile Update="Samples\DisplayingLayers\WebServices\WmtsLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\Misc\OverlayExceptionSample.xaml.cs">
@@ -152,7 +152,7 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\Raster\ESRIGridLayerGenerationSample.xaml">
+    <Page Update="Samples\DisplayingLayers\Raster\EsriGridLayerGenerationSample.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
@@ -171,7 +171,7 @@
     <Page Update="Samples\DisplayingLayers\Vector\CadLayerSample.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Samples\DisplayingLayers\WebServices\WMTSLayerSample.xaml">
+    <Page Update="Samples\DisplayingLayers\WebServices\WmtsLayerSample.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
@@ -184,10 +184,10 @@
     <Page Update="Samples\Extensibility\ExtendingFeatureSourcesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Misc\WFSV2FeatureLayerSample.xaml">
+    <Page Update="Samples\Misc\WfsV2FeatureLayerSample.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Samples\Misc\OGCAPIFeatureSample.xaml">
+    <Page Update="Samples\Misc\OgcApiFeatureSample.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Samples\Misc\ShapesAcrossDateLine.xaml">
@@ -321,21 +321,21 @@
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
-    <PackageReference Include="ThinkGeo.Cad" Version="14.0.0-beta003" />
-    <PackageReference Include="ThinkGeo.Ecw" Version="14.0.0-beta003" />
-    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.0.0-beta003" />
-    <PackageReference Include="ThinkGeo.GeoPdf" Version="14.0.0-beta003" />
-    <PackageReference Include="ThinkGeo.Kml" Version="14.0.0-beta003" />
-    <PackageReference Include="ThinkGeo.MrSid" Version="14.0.0-beta003" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.0.0-beta003" />
-    <PackageReference Include="ThinkGeo.Oracle" Version="14.0.0-beta003" />
-    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="14.0.0-beta003" />
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.0.0-beta003" />
-    <PackageReference Include="ThinkGeo.Printers" Version="14.0.0-beta003" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="14.0.0-beta003" />
-    <PackageReference Include="ThinkGeo.UI.Wpf" Version="14.0.0-beta003" />
-    <PackageReference Include="ThinkGeo.UnmanagedGeoTiff" Version="14.0.0-beta003" />
-    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="14.0.0-beta003" />
+    <PackageReference Include="ThinkGeo.Cad" Version="14.0.0-beta006" />
+    <PackageReference Include="ThinkGeo.Ecw" Version="14.0.0-beta006" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.0.0-beta006" />
+    <PackageReference Include="ThinkGeo.GeoPdf" Version="14.0.0-beta006" />
+    <PackageReference Include="ThinkGeo.Kml" Version="14.0.0-beta006" />
+    <PackageReference Include="ThinkGeo.MrSid" Version="14.0.0-beta006" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.0.0-beta006" />
+    <PackageReference Include="ThinkGeo.Oracle" Version="14.0.0-beta006" />
+    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="14.0.0-beta006" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.0.0-beta006" />
+    <PackageReference Include="ThinkGeo.Printers" Version="14.0.0-beta006" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="14.0.0-beta006" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="14.0.0-beta006" />
+    <PackageReference Include="ThinkGeo.UnmanagedGeoTiff" Version="14.0.0-beta006" />
+    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="14.0.0-beta006" />
     <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
   </ItemGroup>
   <ItemGroup>
@@ -1010,10 +1010,10 @@
     <Compile Update="Samples\DisplayingLayers\Raster\CommonRasterLayersSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\Raster\ESRIGridLayerSample.xaml.cs">
+    <Compile Update="Samples\DisplayingLayers\Raster\EsriGridLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\Raster\JPEG2000LayerSample.xaml.cs">
+    <Compile Update="Samples\DisplayingLayers\Raster\Jpeg2000LayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\DisplayingLayers\Raster\MrSidLayerSample.xaml.cs">
@@ -1022,7 +1022,7 @@
     <Compile Update="Samples\DisplayingLayers\Raster\GeoTiffLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\Database\SQLServerLayerSample.xaml.cs">
+    <Compile Update="Samples\DisplayingLayers\Database\SqlServerLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\DisplayingLayers\Database\OracleLayerSample.xaml.cs">
@@ -1031,7 +1031,7 @@
     <Compile Update="Samples\DisplayingLayers\Database\PostgresLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\Raster\ECWLayerSample.xaml.cs">
+    <Compile Update="Samples\DisplayingLayers\Raster\EcwLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\DisplayingLayers\Vector\GraticuleLayerSample.xaml.cs">
@@ -1040,13 +1040,13 @@
     <Compile Update="Samples\DisplayingLayers\Vector\InMemoryLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\Vector\ISOLineLayerSample.xaml.cs">
+    <Compile Update="Samples\DisplayingLayers\Vector\IsoLineLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\Vector\TABLayerSample.xaml.cs">
+    <Compile Update="Samples\DisplayingLayers\Vector\TabLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\Vector\GPXLayerSample.xaml.cs">
+    <Compile Update="Samples\DisplayingLayers\Vector\GpxLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\DisplayingLayers\Vector\S57LayerSample.xaml.cs">
@@ -1055,13 +1055,13 @@
     <Compile Update="Samples\DisplayingLayers\Vector\TinyGeoLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\Database\SQLiteLayerSample.xaml.cs">
+    <Compile Update="Samples\DisplayingLayers\Database\SqLiteLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\DisplayingLayers\Vector\FileGeoDatabaseLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\WebServices\WMSLayerSample.xaml.cs">
+    <Compile Update="Samples\DisplayingLayers\WebServices\WmsLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\DisplayingLayers\WebServices\OpenStreetMapLayerSample.xaml.cs">
@@ -1079,10 +1079,10 @@
     <Compile Update="Samples\DisplayingLayers\WebServices\CloudMapsRasterLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\WebServices\NOAAWeatherWarningLayerSample.xaml.cs">
+    <Compile Update="Samples\DisplayingLayers\WebServices\NoaaWeatherWarningLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\WebServices\NOAAWeatherStationLayerSample.xaml.cs">
+    <Compile Update="Samples\DisplayingLayers\WebServices\NoaaWeatherStationLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\DisplayingLayers\WebServices\NOAARadarLayerSample.xaml.cs">
@@ -1190,10 +1190,10 @@
     <Page Update="Samples\DisplayingLayers\Raster\CommonRasterLayersSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\Raster\ESRIGridLayerSample.xaml">
+    <Page Update="Samples\DisplayingLayers\Raster\EsriGridLayerSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\Raster\JPEG2000LayerSample.xaml">
+    <Page Update="Samples\DisplayingLayers\Raster\Jpeg2000LayerSample.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\DisplayingLayers\Raster\MrSidLayerSample.xaml">
@@ -1202,7 +1202,7 @@
     <Page Update="Samples\DisplayingLayers\Raster\GeoTiffLayerSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\Database\SQLServerLayerSample.xaml">
+    <Page Update="Samples\DisplayingLayers\Database\SqlServerLayerSample.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\DisplayingLayers\Database\OracleLayerSample.xaml">
@@ -1211,7 +1211,7 @@
     <Page Update="Samples\DisplayingLayers\Database\PostgresLayerSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\Raster\ECWLayerSample.xaml">
+    <Page Update="Samples\DisplayingLayers\Raster\EcwLayerSample.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\DisplayingLayers\Vector\GraticuleLayerSample.xaml">
@@ -1220,13 +1220,13 @@
     <Page Update="Samples\DisplayingLayers\Vector\InMemoryLayerSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\Vector\ISOLineLayerSample.xaml">
+    <Page Update="Samples\DisplayingLayers\Vector\IsoLineLayerSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\Vector\TABLayerSample.xaml">
+    <Page Update="Samples\DisplayingLayers\Vector\TabLayerSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\Vector\GPXLayerSample.xaml">
+    <Page Update="Samples\DisplayingLayers\Vector\GpxLayerSample.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\DisplayingLayers\Vector\S57LayerSample.xaml">
@@ -1235,13 +1235,13 @@
     <Page Update="Samples\DisplayingLayers\Vector\TinyGeoLayerSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\Database\SQLiteLayerSample.xaml">
+    <Page Update="Samples\DisplayingLayers\Database\SqLiteLayerSample.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\DisplayingLayers\Vector\FileGeoDatabaseLayerSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\WebServices\WMSLayerSample.xaml">
+    <Page Update="Samples\DisplayingLayers\WebServices\WmsLayerSample.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\DisplayingLayers\WebServices\OpenStreetMapLayerSample.xaml">
@@ -1259,10 +1259,10 @@
     <Page Update="Samples\DisplayingLayers\WebServices\CloudMapsRasterLayerSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\WebServices\NOAAWeatherWarningLayerSample.xaml">
+    <Page Update="Samples\DisplayingLayers\WebServices\NoaaWeatherWarningLayerSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\WebServices\NOAAWeatherStationLayerSample.xaml">
+    <Page Update="Samples\DisplayingLayers\WebServices\NoaaWeatherStationLayerSample.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\DisplayingLayers\WebServices\NOAARadarLayerSample.xaml">

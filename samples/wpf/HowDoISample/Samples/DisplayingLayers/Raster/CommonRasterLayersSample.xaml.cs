@@ -35,6 +35,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Create a new overlay that will hold our new layer and add it to the map.
             var layerOverlay = new LayerOverlay();
+            layerOverlay.TileType = TileType.SingleTile;
             MapView.Overlays.Add(layerOverlay);
 
             // Create the new layer and dd the layer to the overlay we created earlier.

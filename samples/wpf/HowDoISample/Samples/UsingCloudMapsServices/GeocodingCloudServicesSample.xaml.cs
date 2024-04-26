@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using ThinkGeo.Core;
 
-namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
+namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to use the GeocodingCloudClient to access the Geocoding APIs available from the ThinkGeo Cloud

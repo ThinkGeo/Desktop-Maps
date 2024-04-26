@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace ThinkGeo.UI.Wpf.HowDoI.Interpolation
+namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Interaction logic for Placeholder.xaml

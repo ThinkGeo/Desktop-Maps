@@ -7,9 +7,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to display a TAB Layer on the map
     /// </summary>
-    public partial class TABLayerSample : IDisposable
+    public partial class TabLayerSample : IDisposable
     {
-        public TABLayerSample()
+        public TabLayerSample()
         {
             InitializeComponent();
         }

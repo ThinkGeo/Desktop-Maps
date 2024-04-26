@@ -8,9 +8,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to display a WMS Layer on the map
     /// </summary>
-    public partial class WMSLayerSample : IDisposable
+    public partial class WmsLayerSample : IDisposable
     {
-        public WMSLayerSample()
+        public WmsLayerSample()
         {
             InitializeComponent();
         }
@@ -33,7 +33,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             await MapView.RefreshAsync();
         }
 
-        private async void rbLayerOrOverlay_Checked(object sender, RoutedEventArgs e)
+        private async void RbLayerOrOverlay_Checked(object sender, RoutedEventArgs e)
         {
             // Based on the radio buttons we switch between using the overlay and layer.
             var button = (RadioButton)sender;

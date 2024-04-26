@@ -9,10 +9,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to generate and display an ESRI Grid Layer on the map
+    /// We start with a shapefile of points with each point containing a soil PH value.
+    /// Clicking the Generate button will build a .grd file using an Inverse Distance Weighted (IDW) interpolation model and then displays the grid.
+    /// Although this sample is a soil map, this same technique can be used to translate any other point-based data to a grid
     /// </summary>
-    public partial class ESRIGridLayerGenerationSample : IDisposable
+    public partial class EsriGridLayerGenerationSample : IDisposable
     {
-        public ESRIGridLayerGenerationSample()
+        public EsriGridLayerGenerationSample()
         {
             InitializeComponent();
         }

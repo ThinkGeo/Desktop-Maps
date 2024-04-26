@@ -9,9 +9,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to display a NOAA Weather Warning Layer on the map
     /// </summary>
-    public partial class NOAAWeatherWarningLayerSample
+    public partial class NoaaWeatherWarningLayerSample
     {
-        public NOAAWeatherWarningLayerSample()
+        public NoaaWeatherWarningLayerSample()
         {
             InitializeComponent();
         }

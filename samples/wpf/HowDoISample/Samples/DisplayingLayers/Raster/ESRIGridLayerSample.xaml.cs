@@ -7,9 +7,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to display an ESRI Grid Layer on the map
     /// </summary>
-    public partial class ESRIGridLayerSample : IDisposable
+    public partial class EsriGridLayerSample : IDisposable
     {
-        public ESRIGridLayerSample()
+        public EsriGridLayerSample()
         {
             InitializeComponent();
         }
@@ -72,6 +72,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             await MapView.RefreshAsync();
         }
 
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            MapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+
+        #region Code for creating the sample data in EsriGrid Layer
+
         //var mos = new ShapeFileFeatureSource(@"./Data/Frisco_Mosquitos.shp");
         //mos.Open();
         //var features = mos.GetAllFeatures(ReturningColumnsType.AllColumns);
@@ -98,12 +108,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         //GridFeatureSource.GenerateGrid(new GridDefinition(RectangleShape.ScaleUp(mos.GetBoundingBox(),30).GetBoundingBox(), 300, -999, points), new InverseDistanceWeightedGridInterpolationModel(), stream);
         //stream.Close();
 
-        public void Dispose()
-        {
-            // Dispose of unmanaged resources.
-            MapView.Dispose();
-            // Suppress finalization.
-            GC.SuppressFinalize(this);
-        }
+        #endregion
+
     }
 }

@@ -7,9 +7,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to display a WMTS Layer on the map
     /// </summary>
-    public partial class WMTSLayerSample : IDisposable
+    public partial class WmtsLayerSample : IDisposable
     {
-        public WMTSLayerSample()
+        public WmtsLayerSample()
         {
             InitializeComponent();
         }

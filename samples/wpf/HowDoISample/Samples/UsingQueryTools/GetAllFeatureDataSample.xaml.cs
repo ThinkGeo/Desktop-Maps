@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
 
-namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
+namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to get data from all features in a ShapeFile

@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using ThinkGeo.Core;
 
-namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers
+namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Interaction logic for GenerateMapImageSample.xaml

@@ -7,9 +7,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to display a SQLServer Layer on the map
     /// </summary>
-    public partial class SQLServerLayerSample : IDisposable
+    public partial class SqlServerLayerSample : IDisposable
     {
-        public SQLServerLayerSample()
+        public SqlServerLayerSample()
         {
             InitializeComponent();
         }
@@ -58,42 +58,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Refresh the map.
             await MapView.RefreshAsync();
-
-            // ========================================================
-            // Code for creating the sample data in SQL Server
-            // ========================================================
-
-            //Collection<FeatureSourceColumn> columns = new Collection<FeatureSourceColumn>();
-            //columns.Add(new FeatureSourceColumn("comment", "varchar", 255));
-
-            //SqlServerFeatureSource.CreateTable("Server={server};Database={db};User Id={username};Password={password};", "frisco_coyote_sightings", MsSqlSpatialDataType.Geometry, columns);
-
-            //SqlServerFeatureSource target = new SqlServerFeatureSource("Server={server};Database={db};User Id={username};Password={password};", "frisco_coyote_sightings", "id");
-            //target.Open();
-
-            //ShapeFileFeatureSource source = new ShapeFileFeatureSource(@"./Data/Frisco_Coyote_Sightings.shp");
-            //source.Open();
-
-            //var sourceFeatures = source.GetAllFeatures(ReturningColumnsType.AllColumns);
-
-            //target.BeginTransaction();
-
-            //foreach (var feature in sourceFeatures)
-            //{
-            //    var dict = new Dictionary<string, string>();
-            //    dict.Add("comment", feature.ColumnValues["Comments"].ToString().Replace('"', ' ').Replace("'", ""));
-
-            //    var newFeature = new Feature(feature.GetWellKnownBinary(), feature.ColumnValues["OBJECTID"], dict);
-
-            //    target.AddFeature(newFeature);
-            //}
-
-            //var results = target.CommitTransaction();
-            //target.Close();
-
-            //target.Open();
-            //var features = target.GetAllFeatures(ReturningColumnsType.AllColumns);
-            //target.Close();
         }
 
         public void Dispose()
@@ -103,5 +67,41 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
+
+        #region Code for creating the sample data in SQL Server
+
+        //Collection<FeatureSourceColumn> columns = new Collection<FeatureSourceColumn>();
+        //columns.Add(new FeatureSourceColumn("comment", "varchar", 255));
+
+        //SqlServerFeatureSource.CreateTable("Server={server};Database={db};User Id={username};Password={password};", "frisco_coyote_sightings", MsSqlSpatialDataType.Geometry, columns);
+
+        //SqlServerFeatureSource target = new SqlServerFeatureSource("Server={server};Database={db};User Id={username};Password={password};", "frisco_coyote_sightings", "id");
+        //target.Open();
+
+        //ShapeFileFeatureSource source = new ShapeFileFeatureSource(@"./Data/Frisco_Coyote_Sightings.shp");
+        //source.Open();
+
+        //var sourceFeatures = source.GetAllFeatures(ReturningColumnsType.AllColumns);
+
+        //target.BeginTransaction();
+
+        //foreach (var feature in sourceFeatures)
+        //{
+        //    var dict = new Dictionary<string, string>();
+        //    dict.Add("comment", feature.ColumnValues["Comments"].ToString().Replace('"', ' ').Replace("'", ""));
+
+        //    var newFeature = new Feature(feature.GetWellKnownBinary(), feature.ColumnValues["OBJECTID"], dict);
+
+        //    target.AddFeature(newFeature);
+        //}
+
+        //var results = target.CommitTransaction();
+        //target.Close();
+
+        //target.Open();
+        //var features = target.GetAllFeatures(ReturningColumnsType.AllColumns);
+        //target.Close();
+
+        #endregion
     }
 }

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
-    public partial class OGCAPIFeatureSample
+    public partial class OgcApiFeatureSample
     {
-        public OGCAPIFeatureSample()
+        public OgcApiFeatureSample()
         {
             InitializeComponent();
         }

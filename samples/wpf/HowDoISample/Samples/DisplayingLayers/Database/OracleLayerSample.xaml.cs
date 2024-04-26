@@ -37,6 +37,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var schoolOverlay = new LayerOverlay();
             MapView.Overlays.Add(schoolOverlay);
 
+            #region Initialize Oracle feature layer
+
             //// Create the new layer and set the projection as the data is in srid 2276 as our background is srid 3857 (spherical mercator).
             // OracleFeatureLayer schoolLayer = new OracleFeatureLayer(@"OCI:system/ThinkGeodatabasepassword!@sampledatabases.thinkgeo.com/xe", "SCHOOLS", "OGR_FID");
             //OracleFeatureLayer schoolLayer = new OracleFeatureLayer(@"OCI:ThinkGeoSampleUser/ThinkGeoSamplePassword@sampledatabases.thinkgeo.com/xe", "SYSTEM.SCHOOLS", "OGR_FID");
@@ -48,6 +50,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             //// Set a point style to zoom level 1 and then apply it to all zoom levels up to 20.
             //schoolLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Circle, 12, GeoBrushes.Blue, new GeoPen(GeoColors.White,2));
             //schoolLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
+            #endregion
 
             // Set the map view current extent to a bounding box that shows just a few sightings.  
             MapView.CurrentExtent = new RectangleShape(-10789388, 3923878, -10768258, 3906668);

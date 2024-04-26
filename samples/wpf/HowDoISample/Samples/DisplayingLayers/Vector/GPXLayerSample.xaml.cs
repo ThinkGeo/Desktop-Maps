@@ -7,9 +7,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to display a GPX Layer on the map
     /// </summary>
-    public partial class GPXLayerSample : IDisposable
+    public partial class GpxLayerSample : IDisposable
     {
-        public GPXLayerSample()
+        public GpxLayerSample()
         {
             InitializeComponent();
         }

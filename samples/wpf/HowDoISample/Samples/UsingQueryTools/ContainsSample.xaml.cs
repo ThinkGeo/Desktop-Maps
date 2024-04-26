@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using ThinkGeo.Core;
 
-namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
+namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to use layer query tools to find which features in a layer contain a shape

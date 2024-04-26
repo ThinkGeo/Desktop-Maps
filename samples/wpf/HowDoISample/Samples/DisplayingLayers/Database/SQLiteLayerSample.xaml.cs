@@ -7,9 +7,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to display a SQLite Layer on the map
     /// </summary>
-    public partial class SQLiteLayerSample : IDisposable
+    public partial class SqLiteLayerSample : IDisposable
     {
-        public SQLiteLayerSample()
+        public SqLiteLayerSample()
         {
             InitializeComponent();
         }

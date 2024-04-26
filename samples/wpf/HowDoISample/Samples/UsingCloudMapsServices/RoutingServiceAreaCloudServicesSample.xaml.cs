@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using ThinkGeo.Core;
 
-namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
+namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to use the RoutingCloudClient to find the service area of a location with the ThinkGeo Cloud

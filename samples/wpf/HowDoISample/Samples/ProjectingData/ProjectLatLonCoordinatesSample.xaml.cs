@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using ThinkGeo.Core;
 
-namespace ThinkGeo.UI.Wpf.HowDoI.ProjectingData
+namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to reproject features using the ProjectionConverter class

@@ -6,9 +6,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to display a NOAA Weather Station Layer on the map
     /// </summary>
-    public partial class NOAAWeatherStationLayerSample
+    public partial class NoaaWeatherStationLayerSample
     {
-        public NOAAWeatherStationLayerSample()
+        public NoaaWeatherStationLayerSample()
         {
             InitializeComponent();
         }

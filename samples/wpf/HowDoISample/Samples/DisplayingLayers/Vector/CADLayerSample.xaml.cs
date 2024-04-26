@@ -2,16 +2,16 @@
 using System.Windows;
 using ThinkGeo.Core;
 
-namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector
+namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to display a Shapefile Layer on the map
     /// </summary>
-    public partial class CADLayerSample : IDisposable
+    public partial class CadLayerSample : IDisposable
     {
         private CadFeatureLayer _cadLayer;
 
-        public CADLayerSample()
+        public CadLayerSample()
         {
             InitializeComponent();
         }
@@ -55,7 +55,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector
             MapView.CurrentExtent = _cadLayer.GetBoundingBox();
 
             await MapView.RefreshAsync();
-
         }
 
         public void Dispose()
@@ -66,7 +65,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector
             GC.SuppressFinalize(this);
         }
 
-        private async void rbtnEmbeddedStyling_Checked(object sender, RoutedEventArgs e)
+        private async void EmbeddedStyling_Checked(object sender, RoutedEventArgs e)
         {
             if (_cadLayer == null) return;
             // Create an Area style on zoom level 1 and then apply it to all zoom levels up to 20.
@@ -75,7 +74,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector
             await MapView.RefreshAsync();
         }
 
-        private async void rbtnProgrammaticStyling_Checked(object sender, RoutedEventArgs e)
+        private async void ProgrammaticStyling_Checked(object sender, RoutedEventArgs e)
         {
             if (_cadLayer == null) return;
             // Create an Area style on zoom level 1 and then apply it to all zoom levels up to 20.

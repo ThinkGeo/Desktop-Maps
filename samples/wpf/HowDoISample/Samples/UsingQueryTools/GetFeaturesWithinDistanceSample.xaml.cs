@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using ThinkGeo.Core;
 
-namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
+namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to use layer query tools to find features in a layer within a given distance of a point

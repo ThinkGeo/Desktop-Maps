@@ -58,40 +58,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Refresh the map.
             await MapView.RefreshAsync();
-
-            // ========================================================
-            // Code for creating the sample data in PostgreSql
-            // ========================================================
-
-            //Collection<FeatureSourceColumn> columns = new Collection<FeatureSourceColumn>();
-            //columns.Add(new FeatureSourceColumn("comment", "varchar", 255));
-
-            //PostgreSqlFeatureSource target = new PostgreSqlFeatureSource("User ID={username};Password={password};Host={server};Port=5432;Database={db};Pooling=true;", "frisco_coyote_sightings", "ID", 2276);
-            //target.Open();
-
-            //ShapeFileFeatureSource source = new ShapeFileFeatureSource(@"./Data/Frisco_Coyote_Sightings.shp");
-            //source.Open();
-
-            //var sourceFeatures = source.GetAllFeatures(ReturningColumnsType.AllColumns);
-
-            //target.BeginTransaction();
-
-            //foreach (var feature in sourceFeatures)
-            //{
-            //    var dict = new Dictionary<string, string>();
-            //    dict.Add("comment", feature.ColumnValues["Comments"].ToString().Replace('"', ' ').Replace("'", ""));
-            //    dict.Add("id", feature.ColumnValues["OBJECTID"]);
-            //    var newFeature = new Feature(feature.GetWellKnownBinary(), feature.ColumnValues["OBJECTID"], dict);
-
-            //    target.AddFeature(newFeature);
-            //}
-
-            //var results = target.CommitTransaction();
-            //target.Close();
-
-            //target.Open();
-            //var features = target.GetAllFeatures(ReturningColumnsType.AllColumns);
-            //target.Close();
         }
 
         public void Dispose()
@@ -101,5 +67,39 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
+
+        #region Code for creating the sample data in PostgreSql
+        
+        //Collection<FeatureSourceColumn> columns = new Collection<FeatureSourceColumn>();
+        //columns.Add(new FeatureSourceColumn("comment", "varchar", 255));
+
+        //PostgreSqlFeatureSource target = new PostgreSqlFeatureSource("User ID={username};Password={password};Host={server};Port=5432;Database={db};Pooling=true;", "frisco_coyote_sightings", "ID", 2276);
+        //target.Open();
+
+        //ShapeFileFeatureSource source = new ShapeFileFeatureSource(@"./Data/Frisco_Coyote_Sightings.shp");
+        //source.Open();
+
+        //var sourceFeatures = source.GetAllFeatures(ReturningColumnsType.AllColumns);
+
+        //target.BeginTransaction();
+
+        //foreach (var feature in sourceFeatures)
+        //{
+        //    var dict = new Dictionary<string, string>();
+        //    dict.Add("comment", feature.ColumnValues["Comments"].ToString().Replace('"', ' ').Replace("'", ""));
+        //    dict.Add("id", feature.ColumnValues["OBJECTID"]);
+        //    var newFeature = new Feature(feature.GetWellKnownBinary(), feature.ColumnValues["OBJECTID"], dict);
+
+        //    target.AddFeature(newFeature);
+        //}
+
+        //var results = target.CommitTransaction();
+        //target.Close();
+
+        //target.Open();
+        //var features = target.GetAllFeatures(ReturningColumnsType.AllColumns);
+        //target.Close();
+
+        #endregion
     }
 }

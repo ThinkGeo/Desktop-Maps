@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
 
-namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
+namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to use the ColorCloudClient class to access the ColorUtilities APIs available from the ThinkGeo Cloud

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using ThinkGeo.Core;
 
-namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
+namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to use the ProjectionCloudClient to access the Projection APIs available from the ThinkGeo Cloud

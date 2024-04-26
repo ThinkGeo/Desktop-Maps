@@ -7,9 +7,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to display an ECW Layer on the map
     /// </summary>
-    public partial class ECWLayerSample : IDisposable
+    public partial class EcwLayerSample : IDisposable
     {
-        public ECWLayerSample()
+        public EcwLayerSample()
         {
             InitializeComponent();
         }

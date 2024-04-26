@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
 
-namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
+namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to use the ElevationCloudClient class to get elevation data from the ThinkGeo Cloud

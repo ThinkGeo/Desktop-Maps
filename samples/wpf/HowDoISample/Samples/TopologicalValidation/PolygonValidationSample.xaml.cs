@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using ThinkGeo.Core;
 
-namespace ThinkGeo.UI.Wpf.HowDoI.TopologicalValidation
+namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to use the TopologyValidator APIs to perform validation on points
