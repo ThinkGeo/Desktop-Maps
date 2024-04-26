@@ -13,12 +13,12 @@ namespace WpfSample
             InitializeComponent();
         }
 
-        private void mapView_Loaded(object sender, RoutedEventArgs e)
+        private async void mapView_Loaded(object sender, RoutedEventArgs e)
         {            
             mapView.MapUnit = GeographyUnit.Meter;
             // Add a base map overlay.
-            var baseOverlay = new ThinkGeoCloudVectorMapsOverlay("USlbIyO5uIMja2y0qoM21RRM6NBXUad4hjK3NBD6pD0~", 
-                "f6OJsvCDDzmccnevX55nL7nXpPDXXKANe5cN6czVjCH0s8jhpCH-2A~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var baseOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~",
+                "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             // Set up the tile cache for the base overlay, passing in the location and an ID to distinguish the cache. 
             baseOverlay.TileCache = new FileRasterTileCache(@".\cache", "basemap");
             mapView.Overlays.Add(baseOverlay);
@@ -49,7 +49,7 @@ namespace WpfSample
             customDataOverlay.Layers.Add(capitalLayer);
             mapView.Overlays.Add(customDataOverlay);
 
-            mapView.Refresh(); 
+            await mapView.RefreshAsync(); 
         }
     }
 }
