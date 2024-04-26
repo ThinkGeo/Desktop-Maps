@@ -27,7 +27,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void lblCloudMapsLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo("https://cloud.thinkgeo.com/"));
+            Process.Start(new ProcessStartInfo("https://cloud.thinkgeo.com/") { UseShellExecute = true });
         }
 
         private async void displayRasterCloudMaps_Click(object sender, EventArgs e)

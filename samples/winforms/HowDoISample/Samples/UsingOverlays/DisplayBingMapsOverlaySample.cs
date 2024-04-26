@@ -27,7 +27,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void BingMapsAccountLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo("https://www.bingmapsportal.com/"));
+            Process.Start(new ProcessStartInfo("https://www.bingmapsportal.com/") { UseShellExecute = true });
         }
 
         private async void displayBingMaps_Click(object sender, EventArgs e)

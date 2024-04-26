@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
@@ -54,12 +53,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
         }
 
-        private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo("https://developers.google.com/maps/documentation/maps-static/get-api-key"));
+            Process.Start(new ProcessStartInfo("https://developers.google.com/maps/documentation/maps-static/get-api-key") { UseShellExecute = true });
         }
 
         #region Component Designer generated code
+
         private Panel panel1;
         private LinkLabel linkLabel1;
         private Button btnActivate;
@@ -125,6 +125,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.linkLabel1.TabIndex = 7;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "Sign up for a Google Maps API Key";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // btnActivate
             // 
@@ -156,7 +157,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label4.Size = new System.Drawing.Size(94, 20);
             this.label4.TabIndex = 4;
             this.label4.Text = "Api Key";
-            
             // 
             // label1
             // 

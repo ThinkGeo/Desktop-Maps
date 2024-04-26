@@ -23,6 +23,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Create a new overlay that will hold our new layer and add it to the map.
             LayerOverlay layerOverlay = new LayerOverlay();
+            layerOverlay.TileType = TileType.SingleTile;
             mapView.Overlays.Add(layerOverlay);
 
             // Create the new layer and dd the layer to the overlay we created earlier.

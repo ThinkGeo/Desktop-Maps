@@ -29,7 +29,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo("https://www.bingmapsportal.com/"));
+            Process.Start(new ProcessStartInfo("https://www.bingmapsportal.com/"){UseShellExecute = true});
         }
 
         private async void btnActivate_Click(object sender, EventArgs e)
