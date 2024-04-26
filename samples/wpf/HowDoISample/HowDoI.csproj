@@ -90,7 +90,7 @@
     <Compile Update="Samples\UsingCloudMapsServices\RoutingServiceAreaCloudServicesSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\UsingCloudMapsServices\RoutingTSPCloudServicesSample.xaml.cs">
+    <Compile Update="Samples\UsingCloudMapsServices\RoutingTspCloudServicesSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\UsingMapTools\DisplayCompassSample.xaml.cs">
@@ -99,7 +99,7 @@
     <Compile Update="Samples\UsingMapTools\DisplayMagneticNorthSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\UsingOverlays\DrawGPSLocationOverlaySample.xaml.cs">
+    <Compile Update="Samples\UsingOverlays\DrawGpsLocationOverlaySample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\UsingOverlays\DisplaySimpleBackgroundOverlaySample.xaml.cs">
@@ -1321,7 +1321,7 @@
     <Page Update="Samples\UsingCloudMapsServices\RoutingServiceAreaCloudServicesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingCloudMapsServices\RoutingTSPCloudServicesSample.xaml">
+    <Page Update="Samples\UsingCloudMapsServices\RoutingTspCloudServicesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\UsingCloudMapsServices\RoutingCloudServicesSample.xaml">
@@ -1342,7 +1342,7 @@
     <Page Update="Samples\UsingMapTools\DisplayMapPanZoomBarSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingOverlays\DrawGPSLocationOverlaySample.xaml">
+    <Page Update="Samples\UsingOverlays\DrawGpsLocationOverlaySample.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
@@ -1388,7 +1388,7 @@
     <Page Update="Samples\UsingOverlays\DisplayOpenStreetMapOverlaySample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingOverlays\DisplayWMSOverlaySample.xaml">
+    <Page Update="Samples\UsingOverlays\DisplayWmsOverlaySample.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\UsingOverlays\UsingMarkersSample.xaml">

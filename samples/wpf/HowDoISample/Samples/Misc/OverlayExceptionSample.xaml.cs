@@ -36,24 +36,22 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private async void DrawingExceptionMode_Checked(object sender, RoutedEventArgs e)
         {
             var button = (RadioButton)sender;
-            if (button.Content != null)
+            if (button.Content == null) return;
+            TxtException.Text = "";
+            switch (button.Content.ToString())
             {
-                txtException.Text = "";
-                switch (button.Content.ToString())
-                {
-                    case "Throw Exception":
-                        UseLayer(DrawingExceptionMode.ThrowException, false);
-                        break;
-                    case "Customize Drawing Exception":
-                        UseLayer(DrawingExceptionMode.DrawException, true);
-                        break;
-                    case "Draw Exception":
-                    default:
-                        UseLayer(DrawingExceptionMode.DrawException, false);
-                        break;
-                }
-                await MapView.RefreshAsync();
+                case "Throw Exception":
+                    UseLayer(DrawingExceptionMode.ThrowException, false);
+                    break;
+                case "Customize Drawing Exception":
+                    UseLayer(DrawingExceptionMode.DrawException, true);
+                    break;
+                case "Draw Exception":
+                default:
+                    UseLayer(DrawingExceptionMode.DrawException, false);
+                    break;
             }
+            await MapView.RefreshAsync();
         }
 
         private void UseLayer(DrawingExceptionMode drawingExceptionMode, bool drawCustomException)
@@ -70,7 +68,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             {
                 staticOverlay.ThrowingException += (sender, e) =>
                 {
-                    txtException.Text = e.Exception?.InnerException.Message;
+                    TxtException.Text = e.Exception?.InnerException.Message;
                 };
             }
 
@@ -115,7 +113,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             {
                 // customize the drawing exception. Here below we draw the error in red on orange canvas.
                 canvas.DrawArea(canvas.CurrentWorldExtent, GeoBrushes.LightOrange, DrawingLevel.LevelOne);
-                canvas.DrawText("Customized Exception Message", new GeoFont("Arial", 10), GeoBrushes.Red, new ScreenPointF[] { new ScreenPointF(canvas.Width / 2, canvas.Height / 2) }, DrawingLevel.LabelLevel);
+                canvas.DrawText("Customized Exception Message", new GeoFont("Arial", 10), GeoBrushes.Red, new[] { new ScreenPointF(canvas.Width / 2, canvas.Height / 2) }, DrawingLevel.LabelLevel);
             }
         }
     }

@@ -7,9 +7,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn to render a Web Map Service using the WMSOverlay.
     /// </summary>
-    public partial class DisplayWMSOverlaySample : IDisposable
+    public partial class DisplayWmsOverlaySample : IDisposable
     {
-        public DisplayWMSOverlaySample()
+        public DisplayWmsOverlaySample()
         {
             InitializeComponent();
         }

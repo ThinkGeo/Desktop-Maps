@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using ThinkGeo.Core;
@@ -116,7 +115,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Update the number of matching features found in the UI
             TxtNumberOfFeaturesFound.Text =
-                $"Number of features disjoint from the drawn shape: {queriedFeatures.Count()}";
+                $"Number of features disjoint from the drawn shape: {queriedFeatures.Count}";
 
             // Disable map drawing and clear the drawn shape
             MapView.TrackOverlay.TrackMode = TrackMode.None;

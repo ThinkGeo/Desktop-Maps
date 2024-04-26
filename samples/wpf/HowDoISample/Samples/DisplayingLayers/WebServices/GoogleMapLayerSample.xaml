@@ -14,8 +14,8 @@
             <Hyperlink  NavigateUri="https://developers.google.com/maps/documentation/maps-static/get-api-key" RequestNavigate="Hyperlink_RequestNavigate">Sign up for a Google Maps Api Key</Hyperlink>
             </TextBlock>
             <Label Grid.Column="1" Grid.Row="2" Content="API Key"></Label>
-            <TextBox Grid.Column="1" Grid.Row="3" Name ="txtApiKey"></TextBox>
-            <Button Grid.Column="1" Grid.Row="6" x:Name="btnActivate" Click="btnActivate_Click">Activate</Button>
+            <TextBox Grid.Column="1" Grid.Row="3" Name ="TxtApiKey"></TextBox>
+            <Button Grid.Column="1" Grid.Row="6" x:Name="BtnActivate" Click="BtnActivate_Click">Activate</Button>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />
                 <ColumnDefinition Width="*" />

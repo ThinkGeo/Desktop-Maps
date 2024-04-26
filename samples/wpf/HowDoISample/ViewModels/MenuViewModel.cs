@@ -20,28 +20,24 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private bool _isSelected;
         public bool IsSelected
         {
-            get { return _isSelected; }
+            get => _isSelected;
             set
             {
-                if (_isSelected != value)
-                {
-                    _isSelected = value;
-                    OnPropertyChanged(nameof(IsSelected));
-                }
+                if (_isSelected == value) return;
+                _isSelected = value;
+                OnPropertyChanged();
             }
         }
 
         private bool _expanded;
         public bool Expanded
         {
-            get { return _expanded; }
+            get => _expanded;
             set
             {
-                if (_expanded != value)
-                {
-                    _expanded = value;
-                    OnPropertyChanged(nameof(Expanded));
-                }
+                if (_expanded == value) return;
+                _expanded = value;
+                OnPropertyChanged();
             }
         }
 

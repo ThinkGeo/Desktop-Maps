@@ -10,9 +10,9 @@
         <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded"/>
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Content="Feed Controls:" FontSize="16" FontWeight="Bold" Grid.Column="1" Grid.Row="0"/>
-            <Button x:Name="StartRefresh" Content="Refresh" Click="btnStartRefresh_Click" Grid.Column="1" Grid.Row="1"></Button>
-            <Button x:Name="btnRotate" Content="Rotate" Click="btnRotate_Click" Grid.Column="1" Grid.Row="2"></Button>
-            <Button x:Name="btnOffset" Content="Offset" Click="btnOffset_Click" Grid.Column="1" Grid.Row="3"></Button>
+            <Button x:Name="StartRefresh" Content="Refresh" Click="BtnStartRefresh_Click" Grid.Column="1" Grid.Row="1"></Button>
+            <Button x:Name="BtnRotate" Content="Rotate" Click="BtnRotate_Click" Grid.Column="1" Grid.Row="2"></Button>
+            <Button x:Name="BtnOffset" Content="Offset" Click="BtnOffset_Click" Grid.Column="1" Grid.Row="3"></Button>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />
                 <ColumnDefinition Width="240" />

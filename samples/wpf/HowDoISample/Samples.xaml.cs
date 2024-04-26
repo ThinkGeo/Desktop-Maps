@@ -19,11 +19,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     /// 
-    public partial class Samples : Window
+    public partial class Samples
     {
         // A list of all the menu models
         private List<MenuModel> _menus;
-        private DispatcherTimer _changeTimer;
+        private readonly DispatcherTimer _changeTimer;
 
         public Samples()
         {
@@ -62,12 +62,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 {
                     Header = item.Title
                 };
-                treeView.Items.Add(treeItem);
+                TreeView.Items.Add(treeItem);
                 AddTreeItems(treeItem, item);
             }
 
             // Expand the first node and select the first sample
-            var firstTreeNode = (TreeViewItem)treeView.Items[0];
+            var firstTreeNode = (TreeViewItem)TreeView.Items[0];
             if (firstTreeNode == null) return;
             firstTreeNode.IsExpanded = true;
             var firstSubTreeNode = (TreeViewItem)firstTreeNode.Items[0];
@@ -108,7 +108,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             else if (e.PropertyName == nameof(MainWindowViewModel.CodeViewer))
             {
                 // Update the code and XAML view
-                UpdateCodeViewerLayout(vm.CodeViewer);
+                UpdateCodeViewerLayout(vm?.CodeViewer);
             }
         }
 
@@ -120,9 +120,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (SampleContent.Children.Count > 0)
             {
                 var oldControl = (UserControl)SampleContent.Children[0];
-                if (oldControl is IDisposable)
+                if (oldControl is IDisposable disposable)
                 {
-                    ((IDisposable)oldControl).Dispose();
+                    disposable.Dispose();
                 }
                 SampleContent.Children.Remove(oldControl);
                 SampleContent.DataContext = null;
@@ -132,14 +132,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
 
             // Dynamically create the new user control based on the sample selected
-            var sample = GetSample(vm.SelectedMenu.Id);
+            var sample = GetSample(vm?.SelectedMenu.Id);
 
             // Add the new sample user control to the XAML layout
             SampleContent.Children.Add(sample);
 
             // Update the CS & XAML code windows
-            UpdateCodeViewerLayout(vm.CodeViewer);
-            CsharpCodeViewer.Text = GetFileContent($"../../../{vm.SelectedMenu.Source}.xaml.cs");
+            UpdateCodeViewerLayout(vm?.CodeViewer);
+            CsharpCodeViewer.Text = GetFileContent($"../../../{vm?.SelectedMenu.Source}.xaml.cs");
             XamlCodeViewer.Text = ToXaml(sample);
         }
 
@@ -249,24 +249,24 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             return File.ReadAllText(path);
         }
 
-        private void txtSearch_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        private void txtSearch_KeyDown(object sender, KeyEventArgs e)
         {
             //  When you type into the search bar and hit enter we find all the samples via the JSON
             // and see what samples match the various keywords entered.  Then we restrict the tree view
             // to only the samples that match
             if (e.Key == Key.Return)
             {
-                if (txtSearch.Text == "")
+                if (TxtSearch.Text == "")
                 {
-                    foreach (TreeViewItem item in treeView.Items)
+                    foreach (TreeViewItem item in TreeView.Items)
                         CollapseTreeviewItems(item, Visibility.Visible);
                 }
                 else
                 {
-                    foreach (TreeViewItem item in treeView.Items)
+                    foreach (TreeViewItem item in TreeView.Items)
                         CollapseTreeviewItems(item, Visibility.Collapsed);
 
-                    foreach (TreeViewItem item in treeView.Items)
+                    foreach (TreeViewItem item in TreeView.Items)
                         EnableTreeviewItems(item);
                 }
             }
@@ -289,7 +289,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void EnableMatchingTreeNodes(TreeViewItem item)
         {
             // Enable just the tree view items that match the search criteria
-            string[] searchTerms = txtSearch.Text.Split(' ');
+            string[] searchTerms = TxtSearch.Text.Split(' ');
 
             if (item.Tag != null)
             {
@@ -331,7 +331,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
         }
 
-        private void ExpandParents(TreeViewItem item)
+        private static void ExpandParents(TreeViewItem item)
         {
             // Given a tree node we walk up the parents and expand them
             var parent = (TreeViewItem)item.Parent;
@@ -340,9 +340,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             {
                 parent.IsExpanded = true;
                 parent.Visibility = Visibility.Visible;
-                if (parent.Parent is TreeViewItem)
+                if (parent.Parent is TreeViewItem viewItem)
                 {
-                    parent = (TreeViewItem)parent.Parent;
+                    parent = viewItem;
                 }
                 else
                 {
@@ -351,9 +351,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
         }
 
-        private void CollapseTreeviewItems(TreeViewItem item, Visibility visibility)
+        private static void CollapseTreeviewItems(TreeViewItem item, Visibility visibility)
         {
-            // Given a tree view we expand or contract the parent nodes and set the correct vivibility of the leafs
+            // Given a tree view we expand or contract the parent nodes and set the correct visibility of the leafs
             item.IsExpanded = false;
             item.Visibility = visibility;
 
@@ -369,7 +369,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            // This fires on the scroll wheel over the tree view so we support scrolling with the mouse wheel
+            // This fires on the scroll wheel over the tree view, so we support scrolling with the mouse wheel
             var scv = (ScrollViewer)sender;
             scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
             e.Handled = true;

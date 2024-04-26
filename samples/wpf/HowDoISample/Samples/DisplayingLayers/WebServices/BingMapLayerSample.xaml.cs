@@ -27,10 +27,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Add the Bing Maps layer to the map
         /// </summary>
-        private async void btnActivate_Click(object sender, RoutedEventArgs e)
+        private async void BtnActivate_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(txtApplicationID.Text) || MapView.Overlays.Contains("Bing Map")) return;
-            btnActivate.IsEnabled = false;
+            if (string.IsNullOrEmpty(TxtApplicationId.Text) || MapView.Overlays.Contains("Bing Map")) return;
+            BtnActivate.IsEnabled = false;
             // Set the map zoom level set to the bing map zoom level set so all the zoom levels line up.
             MapView.ZoomLevelSet = new BingMapsZoomLevelSet();
 
@@ -44,7 +44,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.Overlays.Add("Bing Map", layerOverlay);
 
             // Create the bing map layer and add it to the map.                
-            var bingMapsLayer = new Core.Async.BingMapsLayer(txtApplicationID.Text, BingMapsMapType.Road)
+            var bingMapsLayer = new Core.Async.BingMapsLayer(TxtApplicationId.Text, BingMapsMapType.Road)
             {
                 TileCache = new FileRasterTileCache("C:\\temp", "bingMapsRoad")
             };

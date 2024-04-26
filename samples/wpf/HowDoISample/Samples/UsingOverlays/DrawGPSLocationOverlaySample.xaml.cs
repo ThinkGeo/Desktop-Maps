@@ -13,12 +13,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to display a CloudMapsVector Layer on the map
     /// </summary>
-    public partial class DrawGPSLocationOverlaySample : IDisposable
+    public partial class DrawGpsLocationOverlaySample : IDisposable
     {
         private bool _cancelFeed;
         private bool _pauseFeed;
 
-        public DrawGPSLocationOverlaySample()
+        public DrawGpsLocationOverlaySample()
         {
             InitializeComponent();
         }

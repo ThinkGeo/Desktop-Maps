@@ -143,7 +143,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             // Create features based on the WKT in the textbox in the UI
             var decimalDegreeFeatures = new Collection<Feature>();
-            var wktStrings = txtWKT.Text.Split('\n');
+            var wktStrings = TxtWkt.Text.Split('\n');
             foreach (var wktString in wktStrings)
             {
                 try

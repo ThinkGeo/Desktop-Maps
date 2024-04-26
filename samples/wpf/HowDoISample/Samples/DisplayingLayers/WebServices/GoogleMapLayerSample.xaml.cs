@@ -30,7 +30,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Add the Google Maps Layer to the map
         /// </summary>
-        private async void btnActivate_Click(object sender, RoutedEventArgs e)
+        private async void BtnActivate_Click(object sender, RoutedEventArgs e)
         {
             // Sets the map zoom level set to the Google maps zoom level set.
             MapView.ZoomLevelSet = new GoogleMapsZoomLevelSet();
@@ -43,7 +43,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.Overlays.Add("WorldOverlay", worldOverlay);
 
             // Create the new layer.
-            var worldLayer = new Core.Async.GoogleMapsLayer(txtApiKey.Text, string.Empty);
+            var worldLayer = new Core.Async.GoogleMapsLayer(TxtApiKey.Text, string.Empty);
 
             // Add the layer to the overlay we created earlier.
             worldOverlay.Layers.Add("WorldLayer", worldLayer);

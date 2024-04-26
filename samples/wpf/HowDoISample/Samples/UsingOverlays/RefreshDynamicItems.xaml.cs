@@ -119,7 +119,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             return features;
         }
 
-        private void btnStartRefresh_Click(object sender, RoutedEventArgs e)
+        private void BtnStartRefresh_Click(object sender, RoutedEventArgs e)
         {
             if (_timer != null) return;
             //When you click this I start a timer that ticks every second
@@ -148,7 +148,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             await MapView.RefreshAsync(MapView.Overlays["PolygonOverlay"]);
         }
 
-        private async void btnRotate_Click(object sender, RoutedEventArgs e)
+        private async void BtnRotate_Click(object sender, RoutedEventArgs e)
         {
             //I go to find the layer and then loop through all the features and rotate them
             var polygonLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("PolygonLayer");
@@ -180,7 +180,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             await MapView.RefreshAsync(MapView.Overlays["PolygonOverlay"]);
         }
 
-        private async void btnOffset_Click(object sender, RoutedEventArgs e)
+        private async void BtnOffset_Click(object sender, RoutedEventArgs e)
         {
             // We go to find the layer and then loop through all the features and rotate them
             var polygonLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("PolygonLayer");

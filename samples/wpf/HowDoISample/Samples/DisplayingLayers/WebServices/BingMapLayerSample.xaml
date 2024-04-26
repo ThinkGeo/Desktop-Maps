@@ -14,8 +14,8 @@
             <Hyperlink  NavigateUri="https://www.bingmapsportal.com/" RequestNavigate="Hyperlink_RequestNavigate">Sign up for a Bing Maps Api Key</Hyperlink>
             </TextBlock>
             <Label Grid.Column="1" Grid.Row="2" Content="Application ID" FontSize="12"></Label>
-            <TextBox Grid.Column="1" Grid.Row="3" Name ="txtApplicationID"></TextBox>
-            <Button Grid.Column="1" Grid.Row="4" x:Name="btnActivate" IsEnabled="{Binding ElementName=txtApplicationID, Path=Text.Length}" Click="btnActivate_Click">Activate</Button>
+            <TextBox Grid.Column="1" Grid.Row="3" Name ="TxtApplicationId"></TextBox>
+            <Button Grid.Column="1" Grid.Row="4" x:Name="BtnActivate" IsEnabled="{Binding ElementName=TxtApplicationId, Path=Text.Length}" Click="BtnActivate_Click">Activate</Button>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />
                 <ColumnDefinition Width="*" />

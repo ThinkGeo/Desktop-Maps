@@ -10,12 +10,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to use the RoutingCloudClient to find an optimized route through a set of waypoints with the ThinkGeo Cloud
     /// </summary>
-    public partial class RoutingTSPCloudServicesSample
+    public partial class RoutingTspCloudServicesSample
     {
         private RoutingCloudClient _routingCloudClient;
         private Collection<PointShape> _routingWaypoints;
 
-        public RoutingTSPCloudServicesSample()
+        public RoutingTspCloudServicesSample()
         {
             InitializeComponent();
         }

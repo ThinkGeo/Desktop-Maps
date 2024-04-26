@@ -122,7 +122,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             await highlightedFeaturesOverlay.RefreshAsync();
 
             // Update the number of matching features found in the UI
-            TxtNumberOfFeaturesFound.Text = $"Number of features within the drawn shape: {enumerable.Count()}";
+            TxtNumberOfFeaturesFound.Text = $"Number of features within the drawn shape: {enumerable.Length}";
         }
 
         /// <summary>

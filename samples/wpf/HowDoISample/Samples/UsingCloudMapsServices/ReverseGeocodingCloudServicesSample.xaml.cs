@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -312,7 +311,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             {
                 var coordinates = TxtCoordinates.Text.Split(',');
 
-                if (coordinates.Count() != 2)
+                if (coordinates.Length != 2)
                 {
                     TxtCoordinates.Focus();
                     MessageBox.Show("Please enter a valid set of coordinates to search", "Error");

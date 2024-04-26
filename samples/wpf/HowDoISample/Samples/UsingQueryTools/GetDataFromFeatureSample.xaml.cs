@@ -69,7 +69,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Get a feature based on a location
         /// </summary>
-        private Feature GetFeatureFromLocation(PointShape location)
+        private Feature GetFeatureFromLocation(BaseShape location)
         {
             // Get the parks layer from the MapView
             var parksLayer = MapView.FindFeatureLayer("Frisco Parks");

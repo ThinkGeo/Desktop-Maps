@@ -125,13 +125,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             await highlightedFeaturesOverlay.RefreshAsync();
 
             // Update the number of matching features found in the UI
-            TxtNumberOfFeaturesFound.Text = $"Number of features intersecting the drawn shape: {enumerable.Count()}";
+            TxtNumberOfFeaturesFound.Text = $"Number of features intersecting the drawn shape: {enumerable.Length}";
         }
 
         /// <summary>
         /// Perform the spatial query and draw the shapes on the map
         /// </summary>
-        private async Task GetFeaturesIntersectsAsync(PolygonShape polygon)
+        private async Task GetFeaturesIntersectsAsync(BaseShape polygon)
         {
             // Find the layers we will be modifying in the MapView
             var queryFeaturesOverlay = (LayerOverlay)MapView.Overlays["Query Features Overlay"];

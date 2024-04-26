@@ -247,10 +247,10 @@
         "source": "Samples/UsingOverlays/CachingMapTilesSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DrawGPSLocationOverlaySample",
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DrawGpsLocationOverlaySample",
         "title": "Draw GPS Location Overlay Sample",
         "description": "Learn how to display a GPS vehicle's movements in real-time",
-        "source": "Samples/UsingOverlays/DrawGPSLocationOverlaySample"
+        "source": "Samples/UsingOverlays/DrawGpsLocationOverlaySample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayBingMapsOverlaySample",
@@ -283,10 +283,10 @@
         "source": "Samples/UsingOverlays/DisplayOpenStreetMapOverlaySample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayWMSOverlaySample",
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayWmsOverlaySample",
         "title": "Display a WMS Overlay",
         "description": "Learn to render a Web Map Service using the WMSOverlay. Please be aware that this is a publicly available WMS server and it may be slow to load.",
-        "source": "Samples/UsingOverlays/DisplayWMSOverlaySample"
+        "source": "Samples/UsingOverlays/DisplayWmsOverlaySample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplaySimpleBackgroundOverlaySample",
@@ -675,13 +675,13 @@
         "id": "ThinkGeo.UI.Wpf.HowDoI.RoutingServiceAreaCloudServicesSample",
         "title": "Routing - Service Area",
         "description": "Learn how to use the RoutingCloudClient to find the service area of a location with the ThinkGeo Cloud",
-        "source": "Samples/UsingCloudMapsServices/RoutingCloudServicesSample"
+        "source": "Samples/UsingCloudMapsServices/RoutingServiceAreaCloudServicesSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.RoutingTSPCloudServicesSample",
+        "id": "ThinkGeo.UI.Wpf.HowDoI.RoutingTspCloudServicesSample",
         "title": "Routing - Traveling Sales Person",
         "description": "Learn how to use the RoutingCloudClient to find an optimized route through a set of waypoints with the ThinkGeo Cloud",
-        "source": "Samples/UsingCloudMapsServices/RoutingCloudServicesSample"
+        "source": "Samples/UsingCloudMapsServices/RoutingTspCloudServicesSample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.ElevationCloudServicesSample",

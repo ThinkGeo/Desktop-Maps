@@ -93,9 +93,9 @@
                     <StackPanel>
                         <DockPanel LastChildFill="True">
                             <Label Foreground="White" FontSize="14" VerticalAlignment="Center">Search</Label>
-                            <TextBox x:Name="txtSearch" Height="20"  Margin="5" VerticalAlignment="Center" KeyDown="txtSearch_KeyDown" Width="Auto" />
+                            <TextBox x:Name="TxtSearch" Height="20"  Margin="5" VerticalAlignment="Center" KeyDown="txtSearch_KeyDown" Width="Auto" />
                         </DockPanel>
-                        <TreeView x:Name="treeView" Background="#FF26282C" TreeViewItem.Selected="treeView_Selected" Foreground="{x:Null}" FontSize="14" Margin="0"/>
+                        <TreeView x:Name="TreeView" Background="#FF26282C" TreeViewItem.Selected="treeView_Selected" Foreground="{x:Null}" FontSize="14" Margin="0"/>
                     </StackPanel>
                 </ScrollViewer>
             </Grid>

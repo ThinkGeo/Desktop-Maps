@@ -116,7 +116,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Update the number of matching features found in the UI
             TxtNumberOfFeaturesFound.Text =
-                $"Number of features within distance of the drawn shape: {enumerable.Count()}";
+                $"Number of features within distance of the drawn shape: {enumerable.Length}";
         }
 
         private async Task GetFeaturesWithinDistanceAsync(PointShape point)
@@ -150,7 +150,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Create a new map marker using preloaded image assets
         /// </summary>
-        private Marker CreateNewMarker(PointShape point)
+        private static Marker CreateNewMarker(PointShape point)
         {
             return new Marker(point)
             {
