@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using ThinkGeo.Core;
-using ThinkGeo.UI.Wpf;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to translate a shape
     /// </summary>
-    public partial class TranslateShapeSample : UserControl, IDisposable
+    public partial class TranslateShapeSample : IDisposable
     {
         public TranslateShapeSample()
         {
@@ -17,24 +15,29 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, add the cityLimits and translatedLayer layers
+        /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the cityLimits and translatedLayer layers
         /// into a grouped LayerOverlay and display them on the map.
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
             ShapeFileFeatureLayer.BuildIndexFile(@"./Data/Shapefile/FriscoCityLimits.shp");
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            ShapeFileFeatureLayer cityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimits.shp");
-            InMemoryFeatureLayer translatedLayer = new InMemoryFeatureLayer();
-            LayerOverlay layerOverlay = new LayerOverlay();
+            var cityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimits.shp");
+            var translatedLayer = new InMemoryFeatureLayer();
+            var layerOverlay = new LayerOverlay();
 
             // Project cityLimits layer to Spherical Mercator to match the map projection
             cityLimits.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
@@ -55,13 +58,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Set the map extent to the cityLimits layer bounding box
             cityLimits.Open();
-            mapView.CurrentExtent = cityLimits.GetBoundingBox();
+            MapView.CurrentExtent = cityLimits.GetBoundingBox();
             cityLimits.Close();
 
             // Add LayerOverlay to Map
-            mapView.Overlays.Add("layerOverlay", layerOverlay);
+            MapView.Overlays.Add("layerOverlay", layerOverlay);
 
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         /// <summary>
@@ -69,10 +72,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void OffsetTranslateShape_OnClick(object sender, RoutedEventArgs e)
         {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
+            var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
 
-            ShapeFileFeatureLayer cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
-            InMemoryFeatureLayer translatedLayer = (InMemoryFeatureLayer)layerOverlay.Layers["translatedLayer"];
+            var cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
+            var translatedLayer = (InMemoryFeatureLayer)layerOverlay.Layers["translatedLayer"];
 
             // Query the cityLimits layer to get all the features
             cityLimits.Open();
@@ -80,7 +83,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             cityLimits.Close();
 
             // Translate the first feature's shape by the X and Y values on the UI in meters
-            var translate = AreaBaseShape.TranslateByOffset(features[0].GetShape(), Convert.ToDouble(translateX.Text), Convert.ToDouble(translateY.Text), GeographyUnit.Meter, DistanceUnit.Meter);
+            var translate = BaseShape.TranslateByOffset(features[0].GetShape(), Convert.ToDouble(TranslateX.Text), Convert.ToDouble(TranslateY.Text), GeographyUnit.Meter, DistanceUnit.Meter);
 
             // Add the translated shape into translatedLayer to display the result.
             // If this were to be a permanent change to the cityLimits FeatureSource, you would modify the
@@ -94,10 +97,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private async void DegreeTranslateShape_OnClick(object sender, RoutedEventArgs e)
         {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
+            var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
 
-            ShapeFileFeatureLayer cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
-            InMemoryFeatureLayer translatedLayer = (InMemoryFeatureLayer)layerOverlay.Layers["translatedLayer"];
+            var cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
+            var translatedLayer = (InMemoryFeatureLayer)layerOverlay.Layers["translatedLayer"];
 
             // Query the cityLimits layer to get all the features
             cityLimits.Open();
@@ -105,7 +108,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             cityLimits.Close();
 
             // Translate the first feature's shape by the X and Y values on the UI in meters
-            var translate = AreaBaseShape.TranslateByDegree(features[0].GetShape(), Convert.ToDouble(translateDistance.Text), Convert.ToDouble(translateAngle.Text), GeographyUnit.Meter, DistanceUnit.Meter);
+            var translate = BaseShape.TranslateByDegree(features[0].GetShape(), Convert.ToDouble(TranslateDistance.Text), Convert.ToDouble(TranslateAngle.Text), GeographyUnit.Meter, DistanceUnit.Meter);
 
             // Add the translated shape into translatedLayer to display the result.
             // If this were to be a permanent change to the cityLimits FeatureSource, you would modify the
@@ -120,7 +123,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

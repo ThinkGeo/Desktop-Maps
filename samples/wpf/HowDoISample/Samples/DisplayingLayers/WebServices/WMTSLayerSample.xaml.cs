@@ -1,18 +1,15 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using ThinkGeo.UI.Wpf;
+﻿using System;
+using System.Windows;
 using ThinkGeo.Core;
-using System;
-using System.Diagnostics;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to display a WMTS Layer on the map
     /// </summary>
-    public partial class WMTSLayerSample : UserControl, IDisposable
+    public partial class WmtsLayerSample : IDisposable
     {
-        public WMTSLayerSample()
+        public WmtsLayerSample()
         {
             InitializeComponent();
         }
@@ -23,11 +20,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Create a WMTS overlay using the WMS parameters below.
             // This is a public service and performance may be slow.
-            Core.Async.WmtsLayer wmtsLayer = new Core.Async.WmtsLayer
+            var wmtsLayer = new Core.Async.WmtsLayer
             {
                 DrawingExceptionMode = DrawingExceptionMode.DrawException,
                 WmtsSeverEncodingType = WmtsSeverEncodingType.Restful
@@ -40,25 +37,24 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             wmtsLayer.OutputFormat = "image/png";
             wmtsLayer.TileMatrixSetName = "21781_26";
             wmtsLayer.TileCache = new FileRasterTileCache(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "WmtsTmpTileCache"));
-            
+
             //Add the new WMTS Layer to our LayerOverlay
-            LayerOverlay layerOverlay = new LayerOverlay();
+            var layerOverlay = new LayerOverlay();
             layerOverlay.Layers.Add(wmtsLayer);
 
             //Add the overlay to the mapView's Overlay collection.
-            mapView.Overlays.Add(layerOverlay);
+            MapView.Overlays.Add(layerOverlay);
 
             // Set the current extent to the Eiger - a famous peak in Switzerland.
-            mapView.CurrentExtent = new RectangleShape(641202.9893498598, 159695.95554381475, 645651.6243713424, 156646.11813217978);
+            MapView.CurrentExtent = new RectangleShape(641202.9893498598, 159695.95554381475, 645651.6243713424, 156646.11813217978);
 
-            // Refresh the map.
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

@@ -63,19 +63,19 @@
   <ItemGroup>
     <PackageReference Include="Jint" Version="2.11.58" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="ThinkGeo.Ecw" Version="13.2.0" />
-    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="13.2.0" />
-    <PackageReference Include="ThinkGeo.GeoPdf" Version="13.2.0" />
-    <PackageReference Include="ThinkGeo.Kml" Version="13.2.0" />
-    <PackageReference Include="ThinkGeo.MrSid" Version="13.2.0" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="13.2.0" />
-    <PackageReference Include="ThinkGeo.Oracle" Version="13.2.0" />
-    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="13.2.0" />
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="13.2.0" />
-    <PackageReference Include="ThinkGeo.Printers" Version="13.2.0" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="13.2.0" />
-    <PackageReference Include="ThinkGeo.UI.WinForms" Version="13.2.1" />
-    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="13.2.0" />
+    <PackageReference Include="ThinkGeo.Ecw" Version="13.3.0-beta060" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="13.3.0-beta056" />
+    <PackageReference Include="ThinkGeo.GeoPdf" Version="13.3.0-beta060" />
+    <PackageReference Include="ThinkGeo.Kml" Version="13.3.0-beta060" />
+    <PackageReference Include="ThinkGeo.MrSid" Version="13.3.0-beta060" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="13.3.0-beta060" />
+    <PackageReference Include="ThinkGeo.Oracle" Version="13.3.0-beta060" />
+    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="13.3.0-beta060" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="13.3.0-beta056" />
+    <PackageReference Include="ThinkGeo.Printers" Version="13.3.0-beta056" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="13.3.0-beta056" />
+    <PackageReference Include="ThinkGeo.UI.WinForms" Version="13.3.0-beta064" />
+    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="13.3.0-beta056" />
     <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.336902">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>

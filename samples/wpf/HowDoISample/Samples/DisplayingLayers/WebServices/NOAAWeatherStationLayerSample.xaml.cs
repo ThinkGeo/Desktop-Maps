@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
@@ -7,9 +6,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to display a NOAA Weather Station Layer on the map
     /// </summary>
-    public partial class NOAAWeatherStationLayerSample : UserControl
+    public partial class NoaaWeatherStationLayerSample
     {
-        public NOAAWeatherStationLayerSample()
+        public NoaaWeatherStationLayerSample()
         {
             InitializeComponent();
         }
@@ -20,35 +19,48 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Create background world map with vector tile requested from ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the extent to a view of the US
-            mapView.CurrentExtent = new RectangleShape(-14927495, 8262593, -6686622, 1827556);
-            await mapView.RefreshAsync();
+            MapView.CurrentExtent = new RectangleShape(-14927495, 8262593, -6686622, 1827556);
+            await MapView.RefreshAsync();
 
             // Create a new overlay that will hold our new layer and add it to the map.
-            LayerOverlay weatherOverlay = new LayerOverlay();
-            weatherOverlay.TileType = TileType.SingleTile;
-            mapView.Overlays.Add("Weather", weatherOverlay);
+            var weatherOverlay = new LayerOverlay
+            {
+                TileType = TileType.SingleTile
+            };
+            MapView.Overlays.Add("Weather", weatherOverlay);
 
             // Create the new layer and set the projection as the data is in srid 4326 and our background is srid 3857 (spherical mercator).
-            var noaaWeatherStationLayer = new NoaaWeatherStationFeatureLayer();
-            noaaWeatherStationLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 3857);
+            var noaaWeatherStationLayer = new NoaaWeatherStationFeatureLayer
+            {
+                FeatureSource =
+                {
+                    ProjectionConverter = new ProjectionConverter(4326, 3857)
+                }
+            };
             // Create the weather stations style and add it on zoom level 1 and then apply it to all zoom levels up to 20.
             noaaWeatherStationLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(new NoaaWeatherStationStyle());
             noaaWeatherStationLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Add the new layer to the overlay we created earlier
             weatherOverlay.Layers.Add(noaaWeatherStationLayer);
-            await mapView.RefreshAsync();
 
-            loadingImage.Visibility = Visibility.Hidden;
+            await MapView.RefreshAsync();
+
+            LoadingImage.Visibility = Visibility.Hidden;
         }
     }
 }

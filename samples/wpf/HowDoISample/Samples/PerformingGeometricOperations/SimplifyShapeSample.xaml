@@ -3,19 +3,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:ThinkGeoUI="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ThinkGeoUI:MapView Grid.Column="0" Grid.Row="0" x:Name="mapView" Loaded="MapView_Loaded"/>
+        <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded"/>
         
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Content="Simplify Controls:" FontSize="16" FontWeight="Bold"/>
             
             <Label Grid.Column="1" Grid.Row="2" Content="Tolerance (m): "></Label>
-            <TextBox Grid.Column="2" Grid.Row="2" x:Name="tolerance" Text="500"></TextBox>
+            <TextBox Grid.Column="2" Grid.Row="2" x:Name="Tolerance" Text="500"></TextBox>
             
-            <Button Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" x:Name="simplifyShape" Content="Simplify" Click="SimplifyShape_OnClick"></Button>
+            <Button Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" x:Name="SimplifyShape" Content="Simplify" Click="SimplifyShape_OnClick"></Button>
 
             <!-- Controls Grid Layout -->
             <Grid.ColumnDefinitions>

@@ -3,19 +3,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:ThinkGeoUI="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ThinkGeoUI:MapView Grid.Column="0" Grid.Row="0" x:Name="mapView" Loaded="MapView_Loaded" MapClick="MapView_OnMapClick"/>
+        <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded" MapClick="MapView_OnMapClick"/>
 
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1" Grid.Row="0"  Content="Center Point Controls:" FontSize="16" FontWeight="Bold"/>
 
-            <TextBlock Grid.Column="1" Grid.Row="1" Text="Click on a feature to display it's center point." TextWrapping="Wrap"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="1" Text="Click on a feature to display its center point." TextWrapping="Wrap"></TextBlock>
 
-            <RadioButton x:Name="centroidCenter" Content="Show Centroid Center" Checked="RadioButton_Checked" Grid.Column="1" Grid.Row="2"></RadioButton>
-            <RadioButton x:Name="bboxCenter" Content="Show Bounding Box Center" Checked="RadioButton_Checked" Grid.Column="1" Grid.Row="3"></RadioButton>
+            <RadioButton x:Name="CentroidCenter" Content="Show Centroid Center" Checked="RadioButton_Checked" Grid.Column="1" Grid.Row="2"></RadioButton>
+            <RadioButton x:Name="BboxCenter" Content="Show Bounding Box Center" Checked="RadioButton_Checked" Grid.Column="1" Grid.Row="3"></RadioButton>
 
             <!-- Controls Grid Layout -->
             <Grid.ColumnDefinitions>

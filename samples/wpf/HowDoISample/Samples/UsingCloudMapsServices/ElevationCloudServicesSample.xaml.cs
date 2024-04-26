@@ -1,18 +1,16 @@
-﻿using NetTopologySuite.Geometries;
-using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
 
-namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
+namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to use the ElevationCloudClient class to get elevation data from the ThinkGeo Cloud
     /// </summary>
-    public partial class ElevationCloudServicesSample : UserControl, IDisposable
+    public partial class ElevationCloudServicesSample
     {
-        private ElevationCloudClient elevationCloudClient;
+        private ElevationCloudClient _elevationCloudClient;
 
         public ElevationCloudServicesSample()
         {
@@ -25,17 +23,22 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map's unit of measurement to meters (Spherical Mercator)
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Create a new InMemoryFeatureLayer to hold the shape drawn for the elevation query
-            InMemoryFeatureLayer drawnShapeLayer = new InMemoryFeatureLayer();
-            
+            var drawnShapeLayer = new InMemoryFeatureLayer();
+
             // Create Point, Line, and Polygon styles to display the drawn shape, and apply them across all zoom levels
             drawnShapeLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 20, GeoBrushes.Blue);
             drawnShapeLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = new LineStyle(GeoPens.Blue);
@@ -43,29 +46,33 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             drawnShapeLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Create a new InMemoryFeatureLayer to display the elevation points returned from the query
-            InMemoryFeatureLayer elevationPointsLayer = new InMemoryFeatureLayer();
+            var elevationPointsLayer = new InMemoryFeatureLayer();
 
             // Create a point style for the elevation points
             elevationPointsLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 20, GeoBrushes.Blue);
             elevationPointsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Add the feature layers to an overlay, and add the overlay to the map
-            LayerOverlay elevationFeaturesOverlay = new LayerOverlay();
+            var elevationFeaturesOverlay = new LayerOverlay();
             elevationFeaturesOverlay.Layers.Add("Elevation Points Layer", elevationPointsLayer);
             elevationFeaturesOverlay.Layers.Add("Drawn Shape Layer", drawnShapeLayer);
-            mapView.Overlays.Add("Elevation Features Overlay", elevationFeaturesOverlay);
+            MapView.Overlays.Add("Elevation Features Overlay", elevationFeaturesOverlay);
 
             // Set the map extent to Frisco, TX
-            mapView.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
+            MapView.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
 
             // Add an event to trigger the elevation query when a new shape is drawn
-            mapView.TrackOverlay.TrackEnded += OnShapeDrawn;
+            MapView.TrackOverlay.TrackEnded += OnShapeDrawn;
 
             // Initialize the ElevationCloudClient with our ThinkGeo Cloud credentials
-            elevationCloudClient = new ElevationCloudClient("FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~", "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~");
+            _elevationCloudClient = new ElevationCloudClient
+            {
+                ClientId = SampleKeys.ClientId2,
+                ClientSecret = SampleKeys.ClientSecret2,
+            };
 
             // Create a sample line and get elevation along that line
-            LineShape sampleShape = new LineShape("LINESTRING(-10776298.0601626 3912306.29684573,-10776496.3187036 3912399.45447343,-10776675.4679876 3912478.28015841,-10776890.4471285 3912516.49867234,-10777189.0292686 3912509.33270098,-10777329.9600387 3912442.4503016,-10777664.3720356 3912174.92070409)");
+            var sampleShape = new LineShape("LINESTRING(-10776298.0601626 3912306.29684573,-10776496.3187036 3912399.45447343,-10776675.4679876 3912478.28015841,-10776890.4471285 3912516.49867234,-10777189.0292686 3912509.33270098,-10777329.9600387 3912442.4503016,-10777664.3720356 3912174.92070409)");
             PerformElevationQuery(sampleShape);
         }
 
@@ -75,9 +82,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         private async void PerformElevationQuery(BaseShape queryShape)
         {
             // Get feature layers from the MapView
-            LayerOverlay elevationPointsOverlay = (LayerOverlay)mapView.Overlays["Elevation Features Overlay"];
-            InMemoryFeatureLayer drawnShapesLayer = (InMemoryFeatureLayer)elevationPointsOverlay.Layers["Drawn Shape Layer"];
-            InMemoryFeatureLayer elevationPointsLayer = (InMemoryFeatureLayer)elevationPointsOverlay.Layers["Elevation Points Layer"];
+            var elevationPointsOverlay = (LayerOverlay)MapView.Overlays["Elevation Features Overlay"];
+            var drawnShapesLayer = (InMemoryFeatureLayer)elevationPointsOverlay.Layers["Drawn Shape Layer"];
+            var elevationPointsLayer = (InMemoryFeatureLayer)elevationPointsOverlay.Layers["Elevation Points Layer"];
 
             // Clear the existing shapes from the map
             elevationPointsLayer.Open();
@@ -91,68 +98,73 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             drawnShapesLayer.InternalFeatures.Add(new Feature(queryShape));
 
             // Set options from the UI and run the query using the ElevationCloudClient
-            Collection<CloudElevationPointResult> elevationPoints = new Collection<CloudElevationPointResult>();
-            int projectionInSrid = 3857;
+            var elevationPoints = new Collection<CloudElevationPointResult>();
+            const int projectionInSrid = 3857;
 
             // Show a loading graphic to let users know the request is running
-            loadingImage.Visibility = Visibility.Visible;
+            LoadingImage.Visibility = Visibility.Visible;
 
             // The point interval distance determines how many elevation points are retrieved for line and area queries
-            int pointIntervalDistance = (int)intervalDistance.Value;
+            var pointIntervalDistance = (int)IntervalDistance.Value;
             switch (queryShape.GetWellKnownType())
             {
                 case WellKnownType.Point:
-                    PointShape drawnPoint = (PointShape)queryShape;
-                    double elevation = await elevationCloudClient.GetElevationOfPointAsync(drawnPoint.X, drawnPoint.Y, projectionInSrid);
+                    var drawnPoint = (PointShape)queryShape;
+                    var elevation = await _elevationCloudClient.GetElevationOfPointAsync(drawnPoint.X, drawnPoint.Y, projectionInSrid);
 
                     // The API for getting the elevation of a single point returns a double, so we manually create a CloudElevationPointResult to use as a data source for the Elevations list
                     elevationPoints.Add(new CloudElevationPointResult(elevation, drawnPoint));
 
                     // Update the UI with the average, highest, and lowest elevations
-                    txtAverageElevation.Text = string.Format("Average Elevation: {0:0.00} feet", elevation);
-                    txtHighestElevation.Text = string.Format("Highest Elevation: {0:0.00} feet", elevation, drawnPoint);
-                    txtLowestElevation.Text = string.Format("Lowest Elevation: {0:0.00} feet", elevation, drawnPoint);
+                    TxtAverageElevation.Text = $"Average Elevation: {elevation:0.00} feet";
+                    TxtHighestElevation.Text = $"Highest Elevation: {elevation:0.00} feet";
+                    TxtLowestElevation.Text = $"Lowest Elevation: {elevation:0.00} feet";
                     break;
                 case WellKnownType.Line:
-                    LineShape drawnLine = (LineShape)queryShape;
-                    var result = await elevationCloudClient.GetElevationOfLineAsync(drawnLine, projectionInSrid, pointIntervalDistance, DistanceUnit.Meter, DistanceUnit.Feet);
+                    var drawnLine = (LineShape)queryShape;
+                    var result = await _elevationCloudClient.GetElevationOfLineAsync(drawnLine, projectionInSrid, pointIntervalDistance, DistanceUnit.Meter, DistanceUnit.Feet);
                     elevationPoints = result.ElevationPoints;
 
                     // Update the UI with the average, highest, and lowest elevations
-                    txtAverageElevation.Text = string.Format("Average Elevation: {0:0.00} feet", result.AverageElevation);
-                    txtHighestElevation.Text = string.Format("Highest Elevation: {0:0.00} feet", result.HighestElevationPoint.Elevation, result.HighestElevationPoint.Point);
-                    txtLowestElevation.Text = string.Format("Lowest Elevation: {0:0.00} feet", result.LowestElevationPoint.Elevation, result.LowestElevationPoint.Point);
+                    TxtAverageElevation.Text = $"Average Elevation: {result.AverageElevation:0.00} feet";
+                    TxtHighestElevation.Text = $"Highest Elevation: {result.HighestElevationPoint.Elevation:0.00} feet";
+                    TxtLowestElevation.Text = $"Lowest Elevation: {result.LowestElevationPoint.Elevation:0.00} feet";
                     break;
                 case WellKnownType.Polygon:
-                    PolygonShape drawnPolygon = (PolygonShape)queryShape;
-                    result = await elevationCloudClient.GetElevationOfAreaAsync(drawnPolygon, projectionInSrid, pointIntervalDistance, DistanceUnit.Meter, DistanceUnit.Feet);
+                    var drawnPolygon = (PolygonShape)queryShape;
+                    result = await _elevationCloudClient.GetElevationOfAreaAsync(drawnPolygon, projectionInSrid, pointIntervalDistance, DistanceUnit.Meter);
                     elevationPoints = result.ElevationPoints;
 
                     // Update the UI with the average, highest, and lowest elevations
-                    txtAverageElevation.Text = string.Format("Average Elevation: {0:0.00} feet", result.AverageElevation);
-                    txtHighestElevation.Text = string.Format("Highest Elevation: {0:0.00} feet", result.HighestElevationPoint.Elevation, result.HighestElevationPoint.Point);
-                    txtLowestElevation.Text = string.Format("Lowest Elevation: {0:0.00} feet", result.LowestElevationPoint.Elevation, result.LowestElevationPoint.Point);
+                    TxtAverageElevation.Text = $"Average Elevation: {result.AverageElevation:0.00} feet";
+                    TxtHighestElevation.Text = $"Highest Elevation: {result.HighestElevationPoint.Elevation:0.00} feet";
+                    TxtLowestElevation.Text = $"Lowest Elevation: {result.LowestElevationPoint.Elevation:0.00} feet";
                     break;
+                case WellKnownType.Invalid:
+                case WellKnownType.Multipoint:
+                case WellKnownType.Multiline:
+                case WellKnownType.Multipolygon:
+                case WellKnownType.GeometryCollection:
                 default:
                     break;
             }
 
             // Add the elevation result points to the map and list box
-            foreach (CloudElevationPointResult elevationPoint in elevationPoints)
+            foreach (var elevationPoint in elevationPoints)
             {
                 elevationPointsLayer.InternalFeatures.Add(new Feature(elevationPoint.Point));
             }
-            lsbElevations.ItemsSource = elevationPoints;
+            LsbElevations.ItemsSource = elevationPoints;
 
             // Hide the loading graphic
-            loadingImage.Visibility = Visibility.Hidden;
+            LoadingImage.Visibility = Visibility.Hidden;
 
             // Set the map extent to the elevation query feature
             drawnShapesLayer.Open();
-            mapView.CurrentExtent = drawnShapesLayer.GetBoundingBox();
-            await mapView.ZoomToScaleAsync(mapView.CurrentScale * 2);
+            MapView.CurrentExtent = drawnShapesLayer.GetBoundingBox();
+            await MapView.ZoomToScaleAsync(MapView.CurrentScale * 2);
             drawnShapesLayer.Close();
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         /// <summary>
@@ -161,20 +173,20 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         private void OnShapeDrawn(object sender, TrackEndedTrackInteractiveOverlayEventArgs e)
         {
             // Disable drawing mode and clear the drawing layer
-            mapView.TrackOverlay.TrackMode = TrackMode.None;
-            mapView.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
+            MapView.TrackOverlay.TrackMode = TrackMode.None;
+            MapView.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
 
             // Validate shape size to avoid queries that are too large
             // Maximum length of a line is 10km
             // Maximum area of a polygon is 10km^2
-            if(e.TrackShape.GetWellKnownType() == WellKnownType.Polygon)
+            if (e.TrackShape.GetWellKnownType() == WellKnownType.Polygon)
             {
-                if(((PolygonShape)e.TrackShape).GetArea(GeographyUnit.Meter, AreaUnit.SquareKilometers) > 5)
+                if (((PolygonShape)e.TrackShape).GetArea(GeographyUnit.Meter, AreaUnit.SquareKilometers) > 5)
                 {
                     MessageBox.Show("Please draw a smaller polygon (limit: 5km^2)", "Error");
                     return;
                 }
-            } 
+            }
             else if (e.TrackShape.GetWellKnownType() == WellKnownType.Line)
             {
                 if (((LineShape)e.TrackShape).GetLength(GeographyUnit.Meter, DistanceUnit.Kilometer) > 5)
@@ -191,15 +203,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         /// <summary>
         /// Center the map on a point when it's selected in the UI
         /// </summary>
-        private async void lsbElevations_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void LsbElevations_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (lsbElevations.SelectedItem != null)
-            {
-                // Set the map extent to the selected point
-                CloudElevationPointResult elevationPoint = (CloudElevationPointResult)lsbElevations.SelectedItem;
-                mapView.CurrentExtent = elevationPoint.Point.GetBoundingBox();
-                await mapView.RefreshAsync();
-            }
+            if (LsbElevations.SelectedItem == null) return;
+            // Set the map extent to the selected point
+            var elevationPoint = (CloudElevationPointResult)LsbElevations.SelectedItem;
+            MapView.CurrentExtent = elevationPoint.Point.GetBoundingBox();
+            await MapView.RefreshAsync();
         }
 
         /// <summary>
@@ -208,7 +218,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         private void DrawPoint_Click(object sender, RoutedEventArgs e)
         {
             // Set the drawing mode to 'Point'
-            mapView.TrackOverlay.TrackMode = TrackMode.Point;
+            MapView.TrackOverlay.TrackMode = TrackMode.Point;
         }
 
         /// <summary>
@@ -217,7 +227,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         private void DrawLine_Click(object sender, RoutedEventArgs e)
         {
             // Set the drawing mode to 'Line'
-            mapView.TrackOverlay.TrackMode = TrackMode.Line;
+            MapView.TrackOverlay.TrackMode = TrackMode.Line;
         }
 
         /// <summary>
@@ -226,15 +236,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         private void DrawPolygon_Click(object sender, RoutedEventArgs e)
         {
             // Set the drawing mode to 'Polygon'
-            mapView.TrackOverlay.TrackMode = TrackMode.Polygon;
+            MapView.TrackOverlay.TrackMode = TrackMode.Polygon;
         }
-        public void Dispose()
-        {
-            // Dispose of unmanaged resources.
-            mapView.Dispose();
-            // Suppress finalization.
-            GC.SuppressFinalize(this);
-        }
-
     }
 }

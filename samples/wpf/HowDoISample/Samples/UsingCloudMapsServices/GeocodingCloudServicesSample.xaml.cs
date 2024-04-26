@@ -5,14 +5,14 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using ThinkGeo.Core;
 
-namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
+namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to use the GeocodingCloudClient to access the Geocoding APIs available from the ThinkGeo Cloud
     /// </summary>
-    public partial class GeocodingCloudServicesSample : UserControl, IDisposable
+    public partial class GeocodingCloudServicesSample : IDisposable
     {
-        private GeocodingCloudClient geocodingCloudClient;
+        private GeocodingCloudClient _geocodingCloudClient;
 
         public GeocodingCloudServicesSample()
         {
@@ -25,28 +25,37 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map's unit of measurement to meters (Spherical Mercator)
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Create a marker overlay to display the geocoded locations that will be generated, and add it to the map
             MarkerOverlay geocodedLocationsOverlay = new SimpleMarkerOverlay();
-            mapView.Overlays.Add("Geocoded Locations Overlay", geocodedLocationsOverlay);
+            MapView.Overlays.Add("Geocoded Locations Overlay", geocodedLocationsOverlay);
 
             // Set the map extent to Frisco, TX
-            mapView.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
+            MapView.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
 
             // Initialize the GeocodingCloudClient using our ThinkGeo Cloud credentials
-            geocodingCloudClient = new GeocodingCloudClient("FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~", "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~");
+            _geocodingCloudClient = new GeocodingCloudClient
+            {
+                ClientId = SampleKeys.ClientId2,
+                ClientSecret = SampleKeys.ClientSecret2,
+            };
 
-            cboSearchType.SelectedIndex = 0;
-            cboLocationType.SelectedIndex = 0;
+            CboSearchType.SelectedIndex = 0;
+            CboLocationType.SelectedIndex = 0;
 
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         /// <summary>
@@ -55,22 +64,23 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         private async Task<CloudGeocodingResult> PerformGeocodingQuery()
         {
             // Show a loading graphic to let users know the request is running
-            loadingImage.Visibility = Visibility.Visible;
+            LoadingImage.Visibility = Visibility.Visible;
 
-            CloudGeocodingOptions options = new CloudGeocodingOptions();
-
-            // Set up the CloudGeocodingOptions object based on the parameters set in the UI
-            options.MaxResults = int.Parse(txtMaxResults.Text);
-            options.SearchMode = ((ComboBoxItem)cboSearchType.SelectedItem).Content.ToString() == "Fuzzy" ? CloudGeocodingSearchMode.FuzzyMatch : CloudGeocodingSearchMode.ExactMatch;
-            options.LocationType = (CloudGeocodingLocationType)Enum.Parse(typeof(CloudGeocodingLocationType), ((ComboBoxItem)cboLocationType.SelectedItem).Content.ToString());
-            options.ResultProjectionInSrid = 3857;
+            var options = new CloudGeocodingOptions
+            {
+                // Set up the CloudGeocodingOptions object based on the parameters set in the UI
+                MaxResults = int.Parse(TxtMaxResults.Text),
+                SearchMode = ((ComboBoxItem)CboSearchType.SelectedItem).Content.ToString() == "Fuzzy" ? CloudGeocodingSearchMode.FuzzyMatch : CloudGeocodingSearchMode.ExactMatch,
+                LocationType = (CloudGeocodingLocationType)Enum.Parse(typeof(CloudGeocodingLocationType), ((ComboBoxItem)CboLocationType.SelectedItem).Content.ToString() ?? string.Empty),
+                ResultProjectionInSrid = 3857
+            };
 
             // Run the geocode
-            string searchString = txtSearchString.Text.Trim();
-            CloudGeocodingResult searchResult = await geocodingCloudClient.SearchAsync(searchString, options);
+            var searchString = TxtSearchString.Text.Trim();
+            var searchResult = await _geocodingCloudClient.SearchAsync(searchString, options);
 
             // Hide the loading graphic
-            loadingImage.Visibility = Visibility.Hidden;
+            LoadingImage.Visibility = Visibility.Hidden;
 
             return searchResult;
         }
@@ -81,18 +91,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         private async Task UpdateSearchResultsOnUIAsync(CloudGeocodingResult searchResult)
         {
             // Clear the locations list and existing location markers on the map
-            SimpleMarkerOverlay geocodedLocationOverlay = (SimpleMarkerOverlay)mapView.Overlays["Geocoded Locations Overlay"];
+            var geocodedLocationOverlay = (SimpleMarkerOverlay)MapView.Overlays["Geocoded Locations Overlay"];
             geocodedLocationOverlay.Markers.Clear();
-            lsbLocations.ItemsSource = null;
+            LsbLocations.ItemsSource = null;
             await geocodedLocationOverlay.RefreshAsync();
 
             // Update the UI with the number of results found and the list of locations found
-            txtSearchResultsDescription.Text = $"Found {searchResult.Locations.Count} matching locations.";
-            lsbLocations.ItemsSource = searchResult.Locations;
+            TxtSearchResultsDescription.Text = $"Found {searchResult.Locations.Count} matching locations.";
+            LsbLocations.ItemsSource = searchResult.Locations;
             if (searchResult.Locations.Count > 0)
             {
-                lsbLocations.Visibility = Visibility.Visible;
-                lsbLocations.SelectedIndex = 0;
+                LsbLocations.Visibility = Visibility.Visible;
+                LsbLocations.SelectedIndex = 0;
             }
         }
 
@@ -105,7 +115,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
             if (ValidateSearchParameters())
             {
                 // Run the Cloud Geocoding query
-                CloudGeocodingResult searchResult = await PerformGeocodingQuery();
+                var searchResult = await PerformGeocodingQuery();
 
                 // Handle an error returned from the geocoding service
                 if (searchResult.Exception != null)
@@ -125,22 +135,20 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         private async void lsbLocations_SelectionChanged(object sender, RoutedEventArgs e)
         {
             // Get the selected location
-            var chosenLocation = lsbLocations.SelectedItem as CloudGeocodingLocation;
-            if (chosenLocation != null)
-            {
-                // Get the MarkerOverlay from the MapView
-                SimpleMarkerOverlay geocodedLocationOverlay = (SimpleMarkerOverlay)mapView.Overlays["Geocoded Locations Overlay"];
+            var chosenLocation = LsbLocations.SelectedItem as CloudGeocodingLocation;
+            if (chosenLocation == null) return;
+            // Get the MarkerOverlay from the MapView
+            var geocodedLocationOverlay = (SimpleMarkerOverlay)MapView.Overlays["Geocoded Locations Overlay"];
 
-                // Clear the existing markers and add a new marker at the chosen location
-                geocodedLocationOverlay.Markers.Clear();
-                geocodedLocationOverlay.Markers.Add(CreateNewMarker(chosenLocation.LocationPoint));
+            // Clear the existing markers and add a new marker at the chosen location
+            geocodedLocationOverlay.Markers.Clear();
+            geocodedLocationOverlay.Markers.Add(CreateNewMarker(chosenLocation.LocationPoint));
 
-                // Center the map on the chosen location
-                mapView.CurrentExtent = chosenLocation.BoundingBox;
-                ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
-                await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
-                await mapView.RefreshAsync();
-            }
+            // Center the map on the chosen location
+            MapView.CurrentExtent = chosenLocation.BoundingBox;
+            var standardZoomLevelSet = new ZoomLevelSet();
+            await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
+            await MapView.RefreshAsync();
         }
 
         /// <summary>
@@ -148,21 +156,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         /// </summary>
         private void cboSearchType_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            var comboBoxContent = (cboSearchType.SelectedItem as ComboBoxItem).Content;
+            var comboBoxContent = (CboSearchType.SelectedItem as ComboBoxItem)?.Content;
 
-            if (comboBoxContent != null)
+            if (comboBoxContent == null) return;
+            switch (comboBoxContent.ToString())
             {
-                switch (comboBoxContent.ToString())
-                {
-                    case "Fuzzy":
-                        txtSearchTypeDescription.Text = "(Returns both exact and approximate matches for the search address)";
-                        break;
-                    case "Exact":
-                        txtSearchTypeDescription.Text = "(Only returns exact matches for the search address)";
-                        break;
-                    default:
-                        break;
-                }
+                case "Fuzzy":
+                    TxtSearchTypeDescription.Text = "(Returns both exact and approximate matches for the search address)";
+                    break;
+                case "Exact":
+                    TxtSearchTypeDescription.Text = "(Only returns exact matches for the search address)";
+                    break;
             }
         }
 
@@ -171,36 +175,32 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         /// </summary>
         private void cboLocationType_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            var comboBoxContent = (cboLocationType.SelectedItem as ComboBoxItem).Content;
+            var comboBoxContent = (CboLocationType.SelectedItem as ComboBoxItem)?.Content;
 
-            if (comboBoxContent != null)
+            if (comboBoxContent == null) return;
+            switch (comboBoxContent.ToString())
             {
-                switch (comboBoxContent.ToString())
-                {
-                    case "Default":
-                        txtLocationTypeDescription.Text = "(Searches for any matches to the search string)";
-                        break;
-                    case "Address":
-                        txtLocationTypeDescription.Text = "(Searches for addresses matching the search string)";
-                        break;
-                    case "Street":
-                        txtLocationTypeDescription.Text = "(Searches for streets matching the search string)";
-                        break;
-                    case "City":
-                        txtLocationTypeDescription.Text = "(Searches for cities matching the search string)";
-                        break;
-                    case "County":
-                        txtLocationTypeDescription.Text = "(Searches for counties matching the search string)";
-                        break;
-                    case "ZipCode":
-                        txtLocationTypeDescription.Text = "(Searches for zip codes matching the search string)";
-                        break;
-                    case "State":
-                        txtLocationTypeDescription.Text = "(Searches for states matching the search string)";
-                        break;
-                    default:
-                        break;
-                }
+                case "Default":
+                    TxtLocationTypeDescription.Text = "(Searches for any matches to the search string)";
+                    break;
+                case "Address":
+                    TxtLocationTypeDescription.Text = "(Searches for addresses matching the search string)";
+                    break;
+                case "Street":
+                    TxtLocationTypeDescription.Text = "(Searches for streets matching the search string)";
+                    break;
+                case "City":
+                    TxtLocationTypeDescription.Text = "(Searches for cities matching the search string)";
+                    break;
+                case "County":
+                    TxtLocationTypeDescription.Text = "(Searches for counties matching the search string)";
+                    break;
+                case "ZipCode":
+                    TxtLocationTypeDescription.Text = "(Searches for zip codes matching the search string)";
+                    break;
+                case "State":
+                    TxtLocationTypeDescription.Text = "(Searches for states matching the search string)";
+                    break;
             }
         }
 
@@ -210,28 +210,26 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         private bool ValidateSearchParameters()
         {
             // Check if the address text box is empty
-            if (string.IsNullOrWhiteSpace(txtSearchString.Text))
+            if (string.IsNullOrWhiteSpace(TxtSearchString.Text))
             {
-                txtSearchString.Focus();
+                TxtSearchString.Focus();
                 MessageBox.Show("Please enter an address to search", "Error");
                 return false;
             }
 
             // Check if the 'Max Results' text box has a valid value
-            if (string.IsNullOrWhiteSpace(txtMaxResults.Text) || !(int.TryParse(txtMaxResults.Text, out int result) && result > 0 && result < 101))
-            {
-                txtMaxResults.Focus();
-                MessageBox.Show("Please enter a number between 1 - 100", "Error");
-                return false;
-            }
+            if (!string.IsNullOrWhiteSpace(TxtMaxResults.Text) &&
+                (int.TryParse(TxtMaxResults.Text, out var result) && result > 0 && result < 101)) return true;
+            TxtMaxResults.Focus();
+            MessageBox.Show("Please enter a number between 1 - 100", "Error");
+            return false;
 
-            return true;
         }
 
         /// <summary>
         /// Create a new map marker using preloaded image assets
         /// </summary>
-        private Marker CreateNewMarker(PointShape point)
+        private static Marker CreateNewMarker(PointShape point)
         {
             return new Marker(point)
             {
@@ -245,7 +243,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingCloudMapsServices
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

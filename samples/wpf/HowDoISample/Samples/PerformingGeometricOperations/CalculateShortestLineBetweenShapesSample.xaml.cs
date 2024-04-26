@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using ThinkGeo.Core;
-using ThinkGeo.UI.Wpf;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to calculate the shortest line between two shapes
     /// </summary>
-    public partial class CalculateShortestLineBetweenShapesSample : UserControl, IDisposable
+    public partial class CalculateShortestLineBetweenShapesSample : IDisposable
     {
         public CalculateShortestLineBetweenShapesSample()
         {
@@ -18,24 +16,29 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, add the friscoParks, stadiumLayer, and
+        /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the friscoParks, stadiumLayer, and
         /// shortestLineLayer layers into a grouped LayerOverlay and display it on the map.
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            ShapeFileFeatureLayer friscoParks = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
-            InMemoryFeatureLayer stadiumLayer = new InMemoryFeatureLayer();
-            InMemoryFeatureLayer shortestLineLayer = new InMemoryFeatureLayer();
-            LayerOverlay layerOverlay = new LayerOverlay();
+            var friscoParks = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
+            var stadiumLayer = new InMemoryFeatureLayer();
+            var shortestLineLayer = new InMemoryFeatureLayer();
+            var layerOverlay = new LayerOverlay();
 
             // Project friscoParks layer to Spherical Mercator to match the map projection
             friscoParks.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
@@ -53,40 +56,40 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             shortestLineLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Add friscoParks layer to a LayerOverlay
-            layerOverlay.Layers.Add("friscoParks",friscoParks);
+            layerOverlay.Layers.Add("friscoParks", friscoParks);
 
             // Add stadiumLayer layer to a LayerOverlay
-            layerOverlay.Layers.Add("stadiumLayer",stadiumLayer);
+            layerOverlay.Layers.Add("stadiumLayer", stadiumLayer);
 
             // Add shortestLineLayer to the layerOverlay
-            LayerOverlay shortestLineOverlay = new LayerOverlay();
+            var shortestLineOverlay = new LayerOverlay();
             shortestLineOverlay.Layers.Add("shortestLineLayer", shortestLineLayer);
-            mapView.Overlays.Add("shortestLineOverlay", shortestLineOverlay);
-            
+            MapView.Overlays.Add("shortestLineOverlay", shortestLineOverlay);
+
             // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(-10782307.6877106, 3918904.87378907, -10774377.3460701, 3912073.31442403);
+            MapView.CurrentExtent = new RectangleShape(-10782307.6877106, 3918904.87378907, -10774377.3460701, 3912073.31442403);
 
             // Add LayerOverlay to Map
-            mapView.Overlays.Add("layerOverlay",layerOverlay);
+            MapView.Overlays.Add("layerOverlay", layerOverlay);
 
             // Add Toyota Stadium feature to stadiumLayer
             var stadium = new Feature(new PointShape(-10779651.500992451, 3915933.0023557912));
             stadiumLayer.InternalFeatures.Add(stadium);
 
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         /// <summary>
-        /// Calculates the shortest line from the selected park to the stadium and displays it's length and shows the line on the map
+        /// Calculates the shortest line from the selected park to the stadium and displays its length and shows the line on the map
         /// </summary>
         private async void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
         {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
-            LayerOverlay shortestLineOverlay = (LayerOverlay)mapView.Overlays["shortestLineOverlay"];
+            var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
+            var shortestLineOverlay = (LayerOverlay)MapView.Overlays["shortestLineOverlay"];
 
-            ShapeFileFeatureLayer friscoParks = (ShapeFileFeatureLayer)layerOverlay.Layers["friscoParks"];
-            InMemoryFeatureLayer stadiumLayer = (InMemoryFeatureLayer)layerOverlay.Layers["stadiumLayer"];
-            InMemoryFeatureLayer shortestLineLayer = (InMemoryFeatureLayer)shortestLineOverlay.Layers["shortestLineLayer"];
+            var friscoParks = (ShapeFileFeatureLayer)layerOverlay.Layers["friscoParks"];
+            var stadiumLayer = (InMemoryFeatureLayer)layerOverlay.Layers["stadiumLayer"];
+            var shortestLineLayer = (InMemoryFeatureLayer)shortestLineOverlay.Layers["shortestLineLayer"];
 
             // Query the friscoParks layer to get the first feature closest to the map click event
             var park = friscoParks.QueryTools.GetFeaturesNearestTo(e.WorldLocation, GeographyUnit.Meter, 1,
@@ -107,12 +110,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var length = shortestLine.GetLength(GeographyUnit.Meter, DistanceUnit.Kilometer);
 
             // Display the shortestLine's length in the distanceResult TextBox
-            distanceResult.Text = $"{length:f3} km";
+            DistanceResult.Text = $"{length:f3} km";
         }
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

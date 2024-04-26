@@ -11,39 +11,35 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         public bool IsCsharpCodeVisible
         {
-            get { return _isCsharpCodeVisible; }
+            get => _isCsharpCodeVisible;
             set
             {
-                if (_isCsharpCodeVisible != value)
+                if (_isCsharpCodeVisible == value) return;
+                _isCsharpCodeVisible = value;
+                if (_isCsharpCodeVisible)
                 {
-                    _isCsharpCodeVisible = value;
-                    if (_isCsharpCodeVisible)
-                    {
-                        _isXamlCodeVisible = false;
-                        SyntaxHighlighting = "C#";
-                        OnPropertyChanged(nameof(IsXamlCodeVisible));
-                    }
-                    OnPropertyChanged(nameof(IsCsharpCodeVisible));
+                    _isXamlCodeVisible = false;
+                    SyntaxHighlighting = "C#";
+                    OnPropertyChanged(nameof(IsXamlCodeVisible));
                 }
+                OnPropertyChanged();
             }
         }
 
         public bool IsXamlCodeVisible
         {
-            get { return _isXamlCodeVisible; }
+            get => _isXamlCodeVisible;
             set
             {
-                if (_isXamlCodeVisible != value)
+                if (_isXamlCodeVisible == value) return;
+                _isXamlCodeVisible = value;
+                if (_isXamlCodeVisible)
                 {
-                    _isXamlCodeVisible = value;
-                    if (_isXamlCodeVisible)
-                    {
-                        _isCsharpCodeVisible = false;
-                        SyntaxHighlighting = "XML";
-                        OnPropertyChanged(nameof(IsCsharpCodeVisible));
-                    }
-                    OnPropertyChanged(nameof(IsXamlCodeVisible));
+                    _isCsharpCodeVisible = false;
+                    SyntaxHighlighting = "XML";
+                    OnPropertyChanged(nameof(IsCsharpCodeVisible));
                 }
+                OnPropertyChanged();
             }
         }
 
@@ -53,14 +49,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         public string SyntaxHighlighting
         {
-            get { return _syntaxHighlighting; }
+            get => _syntaxHighlighting;
             set
             {
-                if (_syntaxHighlighting != value)
-                {
-                    _syntaxHighlighting = value;
-                    OnPropertyChanged(nameof(SyntaxHighlighting));
-                }
+                if (_syntaxHighlighting == value) return;
+                _syntaxHighlighting = value;
+                OnPropertyChanged();
             }
         }
     }

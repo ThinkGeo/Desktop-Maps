@@ -3,14 +3,13 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
 using ThinkGeo.Core;
-using UserControl = System.Windows.Controls.UserControl;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn to draw, edit, or delete shapes using the map's TrackOverlay and EditOverlay.
     /// </summary>
-    public partial class DrawEditDeleteShapesUsingInteractiveOverlaySample : UserControl, IDisposable
+    public partial class DrawEditDeleteShapesUsingInteractiveOverlaySample : IDisposable
     {
         public DrawEditDeleteShapesUsingInteractiveOverlaySample()
         {
@@ -18,27 +17,29 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Setup the map with the ThinkGeo Cloud Maps overlay to show a basic map
+        /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
-
-            LayerOverlay layerOverlay;
-            InMemoryFeatureLayer featureLayer;
+            MapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
 
             // Create the layer that will store the drawn shapes
-            featureLayer = new InMemoryFeatureLayer();
+            var featureLayer = new InMemoryFeatureLayer();
 
             // Add styles for the layer
             featureLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Blue, 8, GeoColors.Black);
@@ -47,18 +48,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             featureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Add the layer to a LayerOverlay
-            layerOverlay = new LayerOverlay();
+            var layerOverlay = new LayerOverlay();
             layerOverlay.Layers.Add("featureLayer", featureLayer);
 
             // Add the LayerOverlay to the map
-            mapView.Overlays.Add("layerOverlay", layerOverlay);
-            mapView.TrackOverlay.MouseMoved += TrackOverlay_MouseMoved;
-            mapView.EditOverlay.VertexMoved += EditOverlay_VertexMoved;
+            MapView.Overlays.Add("layerOverlay", layerOverlay);
+            MapView.TrackOverlay.MouseMoved += TrackOverlay_MouseMoved;
+            MapView.EditOverlay.VertexMoved += EditOverlay_VertexMoved;
 
             // Update instructions
             Instructions.Text = "Navigation Mode - The default map state. Allows you to pan and zoom the map with mouse controls.";
 
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         private void EditOverlay_VertexMoved(object sender, VertexMovedEditInteractiveOverlayEventArgs e)
@@ -95,27 +96,27 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async Task UpdateLayerFeaturesAsync(InMemoryFeatureLayer featureLayer, LayerOverlay layerOverlay)
         {
-            // If the user switched away from a Drawing Mode, add all the newly drawn shapes in the TrackOverlay into the the featureLayer
-            foreach (Feature feature in mapView.TrackOverlay.TrackShapeLayer.InternalFeatures)
+            // If the user switched away from a Drawing Mode, add all the newly drawn shapes in the TrackOverlay into the featureLayer
+            foreach (var feature in MapView.TrackOverlay.TrackShapeLayer.InternalFeatures)
             {
                 featureLayer.InternalFeatures.Add(feature.Id, feature);
             }
             // Clear out all the TrackOverlay's features
-            mapView.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
+            MapView.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
 
-            // If the user switched away from Edit Mode, add all the shapes that were in the EditOverlay back into the the featureLayer
-            foreach (Feature feature in mapView.EditOverlay.EditShapesLayer.InternalFeatures)
+            // If the user switched away from Edit Mode, add all the shapes that were in the EditOverlay back into the featureLayer
+            foreach (var feature in MapView.EditOverlay.EditShapesLayer.InternalFeatures)
             {
                 featureLayer.InternalFeatures.Add(feature.Id, feature);
             }
             // Clear out all the EditOverlay's features
-            mapView.EditOverlay.EditShapesLayer.InternalFeatures.Clear();
+            MapView.EditOverlay.EditShapesLayer.InternalFeatures.Clear();
 
             // Refresh the overlays to show latest results
-            await mapView.RefreshAsync(new Overlay[] { mapView.TrackOverlay, mapView.EditOverlay, layerOverlay });
+            await MapView.RefreshAsync(new Overlay[] { MapView.TrackOverlay, MapView.EditOverlay, layerOverlay });
 
             // In case the user was in Delete Mode, remove the event handler to avoid deleting features unintentionally
-            mapView.MapClick -= MapView_MapClick;
+            MapView.MapClick -= MapView_MapClick;
         }
 
         /// <summary>
@@ -123,14 +124,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void NavMode_Click(object sender, RoutedEventArgs e)
         {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];            
-            InMemoryFeatureLayer featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
+            var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
+            var featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
 
             // Update the layer's features from any previous mode
-            await UpdateLayerFeaturesAsync(featureLayer,layerOverlay);
+            await UpdateLayerFeaturesAsync(featureLayer, layerOverlay);
 
-            // Set TrackMode to None, so that the user will no longer draw shapes and will be able to naviage the map normally
-            mapView.TrackOverlay.TrackMode = TrackMode.None;
+            // Set TrackMode to None, so that the user will no longer draw shapes and will be able to navigate the map normally
+            MapView.TrackOverlay.TrackMode = TrackMode.None;
 
             // Update instructions
             Instructions.Text = "Navigation Mode - The default map state. Allows you to pan and zoom the map with mouse controls.";
@@ -141,14 +142,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void DrawPoint_Click(object sender, RoutedEventArgs e)
         {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
-            InMemoryFeatureLayer featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
+            var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
+            var featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
 
             // Update the layer's features from any previous mode
-            await UpdateLayerFeaturesAsync(featureLayer,layerOverlay);
+            await UpdateLayerFeaturesAsync(featureLayer, layerOverlay);
 
             // Set TrackMode to Point, which draws a new point on the map on mouse click
-            mapView.TrackOverlay.TrackMode = TrackMode.Point;
+            MapView.TrackOverlay.TrackMode = TrackMode.Point;
 
             // Update instructions
             Instructions.Text = "Draw Point Mode - Creates a Point Shape where at the location of each left mouse click event on the map.";
@@ -159,14 +160,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void DrawLine_Click(object sender, RoutedEventArgs e)
         {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
-            InMemoryFeatureLayer featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
+            var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
+            var featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
 
             // Update the layer's features from any previous mode
             await UpdateLayerFeaturesAsync(featureLayer, layerOverlay);
 
             // Set TrackMode to Line, which draws a new line on the map on mouse click. Double click to finish drawing the line.
-            mapView.TrackOverlay.TrackMode = TrackMode.Line;
+            MapView.TrackOverlay.TrackMode = TrackMode.Line;
 
             // Update instructions
             Instructions.Text = "Draw Line Mode - Begin creating a Line Shape by left clicking on the map. Each subsequent left click adds another vertex to the line. Double left click to finish creating the Shape. Middle mouse click and drag allows the user to pan the map while drawing the Shape.";
@@ -177,14 +178,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void DrawPolygon_Click(object sender, RoutedEventArgs e)
         {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
-            InMemoryFeatureLayer featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
+            var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
+            var featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
 
             // Update the layer's features from any previous mode
             await UpdateLayerFeaturesAsync(featureLayer, layerOverlay);
 
             // Set TrackMode to Polygon, which draws a new polygon on the map on mouse click. Double click to finish drawing the polygon.
-            mapView.TrackOverlay.TrackMode = TrackMode.Polygon;
+            MapView.TrackOverlay.TrackMode = TrackMode.Polygon;
 
             // Update instructions
             Instructions.Text = "Draw Polygon Mode - Begin creating a Polygon Shape by left clicking on the map. Each subsequent left click adds another vertex to the polygon. Double left click to finish creating the Shape. Middle mouse click and drag allows the user to pan the map while drawing the Shape.";
@@ -195,29 +196,29 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void EditShape_Click(object sender, RoutedEventArgs e)
         {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
-            InMemoryFeatureLayer featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
+            var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
+            var featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
 
             // Update the layer's features from any previous mode
             await UpdateLayerFeaturesAsync(featureLayer, layerOverlay);
 
             // Set TrackMode to None, so that the user will no longer draw shapes
-            mapView.TrackOverlay.TrackMode = TrackMode.None;
+            MapView.TrackOverlay.TrackMode = TrackMode.None;
 
             // Put all features in the featureLayer into the EditOverlay
-            foreach (Feature feature in featureLayer.InternalFeatures)
+            foreach (var feature in featureLayer.InternalFeatures)
             {
-                mapView.EditOverlay.EditShapesLayer.InternalFeatures.Add(feature.Id, feature);
+                MapView.EditOverlay.EditShapesLayer.InternalFeatures.Add(feature.Id, feature);
             }
-            // Clear all the features inthe featureLayer so that the editing features don't overlap with the original shapes
+            // Clear all the features in the featureLayer so that the editing features don't overlap with the original shapes
             // In UpdateLayerFeatures, we will add them all back to the featureLayer once the user switches modes
             featureLayer.InternalFeatures.Clear();
 
             // This method draws all the handles and manipulation points on the map to edit. Essentially putting them all in edit mode.
-            mapView.EditOverlay.CalculateAllControlPoints();
+            MapView.EditOverlay.CalculateAllControlPoints();
 
             // Refresh the map so that the features properly show that they are in edit mode
-            await mapView.RefreshAsync(new Overlay[] { mapView.EditOverlay, layerOverlay });
+            await MapView.RefreshAsync(new Overlay[] { MapView.EditOverlay, layerOverlay });
 
             // Update instructions
             Instructions.Text = "Edit Shapes Mode - Allows the user to modify Shapes. Translate, rotate, or scale a shape using the anchor controls around the shape. Line and Polygon Shapes can also be modified: move a vertex by left mouse click and dragging on an existing vertex, add a vertex by left mouse clicking on a line segment, and remove a vertex by double left mouse clicking on an existing vertex.";
@@ -228,17 +229,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void DeleteShape_Click(object sender, RoutedEventArgs e)
         {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
-            InMemoryFeatureLayer featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
+            var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
+            var featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
 
             // Update the layer's features from any previous mode
             await UpdateLayerFeaturesAsync(featureLayer, layerOverlay);
 
             // Set TrackMode to None, so that the user will no longer draw shapes
-            mapView.TrackOverlay.TrackMode = TrackMode.None;
+            MapView.TrackOverlay.TrackMode = TrackMode.None;
 
             // Add the event handler that will delete features on map click
-            mapView.MapClick += MapView_MapClick;
+            MapView.MapClick += MapView_MapClick;
 
             // Update instructions
             Instructions.Text = "Delete Shape Mode - Deletes a shape by left mouse clicking on the shape.";
@@ -249,28 +250,26 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void MapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
-            InMemoryFeatureLayer featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
+            var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
+            var featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
 
             // Query the layer for the closest feature within 100 meters
-            Collection<Feature> closestFeatures = featureLayer.QueryTools.GetFeaturesNearestTo(e.WorldLocation, GeographyUnit.Meter, 1, new Collection<string>(), 100, DistanceUnit.Meter);
+            var closestFeatures = featureLayer.QueryTools.GetFeaturesNearestTo(e.WorldLocation, GeographyUnit.Meter, 1, new Collection<string>(), 100, DistanceUnit.Meter);
 
             // If a feature was found, remove it from the layer
-            if (closestFeatures.Count > 0)
-            {
-                featureLayer.InternalFeatures.Remove(closestFeatures[0]);
+            if (closestFeatures.Count <= 0) return;
+            featureLayer.InternalFeatures.Remove(closestFeatures[0]);
 
-                // Refresh the layerOverlay to show the results
-                await mapView.RefreshAsync(layerOverlay);
-            }
+            // Refresh the layerOverlay to show the results
+            await MapView.RefreshAsync(layerOverlay);
         }
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
-
     }
 }

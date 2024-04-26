@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using ThinkGeo.Core;
 
-namespace ThinkGeo.UI.Wpf.HowDoI.ProjectingData
+namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to automatically reproject a raster layer using the ProjectionConverter class
     /// </summary>
-    public partial class RasterProjectionSample : UserControl, IDisposable
+    public partial class RasterProjectionSample : IDisposable
     {
         public RasterProjectionSample()
         {
@@ -22,11 +21,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.ProjectingData
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the Map Unit to meters (Spherical Mercator)
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Create an overlay that we can add layers to, and add it to the MapView
-            LayerOverlay layerOverlay = new LayerOverlay();
-            mapView.Overlays.Add(layerOverlay);
+            var layerOverlay = new LayerOverlay();
+            MapView.Overlays.Add(layerOverlay);
 
             // Reproject a raster layer and set the extent
             await ReprojectRasterLayerAsync(layerOverlay);
@@ -37,7 +36,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.ProjectingData
         /// </summary>
         private async Task ReprojectRasterLayerAsync(LayerOverlay layerOverlay)
         {
-            GeoTiffRasterLayer worldRasterLayer = new GeoTiffRasterLayer(@"./Data/GeoTiff/World.tif");
+            var worldRasterLayer = new GeoTiffRasterLayer(@"./Data/GeoTiff/World.tif");
 
             // Create a new ProjectionConverter to convert between World Geodetic System (4326) and US National Atlas Equal Area (2163)
             ProjectionConverter projectionConverter = new UnmanagedProjectionConverter(4326, 2163);
@@ -48,18 +47,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI.ProjectingData
 
             // Set the map to the extent of the raster layer and refresh the map
             worldRasterLayer.Open();
-            mapView.CurrentExtent = worldRasterLayer.GetBoundingBox();
+            MapView.CurrentExtent = worldRasterLayer.GetBoundingBox();
             worldRasterLayer.Close();
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
-
     }
 }

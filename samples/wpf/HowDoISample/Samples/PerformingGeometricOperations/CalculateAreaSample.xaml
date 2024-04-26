@@ -3,19 +3,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:ThinkGeoUI="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ThinkGeoUI:MapView Grid.Column="0" Grid.Row="0" x:Name="mapView" Loaded="MapView_Loaded" MapClick="MapView_OnMapClick"/>
+        <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded" MapClick="MapView_OnMapClick"/>
 
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Content="Calculate Area Controls:" FontSize="16" FontWeight="Bold"/>
 
-            <TextBlock Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Text="Click on a feature to get it's area displayed in the TextBox below." TextWrapping="Wrap"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Text="Click on a feature to get its area displayed in the TextBox below." TextWrapping="Wrap"></TextBlock>
 
             <Label Grid.Column="1" Grid.Row="2" Content="Area (sq km): "></Label>
-            <TextBox Grid.Column="2" Grid.Row="2" x:Name="areaResult" IsReadOnly="True"></TextBox>
+            <TextBox Grid.Column="2" Grid.Row="2" x:Name="AreaResult" IsReadOnly="True"></TextBox>
 
             <!-- Controls Grid Layout -->
             <Grid.ColumnDefinitions>

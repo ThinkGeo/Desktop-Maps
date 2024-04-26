@@ -13,15 +13,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 {
     public class MainWindowViewModel : ObservableObject
     {
-        private readonly List<MenuModel> _menus;
-
         private MenuViewModel _selectedMenu;
 
         public MainWindowViewModel(DependencyObject view)
         {
+            List<MenuModel> menus;
             if (DesignerProperties.GetIsInDesignMode(view))
             {
-                _menus = new List<MenuModel>();
+                menus = new List<MenuModel>();
                 var group1 = new MenuModel
                 {
                     Title = "ThinkGeo Base Maps",
@@ -38,7 +37,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     Id = "VectorTiles1",
                     Title = "Vector Tiles on Aerial Imagery"
                 });
-                _menus.Add(group1);
+                menus.Add(group1);
 
                 var group2 = new MenuModel
                 {
@@ -57,13 +56,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     Id = "RouteCostMatrix",
                     Title = "Route Cost Matrix"
                 });
-                _menus.Add(group2);
+                menus.Add(group2);
             }
             else
             {
-                _menus = JsonConvert.DeserializeObject<List<MenuModel>>(File.ReadAllText("samples.json"));
+                menus = JsonConvert.DeserializeObject<List<MenuModel>>(File.ReadAllText("samples.json"));
             }
-            Menus = new ObservableCollection<MenuViewModel>(_menus.Select(m => new MenuViewModel(m)));
+            Menus = new ObservableCollection<MenuViewModel>(menus.Select(m => new MenuViewModel(m)));
 
 
             CodeViewer = new CodeViewerViewModel();
@@ -90,17 +89,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         public MenuViewModel SelectedMenu
         {
-            get { return _selectedMenu; }
+            get => _selectedMenu;
             set
             {
-                if (_selectedMenu != value)
-                {
-                    _selectedMenu = value;
-                    _selectedMenu.IsSelected = true;
-                    CodeViewer.CsharpCode = GetFileContent($"{_selectedMenu.Source}.xaml.cs");
-                    CodeViewer.XamlCode = GetResourceContent($"{_selectedMenu.Source}.baml");
-                    OnPropertyChanged(nameof(SelectedMenu));
-                }
+                if (_selectedMenu == value) return;
+                _selectedMenu = value;
+                _selectedMenu.IsSelected = true;
+                CodeViewer.CsharpCode = GetFileContent($"{_selectedMenu.Source}.xaml.cs");
+                CodeViewer.XamlCode = GetResourceContent($"{_selectedMenu.Source}.baml");
+                OnPropertyChanged();
             }
         }
 

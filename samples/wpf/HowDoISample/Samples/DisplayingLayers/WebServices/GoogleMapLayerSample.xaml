@@ -3,19 +3,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:ThinkGeoUI="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ThinkGeoUI:MapView Grid.Column="0" Grid.Row="0" x:Name="mapView" Margin="0,0,0,-0.4" Loaded="mapView_Loaded"></ThinkGeoUI:MapView>
+        <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" Margin="0,0,0,-0.4" Loaded="MapView_Loaded"></thinkGeoUi:MapView>
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1" Grid.Row="0" Content="Google API Key:" FontSize="16" FontWeight="Bold"></Label>
             <TextBlock Grid.Column="1" Grid.Row="1">
             <Hyperlink  NavigateUri="https://developers.google.com/maps/documentation/maps-static/get-api-key" RequestNavigate="Hyperlink_RequestNavigate">Sign up for a Google Maps Api Key</Hyperlink>
             </TextBlock>
             <Label Grid.Column="1" Grid.Row="2" Content="API Key"></Label>
-            <TextBox Grid.Column="1" Grid.Row="3" Name ="txtApiKey"></TextBox>
-            <Button Grid.Column="1" Grid.Row="6" x:Name="btnActivate" Click="btnActivate_Click">Activate</Button>
+            <TextBox Grid.Column="1" Grid.Row="3" Name ="TxtApiKey"></TextBox>
+            <Button Grid.Column="1" Grid.Row="6" x:Name="BtnActivate" Click="BtnActivate_Click">Activate</Button>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />
                 <ColumnDefinition Width="*" />

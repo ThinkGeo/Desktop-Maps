@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Net;
-using System.Net.Http;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,29 +19,31 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     /// 
-    public partial class Samples : Window
+    public partial class Samples
     {
         // A list of all the menu models
-        private List<MenuModel> menus;
-        private DispatcherTimer changeTimer;
+        private List<MenuModel> _menus;
+        private readonly DispatcherTimer _changeTimer;
 
         public Samples()
         {
-            // Setup the model
+            // Set up the model
             var mainWindowVm = new MainWindowViewModel(this);
             mainWindowVm.PropertyChanged += MainWindowVm_PropertyChanged;
             DataContext = mainWindowVm;
 
             InitializeComponent();
 
-            changeTimer = new DispatcherTimer();
-            changeTimer.Interval = TimeSpan.FromMilliseconds(500);
-            changeTimer.Tick += ChangeTimer_Tick;
+            _changeTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(500)
+            };
+            _changeTimer.Tick += ChangeTimer_Tick;
         }
 
         private void ChangeTimer_Tick(object sender, EventArgs e)
         {
-            changeTimer.Stop();
+            _changeTimer.Stop();
             UpdateUserControl();
         }
 
@@ -52,35 +52,40 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var mainWindowVm = (MainWindowViewModel)DataContext;
 
             // Dynamically read the samples to load into the tree view
-            string json = File.ReadAllText(@"./samples.json");
-            menus = JsonConvert.DeserializeObject<List<MenuModel>>(json);
+            var json = File.ReadAllText(@"./samples.json");
+            _menus = JsonConvert.DeserializeObject<List<MenuModel>>(json);
 
             // Add each item into the tree view
-            foreach (var item in menus)
+            foreach (var item in _menus)
             {
-                var treeItem = new TreeViewItem();
-                treeItem.Header = item.Title;
-                treeView.Items.Add(treeItem);
+                var treeItem = new TreeViewItem
+                {
+                    Header = item.Title
+                };
+                TreeView.Items.Add(treeItem);
                 AddTreeItems(treeItem, item);
             }
 
             // Expand the first node and select the first sample
-            TreeViewItem firstTreeNode = (TreeViewItem)treeView.Items[0];
+            var firstTreeNode = (TreeViewItem)TreeView.Items[0];
+            if (firstTreeNode == null) return;
             firstTreeNode.IsExpanded = true;
-            TreeViewItem firstSubTreeNode = (TreeViewItem)firstTreeNode.Items[0];            
-            firstSubTreeNode.IsSelected = true;
+            var firstSubTreeNode = (TreeViewItem)firstTreeNode.Items[0];
+            if (firstSubTreeNode != null) firstSubTreeNode.IsSelected = true;
         }
 
-        private void AddTreeItems(TreeViewItem parentTreeviewItem, MenuModel menuModel)
+        private static void AddTreeItems(TreeViewItem parentTreeviewItem, MenuModel menuModel)
         {
             // Add the tree view items to the tree recursively
             if (menuModel.Children != null)
             {
                 foreach (var item in menuModel.Children)
                 {
-                    var subTreeItem = new TreeViewItem();
-                    subTreeItem.Header = item.Title;
-                    subTreeItem.Tag = item;
+                    var subTreeItem = new TreeViewItem
+                    {
+                        Header = item.Title,
+                        Tag = item
+                    };
                     parentTreeviewItem.Items.Add(subTreeItem);
                     AddTreeItems(subTreeItem, item);
                 }
@@ -94,30 +99,30 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // If we select a new item then we need to load the new item
             if (e.PropertyName == nameof(MainWindowViewModel.SelectedMenu))
             {
-                if (changeTimer.IsEnabled) 
-                { 
-                    changeTimer.Stop();
+                if (_changeTimer.IsEnabled)
+                {
+                    _changeTimer.Stop();
                 }
-                changeTimer.Start();
+                _changeTimer.Start();
             }
             else if (e.PropertyName == nameof(MainWindowViewModel.CodeViewer))
             {
                 // Update the code and XAML view
-                UpdateCodeViewerLayout(vm.CodeViewer);
+                UpdateCodeViewerLayout(vm?.CodeViewer);
             }
         }
 
         private void UpdateUserControl()
         {
-            MainWindowViewModel vm = DataContext as MainWindowViewModel;
+            var vm = DataContext as MainWindowViewModel;
             // If we already had a sample loaded then unload it and try and reclaim the memory
-            // at the moment we can't seem to reclaim the memory but I think this is a WPF issue
+            // at the moment we can't seem to reclaim the memory, but I think this is a WPF issue
             if (SampleContent.Children.Count > 0)
             {
-                UserControl oldControl = (UserControl)SampleContent.Children[0];
-                if (oldControl is IDisposable)
+                var oldControl = (UserControl)SampleContent.Children[0];
+                if (oldControl is IDisposable disposable)
                 {
-                    ((IDisposable)oldControl).Dispose();
+                    disposable.Dispose();
                 }
                 SampleContent.Children.Remove(oldControl);
                 SampleContent.DataContext = null;
@@ -127,14 +132,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
 
             // Dynamically create the new user control based on the sample selected
-            UserControl sample = GetSample(vm.SelectedMenu.Id);
+            var sample = GetSample(vm?.SelectedMenu.Id);
 
             // Add the new sample user control to the XAML layout
             SampleContent.Children.Add(sample);
 
             // Update the CS & XAML code windows
-            UpdateCodeViewerLayout(vm.CodeViewer);
-            CsharpCodeViewer.Text = GetFileContent($"../../../{vm.SelectedMenu.Source}.xaml.cs");
+            UpdateCodeViewerLayout(vm?.CodeViewer);
+            CsharpCodeViewer.Text = GetFileContent($"../../../{vm?.SelectedMenu.Source}.xaml.cs");
             XamlCodeViewer.Text = ToXaml(sample);
         }
 
@@ -210,13 +215,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Fired when a new treeview item is selected and then updates the model
             var treeViewItem = (TreeViewItem)e.Source;
 
-            if (treeViewItem.Tag != null)
+            if (treeViewItem.Tag == null) return;
+            var menuModel = (MenuModel)treeViewItem.Tag;
+            if (menuModel.Id != null)
             {
-                MenuModel menuModel = (MenuModel)treeViewItem.Tag;
-                if (menuModel.Id != null)
-                {
-                    ((MainWindowViewModel)DataContext).SelectedMenu = GetMenuViewModelById(menuModel.Id);
-                }
+                ((MainWindowViewModel)DataContext).SelectedMenu = GetMenuViewModelById(menuModel.Id);
             }
         }
 
@@ -246,24 +249,24 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             return File.ReadAllText(path);
         }
 
-        private void txtSearch_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        private void txtSearch_KeyDown(object sender, KeyEventArgs e)
         {
-            //  When you type into the search bar and hit enter we find all of the samples via the JSON
-            // and see what samples match the various key words entered.  Then we restrict the tree view
+            //  When you type into the search bar and hit enter we find all the samples via the JSON
+            // and see what samples match the various keywords entered.  Then we restrict the tree view
             // to only the samples that match
             if (e.Key == Key.Return)
             {
-                if (txtSearch.Text == "")
+                if (TxtSearch.Text == "")
                 {
-                    foreach (TreeViewItem item in treeView.Items)
+                    foreach (TreeViewItem item in TreeView.Items)
                         CollapseTreeviewItems(item, Visibility.Visible);
                 }
                 else
                 {
-                    foreach (TreeViewItem item in treeView.Items)
+                    foreach (TreeViewItem item in TreeView.Items)
                         CollapseTreeviewItems(item, Visibility.Collapsed);
 
-                    foreach (TreeViewItem item in treeView.Items)
+                    foreach (TreeViewItem item in TreeView.Items)
                         EnableTreeviewItems(item);
                 }
             }
@@ -286,17 +289,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void EnableMatchingTreeNodes(TreeViewItem item)
         {
             // Enable just the tree view items that match the search criteria
-            string[] searchTerms = txtSearch.Text.Split(' ');
+            string[] searchTerms = TxtSearch.Text.Split(' ');
 
             if (item.Tag != null)
             {
-                MenuModel menuModel = (MenuModel)item.Tag;
+                var menuModel = (MenuModel)item.Tag;
 
                 bool foundAllSearchTerms = false;
 
                 foreach (var searchTerm in searchTerms)
                 {
-                    bool searchTermFound = false;
+                    var searchTermFound = false;
 
                     if (menuModel.Title.ToLower().Contains(searchTerm.ToLower()))
                     {
@@ -328,18 +331,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
         }
 
-        private void ExpandParents(TreeViewItem item)
+        private static void ExpandParents(TreeViewItem item)
         {
             // Given a tree node we walk up the parents and expand them
-            TreeViewItem parent = (TreeViewItem)item.Parent;
+            var parent = (TreeViewItem)item.Parent;
 
             while (parent != null)
             {
                 parent.IsExpanded = true;
                 parent.Visibility = Visibility.Visible;
-                if (parent.Parent is TreeViewItem)
+                if (parent.Parent is TreeViewItem viewItem)
                 {
-                    parent = (TreeViewItem)parent.Parent;
+                    parent = viewItem;
                 }
                 else
                 {
@@ -348,9 +351,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
         }
 
-        private void CollapseTreeviewItems(TreeViewItem item, Visibility visibility)
+        private static void CollapseTreeviewItems(TreeViewItem item, Visibility visibility)
         {
-            // Given a tree view we expand or contract the parent nodes and set the correct vivibility of the leafs
+            // Given a tree view we expand or contract the parent nodes and set the correct visibility of the leafs
             item.IsExpanded = false;
             item.Visibility = visibility;
 
@@ -366,8 +369,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            // This fires on the scroll wheel over the tree view so we support scrolling with the mouse wheel
-            ScrollViewer scv = (ScrollViewer)sender;
+            // This fires on the scroll wheel over the tree view, so we support scrolling with the mouse wheel
+            var scv = (ScrollViewer)sender;
             scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
             e.Handled = true;
         }
