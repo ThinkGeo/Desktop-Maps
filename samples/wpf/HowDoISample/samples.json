@@ -253,6 +253,12 @@
         "source": "Samples/UsingOverlays/DrawGpsLocationOverlaySample"
       },
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplaySimpleBackgroundOverlaySample",
+        "title": "Display a Simple Background Overlay",
+        "description": "Learn how to display a background overlay",
+        "source": "Samples/UsingOverlays/DisplaySimpleBackgroundOverlaySample"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayBingMapsOverlaySample",
         "title": "Display Bing Maps Overlay",
         "description": "Learn to render Bing Maps using the BingMapsOverlay. A valid Bing Maps ApplicationID is required. Visit the Bing Maps Dev Portal to sign up for a key (https://www.bingmapsportal.com/).",
@@ -287,12 +293,6 @@
         "title": "Display a WMS Overlay",
         "description": "Learn to render a Web Map Service using the WMSOverlay. Please be aware that this is a publicly available WMS server and it may be slow to load.",
         "source": "Samples/UsingOverlays/DisplayWmsOverlaySample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplaySimpleBackgroundOverlaySample",
-        "title": "Display a Background Overlay",
-        "description": "Learn how to display a background overlay",
-        "source": "Samples/UsingOverlays/DisplaySimpleBackgroundOverlaySample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DrawEditDeleteShapesUsingInteractiveOverlaySample",
@@ -764,7 +764,7 @@
         "id": "ThinkGeo.UI.Wpf.HowDoI.GetSnapShotSample",
         "title": "Get SnapShot",
         "description": "Learn how to get the snapshot of the current map",
-        "source": "Samples/Misc/GetSnapShoteSample"
+        "source": "Samples/Misc/GetSnapShotSample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.MapResizingSample",

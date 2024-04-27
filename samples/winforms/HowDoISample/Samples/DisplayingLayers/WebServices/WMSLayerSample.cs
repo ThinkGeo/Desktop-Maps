@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
-using System.Diagnostics;
 
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class WMSLayerSample: UserControl
+    public class WMSLayerSample : UserControl
     {
         public WMSLayerSample()
         {

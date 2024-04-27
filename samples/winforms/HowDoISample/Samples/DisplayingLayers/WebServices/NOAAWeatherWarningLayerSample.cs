@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class NOAAWeatherWarningLayerSample: UserControl
+    public class NOAAWeatherWarningLayerSample : UserControl
     {
         public delegate void InvokeDelegate();
         public NOAAWeatherWarningLayerSample()
@@ -35,11 +33,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             noaaWeatherWarningsFeatureLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 3857);
 
             // Add the new layer to the overlay we created earlier
-            noaaWeatherWarningsOverlay.Layers.Add("Noaa Weather Warning",noaaWeatherWarningsFeatureLayer);
+            noaaWeatherWarningsOverlay.Layers.Add("Noaa Weather Warning", noaaWeatherWarningsFeatureLayer);
 
             // Get the layers feature source and setup an event that will refresh the map when the data refreshes
             var featureSource = (NoaaWeatherWarningsFeatureSource)noaaWeatherWarningsFeatureLayer.FeatureSource;
-           
+
             // Create the weather warnings style and add it on zoom level 1 and then apply it to all zoom levels up to 20.
             noaaWeatherWarningsFeatureLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(new NoaaWeatherWarningsStyle());
             noaaWeatherWarningsFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;

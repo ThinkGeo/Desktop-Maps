@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Windows.Forms;
-using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class DrawEditDeleteShapesUsingInteractiveOverlaySample: UserControl
+    public class DrawEditDeleteShapesUsingInteractiveOverlaySample : UserControl
     {
         public DrawEditDeleteShapesUsingInteractiveOverlaySample()
         {
@@ -155,7 +154,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             {
                 mapView.EditOverlay.EditShapesLayer.InternalFeatures.Add(feature.Id, feature);
             }
-            // Clear all the features inthe featureLayer so that the editing features don't overlap with the original shapes
+            // Clear all the features in the featureLayer so that the editing features don't overlap with the original shapes
             // In UpdateLayerFeatures, we will add them all back to the featureLayer once the user switches modes
             featureLayer.InternalFeatures.Clear();
 
@@ -188,8 +187,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             instructions.Text = "Delete Shape Mode - Deletes a shape by left mouse clicking on the shape.";
 
         }
-
-
 
         private async void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
@@ -405,8 +402,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-
         #endregion Component Designer generated code
-
     }
 }

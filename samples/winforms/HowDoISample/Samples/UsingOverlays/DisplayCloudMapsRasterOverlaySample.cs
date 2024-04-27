@@ -2,11 +2,10 @@
 using System.Diagnostics;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class DisplayCloudMapsRasterOverlaySample: UserControl
+    public class DisplayCloudMapsRasterOverlaySample : UserControl
     {
         public DisplayCloudMapsRasterOverlaySample()
         {
@@ -32,12 +31,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void displayRasterCloudMaps_Click(object sender, EventArgs e)
         {
-            if(mapView.Overlays.Count == 0)
+            if (mapView.Overlays.Count == 0)
             {
                 var thinkGeoCloudRasterMapsOverlay = new ThinkGeoCloudRasterMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1);
                 mapView.Overlays.Add(thinkGeoCloudRasterMapsOverlay);
                 await mapView.RefreshAsync();
-            }            
+            }
         }
 
         #region Component Designer generated code

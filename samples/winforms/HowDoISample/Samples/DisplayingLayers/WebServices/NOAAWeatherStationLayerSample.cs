@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
-using System.Diagnostics;
-using System.Threading;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class NOAAWeatherStationLayerSample: UserControl
+    public class NOAAWeatherStationLayerSample : UserControl
     {
         public delegate void InvokeDelegate();
         public NOAAWeatherStationLayerSample()
@@ -45,7 +42,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Add the new layer to the overlay we created earlier
             weatherOverlay.Layers.Add(noaaWeatherStationLayer);
             await mapView.RefreshAsync();
-        }               
+        }
 
         #region Component Designer generated code
 
@@ -58,8 +55,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;

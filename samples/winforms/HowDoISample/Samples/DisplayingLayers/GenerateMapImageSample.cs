@@ -4,12 +4,11 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class GenerateMapImageSample: UserControl
-    {       
+    public class GenerateMapImageSample : UserControl
+    {
         public GenerateMapImageSample()
         {
             InitializeComponent();

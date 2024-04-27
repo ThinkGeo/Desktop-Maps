@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class GPXLayerSample: UserControl
+    public class GPXLayerSample : UserControl
     {
         public GPXLayerSample()
         {

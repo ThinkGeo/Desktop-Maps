@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Windows.Forms;
-using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
-using System.Linq;
-using System.Drawing.Printing;
-using System.Drawing;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Drawing;
+using System.Drawing.Printing;
+using System.Linq;
+using System.Windows.Forms;
+using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class PrintMapsUsingPrintOverlaySample: UserControl
+    public class PrintMapsUsingPrintOverlaySample : UserControl
     {
         public PrintMapsUsingPrintOverlaySample()
         {

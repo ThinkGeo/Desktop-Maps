@@ -2,11 +2,10 @@
 using System.Diagnostics;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class DisplayBingMapsOverlaySample: UserControl
+    public class DisplayBingMapsOverlaySample : UserControl
     {
         public DisplayBingMapsOverlaySample()
         {
