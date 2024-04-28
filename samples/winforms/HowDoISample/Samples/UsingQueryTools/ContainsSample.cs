@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class ContainsSample: UserControl
+    public class ContainsSample : UserControl
     {
         public ContainsSample()
         {
@@ -65,7 +64,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Set the map extent to the sample shape
             mapView.CurrentExtent = new RectangleShape(-10781407.8544813, 3916678.62545891, -10777442.6836611, 3913262.84577639);
-        
+
             await mapView.RefreshAsync();
         }
 

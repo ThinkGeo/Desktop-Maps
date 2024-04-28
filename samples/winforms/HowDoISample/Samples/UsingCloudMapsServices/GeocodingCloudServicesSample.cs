@@ -3,11 +3,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class GeocodingCloudServicesSample: UserControl
+    public class GeocodingCloudServicesSample : UserControl
     {
         private GeocodingCloudClient geocodingCloudClient;
         public GeocodingCloudServicesSample()
@@ -44,7 +43,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             // Show a loading graphic to let users know the request is running
             //loadingImage.Visibility = Visibility.Visible;
-            
+
             CloudGeocodingOptions options = new CloudGeocodingOptions();
 
             // Set up the CloudGeocodingOptions object based on the parameters set in the UI

@@ -285,7 +285,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 // Use a default color for the base color
                 colorsDictionary = await colorCloudClient.GetColorsInComplementaryFamilyAsync(GetGeoColorFromDefaultColors(), numberOfColors);
             }
-           
+
             // Some color generation APIs use multiple base colors based on the original input color
             // These APIs return a dictionary where the 'keys' are the base colors and the 'values' are the colors generated from that base
             // For this sample we will simply utilize all of the colors generated

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class BufferShapeSample: UserControl 
+    public class BufferShapeSample : UserControl
     {
         private readonly ShapeFileFeatureLayer cityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimits.shp");
         private readonly InMemoryFeatureLayer bufferLayer = new InMemoryFeatureLayer();

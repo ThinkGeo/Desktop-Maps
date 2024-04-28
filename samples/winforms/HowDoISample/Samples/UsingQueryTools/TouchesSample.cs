@@ -5,11 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class TouchesSample: UserControl
+    public class TouchesSample : UserControl
     {
         public TouchesSample()
         {
@@ -92,7 +91,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Set the map extent to the sample shape
             mapView.CurrentExtent = new RectangleShape(-10778499.3056056, 3920951.91647677, -10774534.1347853, 3917536.13679426);
-       
+
             await mapView.RefreshAsync();
         }
         private Collection<Feature> PerformSpatialQuery(BaseShape shape, FeatureLayer layer)
@@ -175,8 +174,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
@@ -192,7 +191,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.txtNumberOfFeaturesFound);

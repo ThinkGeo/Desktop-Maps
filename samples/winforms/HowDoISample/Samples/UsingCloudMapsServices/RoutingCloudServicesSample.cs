@@ -4,11 +4,10 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class RoutingCloudServicesSample: UserControl
+    public class RoutingCloudServicesSample : UserControl
     {
         private RoutingCloudClient routingCloudClient;
 
@@ -104,14 +103,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
             foreach (CloudRoutingRoute route in routingResult.RouteResult.Routes)
             {
-                routingLayer.InternalFeatures.Add(new Feature(route.Shape));                
+                routingLayer.InternalFeatures.Add(new Feature(route.Shape));
                 foreach (var segment in route.Segments)
                 {
                     RouteSegemt segmentForDisplay = new RouteSegemt();
                     segmentForDisplay.DisplayInformation = $"{segment.Instruction} Distance: {Math.Round(segment.Distance, 0)} meters.";
                     segmentForDisplay.Shape = new Feature(segment.Shape);
                     displayItems.Add(segmentForDisplay);
-                }                               
+                }
             }
 
             // Set the data source for the list box to the route segments

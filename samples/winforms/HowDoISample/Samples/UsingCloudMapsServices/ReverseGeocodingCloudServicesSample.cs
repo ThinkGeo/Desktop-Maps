@@ -4,11 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class ReverseGeocodingCloudServicesSample: UserControl
+    public class ReverseGeocodingCloudServicesSample : UserControl
     {
         private ReverseGeocodingCloudClient reverseGeocodingCloudClient;
 
@@ -95,11 +94,19 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 }
 
                 // Show a loading graphic to let users know the request is running
-                // loadingImage.Visibility = Visibility.Visible;
+                //loadingImage.Visibility = Visibility.Visible;
 
                 // Run the reverse geocode
-                CloudReverseGeocodingResult searchResult = await reverseGeocodingCloudClient.SearchPointAsync(lon, lat, pointProjectionInSrid, searchRadius, searchRadiusDistanceUnit, options);
-
+                CloudReverseGeocodingResult searchResult;
+                try
+                {
+                    searchResult = await reverseGeocodingCloudClient.SearchPointAsync(lon, lat, pointProjectionInSrid, searchRadius, searchRadiusDistanceUnit, options);
+                }
+                catch (System.ArgumentNullException)
+                {
+                    MessageBox.Show("Please enter a valid set of coordinates to search", "Error");
+                    return;
+                }
                 // Hide the loading graphic
                 // loadingImage.Visibility = Visibility.Hidden;
 
@@ -175,7 +182,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 }
 
                 // Set the data sources for the addresses, roads, and places list boxes
-
                 lsbAddresses.DataSource = nearbyAddresses;
                 lsbAddresses.DisplayMember = "Address";
 
@@ -288,7 +294,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 }
             }
         }
-             
+
         private async void lsbAddresses_SelectedIndexChanged(object sender, EventArgs e)
         {
             ListBox selectedResultList = (ListBox)sender;

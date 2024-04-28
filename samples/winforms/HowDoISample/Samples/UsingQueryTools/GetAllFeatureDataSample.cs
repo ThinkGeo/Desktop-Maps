@@ -2,11 +2,10 @@
 using System.Collections.ObjectModel;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class GetAllFeatureDataSample: UserControl
+    public class GetAllFeatureDataSample : UserControl
     {
         public GetAllFeatureDataSample()
         {

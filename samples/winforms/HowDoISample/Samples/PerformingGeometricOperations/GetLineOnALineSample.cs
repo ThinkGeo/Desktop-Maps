@@ -1,13 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
-using System.Linq;
-using System.Windows;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class GetLineOnALineSample: UserControl 
+    public class GetLineOnALineSample : UserControl
     {
         public GetLineOnALineSample()
         {

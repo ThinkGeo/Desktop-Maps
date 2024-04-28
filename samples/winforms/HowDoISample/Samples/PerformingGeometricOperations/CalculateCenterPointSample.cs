@@ -1,14 +1,12 @@
 ﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
-using System.Linq;
-using System.Windows;
-using System.Threading.Tasks;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class CalculateCenterPointSample: UserControl 
+    public class CalculateCenterPointSample : UserControl
     {
         public CalculateCenterPointSample()
         {
@@ -26,7 +24,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Create a feature layer to hold the Census Housing data
             ShapeFileFeatureLayer censusHousingLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
-                       
+
             // Project censusHousing layer to Spherical Mercator to match the map projection
             censusHousingLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
@@ -46,7 +44,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             LayerOverlay centerPointOverlay = new LayerOverlay();
             centerPointOverlay.Layers.Add("CenterPointLayer", centerPointLayer);
-            mapView.Overlays.Add("CenterPointOverlay", centerPointOverlay);            
+            mapView.Overlays.Add("CenterPointOverlay", centerPointOverlay);
 
             // Set the map extent to the censusHousing layer bounding box
             censusHousingLayer.Open();
@@ -133,7 +131,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 await CalculateCenterPointAsync(centerPointLayer.InternalFeatures["selectedFeature"]);
             }
         }
-              
+
         #region Component Designer generated code
         private Panel panel1;
         private RadioButton bboxCenter;

@@ -3,12 +3,10 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
-using System.Linq;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class ProjectionCloudServicesSample: UserControl
+    public class ProjectionCloudServicesSample : UserControl
     {
         private ProjectionCloudClient projectionCloudClient;
 
@@ -57,12 +55,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async Task<Feature> ReprojectAFeature(Feature decimalDegreeFeature)
         {
             // Show a loading graphic to let users know the request is running
-        //    loadingImage.Visibility = Visibility.Visible;
+            //    loadingImage.Visibility = Visibility.Visible;
 
             Feature reprojectedFeature = await projectionCloudClient.ProjectAsync(decimalDegreeFeature, 4326, 3857);
 
             // Hide the loading graphic
-        //    loadingImage.Visibility = Visibility.Hidden;
+            //    loadingImage.Visibility = Visibility.Hidden;
 
             return reprojectedFeature;
         }
@@ -73,12 +71,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async Task<Collection<Feature>> ReprojectMultipleFeatures(Collection<Feature> decimalDegreeFeatures)
         {
             // Show a loading graphic to let users know the request is running
-          //  loadingImage.Visibility = Visibility.Visible;
+            //  loadingImage.Visibility = Visibility.Visible;
 
             Collection<Feature> reprojectedFeatures = await projectionCloudClient.ProjectAsync(decimalDegreeFeatures, 4326, 3857);
 
             // Hide the loading graphic
-           // loadingImage.Visibility = Visibility.Hidden;
+            // loadingImage.Visibility = Visibility.Hidden;
 
             return reprojectedFeatures;
         }
