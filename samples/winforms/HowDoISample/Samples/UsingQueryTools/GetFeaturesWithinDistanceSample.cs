@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class GetFeaturesWithinDistanceSample: UserControl
+    public class GetFeaturesWithinDistanceSample : UserControl
     {
         public GetFeaturesWithinDistanceSample()
         {

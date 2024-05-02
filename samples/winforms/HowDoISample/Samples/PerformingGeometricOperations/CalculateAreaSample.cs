@@ -1,13 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
-using System.Linq;
 
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class CalculateAreaSample: UserControl 
+    public class CalculateAreaSample : UserControl
     {
         public CalculateAreaSample()
         {

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Windows;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
@@ -65,7 +63,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                         layer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, @"+proj=utm +zone=55 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
                         layer.FeatureSource.ProjectionConverter.Open();
                         mapView.MapUnit = GeographyUnit.Meter;
-                        mapView.CurrentExtent = new RectangleShape(-5255863.3178402, 10345432.4700869, 2850158.42260337, 3362534.22380121);
+                        mapView.CurrentExtent = new RectangleShape(-4415962.270035205, 10196887.263572674, 3690059.470408367, 3223755.308540492);
                         break;
                     case "Albers Equal Area Conic":
                         // Set the new projection converter and open it.  Next set the map to the correct map unit and lastley set the new extent

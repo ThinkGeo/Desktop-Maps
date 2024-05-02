@@ -3,18 +3,17 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using ThinkGeo.Core;
 
-namespace ThinkGeo.UI.Wpf.HowDoI.Misc
+namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// This samples shows how to resize map while keeping width of world extend unchanged.
     /// </summary>
-    public partial class MapResizingSample : UserControl
+    public partial class MapResizingSample
     {
-        private bool _requireExtentUpdateBySizeChange = false;
-        private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        private bool _requireExtentUpdateBySizeChange;
+        private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 
         public MapResizingSample()
         {
@@ -22,48 +21,50 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
         }
 
         /// <summary>
-        /// Setup the map with open street map overlay to show a basic map
+        /// Set up the map with open street map overlay to show a basic map
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            mapView.MapUnit = GeographyUnit.Meter;
-            mapView.ZoomLevelSnappingMode = ZoomLevelSnappingMode.None;
+            MapView.MapUnit = GeographyUnit.Meter;
+            MapView.ZoomLevelSnappingMode = ZoomLevelSnappingMode.None;
 
-            InitializeMapViewInternal(mapView);
+            InitializeMapViewInternal(MapView);
 
-            var overlay = new OpenStreetMapOverlay();
-            overlay.WrappingMode = WrappingMode.WrapDateline;
-            overlay.WrappingExtent = MaxExtents.OsmMaps;
+            var overlay = new OpenStreetMapOverlay
+            {
+                WrappingMode = WrappingMode.WrapDateline,
+                WrappingExtent = MaxExtents.OsmMaps
+            };
 
-            mapView.Overlays.Add("base", overlay);
+            MapView.Overlays.Add("base", overlay);
 
-            mapView.MapResizeMode = MapResizeMode.PreserveExtent;
+            MapView.MapResizeMode = MapResizeMode.PreserveExtent;
 
-            mapView.CurrentExtent = GetDrawingExtent(MaxExtents.OsmMaps, mapView.ActualWidth, mapView.ActualHeight);
+            MapView.CurrentExtent = GetDrawingExtent(MaxExtents.OsmMaps, MapView.ActualWidth, MapView.ActualHeight);
 
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         private async void MapView_CurrentExtentChanging(object sender, CurrentExtentChangingMapViewEventArgs e)
         {
             Debug.WriteLine($"Current Extent changing from {e.OldExtent} to {e.NewExtent}.");
 
-            if (_requireExtentUpdateBySizeChange)
-            {
-                var newExtent = MapUtil.GetDrawingExtent(e.OldExtent, mapView.ActualWidth, mapView.ActualHeight);
-                _requireExtentUpdateBySizeChange = false;
-                if (newExtent.Width > MaxExtents.OsmMaps.Width) //Duplicated continents will be displayed
-                {
-                    e.Cancel = true;
-                    await Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.SystemIdle, new Action(async () => await UpdateExtent(e)));
-                }
-            }
+            if (!_requireExtentUpdateBySizeChange) return;
+            var newExtent = MapUtil.GetDrawingExtent(e.OldExtent, MapView.ActualWidth, MapView.ActualHeight);
+            _requireExtentUpdateBySizeChange = false;
+            if (!(newExtent.Width > MaxExtents.OsmMaps.Width)) return; //Duplicated continents will be displayed
+            e.Cancel = true;
+
+            await Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.SystemIdle, new Action(Action));
+            return;
+
+            async void Action() => await UpdateExtent(e);
         }
 
         private async Task UpdateExtent(CurrentExtentChangingMapViewEventArgs e)
         {
-            mapView.CurrentExtent = GetDrawingExtent(e.OldExtent, mapView.ActualWidth, mapView.ActualHeight);
-            await mapView.RefreshAsync();
+            MapView.CurrentExtent = GetDrawingExtent(e.OldExtent, MapView.ActualWidth, MapView.ActualHeight);
+            await MapView.RefreshAsync();
         }
 
         private void MapView_CurrentScaleChanging(object sender, CurrentScaleChangingMapViewEventArgs e)
@@ -84,12 +85,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
         private async void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             Debug.WriteLine($"Size is changed from {e.PreviousSize} to {e.NewSize}");
-            cancellationTokenSource.Cancel();
-            cancellationTokenSource = new CancellationTokenSource();
+            _cancellationTokenSource.Cancel();
+            _cancellationTokenSource = new CancellationTokenSource();
 
             var customZoomLevelSet = new ZoomLevelSet();
-            var newExtent = GetExtent(mapView.CurrentExtent, e.NewSize.Width, e.NewSize.Height);
-            var baseScale = MapUtil.GetScale(mapView.MapUnit, newExtent, e.NewSize.Width, e.NewSize.Height);
+            var newExtent = GetExtent(MapView.CurrentExtent, e.NewSize.Width, e.NewSize.Height);
+            var baseScale = MapUtil.GetScale(MapView.MapUnit, newExtent, e.NewSize.Width, e.NewSize.Height);
             baseScale = Math.Max(baseScale, customZoomLevelSet.ZoomLevel08.Scale);
 
             var scale = baseScale;
@@ -100,13 +101,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
                 scale /= 2;
             }
 
-            mapView.ZoomLevelSet = customZoomLevelSet;
-            mapView.CurrentExtent = newExtent;
+            MapView.ZoomLevelSet = customZoomLevelSet;
+            MapView.CurrentExtent = newExtent;
 
-            await mapView.RefreshAsync(OverlayRefreshType.Redraw, cancellationTokenSource.Token);
+            await MapView.RefreshAsync(OverlayRefreshType.Redraw, _cancellationTokenSource.Token);
         }
 
-        private RectangleShape GetExtent(RectangleShape maxExtent, double width, double height)
+        private static RectangleShape GetExtent(RectangleShape maxExtent, double width, double height)
         {
             var center = maxExtent.GetCenterPoint();
             var resolution = maxExtent.Width / width;
@@ -115,26 +116,26 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
             return new RectangleShape(center.X - halfWidth, center.Y + halfHeight, center.X + halfWidth, center.Y - halfHeight);
         }
 
-        private RectangleShape GetDrawingExtent(RectangleShape worldExtent, double screenWidth, double screenHeight)
+        private static RectangleShape GetDrawingExtent(RectangleShape worldExtent, double screenWidth, double screenHeight)
         {
-            double screenRatio = screenHeight / screenWidth;
-            double worldRatio = worldExtent.Height / worldExtent.Width;
+            var screenRatio = screenHeight / screenWidth;
+            var worldRatio = worldExtent.Height / worldExtent.Width;
 
             if (Math.Abs(worldRatio - screenRatio) <= double.Epsilon)
             {
                 return (RectangleShape)worldExtent.CloneDeep();
             }
 
-            double worldWidth = worldExtent.Width;
-            double worldHeight = worldExtent.Height * screenRatio / worldRatio;
+            var worldWidth = worldExtent.Width;
+            var worldHeight = worldExtent.Height * screenRatio / worldRatio;
 
-            PointShape centerPoint = worldExtent.GetCenterPoint();
-            PointShape pointShape = new PointShape(centerPoint.X - worldWidth * 0.5, centerPoint.Y + worldHeight * 0.5);
-            PointShape lowerRightPoint = new PointShape(pointShape.X + worldWidth, pointShape.Y - worldHeight);
+            var centerPoint = worldExtent.GetCenterPoint();
+            var pointShape = new PointShape(centerPoint.X - worldWidth * 0.5, centerPoint.Y + worldHeight * 0.5);
+            var lowerRightPoint = new PointShape(pointShape.X + worldWidth, pointShape.Y - worldHeight);
             return new RectangleShape(pointShape, lowerRightPoint);
         }
 
-        private void InitializeMapViewInternal(MapView mapView)
+        private static void InitializeMapViewInternal(MapViewBase mapView)
         {
             if (!mapView.IsLoaded)
                 return;

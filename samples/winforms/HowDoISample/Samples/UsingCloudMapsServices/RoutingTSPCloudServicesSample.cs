@@ -4,11 +4,10 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class RoutingTSPCloudServicesSample: UserControl
+    public class RoutingTSPCloudServicesSample : UserControl
     {
         private RoutingCloudClient routingCloudClient;
         private Collection<PointShape> routingWaypoints;

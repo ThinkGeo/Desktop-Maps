@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
-using NetTopologySuite.Geometries;
-using System.Threading.Tasks;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class ElevationCloudServicesSample: UserControl
+    public class ElevationCloudServicesSample : UserControl
     {
         private ElevationCloudClient elevationCloudClient;
 

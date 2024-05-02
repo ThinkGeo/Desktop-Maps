@@ -2,11 +2,10 @@
 using System.Windows.Forms;
 using System.Windows.Media;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class DisplayMapMouseCoordinatesSample: UserControl
+    public class DisplayMapMouseCoordinatesSample : UserControl
     {
         public DisplayMapMouseCoordinatesSample()
         {
@@ -51,7 +50,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// </summary>
         private void MouseCoordinate_CustomMouseCoordinateFormat(object sender, CustomFormattedMouseCoordinateMapToolEventArgs e)
         {
-           ((MouseCoordinateMapTool)sender).Foreground = new SolidColorBrush(Colors.Red);
+            ((MouseCoordinateMapTool)sender).Foreground = new SolidColorBrush(Colors.Red);
             e.Result = $"X: {e.WorldCoordinate.X.ToString("N0")}, Y: {e.WorldCoordinate.Y.ToString("N0")}";
         }
 

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class CachingMapTilesSample: UserControl
+    public class CachingMapTilesSample : UserControl
     {
         ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay;
         public CachingMapTilesSample()

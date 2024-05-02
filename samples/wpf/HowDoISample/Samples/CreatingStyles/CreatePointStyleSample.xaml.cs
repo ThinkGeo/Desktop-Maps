@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using ThinkGeo.Core;
-using ThinkGeo.UI.Wpf;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to style point data using a PointStyle
     /// </summary>
-    public partial class CreatePointStyleSample : UserControl, IDisposable
+    public partial class CreatePointStyleSample : IDisposable
     {
         public CreatePointStyleSample()
         {
@@ -17,37 +15,42 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, load Frisco Hotels shapefile data and add it to the map
+        /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, load Frisco Hotels shapefile data and add it to the map
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(-10778329.017082, 3909598.36751101, -10776250.8853871, 3907890.47766975);
+            MapView.CurrentExtent = new RectangleShape(-10778329.017082, 3909598.36751101, -10776250.8853871, 3907890.47766975);
 
-            ShapeFileFeatureLayer hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
-            LayerOverlay layerOverlay = new LayerOverlay();
+            var hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
+            var layerOverlay = new LayerOverlay();
 
             // Project the layer's data to match the projection of the map
             hotelsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
             // Add the layer to a layer overlay
-            layerOverlay.Layers.Add("hotels",hotelsLayer);
+            layerOverlay.Layers.Add("hotels", hotelsLayer);
 
             // Add the overlay to the map
-            mapView.Overlays.Add("hotels",layerOverlay);
+            MapView.Overlays.Add("hotels", layerOverlay);
 
-            pointSymbol.IsChecked = true;
+            PointSymbol.IsChecked = true;
 
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         /// <summary>
@@ -55,24 +58,22 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void PointSymbol_OnChecked(object sender, RoutedEventArgs e)
         {
-            if (mapView.Overlays.Count > 0)
-            {
-                LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["hotels"];
-                ShapeFileFeatureLayer hotelsLayer = (ShapeFileFeatureLayer)layerOverlay.Layers["hotels"];
+            if (MapView.Overlays.Count <= 0) return;
+            var layerOverlay = (LayerOverlay)MapView.Overlays["hotels"];
+            var hotelsLayer = (ShapeFileFeatureLayer)layerOverlay.Layers["hotels"];
 
-                // Create a point style
-                var pointStyle = new PointStyle(PointSymbolType.Circle, 12, GeoBrushes.Blue, new GeoPen(GeoBrushes.White, 2));
+            // Create a point style
+            var pointStyle = new PointStyle(PointSymbolType.Circle, 12, GeoBrushes.Blue, new GeoPen(GeoBrushes.White, 2));
 
-                // Add the point style to the collection of custom styles for ZoomLevel 1.
-                hotelsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
-                hotelsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(pointStyle);
+            // Add the point style to the collection of custom styles for ZoomLevel 1.
+            hotelsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
+            hotelsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(pointStyle);
 
-                // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the point style on every zoom level on the map. 
-                hotelsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the point style on every zoom level on the map. 
+            hotelsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-                // Refresh the layerOverlay to show the new style
-                await layerOverlay.RefreshAsync();
-            }
+            // Refresh the layerOverlay to show the new style
+            await layerOverlay.RefreshAsync();
         }
 
         /// <summary>
@@ -80,8 +81,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void Icon_OnChecked(object sender, RoutedEventArgs e)
         {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["hotels"];
-            ShapeFileFeatureLayer hotelsLayer = (ShapeFileFeatureLayer)layerOverlay.Layers["hotels"];
+            var layerOverlay = (LayerOverlay)MapView.Overlays["hotels"];
+            var hotelsLayer = (ShapeFileFeatureLayer)layerOverlay.Layers["hotels"];
 
             // Create a point style
             var pointStyle = new PointStyle(new GeoImage(@"./Resources/hotel_icon.png"))
@@ -100,14 +101,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             await layerOverlay.RefreshAsync();
         }
 
-
         /// <summary>
         /// Create a pointStyle using a font symbol and add it to the Hotels layer
         /// </summary>
         private async void Symbol_Checked(object sender, RoutedEventArgs e)
         {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["hotels"];
-            ShapeFileFeatureLayer hotelsLayer = (ShapeFileFeatureLayer)layerOverlay.Layers["hotels"];
+            var layerOverlay = (LayerOverlay)MapView.Overlays["hotels"];
+            var hotelsLayer = (ShapeFileFeatureLayer)layerOverlay.Layers["hotels"];
 
             // Create a point style
             var symbolPointStyle = new PointStyle(new GeoFont("Verdana", 16, DrawingFontStyles.Bold), "@", GeoBrushes.Black)
@@ -126,10 +126,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Refresh the layerOverlay to show the new style
             await layerOverlay.RefreshAsync();
         }
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

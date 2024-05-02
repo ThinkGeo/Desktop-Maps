@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using ThinkGeo.Core;
-using ThinkGeo.UI.Wpf;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to selectively style features based on numerical data using a ClassBreakStyle
     /// </summary>
-    public partial class CreateClassBreakStyleSample : UserControl, IDisposable
+    public partial class CreateClassBreakStyleSample : IDisposable
     {
         public CreateClassBreakStyleSample()
         {
@@ -19,29 +16,36 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, project and style the Frisco 2010 Census Housing Units layer
+        /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, project and style the Frisco 2010 Census Housing Units layer
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
-
-            ShapeFileFeatureLayer housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
-            LegendAdornmentLayer legend = new LegendAdornmentLayer();
-
-            // Setup the legend adornment
-            legend.Title = new LegendItem()
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
-                TextStyle = new TextStyle("Housing Units", new GeoFont("Verdana", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            legend.Location = AdornmentLocation.LowerRight;
-            mapView.AdornmentOverlay.Layers.Add(legend);
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+
+            var housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
+            var legend = new LegendAdornmentLayer
+            {
+                // Set up the legend adornment
+                Title = new LegendItem()
+                {
+                    TextStyle = new TextStyle("Housing Units", new GeoFont("Verdana", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
+                },
+                Location = AdornmentLocation.LowerRight
+            };
+
+            MapView.AdornmentOverlay.Layers.Add(legend);
 
             // Project the layer's data to match the projection of the map
             housingUnitsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
@@ -53,29 +57,29 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             layerOverlay.Layers.Add(housingUnitsLayer);
 
             // Add layerOverlay to the mapView
-            mapView.Overlays.Add(layerOverlay);
+            MapView.Overlays.Add(layerOverlay);
 
             // Set the map extent
             housingUnitsLayer.Open();
-            mapView.CurrentExtent = housingUnitsLayer.GetBoundingBox();
+            MapView.CurrentExtent = housingUnitsLayer.GetBoundingBox();
             housingUnitsLayer.Close();
 
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         /// <summary>
         /// Adds a ClassBreakStyle to the housingUnitsLayer that changes colors based on the numerical value of the H_UNITS column as they fall within the range of a ClassBreak
         /// </summary>
-        private void AddClassBreakStyle(ShapeFileFeatureLayer layer, LegendAdornmentLayer legend)
+        private static void AddClassBreakStyle(FeatureLayer layer, LegendAdornmentLayer legend)
         {
             // Create the ClassBreakStyle based on the H_UNITS numerical column
             var housingUnitsStyle = new ClassBreakStyle("H_UNITS");
 
             var classBreakIntervals = new double[] { 0, 1000, 2000, 3000, 4000, 5000 };
-            var colors = GeoColor.GetColorsInHueFamily(GeoColors.Red, classBreakIntervals.Count()).Reverse().ToList();
+            var colors = GeoColor.GetColorsInHueFamily(GeoColors.Red, classBreakIntervals.Length).Reverse().ToList();
 
             // Create ClassBreaks for each of the classBreakIntervals
-            for (int i = 0; i < classBreakIntervals.Count(); i++)
+            for (var i = 0; i < classBreakIntervals.Length; i++)
             {
                 // Create the classBreak using one of the intervals and colors defined above
                 var classBreak = new ClassBreak(classBreakIntervals[i], AreaStyle.CreateSimpleAreaStyle(new GeoColor(192, colors[i]), GeoColors.White));
@@ -96,10 +100,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(housingUnitsStyle);
             layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
         }
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

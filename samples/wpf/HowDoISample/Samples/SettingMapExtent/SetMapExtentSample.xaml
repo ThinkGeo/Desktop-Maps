@@ -3,12 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:ThinkGeoUI="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <!-- MapView Control -->
-        <ThinkGeoUI:MapView x:Name="mapView" Loaded="MapView_Loaded" Grid.Column="0"/>
+        <thinkGeoUi:MapView x:Name="MapView" Loaded="MapView_Loaded" Grid.Column="0"/>
 
         <!-- Sample Controls -->
         <Border Grid.Column="1">
@@ -17,42 +17,46 @@
                 <TextBlock Text="Zoom To Scale:" Grid.Row="0" Grid.ColumnSpan="2"/>
 
                 <Label Content="Scale:" Grid.Row="1" Grid.Column="0"/>
-                <TextBox x:Name="zoomScale" Text="10000" Grid.Row="1" Grid.Column="1"/>
+                <TextBox x:Name="ZoomScale" Text="10000" Grid.Row="1" Grid.Column="1"/>
 
-                <Button x:Name="ZoomToScale" Content="Zoom To Scale" Click="ZoomToScale_Click" Grid.Row="2" Grid.ColumnSpan="2"/>
+                <Button x:Name="ZoomToScale" Content="Zoom To Scale" Click="ZoomToScale_Click" Grid.Row="2" Grid.ColumnSpan="2"
+                        Grid.Column="0" />
 
-                <Separator Grid.Row="3"></Separator>
+                <Separator Grid.Row="3" Grid.Column="0"></Separator>
 
                 <!-- Layer BBox Controls -->
-                <TextBlock Text="Layer Bounding Box:" Grid.Row="4" Grid.ColumnSpan="2"/>
+                <TextBlock Text="Layer Bounding Box:" Grid.Row="4" Grid.ColumnSpan="2" Grid.Column="0" />
 
-                <Button x:Name="layerBoundingBox" Content="Set Extent to Layer BBox" Click="LayerBoundingBox_Click" Grid.Row="5" Grid.ColumnSpan="2"/>
+                <Button x:Name="LayerBoundingBox" Content="Set Extent to Layer BBox" Click="LayerBoundingBox_Click" Grid.Row="5" Grid.ColumnSpan="2"
+                        Grid.Column="0" />
 
-                <Separator Grid.Row="6"></Separator>
+                <Separator Grid.Row="6" Grid.Column="0"></Separator>
 
                 <!-- Feature BBox Controls -->
-                <TextBlock Text="Feature Bounding Box:" Grid.Row="7" Grid.ColumnSpan="2"/>
+                <TextBlock Text="Feature Bounding Box:" Grid.Row="7" Grid.ColumnSpan="2" Grid.Column="0" />
 
                 <Label Content="FeatureID:" Grid.Row="8" Grid.Column="0"/>
-                <ComboBox x:Name="featureIds" Grid.Row="8" Grid.Column="1"/>
+                <ComboBox x:Name="FeatureIds" Grid.Row="8" Grid.Column="1"/>
 
-                <Button x:Name="featureBoundingBox" Content="Set Extent to Feature BBox" Click="FeatureBoundingBox_Click" Grid.Row="9" Grid.ColumnSpan="2"/>
+                <Button x:Name="FeatureBoundingBox" Content="Set Extent to Feature BBox" Click="FeatureBoundingBox_Click" Grid.Row="9" Grid.ColumnSpan="2"
+                        Grid.Column="0" />
 
-                <Separator Grid.Row="10"></Separator>
+                <Separator Grid.Row="10" Grid.Column="0"></Separator>
 
                 <!-- Lat/Lon Controls -->
-                <TextBlock Text="Lat/Lon:" Grid.Row="11"/>
+                <TextBlock Text="Lat/Lon:" Grid.Row="11" Grid.Column="0" />
 
                 <Label Content="Latitude:" Grid.Row="12" Grid.Column="0"/>
-                <TextBox x:Name="latitude" Text="-96.82" Grid.Row="12" Grid.Column="1"/>
+                <TextBox x:Name="Latitude" Text="-96.82" Grid.Row="12" Grid.Column="1"/>
 
                 <Label Content="Longitude:" Grid.Row="13" Grid.Column="0"/>
-                <TextBox x:Name="longitude" Text="33.15"  Grid.Row="13" Grid.Column="1"/>
+                <TextBox x:Name="Longitude" Text="33.15"  Grid.Row="13" Grid.Column="1"/>
 
                 <Label Content="Scale:" Grid.Row="14" Grid.Column="0"/>
-                <TextBox x:Name="latlonScale" Text="200000" Grid.Row="14" Grid.Column="1"/>
+                <TextBox x:Name="LatlonScale" Text="200000" Grid.Row="14" Grid.Column="1"/>
 
-                <Button x:Name="latlonZoom" Content="Zoom to Lat/Lon" Click="ZoomToLatLon_Click" Grid.Row="15" Grid.ColumnSpan="2"/>
+                <Button x:Name="LatlonZoom" Content="Zoom to Lat/Lon" Click="ZoomToLatLon_Click" Grid.Row="15" Grid.ColumnSpan="2"
+                        Grid.Column="0" />
 
                 <!-- Controls Grid Layout -->
                 <Grid.ColumnDefinitions>

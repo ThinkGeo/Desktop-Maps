@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
-using System.Diagnostics;
 
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class WMSLayerSample: UserControl
+    public class WMSLayerSample : UserControl
     {
         public WMSLayerSample()
         {
@@ -29,42 +27,19 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             await mapView.RefreshAsync();
         }
 
-        private async void radioButton1_CheckedChanged(object sender, EventArgs e)
+        private async void rbLayerOrOverlay_CheckedChanged(object sender, EventArgs e)
         {
             // Based on the radio buttons we switch between using the overlay and layer.
             RadioButton button = (RadioButton)sender;
-            if (button.Text != null)
+            if (button.Text != null && button.Checked)
             {
-                switch (button.Text.ToString())
+                switch (button.Text)
                 {
                     case "Use WmsOverlay":
                         UseOverlay();
                         break;
                     case "Use WmsRasterLayer":
                         UseLayer();
-                        break;
-                    default:
-                        break;
-                }
-                await mapView.RefreshAsync();
-            }
-        }
-
-        private async void radioButton2_CheckedChanged(object sender, EventArgs e)
-        {
-            // Based on the radio buttons we switch between using the overlay and layer.
-            RadioButton button = (RadioButton)sender;
-            if (button.Text != null)
-            {
-                switch (button.Text.ToString())
-                {
-                    case "Use WmsOverlay":
-                        UseOverlay();
-                        break;
-                    case "Use WmsRasterLayer":
-                        UseLayer();
-                        break;
-                    default:
                         break;
                 }
                 await mapView.RefreshAsync();
@@ -168,7 +143,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.radioButton2.TabIndex = 2;
             this.radioButton2.Text = "Use WmsRasterLayer";
             this.radioButton2.UseVisualStyleBackColor = true;
-            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
+            this.radioButton2.CheckedChanged += new System.EventHandler(this.rbLayerOrOverlay_CheckedChanged);
             // 
             // radioButton1
             // 
@@ -183,7 +158,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "Use WmsOverlay";
             this.radioButton1.UseVisualStyleBackColor = true;
-            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            this.radioButton1.CheckedChanged += new System.EventHandler(this.rbLayerOrOverlay_CheckedChanged);
             // 
             // label1
             // 
@@ -210,6 +185,5 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         }
 
         #endregion Component Designer generated code
-
     }
 }

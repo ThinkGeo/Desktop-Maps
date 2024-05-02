@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class OpenStreetMapLayerSample: UserControl
+    public class OpenStreetMapLayerSample : UserControl
     {
         public OpenStreetMapLayerSample()
         {
@@ -17,7 +16,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.Meter;
 
-            // Set the zoom level set on the map to make sure its compatable with the OSM zoom levels.
+            // Set the zoom level set on the map to make sure its compatible with the OSM zoom levels.
             mapView.ZoomLevelSet = new OpenStreetMapsZoomLevelSet();
 
             // Create a new overlay that will hold our new layer and add it to the map and set the tile size to match up with the OSM til size.
@@ -27,7 +26,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             layerOverlay.TileHeight = 256;
 
             // Create the new layer and add it to the overlay.  We set the user agent to specify the requests are coming from our samples.
-            // You need to change this to your application so they can identify you for usage.
+            // You need to change this to your application, so they can identify you for usage.
             var openStreetMapLayer = new Core.Async.OpenStreetMapLayer("ThinkGeo Samples/12.0 (http://thinkgeo.com/; system@thinkgeo.com)");
             layerOverlay.Layers.Add(openStreetMapLayer);
 

@@ -1,13 +1,12 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using ThinkGeo.Core;
 
-namespace ThinkGeo.UI.Wpf.HowDoI.Misc
+namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// This sample shows learn how to work with different shapes across the Date Line.
     /// </summary>
-    public partial class ShapesAcrossDateLine : UserControl
+    public partial class ShapesAcrossDateLine
     {
         public ShapesAcrossDateLine()
         {
@@ -16,17 +15,22 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
 
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            var overlay = new ThinkGeoCloudRasterMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudRasterMapsMapType.Light_V1_X2);
+            var overlay = new ThinkGeoCloudRasterMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudRasterMapsMapType.Light_V1_X2,
+                WrappingMode = WrappingMode.WrapDateline,
+                WrappingExtent = MaxExtents.ThinkGeoMaps
+            };
 
-            overlay.WrappingMode = WrappingMode.WrapDateline;
-            overlay.WrappingExtent = MaxExtents.ThinkGeoMaps;
-            mapView.MapUnit = GeographyUnit.Meter;
-            mapView.Overlays.Add(overlay);
-            mapView.CurrentExtent = MaxExtents.ThinkGeoMaps;
+            MapView.MapUnit = GeographyUnit.Meter;
+            MapView.Overlays.Add(overlay);
+            MapView.CurrentExtent = MaxExtents.ThinkGeoMaps;
 
-            mapView.ZoomLevelSet = new SphericalMercatorZoomLevelSet();
-            mapView.ZoomLevelSet.CustomZoomLevels.Add(mapView.ZoomLevelSet.ZoomLevel01);
-            mapView.MapTools.PanZoomBar.IsEnabled = false;
+            MapView.ZoomLevelSet = new SphericalMercatorZoomLevelSet();
+            MapView.ZoomLevelSet.CustomZoomLevels.Add(MapView.ZoomLevelSet.ZoomLevel01);
+            MapView.MapTools.PanZoomBar.IsEnabled = false;
 
             var layer = new InMemoryFeatureLayer();
             layer.InternalFeatures.Add(GetExtent(-0.6, -0.4, 0.9, 0.99, "-0.6 ~ -0.4"));
@@ -44,26 +48,33 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Misc
             layer.ZoomLevelSet.ZoomLevel01.DefaultTextStyle = new TextStyle("Text", new GeoFont("Arial", 16), GeoBrushes.Yellow);
             layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            var layerOverlay = new LayerOverlay();
-            layerOverlay.TileType = TileType.SingleTile;
-            layerOverlay.WrappingMode = WrappingMode.WrapDateline;
-            layerOverlay.WrappingExtent = MaxExtents.ThinkGeoMaps;
+            var layerOverlay = new LayerOverlay
+            {
+                TileType = TileType.SingleTile,
+                WrappingMode = WrappingMode.WrapDateline,
+                WrappingExtent = MaxExtents.ThinkGeoMaps
+            };
 
             layerOverlay.Layers.Add(layer);
-            mapView.Overlays.Add(layerOverlay);
+            MapView.Overlays.Add(layerOverlay);
 
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
-        private Feature GetExtent(double minX, double maxX, double minY, double maxY, string content)
+        private static Feature GetExtent(double minX, double maxX, double minY, double maxY, string content)
         {
             var shape = new RectangleShape(minX * MaxExtents.ThinkGeoMaps.Width + MaxExtents.ThinkGeoMaps.MinX,
                 maxY * MaxExtents.ThinkGeoMaps.Height + MaxExtents.ThinkGeoMaps.MinY,
                 maxX * MaxExtents.ThinkGeoMaps.Width + MaxExtents.ThinkGeoMaps.MinX,
                 minY * MaxExtents.ThinkGeoMaps.Height + MaxExtents.ThinkGeoMaps.MinY);
-            
-            var feature = new Feature(shape);
-            feature.ColumnValues["Text"] = content;
+
+            var feature = new Feature(shape)
+            {
+                ColumnValues =
+                {
+                    ["Text"] = content
+                }
+            };
             return feature;
         }
     }

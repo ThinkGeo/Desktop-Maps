@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class GroupingLayersUsingLayerOverlaySample: UserControl
+    public class GroupingLayersUsingLayerOverlaySample : UserControl
     {
         public GroupingLayersUsingLayerOverlaySample()
         {

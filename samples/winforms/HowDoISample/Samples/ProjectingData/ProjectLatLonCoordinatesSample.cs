@@ -3,11 +3,10 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class ProjectLatLonCoordinatesSample: UserControl
+    public class ProjectLatLonCoordinatesSample : UserControl
     {
         public ProjectLatLonCoordinatesSample()
         {
@@ -15,7 +14,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         }
 
         private async void Form_Load(object sender, EventArgs e)
-        {                             
+        {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service
             ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
@@ -45,7 +44,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = new RectangleShape(-10779751.80, 3915369.33, -10779407.60, 3915141.57);
 
             txtWkt.Text = "POINT(-96.834516 33.150083)\r\nLINESTRING(-96.83559 33.149, -96.835866046134 33.1508413556856, -96.835793626491 33.1508974965687, -96.8336008970734 33.1511063402186, -96.83356 33.15109, -96.83328 33.14922)\r\nPOLYGON((-96.83582 33.1508, -96.83578 33.15046, -96.83353 33.15068, -96.83358 33.15102, -96.83582 33.1508))";
-            
+
             await mapView.RefreshAsync();
         }
 

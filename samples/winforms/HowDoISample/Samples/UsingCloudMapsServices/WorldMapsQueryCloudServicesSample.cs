@@ -2,11 +2,10 @@
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class WorldMapsQueryCloudServicesSample: UserControl
+    public class WorldMapsQueryCloudServicesSample : UserControl
     {
         private MapsQueryCloudClient mapsQueryCloudClient;
 
@@ -142,12 +141,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
 
             if (result.Features.Count > 0)
-            {                
+            {
                 //Add any features found by the query to the map
                 foreach (Feature feature in result.Features)
                 {
                     queriedFeaturesLayer.InternalFeatures.Add(feature);
-                }                
+                }
 
                 // Set the map extent to the extent of the query results
                 queriedFeaturesLayer.Open();

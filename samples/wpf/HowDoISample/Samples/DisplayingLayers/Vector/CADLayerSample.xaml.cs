@@ -1,87 +1,88 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using ThinkGeo.Core;
 
-namespace ThinkGeo.UI.Wpf.HowDoI.DisplayingLayers.Vector
+namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to display a Shapefile Layer on the map
     /// </summary>
-    public partial class CADLayerSample : UserControl, IDisposable
+    public partial class CadLayerSample : IDisposable
     {
-        private CadFeatureLayer cadLayer;
+        private CadFeatureLayer _cadLayer;
 
-        public CADLayerSample()
+        public CadLayerSample()
         {
             InitializeComponent();
         }
 
         /// <summary>
-        /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, add the shapefile layer to the map
+        /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the shapefile layer to the map
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a new overlay that will hold our new layer and add it to the map.
-            LayerOverlay cadOverlay = new LayerOverlay();
-            mapView.Overlays.Add("CAD overlay", cadOverlay);
+            var cadOverlay = new LayerOverlay();
+            MapView.Overlays.Add("CAD overlay", cadOverlay);
 
             // Create the new cad layer
-            cadLayer = new CadFeatureLayer(@"./Data/CAD/Zipcodes.DWG");
+            _cadLayer = new CadFeatureLayer(@"./Data/CAD/Zipcodes.DWG");
 
             // Create a new ProjectionConverter to convert between Lambert Conformal Conic and Spherical Mercator (3857)
-            ProjectionConverter projectionConverter = new ProjectionConverter(103376, 3857);
-            cadLayer.FeatureSource.ProjectionConverter = projectionConverter;
+            var projectionConverter = new ProjectionConverter(103376, 3857);
+            _cadLayer.FeatureSource.ProjectionConverter = projectionConverter;
 
             // Create an Area style on zoom level 1 and then apply it to all zoom levels up to 20.
-            cadLayer.StylingType = CadStylingType.EmbeddedStyling;
+            _cadLayer.StylingType = CadStylingType.EmbeddedStyling;
 
             // Add the layer to the overlay we created earlier.
-            cadOverlay.Layers.Add("CAD Drawing", cadLayer);
+            cadOverlay.Layers.Add("CAD Drawing", _cadLayer);
 
             // Set the current extent of the map to the extent of the CAD data
-            cadLayer.Open();
-            mapView.CurrentExtent = cadLayer.GetBoundingBox();
-            // Refresh the map.
-            await mapView.RefreshAsync();            
+            _cadLayer.Open();
+            MapView.CurrentExtent = _cadLayer.GetBoundingBox();
 
+            await MapView.RefreshAsync();
         }
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
 
-        private async void rbtnEmbeddedStyling_Checked(object sender, RoutedEventArgs e)
+        private async void EmbeddedStyling_Checked(object sender, RoutedEventArgs e)
         {
-            if (cadLayer != null)
-            {
-                // Create an Area style on zoom level 1 and then apply it to all zoom levels up to 20.
-                cadLayer.StylingType = CadStylingType.EmbeddedStyling;
-                await mapView.RefreshAsync();
-            }
+            if (_cadLayer == null) return;
+            // Create an Area style on zoom level 1 and then apply it to all zoom levels up to 20.
+            _cadLayer.StylingType = CadStylingType.EmbeddedStyling;
+
+            await MapView.RefreshAsync();
         }
 
-        private async void rbtnProgrammaticStyling_Checked(object sender, RoutedEventArgs e)
+        private async void ProgrammaticStyling_Checked(object sender, RoutedEventArgs e)
         {
-            if (cadLayer != null)
-            {
-                // Create an Area style on zoom level 1 and then apply it to all zoom levels up to 20.
-                cadLayer.StylingType = CadStylingType.StandardStyling;
-                cadLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = new LineStyle(new GeoPen(GeoColors.Blue, 2));
-                cadLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-                await mapView.RefreshAsync();
-            }
+            if (_cadLayer == null) return;
+            // Create an Area style on zoom level 1 and then apply it to all zoom levels up to 20.
+            _cadLayer.StylingType = CadStylingType.StandardStyling;
+            _cadLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = new LineStyle(new GeoPen(GeoColors.Blue, 2));
+            _cadLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
+            await MapView.RefreshAsync();
         }
     }
 }

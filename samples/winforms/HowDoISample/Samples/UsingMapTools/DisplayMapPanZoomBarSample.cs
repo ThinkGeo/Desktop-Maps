@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class DisplayMapPanZoomBarSample: UserControl
+    public class DisplayMapPanZoomBarSample : UserControl
     {
         public DisplayMapPanZoomBarSample()
         {
@@ -25,7 +24,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
 
             await mapView.RefreshAsync();
-        }        
+        }
 
         private void DisplayPanZoomBar_CheckedChanged(object sender, EventArgs e)
         {

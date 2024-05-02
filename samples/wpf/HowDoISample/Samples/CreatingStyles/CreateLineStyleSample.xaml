@@ -3,15 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:ThinkGeoUI="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ThinkGeoUI:MapView Grid.Column="0" Grid.Row="0" x:Name="mapView" Loaded="MapView_Loaded"></ThinkGeoUI:MapView>
+        <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded"></thinkGeoUi:MapView>
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1" Grid.Row="0" Content="Line Type:" FontSize="16" FontWeight="Bold"></Label>
-            <RadioButton Grid.Column="1" Grid.Row="1" x:Name="rbLineStyle" Checked="rbLineType_Checked">Solid Line</RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="2" x:Name="rbDashedLineStyle" Checked="rbDashedLineType_Checked">Dashed Line</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="1" x:Name="RbLineStyle" Checked="RbLineStyle_OnChecked">Solid Line</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="2" x:Name="RbDashedLineStyle" Checked="RbDashedLineStyle_OnChecked">Dashed Line</RadioButton>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />
                 <ColumnDefinition Width="*" />

@@ -4,11 +4,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class GetDataFromFeatureSample: UserControl
+    public class GetDataFromFeatureSample : UserControl
     {
         public GetDataFromFeatureSample()
         {

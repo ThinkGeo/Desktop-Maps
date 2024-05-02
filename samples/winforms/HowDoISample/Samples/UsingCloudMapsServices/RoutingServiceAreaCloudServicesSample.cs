@@ -5,11 +5,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class RoutingServiceAreaCloudServicesSample: UserControl
+    public class RoutingServiceAreaCloudServicesSample : UserControl
     {
         private RoutingCloudClient routingCloudClient;
         private Collection<TimeSpan> serviceAreaIntervals;

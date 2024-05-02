@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using ThinkGeo.Core;
-using ThinkGeo.UI.Wpf;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to label data using a TextStyle
     /// </summary>
-    public partial class CreateTextStyleSample : UserControl, IDisposable
+    public partial class CreateTextStyleSample : IDisposable
     {
         public CreateTextStyleSample()
         {
@@ -18,19 +16,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, project and add styles to the Hotels, Streets, and Parks layer.
+        /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, project and add styles to the Hotels, Streets, and Parks layer.
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Set the map background color
-            mapView.Background = new SolidColorBrush(Color.FromRgb(234, 232, 226));
+            MapView.Background = new SolidColorBrush(Color.FromRgb(234, 232, 226));
 
-            ShapeFileFeatureLayer hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
-            ShapeFileFeatureLayer streetsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Streets.shp");
-            ShapeFileFeatureLayer parksLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
+            var hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
+            var streetsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Streets.shp");
+            var parksLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
 
             // Project the layer's data to match the projection of the map
             hotelsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
@@ -49,18 +47,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             layerOverlay.Layers.Add(hotelsLayer);
 
             // Add overlay to map
-            mapView.Overlays.Add(layerOverlay);
+            MapView.Overlays.Add(layerOverlay);
 
             // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(-10778329.017082, 3909598.36751101, -10776250.8853871, 3907890.47766975);
+            MapView.CurrentExtent = new RectangleShape(-10778329.017082, 3909598.36751101, -10776250.8853871, 3907890.47766975);
 
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         /// <summary>
         /// Adds a PointStyle and TextStyle to the Hotels Layer
         /// </summary>
-        private void StyleHotelsLayer(ShapeFileFeatureLayer hotelsLayer)
+        private static void StyleHotelsLayer(FeatureLayer hotelsLayer)
         {
             var pointStyle = new PointStyle(PointSymbolType.Circle, 4, GeoBrushes.Brown, new GeoPen(GeoBrushes.DarkRed, 2));
             var textStyle = new TextStyle("NAME", new GeoFont("Segoe UI", 12, DrawingFontStyles.Bold), GeoBrushes.DarkRed)
@@ -80,7 +78,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Adds a LineStyle and TextStyle to the Streets Layer
         /// </summary>
-        private void StyleStreetsLayer(ShapeFileFeatureLayer streetsLayer)
+        private static void StyleStreetsLayer(FeatureLayer streetsLayer)
         {
             var lineStyle = new LineStyle(new GeoPen(GeoBrushes.DimGray, 6), new GeoPen(GeoBrushes.WhiteSmoke, 4));
             var textStyle = new TextStyle("FULL_NAME", new GeoFont("Segoe UI", 12, DrawingFontStyles.Bold), GeoBrushes.MidnightBlue)
@@ -98,7 +96,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Adds an AreaStyle and TextStyle to the Parks Layer
         /// </summary>
-        private void StyleParksLayer(ShapeFileFeatureLayer parksLayer)
+        private static void StyleParksLayer(FeatureLayer parksLayer)
         {
             var areaStyle = new AreaStyle(GeoPens.DimGray, GeoBrushes.PastelGreen);
             var textStyle = new TextStyle("NAME", new GeoFont("Segoe UI", 12, DrawingFontStyles.Bold), GeoBrushes.DarkGreen)
@@ -113,13 +111,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             parksLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
         }
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
     }
-
 }

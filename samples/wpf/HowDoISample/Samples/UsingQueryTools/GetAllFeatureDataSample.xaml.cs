@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
 
-namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
+namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to get data from all features in a ShapeFile
     /// </summary>
-    public partial class GetAllFeatureDataSample : UserControl, IDisposable
+    public partial class GetAllFeatureDataSample : IDisposable
     {
         public GetAllFeatureDataSample()
         {
@@ -23,36 +22,41 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the Map Unit to meters (used in Spherical Mercator)
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Create a feature layer to hold the Frisco hotels data
-            ShapeFileFeatureLayer hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
+            var hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
 
             // Convert the Frisco shapefile from its native projection to Spherical Mercator, to match the map
-            ProjectionConverter projectionConverter = new ProjectionConverter(2276, 3857);
+            var projectionConverter = new ProjectionConverter(2276, 3857);
             hotelsLayer.FeatureSource.ProjectionConverter = projectionConverter;
 
             // Add a style to use to draw the Frisco hotel points
             hotelsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
             hotelsLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 24, GeoBrushes.MediumPurple, GeoPens.Purple);
 
-            InMemoryFeatureLayer highlightedHotelLayer = new InMemoryFeatureLayer();
+            var highlightedHotelLayer = new InMemoryFeatureLayer();
             highlightedHotelLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
             highlightedHotelLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 30, GeoBrushes.BrightYellow, GeoPens.Black);
 
             // Add the feature layer to an overlay, and add the overlay to the map
-            LayerOverlay hotelsOverlay = new LayerOverlay();
+            var hotelsOverlay = new LayerOverlay();
             hotelsOverlay.Layers.Add("Frisco Hotels", hotelsLayer);
             hotelsOverlay.Layers.Add("Highlighted Hotel", highlightedHotelLayer);
-            mapView.Overlays.Add(hotelsOverlay);
+            MapView.Overlays.Add(hotelsOverlay);
 
-            // Open the hotels layer so we can read the data from it
+            // Open the hotels layer, so we can read the data from it
             hotelsLayer.Open();
 
             // Get all features from the hotels layer
@@ -60,50 +64,48 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
             var features = hotelsLayer.QueryTools.GetAllFeatures(ReturningColumnsType.AllColumns);
 
             // Create a collection of Hotel objects to use as the data source for our list box
-            Collection<Hotel> hotels = new Collection<Hotel>();
+            var hotels = new Collection<Hotel>();
 
             // Create a hotel object based on the data from each hotel feature, and add them to the collection
-            foreach(Feature feature in features)
+            foreach (var feature in features)
             {
-                string name = feature.ColumnValues["NAME"];
-                string address = feature.ColumnValues["ADDRESS"];
-                int rooms = int.Parse(feature.ColumnValues["ROOMS"]);
-                PointShape location = (PointShape)feature.GetShape();
+                var name = feature.ColumnValues["NAME"];
+                var address = feature.ColumnValues["ADDRESS"];
+                var rooms = int.Parse(feature.ColumnValues["ROOMS"]);
+                var location = (PointShape)feature.GetShape();
 
                 hotels.Add(new Hotel(name, address, rooms, location));
             }
 
             // Set the hotel collection as the data source of the list box
-            lsbHotels.ItemsSource = hotels;
+            LsbHotels.ItemsSource = hotels;
 
             // Set the map extent to the extent of the hotel features
-            mapView.CurrentExtent = hotelsLayer.GetBoundingBox();
+            MapView.CurrentExtent = hotelsLayer.GetBoundingBox();
             hotelsLayer.Close();
 
-            // Refresh and redraw the map
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
 
         /// <summary>
         /// When a hotel is selected in the UI, center the map on it
         /// </summary>
-        private async void lsbHotels_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void LsbHotels_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            InMemoryFeatureLayer highlightedHotelLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Highlighted Hotel");
+            var highlightedHotelLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Highlighted Hotel");
             highlightedHotelLayer.Open();
             highlightedHotelLayer.InternalFeatures.Clear();
 
             // Get the selected location
-            Hotel hotel = lsbHotels.SelectedItem as Hotel;
-            if (hotel != null)
+            if (LsbHotels.SelectedItem is Hotel hotel)
             {
                 highlightedHotelLayer.InternalFeatures.Add(new Feature(hotel.Location));
 
                 // Center the map on the chosen location
-                mapView.CurrentExtent = hotel.Location.GetBoundingBox();
-                ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
-                await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
-                await mapView.RefreshAsync();
+                MapView.CurrentExtent = hotel.Location.GetBoundingBox();
+                var standardZoomLevelSet = new ZoomLevelSet();
+                await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
+                await MapView.RefreshAsync();
             }
 
             highlightedHotelLayer.Close();
@@ -127,13 +129,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.UsingQueryTools
                 Location = location;
             }
         }
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
-
     }
 }

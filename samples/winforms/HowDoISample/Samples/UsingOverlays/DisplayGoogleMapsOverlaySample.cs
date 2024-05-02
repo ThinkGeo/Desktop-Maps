@@ -2,11 +2,10 @@
 using System.Diagnostics;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class DisplayGoogleMapsOverlaySample: UserControl
+    public class DisplayGoogleMapsOverlaySample : UserControl
     {
         public DisplayGoogleMapsOverlaySample()
         {
@@ -27,7 +26,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void lblGoogleMapsLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo("https://developers.google.com/maps/documentation/maps-static/get-api-key"));
+            Process.Start(new ProcessStartInfo("https://developers.google.com/maps/documentation/maps-static/get-api-key") { UseShellExecute = true });
         }
 
         private async void displayGoogleMaps_Click(object sender, EventArgs e)

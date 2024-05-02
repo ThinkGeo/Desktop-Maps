@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using ThinkGeo.Core;
-using ThinkGeo.UI.Wpf;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
@@ -11,7 +9,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// TODO: This sample is a Work In Progress and is disabled in the app!
     /// Learn how to split a shape into multiple shapes
     /// </summary>
-    public partial class SplitShapeSample : UserControl, IDisposable
+    public partial class SplitShapeSample : IDisposable
     {
         public SplitShapeSample()
         {
@@ -19,24 +17,29 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Setup the map with the ThinkGeo Cloud Maps overlay. Also, add the cityLimits and splitLayer layers into a
+        /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the cityLimits and splitLayer layers into a
         /// grouped LayerOverlay and display them on the map.
         /// </summary>
         private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            mapView.MapUnit = GeographyUnit.Meter;
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            ShapeFileFeatureLayer cityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimits.shp");
-            ShapeFileFeatureLayer adminBoundaries = new ShapeFileFeatureLayer(@"./Data/FriscoMunBnd/FriscoAdminBoundaries.shp");
-            InMemoryFeatureLayer splitLayer = new InMemoryFeatureLayer();
-            LayerOverlay layerOverlay = new LayerOverlay();
+            var cityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimits.shp");
+            var adminBoundaries = new ShapeFileFeatureLayer(@"./Data/FriscoMunBnd/FriscoAdminBoundaries.shp");
+            var splitLayer = new InMemoryFeatureLayer();
+            var layerOverlay = new LayerOverlay();
 
             // Project cityLimits layer to Spherical Mercator to match the map projection
             cityLimits.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
@@ -64,11 +67,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Set the map extent to the cityLimits layer bounding box
             cityLimits.Open();
-            mapView.CurrentExtent = cityLimits.GetBoundingBox();
+            MapView.CurrentExtent = cityLimits.GetBoundingBox();
             cityLimits.Close();
 
             // Add LayerOverlay to Map
-            mapView.Overlays.Add("layerOverlay", layerOverlay);
+            MapView.Overlays.Add("layerOverlay", layerOverlay);
         }
 
         /// <summary>
@@ -76,10 +79,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void SplitShape_OnClick(object sender, RoutedEventArgs e)
         {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
+            var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
 
-            ShapeFileFeatureLayer cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
-            InMemoryFeatureLayer splitLayer = (InMemoryFeatureLayer)layerOverlay.Layers["splitLayer"];
+            var cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
+            var splitLayer = (InMemoryFeatureLayer)layerOverlay.Layers["splitLayer"];
 
             // Query the cityLimits layer to get all the features
             cityLimits.Open();
@@ -98,13 +101,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Redraw the layerOverlay to see the split features on the map
             await layerOverlay.RefreshAsync();
         }
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
-
     }
 }

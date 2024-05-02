@@ -2,11 +2,10 @@
 using System.Diagnostics;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class DisplayBingMapsOverlaySample: UserControl
+    public class DisplayBingMapsOverlaySample : UserControl
     {
         public DisplayBingMapsOverlaySample()
         {
@@ -27,7 +26,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void BingMapsAccountLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo("https://www.bingmapsportal.com/"));
+            Process.Start(new ProcessStartInfo("https://www.bingmapsportal.com/") { UseShellExecute = true });
         }
 
         private async void displayBingMaps_Click(object sender, EventArgs e)

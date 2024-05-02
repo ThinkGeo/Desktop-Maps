@@ -3,11 +3,10 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class PointValidationSample: UserControl
+    public class PointValidationSample : UserControl
     {
         public PointValidationSample()
         {
@@ -32,7 +31,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             filterFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.Blue, 3, false);
             filterFeaturesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            // Create an InMemoryFeatureLayer to hold the resultf features from the validation API
+            // Create an InMemoryFeatureLayer to hold the result features from the validation API
             // Add styles to display points, lines, and polygons on this layer in red
             InMemoryFeatureLayer resultFeaturesLayer = new InMemoryFeatureLayer();
             resultFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Red, 12, GeoColors.Red);

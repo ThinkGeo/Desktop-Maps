@@ -1,18 +1,15 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using ThinkGeo.UI.Wpf;
+﻿using System;
+using System.Windows;
 using ThinkGeo.Core;
-using System.Diagnostics;
-using System;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
     /// Learn how to display an ECW Layer on the map
     /// </summary>
-    public partial class ECWLayerSample : UserControl, IDisposable
+    public partial class EcwLayerSample : IDisposable
     {
-        public ECWLayerSample()
+        public EcwLayerSample()
         {
             InitializeComponent();
         }
@@ -23,26 +20,26 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            mapView.MapUnit = GeographyUnit.DecimalDegree;
+            MapView.MapUnit = GeographyUnit.DecimalDegree;
 
             // Create a new overlay that will hold our new layer and add it to the map.
-            LayerOverlay layerOverlay = new LayerOverlay();
-            mapView.Overlays.Add(layerOverlay);
+            var layerOverlay = new LayerOverlay();
+            MapView.Overlays.Add(layerOverlay);
 
             // Create the new layer and dd the layer to the overlay we created earlier.
-            EcwRasterLayer ecwRasterLayer = new EcwRasterLayer("./Data/Ecw/World.ecw");           
+            var ecwRasterLayer = new EcwRasterLayer("./Data/Ecw/World.ecw");
             layerOverlay.Layers.Add(ecwRasterLayer);
 
             // Set the map view current extent to a slightly zoomed in area of the image.
-            mapView.CurrentExtent = new RectangleShape(-90.5399054799761, 68.8866552710533, 57.5181302343096, -43.7137911575181);
+            MapView.CurrentExtent = new RectangleShape(-90.5399054799761, 68.8866552710533, 57.5181302343096, -43.7137911575181);
 
-            // Refresh the map.
-            await mapView.RefreshAsync();
+            await MapView.RefreshAsync();
         }
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            mapView.Dispose();
+            MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

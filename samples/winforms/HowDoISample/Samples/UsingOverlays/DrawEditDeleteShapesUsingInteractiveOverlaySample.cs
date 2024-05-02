@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Windows.Forms;
-using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class DrawEditDeleteShapesUsingInteractiveOverlaySample: UserControl
+    public class DrawEditDeleteShapesUsingInteractiveOverlaySample : UserControl
     {
         public DrawEditDeleteShapesUsingInteractiveOverlaySample()
         {
@@ -76,7 +75,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapClick -= mapView_MapClick;
         }
 
-        private async void navMode_CheckedChanged(object sender, EventArgs e)
+        private async void navMode_Click(object sender, EventArgs e)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
             InMemoryFeatureLayer featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
@@ -92,7 +91,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        private async void drawPoint_CheckedChanged(object sender, EventArgs e)
+        private async void drawPoint_Click(object sender, EventArgs e)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
             InMemoryFeatureLayer featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
@@ -108,7 +107,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        private async void drawLine_CheckedChanged(object sender, EventArgs e)
+        private async void drawLine_Click(object sender, EventArgs e)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
             InMemoryFeatureLayer featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
@@ -123,7 +122,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             instructions.Text = "Draw Line Mode - Begin creating a Line Shape by left clicking on the map. Each subsequent left click adds another vertex to the line. Double left click to finish creating the Shape. Middle mouse click and drag allows the user to pan the map while drawing the Shape.";
         }
 
-        private async void drawPolygon_CheckedChanged(object sender, EventArgs e)
+        private async void drawPolygon_Click(object sender, EventArgs e)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
             InMemoryFeatureLayer featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
@@ -139,7 +138,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        private async void editShape_CheckedChanged(object sender, EventArgs e)
+        private async void editShape_Click(object sender, EventArgs e)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
             InMemoryFeatureLayer featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
@@ -155,7 +154,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             {
                 mapView.EditOverlay.EditShapesLayer.InternalFeatures.Add(feature.Id, feature);
             }
-            // Clear all the features inthe featureLayer so that the editing features don't overlap with the original shapes
+            // Clear all the features in the featureLayer so that the editing features don't overlap with the original shapes
             // In UpdateLayerFeatures, we will add them all back to the featureLayer once the user switches modes
             featureLayer.InternalFeatures.Clear();
 
@@ -170,7 +169,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        private async void deleteShape_CheckedChanged(object sender, EventArgs e)
+        private async void deleteShape_Click(object sender, EventArgs e)
         {
             LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
             InMemoryFeatureLayer featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
@@ -188,8 +187,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             instructions.Text = "Delete Shape Mode - Deletes a shape by left mouse clicking on the shape.";
 
         }
-
-
 
         private async void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
@@ -312,7 +309,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.editShape.TabIndex = 6;
             this.editShape.Text = "Edit Shape";
             this.editShape.UseVisualStyleBackColor = true;
-            this.editShape.CheckedChanged += new System.EventHandler(this.editShape_CheckedChanged);
+            this.editShape.Click += new EventHandler(this.editShape_Click);
             // 
             // deleteShape
             // 
@@ -325,7 +322,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.deleteShape.TabIndex = 5;
             this.deleteShape.Text = "Delete Shape";
             this.deleteShape.UseVisualStyleBackColor = true;
-            this.deleteShape.CheckedChanged += new System.EventHandler(this.deleteShape_CheckedChanged);
+            this.deleteShape.CheckedChanged += new System.EventHandler(this.deleteShape_Click);
             // 
             // drawPolygon
             // 
@@ -338,7 +335,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.drawPolygon.TabIndex = 4;
             this.drawPolygon.Text = "Draw Polygon";
             this.drawPolygon.UseVisualStyleBackColor = true;
-            this.drawPolygon.CheckedChanged += new System.EventHandler(this.drawPolygon_CheckedChanged);
+            this.drawPolygon.CheckedChanged += new System.EventHandler(this.drawPolygon_Click);
             // 
             // drawLine
             // 
@@ -351,7 +348,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.drawLine.TabIndex = 3;
             this.drawLine.Text = "Draw Line";
             this.drawLine.UseVisualStyleBackColor = true;
-            this.drawLine.CheckedChanged += new System.EventHandler(this.drawLine_CheckedChanged);
+            this.drawLine.CheckedChanged += new System.EventHandler(this.drawLine_Click);
             // 
             // drawPoint
             // 
@@ -364,7 +361,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.drawPoint.TabIndex = 2;
             this.drawPoint.Text = "Draw Point";
             this.drawPoint.UseVisualStyleBackColor = true;
-            this.drawPoint.CheckedChanged += new System.EventHandler(this.drawPoint_CheckedChanged);
+            this.drawPoint.CheckedChanged += new System.EventHandler(this.drawPoint_Click);
             // 
             // navMode
             // 
@@ -379,7 +376,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.navMode.TabStop = true;
             this.navMode.Text = "Navigate Mode";
             this.navMode.UseVisualStyleBackColor = true;
-            this.navMode.CheckedChanged += new System.EventHandler(this.navMode_CheckedChanged);
+            this.navMode.CheckedChanged += new System.EventHandler(this.navMode_Click);
             // 
             // label1
             // 
@@ -405,8 +402,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-
         #endregion Component Designer generated code
-
     }
 }

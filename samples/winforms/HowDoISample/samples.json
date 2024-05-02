@@ -206,12 +206,6 @@
         "source": "Samples/DisplayingLayers/Raster/JPEG2000LayerSample"
       },
       {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.KmlLayerSample",
-        "title": "Display a KML Layer",
-        "description": "This sample shows how to display a KML file.",
-        "source": "Samples/DisplayingLayers/Raster/KmlLayerSample"
-      },
-      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.GenerateMapImageSample",
         "title": "Generate a Map as an Image",
         "description": "This sample shows how to draw your map onto an image file",
@@ -404,7 +398,7 @@
         "id": "ThinkGeo.UI.WinForms.HowDoI.CreateClassBreakStyleSample",
         "title": "Create a ClassBreak Style",
         "description": "Learn how to style data based on numeric values using a ClassBreakStyle",
-        "source": "Samples/CreatingStyles/CreateHeatStyleSample"
+        "source": "Samples/CreatingStyles/CreateClassBreakStyleSample"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.CreateValueStyleSample",
@@ -746,7 +740,7 @@
         "id": "ThinkGeo.UI.WinForms.HowDoI.GetSnapShotSample",
         "title": "Get SnapShot",
         "description": "Learn how to get the snapshot of the current map",
-        "source": "Samples/Misc/GetSnapShoteSample"
+        "source": "Samples/Misc/GetSnapShotSample"
       }
       //,
       //{

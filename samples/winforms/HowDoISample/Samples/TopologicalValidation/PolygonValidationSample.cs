@@ -3,11 +3,10 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ThinkGeo.Core;
-using ThinkGeo.UI.WinForms;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class PolygonValidationSample: UserControl
+    public class PolygonValidationSample : UserControl
     {
         public PolygonValidationSample()
         {

@@ -3,18 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:ThinkGeoUI="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ThinkGeoUI:MapView Grid.Column="0" Grid.Row="0" x:Name="mapView" Loaded="MapView_Loaded"/>
+        <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded"/>
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1" Grid.Row="0" Content="Zooming:" FontSize="16" FontWeight="Bold"></Label>
-            <Grid Grid.Column="1" Grid.Row="1" x:Name="zoomButtonGrid">
-                <Button x:Name="zoomIn" Click="ZoomIn_Click" Grid.Column="0" Padding="4">
+            <Grid Grid.Column="1" Grid.Row="1" x:Name="ZoomButtonGrid">
+                <Button x:Name="ZoomIn" Click="ZoomIn_Click" Grid.Column="0" Padding="4">
                     <Image Source="/Resources/ZoomIn.png" Stretch="None"></Image>
                 </Button>
-                <Button x:Name="zoomOut" Click="ZoomOut_Click" Grid.Column="1" Padding="4">
+                <Button x:Name="ZoomOut" Click="ZoomOut_Click" Grid.Column="1" Padding="4">
                     <Image Source="/Resources/ZoomOut.png" Stretch="None"></Image>
                 </Button>
 
@@ -26,17 +26,17 @@
             </Grid>
 
             <Label Grid.Column="1" Grid.Row="2" Content="Panning:" FontSize="16" FontWeight="Bold"></Label>
-            <Grid Grid.Column="1" Grid.Row="3" x:Name="panButtonGrid">
-                <Button x:Name="panNorth" Click="PanArrow_Click" Grid.Column="2" Grid.Row="0" Padding="2" Margin="0" Height="24" Width="24">
+            <Grid Grid.Column="1" Grid.Row="3" x:Name="PanButtonGrid">
+                <Button x:Name="PanNorth" Click="PanArrow_Click" Grid.Column="2" Grid.Row="0" Padding="2" Margin="0" Height="24" Width="24">
                     <Image Source="/Resources/North.gif" Stretch="Uniform"></Image>
                 </Button>
-                <Button x:Name="panWest" Click="PanArrow_Click" Grid.Column="1" Grid.Row="1" Padding="2" Margin="0" Height="24" Width="24">
+                <Button x:Name="PanWest" Click="PanArrow_Click" Grid.Column="1" Grid.Row="1" Padding="2" Margin="0" Height="24" Width="24">
                     <Image Source="/Resources/West.gif" Stretch="Uniform"></Image>
                 </Button>
-                <Button x:Name="panEast" Click="PanArrow_Click" Grid.Column="3" Grid.Row="1"  Padding="2" Margin="0" Height="24" Width="24">
+                <Button x:Name="PanEast" Click="PanArrow_Click" Grid.Column="3" Grid.Row="1"  Padding="2" Margin="0" Height="24" Width="24">
                     <Image Source="/Resources/East.gif" Stretch="Uniform"></Image>
                 </Button>
-                <Button x:Name="panSouth" Click="PanArrow_Click" Grid.Column="2" Grid.Row="2"  Padding="2" Margin="0" Height="24" Width="24">
+                <Button x:Name="PanSouth" Click="PanArrow_Click" Grid.Column="2" Grid.Row="2"  Padding="2" Margin="0" Height="24" Width="24">
                     <Image Source="/Resources/South.gif" Stretch="Uniform"></Image>
                 </Button>
 
@@ -57,8 +57,8 @@
 
             <Label Grid.Column="1" Grid.Row="4" Content="Panning Percentage:" DockPanel.Dock="Top"/>
             <Grid Grid.Column="1" Grid.Row="5">
-                <Slider Grid.Column="0" Grid.Row="0" x:Name="panPercentage" Maximum="100" Value="50" AutoToolTipPlacement="TopLeft" TickFrequency="5" IsSnapToTickEnabled="True"></Slider>
-                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding ElementName=panPercentage, Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="28"  DockPanel.Dock="Right"></TextBox>
+                <Slider Grid.Column="0" Grid.Row="0" x:Name="PanPercentage" Maximum="100" Value="50" AutoToolTipPlacement="TopLeft" TickFrequency="5" IsSnapToTickEnabled="True"></Slider>
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding ElementName=PanPercentage, Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="28"  DockPanel.Dock="Right"></TextBox>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
@@ -71,8 +71,8 @@
             <Label Grid.Column="1" Grid.Row="6" Content="Rotating:" FontSize="16" FontWeight="Bold"></Label>
             <Label Grid.Column="1" Grid.Row="7" Content="Current Angle:"/>
             <Grid Grid.Column="1" Grid.Row="8">
-                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding ElementName=rotateAngle, Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="28" DockPanel.Dock="Right"></TextBox>
-                <Slider Grid.Column="0" Grid.Row="0" x:Name="rotateAngle" Maximum="360" Value="0" AutoToolTipPlacement="TopLeft" TickFrequency="15" IsSnapToTickEnabled="True"></Slider>
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding ElementName=RotateAngle, Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="28" DockPanel.Dock="Right"></TextBox>
+                <Slider Grid.Column="0" Grid.Row="0" x:Name="RotateAngle" Maximum="360" Value="0" AutoToolTipPlacement="TopLeft" TickFrequency="15" IsSnapToTickEnabled="True"></Slider>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
@@ -112,9 +112,6 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
     </Grid>
     <UserControl.Resources>
         <Style TargetType="Label">
