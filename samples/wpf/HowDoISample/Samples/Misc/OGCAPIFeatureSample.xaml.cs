@@ -26,7 +26,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            var ignLayer = new OgcApiFeaturesLayer("https://api-features.ign.es", "namedplace")
+            var ignLayer = new OgcApiFeatureLayer("https://api-features.ign.es", "namedplace")
             {
                 FeatureSource =
                 {
