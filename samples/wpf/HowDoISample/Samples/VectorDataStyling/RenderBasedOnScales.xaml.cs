@@ -6,11 +6,11 @@ using ThinkGeo.Core;
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Learn how to style layers across multiple scales using different styles assigned to different ZoomLevels.
+    /// Render the data based on zoom levels. Zoom in and out to see the style difference.
     /// </summary>
-    public partial class StylingAcrossMultipleScales : IDisposable
+    public partial class RenderBasedOnScales : IDisposable
     {
-        public StylingAcrossMultipleScales()
+        public RenderBasedOnScales()
         {
             InitializeComponent();
         }

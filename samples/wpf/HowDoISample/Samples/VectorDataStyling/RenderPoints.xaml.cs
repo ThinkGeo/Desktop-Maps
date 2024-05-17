@@ -5,11 +5,11 @@ using ThinkGeo.Core;
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Learn how to style point data using a PointStyle
+    /// Render points using a PointStyle.
     /// </summary>
-    public partial class CreatePointStyleSample : IDisposable
+    public partial class RenderPoints : IDisposable
     {
-        public CreatePointStyleSample()
+        public RenderPoints()
         {
             InitializeComponent();
         }

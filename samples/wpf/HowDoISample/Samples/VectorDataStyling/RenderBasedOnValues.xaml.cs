@@ -6,11 +6,11 @@ using ThinkGeo.Core;
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Learn how to selectively style features using a ValueStyle
+    /// Render points based on their values using a ValueStyle.
     /// </summary>
-    public partial class CreateValueStyleSample : IDisposable
+    public partial class RenderBasedOnValues : IDisposable
     {
-        public CreateValueStyleSample()
+        public RenderBasedOnValues()
         {
             InitializeComponent();
         }

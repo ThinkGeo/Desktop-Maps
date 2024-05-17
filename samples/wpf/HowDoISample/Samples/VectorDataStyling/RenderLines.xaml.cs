@@ -5,11 +5,11 @@ using ThinkGeo.Core;
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Learn how to style line data using a LineStyle
+    /// Render lines using a LineStyle.
     /// </summary>
-    public partial class CreateLineStyleSample : IDisposable
+    public partial class RenderLines : IDisposable
     {
-        public CreateLineStyleSample()
+        public RenderLines()
         {
             InitializeComponent();
         }

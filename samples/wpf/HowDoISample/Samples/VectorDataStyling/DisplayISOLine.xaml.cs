@@ -10,9 +10,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to display an ISOLine Layer on the map
     /// </summary>
-    public partial class IsoLineLayerSample : IDisposable
+    public partial class DisplayISOLine : IDisposable
     {
-        public IsoLineLayerSample()
+        public DisplayISOLine()
         {
             InitializeComponent();
         }

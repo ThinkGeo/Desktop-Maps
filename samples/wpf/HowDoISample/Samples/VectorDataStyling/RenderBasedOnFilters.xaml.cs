@@ -5,11 +5,11 @@ using ThinkGeo.Core;
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Learn how to selectively style features using a FilterStyle
+    /// Render certain features using a FilterStyle.
     /// </summary>
-    public partial class CreateFilterStyleSample : IDisposable
+    public partial class RenderBasedOnFilters : IDisposable
     {
-        public CreateFilterStyleSample()
+        public RenderBasedOnFilters()
         {
             InitializeComponent();
         }

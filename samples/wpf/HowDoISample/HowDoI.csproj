@@ -29,14 +29,15 @@
     <EmbeddedResource Remove="HowDoI\**" />
     <None Remove="HowDoI\**" />
     <Page Remove="HowDoI\**" />
+    <Compile Remove="Samples\Extensibility\ExtendingStylesSample.xaml.cs" />
     <Compile Remove="SampleTemplate.xaml.cs" />
-    <Page Update="Samples\CreatingStyles\CreateRegexStyleSample.xaml">
+    <Page Update="Samples\VectorDataStyling\RenderBasedOnRegex.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\CreatingStyles\CreateDotDensityStyleSample.xaml">
+    <Page Update="Samples\VectorDataStyling\DisplayDotDensity.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\CreatingStyles\CreateLineStyleSample.xaml">
+    <Page Update="Samples\VectorDataStyling\RenderLines.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -50,17 +51,20 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
-    <Compile Update="Samples\CreatingStyles\CreateRegexStyleSample.xaml.cs">
+    <Compile Update="Samples\VectorDataStyling\DisplayISOLine.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\CreatingStyles\CreateDotDensityStyleSample.xaml.cs">
+    <Compile Update="Samples\VectorDataStyling\RenderBasedOnRegex.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\CreatingStyles\CreateLineStyleSample.xaml.cs">
+    <Compile Update="Samples\VectorDataStyling\DisplayDotDensity.xaml.cs">
       <SubType>Code</SubType>
-      <DependentUpon>CreateLineStyleSample.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Samples\CreatingStyles\FleeBooleanStyle\CreateFleeBooleanStyleSample.xaml.cs">
+    <Compile Update="Samples\VectorDataStyling\RenderLines.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>RenderLines.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Samples\VectorDataStyling\FleeBooleanStyle\CreateFleeBooleanStyleSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\DisplayingLayers\Raster\EsriGridLayerGenerationSample.xaml.cs">
@@ -105,50 +109,50 @@
     <Compile Update="Samples\UsingOverlays\DisplaySimpleBackgroundOverlaySample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Page Update="Samples\CreatingStyles\CreateAreaStyleSample.xaml">
+    <Page Update="Samples\VectorDataStyling\RenderAreas.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Update="Samples\CreatingStyles\CreateAreaStyleSample.xaml.cs">
+    <Compile Update="Samples\VectorDataStyling\RenderAreas.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Page Update="Samples\CreatingStyles\CreateMultiColumnTextStyleSample.xaml">
+    <Page Update="Samples\VectorDataStyling\CreateMultiColumnTextStyleSample.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\CreatingStyles\CreateTextStyleSample.xaml">
+    <Page Update="Samples\VectorDataStyling\RenderLabels.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Update="Samples\CreatingStyles\CreateTextStyleSample.xaml.cs">
+    <Compile Update="Samples\VectorDataStyling\Renderlabels.xaml.cs">
       <SubType>Code</SubType>
-      <DependentUpon>CreateTextStyleSample.xaml</DependentUpon>
+      <DependentUpon>RenderLabels.xaml</DependentUpon>
     </Compile>
-    <Page Update="Samples\CreatingStyles\CreateFilterStyleSample.xaml">
+    <Page Update="Samples\VectorDataStyling\RenderBasedOnFilters.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Update="Samples\CreatingStyles\CreateFilterStyleSample.xaml.cs">
+    <Compile Update="Samples\VectorDataStyling\RenderBasedOnFilters.xaml.cs">
       <SubType>Code</SubType>
-      <DependentUpon>CreateFilterStyleSample.xaml</DependentUpon>
+      <DependentUpon>RenderBasedOnFilters.xaml</DependentUpon>
     </Compile>
-    <Page Update="Samples\CreatingStyles\CreateHeatStyleSample.xaml">
+    <Page Update="Samples\VectorDataStyling\DisplayHeatMap.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Update="Samples\CreatingStyles\CreateHeatStyleSample.xaml.cs">
+    <Compile Update="Samples\VectorDataStyling\DisplayHeatMap.xaml.cs">
       <SubType>Code</SubType>
-      <DependentUpon>CreateHeatStyleSample.xaml</DependentUpon>
+      <DependentUpon>DisplayHeatMap.xaml</DependentUpon>
     </Compile>
-    <Page Update="Samples\CreatingStyles\CreateClusterPointStyleSample.xaml">
+    <Page Update="Samples\VectorDataStyling\DisplayClusterPoints.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Update="Samples\CreatingStyles\CreateClusterPointStyleSample.xaml.cs">
+    <Compile Update="Samples\VectorDataStyling\DisplayClusterPoints.xaml.cs">
       <SubType>Code</SubType>
-      <DependentUpon>CreateClusterPointStyleSample.xaml</DependentUpon>
+      <DependentUpon>DisplayClusterPoints.xaml</DependentUpon>
     </Compile>
-    <Page Update="Samples\CreatingStyles\FleeBooleanStyle\CreateFleeBooleanStyleSample.xaml">
+    <Page Update="Samples\VectorDataStyling\FleeBooleanStyle\CreateFleeBooleanStyleSample.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
@@ -173,9 +177,6 @@
     </Page>
     <Page Update="Samples\DisplayingLayers\WebServices\WmtsLayerSample.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\Extensibility\ExtendingStylesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\Extensibility\ExtendingLayersSample.xaml">
@@ -236,21 +237,21 @@
       <Generator>
       </Generator>
     </Page>
-    <Page Update="Samples\CreatingStyles\CreateValueStyleSample.xaml">
+    <Page Update="Samples\VectorDataStyling\RenderBasedOnValues.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Update="Samples\CreatingStyles\CreateValueStyleSample.xaml.cs">
+    <Compile Update="Samples\VectorDataStyling\RenderBasedOnValues.xaml.cs">
       <SubType>Code</SubType>
-      <DependentUpon>CreateValueStyleSample.xaml</DependentUpon>
+      <DependentUpon>RenderBasedOnValues.xaml</DependentUpon>
     </Compile>
-    <Page Update="Samples\CreatingStyles\CreateClassBreakStyleSample.xaml">
+    <Page Update="Samples\VectorDataStyling\RenderBasedOnClassBreaks.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Update="Samples\CreatingStyles\CreateClassBreakStyleSample.xaml.cs">
+    <Compile Update="Samples\VectorDataStyling\RenderBasedOnClassBreaks.xaml.cs">
       <SubType>Code</SubType>
-      <DependentUpon>CreateClassBreakStyleSample.xaml</DependentUpon>
+      <DependentUpon>RenderBasedOnClassBreaks.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -312,6 +313,7 @@
     <Resource Include="Resources\ZoomOut.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Page Remove="Samples\Extensibility\ExtendingStylesSample.xaml" />
     <Page Remove="SampleTemplate.xaml" />
   </ItemGroup>
   <ItemGroup>
@@ -1004,7 +1006,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Samples\CreatingStyles\CreatePointStyleSample.xaml.cs">
+    <Compile Update="Samples\VectorDataStyling\RenderPoints.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\DisplayingLayers\Raster\CommonRasterLayersSample.xaml.cs">
@@ -1038,9 +1040,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\DisplayingLayers\Vector\InMemoryLayerSample.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Samples\DisplayingLayers\Vector\IsoLineLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\DisplayingLayers\Vector\TabLayerSample.xaml.cs">
@@ -1184,7 +1183,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Samples\CreatingStyles\CreatePointStyleSample.xaml">
+    <Page Update="Samples\VectorDataStyling\RenderPoints.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\DisplayingLayers\Raster\CommonRasterLayersSample.xaml">
@@ -1218,9 +1217,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\DisplayingLayers\Vector\InMemoryLayerSample.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\DisplayingLayers\Vector\IsoLineLayerSample.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\DisplayingLayers\Vector\TabLayerSample.xaml">

@@ -6,11 +6,11 @@ using ThinkGeo.Core;
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Learn how to selectively style features based on numerical data using a ClassBreakStyle
+    /// Render polygons based on their values using a ClassBreakStyle.
     /// </summary>
-    public partial class CreateClassBreakStyleSample : IDisposable
+    public partial class RenderBasedOnClassBreaks : IDisposable
     {
-        public CreateClassBreakStyleSample()
+        public RenderBasedOnClassBreaks()
         {
             InitializeComponent();
         }

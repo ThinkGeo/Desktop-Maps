@@ -5,11 +5,11 @@ using ThinkGeo.Core;
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Learn how to style polygon data using an AreaStyle
+    /// Render polygons using an AreaStyle.
     /// </summary>
-    public partial class CreateAreaStyleSample : IDisposable
+    public partial class RenderAreas : IDisposable
     {
-        public CreateAreaStyleSample()
+        public RenderAreas()
         {
             InitializeComponent();
         }

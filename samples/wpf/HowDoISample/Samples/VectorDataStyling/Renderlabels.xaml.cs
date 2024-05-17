@@ -6,11 +6,11 @@ using ThinkGeo.Core;
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Learn how to label data using a TextStyle
+    /// Render labels using a TextStyle.
     /// </summary>
-    public partial class CreateTextStyleSample : IDisposable
+    public partial class RenderLabels : IDisposable
     {
-        public CreateTextStyleSample()
+        public RenderLabels()
         {
             InitializeComponent();
         }

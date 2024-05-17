@@ -62,12 +62,6 @@
         "source": "Samples/DisplayingLayers/Vector/CadLayerSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.IsoLineLayerSample",
-        "title": "Display an ISOLine Layer",
-        "description": "This sample shows how to display an ISOLine layer.",
-        "source": "Samples/DisplayingLayers/Vector/IsoLineLayerSample"
-      },
-      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.InMemoryLayerSample",
         "title": "Display an InMemory Layer",
         "description": "This sample shows how to display an in memory layer.",
@@ -356,91 +350,103 @@
     ]
   },
   {
-    "title": "Creating Styles",
+    "title": "Vector Data Styling",
     "children": [
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.CreatePointStyleSample",
-        "title": "Create a Point Style",
-        "description": "Learn how to style point data using a PointStyle",
-        "source": "Samples/CreatingStyles/CreatePointStyleSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.RenderPoints",
+        "title": "Render Points",
+        "description": "Render points using a PointStyle.",
+        "source": "Samples/VectorDataStyling/RenderPoints"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateLineStyleSample",
-        "title": "Create a Line Style",
-        "description": "Learn how to style line data using a LineStyle",
-        "source": "Samples/CreatingStyles/CreateLineStyleSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.RenderLines",
+        "title": "Render Lines",
+        "description": "Render lines using a LineStyle.",
+        "source": "Samples/VectorDataStyling/RenderLines"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateAreaStyleSample",
-        "title": "Create an Area Style",
-        "description": "Learn how to style polygon data using an AreaStyle",
-        "source": "Samples/CreatingStyles/CreateAreaStyleSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.RenderAreas",
+        "title": "Render Areas",
+        "description": "Render polygons using an AreaStyle.",
+        "source": "Samples/VectorDataStyling/RenderAreas"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateTextStyleSample",
-        "title": "Create a Text Style",
-        "description": "Learn how to label data using a TextStyle",
-        "source": "Samples/CreatingStyles/CreateTextStyleSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.RenderLabels",
+        "title": "Render Labels",
+        "description": "Render labels using a TextStyle.",
+        "source": "Samples/VectorDataStyling/RenderLabels"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateFilterStyleSample",
-        "title": "Create a Filter Style",
-        "description": "Learn how to selectively style features using a FilterStyle",
-        "source": "Samples/CreatingStyles/CreateFilterStyleSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.RenderBasedOnFilters",
+        "title": "Render Based on Filters",
+        "description": "Render certain features using a FilterStyle.",
+        "source": "Samples/VectorDataStyling/RenderBasedOnFilters"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateHeatStyleSample",
-        "title": "Create a Heat Style",
-        "description": "Learn how to create a heat map from data using a HeatStyle",
-        "source": "Samples/CreatingStyles/CreateHeatStyleSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.RenderBasedOnRegex",
+        "title": "Render Based on Regex",
+        "description": "Render certain features using regular expressions.",
+        "source": "Samples/VectorDataStyling/RenderBasedOnRegex"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateClusterPointStyleSample",
-        "title": "Create a Cluster Style",
-        "description": "Learn how to cluster point data dynamically using a ClusterPointStyle",
-        "source": "Samples/CreatingStyles/CreateClusterPointStyleSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.RenderBasedOnScales",
+        "title": "Render Based on Scales",
+        "description": "Render the data based on zoom levels. Zoom in and out to see the style difference.",
+        "source": "Samples/VectorDataStyling/RenderBasedOnScales"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateClassBreakStyleSample",
-        "title": "Create a ClassBreak Style",
-        "description": "Learn how to style data based on numeric values using a ClassBreakStyle",
-        "source": "Samples/CreatingStyles/CreateClassBreakStyleSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.RenderBasedOnValues",
+        "title": "Render Based on Values",
+        "description": "Render points based on their values using a ValueStyle.",
+        "source": "Samples/VectorDataStyling/RenderBasedOnValues"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateDotDensityStyleSample",
-        "title": "Create a Dot Density Style",
-        "description": "Learn how to style polygons based on numeric data values",
-        "source": "Samples/CreatingStyles/CreateDotDensityStyleSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.RenderBasedOnClassBreaks",
+        "title": "Render Based on ClassBreaks",
+        "description": "Render polygons based on their values using a ClassBreakStyle.",
+        "source": "Samples/VectorDataStyling/RenderBasedOnClassBreaks"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateRegexStyleSample",
-        "title": "Create a Regex Style",
-        "description": "Learn how to style select features using regex expressions",
-        "source": "Samples/CreatingStyles/CreateRegexStyleSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayClusterPoints",
+        "title": "Display Cluster Points",
+        "description": "Cluster points using a ClusterPointStyle.",
+        "source": "Samples/VectorDataStyling/DisplayClusterPoints"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.CreateValueStyleSample",
-        "title": "Create a Value Style",
-        "description": "Learn how to style data based on data values using a ValueStyle",
-        "source": "Samples/CreatingStyles/CreateValueStyleSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayDotDensity",
+        "title": "Display Dot Density",
+        "description": "Render polygons with dot densities based on their values.",
+        "source": "Samples/VectorDataStyling/DisplayDotDensity"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayHeatMap",
+        "title": "Display HeatMap",
+        "description": "Render a heatmap using a HeatStyle.",
+        "source": "Samples/VectorDataStyling/DisplayHeatMap"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayISOLine",
+        "title": "Display ISOLine",
+        "description": "This sample shows how to display an ISOLine layer.",
+        "source": "Samples/VectorDataStyling/DisplayISOLine"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CustomStyles",
+        "title": "Custom Styles",
+        "description": "Render capitals using custom styles.",
+        "source": "Samples/VectorDataStyling/CustomStyles"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.CreateFleeBooleanStyleSample",
         "title": "Create a Flee Boolean Style",
         "description": "Learn how to style data based on data values using a FleeBooleanStyle",
-        "source": "Samples/CreatingStyles/FleeBooleanStyle/CreateFleeBooleanStyleSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.StylingAcrossMultipleScales",
-        "title": "Styling Across Multiple Scales",
-        "description": "Learn how to style layers across multiple scales using different styles assigned to different ZoomLevels",
-        "source": "Samples/CreatingStyles/StylingAcrossMultipleScales"
+        "source": "Samples/VectorDataStyling/FleeBooleanStyle/CreateFleeBooleanStyleSample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.CreateMultiColumnTextStyleSample",
         "title": "Create a Multi-Column Text Style",
         "description": "Learn how to label a feature using the data from multiple columns",
-        "source": "Samples/CreatingStyles/CreateMultiColumnTextStyleSample"
+        "source": "Samples/VectorDataStyling/CreateMultiColumnTextStyleSample"
       }
     ]
   },
@@ -730,12 +736,6 @@
   {
     "title": "Extensibility",
     "children": [
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.ExtendingStylesSample",
-        "title": "Extending Styles",
-        "description": "Learn how to use the Style base class to create your own custom styles.",
-        "source": "Samples/Extensibility/ExtendingStylesSample"
-      },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.ExtendingLayersSample",
         "title": "Extending Layers",

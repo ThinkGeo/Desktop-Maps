@@ -5,11 +5,11 @@ using ThinkGeo.Core;
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Learn how to display a CloudMapsVector Layer on the map
+    /// Render a heatmap using a HeatStyle.
     /// </summary>
-    public partial class CreateRegexStyleSample : IDisposable
+    public partial class DisplayHeatMap : IDisposable
     {
-        public CreateRegexStyleSample()
+        public DisplayHeatMap()
         {
             InitializeComponent();
         }
@@ -33,6 +33,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
+            // Set the map extent
+            MapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
+
             // Project the layer's data to match the projection of the map
             var coyoteSightings = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Coyote_Sightings.shp")
             {
@@ -43,36 +46,34 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
 
             // Add the layer to a layer overlay
-            var layerOverlay = new LayerOverlay();
-            layerOverlay.Layers.Add("coyoteSightings", coyoteSightings);
+            var layerOverlay = new LayerOverlay
+            {
+                TileType = TileType.SingleTile
+            };
+            layerOverlay.Layers.Add(coyoteSightings);
 
             // Add the overlay to the map
             MapView.Overlays.Add(layerOverlay);
 
-            // Create a regex style and item that looks for big / large / huge based on the comments
-            // from users and draws them differently
-            var regexStyle = new RegexStyle
-            {
-                ColumnName = "Comments"
-            };
-
-            var largeItem = new RegexItem("big|large|huge", new PointStyle(PointSymbolType.Circle, 12, GeoBrushes.Red));
-            regexStyle.RegexItems.Add(largeItem);
-
-            // We have a default drawing style for every sighting
-            var allSightingsStyle = new PointStyle(PointSymbolType.Circle, 5, GeoBrushes.Green);
-
-            // Add the point style to the collection of custom styles for ZoomLevel 1.
-            coyoteSightings.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(allSightingsStyle);
-            coyoteSightings.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(regexStyle);
-
-            // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the point style on every zoom level on the map.
-            coyoteSightings.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-
-            // Set the map extent
-            MapView.CurrentExtent = new RectangleShape(-10781794.4716492, 3917077.66579861, -10775416.8466492, 3913528.63559028);
+            // Apply HeatStyle
+            AddHeatStyle(coyoteSightings);
 
             await MapView.RefreshAsync();
+        }
+
+        /// <summary>
+        /// Create a heat style that bases the color intensity on the proximity of surrounding points
+        /// </summary>
+        private static void AddHeatStyle(FeatureLayer layer)
+        {
+            // Create the heat style
+            var heatStyle = new HeatStyle(20, 1, DistanceUnit.Kilometer);
+
+            // Add the point style to the collection of custom styles for ZoomLevel 1.
+            layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(heatStyle);
+
+            // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the point style on every zoom level on the map. 
+            layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
         }
 
         public void Dispose()

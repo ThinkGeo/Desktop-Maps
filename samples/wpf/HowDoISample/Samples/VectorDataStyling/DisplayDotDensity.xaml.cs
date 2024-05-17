@@ -5,11 +5,11 @@ using ThinkGeo.Core;
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Learn how to create a heat map from data using a HeatStyle
+    /// Render polygons with dot densities based on their values.
     /// </summary>
-    public partial class CreateHeatStyleSample : IDisposable
+    public partial class DisplayDotDensity : IDisposable
     {
-        public CreateHeatStyleSample()
+        public DisplayDotDensity()
         {
             InitializeComponent();
         }
@@ -33,11 +33,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            // Set the map extent
-            MapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
-
             // Project the layer's data to match the projection of the map
-            var coyoteSightings = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Coyote_Sightings.shp")
+            var housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp")
             {
                 FeatureSource =
                     {
@@ -45,35 +42,27 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     }
             };
 
-            // Add the layer to a layer overlay
-            var layerOverlay = new LayerOverlay
-            {
-                TileType = TileType.SingleTile
-            };
-            layerOverlay.Layers.Add(coyoteSightings);
+            // Here we use a dot density type based on the number of housing units in the area.
+            // It draws 1 sized blue circles with a ratio of one dot per 10 housing units in the data
+            var housingUnitsStyle = new DotDensityStyle("H_UNITS", .1, 1, GeoColors.Blue);
 
-            // Add the overlay to the map
+            // Add and apply the ClassBreakStyle to the housingUnitsLayer
+            housingUnitsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(housingUnitsStyle);
+            housingUnitsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
+            // Add housingUnitsLayer to a LayerOverlay
+            var layerOverlay = new LayerOverlay();
+            layerOverlay.Layers.Add(housingUnitsLayer);
+
+            // Add layerOverlay to the mapView
             MapView.Overlays.Add(layerOverlay);
 
-            // Apply HeatStyle
-            AddHeatStyle(coyoteSightings);
+            // Set the map extent
+            housingUnitsLayer.Open();
+            MapView.CurrentExtent = housingUnitsLayer.GetBoundingBox();
+            housingUnitsLayer.Close();
 
             await MapView.RefreshAsync();
-        }
-
-        /// <summary>
-        /// Create a heat style that bases the color intensity on the proximity of surrounding points
-        /// </summary>
-        private static void AddHeatStyle(FeatureLayer layer)
-        {
-            // Create the heat style
-            var heatStyle = new HeatStyle(20, 1, DistanceUnit.Kilometer);
-
-            // Add the point style to the collection of custom styles for ZoomLevel 1.
-            layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(heatStyle);
-
-            // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the point style on every zoom level on the map. 
-            layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
         }
 
         public void Dispose()
