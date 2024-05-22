@@ -11,9 +11,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to use layer query tools to find features in a layer within a given distance of a point
     /// </summary>
-    public partial class GetFeaturesWithinDistanceSample : IDisposable
+    public partial class FindFeaturesWithinDistanceSample : IDisposable
     {
-        public GetFeaturesWithinDistanceSample()
+        public FindFeaturesWithinDistanceSample()
         {
             InitializeComponent();
         }

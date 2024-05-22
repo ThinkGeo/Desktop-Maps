@@ -8,9 +8,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to use layer query tools to find which features in a layer are disjoint from a shape
     /// </summary>
-    public partial class DisjointSample : IDisposable
+    public partial class FindDisjointFeatures : IDisposable
     {
-        public DisjointSample()
+        public FindDisjointFeatures()
         {
             InitializeComponent();
         }

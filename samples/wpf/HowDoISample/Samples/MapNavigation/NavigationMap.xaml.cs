@@ -8,9 +8,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to programmatically zoom, pan, and rotate the map control.
     /// </summary>
-    public partial class BasicNavigationSample : IDisposable
+    public partial class NavigationMap : IDisposable
     {
-        public BasicNavigationSample()
+        public NavigationMap()
         {
             InitializeComponent();
         }

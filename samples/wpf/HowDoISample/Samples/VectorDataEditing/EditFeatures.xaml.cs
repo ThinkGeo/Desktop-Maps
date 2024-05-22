@@ -9,9 +9,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn to draw, edit, or delete shapes using the map's TrackOverlay and EditOverlay.
     /// </summary>
-    public partial class DrawEditDeleteShapesUsingInteractiveOverlaySample : IDisposable
+    public partial class EditFeatures : IDisposable
     {
-        public DrawEditDeleteShapesUsingInteractiveOverlaySample()
+        public EditFeatures()
         {
             InitializeComponent();
         }

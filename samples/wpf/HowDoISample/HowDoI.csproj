@@ -29,8 +29,28 @@
     <EmbeddedResource Remove="HowDoI\**" />
     <None Remove="HowDoI\**" />
     <Page Remove="HowDoI\**" />
-    <Compile Remove="Samples\Extensibility\ExtendingStylesSample.xaml.cs" />
     <Compile Remove="SampleTemplate.xaml.cs" />
+    <Page Update="Samples\Miscellaneous\ESRIGridLayerGenerationSample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Samples\MapOfflineData\Raster\GdalLayerSample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Samples\MapOfflineData\Vector\CADLayerSample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Samples\MapOfflineData\Vector\GeoPdfLayerSample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Samples\MapOfflineData\Vector\KmlLayerSample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Samples\MapOnlineData\OGCAPIFeatureSample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Samples\MapOnlineData\WFSV2FeatureLayerSample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Samples\VectorDataStyling\RenderBasedOnRegex.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -51,6 +71,60 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
+    <Compile Update="Samples\MapOfflineData\Raster\CommonRasterLayersSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\MapOfflineData\Raster\ECWLayerSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\Miscellaneous\ESRIGridLayerGenerationSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\MapOfflineData\Raster\ESRIGridLayerSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\MapOfflineData\Raster\GdalLayerSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\MapOfflineData\Raster\GeoTiffLayerSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\MapOfflineData\Raster\JPEG2000LayerSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\MapOfflineData\Raster\MrSidLayerSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\MapOfflineData\Vector\FileGeoDatabaseLayerSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\MapOfflineData\Vector\GeoPdfLayerSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\MapOfflineData\Vector\GPXLayerSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\MapOfflineData\Vector\GraticuleLayerSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\MapOfflineData\Vector\InMemoryLayerSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\MapOfflineData\Vector\KmlLayerSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\MapOfflineData\Vector\S57LayerSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\MapOfflineData\Vector\TABLayerSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\MapOfflineData\Vector\TinyGeoLayerSample.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\Miscellaneous\Placeholder.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Samples\VectorDataStyling\DisplayISOLine.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -67,46 +141,34 @@
     <Compile Update="Samples\VectorDataStyling\FleeBooleanStyle\CreateFleeBooleanStyleSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\Raster\EsriGridLayerGenerationSample.xaml.cs">
+    <Compile Update="Samples\MapOnlineData\WMTSLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\Raster\GdalLayerSample.xaml.cs">
+    <Compile Update="Samples\Miscellaneous\OverlayExceptionSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\Vector\GeoPdfLayerSample.xaml.cs">
+    <Compile Update="Samples\MapProjection\RasterProjectionSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\Vector\KmlLayerSample.xaml.cs">
+    <Compile Update="Samples\MapProjection\WorldProjectionsSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\WebServices\WmtsLayerSample.xaml.cs">
+    <Compile Update="Samples\ThinkGeoCloudIntegration\RoutingServiceAreaCloudServicesSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Misc\OverlayExceptionSample.xaml.cs">
+    <Compile Update="Samples\ThinkGeoCloudIntegration\RoutingTSPCloudServicesSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\ProjectingData\RasterProjectionSample.xaml.cs">
+    <Compile Update="Samples\MapTools\DisplayCompassSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\ProjectingData\WorldProjectionsSample.xaml.cs">
+    <Compile Update="Samples\MapTools\DisplayMagneticNorthSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\UsingCloudMapsServices\RoutingServiceAreaCloudServicesSample.xaml.cs">
+    <Compile Update="Samples\Miscellaneous\DrawGPSLocationOverlaySample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\UsingCloudMapsServices\RoutingTspCloudServicesSample.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Samples\UsingMapTools\DisplayCompassSample.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Samples\UsingMapTools\DisplayMagneticNorthSample.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Samples\UsingOverlays\DrawGpsLocationOverlaySample.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Samples\UsingOverlays\DisplaySimpleBackgroundOverlaySample.xaml.cs">
+    <Compile Update="Samples\Miscellaneous\DisplaySimpleBackgroundOverlaySample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Page Update="Samples\VectorDataStyling\RenderAreas.xaml">
@@ -156,84 +218,53 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\Raster\EsriGridLayerGenerationSample.xaml">
+    <Page Update="Samples\MapOnlineData\WMTSLayerSample.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\Raster\GdalLayerSample.xaml">
+    <Page Update="Samples\Miscellaneous\ShapesAcrossDateLine.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\Vector\GeoPdfLayerSample.xaml">
+    <Page Update="Samples\Miscellaneous\ShapesAcrossDateLine.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Samples\Miscellaneous\MapResizingSample.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Samples\Miscellaneous\GetSnapShotSample.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\Vector\KmlLayerSample.xaml">
+    <Page Update="Samples\Miscellaneous\OverlayExceptionSample.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\Vector\CadLayerSample.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-    <Page Update="Samples\DisplayingLayers\WebServices\WmtsLayerSample.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\Extensibility\ExtendingLayersSample.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\Extensibility\ExtendingFeatureSourcesSample.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\Misc\WfsV2FeatureLayerSample.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-    <Page Update="Samples\Misc\OgcApiFeatureSample.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-    <Page Update="Samples\Misc\ShapesAcrossDateLine.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\Misc\ShapesAcrossDateLine.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-    <Page Update="Samples\Misc\MapResizingSample.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-    <Page Update="Samples\Misc\GetSnapShotSample.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\Misc\OverlayExceptionSample.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\PerformingGeometricOperations\UnionShapesSample.xaml">
+    <Page Update="Samples\VectorDataGeometricOperation\UnionShapesSample.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Update="Samples\PerformingGeometricOperations\UnionShapesSample.xaml.cs">
+    <Compile Update="Samples\VectorDataGeometricOperation\UnionShapesSample.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>UnionShapesSample.xaml</DependentUpon>
     </Compile>
-    <Page Update="Samples\PerformingGeometricOperations\SimplifyShapeSample.xaml">
+    <Page Update="Samples\VectorDataGeometricOperation\SimplifyShapeSample.xaml">
       <Generator>
       </Generator>
     </Page>
-    <Page Update="Samples\PerformingGeometricOperations\DifferenceShapesSample.xaml">
+    <Page Update="Samples\VectorDataGeometricOperation\DifferenceShapesSample.xaml">
       <Generator>
       </Generator>
     </Page>
-    <Page Update="Samples\PerformingGeometricOperations\RotateShapeSample.xaml">
+    <Page Update="Samples\VectorDataGeometricOperation\RotateShapeSample.xaml">
       <Generator>
       </Generator>
     </Page>
-    <Page Update="Samples\PerformingGeometricOperations\ScaleShapeSample.xaml">
+    <Page Update="Samples\VectorDataGeometricOperation\ScaleShapeSample.xaml">
       <Generator>
       </Generator>
     </Page>
-    <Page Update="Samples\PerformingGeometricOperations\TranslateShapeSample.xaml">
+    <Page Update="Samples\VectorDataGeometricOperation\TranslateShapeSample.xaml">
       <Generator>
       </Generator>
     </Page>
@@ -313,7 +344,6 @@
     <Resource Include="Resources\ZoomOut.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Page Remove="Samples\Extensibility\ExtendingStylesSample.xaml" />
     <Page Remove="SampleTemplate.xaml" />
   </ItemGroup>
   <ItemGroup>
@@ -1009,166 +1039,124 @@
     <Compile Update="Samples\VectorDataStyling\RenderPoints.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\Raster\CommonRasterLayersSample.xaml.cs">
+    <Compile Update="Samples\MapOfflineData\Database\SQLServerLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\Raster\EsriGridLayerSample.xaml.cs">
+    <Compile Update="Samples\MapOfflineData\Database\OracleLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\Raster\Jpeg2000LayerSample.xaml.cs">
+    <Compile Update="Samples\MapOfflineData\Database\PostgresLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\Raster\MrSidLayerSample.xaml.cs">
+    <Compile Update="Samples\MapOfflineData\Database\SQLiteLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\Raster\GeoTiffLayerSample.xaml.cs">
+    <Compile Update="Samples\MapOnlineData\WMSLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\Database\SqlServerLayerSample.xaml.cs">
+    <Compile Update="Samples\MapOnlineData\OpenStreetMapLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\Database\OracleLayerSample.xaml.cs">
+    <Compile Update="Samples\MapOnlineData\GoogleMapLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\Database\PostgresLayerSample.xaml.cs">
+    <Compile Update="Samples\MapOnlineData\BingMapLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\Raster\EcwLayerSample.xaml.cs">
+    <Compile Update="Samples\MapOnlineData\ThinkGeoMapsVectorLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\Vector\GraticuleLayerSample.xaml.cs">
+    <Compile Update="Samples\MapOnlineData\ThinkGeoMapsRasterLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\Vector\InMemoryLayerSample.xaml.cs">
+    <Compile Update="Samples\MapOnlineData\NOAAWeatherWarningLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\Vector\TabLayerSample.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Samples\DisplayingLayers\Vector\GpxLayerSample.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Samples\DisplayingLayers\Vector\S57LayerSample.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Samples\DisplayingLayers\Vector\TinyGeoLayerSample.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Samples\DisplayingLayers\Database\SqLiteLayerSample.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Samples\DisplayingLayers\Vector\FileGeoDatabaseLayerSample.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Samples\DisplayingLayers\WebServices\WmsLayerSample.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Samples\DisplayingLayers\WebServices\OpenStreetMapLayerSample.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Samples\DisplayingLayers\WebServices\GoogleMapLayerSample.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Samples\DisplayingLayers\WebServices\BingMapLayerSample.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Samples\DisplayingLayers\WebServices\CloudMapsVectorLayerSample.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Samples\DisplayingLayers\WebServices\CloudMapsRasterLayerSample.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Samples\DisplayingLayers\WebServices\NoaaWeatherWarningLayerSample.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Samples\DisplayingLayers\WebServices\NoaaWeatherStationLayerSample.xaml.cs">
+    <Compile Update="Samples\MapOnlineData\NOAAWeatherStationLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\DisplayingLayers\WebServices\NOAARadarLayerSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Interpolation\Placeholder.xaml.cs">
+    <Compile Update="Samples\VectorDataGeometricOperation\BufferShapeSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\PerformingGeometricOperations\BufferShapeSample.xaml.cs">
+    <Compile Update="Samples\MapProjection\ProjectLatLonCoordinatesSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\ProjectingData\ProjectLatLonCoordinatesSample.xaml.cs">
+    <Compile Update="Samples\MapProjection\SetLayerProjectionSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\ProjectingData\SetLayerProjectionSample.xaml.cs">
+    <Compile Update="Samples\MapNavigation\NavigationMap.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\SettingMapExtent\BasicNavigationSample.xaml.cs">
+    <Compile Update="Samples\MapNavigation\ZoomToExtent.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\SettingMapExtent\SetMapExtentSample.xaml.cs">
+    <Compile Update="Samples\VectorDataTopologicalValidation\LineValidationSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\TopologicalValidation\LineValidationSample.xaml.cs">
+    <Compile Update="Samples\VectorDataTopologicalValidation\PointValidationSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\TopologicalValidation\PointValidationSample.xaml.cs">
+    <Compile Update="Samples\VectorDataTopologicalValidation\PolygonValidationSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\TopologicalValidation\PolygonValidationSample.xaml.cs">
+    <Compile Update="Samples\ThinkGeoCloudIntegration\ColorUtilitiesCloudServicesSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\UsingCloudMapsServices\ColorUtilitiesCloudServicesSample.xaml.cs">
+    <Compile Update="Samples\ThinkGeoCloudIntegration\ElevationCloudServicesSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\UsingCloudMapsServices\ElevationCloudServicesSample.xaml.cs">
+    <Compile Update="Samples\ThinkGeoCloudIntegration\GeocodingCloudServicesSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\UsingCloudMapsServices\GeocodingCloudServicesSample.xaml.cs">
+    <Compile Update="Samples\ThinkGeoCloudIntegration\ProjectionCloudServicesSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\UsingCloudMapsServices\ProjectionCloudServicesSample.xaml.cs">
+    <Compile Update="Samples\ThinkGeoCloudIntegration\ReverseGeocodingCloudServicesSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\UsingCloudMapsServices\ReverseGeocodingCloudServicesSample.xaml.cs">
+    <Compile Update="Samples\ThinkGeoCloudIntegration\RoutingCloudServicesSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\UsingCloudMapsServices\RoutingCloudServicesSample.xaml.cs">
+    <Compile Update="Samples\ThinkGeoCloudIntegration\TimezoneCloudServicesSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\UsingCloudMapsServices\TimezoneCloudServicesSample.xaml.cs">
+    <Compile Update="Samples\ThinkGeoCloudIntegration\WorldMapsQueryCloudServicesSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\UsingCloudMapsServices\WorldMapsQueryCloudServicesSample.xaml.cs">
+    <Compile Update="Samples\VectorDataSpatialQuery\FindContainingFeatures.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\UsingQueryTools\ContainsSample.xaml.cs">
+    <Compile Update="Samples\VectorDataSpatialQuery\FindCrossingFeatures.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\UsingQueryTools\CrossesSample.xaml.cs">
+    <Compile Update="Samples\VectorDataSpatialQuery\FindDisjointFeatures.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\UsingQueryTools\DisjointSample.xaml.cs">
+    <Compile Update="Samples\VectorDataSpatialQuery\EqualsSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\UsingQueryTools\EqualsSample.xaml.cs">
+    <Compile Update="Samples\VectorDataSpatialQuery\GetAllFeatureDataSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\UsingQueryTools\GetAllFeatureDataSample.xaml.cs">
+    <Compile Update="Samples\VectorDataSpatialQuery\GetDataFromFeatureSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\UsingQueryTools\GetDataFromFeatureSample.xaml.cs">
+    <Compile Update="Samples\VectorDataSpatialQuery\FindFeaturesWithinDistanceSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\UsingQueryTools\GetFeaturesWithinDistanceSample.xaml.cs">
+    <Compile Update="Samples\VectorDataSpatialQuery\IntersectsSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\UsingQueryTools\IntersectsSample.xaml.cs">
+    <Compile Update="Samples\VectorDataSpatialQuery\OverlapsSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\UsingQueryTools\OverlapsSample.xaml.cs">
+    <Compile Update="Samples\VectorDataSpatialQuery\TouchesSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\UsingQueryTools\TouchesSample.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Samples\UsingQueryTools\WithinSample.xaml.cs">
+    <Compile Update="Samples\VectorDataSpatialQuery\WithinSample.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -1186,187 +1174,139 @@
     <Page Update="Samples\VectorDataStyling\RenderPoints.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\Raster\CommonRasterLayersSample.xaml">
+    <Page Update="Samples\MapOfflineData\Database\SQLServerLayerSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\Raster\EsriGridLayerSample.xaml">
+    <Page Update="Samples\MapOfflineData\Database\OracleLayerSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\Raster\Jpeg2000LayerSample.xaml">
+    <Page Update="Samples\MapOfflineData\Database\PostgresLayerSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\Raster\MrSidLayerSample.xaml">
+    <Page Update="Samples\MapOfflineData\Database\SQLiteLayerSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\Raster\GeoTiffLayerSample.xaml">
+    <Page Update="Samples\MapOnlineData\WMSLayerSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\Database\SqlServerLayerSample.xaml">
+    <Page Update="Samples\MapOnlineData\OpenStreetMapLayerSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\Database\OracleLayerSample.xaml">
+    <Page Update="Samples\MapOnlineData\GoogleMapLayerSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\Database\PostgresLayerSample.xaml">
+    <Page Update="Samples\MapOnlineData\BingMapLayerSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\Raster\EcwLayerSample.xaml">
+    <Page Update="Samples\MapOnlineData\ThinkGeoMapsVectorLayerSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\Vector\GraticuleLayerSample.xaml">
+    <Page Update="Samples\MapOnlineData\ThinkGeoMapsRasterLayerSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\Vector\InMemoryLayerSample.xaml">
+    <Page Update="Samples\MapOnlineData\NOAAWeatherWarningLayerSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\DisplayingLayers\Vector\TabLayerSample.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\DisplayingLayers\Vector\GpxLayerSample.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\DisplayingLayers\Vector\S57LayerSample.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\DisplayingLayers\Vector\TinyGeoLayerSample.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\DisplayingLayers\Database\SqLiteLayerSample.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\DisplayingLayers\Vector\FileGeoDatabaseLayerSample.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\DisplayingLayers\WebServices\WmsLayerSample.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\DisplayingLayers\WebServices\OpenStreetMapLayerSample.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\DisplayingLayers\WebServices\GoogleMapLayerSample.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\DisplayingLayers\WebServices\BingMapLayerSample.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\DisplayingLayers\WebServices\CloudMapsVectorLayerSample.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\DisplayingLayers\WebServices\CloudMapsRasterLayerSample.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\DisplayingLayers\WebServices\NoaaWeatherWarningLayerSample.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\DisplayingLayers\WebServices\NoaaWeatherStationLayerSample.xaml">
+    <Page Update="Samples\MapOnlineData\NOAAWeatherStationLayerSample.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\DisplayingLayers\WebServices\NOAARadarLayerSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\Interpolation\Placeholder.xaml">
+    <Page Update="Samples\VectorDataGeometricOperation\BufferShapeSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\PerformingGeometricOperations\BufferShapeSample.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\ProjectingData\RasterProjectionSample.xaml">
+    <Page Update="Samples\MapProjection\RasterProjectionSample.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\ProjectingData\WorldProjectionsSample.xaml">
+    <Page Update="Samples\MapProjection\WorldProjectionsSample.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\ProjectingData\ProjectLatLonCoordinatesSample.xaml">
+    <Page Update="Samples\MapProjection\ProjectLatLonCoordinatesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\ProjectingData\SetLayerProjectionSample.xaml">
+    <Page Update="Samples\MapProjection\SetLayerProjectionSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\SettingMapExtent\BasicNavigationSample.xaml">
+    <Page Update="Samples\MapNavigation\NavigationMap.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\SettingMapExtent\SetMapExtentSample.xaml">
+    <Page Update="Samples\MapNavigation\ZoomToExtent.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\TopologicalValidation\LineValidationSample.xaml">
+    <Page Update="Samples\VectorDataTopologicalValidation\LineValidationSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\TopologicalValidation\PointValidationSample.xaml">
+    <Page Update="Samples\VectorDataTopologicalValidation\PointValidationSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\TopologicalValidation\PolygonValidationSample.xaml">
+    <Page Update="Samples\VectorDataTopologicalValidation\PolygonValidationSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingCloudMapsServices\ColorUtilitiesCloudServicesSample.xaml">
+    <Page Update="Samples\ThinkGeoCloudIntegration\ColorUtilitiesCloudServicesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingCloudMapsServices\ElevationCloudServicesSample.xaml">
+    <Page Update="Samples\ThinkGeoCloudIntegration\ElevationCloudServicesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingCloudMapsServices\GeocodingCloudServicesSample.xaml">
+    <Page Update="Samples\ThinkGeoCloudIntegration\GeocodingCloudServicesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingCloudMapsServices\ProjectionCloudServicesSample.xaml">
+    <Page Update="Samples\ThinkGeoCloudIntegration\ProjectionCloudServicesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingCloudMapsServices\ReverseGeocodingCloudServicesSample.xaml">
+    <Page Update="Samples\ThinkGeoCloudIntegration\ReverseGeocodingCloudServicesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingCloudMapsServices\RoutingServiceAreaCloudServicesSample.xaml">
+    <Page Update="Samples\ThinkGeoCloudIntegration\RoutingServiceAreaCloudServicesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingCloudMapsServices\RoutingTspCloudServicesSample.xaml">
+    <Page Update="Samples\ThinkGeoCloudIntegration\RoutingTSPCloudServicesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingCloudMapsServices\RoutingCloudServicesSample.xaml">
+    <Page Update="Samples\ThinkGeoCloudIntegration\RoutingCloudServicesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingCloudMapsServices\TimezoneCloudServicesSample.xaml">
+    <Page Update="Samples\ThinkGeoCloudIntegration\TimezoneCloudServicesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingCloudMapsServices\WorldMapsQueryCloudServicesSample.xaml">
+    <Page Update="Samples\ThinkGeoCloudIntegration\WorldMapsQueryCloudServicesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingMapTools\DisplayCompassSample.xaml">
+    <Page Update="Samples\MapTools\DisplayCompassSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingMapTools\DisplayMagneticNorthSample.xaml">
+    <Page Update="Samples\MapTools\DisplayMagneticNorthSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingMapTools\DisplayMapPanZoomBarSample.xaml">
+    <Page Update="Samples\MapTools\DisplayMapPanZoomBarSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingOverlays\DrawGpsLocationOverlaySample.xaml">
+    <Page Update="Samples\Miscellaneous\DrawGPSLocationOverlaySample.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingOverlays\DisplaySimpleBackgroundOverlaySample.xaml">
+    <Page Update="Samples\Miscellaneous\DisplaySimpleBackgroundOverlaySample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingOverlays\RefreshDynamicItems.xaml">
+    <Page Update="Samples\Miscellaneous\RefreshDynamicItems.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingOverlays\DrawEditDeleteShapesUsingInteractiveOverlaySample.xaml">
+    <Page Update="Samples\MapTools\DisplayMapMouseCoordinatesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingOverlays\GroupingLayersUsingLayerOverlaySample.xaml">
+    <Page Update="Samples\MapTools\DisplayMapScaleLineSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingMapTools\DisplayMapMouseCoordinatesSample.xaml">
+    <Page Update="Samples\MapTools\DisplayMapLogoSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingMapTools\DisplayMapScaleLineSample.xaml">
+    <Page Update="Samples\Miscellaneous\PrintMapsUsingPrintOverlaySample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingMapTools\DisplayMapLogoSample.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\UsingOverlays\PrintMapsUsingPrintOverlaySample.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\UsingOverlays\CachingMapTilesSample.xaml">
+    <Page Update="Samples\Miscellaneous\CachingMapTilesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\UsingOverlays\DisplayCloudMapsRasterOverlaySample.xaml">
@@ -1387,43 +1327,37 @@
     <Page Update="Samples\UsingOverlays\DisplayWmsOverlaySample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingOverlays\UsingMarkersSample.xaml">
+    <Page Update="Samples\VectorDataSpatialQuery\FindContainingFeatures.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingOverlays\UsingPopupsSample.xaml">
+    <Page Update="Samples\VectorDataSpatialQuery\FindCrossingFeatures.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingQueryTools\ContainsSample.xaml">
+    <Page Update="Samples\VectorDataSpatialQuery\FindDisjointFeatures.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingQueryTools\CrossesSample.xaml">
+    <Page Update="Samples\VectorDataSpatialQuery\EqualsSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingQueryTools\DisjointSample.xaml">
+    <Page Update="Samples\VectorDataSpatialQuery\GetAllFeatureDataSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingQueryTools\EqualsSample.xaml">
+    <Page Update="Samples\VectorDataSpatialQuery\GetDataFromFeatureSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingQueryTools\GetAllFeatureDataSample.xaml">
+    <Page Update="Samples\VectorDataSpatialQuery\FindFeaturesWithinDistanceSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingQueryTools\GetDataFromFeatureSample.xaml">
+    <Page Update="Samples\VectorDataSpatialQuery\IntersectsSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingQueryTools\GetFeaturesWithinDistanceSample.xaml">
+    <Page Update="Samples\VectorDataSpatialQuery\OverlapsSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingQueryTools\IntersectsSample.xaml">
+    <Page Update="Samples\VectorDataSpatialQuery\TouchesSample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingQueryTools\OverlapsSample.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\UsingQueryTools\TouchesSample.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\UsingQueryTools\WithinSample.xaml">
+    <Page Update="Samples\VectorDataSpatialQuery\WithinSample.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

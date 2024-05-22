@@ -7,11 +7,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to set the map extent using a variety of different methods.
     /// </summary>
-    public partial class SetMapExtentSample : IDisposable
+    public partial class ZoomToExtent : IDisposable
     {
         private ShapeFileFeatureLayer _friscoCityBoundary;
 
-        public SetMapExtentSample()
+        public ZoomToExtent()
         {
             InitializeComponent();
         }

@@ -1,351 +1,372 @@
 [
   {
-    "title": "Setting The Map Extent",
+    "title": "Map Navigation",
     "children": [
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.BasicNavigationSample",
-        "title": "Basic Navigation",
+        "id": "ThinkGeo.UI.Wpf.HowDoI.NavigationMap",
+        "title": "Navigation Map",
         "description": "Learn how to use code to zoom, pan, and rotate the map control.",
-        "source": "Samples/SettingMapExtent/BasicNavigationSample"
+        "source": "Samples/MapNavigation/NavigationMap"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.SetMapExtentSample",
-        "title": "Set the Map Extent",
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ZoomToExtent",
+        "title": "Zoom to Extent",
         "description": "Learn how to set the map extent in a variety of different ways.",
-        "source": "Samples/SettingMapExtent/SetMapExtentSample"
+        "source": "Samples/MapNavigation/ZoomToExtent"
       }
     ]
   },
   {
-    "title": "Displaying Layers",
+    "title": "Map Online Data",
     "children": [
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.ShapefileLayerSample",
-        "title": "Display a Shapefile Layer",
-        "description": "This sample shows how to display a shapefile layer.",
-        "source": "Samples/DisplayingLayers/Vector/ShapefileLayerSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ThinkGeoMapsRasterLayerSample",
+        "title": "ThinkGeo Maps Raster Layer",
+        "description": "This sample shows how to display ThinkGeo cloud raster background images.",
+        "source": "Samples/MapOnlineData/ThinkGeoMapsRasterLayerSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.FileGeoDatabaseLayerSample",
-        "title": "Display a FileGeoDatabase Layer",
-        "description": "This sample shows how to display a file geodatabase layer.",
-        "source": "Samples/DisplayingLayers/Vector/FileGeoDatabaseLayerSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ThinkGeoMapsVectorLayerSample",
+        "title": "ThinkGeo Maps Vector Layer",
+        "description": "This sample shows how to display ThinkGeo cloud vector background maps.",
+        "source": "Samples/MapOnlineData/ThinkGeoMapsVectorLayerSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.TinyGeoLayerSample",
-        "title": "Display a TinyGeo Layer",
-        "description": "This sample shows how to display a TinyGeo layer.",
-        "source": "Samples/DisplayingLayers/Vector/TinyGeoLayerSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.BingMapLayerSample",
+        "title": "Bing Map",
+        "description": "This sample shows how to display a Bing Maps layer.",
+        "source": "Samples/MapOnlineData/BingMapLayerSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.S57LayerSample",
-        "title": "Display a S57 (Nautical Charts) Layer",
-        "description": "This sample shows how to display S57 nautical charts.",
-        "source": "Samples/DisplayingLayers/Vector/S57LayerSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.GpxLayerSample",
-        "title": "Display a GPX Layer",
-        "description": "This sample shows how to display a GPX layer.",
-        "source": "Samples/DisplayingLayers/Vector/GpxLayerSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.TabLayerSample",
-        "title": "Display a TAB Layer",
-        "description": "This sample shows how to display a TAB layer.",
-        "source": "Samples/DisplayingLayers/Vector/TabLayerSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.CadLayerSample",
-        "title": "Display a CAD Layer",
-        "description": "This sample shows how to display a CAD layer using data from a .dwg file.",
-        "source": "Samples/DisplayingLayers/Vector/CadLayerSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.InMemoryLayerSample",
-        "title": "Display an InMemory Layer",
-        "description": "This sample shows how to display an in memory layer.",
-        "source": "Samples/DisplayingLayers/Vector/InMemoryLayerSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.GraticuleLayerSample",
-        "title": "Display a Graticule Layer",
-        "description": "This sample shows how to display a graticule line layer.",
-        "source": "Samples/DisplayingLayers/Vector/GraticuleLayerSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.KmlLayerSample",
-        "title": "Display a KML Layer",
-        "description": "This sample shows how to display a KML file.",
-        "source": "Samples/DisplayingLayers/Vector/KmlLayerSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.GeoPdfLayerSample",
-        "title": "Display a GeoPdf Layer",
-        "description": "This sample shows how to display a PDF file.",
-        "source": "Samples/DisplayingLayers/Vector/GeoPdfLayerSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.SqLiteLayerSample",
-        "title": "Display a SQLite Layer",
-        "description": "This sample shows how to display a SQLite layer.",
-        "source": "Samples/DisplayingLayers/Database/SqLiteLayerSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.PostgresLayerSample",
-        "title": "Display a Postgres Layer",
-        "description": "This sample shows how to display a Postgres layer.",
-        "source": "Samples/DisplayingLayers/Database/PostgresLayerSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.OracleLayerSample",
-        "title": "Display an Oracle Layer",
-        "description": "This sample shows how to display a Oracle layer.",
-        "source": "Samples/DisplayingLayers/Database/OracleLayerSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.SqlServerLayerSample",
-        "title": "Display a SQL Server Layer",
-        "description": "This sample shows how to display a SQL Server layer.",
-        "source": "Samples/DisplayingLayers/Database/SqlServerLayerSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.GoogleMapLayerSample",
+        "title": "Google Map",
+        "description": "This sample shows how to display a Google Maps layer.",
+        "source": "Samples/MapOnlineData/GoogleMapLayerSample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.NoaaWeatherStationLayerSample",
-        "title": "Display a NOAA Weather Station Layer",
+        "title": "NOAA Weather Stations",
         "description": "This sample shows how to display NOAA weather stations current readings to your map.",
-        "source": "Samples/DisplayingLayers/WebServices/NoaaWeatherStationLayerSample"
+        "source": "Samples/MapOnlineData/NoaaWeatherStationLayerSample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.NoaaWeatherWarningLayerSample",
-        "title": "Display a NOAA Weather Warning Layer",
+        "title": "NOAA Weather Warnings",
         "description": "This sample shows how to display NOAA weather warnings to your map.",
-        "source": "Samples/DisplayingLayers/WebServices/NoaaWeatherWarningLayerSample"
+        "source": "Samples/MapOnlineData/NoaaWeatherWarningLayerSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.CloudMapsRasterLayerSample",
-        "title": "Display a Cloud Maps Raster Layer",
-        "description": "This sample shows how to display ThinkGeo cloud raster background images.",
-        "source": "Samples/DisplayingLayers/WebServices/CloudMapsRasterLayerSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.OgcApiFeatureSample",
+        "title": "OGC API Feature Sever",
+        "description": "This sample shows how to display a OGC API Feature layer.",
+        "source": "Samples/MapOnlineData/OgcApiFeatureSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.CloudMapsVectorLayerSample",
-        "title": "Display a Cloud Maps Vector Layer",
-        "description": "This sample shows how to display ThinkGeo cloud vector background maps.",
-        "source": "Samples/DisplayingLayers/WebServices/CloudMapsVectorLayerSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.OpenStreetMapLayerSample",
+        "title": "Open Street Map",
+        "description": "This sample shows how to display a Open Street Maps layer.",
+        "source": "Samples/MapOnlineData/OpenStreetMapLayerSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.WfsV2FeatureLayerSample",
+        "title": "WFS",
+        "description": "This sample shows how to display a WFS V2 Feature Layer.(This WFSV2 sever may be slow )",
+        "source": "Samples/MapOnlineData/WfsV2FeatureLayerSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.WmsLayerSample",
+        "title": "WMS",
+        "description": "This sample shows how to display a WMS layer. (This sample may be slow as we use a public WMS sever)",
+        "source": "Samples/MapOnlineData/WmsLayerSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.WmtsLayerSample",
+        "title": "WMTS",
+        "description": "This sample shows how to display a WMTS layer. (This sample may be slow as we use a public WMTS sever)",
+        "source": "Samples/MapOnlineData/WmtsLayerSample"
+      }
+    ]
+  },
+  {
+    "title": "Map Offline Data",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.OracleLayerSample",
+        "title": "Display an Oracle File",
+        "description": "This sample shows how to display a Oracle layer.",
+        "source": "Samples/MapOfflineData/Database/OracleLayerSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.PostgresLayerSample",
+        "title": "Display a Postgres File",
+        "description": "This sample shows how to display a Postgres layer.",
+        "source": "Samples/MapOfflineData/Database/PostgresLayerSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.SqLiteLayerSample",
+        "title": "Display a SQLite File",
+        "description": "This sample shows how to display a SQLite layer.",
+        "source": "Samples/MapOfflineData/Database/SqLiteLayerSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.SqlServerLayerSample",
+        "title": "Display a SQL Server File",
+        "description": "This sample shows how to display a SQL Server layer.",
+        "source": "Samples/MapOfflineData/Database/SqlServerLayerSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CommonRasterLayersSample",
+        "title": "Display Common Raster File",
+        "description": "This sample shows how to display common images types such as PNG, JPEG, Bitmap etc.",
+        "source": "Samples/MapOfflineData/Raster/CommonRasterLayersSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.EcwLayerSample",
+        "title": "Display an ECW File",
+        "description": "This sample shows how to display a ECW image.",
+        "source": "Samples/MapOfflineData/Raster/EcwLayerSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.EsriGridLayerSample",
+        "title": "Display a ESRI Grid File",
+        "description": "This sample shows how to display a ESRI grid layer.",
+        "source": "Samples/MapOfflineData/Raster/EsriGridLayerSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.GdalLayerSample",
+        "title": "Display a Gdal File",
+        "description": "This sample shows how to display raster format data supported by Gdal.",
+        "source": "Samples/MapOfflineData/Raster/GdalLayerSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.GeoTiffLayerSample",
+        "title": "Display a GeoTiff File",
+        "description": "This sample shows how to display a GeoTiff image.",
+        "source": "Samples/MapOfflineData/Raster/GeoTiffLayerSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.Jpeg2000LayerSample",
+        "title": "Display a JPEG2000 File",
+        "description": "This sample shows how to display a JPEG2000 image.",
+        "source": "Samples/MapOfflineData/Raster/Jpeg2000LayerSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.MrSidLayerSample",
+        "title": "Display a MrSid File",
+        "description": "This sample shows how to display a MrSids layer.",
+        "source": "Samples/MapOfflineData/Raster/MrSidLayerSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CadLayerSample",
+        "title": "Display a CAD File",
+        "description": "This sample shows how to display a CAD layer using data from a .dwg file.",
+        "source": "Samples/MapOfflineData/Vector/CadLayerSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.FileGeoDatabaseLayerSample",
+        "title": "Display a FileGeoDatabase",
+        "description": "This sample shows how to display a file geodatabase layer.",
+        "source": "Samples/MapOfflineData/Vector/FileGeoDatabaseLayerSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.GeoPdfLayerSample",
+        "title": "Display a GeoPdf File",
+        "description": "This sample shows how to display a PDF file.",
+        "source": "Samples/MapOfflineData/Vector/GeoPdfLayerSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.GpxLayerSample",
+        "title": "Display a GPX File",
+        "description": "This sample shows how to display a GPX layer.",
+        "source": "Samples/MapOfflineData/Vector/GpxLayerSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.GraticuleLayerSample",
+        "title": "Display a Graticule File",
+        "description": "This sample shows how to display a graticule line layer.",
+        "source": "Samples/MapOfflineData/Vector/GraticuleLayerSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.InMemoryLayerSample",
+        "title": "Display an InMemory File",
+        "description": "This sample shows how to display an in memory layer.",
+        "source": "Samples/MapOfflineData/Vector/InMemoryLayerSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.KmlLayerSample",
+        "title": "Display a KML File",
+        "description": "This sample shows how to display a KML file.",
+        "source": "Samples/MapOfflineData/Vector/KmlLayerSample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.OfflineCloudMapsVectorLayerSample",
         "title": "Display a Cloud Maps Vector Layer Off-line",
         "description": "This sample show how to use an off-line version of ThinkGeo Cloud Map Vector data.",
-        "source": "Samples/DisplayingLayers/Vector/OfflineCloudMapsVectorLayerSample"
+        "source": "Samples/MapOfflineData/Vector/OfflineCloudMapsVectorLayerSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.BingMapLayerSample",
-        "title": "Display a Bing Map Layer",
-        "description": "This sample shows how to display a Bing Maps layer.",
-        "source": "Samples/DisplayingLayers/WebServices/BingMapLayerSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.S57LayerSample",
+        "title": "Display a S57 (Nautical Charts) File",
+        "description": "This sample shows how to display S57 nautical charts.",
+        "source": "Samples/MapOfflineData/Vector/S57LayerSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.GoogleMapLayerSample",
-        "title": "Display a Google Map Layer",
-        "description": "This sample shows how to display a Google Maps layer.",
-        "source": "Samples/DisplayingLayers/WebServices/GoogleMapLayerSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ShapefileLayerSample",
+        "title": "Display a Shapefile File",
+        "description": "This sample shows how to display a shapefile layer.",
+        "source": "Samples/MapOfflineData/Vector/ShapefileLayerSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.OpenStreetMapLayerSample",
-        "title": "Display an OpenStreetMap Layer",
-        "description": "This sample shows how to display a Open Street Maps layer.",
-        "source": "Samples/DisplayingLayers/WebServices/OpenStreetMapLayerSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.TabLayerSample",
+        "title": "Display a TAB File",
+        "description": "This sample shows how to display a TAB layer.",
+        "source": "Samples/MapOfflineData/Vector/TabLayerSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.WmsLayerSample",
-        "title": "Display a WMS Layer",
-        "description": "This sample shows how to display a WMS layer. (This sample may be slow as we use a public WMS sever)",
-        "source": "Samples/DisplayingLayers/WebServices/WmsLayerSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.WmtsLayerSample",
-        "title": "Display a WMTS Layer",
-        "description": "This sample shows how to display a WMTS layer. (This sample may be slow as we use a public WMTS sever)",
-        "source": "Samples/DisplayingLayers/WebServices/WmtsLayerSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.EcwLayerSample",
-        "title": "Display an ECW Layer",
-        "description": "This sample shows how to display a ECW image.",
-        "source": "Samples/DisplayingLayers/Raster/EcwLayerSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.GeoTiffLayerSample",
-        "title": "Display a GeoTiff Layer",
-        "description": "This sample shows how to display a GeoTiff image.",
-        "source": "Samples/DisplayingLayers/Raster/GeoTiffLayerSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.GdalLayerSample",
-        "title": "Display a Gdal Layer",
-        "description": "This sample shows how to display raster format data supported by Gdal.",
-        "source": "Samples/DisplayingLayers/Raster/GdalLayerSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.MrSidLayerSample",
-        "title": "Display a MrSid Layer",
-        "description": "This sample shows how to display a MrSids layer.",
-        "source": "Samples/DisplayingLayers/Raster/MrSidLayerSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.EsriGridLayerSample",
-        "title": "Display a ESRI Grid Layer",
-        "description": "This sample shows how to display a ESRI grid layer.",
-        "source": "Samples/DisplayingLayers/Raster/EsriGridLayerSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.CommonRasterLayersSample",
-        "title": "Display Common Raster Layers",
-        "description": "This sample shows how to display common images types such as PNG, JPEG, Bitmap etc.",
-        "source": "Samples/DisplayingLayers/Raster/CommonRasterLayersSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.Jpeg2000LayerSample",
-        "title": "Display a JPEG2000 Layer",
-        "description": "This sample shows how to display a JPEG2000 image.",
-        "source": "Samples/DisplayingLayers/Raster/Jpeg2000LayerSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.EsriGridLayerGenerationSample",
-        "title": "Generate an ESRI Grid File",
-        "description": "This sample shows how to generate an ESRI .grd Grid File from point data and display it on the map.",
-        "source": "Samples/DisplayingLayers/Raster/EsriGridLayerGenerationSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.GenerateMapImageSample",
-        "title": "Generate a Map as an Image",
-        "description": "This sample shows how to draw your map onto an image file",
-        "source": "Samples/DisplayingLayers/GenerateMapImageSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.TinyGeoLayerSample",
+        "title": "Display a TinyGeo File",
+        "description": "This sample shows how to display a TinyGeo layer.",
+        "source": "Samples/MapOfflineData/Vector/TinyGeoLayerSample"
       }
     ]
   },
   {
-    "title": "Using Overlays",
+    "title": "Map Projection",
     "children": [
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.RefreshDynamicItems",
-        "title": "Refreshing Dynamic Items",
-        "description": "Learn how to use overlays to display dynamically refreshing data. This sample will shows how to refresh 20,000 polygons every seconds.",
-        "source": "Samples/UsingOverlays/RefreshDynamicItems"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ProjectLatLonCoordinatesSample",
+        "title": "Projecting Features",
+        "description": "Learn how to reproject features using the ProjectionConverter class",
+        "source": "Samples/MapProjection/ProjectLatLonCoordinatesSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.CachingMapTilesSample",
-        "title": "Caching Map Tiles",
-        "description": "Learn how to cache map tiles. Caching tiles on an Overlay allows you to store images of rendered areas on the local disk and reuse them for faster rendering times. Saved tile images can be found in the cache folder within this project's debug folder.",
-        "source": "Samples/UsingOverlays/CachingMapTilesSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.RasterProjectionSample",
+        "title": "Raster Projection Sample",
+        "description": "Learn how to reproject a raster layer using the ProjectionConverter class",
+        "source": "Samples/MapProjection/RasterProjectionSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DrawGpsLocationOverlaySample",
-        "title": "Draw GPS Location Overlay Sample",
-        "description": "Learn how to display a GPS vehicle's movements in real-time",
-        "source": "Samples/UsingOverlays/DrawGpsLocationOverlaySample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.SetLayerProjectionSample",
+        "title": "Setting the Projection of a Layer",
+        "description": "Learn how to automatically reproject a layer using the ProjectionConverter class",
+        "source": "Samples/MapProjection/SetLayerProjectionSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplaySimpleBackgroundOverlaySample",
-        "title": "Display a Simple Background Overlay",
-        "description": "Learn how to display a background overlay",
-        "source": "Samples/UsingOverlays/DisplaySimpleBackgroundOverlaySample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.WorldProjectionsSample",
+        "title": "World Projections Sample",
+        "description": "A small collection of some interesting projections.",
+        "source": "Samples/MapProjection/WorldProjectionsSample"
+      }
+    ]
+  },
+  {
+    "title": "Map Tools",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMapLogoSample",
+        "title": "Logo Adornment",
+        "description": "Learn to render a custom logo on the map.",
+        "source": "Samples/MapTools/DisplayMapLogoSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayBingMapsOverlaySample",
-        "title": "Display Bing Maps Overlay",
-        "description": "Learn to render Bing Maps using the BingMapsOverlay. A valid Bing Maps ApplicationID is required. Visit the Bing Maps Dev Portal to sign up for a key (https://www.bingmapsportal.com/).",
-        "source": "Samples/UsingOverlays/DisplayBingMapsOverlaySample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMapMouseCoordinatesSample",
+        "title": "Mouse Coordinates",
+        "description": "Learn to render coordinate info based on the mouse cursor position on the map.",
+        "source": "Samples/MapTools/DisplayMapMouseCoordinatesSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayCloudMapsRasterOverlaySample",
-        "title": "Display Cloud Maps Raster Overlay",
-        "description": "Learn to render ThinkGeo Cloud Maps in raster format. Sign up for your own ThinkGeo Cloud API key at https://cloud.thinkgeo.com!",
-        "source": "Samples/UsingOverlays/DisplayCloudMapsRasterOverlaySample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMapPanZoomBarSample",
+        "title": "PanZoomBar",
+        "description": "Learn to render a PanZoomBar on the map.",
+        "source": "Samples/MapTools/DisplayMapPanZoomBarSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayCloudMapsVectorOverlaySample",
-        "title": "Display Cloud Maps Vector Overlay",
-        "description": "Learn to render ThinkGeo Cloud Maps in vector format. Sign up for your own ThinkGeo Cloud API key at https://cloud.thinkgeo.com!",
-        "source": "Samples/UsingOverlays/DisplayCloudMapsVectorOverlaySample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayGoogleMapsOverlaySample",
-        "title": "Display Google Maps Overlay",
-        "description": "Learn to render Google Maps using the GoogleMapsOverlay. A Google Maps API key is required. Visit the Google Maps Platform page to sign up for a key (https://cloud.google.com/maps-platform/ *The default Google Maps Static API Key returns images up to 640 x 640 pixels).",
-        "source": "Samples/UsingOverlays/DisplayGoogleMapsOverlaySample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayOpenStreetMapOverlaySample",
-        "title": "Display OpenStreetMap Overlay",
-        "description": "Learn to render OpenStreetMap using the OpenStreetMapOverlay. OpenStreetMap Tiles are not meant for heavy production use without express permission from the OpenStreetMap Foundation. See https://operations.osmfoundation.org/ for details about their usage policies.",
-        "source": "Samples/UsingOverlays/DisplayOpenStreetMapOverlaySample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayWmsOverlaySample",
-        "title": "Display a WMS Overlay",
-        "description": "Learn to render a Web Map Service using the WMSOverlay. Please be aware that this is a publicly available WMS server and it may be slow to load.",
-        "source": "Samples/UsingOverlays/DisplayWmsOverlaySample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DrawEditDeleteShapesUsingInteractiveOverlaySample",
-        "title": "Draw, Edit, or Delete Shapes using the InteractiveOverlay",
-        "description": "Learn to draw, edit, or delete shapes using the map's TrackOverlay and EditOverlay.",
-        "source": "Samples/UsingOverlays/DrawEditDeleteShapesUsingInteractiveOverlaySample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.GroupingLayersUsingLayerOverlaySample",
-        "title": "Grouping Layers Using LayerOverlay",
-        "description": "Learn to group layers into logical groups using LayerOverlays.",
-        "source": "Samples/UsingOverlays/GroupingLayersUsingLayerOverlaySample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.PrintMapsUsingPrintOverlaySample",
-        "title": "Print Maps Using PrintOverlay",
-        "description": "Learn to print maps using the PrintOverlay.",
-        "source": "Samples/UsingOverlays/PrintMapsUsingPrintOverlaySample"
-      },
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMapScaleLineSample",
+        "title": "ScaleLine",
+        "description": "Learn to render a ScaleLine on the map in a variety of different of styles.",
+        "source": "Samples/MapTools/DisplayMapScaleLineSample"
+      }
+    ]
+  },
+  {
+    "title": "Markers and Popups",
+    "children": [
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.UsingMarkersSample",
         "title": "Using Markers",
         "description": "Learn to add, edit, or remove markers on the map using the MarkerOverlay.",
-        "source": "Samples/UsingOverlays/UsingMarkersSample"
+        "source": "Samples/MarkersandPopups/UsingMarkersSample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.UsingPopupsSample",
         "title": "Using Popups",
         "description": "Learn to add, edit, or remove popups on the map using the PopupOverlay.",
-        "source": "Samples/UsingOverlays/UsingPopupsSample"
+        "source": "Samples/MarkersandPopups/UsingPopupsSample"
       }
     ]
   },
   {
-    "title": "Using Map Tools",
+    "title": "ThinkGeo Cloud Integration",
     "children": [
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMapLogoSample",
-        "title": "Display a Logo Adornment",
-        "description": "Learn to render a custom logo on the map.",
-        "source": "Samples/UsingMapTools/DisplayMapLogoSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ColorUtilitiesCloudServicesSample",
+        "title": "Color Utilities",
+        "description": "Learn how to use the ColorCloudClient class to access the ColorUtilities APIs available from the ThinkGeo Cloud",
+        "source": "Samples/ThinkGeoCloudIntegration/ColorUtilitiesCloudServicesSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMapMouseCoordinatesSample",
-        "title": "Display Map Mouse Coordinates",
-        "description": "Learn to render coordinate info based on the mouse cursor position on the map.",
-        "source": "Samples/UsingMapTools/DisplayMapMouseCoordinatesSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ElevationCloudServicesSample",
+        "title": "Elevation",
+        "description": "Learn how to use the ElevationCloudClient class to get elevation data from the ThinkGeo Cloud",
+        "source": "Samples/ThinkGeoCloudIntegration/ElevationCloudServicesSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMapScaleLineSample",
-        "title": "Display a Map ScaleLine",
-        "description": "Learn to render a ScaleLine on the map in a variety of different of styles.",
-        "source": "Samples/UsingMapTools/DisplayMapScaleLineSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.GeocodingCloudServicesSample",
+        "title": "Geocoding",
+        "description": "Learn how to use the GeocodingCloudClient to access the Geocoding APIs available from the ThinkGeo Cloud",
+        "source": "Samples/ThinkGeoCloudIntegration/GeocodingCloudServicesSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMapPanZoomBarSample",
-        "title": "Display a Map PanZoomBar",
-        "description": "Learn to render a PanZoomBar on the map.",
-        "source": "Samples/UsingMapTools/DisplayMapPanZoomBarSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ProjectionCloudServicesSample",
+        "title": "Projection",
+        "description": "Learn how to use the ProjectionCloudClient to access the Projection APIs available from the ThinkGeo Cloud",
+        "source": "Samples/ThinkGeoCloudIntegration/ProjectionCloudServicesSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ReverseGeocodingCloudServicesSample",
+        "title": "Reverse Geocoding",
+        "description": "Learn how to use the ReverseGeocodingCloudClient to access the ReverseGeocoding APIs available from the ThinkGeo Cloud",
+        "source": "Samples/ThinkGeoCloudIntegration/ReverseGeocodingCloudServicesSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.RoutingCloudServicesSample",
+        "title": "Routing",
+        "description": "Learn how to use the RoutingCloudClient to route through a set of waypoints with the ThinkGeo Cloud",
+        "source": "Samples/ThinkGeoCloudIntegration/RoutingCloudServicesSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.RoutingServiceAreaCloudServicesSample",
+        "title": "Routing - Service Area",
+        "description": "Learn how to use the RoutingCloudClient to find the service area of a location with the ThinkGeo Cloud",
+        "source": "Samples/ThinkGeoCloudIntegration/RoutingServiceAreaCloudServicesSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.RoutingTspCloudServicesSample",
+        "title": "Routing - Traveling Sales Person",
+        "description": "Learn how to use the RoutingCloudClient to find an optimized route through a set of waypoints with the ThinkGeo Cloud",
+        "source": "Samples/ThinkGeoCloudIntegration/RoutingTspCloudServicesSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.TimezoneCloudServicesSample",
+        "title": "Timezone",
+        "description": "Learn how to use the TimezoneCloudClient to access the Timezone APIs available from the ThinkGeo Cloud",
+        "source": "Samples/ThinkGeoCloudIntegration/TimezoneCloudServicesSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.WorldMapsQueryCloudServicesSample",
+        "title": "World Maps Query",
+        "description": "Learn how to use the MapsQueryClient to query the WorldMaps dataset available from the ThinkGeo Cloud",
+        "source": "Samples/ThinkGeoCloudIntegration/WorldMapsQueryCloudServicesSample"
       }
     ]
   },
@@ -451,352 +472,340 @@
     ]
   },
   {
-    "title": "Projecting Data",
+    "title": "Vector Data Editing",
     "children": [
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.SetLayerProjectionSample",
-        "title": "Setting the Projection of a Layer",
-        "description": "Learn how to automatically reproject a layer using the ProjectionConverter class",
-        "source": "Samples/ProjectingData/SetLayerProjectionSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.RasterProjectionSample",
-        "title": "Raster Projection Sample",
-        "description": "Learn how to reproject a raster layer using the ProjectionConverter class",
-        "source": "Samples/ProjectingData/RasterProjectionSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.WorldProjectionsSample",
-        "title": "World Projections Sample",
-        "description": "A small collection of some interesting projections.",
-        "source": "Samples/ProjectingData/WorldProjectionsSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.ProjectLatLonCoordinatesSample",
-        "title": "Projecting Features",
-        "description": "Learn how to reproject features using the ProjectionConverter class",
-        "source": "Samples/ProjectingData/ProjectLatLonCoordinatesSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.EditFeatures",
+        "title": "Edit Features",
+        "description": "Draw, edit, or delete shapes.",
+        "source": "Samples/VectorDataEditing/EditFeatures"
       }
     ]
   },
   {
-    "title": "Performing Geometric Operations",
+    "title": "Vector Data Spatial Query",
     "children": [
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.UnionShapesSample",
-        "title": "Union Shapes",
-        "description": "Learn how to union shapes into a single shape",
-        "source": "Samples/PerformingGeometricOperations/UnionShapesSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.BufferShapeSample",
-        "title": "Buffer Shape",
-        "description": "Learn how to buffer a shape",
-        "source": "Samples/PerformingGeometricOperations/BufferShapeSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.SimplifyShapeSample",
-        "title": "Simplify Shape",
-        "description": "Learn how to simplify a shape's geometry",
-        "source": "Samples/PerformingGeometricOperations/SimplifyShapeSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.RotateShapeSample",
-        "title": "Rotate Shape",
-        "description": "Learn how to rotate a shape",
-        "source": "Samples/PerformingGeometricOperations/RotateShapeSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.ScaleShapeSample",
-        "title": "Scale Shape",
-        "description": "Learn how to scale a shape",
-        "source": "Samples/PerformingGeometricOperations/ScaleShapeSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.TranslateShapeSample",
-        "title": "Translate Shape",
-        "description": "Learn how to translate a shape",
-        "source": "Samples/PerformingGeometricOperations/TranslateShapeSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.CalculateCenterPointSample",
-        "title": "Calculate Center Point",
-        "description": "Learn how to calculate the center point of a feature",
-        "source": "Samples/PerformingGeometricOperations/CalculateCenterPointSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.CalculateAreaSample",
-        "title": "Calculate Area",
-        "description": "Learn how to calculate the area of a feature",
-        "source": "Samples/PerformingGeometricOperations/CalculateAreaSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.CalculateLengthSample",
-        "title": "Calculate Length",
-        "description": "Learn how to calculate the length of a line",
-        "source": "Samples/PerformingGeometricOperations/CalculateLengthSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.CalculateShortestLineBetweenShapesSample",
-        "title": "Calculate Shortest Line Between Shapes",
-        "description": "Learn how to calculate the shortest line between two shapes",
-        "source": "Samples/PerformingGeometricOperations/CalculateShortestLineBetweenShapesSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.GetLineOnALineSample",
-        "title": "Get Line on a Line",
-        "description": "Learn how to get part of a line from an existing line",
-        "source": "Samples/PerformingGeometricOperations/GetLineOnALineSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.ClipShapeSample",
-        "title": "Clip Shape",
-        "description": "Learn how to clip a shape from another shape",
-        "source": "Samples/PerformingGeometricOperations/ClipShapeSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DifferenceShapesSample",
-        "title": "Difference Shapes",
-        "description": "Learn how to find the difference of shapes",
-        "source": "Samples/PerformingGeometricOperations/DifferenceShapesSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.GetConvexHullSample",
-        "title": "Get Convex Hull",
-        "description": "Learn how to get the convex hull of a shape",
-        "source": "Samples/PerformingGeometricOperations/GetConvexHullSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.GetEnvelopeSample",
-        "title": "Get Envelope",
-        "description": "Learn how to get the envelope of a shape",
-        "source": "Samples/PerformingGeometricOperations/GetEnvelopeSample"
-      }
-    ]
-  },
-  {
-    "title": "Using Query Tools",
-    "children": [
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.ContainsSample",
-        "title": "Check if Feature Contains",
-        "description": "Learn how to use layer query tools to find which features in a layer contain a shape",
-        "source": "Samples/UsingQueryTools/ContainsSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.CrossesSample",
-        "title": "Check if Feature Crosses",
-        "description": "Learn how to use layer query tools to find which features in a layer a shape crosses",
-        "source": "Samples/UsingQueryTools/CrossesSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DisjointSample",
-        "title": "Check if Features are Disjoint",
-        "description": "Learn how to use layer query tools to find which features in a layer are disjoint from a shape",
-        "source": "Samples/UsingQueryTools/DisjointSample"
-      },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.EqualsSample",
         "title": "Check if Features are Equal",
         "description": "Learn how to use layer query tools to find which features in a layer are topologically equal to a shape",
-        "source": "Samples/UsingQueryTools/EqualsSample"
+        "source": "Samples/VectorDataSpatialQuery/EqualsSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.IntersectsSample",
-        "title": "Check if Feature Intersects",
-        "description": "Learn how to use layer query tools to find which features in a layer intersect a shape",
-        "source": "Samples/UsingQueryTools/IntersectsSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.FindContainingFeatures",
+        "title": "Find Containing Features",
+        "description": "Learn how to use layer query tools to find which features in a layer contain a shape",
+        "source": "Samples/VectorDataSpatialQuery/FindContainingFeatures"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.OverlapsSample",
-        "title": "Check if Feature Overlaps",
-        "description": "Learn how to use layer query tools to find which features in a layer overlap a shape",
-        "source": "Samples/UsingQueryTools/OverlapsSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.FindCrossingFeatures",
+        "title": "Find Crossing Features",
+        "description": "Learn how to use layer query tools to find which features in a layer a shape crosses",
+        "source": "Samples/VectorDataSpatialQuery/FindCrossingFeatures"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.TouchesSample",
-        "title": "Check if Feature Touches",
-        "description": "Learn how to use layer query tools to find which features in a layer are touching a shape",
-        "source": "Samples/UsingQueryTools/TouchesSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.FindDisjointFeatures",
+        "title": "Find Disjoint Features",
+        "description": "Learn how to use layer query tools to find which features in a layer are disjoint from a shape",
+        "source": "Samples/VectorDataSpatialQuery/FindDisjointFeatures"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.FindFeaturesWithinDistanceSample",
+        "title": "Find Features Within a Distance",
+        "description": "Learn how to use layer query tools to find features in a layer within a given distance of a point",
+        "source": "Samples/VectorDataSpatialQuery/FindFeaturesWithinDistanceSample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.WithinSample",
-        "title": "Check if Feature is Within Another Feature",
+        "title": "Find Features within a Feature",
         "description": "Learn how to use layer query tools to find which features in a layer are within a shape",
-        "source": "Samples/UsingQueryTools/WithinSample"
+        "source": "Samples/VectorDataSpatialQuery/WithinSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.GetFeaturesWithinDistanceSample",
-        "title": "Get Features Within a Distance",
-        "description": "Learn how to use layer query tools to find features in a layer within a given distance of a point",
-        "source": "Samples/UsingQueryTools/GetFeaturesWithinDistanceSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.IntersectsSample",
+        "title": "Find Intersecting Features",
+        "description": "Learn how to use layer query tools to find which features in a layer intersect a shape",
+        "source": "Samples/VectorDataSpatialQuery/IntersectsSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.OverlapsSample",
+        "title": "Find Overlapping Features",
+        "description": "Learn how to use layer query tools to find which features in a layer overlap a shape",
+        "source": "Samples/VectorDataSpatialQuery/OverlapsSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.TouchesSample",
+        "title": "Find Touching Features",
+        "description": "Learn how to use layer query tools to find which features in a layer are touching a shape",
+        "source": "Samples/VectorDataSpatialQuery/TouchesSample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.GetAllFeatureDataSample",
         "title": "Get Data from All Features",
         "description": "Learn how to get data from all features in a ShapeFile",
-        "source": "Samples/UsingQueryTools/GetAllFeatureDataSample"
+        "source": "Samples/VectorDataSpatialQuery/GetAllFeatureDataSample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.GetDataFromFeatureSample",
         "title": "Get Data from One Feature",
         "description": "Learn how to get data from a feature in a ShapeFile",
-        "source": "Samples/UsingQueryTools/GetDataFromFeatureSample"
+        "source": "Samples/VectorDataSpatialQuery/GetDataFromFeatureSample"
       }
     ]
   },
   {
-    "title": "Topological Validation",
+    "title": "Vector Data Geometric Operation",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.UnionShapesSample",
+        "title": "Union Shapes",
+        "description": "Learn how to union shapes into a single shape",
+        "source": "Samples/VectorDataGeometricOperation/UnionShapesSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.BufferShapeSample",
+        "title": "Buffer a Shape",
+        "description": "Learn how to buffer a shape",
+        "source": "Samples/VectorDataGeometricOperation/BufferShapeSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.SimplifyShapeSample",
+        "title": "Simplify a Shape",
+        "description": "Learn how to simplify a shape's geometry",
+        "source": "Samples/VectorDataGeometricOperation/SimplifyShapeSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.RotateShapeSample",
+        "title": "Rotate a Shape",
+        "description": "Learn how to rotate a shape",
+        "source": "Samples/VectorDataGeometricOperation/RotateShapeSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ScaleShapeSample",
+        "title": "Scale a Shape",
+        "description": "Learn how to scale a shape",
+        "source": "Samples/VectorDataGeometricOperation/ScaleShapeSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.TranslateShapeSample",
+        "title": "Translate a Shape",
+        "description": "Learn how to translate a shape",
+        "source": "Samples/VectorDataGeometricOperation/TranslateShapeSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CalculateCenterPointSample",
+        "title": "Calculate the Center Point",
+        "description": "Learn how to calculate the center point of a feature",
+        "source": "Samples/VectorDataGeometricOperation/CalculateCenterPointSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CalculateAreaSample",
+        "title": "Calculate Area",
+        "description": "Learn how to calculate the area of a feature",
+        "source": "Samples/VectorDataGeometricOperation/CalculateAreaSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CalculateLengthSample",
+        "title": "Calculate Length",
+        "description": "Learn how to calculate the length of a line",
+        "source": "Samples/VectorDataGeometricOperation/CalculateLengthSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CalculateShortestLineBetweenShapesSample",
+        "title": "Get Shortest Line",
+        "description": "Learn how to calculate the shortest line between two shapes",
+        "source": "Samples/VectorDataGeometricOperation/CalculateShortestLineBetweenShapesSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.GetLineOnALineSample",
+        "title": "Get Line on a Line",
+        "description": "Learn how to get part of a line from an existing line",
+        "source": "Samples/VectorDataGeometricOperation/GetLineOnALineSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ClipShapeSample",
+        "title": "Clip Shape",
+        "description": "Learn how to clip a shape from another shape",
+        "source": "Samples/VectorDataGeometricOperation/ClipShapeSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DifferenceShapesSample",
+        "title": "Get Shape Differences",
+        "description": "Learn how to find the difference of shapes",
+        "source": "Samples/VectorDataGeometricOperation/DifferenceShapesSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.GetConvexHullSample",
+        "title": "Get Convex Hull",
+        "description": "Learn how to get the convex hull of a shape",
+        "source": "Samples/VectorDataGeometricOperation/GetConvexHullSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.GetEnvelopeSample",
+        "title": "Get Envelope",
+        "description": "Learn how to get the envelope of a shape",
+        "source": "Samples/VectorDataGeometricOperation/GetEnvelopeSample"
+      }
+    ]
+  },
+  {
+    "title": "Vector Data Topological Validation",
     "children": [
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.PointValidationSample",
         "title": "Validate Point Topology",
-        "description": "Learn how to use the TopologyValidator APIs to perform validation on points",
-        "source": "Samples/TopologicalValidation/PointValidationSample"
+        "description": "Perform validation on points.",
+        "source": "Samples/VectorDataTopologicalValidation/PointValidationSample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.LineValidationSample",
         "title": "Validate Line Topology",
-        "description": "Learn how to use the TopologyValidator APIs to perform validation on lines",
-        "source": "Samples/TopologicalValidation/LineValidationSample"
+        "description": "Perform validation on lines.",
+        "source": "Samples/VectorDataTopologicalValidation/LineValidationSample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.PolygonValidationSample",
         "title": "Validate Polygon Topology",
-        "description": "Learn how to use the TopologyValidator APIs to perform validation on polygons",
-        "source": "Samples/TopologicalValidation/PolygonValidationSample"
+        "description": "Perform validation on polygons.",
+        "source": "Samples/VectorDataTopologicalValidation/PolygonValidationSample"
       }
     ]
   },
   {
-    "title": "Using Cloud Maps Services",
-    "children": [
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.RoutingCloudServicesSample",
-        "title": "Routing",
-        "description": "Learn how to use the RoutingCloudClient to route through a set of waypoints with the ThinkGeo Cloud",
-        "source": "Samples/UsingCloudMapsServices/RoutingCloudServicesSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.RoutingServiceAreaCloudServicesSample",
-        "title": "Routing - Service Area",
-        "description": "Learn how to use the RoutingCloudClient to find the service area of a location with the ThinkGeo Cloud",
-        "source": "Samples/UsingCloudMapsServices/RoutingServiceAreaCloudServicesSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.RoutingTspCloudServicesSample",
-        "title": "Routing - Traveling Sales Person",
-        "description": "Learn how to use the RoutingCloudClient to find an optimized route through a set of waypoints with the ThinkGeo Cloud",
-        "source": "Samples/UsingCloudMapsServices/RoutingTspCloudServicesSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.ElevationCloudServicesSample",
-        "title": "Elevation",
-        "description": "Learn how to use the ElevationCloudClient class to get elevation data from the ThinkGeo Cloud",
-        "source": "Samples/UsingCloudMapsServices/ElevationCloudServicesSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.GeocodingCloudServicesSample",
-        "title": "Geocoding",
-        "description": "Learn how to use the GeocodingCloudClient to access the Geocoding APIs available from the ThinkGeo Cloud",
-        "source": "Samples/UsingCloudMapsServices/GeocodingCloudServicesSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.ReverseGeocodingCloudServicesSample",
-        "title": "Reverse Geocoding",
-        "description": "Learn how to use the ReverseGeocodingCloudClient to access the ReverseGeocoding APIs available from the ThinkGeo Cloud",
-        "source": "Samples/UsingCloudMapsServices/ReverseGeocodingCloudServicesSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.ColorUtilitiesCloudServicesSample",
-        "title": "Color Utilities",
-        "description": "Learn how to use the ColorCloudClient class to access the ColorUtilities APIs available from the ThinkGeo Cloud",
-        "source": "Samples/UsingCloudMapsServices/ColorUtilitiesCloudServicesSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.TimezoneCloudServicesSample",
-        "title": "Timezone",
-        "description": "Learn how to use the TimezoneCloudClient to access the Timezone APIs available from the ThinkGeo Cloud",
-        "source": "Samples/UsingCloudMapsServices/TimezoneCloudServicesSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.ProjectionCloudServicesSample",
-        "title": "Projection",
-        "description": "Learn how to use the ProjectionCloudClient to access the Projection APIs available from the ThinkGeo Cloud",
-        "source": "Samples/UsingCloudMapsServices/ProjectionCloudServicesSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.WorldMapsQueryCloudServicesSample",
-        "title": "World Maps Query",
-        "description": "Learn how to use the MapsQueryClient to query the WorldMaps dataset available from the ThinkGeo Cloud",
-        "source": "Samples/UsingCloudMapsServices/WorldMapsQueryCloudServicesSample"
-      }
-    ]
-  },
-  {
-    "title": "Extensibility",
-    "children": [
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.ExtendingLayersSample",
-        "title": "Extending Layers",
-        "description": "Learn how to use the Layer base class to create your own custom layers.",
-        "source": "Samples/Extensibility/ExtendingLayersSample"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.ExtendingFeatureSourcesSample",
-        "title": "Extending Feature Sources",
-        "description": "Learn how to use the FeatureSource base class to create your own custom Feature Source.",
-        "source": "Samples/Extensibility/ExtendingFeatureSourcesSample"
-      }
-
-    ]
-  },
-  {
-    "title": "Misc.",
+    "title": "Miscellaneous",
     "children": [
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.OverlayExceptionSample",
         "title": "Overlay Exception",
         "description": "Learn how to throw an overlay exception, or draw the exception on the map.",
-        "source": "Samples/Misc/OverlayExceptionSample"
+        "source": "Samples/Miscellaneous/OverlayExceptionSample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.GetSnapShotSample",
         "title": "Get SnapShot",
         "description": "Learn how to get the snapshot of the current map",
-        "source": "Samples/Misc/GetSnapShotSample"
+        "source": "Samples/Miscellaneous/GetSnapShotSample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.MapResizingSample",
         "title": "Resize Map",
         "description": "Learn how to resize the map while keeping the width of the world extent the same",
-        "source": "Samples/Misc/MapResizingSample"
+        "source": "Samples/Miscellaneous/MapResizingSample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.ShapesAcrossDateLine",
         "title": "WrapDateLine mode",
         "description": "Say the world width is 0 ~ 1, here shows what the shapes with different length look like in the multi-world map",
-        "source": "Samples/Misc/ShapesAcrossDateLine"
+        "source": "Samples/Miscellaneous/ShapesAcrossDateLine"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.OgcApiFeatureSample",
-        "title": "Display a OGC API Feature Layer",
-        "description": "This sample shows how to display a OGC API Feature layer.",
-        "source": "Samples/Misc/OgcApiFeatureSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.GenerateMapImageSample",
+        "title": "Generate a Map as an Image",
+        "description": "This sample shows how to draw your map onto an image file",
+        "source": "Samples/Miscellaneous/GenerateMapImageSample"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.WfsV2FeatureLayerSample",
-        "title": "Display a WFS V2 Feature Layer",
-        "description": "This sample shows how to display a WFS V2 Feature Layer.(This WFSV2 sever may be slow )",
-        "source": "Samples/Misc/WfsV2FeatureLayerSample"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.EsriGridLayerGenerationSample",
+        "title": "Generate an ESRI Grid File",
+        "description": "This sample shows how to generate an ESRI .grd Grid File from point data and display it on the map.",
+        "source": "Samples/Miscellaneous/EsriGridLayerGenerationSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ExtendingLayersSample",
+        "title": "Extending Layers",
+        "description": "Learn how to use the Layer base class to create your own custom layers.",
+        "source": "Samples/Miscellaneous/ExtendingLayersSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ExtendingFeatureSourcesSample",
+        "title": "Extending Feature Sources",
+        "description": "Learn how to use the FeatureSource base class to create your own custom Feature Source.",
+        "source": "Samples/Miscellaneous/ExtendingFeatureSourcesSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.GroupingLayersUsingLayerOverlaySample",
+        "title": "Grouping Layers Using LayerOverlay",
+        "description": "Learn to group layers into logical groups using LayerOverlays.",
+        "source": "Samples/Miscellaneous/GroupingLayersUsingLayerOverlaySample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.RefreshDynamicItems",
+        "title": "Refreshing Dynamic Items",
+        "description": "Learn how to use overlays to display dynamically refreshing data. This sample will shows how to refresh 20,000 polygons every seconds.",
+        "source": "Samples/Miscellaneous/RefreshDynamicItems"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CachingMapTilesSample",
+        "title": "Caching Map Tiles",
+        "description": "Learn how to cache map tiles. Caching tiles on an Overlay allows you to store images of rendered areas on the local disk and reuse them for faster rendering times. Saved tile images can be found in the cache folder within this project's debug folder.",
+        "source": "Samples/Miscellaneous/CachingMapTilesSample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DrawGpsLocationOverlaySample",
+        "title": "Draw GPS Location Overlay Sample",
+        "description": "Learn how to display a GPS vehicle's movements in real-time",
+        "source": "Samples/Miscellaneous/DrawGpsLocationOverlaySample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplaySimpleBackgroundOverlaySample",
+        "title": "Display a Simple Background Overlay",
+        "description": "Learn how to display a background overlay",
+        "source": "Samples/Miscellaneous/DisplaySimpleBackgroundOverlaySample"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.PrintMapsUsingPrintOverlaySample",
+        "title": "Print Maps Using PrintOverlay",
+        "description": "Learn to print maps using the PrintOverlay.",
+        "source": "Samples/Miscellaneous/PrintMapsUsingPrintOverlaySample"
       }
       //,
       //{
       //  "id": "ThinkGeo.UI.Wpf.HowDoI.Placeholder",
       //  "title": "Interpolation Methods (TODO)",
       //  "description": "Learn how to do grid based interpolation using various methods",
-      //  "source": "Samples/Interpolation/Placeholder"
+      //  "source": "Samples/Miscellaneous/Placeholder"
       //}
     ]
   }
+  //{
+  //  "title": "Using Overlays",
+  //  "children": [
+  //    {
+  //      "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayBingMapsOverlaySample",
+  //      "title": "Display Bing Maps Overlay",
+  //      "description": "Learn to render Bing Maps using the BingMapsOverlay. A valid Bing Maps ApplicationID is required. Visit the Bing Maps Dev Portal to sign up for a key (https://www.bingmapsportal.com/).",
+  //      "source": "Samples/UsingOverlays/DisplayBingMapsOverlaySample"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayCloudMapsRasterOverlaySample",
+  //      "title": "Display Cloud Maps Raster Overlay",
+  //      "description": "Learn to render ThinkGeo Cloud Maps in raster format. Sign up for your own ThinkGeo Cloud API key at https://cloud.thinkgeo.com!",
+  //      "source": "Samples/UsingOverlays/DisplayCloudMapsRasterOverlaySample"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayCloudMapsVectorOverlaySample",
+  //      "title": "Display Cloud Maps Vector Overlay",
+  //      "description": "Learn to render ThinkGeo Cloud Maps in vector format. Sign up for your own ThinkGeo Cloud API key at https://cloud.thinkgeo.com!",
+  //      "source": "Samples/UsingOverlays/DisplayCloudMapsVectorOverlaySample"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayGoogleMapsOverlaySample",
+  //      "title": "Display Google Maps Overlay",
+  //      "description": "Learn to render Google Maps using the GoogleMapsOverlay. A Google Maps API key is required. Visit the Google Maps Platform page to sign up for a key (https://cloud.google.com/maps-platform/ *The default Google Maps Static API Key returns images up to 640 x 640 pixels).",
+  //      "source": "Samples/UsingOverlays/DisplayGoogleMapsOverlaySample"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayOpenStreetMapOverlaySample",
+  //      "title": "Display OpenStreetMap Overlay",
+  //      "description": "Learn to render OpenStreetMap using the OpenStreetMapOverlay. OpenStreetMap Tiles are not meant for heavy production use without express permission from the OpenStreetMap Foundation. See https://operations.osmfoundation.org/ for details about their usage policies.",
+  //      "source": "Samples/UsingOverlays/DisplayOpenStreetMapOverlaySample"
+  //    },
+  //    {
+  //      "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayWmsOverlaySample",
+  //      "title": "Display a WMS Overlay",
+  //      "description": "Learn to render a Web Map Service using the WMSOverlay. Please be aware that this is a publicly available WMS server and it may be slow to load.",
+  //      "source": "Samples/UsingOverlays/DisplayWmsOverlaySample"
+  //    }
+  //  ]
+  //}
 ]

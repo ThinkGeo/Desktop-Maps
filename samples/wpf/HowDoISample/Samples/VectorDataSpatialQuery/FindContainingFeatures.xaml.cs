@@ -1,18 +1,19 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Learn how to use layer query tools to find which features in a layer a shape crosses
+    /// Learn how to use layer query tools to find which features in a layer contain a shape
     /// </summary>
-    public partial class CrossesSample : IDisposable
+    public partial class FindContainingFeatures : IDisposable
     {
-        public CrossesSample()
+        public FindContainingFeatures()
         {
             InitializeComponent();
         }
@@ -50,11 +51,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Set the map extent to Frisco, TX
             MapView.CurrentExtent = new RectangleShape(-10781137.28, 3917162.59, -10774579.34, 3911241.35);
 
-            // Create a layer to hold the feature we will perform the spatial query against
-            var queryFeatureLayer = new InMemoryFeatureLayer();
-            queryFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.Red, 6, false);
-            queryFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-
             // Create a layer to hold features found by the spatial query
             var highlightedFeaturesLayer = new InMemoryFeatureLayer();
             highlightedFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(90, GeoColors.MidnightBlue), GeoColors.MidnightBlue);
@@ -66,35 +62,32 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             zoningOverlay.Layers.Add("Frisco Zoning", zoningLayer);
             MapView.Overlays.Add("Frisco Zoning Overlay", zoningOverlay);
 
-            var queryFeaturesOverlay = new LayerOverlay();
-            queryFeaturesOverlay.Layers.Add("Query Feature", queryFeatureLayer);
-            MapView.Overlays.Add("Query Features Overlay", queryFeaturesOverlay);
-
             var highlightedFeaturesOverlay = new LayerOverlay();
             highlightedFeaturesOverlay.Layers.Add("Highlighted Features", highlightedFeaturesLayer);
             MapView.Overlays.Add("Highlighted Features Overlay", highlightedFeaturesOverlay);
 
-            // Add an event to handle new shapes that are drawn on the map
-            MapView.TrackOverlay.TrackEnded += OnLineDrawn;
+            // Add a MarkerOverlay to the map to display the selected point for the query
+            var queryFeatureMarkerOverlay = new SimpleMarkerOverlay();
+            MapView.Overlays.Add("Query Feature Marker Overlay", queryFeatureMarkerOverlay);
 
-            // Add a sample shape to the map for the initial query
-            var sampleShape = new LineShape("LINESTRING(-10774628.8455729 3914024.82710629,-10776902.8471517 3915582.23154895,-10778030.2933127 3914368.79373166,-10778708.6719349 3914445.23075952)");
-            await GetFeaturesCrossingAsync(sampleShape);
+            // Add a sample point to the map for the initial query
+            var sampleShape = new PointShape(-10779425.2690712, 3914970.73561765);
+            GetFeaturesContaining(sampleShape);
 
-            // Set the map extent to the sample shapes
-            MapView.CurrentExtent = sampleShape.GetBoundingBox();
-            await MapView.ZoomOutAsync();
+            // Set the map extent to the sample shape
+            MapView.CurrentExtent = new RectangleShape(-10781407.8544813, 3916678.62545891, -10777442.6836611, 3913262.84577639);
+
             await MapView.RefreshAsync();
         }
 
         /// <summary>
-        /// Perform the 'Crosses' spatial query using the layer's QueryTools
+        /// Perform the 'Contains' spatial query using the layer's QueryTools
         /// </summary>
-        protected IEnumerable<Feature> PerformSpatialQuery(BaseShape shape, FeatureLayer layer)
+        protected virtual IEnumerable<Feature> PerformSpatialQuery(BaseShape shape, FeatureLayer layer)
         {
             // Perform the spatial query on features in the specified layer
             layer.Open();
-            var features = layer.QueryTools.GetFeaturesCrossing(shape, ReturningColumnsType.AllColumns);
+            var features = layer.QueryTools.GetFeaturesContaining(shape, ReturningColumnsType.AllColumns);
             layer.Close();
 
             return features;
@@ -114,7 +107,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             highlightedFeaturesLayer.InternalFeatures.Clear();
 
             // Add new features to the layer
-            var enumerable = features as Feature[] ?? features.ToArray();
+            IEnumerable<Feature> enumerable = features as Feature[] ?? features.ToArray();
             foreach (var feature in enumerable)
             {
                 highlightedFeaturesLayer.InternalFeatures.Add(feature);
@@ -125,51 +118,54 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             await highlightedFeaturesOverlay.RefreshAsync();
 
             // Update the number of matching features found in the UI
-            TxtNumberOfFeaturesFound.Text = $"Number of features crossing the drawn shape: {enumerable.Length}";
+            TxtNumberOfFeaturesFound.Text = $"Number of features containing the drawn shape: {enumerable.Count()}";
         }
 
         /// <summary>
         /// Perform the spatial query and draw the shapes on the map
         /// </summary>
-        private async Task GetFeaturesCrossingAsync(BaseShape shape)
+        private async void GetFeaturesContaining(PointShape point)
         {
             // Find the layers we will be modifying in the MapView
-            var queryFeaturesOverlay = (LayerOverlay)MapView.Overlays["Query Features Overlay"];
-            var queryFeatureLayer = (InMemoryFeatureLayer)queryFeaturesOverlay.Layers["Query Feature"];
+            var queryFeatureMarkerOverlay = (SimpleMarkerOverlay)MapView.Overlays["Query Feature Marker Overlay"];
             var zoningLayer = (ShapeFileFeatureLayer)MapView.FindFeatureLayer("Frisco Zoning");
 
-            // Clear the query shape layer and add the newly drawn shape
-            queryFeatureLayer.InternalFeatures.Clear();
-            queryFeatureLayer.InternalFeatures.Add(new Feature(shape));
-            await queryFeaturesOverlay.RefreshAsync();
+            // Clear the query point marker overlay layer and add a marker on the newly drawn point
+            queryFeatureMarkerOverlay.Markers.Clear();
 
-            // Perform the spatial query using the drawn shape and highlight features that were found
-            var queriedFeatures = PerformSpatialQuery(shape, zoningLayer);
+            // Create a marker with a static marker image and add it to the map
+            var marker = CreateNewMarker(point);
+            queryFeatureMarkerOverlay.Markers.Add(marker);
+            await queryFeatureMarkerOverlay.RefreshAsync();
+
+            // Perform the spatial query using the drawn point and highlight features that were found
+            var queriedFeatures = PerformSpatialQuery(point, zoningLayer);
             await HighlightQueriedFeaturesAsync(queriedFeatures);
 
-            // Disable map drawing and clear the drawn shape
-            MapView.TrackOverlay.TrackMode = TrackMode.None;
+            // Clear the drawn point
             MapView.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
         }
 
         /// <summary>
-        /// Performs the spatial query when a new line is drawn
-        /// </summary>
-        private async void OnLineDrawn(object sender, TrackEndedTrackInteractiveOverlayEventArgs e)
-        {
-            await GetFeaturesCrossingAsync(e.TrackShape);
-        }
-
-        /// <summary>
-        /// Set the map to 'Line Drawing Mode' when the user clicks on the map without panning
+        /// Perform the spatial query when a new point is drawn
         /// </summary>
         private void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
         {
-            if (MapView.TrackOverlay.TrackMode != TrackMode.Line)
+            GetFeaturesContaining(e.WorldLocation);
+        }
+
+        /// <summary>
+        /// Create a new map marker using preloaded image assets
+        /// </summary>
+        private static Marker CreateNewMarker(PointShape point)
+        {
+            return new Marker(point)
             {
-                // Set the drawing mode to 'Line'
-                MapView.TrackOverlay.TrackMode = TrackMode.Line;
-            }
+                ImageSource = new BitmapImage(new Uri("/Resources/AQUA.png", UriKind.RelativeOrAbsolute)),
+                Width = 20,
+                Height = 34,
+                YOffset = -17
+            };
         }
 
         public void Dispose()
