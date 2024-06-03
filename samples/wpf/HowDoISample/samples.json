@@ -89,7 +89,7 @@
         "id": "ThinkGeo.UI.Wpf.HowDoI.CachingMapTilesSample",
         "title": "Caching Map Tiles",
         "description": "Learn how to cache map tiles. Caching tiles on an Overlay allows you to store images of rendered areas on the local disk and reuse them for faster rendering times. Saved tile images can be found in the cache folder within this project's debug folder.",
-        "source": "Samples/Miscellaneous/CachingMapTilesSample"
+        "source": "Samples/MapOnlineData/CachingMapTilesSample"
       }
     ]
   },
@@ -238,13 +238,13 @@
         "id": "ThinkGeo.UI.Wpf.HowDoI.EsriGridLayerGenerationSample",
         "title": "Generate an ESRI Grid File",
         "description": "This sample shows how to generate an ESRI .grd Grid File from point data and display it on the map.",
-        "source": "Samples/Miscellaneous/EsriGridLayerGenerationSample"
+        "source": "Samples/MapOfflineData/EsriGridLayerGenerationSample"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.GroupingLayersUsingLayerOverlaySample",
         "title": "Grouping Layers Using LayerOverlay",
         "description": "Learn to group layers into logical groups using LayerOverlays.",
-        "source": "Samples/Miscellaneous/GroupingLayersUsingLayerOverlaySample"
+        "source": "Samples/MapOfflineData/GroupingLayersUsingLayerOverlaySample"
       }
     ]
   },
@@ -470,7 +470,7 @@
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.WithinSample",
-        "title": "Find Features within a Feature",
+        "title": "Find Features Within a Feature",
         "description": "Learn how to use layer query tools to find which features in a layer are within a shape",
         "source": "Samples/VectorDataSpatialQuery/WithinSample"
       },
