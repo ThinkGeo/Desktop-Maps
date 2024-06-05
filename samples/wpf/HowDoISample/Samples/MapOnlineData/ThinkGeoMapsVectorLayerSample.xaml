@@ -20,7 +20,7 @@
             <StackPanel Grid.Column="1" Grid.Row="3">
                 <RadioButton Checked="rbMapType_Checked" IsChecked="True">Light</RadioButton>
                 <RadioButton Checked="rbMapType_Checked">Dark</RadioButton>
-                <RadioButton Checked="rbMapType_Checked">Transparent Background</RadioButton>
+                <RadioButton Checked="rbMapType_Checked">TransparentBackground</RadioButton>
             </StackPanel>
 
             <Grid.ColumnDefinitions>
