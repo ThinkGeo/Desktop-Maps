@@ -44,7 +44,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void UseCache_Checked(object sender, RoutedEventArgs e)
         {
-            _thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache("cache", "thinkgeo_vector_light", RasterTileFormat.Png);
+            _thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache("cache", "thinkgeo_vector_light", GeoImageFormat.Png);
         }
 
         /// <summary>

@@ -353,21 +353,21 @@
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
-    <PackageReference Include="ThinkGeo.Cad" Version="14.0.3" />
-    <PackageReference Include="ThinkGeo.Ecw" Version="14.0.2" />
-    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.0.2" />
-    <PackageReference Include="ThinkGeo.GeoPdf" Version="14.0.2" />
-    <PackageReference Include="ThinkGeo.Kml" Version="14.0.2" />
-    <PackageReference Include="ThinkGeo.MrSid" Version="14.0.2" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.0.2" />
-    <PackageReference Include="ThinkGeo.Oracle" Version="14.0.0-beta006" />
-    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="14.0.2" />
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.0.2" />
-    <PackageReference Include="ThinkGeo.Printers" Version="14.0.2" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="14.0.2" />
-    <PackageReference Include="ThinkGeo.UI.Wpf" Version="14.0.2" />
-    <PackageReference Include="ThinkGeo.UnmanagedGeoTiff" Version="14.0.2" />
-    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="14.0.2" />
+    <PackageReference Include="ThinkGeo.Cad" Version="14.1.0-beta034" />
+    <PackageReference Include="ThinkGeo.Ecw" Version="14.1.0-beta034" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.1.0-beta034" />
+    <PackageReference Include="ThinkGeo.GeoPdf" Version="14.1.0-beta034" />
+    <PackageReference Include="ThinkGeo.Kml" Version="14.1.0-beta034" />
+    <PackageReference Include="ThinkGeo.MrSid" Version="14.1.0-beta034" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.1.0-beta034" />
+    <PackageReference Include="ThinkGeo.Oracle" Version="14.0.0-beta009" />
+    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="14.1.0-beta034" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.1.0-beta034" />
+    <PackageReference Include="ThinkGeo.Printers" Version="14.1.0-beta034" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="14.1.0-beta034" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="14.1.0-beta034" />
+    <PackageReference Include="ThinkGeo.UnmanagedGeoTiff" Version="14.1.0-beta034" />
+    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="14.1.0-beta034" />
     <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
   </ItemGroup>
   <ItemGroup>
@@ -576,6 +576,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\Mbtiles\Frisco.mbtiles">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Mbtiles\maplibre.mbtiles">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Mbtiles\style.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\MrSid\World.sdw">

@@ -7,6 +7,61 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <thinkGeoUi:MapView x:Name="MapView" Loaded="MapView_Loaded"></thinkGeoUi:MapView>
+        <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded"></thinkGeoUi:MapView>
+        <Grid Grid.Column="1" Grid.Row="0">
+            <Label Grid.Column="1" Grid.Row="0" Margin="-8 10 0 0" Content="ThinkGeo Vector Cloud Maps:" FontWeight="Bold" FontSize="16" />
+
+            <TextBlock Grid.Column="1" Grid.Row="1">
+                <Hyperlink NavigateUri="https://cloud.thinkgeo.com/" RequestNavigate="Hyperlink_RequestNavigate">Sign up for a Cloud Maps account</Hyperlink>
+            </TextBlock>
+
+            <Label Grid.Column="1" Grid.Row="2" Margin="0 10 0 0" Content="Map Type:" FontSize="14" FontWeight="Bold"></Label>
+
+            <StackPanel Grid.Column="1" Grid.Row="3">
+                <RadioButton Checked="rbMapType_Checked" IsChecked="True">Light</RadioButton>
+                <RadioButton Checked="rbMapType_Checked">Dark</RadioButton>
+                <RadioButton Checked="rbMapType_Checked">Transparent Background</RadioButton>
+            </StackPanel>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="5" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+        </Grid>
+
+        <!-- Grid Layout -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
     </Grid>
+
+    <UserControl.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
+        </Style>
+        <Style TargetType="Grid">
+            <Setter Property="Background" Value="DimGray"></Setter>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Height" Value="20"></Setter>
+        </Style>
+        <Style TargetType="RadioButton">
+            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
+        </Style>
+        <Style TargetType="Hyperlink">
+            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
+            <Setter Property="FontSize" Value="14"></Setter>
+        </Style>
+    </UserControl.Resources>
 </UserControl>

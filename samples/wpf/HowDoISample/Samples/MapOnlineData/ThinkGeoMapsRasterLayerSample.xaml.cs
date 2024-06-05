@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -39,6 +40,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.CurrentExtent = new RectangleShape(-10781708.9749424, 3913502.90429046, -10777685.1114043, 3910360.79646662);
 
             await MapView.RefreshAsync();
+        }
+
+        private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
+            e.Handled = true;
         }
 
         private async void rbMapType_Checked(object sender, RoutedEventArgs e)

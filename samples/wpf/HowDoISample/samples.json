@@ -97,6 +97,12 @@
     "title": "Map Offline Data",
     "children": [
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.MbTilesFile",
+        "title": "Display a MBTiles File",
+        "description": "Show the Standard MBTiles File (v1.3)",
+        "source": "Samples/MapOfflineData/MbTilesFile"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.SqLiteLayerSample",
         "title": "Display a SQLite File",
         "description": "This sample shows how to display a SQLite layer.",

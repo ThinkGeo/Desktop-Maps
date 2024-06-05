@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
 using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
@@ -32,13 +34,40 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 ClientSecret = SampleKeys.ClientSecret,
                 MapType = ThinkGeoCloudVectorMapsMapType.Light,
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                //TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
             MapView.Overlays.Add("Cloud Overlay", cloudOverlay);
 
             // Set the current extent to a neighborhood in Frisco Texas.
             MapView.CurrentExtent = new RectangleShape(-10781708.9749424, 3913502.90429046, -10777685.1114043, 3910360.79646662);
 
+            await MapView.RefreshAsync();
+        }
+
+        private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
+            e.Handled = true;
+        }
+
+        private async void rbMapType_Checked(object sender, RoutedEventArgs e)
+        {
+            var button = (RadioButton)sender;
+            if (!MapView.Overlays.Contains("Cloud Overlay")) return;
+            var cloudOverlay = (ThinkGeoCloudVectorMapsOverlay)MapView.Overlays["Cloud Overlay"];
+
+            switch (button.Content.ToString())
+            {
+                case "Light":
+                    cloudOverlay.MapType = ThinkGeoCloudVectorMapsMapType.Light;
+                    break;
+                case "Dark":
+                    cloudOverlay.MapType = ThinkGeoCloudVectorMapsMapType.Dark;
+                    break;
+                case "TransparentBackground":
+                    cloudOverlay.MapType = ThinkGeoCloudVectorMapsMapType.TransparentBackground;
+                    break;
+            }
             await MapView.RefreshAsync();
         }
 
