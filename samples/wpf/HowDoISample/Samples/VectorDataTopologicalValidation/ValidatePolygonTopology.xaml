@@ -1,0 +1,93 @@
+﻿<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.ValidatePolygonTopology"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" Grid.RowSpan="4" x:Name="MapView" Background="White" Loaded="MapView_Loaded"></thinkGeoUi:MapView>
+        <Grid Grid.Column="1" Grid.Row="0">
+            <Label Grid.Column="1" Grid.Row="0">
+                <Label.Content>
+                    <AccessText HorizontalAlignment="Center" FontSize="17" TextWrapping="Wrap" Text="Polygon Validation Tests"/>
+                </Label.Content>
+            </Label>
+            <RadioButton Grid.Column="1" Grid.Row="1" x:Name="RdoCheckIfPolygonBoundariesOverlapPolygonBoundaries" Checked="CheckIfPolygonBoundariesOverlapPolygonBoundaries">Polygon Boundaries Must Overlap Polygon Boundaries</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="2" x:Name="RdoCheckIfPolygonBoundariesOverlapLines" Checked="CheckIfPolygonBoundariesOverlapLines">Polygon Boundaries Must Overlap Lines</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="3" x:Name="RdoCheckIfPolygonsOverlapPolygons" Checked="CheckIfPolygonsOverlapPolygons">Polygons Must Overlap Polygons</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="4" x:Name="RdoCheckIfPolygonsAreWithinPolygons" Checked="CheckIfPolygonsAreWithinPolygons">Polygons Must Be Within Polygons</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="5" x:Name="RdoCheckIfPolygonsContainPoints" Checked="CheckIfPolygonsContainPoints">Polygons Must Contain Points</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="6" x:Name="RdoCheckIfPolygonsCoverEachOther" Checked="CheckIfPolygonsCoverEachOther">Polygons Must Overlap Each Other</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="7" x:Name="RdoCheckIfPolygonsHaveGaps" Checked="CheckIfPolygonsHaveGaps">Union of Polygons Must Not Have Gaps</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="8" x:Name="RdoCheckPolygonsMustNotOverlap" Checked="CheckPolygonsMustNotOverlap">Polygons Must Not Overlap</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="9" x:Name="RdoCheckPolygonsMustNotOverlapPolygons" Checked="CheckPolygonsMustNotOverlapPolygons">Polygons Must Not Overlap Other Polygons</RadioButton>
+            <TextBlock Grid.Column="1" Grid.Row="10" x:Name="TxtValidationInfo"></TextBlock>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="240" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="5" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+        </Grid>
+
+        <!-- Grid Layout -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+    </Grid>
+    <UserControl.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
+            <Setter Property="FontSize" Value="14"></Setter>
+        </Style>
+        <Style TargetType="Grid">
+            <Setter Property="Background" Value="DimGray"></Setter>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"></Setter>
+            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
+            <Setter Property="Margin" Value="0,15,0,0"></Setter>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="Margin" Value="0,10,0,0"></Setter>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Height" Value="22"></Setter>
+            <Setter Property="Margin" Value="0,10,0,0"></Setter>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Height" Value="20"></Setter>
+        </Style>
+        <Style TargetType="RadioButton">
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="Margin" Value="0,5,0,0"></Setter>
+            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
+        </Style>
+    </UserControl.Resources>
+</UserControl>

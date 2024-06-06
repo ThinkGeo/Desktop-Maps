@@ -1,0 +1,127 @@
+﻿<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.Geocoding"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:gif="http://wpfanimatedgif.codeplex.com"             
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             xmlns:code="clr-namespace:ThinkGeo.Core;assembly=ThinkGeo.Core"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <thinkGeoUi:MapView  Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded"></thinkGeoUi:MapView>
+        <Image Grid.Column="0" x:Name="LoadingImage"  Height="64" Width="64" Visibility="Hidden" gif:ImageBehavior.AnimatedSource="..\..\Resources\loading.gif" />
+        <Grid Grid.Column="1" Grid.Row="0">
+            <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2">
+                <Label.Content>
+                    <AccessText FontSize="17" TextWrapping="Wrap"   Text="Geocode"/>
+                </Label.Content>
+            </Label>
+            <Label Grid.Column="1" Grid.Row="1" FontSize="14">Search Text:</Label>
+            <TextBox Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" x:Name="TxtSearchString" Text="6101 Frisco Square Blvd, Frisco, TX 75034"></TextBox>
+            <Label Grid.Column="1" Grid.Row="3" FontSize="14">Maximum Results:</Label>
+            <TextBox  Grid.Column="2" Grid.Row="3" x:Name="TxtMaxResults" Text="10"></TextBox>
+            
+            <Label Grid.Column="1" Grid.Row="4" FontSize="14">SearchType:</Label>
+            <ComboBox Grid.Column="2" Grid.Row="4" x:Name="CboSearchType" SelectionChanged="cboSearchType_SelectionChanged">
+                <ComboBoxItem>Fuzzy</ComboBoxItem>
+                <ComboBoxItem>Exact</ComboBoxItem>
+            </ComboBox>
+            <TextBlock Grid.Column="1"  Grid.Row="5" Grid.ColumnSpan="2" x:Name="TxtSearchTypeDescription"></TextBlock>
+
+            <Label Grid.Column="1" Grid.Row="6" FontSize="14">LocationType:</Label>
+            <ComboBox Grid.Column="2" Grid.Row="6" x:Name="CboLocationType" SelectionChanged="cboLocationType_SelectionChanged">
+                <ComboBoxItem>Default</ComboBoxItem>
+                <ComboBoxItem>Address</ComboBoxItem>
+                <ComboBoxItem>Street</ComboBoxItem>
+                <ComboBoxItem>City</ComboBoxItem>
+                <ComboBoxItem>County</ComboBoxItem>
+                <ComboBoxItem>Zipcode</ComboBoxItem>
+                <ComboBoxItem>State</ComboBoxItem>
+            </ComboBox>
+            <TextBlock Grid.Column="1"  Grid.Row="7" Grid.ColumnSpan="2" x:Name="TxtLocationTypeDescription"></TextBlock>
+
+            <Button Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="2" Click="Search_Click">Search</Button>
+
+            <TextBlock Grid.Column="1"  Grid.Row="10" Grid.ColumnSpan="2" x:Name="TxtSearchResultsDescription"></TextBlock>
+
+            <ListBox Grid.Column="1"  Grid.Row="11" Grid.ColumnSpan="2" Name="LsbLocations" SelectionChanged="lsbLocations_SelectionChanged" Visibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type code:CloudGeocodingLocation}">
+                        <Grid Width="Auto" Height="Auto">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" ></RowDefinition>
+                                <RowDefinition Height="Auto" ></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Text="{Binding Path=LocationName}" TextWrapping="Wrap"/>
+                            <TextBlock Grid.Row="1" Text="{Binding Path=LocationType, StringFormat=Type: {0}}" FontWeight="Bold"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="5"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+        </Grid>
+
+
+        <!-- Grid Layout -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+    </Grid>
+    <UserControl.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
+            <Setter Property="FontSize" Value="14"></Setter>
+        </Style>
+        <Style TargetType="Grid">
+            <Setter Property="Background" Value="DimGray"></Setter>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"></Setter>
+            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
+            <Setter Property="Margin" Value="0,5,0,0"></Setter>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Height" Value="20"></Setter>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Height" Value="22"></Setter>
+            <Setter Property="Margin" Value="0,10,0,0"></Setter>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Height" Value="20"></Setter>
+        </Style>
+        <Style TargetType="ListBox">
+            <Setter Property="Height" Value="400"></Setter>
+            <Setter Property="Margin" Value="0,10,0,0"></Setter>
+        </Style>
+        <Style TargetType="RadioButton">
+            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
+        </Style>
+    </UserControl.Resources>
+</UserControl>
