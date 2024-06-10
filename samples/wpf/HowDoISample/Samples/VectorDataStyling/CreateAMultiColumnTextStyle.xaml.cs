@@ -1,0 +1,64 @@
+﻿using System;
+using System.Windows;
+using System.Windows.Media;
+using ThinkGeo.Core;
+
+namespace ThinkGeo.UI.Wpf.HowDoI
+{
+    /// <summary>
+    /// Learn how to label data using a TextStyle
+    /// </summary>
+    public partial class CreateAMultiColumnTextStyle : IDisposable
+    {
+        public CreateAMultiColumnTextStyle()
+        {
+            InitializeComponent();
+        }
+
+        /// <summary>
+        /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, project and add styles to the Hotels, Streets, and Parks layer.
+        /// </summary>
+        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Set the map's unit of measurement to meters(Spherical Mercator)
+            MapView.MapUnit = GeographyUnit.DecimalDegree;
+
+            MapView.Background = Brushes.DodgerBlue;
+
+            // Create a layer with polygon data
+            var countries02Layer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Countries02.shp");
+            countries02Layer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle =
+                AreaStyle.CreateSimpleAreaStyle(GeoColors.SandyBrown, GeoColors.Black);
+
+            var textStyle = new TextStyle
+            {
+                TextContent = "{CNTRY_NAME}: " + Environment.NewLine + " Population:{POP_CNTRY}",
+                Font = new GeoFont("Arial", 10),
+                TextBrush = GeoBrushes.Black
+            };
+
+            countries02Layer.ZoomLevelSet.ZoomLevel01.DefaultTextStyle = textStyle;
+            countries02Layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
+            // Add layers to a layerOverlay
+            var layerOverlay = new LayerOverlay();
+            layerOverlay.Layers.Add(countries02Layer);
+
+            // Add overlay to map
+            MapView.Overlays.Add(layerOverlay);
+
+            // Set the map extent
+            MapView.CurrentExtent = new RectangleShape(-8.70, 62.60, 38.81, 31.11);
+
+            await MapView.RefreshAsync();
+        }
+
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            MapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+    }
+}
