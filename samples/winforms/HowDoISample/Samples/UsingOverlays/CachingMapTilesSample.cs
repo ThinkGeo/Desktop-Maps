@@ -29,7 +29,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void useCache_CheckedChanged(object sender, EventArgs e)
         {
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache("cache", "CloudMapsImages", RasterTileFormat.Png);
+            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache("cache", "CloudMapsImages", GeoImageFormat.Png);
         }
 
         #region Component Designer generated code
