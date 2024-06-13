@@ -4,39 +4,58 @@ using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class DisplayKMLFile : UserControl
+    public class DisplayHeatMap : UserControl
     {
-        public DisplayKMLFile()
+        private readonly ShapeFileFeatureLayer coyoteSightings = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Coyote_Sightings.shp");
+
+        public DisplayHeatMap()
         {
             InitializeComponent();
         }
 
         private async void Form_Load(object sender, EventArgs e)
         {
-            // It is important to set the map unit first to either feet, meters or decimal degrees.
+            // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            // Create a new overlay that will hold our new layer and add it to the map.
-            LayerOverlay layerOverlay = new LayerOverlay();
+            // Set the map extent
+            mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
+
+            ShapeFileFeatureLayer coyoteSightings = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Coyote_Sightings.shp");
+
+            // Project the layer's data to match the projection of the map
+            coyoteSightings.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+
+            // Add the layer to a layer overlay
+            var layerOverlay = new LayerOverlay();
+            layerOverlay.TileType = TileType.SingleTile;
+            layerOverlay.Layers.Add(coyoteSightings);
+
+            // Add the overlay to the map
             mapView.Overlays.Add(layerOverlay);
 
-            // Create the new layer and dd the layer to the overlay we created earlier.
-            KmlFeatureLayer layer = new KmlFeatureLayer("./Data/Kml/Frisco.kml");
-            layer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimplePointStyle(PointSymbolType.Diamond, GeoColors.Black, 10);
-            layer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.Red, 4, true);
-            layer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.Blue);
-            layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-            layerOverlay.Layers.Add(layer);
-
-            // Set the map view current extent to a slightly zoomed in area of the image.
-            mapView.CurrentExtent = new RectangleShape(-10777998.2731192, 3913070.41013283, -10774999.3141042, 3911542.86390418);
-
-            // Refresh the map.
+            // Apply HeatStyle
+            AddHeatStyle(coyoteSightings);
             await mapView.RefreshAsync();
+        }
+
+        /// <summary>
+        /// Create a heat style that bases the color intensity on the proximity of surrounding points
+        /// </summary>
+        private void AddHeatStyle(ShapeFileFeatureLayer layer)
+        {
+            // Create the heat style
+            var heatStyle = new HeatStyle(20, 1, DistanceUnit.Kilometer);
+
+            // Add the point style to the collection of custom styles for ZoomLevel 1.
+            layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(heatStyle);
+
+            // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the point style on every zoom level on the map. 
+            layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
         }
 
         #region Component Designer generated code
@@ -62,14 +81,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotatedAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(1227, 723);
+            this.mapView.Size = new System.Drawing.Size(1213, 553);
             this.mapView.TabIndex = 0;
             // 
-            // DisplayKMLFile
+            // DisplayHeatMap
             // 
             this.Controls.Add(this.mapView);
-            this.Name = "DisplayKMLFile";
-            this.Size = new System.Drawing.Size(1227, 723);
+            this.Name = "DisplayHeatMap";
+            this.Size = new System.Drawing.Size(1213, 553);
             this.Load += new System.EventHandler(this.Form_Load);
             this.ResumeLayout(false);
 

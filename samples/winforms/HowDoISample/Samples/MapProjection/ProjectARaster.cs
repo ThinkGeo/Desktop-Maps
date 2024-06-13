@@ -1,41 +1,54 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class DisplayKMLFile : UserControl
+    /// <summary>
+    /// Learn how to automatically reproject a raster layer using the ProjectionConverter class
+    /// </summary>
+    public class ProjectARaster : UserControl
     {
-        public DisplayKMLFile()
+        public ProjectARaster()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Set up the map
+        /// </summary>
         private async void Form_Load(object sender, EventArgs e)
         {
-            // It is important to set the map unit first to either feet, meters or decimal degrees.
+            // Set the Map Unit to meters (Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
 
-            // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
-
-            // Create a new overlay that will hold our new layer and add it to the map.
+            // Create an overlay that we can add layers to, and add it to the MapView
             LayerOverlay layerOverlay = new LayerOverlay();
             mapView.Overlays.Add(layerOverlay);
 
-            // Create the new layer and dd the layer to the overlay we created earlier.
-            KmlFeatureLayer layer = new KmlFeatureLayer("./Data/Kml/Frisco.kml");
-            layer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimplePointStyle(PointSymbolType.Diamond, GeoColors.Black, 10);
-            layer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.Red, 4, true);
-            layer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.Blue);
-            layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-            layerOverlay.Layers.Add(layer);
+            // Reproject a raster layer and set the extent
+            await ReprojectRasterLayerAsync(layerOverlay);
+        }
 
-            // Set the map view current extent to a slightly zoomed in area of the image.
-            mapView.CurrentExtent = new RectangleShape(-10777998.2731192, 3913070.41013283, -10774999.3141042, 3911542.86390418);
+        /// <summary>
+        /// Use the ProjectionConverter class to reproject a raster layer
+        /// </summary>
+        private async Task ReprojectRasterLayerAsync(LayerOverlay layerOverlay)
+        {
+            GeoTiffRasterLayer worldRasterLayer = new GeoTiffRasterLayer(@"./Data/GeoTiff/World.tif");
 
-            // Refresh the map.
+            // Create a new ProjectionConverter to convert between World Geodetic System (4326) and US National Atlas Equal Area (2163)
+            ProjectionConverter projectionConverter = new UnmanagedProjectionConverter(4326, 2163);
+            worldRasterLayer.ImageSource.ProjectionConverter = projectionConverter;
+
+            layerOverlay.Layers.Clear();
+            layerOverlay.Layers.Add("World", worldRasterLayer);
+
+            // Set the map to the extent of the raster layer and refresh the map
+            worldRasterLayer.Open();
+            mapView.CurrentExtent = worldRasterLayer.GetBoundingBox();
+            worldRasterLayer.Close();
             await mapView.RefreshAsync();
         }
 
@@ -62,14 +75,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotatedAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(1227, 723);
+            this.mapView.Size = new System.Drawing.Size(1212, 647);
             this.mapView.TabIndex = 0;
             // 
-            // DisplayKMLFile
+            // ProjectARaster
             // 
             this.Controls.Add(this.mapView);
-            this.Name = "DisplayKMLFile";
-            this.Size = new System.Drawing.Size(1227, 723);
+            this.Name = "ProjectARaster";
+            this.Size = new System.Drawing.Size(1212, 647);
             this.Load += new System.EventHandler(this.Form_Load);
             this.ResumeLayout(false);
 

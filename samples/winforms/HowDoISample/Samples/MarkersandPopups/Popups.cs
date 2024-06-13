@@ -1,41 +1,69 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class DisplayKMLFile : UserControl
+    public class Popups : UserControl
     {
-        public DisplayKMLFile()
+        public Popups()
         {
             InitializeComponent();
         }
 
         private async void Form_Load(object sender, EventArgs e)
         {
-            // It is important to set the map unit first to either feet, meters or decimal degrees.
+            // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            // Create a new overlay that will hold our new layer and add it to the map.
-            LayerOverlay layerOverlay = new LayerOverlay();
-            mapView.Overlays.Add(layerOverlay);
+            // Set the map extent
+            mapView.CurrentExtent = new RectangleShape(-10778329.017082, 3909598.36751101, -10776250.8853871, 3907890.47766975);
 
-            // Create the new layer and dd the layer to the overlay we created earlier.
-            KmlFeatureLayer layer = new KmlFeatureLayer("./Data/Kml/Frisco.kml");
-            layer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimplePointStyle(PointSymbolType.Diamond, GeoColors.Black, 10);
-            layer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.Red, 4, true);
-            layer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.Blue);
-            layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-            layerOverlay.Layers.Add(layer);
+            await AddHotelPopupsAsync();
 
-            // Set the map view current extent to a slightly zoomed in area of the image.
-            mapView.CurrentExtent = new RectangleShape(-10777998.2731192, 3913070.41013283, -10774999.3141042, 3911542.86390418);
+            await mapView.RefreshAsync();
+        }
 
-            // Refresh the map.
+        /// <summary>
+        /// Adds hotel popups to the map
+        /// </summary>
+        private async Task AddHotelPopupsAsync()
+        {
+            // Create a PopupOverlay
+            var popupOverlay = new PopupOverlay();
+
+            // Create a layer in order to query the data
+            var hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
+
+            // Project the data to match the map's projection
+            hotelsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+
+            // Open the layer so that we can begin querying
+            hotelsLayer.Open();
+
+            // Query all the hotel features
+            var hotelFeatures = hotelsLayer.QueryTools.GetAllFeatures(ReturningColumnsType.AllColumns);
+
+            // Add each hotel feature to the popupOverlay
+            foreach (var feature in hotelFeatures)
+            {
+                var popup = new Popup(feature.GetShape().GetCenterPoint())
+                {
+                    Content = feature.ColumnValues["NAME"]
+                };
+                popupOverlay.Popups.Add(popup);
+            }
+
+            // Close the hotel layer
+            hotelsLayer.Close();
+
+            // Add the popupOverlay to the map and refresh
+            mapView.Overlays.Add(popupOverlay);
             await mapView.RefreshAsync();
         }
 
@@ -62,14 +90,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotatedAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(1227, 723);
+            this.mapView.Size = new System.Drawing.Size(950, 585);
             this.mapView.TabIndex = 0;
             // 
-            // DisplayKMLFile
+            // Popups
             // 
             this.Controls.Add(this.mapView);
-            this.Name = "DisplayKMLFile";
-            this.Size = new System.Drawing.Size(1227, 723);
+            this.Name = "Popups";
+            this.Size = new System.Drawing.Size(950, 585);
             this.Load += new System.EventHandler(this.Form_Load);
             this.ResumeLayout(false);
 

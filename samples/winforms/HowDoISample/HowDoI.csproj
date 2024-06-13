@@ -151,22 +151,22 @@
     <Compile Update="Samples\UsingOverlays\Placeholder.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\VectorDataStyling\CreateMultiColumnTextStyleSample.cs">
+    <Compile Update="Samples\VectorDataStyling\CreateAMultiColumnTextStyle.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\VectorDataStyling\CreateDotDensityStyleSample.cs">
+    <Compile Update="Samples\VectorDataStyling\DisplayDotDensity.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\VectorDataStyling\CreateRegexStyleSample.cs">
+    <Compile Update="Samples\VectorDataStyling\RenderBasedOnRegex.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\VectorDataStyling\FleeBooleanStyle\CreateFleeBooleanStyleSample.cs">
+    <Compile Update="Samples\VectorDataStyling\FleeBooleanStyle\CreateAFleeBooleanStyle.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\VectorDataStyling\StylingAcrossMultipleScales.cs">
+    <Compile Update="Samples\VectorDataStyling\RenderBasedOnScales.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\Miscellaneous\GenerateMapImageSample.cs">
+    <Compile Update="Samples\Miscellaneous\DrawTheMapOnAnImage.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Samples\MapOfflineData\Raster\DisplayGdalFile.cs">
@@ -181,34 +181,34 @@
     <Compile Update="Samples\MapOfflineData\Vector\DisplayGeoPdfFile.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\VectorDataStyling\ExtendingStylesSample.cs">
+    <Compile Update="Samples\VectorDataStyling\CustomStyles.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\Miscellaneous\ExtendingLayersSample.cs">
+    <Compile Update="Samples\Miscellaneous\CustomFeatureLayer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\Miscellaneous\GetSnapShotSample.cs">
+    <Compile Update="Samples\Miscellaneous\GetMapSnapShot.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\MapProjection\RasterProjectionSample.cs">
+    <Compile Update="Samples\MapProjection\ProjectARaster.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\MapProjection\WorldProjectionSample.cs">
+    <Compile Update="Samples\MapProjection\ProjectTheWorld.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\MapTools\DisplayCompassSample.cs">
+    <Compile Update="Samples\MapTools\Compass.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\MapTools\DisplayMagneticNorthSample.cs">
+    <Compile Update="Samples\MapTools\MagneticNorth.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\Miscellaneous\DisplaySimpleBackgroundOverlaySample.cs">
+    <Compile Update="Samples\Miscellaneous\CustomBackground.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\Miscellaneous\DrawGPSLocationOverlaySample.cs">
+    <Compile Update="Samples\Miscellaneous\UpdateTheGPSLocation.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\Miscellaneous\RefreshDynamicItemsSample.cs" />
+    <Compile Update="Samples\Miscellaneous\PerfTestRefreshShapes.cs" />
     <Compile Update="Style2\RotatePointWithTextStyle.cs" />
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>

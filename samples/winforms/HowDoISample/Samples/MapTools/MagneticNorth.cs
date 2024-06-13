@@ -4,9 +4,9 @@ using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class DisplayKMLFile : UserControl
+    public class MagneticNorth : UserControl
     {
-        public DisplayKMLFile()
+        public MagneticNorth()
         {
             InitializeComponent();
         }
@@ -16,24 +16,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.Meter;
 
-            // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            // Set the map zoom level set to the Cloud Maps zoom level set.
+            mapView.ZoomLevelSet = new ThinkGeoCloudMapsZoomLevelSet();
 
-            // Create a new overlay that will hold our new layer and add it to the map.
-            LayerOverlay layerOverlay = new LayerOverlay();
-            mapView.Overlays.Add(layerOverlay);
+            // Create the layer overlay with some additional settings and add to the map.
+            ThinkGeoCloudVectorMapsOverlay cloudOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~");
+            cloudOverlay.MapType = ThinkGeoCloudVectorMapsMapType.Light;
+            mapView.Overlays.Add("Cloud Overlay", cloudOverlay);
 
-            // Create the new layer and dd the layer to the overlay we created earlier.
-            KmlFeatureLayer layer = new KmlFeatureLayer("./Data/Kml/Frisco.kml");
-            layer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimplePointStyle(PointSymbolType.Diamond, GeoColors.Black, 10);
-            layer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.Red, 4, true);
-            layer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.Blue);
-            layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-            layerOverlay.Layers.Add(layer);
-
-            // Set the map view current extent to a slightly zoomed in area of the image.
-            mapView.CurrentExtent = new RectangleShape(-10777998.2731192, 3913070.41013283, -10774999.3141042, 3911542.86390418);
+            // Set the current extent to a neighborhood in Frisco Texas.
+            mapView.CurrentExtent = new RectangleShape(-10781708.9749424, 3913502.90429046, -10777685.1114043, 3910360.79646662);
 
             // Refresh the map.
             await mapView.RefreshAsync();
@@ -62,14 +54,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotatedAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(1227, 723);
+            this.mapView.Size = new System.Drawing.Size(1254, 667);
             this.mapView.TabIndex = 0;
             // 
-            // DisplayKMLFile
+            // MagneticNorth
             // 
             this.Controls.Add(this.mapView);
-            this.Name = "DisplayKMLFile";
-            this.Size = new System.Drawing.Size(1227, 723);
+            this.Name = "MagneticNorth";
+            this.Size = new System.Drawing.Size(1254, 667);
             this.Load += new System.EventHandler(this.Form_Load);
             this.ResumeLayout(false);
 

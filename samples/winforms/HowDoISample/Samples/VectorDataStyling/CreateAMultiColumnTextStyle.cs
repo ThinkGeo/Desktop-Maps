@@ -4,37 +4,45 @@ using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class DisplayCloudMapsVectorLayerOffline : UserControl
+    public class CreateAMultiColumnTextStyle : UserControl
     {
-        public DisplayCloudMapsVectorLayerOffline()
+
+        public CreateAMultiColumnTextStyle()
         {
             InitializeComponent();
         }
 
         private async void Form_Load(object sender, EventArgs e)
         {
-            // It is important to set the map unit first to either feet, meters or decimal degrees.
-            mapView.MapUnit = GeographyUnit.Meter;
+            // Set the map's unit of measurement to meters(Spherical Mercator)
+            mapView.MapUnit = GeographyUnit.DecimalDegree;
 
-            // Create a new overlay that will hold our new layer
-            LayerOverlay layerOverlay = new LayerOverlay();
+            // Create a layer with polygon data
+            var countries02Layer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Countries02.shp");
+            countries02Layer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle =
+                AreaStyle.CreateSimpleAreaStyle(GeoColors.SandyBrown, GeoColors.Black);
 
-            // Create the background world maps using vector tiles stored locally in our MBTiles file and also set the styling though a json file
-            ThinkGeoMBTilesLayer mbTilesLayer = new ThinkGeoMBTilesLayer(@"./Data/Mbtiles/Frisco.mbtiles", new Uri(@"./Data/Json/thinkgeo-world-streets-dark.json", UriKind.Relative));
-            layerOverlay.Layers.Add(mbTilesLayer);
+            var textStyle = new TextStyle();
+            textStyle.TextContent = "{CNTRY_NAME}: " + Environment.NewLine + " Population:{POP_CNTRY}";
+            textStyle.Font = new GeoFont("Arial", 10);
+            textStyle.TextBrush = GeoBrushes.Black;
 
-            // Add the overlay to the map
+            countries02Layer.ZoomLevelSet.ZoomLevel01.DefaultTextStyle = textStyle;
+            countries02Layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
+            // Add layers to a layerOverlay
+            var layerOverlay = new LayerOverlay();
+            layerOverlay.Layers.Add(countries02Layer);
+
+            // Add overlay to map
             mapView.Overlays.Add(layerOverlay);
 
-            // Set the current extent of the map to an area in the data
-            mapView.CurrentExtent = new RectangleShape(-10785086.173498387, 3913489.693302595, -10779919.030415015, 3910065.3144544438);
-
-            // Refresh the map.
+            // Set the map extent
+            mapView.CurrentExtent = new RectangleShape(-8.70, 62.60, 38.81, 31.11);
             await mapView.RefreshAsync();
         }
 
         #region Component Designer generated code
-
         private MapView mapView;
 
         private void InitializeComponent()
@@ -56,19 +64,18 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotatedAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(1142, 633);
+            this.mapView.Size = new System.Drawing.Size(1281, 643);
             this.mapView.TabIndex = 0;
             // 
-            // DisplayCloudMapsVectorLayerOffline
+            // CreateAMultiColumnTextStyle
             // 
             this.Controls.Add(this.mapView);
-            this.Name = "DisplayCloudMapsVectorLayerOffline";
-            this.Size = new System.Drawing.Size(1142, 633);
+            this.Name = "CreateAMultiColumnTextStyle";
+            this.Size = new System.Drawing.Size(1281, 643);
             this.Load += new System.EventHandler(this.Form_Load);
             this.ResumeLayout(false);
 
         }
-
         #endregion Component Designer generated code
     }
 }

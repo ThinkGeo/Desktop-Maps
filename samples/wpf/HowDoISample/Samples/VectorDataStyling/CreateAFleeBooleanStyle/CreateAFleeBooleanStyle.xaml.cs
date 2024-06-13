@@ -75,8 +75,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             landLockedCountryStyle.ColumnVariables.Add("POP_CNTRY");
             landLockedCountryStyle.ColumnVariables.Add("LANDLOCKED");
 
-            landLockedCountryStyle.CustomTrueStyles.Add(new AreaStyle(new GeoPen(GeoColor.FromArgb(255, 118, 138, 69), 1), new GeoSolidBrush(GeoColors.Yellow)));
-            landLockedCountryStyle.CustomFalseStyles.Add(AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(255, 233, 232, 214), GeoColor.FromArgb(255, 118, 138, 69)));
+            landLockedCountryStyle.CustomTrueStyles.Add(new AreaStyle(new GeoPen(GeoColor.FromArgb(255, 118, 138, 69), 1), new GeoSolidBrush(GeoColor.FromArgb(205,255,255,0))));
+            landLockedCountryStyle.CustomFalseStyles.Add(AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(205, 233, 232, 214), GeoColor.FromArgb(205, 118, 138, 69)));
 
             // Add the landLockedCountryStyle to the collection of custom styles for ZoomLevel 1. 
             layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(landLockedCountryStyle);

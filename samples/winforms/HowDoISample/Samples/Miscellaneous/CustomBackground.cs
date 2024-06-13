@@ -4,9 +4,9 @@ using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class DisplayKMLFile : UserControl
+    public class CustomBackground : UserControl
     {
-        public DisplayKMLFile()
+        public CustomBackground()
         {
             InitializeComponent();
         }
@@ -16,26 +16,29 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.Meter;
 
-            // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            ShapeFileFeatureLayer housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
 
-            // Create a new overlay that will hold our new layer and add it to the map.
-            LayerOverlay layerOverlay = new LayerOverlay();
+            // Project the layer's data to match the projection of the map
+            housingUnitsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+
+            // Add and apply the ClassBreakStyle to the housingUnitsLayer
+            housingUnitsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(new AreaStyle(GeoPens.Black));
+            housingUnitsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
+            // Add housingUnitsLayer to a LayerOverlay
+            var layerOverlay = new LayerOverlay();
+            layerOverlay.Layers.Add(housingUnitsLayer);
+
+            // Add layerOverlay to the mapView
             mapView.Overlays.Add(layerOverlay);
 
-            // Create the new layer and dd the layer to the overlay we created earlier.
-            KmlFeatureLayer layer = new KmlFeatureLayer("./Data/Kml/Frisco.kml");
-            layer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimplePointStyle(PointSymbolType.Diamond, GeoColors.Black, 10);
-            layer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.Red, 4, true);
-            layer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.Blue);
-            layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-            layerOverlay.Layers.Add(layer);
+            mapView.BackgroundOverlay.BackgroundBrush = new GeoLinearGradientBrush(GeoColors.Blue, GeoColors.White, 90);
 
-            // Set the map view current extent to a slightly zoomed in area of the image.
-            mapView.CurrentExtent = new RectangleShape(-10777998.2731192, 3913070.41013283, -10774999.3141042, 3911542.86390418);
+            // Set the map extent
+            housingUnitsLayer.Open();
+            mapView.CurrentExtent = housingUnitsLayer.GetBoundingBox();
+            housingUnitsLayer.Close();
 
-            // Refresh the map.
             await mapView.RefreshAsync();
         }
 
@@ -62,14 +65,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotatedAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(1227, 723);
+            this.mapView.Size = new System.Drawing.Size(1254, 667);
             this.mapView.TabIndex = 0;
             // 
-            // DisplayKMLFile
+            // CustomBackground
             // 
             this.Controls.Add(this.mapView);
-            this.Name = "DisplayKMLFile";
-            this.Size = new System.Drawing.Size(1227, 723);
+            this.Name = "CustomBackground";
+            this.Size = new System.Drawing.Size(1254, 667);
             this.Load += new System.EventHandler(this.Form_Load);
             this.ResumeLayout(false);
 
