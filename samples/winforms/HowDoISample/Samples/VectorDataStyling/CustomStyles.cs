@@ -18,14 +18,24 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            ShapeFileFeatureLayer worldCapitalsLayer = new ShapeFileFeatureLayer(@"..\..\..\Data\Shapefile\WorldCapitals.shp");
-            worldCapitalsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 3857);
+            var worldCapitalsLayer = new ShapeFileFeatureLayer(@"..\..\..\Data\Shapefile\WorldCapitals.shp")
+            {
+                FeatureSource =
+                    {
+                        ProjectionConverter = new ProjectionConverter(4326, 3857)
+                    }
+            };
             worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            LayerOverlay worldOverlay = new LayerOverlay();
+            var worldOverlay = new LayerOverlay();
             worldOverlay.Layers.Add("WorldCapitals", worldCapitalsLayer);
             mapView.Overlays.Add("Overlay", worldOverlay);
 
@@ -154,12 +164,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void TimeBasedPointStyle_Click(object sender, EventArgs e)
         {
-            FeatureLayer worldCapitalsLayer = mapView.FindFeatureLayer("WorldCapitals");
+            var worldCapitalsLayer = mapView.FindFeatureLayer("WorldCapitals");
 
-            TimeBasedPointStyle timeBasedPointStyle = new TimeBasedPointStyle();
-            timeBasedPointStyle.TimeZoneColumnName = "TimeZone";
-            timeBasedPointStyle.DaytimePointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Yellow, 12, GeoColors.Black);
-            timeBasedPointStyle.NighttimePointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Gray, 12, GeoColors.Black);
+            var timeBasedPointStyle = new TimeBasedPointStyle
+            {
+                TimeZoneColumnName = "TimeZone",
+                DaytimePointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Yellow, 12, GeoColors.Black),
+                NighttimePointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Gray, 12, GeoColors.Black)
+            };
 
             worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
             worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(timeBasedPointStyle);
@@ -169,9 +181,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void SizedBasedPointStyle_Click(object sender, EventArgs e)
         {
-            FeatureLayer worldCapitalsLayer = mapView.FindFeatureLayer("WorldCapitals");
+            var worldCapitalsLayer = mapView.FindFeatureLayer("WorldCapitals");
 
-            SizedPointStyle sizedpointStyle = new SizedPointStyle(PointStyle.CreateSimpleCircleStyle(GeoColors.Blue, 1), "population", 500000);
+            var sizedpointStyle = new SizedPointStyle(PointStyle.CreateSimpleCircleStyle(GeoColors.Blue, 1), "population", 500000);
 
             worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
             worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(sizedpointStyle);
@@ -221,12 +233,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         protected override void DrawCore(IEnumerable<Feature> features, GeoCanvas canvas, Collection<SimpleCandidate> labelsInThisLayer, Collection<SimpleCandidate> labelsInAllLayers)
         {
-            foreach (Feature feature in features)
+            foreach (var feature in features)
             {
                 // Here we are going to do the calculation to see what
                 // time it is for each feature and draw the appropriate style
-                float offsetToGmt = Convert.ToSingle(feature.ColumnValues[timeZoneColumnName]);
-                DateTime localTime = DateTime.UtcNow.AddHours(offsetToGmt);
+                var offsetToGmt = Convert.ToSingle(feature.ColumnValues[timeZoneColumnName]);
+                var localTime = DateTime.UtcNow.AddHours(offsetToGmt);
                 if (localTime.Hour >= 7 && localTime.Hour <= 19)
                 {
                     // Daytime
@@ -277,7 +289,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
     // This style draws a point sized with the population of the capitol.  It uses the DrawCore of the style
     // to draw directly on the canvas.  It can also leverage other styles to draw on the canvas as well.
-    class SizedPointStyle : ThinkGeo.Core.Style
+    class SizedPointStyle : Style
     {
         private PointStyle pointStyle;
         private float ratio;
@@ -316,7 +328,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             // Loop through each feature and determine how large the point should 
             // be then adjust it's size.
-            foreach (Feature feature in features)
+            foreach (var feature in features)
             {
                 float sizeData = Convert.ToSingle(feature.ColumnValues[sizeColumnName]);
                 float symbolSize = sizeData / ratio;

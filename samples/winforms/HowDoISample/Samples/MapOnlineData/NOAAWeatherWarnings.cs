@@ -21,21 +21,32 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Create background world map with vector tile requested from ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a new overlay that will hold our new layer and add it to the map.
-            LayerOverlay noaaWeatherWarningsOverlay = new LayerOverlay();
+            var noaaWeatherWarningsOverlay = new LayerOverlay();
             mapView.Overlays.Add("Noaa Weather Warning", noaaWeatherWarningsOverlay);
 
             // Create the new layer and set the projection as the data is in srid 4326 and our background is srid 3857 (spherical mercator).
-            NoaaWeatherWarningsFeatureLayer noaaWeatherWarningsFeatureLayer = new NoaaWeatherWarningsFeatureLayer();
-            noaaWeatherWarningsFeatureLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 3857);
+            var noaaWeatherWarningsFeatureLayer = new NoaaWeatherWarningsFeatureLayer
+            {
+                FeatureSource =
+                {
+                    ProjectionConverter = new ProjectionConverter(4326, 3857)
+                }
+            };
 
             // Add the new layer to the overlay we created earlier
             noaaWeatherWarningsOverlay.Layers.Add("Noaa Weather Warning", noaaWeatherWarningsFeatureLayer);
 
-            // Get the layers feature source and setup an event that will refresh the map when the data refreshes
+            // Get the layers feature source and set up an event that will refresh the map when the data refreshes
             var featureSource = (NoaaWeatherWarningsFeatureSource)noaaWeatherWarningsFeatureLayer.FeatureSource;
 
             // Create the weather warnings style and add it on zoom level 1 and then apply it to all zoom levels up to 20.
@@ -46,7 +57,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = new RectangleShape(-14927495.374917, 8262593.0543992, -6686622.84891633, 1827556.23117885);
 
             // Add a PopupOverlay to the map, to display feature information
-            PopupOverlay popupOverlay = new PopupOverlay();
+            var popupOverlay = new PopupOverlay();
             mapView.Overlays.Add("Info Popup Overlay", popupOverlay);
 
             // Refresh the map.
@@ -67,7 +78,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private Collection<Feature> GetFeaturesFromLocation(PointShape location)
         {
             // Get the parks layer from the MapView
-            FeatureLayer weatherWarnings = mapView.FindFeatureLayer("Noaa Weather Warning");
+            var weatherWarnings = mapView.FindFeatureLayer("Noaa Weather Warning");
 
             // Find the feature that was clicked on by querying the layer for features containing the clicked coordinates            
             Collection<Feature> selectedFeatures = weatherWarnings.QueryTools.GetFeaturesContaining(location, ReturningColumnsType.AllColumns);
@@ -82,23 +93,25 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             if (features.Count > 0)
             {
-                StringBuilder weatherWarningString = new StringBuilder();
+                var weatherWarningString = new StringBuilder();
 
                 // Each column in a feature is a data attribute
                 // Add all attribute pairs to the info string
 
 
-                foreach (Feature feature in features)
+                foreach (var feature in features)
                 {
                     weatherWarningString.AppendLine($"{feature.ColumnValues["TITLE"]}");
                 }
 
                 // Create a new popup with the park info string
-                PopupOverlay popupOverlay = (PopupOverlay)mapView.Overlays["Info Popup Overlay"];
-                Popup popup = new Popup(features[0].GetShape().GetCenterPoint());
-                popup.Content = weatherWarningString.ToString();
-                popup.FontSize = 10d;
-                popup.FontFamily = new System.Windows.Media.FontFamily("Verdana");
+                var popupOverlay = (PopupOverlay)mapView.Overlays["Info Popup Overlay"];
+                var popup = new Popup(features[0].GetShape().GetCenterPoint())
+                {
+                    Content = weatherWarningString.ToString(),
+                    FontSize = 10d,
+                    FontFamily = new System.Windows.Media.FontFamily("Verdana")
+                };
 
                 // Clear the popup overlay and add the new popup to it
                 popupOverlay.Popups.Clear();

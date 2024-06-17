@@ -16,14 +16,20 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void Form_Load(object sender, EventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map's unit of measurement to meters (Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Create a new feature layer to display the shapes we will be reprojecting
-            InMemoryFeatureLayer reprojectedFeaturesLayer = new InMemoryFeatureLayer();
+            var reprojectedFeaturesLayer = new InMemoryFeatureLayer();
 
             // Add a point, line, and polygon style to the layer. These styles control how the shapes will be drawn
             reprojectedFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 24, GeoBrushes.MediumPurple, GeoPens.Purple);
@@ -34,7 +40,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             reprojectedFeaturesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Add the layer to an overlay
-            LayerOverlay reprojectedFeaturesOverlay = new LayerOverlay();
+            var reprojectedFeaturesOverlay = new LayerOverlay();
             reprojectedFeaturesOverlay.Layers.Add("Reprojected Features Layer", reprojectedFeaturesLayer);
 
             // Add the overlay to the map
@@ -48,14 +54,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             await mapView.RefreshAsync();
         }
 
-        private Feature ReprojectFeature(Feature decimalDegreeFeature)
+        private static Feature ReprojectFeature(Feature decimalDegreeFeature)
         {
             // Create a new ProjectionConverter to convert between Decimal Degrees (4326) and Spherical Mercator (3857)
-            ProjectionConverter projectionConverter = new ProjectionConverter(4326, 3857);
+            var projectionConverter = new ProjectionConverter(4326, 3857);
 
             // Convert the feature to Spherical Mercator
             projectionConverter.Open();
-            Feature sphericalMercatorFeature = projectionConverter.ConvertToExternalProjection(decimalDegreeFeature);
+            var sphericalMercatorFeature = projectionConverter.ConvertToExternalProjection(decimalDegreeFeature);
             projectionConverter.Close();
 
             // Return the reprojected feature
@@ -65,14 +71,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// <summary>
         /// Use the ProjectionConverter to reproject multiple features
         /// </summary>
-        private Collection<Feature> ReprojectMultipleFeatures(Collection<Feature> decimalDegreeFeatures)
+        private static Collection<Feature> ReprojectMultipleFeatures(Collection<Feature> decimalDegreeFeatures)
         {
             // Create a new ProjectionConverter to convert between Decimal Degrees (4326) and Spherical Mercator (3857)
-            ProjectionConverter projectionConverter = new ProjectionConverter(4326, 3857);
+            var projectionConverter = new ProjectionConverter(4326, 3857);
 
             // Convert the feature to Spherical Mercator
             projectionConverter.Open();
-            Collection<Feature> sphericalMercatorFeatures = projectionConverter.ConvertToExternalProjection(decimalDegreeFeatures);
+            var sphericalMercatorFeatures = projectionConverter.ConvertToExternalProjection(decimalDegreeFeatures);
             projectionConverter.Close();
 
             // Return the reprojected features
@@ -85,11 +91,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async Task ClearMapAndAddFeaturesAsync(Collection<Feature> reprojectedFeatures)
         {
             // Get the layer we prepared from the MapView
-            InMemoryFeatureLayer reprojectedFeatureLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Reprojected Features Layer");
+            var reprojectedFeatureLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Reprojected Features Layer");
 
             // Clear old features from the feature layer and add the newly reprojected features
             reprojectedFeatureLayer.InternalFeatures.Clear();
-            foreach (Feature sphericalMercatorFeature in reprojectedFeatures)
+            foreach (var sphericalMercatorFeature in reprojectedFeatures)
             {
                 reprojectedFeatureLayer.InternalFeatures.Add(sphericalMercatorFeature);
             }
@@ -98,7 +104,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             reprojectedFeatureLayer.Open();
             mapView.CurrentExtent = reprojectedFeatureLayer.GetBoundingBox();
 
-            ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
+            var standardZoomLevelSet = new ZoomLevelSet();
             await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
 
             reprojectedFeatureLayer.Close();
@@ -109,10 +115,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void reprojectAndDisplayFeature_Click(object sender, EventArgs e)
         {
             // Create a feature with coordinates in Decimal Degrees (4326)
-            Feature decimalDegreeFeature = new Feature(-96.834516, 33.150083);
+            var decimalDegreeFeature = new Feature(-96.834516, 33.150083);
 
             // Convert the feature to Spherical Mercator
-            Feature sphericalMercatorFeature = ReprojectFeature(decimalDegreeFeature);
+            var sphericalMercatorFeature = ReprojectFeature(decimalDegreeFeature);
 
             // Add the reprojected features to the map
             await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { sphericalMercatorFeature });
@@ -121,13 +127,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void reprojectAndDisplayMultipleFeatures_Click(object sender, EventArgs e)
         {
             // Create features based on the WKT in the textbox in the UI
-            Collection<Feature> decimalDegreeFeatures = new Collection<Feature>();
-            string[] wktStrings = txtWkt.Text.Split('\n');
-            foreach (string wktString in wktStrings)
+            var decimalDegreeFeatures = new Collection<Feature>();
+            var wktStrings = txtWkt.Text.Split('\n');
+            foreach (var wktString in wktStrings)
             {
                 try
                 {
-                    Feature wktFeature = new Feature(wktString);
+                    var wktFeature = new Feature(wktString);
                     decimalDegreeFeatures.Add(wktFeature);
                 }
                 catch (Exception ex)
@@ -137,7 +143,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
 
             // Convert the features to Spherical Mercator
-            Collection<Feature> sphericalMercatorFeatures = ReprojectMultipleFeatures(decimalDegreeFeatures);
+            var sphericalMercatorFeatures = ReprojectMultipleFeatures(decimalDegreeFeatures);
 
             // Add the reprojected features to the map
             await ClearMapAndAddFeaturesAsync(sphericalMercatorFeatures);

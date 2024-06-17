@@ -18,7 +18,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
@@ -38,10 +44,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var popupOverlay = new PopupOverlay();
 
             // Create a layer in order to query the data
-            var hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
-
-            // Project the data to match the map's projection
-            hotelsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+            var hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp")
+            {
+                FeatureSource =
+                {
+                    // Project the data to match the map's projection
+                    ProjectionConverter = new ProjectionConverter(2276, 3857)
+                }
+            };
 
             // Open the layer so that we can begin querying
             hotelsLayer.Open();

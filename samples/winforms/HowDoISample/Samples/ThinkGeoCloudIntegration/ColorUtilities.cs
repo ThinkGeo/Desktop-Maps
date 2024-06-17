@@ -19,47 +19,55 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void Form_Load(object sender, EventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map's unit of measurement to meters (Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Create a new ShapeFileFeatureLayer using a shapefile containing Frisco Census data
-            ShapeFileFeatureLayer housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
+            var housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
             housingUnitsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Create a new ProjectionConverter to convert between Texas North Central (2276) and Spherical Mercator (3857)
-            ProjectionConverter projectionConverter = new ProjectionConverter(2276, 3857);
+            var projectionConverter = new ProjectionConverter(2276, 3857);
             housingUnitsLayer.FeatureSource.ProjectionConverter = projectionConverter;
 
             // Create a new overlay and add the census feature layer
-            LayerOverlay housingUnitsOverlay = new LayerOverlay();
+            var housingUnitsOverlay = new LayerOverlay();
             housingUnitsOverlay.Layers.Add("Frisco Housing Units", housingUnitsLayer);
             mapView.Overlays.Add("Frisco Housing Units Overlay", housingUnitsOverlay);
 
-            // Create a legend adornment to display classbreaks
-            LegendAdornmentLayer legend = new LegendAdornmentLayer();
-
-            // Set up the legend adornment
-            legend.Title = new LegendItem()
+            // Create a legend adornment to display class breaks
+            var legend = new LegendAdornmentLayer
             {
-                TextStyle = new TextStyle("Housing Unit Counts", new GeoFont("Verdana", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
+                // Set up the legend adornment
+                Title = new LegendItem()
+                {
+                    TextStyle = new TextStyle("Housing Unit Counts", new GeoFont("Verdana", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
+                },
+                Location = AdornmentLocation.LowerRight
             };
-            legend.Location = AdornmentLocation.LowerRight;
+
             mapView.AdornmentOverlay.Layers.Add("Legend", legend);
 
-            // Get the exttent of the features from the housing units shapefile, and set the map extent.
+            // Get the extent of the features from the housing units shapefile, and set the map extent.
             housingUnitsLayer.Open();
             mapView.CurrentExtent = housingUnitsLayer.GetBoundingBox();
             await mapView.ZoomOutAsync();
             housingUnitsLayer.Close();
 
             // Initialize the ColorCloudClient using our ThinkGeo Cloud credentials
-            colorCloudClient = new ColorCloudClient("FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~", "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~");
+            colorCloudClient = new ColorCloudClient(SampleKeys.ClientId2, SampleKeys.ClientSecret2);
 
             // Set the initial color scheme for the housing units layer
-            Collection<GeoColor> colors = await GetColorsFromCloud();
+            var colors = await GetColorsFromCloud();
             // If colors were successfully generated, update the map
             if (colors.Count > 0)
             {
@@ -69,58 +77,55 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             await mapView.RefreshAsync();
         }
 
-
         /// <summary>
         /// Make a request to the ThinkGeo Cloud for a new set of colors
         /// </summary>
         private async Task<Collection<GeoColor>> GetColorsFromCloud()
         {
             // Set the number of colors we want to generate
-            int numberOfColors = 6;
+            const int numberOfColors = 6;
 
             // Create a new collection to hold the colors generated
-            Collection<GeoColor> colors = new Collection<GeoColor>();
+            var colors = new Collection<GeoColor>();
 
             // Show a loading graphic to let users know the request is running
             // loadingImage.Visibility = Visibility.Visible;
             // Generate colors based on the selected 'color type'
-            switch (cboColorType.SelectedItem.ToString())
-            {
-                case "Hue":
-                    // Get a family of colors with the same hue and sequential variances in lightness and saturation
-                    colors = await GetColorsByHue(numberOfColors);
-                    break;
-                case "Analogous":
-                    // Get a family of colors based on analogous hues
-                    colors = await GetAnalogousColors(numberOfColors);
-                    break;
-                case "Complementary":
-                    // Get a family of colors based on complementary hues
-                    colors = await GetComplementaryColors(numberOfColors);
-                    break;
-                case "Contrasting":
-                    // Get a family of colors based on contrasting hues
-                    colors = await GetContrastingColors(numberOfColors);
-                    break;
-                case "Quality":
-                    // Get a family of colors with qualitative variances in hue, but similar lightness and saturation
-                    colors = await GetQualityColors(numberOfColors);
-                    break;
-                case "Tetrad":
-                    // Get a family of colors based on a harmonious tetrad of hues
-                    colors = await GetTetradColors(numberOfColors);
-                    break;
-                case "Triad":
-                    // Get a family of colors based on a harmonious tried of hues
-                    colors = await GetTriadColors(numberOfColors);
-                    break;
-                default:
-                    break;
-            }
+            if (cboColorType.SelectedItem != null)
+                switch (cboColorType.SelectedItem.ToString())
+                {
+                    case "Hue":
+                        // Get a family of colors with the same hue and sequential variances in lightness and saturation
+                        colors = await GetColorsByHue(numberOfColors);
+                        break;
+                    case "Analogous":
+                        // Get a family of colors based on analogous hues
+                        colors = await GetAnalogousColors(numberOfColors);
+                        break;
+                    case "Complementary":
+                        // Get a family of colors based on complementary hues
+                        colors = await GetComplementaryColors(numberOfColors);
+                        break;
+                    case "Contrasting":
+                        // Get a family of colors based on contrasting hues
+                        colors = await GetContrastingColors(numberOfColors);
+                        break;
+                    case "Quality":
+                        // Get a family of colors with qualitative variances in hue, but similar lightness and saturation
+                        colors = await GetQualityColors(numberOfColors);
+                        break;
+                    case "Tetrad":
+                        // Get a family of colors based on a harmonious tetrad of hues
+                        colors = await GetTetradColors(numberOfColors);
+                        break;
+                    case "Triad":
+                        // Get a family of colors based on a harmonious tried of hues
+                        colors = await GetTriadColors(numberOfColors);
+                        break;
+                }
 
             // Hide the loading graphic
             //loadingImage.Visibility = Visibility.Hidden;
-
             return colors;
         }
 
@@ -130,23 +135,23 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async Task UpdateHousingUnitsLayerColorsAsync(Collection<GeoColor> colors)
         {
             // Get the housing units layer from the MapView
-            LayerOverlay housingUnitsOverlay = (LayerOverlay)mapView.Overlays["Frisco Housing Units Overlay"];
-            ShapeFileFeatureLayer housingUnitsLayer = (ShapeFileFeatureLayer)housingUnitsOverlay.Layers["Frisco Housing Units"];
+            var housingUnitsOverlay = (LayerOverlay)mapView.Overlays["Frisco Housing Units Overlay"];
+            var housingUnitsLayer = (ShapeFileFeatureLayer)housingUnitsOverlay.Layers["Frisco Housing Units"];
 
             // Clear the previous style from the housing units layer
             housingUnitsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
 
             // Create a new ClassBreakStyle to showcase the color family generated
-            ClassBreakStyle classBreakStyle = new ClassBreakStyle();
-            Collection<ClassBreak> classBreaks = new Collection<ClassBreak>();
+            var classBreakStyle = new ClassBreakStyle();
+            var classBreaks = new Collection<ClassBreak>();
 
             // Different features will be styled differently based on the 'H_UNITS' attribute of the features
             classBreakStyle.ColumnName = "H_UNITS";
-            double[] classBreaksIntervals = new double[] { 0, 1000, 2000, 3000, 4000, 5000 };
+            var classBreaksIntervals = new double[] { 0, 1000, 2000, 3000, 4000, 5000 };
             for (int i = 0; i < colors.Count; i++)
             {
                 // Create a differently colored area style for housing units counts of 0, 1000, 2000, etc
-                AreaStyle areaStyle = new AreaStyle(new GeoSolidBrush(colors[colors.Count - i - 1]));
+                var areaStyle = new AreaStyle(new GeoSolidBrush(colors[colors.Count - i - 1]));
                 classBreakStyle.ClassBreaks.Add(new ClassBreak(classBreaksIntervals[i], areaStyle));
                 classBreaks.Add(new ClassBreak(classBreaksIntervals[i], areaStyle));
             }
@@ -164,7 +169,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async Task GenerateNewLegendItemsAsync(Collection<ClassBreak> classBreaks)
         {
             // Clear the previous legend adornment
-            LegendAdornmentLayer legend = (LegendAdornmentLayer)mapView.AdornmentOverlay.Layers["Legend"];
+            var legend = (LegendAdornmentLayer)mapView.AdornmentOverlay.Layers["Legend"];
 
             legend.LegendItems.Clear();
             // Add a LegendItems to the legend adornment for each ClassBreak
@@ -181,13 +186,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             await mapView.AdornmentOverlay.RefreshAsync();
         }
 
-
         /// <summary>
         /// Get a family of colors with the same hue and sequential variances in lightness and saturation
         /// </summary>
         private async Task<Collection<GeoColor>> GetColorsByHue(int numberOfColors)
         {
-            Collection<GeoColor> hueColors = new Collection<GeoColor>();
+            var hueColors = new Collection<GeoColor>();
 
             // Generate colors based on the parameters selected in the UI
             if (rdoRandomColor.Checked)
@@ -198,7 +202,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             else if (rdoSpecificColor.Checked)
             {
                 // Use the HTML color code specified for the base color
-                GeoColor colorFromInputString = GetGeoColorFromString(txtSpecificColor.Text);
+                var colorFromInputString = GetGeoColorFromString(txtSpecificColor.Text);
                 if (colorFromInputString != null)
                 {
                     hueColors = await colorCloudClient.GetColorsInHueFamilyAsync(colorFromInputString, numberOfColors);
@@ -210,7 +214,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 hueColors = await colorCloudClient.GetColorsInHueFamilyAsync(GetGeoColorFromDefaultColors(), numberOfColors);
 
             }
-
             return hueColors;
         }
 
@@ -219,8 +222,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// </summary>
         private async Task<Collection<GeoColor>> GetAnalogousColors(int numberOfColors)
         {
-            Collection<GeoColor> analogousColors = new Collection<GeoColor>();
-            Dictionary<GeoColor, Collection<GeoColor>> colorsDictionary = new Dictionary<GeoColor, Collection<GeoColor>>();
+            var analogousColors = new Collection<GeoColor>();
+            var colorsDictionary = new Dictionary<GeoColor, Collection<GeoColor>>();
 
             // Generate colors based on the parameters selected in the UI
             if (rdoRandomColor.Checked)
@@ -231,7 +234,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             else if (rdoSpecificColor.Checked)
             {
                 // Use the HTML color code specified for the base color
-                GeoColor colorFromInputString = GetGeoColorFromString(txtSpecificColor.Text);
+                var colorFromInputString = GetGeoColorFromString(txtSpecificColor.Text);
                 if (colorFromInputString != null)
                 {
                     colorsDictionary = await colorCloudClient.GetColorsInAnalogousFamilyAsync(colorFromInputString, numberOfColors);
@@ -245,7 +248,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Some color generation APIs use multiple base colors based on the original input color
             // These APIs return a dictionary where the 'keys' are the base colors and the 'values' are the colors generated from that base
-            // For this sample we will simply utilize all of the colors generated
+            // For this sample we will simply utilize all the colors generated
             foreach (var colors in colorsDictionary.Values)
             {
                 foreach (var color in colors)
@@ -253,7 +256,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                     analogousColors.Add(color);
                 }
             }
-
             return analogousColors;
         }
 
@@ -262,8 +264,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// </summary>
         private async Task<Collection<GeoColor>> GetComplementaryColors(int numberOfColors)
         {
-            Collection<GeoColor> complementaryColors = new Collection<GeoColor>();
-            Dictionary<GeoColor, Collection<GeoColor>> colorsDictionary = new Dictionary<GeoColor, Collection<GeoColor>>();
+            var complementaryColors = new Collection<GeoColor>();
+            var colorsDictionary = new Dictionary<GeoColor, Collection<GeoColor>>();
 
             // Generate colors based on the parameters selected in the UI
             if (rdoRandomColor.Checked)
@@ -274,7 +276,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             else if (rdoSpecificColor.Checked)
             {
                 // Use the HTML color code specified for the base color
-                GeoColor colorFromInputString = GetGeoColorFromString(txtSpecificColor.Text);
+                var colorFromInputString = GetGeoColorFromString(txtSpecificColor.Text);
                 if (colorFromInputString != null)
                 {
                     colorsDictionary = await colorCloudClient.GetColorsInComplementaryFamilyAsync(colorFromInputString, numberOfColors);
@@ -288,7 +290,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Some color generation APIs use multiple base colors based on the original input color
             // These APIs return a dictionary where the 'keys' are the base colors and the 'values' are the colors generated from that base
-            // For this sample we will simply utilize all of the colors generated
+            // For this sample we will simply utilize all the colors generated
             foreach (var colors in colorsDictionary.Values)
             {
                 foreach (var color in colors)
@@ -305,8 +307,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// </summary>
         private async Task<Collection<GeoColor>> GetContrastingColors(int numberOfColors)
         {
-            Collection<GeoColor> contrastingColors = new Collection<GeoColor>();
-            Dictionary<GeoColor, Collection<GeoColor>> colorsDictionary = new Dictionary<GeoColor, Collection<GeoColor>>();
+            var contrastingColors = new Collection<GeoColor>();
+            var colorsDictionary = new Dictionary<GeoColor, Collection<GeoColor>>();
 
             // Generate colors based on the parameters selected in the UI
             if (rdoRandomColor.Checked)
@@ -317,7 +319,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             else if (rdoSpecificColor.Checked)
             {
                 // Use the HTML color code specified for the base color
-                GeoColor colorFromInputString = GetGeoColorFromString(txtSpecificColor.Text);
+                var colorFromInputString = GetGeoColorFromString(txtSpecificColor.Text);
                 if (colorFromInputString != null)
                 {
                     colorsDictionary = await colorCloudClient.GetColorsInContrastingFamilyAsync(colorFromInputString, numberOfColors);
@@ -331,7 +333,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Some color generation APIs use multiple base colors based on the original input color
             // These APIs return a dictionary where the 'keys' are the base colors and the 'values' are the colors generated from that base
-            // For this sample we will simply utilize all of the colors generated
+            // For this sample we will simply utilize all the colors generated
             foreach (var colors in colorsDictionary.Values)
             {
                 foreach (var color in colors)
@@ -339,7 +341,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                     contrastingColors.Add(color);
                 }
             }
-
             return contrastingColors;
         }
 
@@ -348,7 +349,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// </summary>
         private async Task<Collection<GeoColor>> GetQualityColors(int numberOfColors)
         {
-            Collection<GeoColor> qualityColors = new Collection<GeoColor>();
+            var qualityColors = new Collection<GeoColor>();
 
             // Generate colors based on the parameters selected in the UI
             if (rdoRandomColor.Checked)
@@ -359,7 +360,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             else if (rdoSpecificColor.Checked)
             {
                 // Use the HTML color code specified for the base color
-                GeoColor colorFromInputString = GetGeoColorFromString(txtSpecificColor.Text);
+                var colorFromInputString = GetGeoColorFromString(txtSpecificColor.Text);
                 if (colorFromInputString != null)
                 {
                     qualityColors = await colorCloudClient.GetColorsInQualityFamilyAsync(colorFromInputString, numberOfColors);
@@ -379,8 +380,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// </summary>
         private async Task<Collection<GeoColor>> GetTetradColors(int numberOfColors)
         {
-            Collection<GeoColor> tetradColors = new Collection<GeoColor>();
-            Dictionary<GeoColor, Collection<GeoColor>> colorsDictionary = new Dictionary<GeoColor, Collection<GeoColor>>();
+            var tetradColors = new Collection<GeoColor>();
+            var colorsDictionary = new Dictionary<GeoColor, Collection<GeoColor>>();
 
             // Generate colors based on the parameters selected in the UI
             if (rdoRandomColor.Checked)
@@ -391,7 +392,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             else if (rdoSpecificColor.Checked)
             {
                 // Use the HTML color code specified for the base color
-                GeoColor colorFromInputString = GetGeoColorFromString(txtSpecificColor.Text);
+                var colorFromInputString = GetGeoColorFromString(txtSpecificColor.Text);
                 if (colorFromInputString != null)
                 {
                     colorsDictionary = await colorCloudClient.GetColorsInTetradFamilyAsync(colorFromInputString, numberOfColors);
@@ -405,7 +406,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Some color generation APIs use multiple base colors based on the original input color
             // These APIs return a dictionary where the 'keys' are the base colors and the 'values' are the colors generated from that base
-            // For this sample we will simply utilize all of the colors generated
+            // For this sample we will simply utilize all the colors generated
             foreach (var colors in colorsDictionary.Values)
             {
                 foreach (var color in colors)
@@ -413,7 +414,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                     tetradColors.Add(color);
                 }
             }
-
             return tetradColors;
         }
 
@@ -422,8 +422,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// </summary>
         private async Task<Collection<GeoColor>> GetTriadColors(int numberOfColors)
         {
-            Collection<GeoColor> triadColors = new Collection<GeoColor>();
-            Dictionary<GeoColor, Collection<GeoColor>> colorsDictionary = new Dictionary<GeoColor, Collection<GeoColor>>();
+            var triadColors = new Collection<GeoColor>();
+            var colorsDictionary = new Dictionary<GeoColor, Collection<GeoColor>>();
 
             // Generate colors based on the parameters selected in the UI
             if (rdoRandomColor.Checked)
@@ -434,7 +434,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             else if (rdoSpecificColor.Checked)
             {
                 // Use the HTML color code specified for the base color
-                GeoColor colorFromInputString = GetGeoColorFromString(txtSpecificColor.Text);
+                var colorFromInputString = GetGeoColorFromString(txtSpecificColor.Text);
                 if (colorFromInputString != null)
                 {
                     colorsDictionary = await colorCloudClient.GetColorsInTriadFamilyAsync(colorFromInputString, numberOfColors);
@@ -448,7 +448,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Some color generation APIs use multiple base colors based on the original input color
             // These APIs return a dictionary where the 'keys' are the base colors and the 'values' are the colors generated from that base
-            // For this sample we will simply utilize all of the colors generated
+            // For this sample we will simply utilize all the colors generated
             foreach (var colors in colorsDictionary.Values)
             {
                 foreach (var color in colors)
@@ -456,7 +456,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                     triadColors.Add(color);
                 }
             }
-
             return triadColors;
         }
 
@@ -485,7 +484,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// </summary>
         private GeoColor GetGeoColorFromDefaultColors()
         {
-            GeoColor color = GeoColors.White;
+            var color = GeoColors.White;
             var selectedColorItem = cboDefaultColor.SelectedItem as string;
 
             switch (selectedColorItem)
@@ -508,8 +507,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 case "Purple":
                     color = GeoColors.Purple;
                     break;
-                default:
-                    break;
             }
 
             return color;
@@ -518,7 +515,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void generate_Click(object sender, EventArgs e)
         {
             // Get a new set of colors from the ThinkGeo Cloud
-            Collection<GeoColor> colors = await GetColorsFromCloud();
+            var colors = await GetColorsFromCloud();
 
             // If colors were successfully generated, update the map
             if (colors.Count > 0)
@@ -529,34 +526,30 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void cboColorType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var comboBoxContent = (cboColorType.SelectedItem as string);
-
-            if (comboBoxContent != null)
+            if (cboColorType.SelectedItem is string comboBoxContent)
             {
-                switch (comboBoxContent.ToString())
+                switch (comboBoxContent)
                 {
                     case "Hue":
-                        txtColorCategoryDescription.Text = "Get a family of colors with the same hue and sequential variances in lightness and saturation";
+                        txtColorCategoryDescription.Text = "Get a family of colors with the same hue\r\nand sequential variances in lightness\r\nand saturation";
                         break;
                     case "Analogous":
-                        txtColorCategoryDescription.Text = "Get a family of colors based on analogous hues";
+                        txtColorCategoryDescription.Text = "Get a family of colors\r\nbased on analogous hues";
                         break;
                     case "Complementary":
-                        txtColorCategoryDescription.Text = "Get a family of colors based on complementary hues";
+                        txtColorCategoryDescription.Text = "Get a family of colors\r\nbased on complementary hues";
                         break;
                     case "Contrasting":
-                        txtColorCategoryDescription.Text = "Get a family of colors based on contrasting hues";
+                        txtColorCategoryDescription.Text = "Get a family of colors\r\nbased on contrasting hues";
                         break;
                     case "Quality":
-                        txtColorCategoryDescription.Text = "Get a family of colors with qualitative variances in hue, but similar lightness and saturation";
+                        txtColorCategoryDescription.Text = "Get a family of colors\r\nwith qualitative variances in hue,\r\nbut similar lightness and saturation";
                         break;
                     case "Tetrad":
-                        txtColorCategoryDescription.Text = "Get a family of colors based on a harmonious tetrad of hues";
+                        txtColorCategoryDescription.Text = "Get a family of colors\r\nbased on a harmonious tetrad of hues";
                         break;
                     case "Triad":
-                        txtColorCategoryDescription.Text = "Get a family of colors based on a harmonious tried of hues";
-                        break;
-                    default:
+                        txtColorCategoryDescription.Text = "Get a family of colors\r\nbased on a harmonious tried of hues";
                         break;
                 }
             }
@@ -771,7 +764,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(199, 40);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Generate and Apply a New\r\nColor Group";
+            this.label1.Text = "Generate and Apply a New Color Group";
             // 
             // ColorUtilities
             // 

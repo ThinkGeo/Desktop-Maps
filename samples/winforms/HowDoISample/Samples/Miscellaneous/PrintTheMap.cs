@@ -27,8 +27,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void printMap_Click(object sender, EventArgs e)
         {
-            PrinterInteractiveOverlay printerOverlay = (PrinterInteractiveOverlay)mapView.InteractiveOverlays["printerOverlay"];
-            PagePrinterLayer pageLayer = (PagePrinterLayer)printerOverlay.PrinterLayers["pageLayer"];
+            var printerOverlay = (PrinterInteractiveOverlay)mapView.InteractiveOverlays["printerOverlay"];
+            var pageLayer = (PagePrinterLayer)printerOverlay.PrinterLayers["pageLayer"];
 
             // Create a printDocument that matches the size of our pageLayer
             var printDocument = new PrintDocument
@@ -76,11 +76,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 new PrinterZoomLevelSet(GeographyUnit.Meter, PrinterHelper.GetPointsPerGeographyUnit(GeographyUnit.Meter));
             mapView.MinimumScale = mapView.ZoomLevelSet.ZoomLevel20.Scale;
 
-            PrinterInteractiveOverlay printerOverlay = new PrinterInteractiveOverlay();
-            PagePrinterLayer pageLayer = new PagePrinterLayer(PrinterPageSize.AnsiA, PrinterOrientation.Portrait);
-
-            // Style the pageLayer to appear to look like a piece of paper
-            pageLayer.BackgroundMask = AreaStyle.CreateSimpleAreaStyle(GeoColors.White, GeoColors.Black);
+            var printerOverlay = new PrinterInteractiveOverlay();
+            var pageLayer = new PagePrinterLayer(PrinterPageSize.AnsiA, PrinterOrientation.Portrait)
+            {
+                // Style the pageLayer to appear to look like a piece of paper
+                BackgroundMask = AreaStyle.CreateSimpleAreaStyle(GeoColors.White, GeoColors.Black)
+            };
 
             // Add the pageLayer to the printerOverlay
             printerOverlay.PrinterLayers.Add("pageLayer", pageLayer);
@@ -97,8 +98,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// </summary>
         private void AddPageTitleLabel()
         {
-            PrinterInteractiveOverlay printerOverlay = (PrinterInteractiveOverlay)mapView.InteractiveOverlays["printerOverlay"];
-            PagePrinterLayer pageLayer = (PagePrinterLayer)printerOverlay.PrinterLayers["pageLayer"];
+            var printerOverlay = (PrinterInteractiveOverlay)mapView.InteractiveOverlays["printerOverlay"];
+            //var pageLayer = (PagePrinterLayer)printerOverlay.PrinterLayers["pageLayer"];
 
             var titleLabel = new LabelPrinterLayer("Frisco Mosquito Report - 5/5/2020", new GeoFont("Verdana", 8), GeoBrushes.Black)
             {
@@ -114,8 +115,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// </summary>
         private void AddMapLayers()
         {
-            PrinterInteractiveOverlay printerOverlay = (PrinterInteractiveOverlay)mapView.InteractiveOverlays["printerOverlay"];
-            PagePrinterLayer pageLayer = (PagePrinterLayer)printerOverlay.PrinterLayers["pageLayer"];
+            var printerOverlay = (PrinterInteractiveOverlay)mapView.InteractiveOverlays["printerOverlay"];
+            var pageLayer = (PagePrinterLayer)printerOverlay.PrinterLayers["pageLayer"];
 
             /***************************
              * Create cityLimits layer *
@@ -197,8 +198,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// </summary>
         private void AddMosquitoDataGrid()
         {
-            PrinterInteractiveOverlay printerOverlay = (PrinterInteractiveOverlay)mapView.InteractiveOverlays["printerOverlay"];
-            PagePrinterLayer pageLayer = (PagePrinterLayer)printerOverlay.PrinterLayers["pageLayer"];
+            var printerOverlay = (PrinterInteractiveOverlay)mapView.InteractiveOverlays["printerOverlay"];
+            var pageLayer = (PagePrinterLayer)printerOverlay.PrinterLayers["pageLayer"];
 
             // Create a table with columns
             var table = new DataTable();
@@ -229,7 +230,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var pageCenter = pageLayer.GetPosition().GetCenterPoint();
             dataGridLayer.SetPosition(7.5, 4, pageCenter.X, pageCenter.Y - 3, PrintingUnit.Inch);
 
-            // Add the dataGridLayer to the the PrinterLayers collection to print later
+            // Add the dataGridLayer to the PrinterLayers collection to print later
             printerOverlay.PrinterLayers.Add(dataGridLayer);
         }
 
@@ -316,6 +317,5 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         }
 
         #endregion Component Designer generated code
-
     }
 }

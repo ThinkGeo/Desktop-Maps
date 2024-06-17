@@ -18,17 +18,21 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColors.ShallowOcean);
 
             // Create the new layer and dd the layer to the overlay we created earlier.
-            GdalRasterLayer worldLayer = new GdalRasterLayer("./Data/GeoTiff/World.tif");
-            worldLayer.LowerThreshold = 0;
-            worldLayer.UpperThreshold = double.MaxValue;
+            var worldLayer = new GdalRasterLayer("./Data/GeoTiff/World.tif")
+            {
+                LowerThreshold = 0,
+                UpperThreshold = double.MaxValue
+            };
 
             worldLayer.Open();
             mapView.CurrentExtent = worldLayer.GetBoundingBox();
             worldLayer.Close();
 
             // Create a new overlay that will hold our new layer and add it to the map.
-            LayerOverlay staticOverlay = new LayerOverlay();
-            staticOverlay.DrawingExceptionMode = DrawingExceptionMode.DrawException;
+            var staticOverlay = new LayerOverlay
+            {
+                DrawingExceptionMode = DrawingExceptionMode.DrawException
+            };
 
             staticOverlay.Layers.Add("WorldLayer", worldLayer);
             mapView.Overlays.Add(staticOverlay);

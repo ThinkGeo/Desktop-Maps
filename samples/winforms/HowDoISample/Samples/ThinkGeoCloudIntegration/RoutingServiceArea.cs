@@ -20,24 +20,31 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void Form_Load(object sender, EventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map's unit of measurement to meters (Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Create a new feature layer to display the service areas
-            InMemoryFeatureLayer serviceAreasLayer = new InMemoryFeatureLayer();
+            var serviceAreasLayer = new InMemoryFeatureLayer();
 
-            // Add a classbreak style to display the service areas
+            // Add a class break style to display the service areas
             // We will display a different color for 15, 30, 45, and 60 minute travel times
-            Collection<ClassBreak> serviceAreasClassBreaks = new Collection<ClassBreak>();
-            serviceAreasClassBreaks.Add(new ClassBreak(15, AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(60, GeoColors.Green), GeoColors.Green)));
-            serviceAreasClassBreaks.Add(new ClassBreak(30, AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(60, GeoColors.Yellow), GeoColors.Yellow)));
-            serviceAreasClassBreaks.Add(new ClassBreak(45, AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(60, GeoColors.Orange), GeoColors.Orange)));
-            serviceAreasClassBreaks.Add(new ClassBreak(60, AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(60, GeoColors.Red), GeoColors.Red)));
+            var serviceAreasClassBreaks = new Collection<ClassBreak>
+            {
+                new ClassBreak(15, AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(60, GeoColors.Green), GeoColors.Green)),
+                new ClassBreak(30, AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(60, GeoColors.Yellow), GeoColors.Yellow)),
+                new ClassBreak(45, AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(60, GeoColors.Orange), GeoColors.Orange)),
+                new ClassBreak(60, AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(60, GeoColors.Red), GeoColors.Red))
+            };
 
-            ClassBreakStyle serviceAreasClassBreakStyle = new ClassBreakStyle("TravelTimeFromCenterPoint", BreakValueInclusion.IncludeValue, serviceAreasClassBreaks);
+            var serviceAreasClassBreakStyle = new ClassBreakStyle("TravelTimeFromCenterPoint", BreakValueInclusion.IncludeValue, serviceAreasClassBreaks);
             serviceAreasLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(serviceAreasClassBreakStyle);
             serviceAreasLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
@@ -45,17 +52,17 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             SetUpLegendAdornment(serviceAreasClassBreaks);
 
             // Add the layer to an overlay, and add the overlay to the mapview
-            LayerOverlay serviceAreaOverlay = new LayerOverlay();
+            var serviceAreaOverlay = new LayerOverlay();
             serviceAreaOverlay.Layers.Add("Service Area Layer", serviceAreasLayer);
             mapView.Overlays.Add("Service Area Overlay", serviceAreaOverlay);
 
             // Add a simple marker overlay to display the center point of the service area
-            SimpleMarkerOverlay serviceAreaMarkerOverlay = new SimpleMarkerOverlay();
+            var serviceAreaMarkerOverlay = new SimpleMarkerOverlay();
             mapView.Overlays.Add("Service Area Marker Overlay", serviceAreaMarkerOverlay);
 
             mapView.CurrentExtent = new RectangleShape(-10895153.061011, 4016319.51333112, -10653612.0529718, 3797709.61365001);
 
-            // Create a new set of time spans for 15, 30, 45, 60 minutes. These will be used to create the classbreaks for the routing service area request
+            // Create a new set of time spans for 15, 30, 45, 60 minutes. These will be used to create the class breaks for the routing service area request
             serviceAreaIntervals = new Collection<TimeSpan>() {
                 new TimeSpan(0, 15, 0),
                 new TimeSpan(0, 30, 0),
@@ -64,10 +71,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             };
 
             // Initialize the RoutingCloudClient with our ThinkGeo Cloud Client credentials
-            routingCloudClient = new RoutingCloudClient("FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~", "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~");
+            routingCloudClient = new RoutingCloudClient(SampleKeys.ClientId2, SampleKeys.ClientSecret2);
 
             // Run a sample query
-            PointShape samplePoint = new PointShape(-10776836.140633, 3912350.714164);
+            var samplePoint = new PointShape(-10776836.140633, 3912350.714164);
             await GetAndDrawServiceAreaAsync(samplePoint);
         }
 
@@ -75,24 +82,26 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             // Set options for the service area request
             // We can control options like Travel Direction and Contour Granularity
-            CloudRoutingGetServiceAreaOptions options = new CloudRoutingGetServiceAreaOptions();
-            options.DistanceUnit = DistanceUnit.Meter;
+            var options = new CloudRoutingGetServiceAreaOptions
+            {
+                DistanceUnit = DistanceUnit.Meter
+            };
 
             // Set the srid for the query to 3857 (Spherical Mercator)
             int srid = 3857;
 
             // Run the service area query
             // Pass in the service area intervals. These will be used as the service areas for the query (15, 30, 45 60 minutes)
-            CloudRoutingGetServiceAreaResult getServiceAreaResult = await routingCloudClient.GetServiceAreaAsync(centerpoint, srid, serviceAreaIntervals, options);
+            var getServiceAreaResult = await routingCloudClient.GetServiceAreaAsync(centerpoint, srid, serviceAreaIntervals, options);
             return getServiceAreaResult;
         }
 
         private async Task DrawServiceAreaAsync(CloudRoutingGetServiceAreaResult result)
         {
-            CloudRoutingServiceAreaResult serviceAreaResult = result.ServiceAreaResult;
+            var serviceAreaResult = result.ServiceAreaResult;
 
             // Get the simple marker overlay from the map
-            SimpleMarkerOverlay serviceAreaMarkerOverlay = (SimpleMarkerOverlay)mapView.Overlays["Service Area Marker Overlay"];
+            var serviceAreaMarkerOverlay = (SimpleMarkerOverlay)mapView.Overlays["Service Area Marker Overlay"];
 
             // Clear the previous markers
             serviceAreaMarkerOverlay.Markers.Clear();
@@ -101,7 +110,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             serviceAreaMarkerOverlay.Markers.Add(CreateNewMarker(new PointShape(serviceAreaResult.Waypoint.Coordinate)));
 
             // Get the service area polygons layer from the map
-            InMemoryFeatureLayer serviceAreaLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Service Area Layer");
+            var serviceAreaLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Service Area Layer");
 
             // Clear the previous polygons
             serviceAreaLayer.InternalFeatures.Clear();
@@ -110,11 +119,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             for (int i = 0; i < serviceAreaIntervals.Count; i++)
             {
                 // Add a 'TravelTimeFromCenterPoint' attribute for the class break style
-                Dictionary<string, string> columnValues = new Dictionary<string, string>();
-                columnValues.Add("TravelTimeFromCenterPoint", serviceAreaIntervals[i].TotalMinutes.ToString());
+                var columnValues = new Dictionary<string, string> { { "TravelTimeFromCenterPoint", serviceAreaIntervals[i].TotalMinutes.ToString() } };
 
                 // Add each polygon to the feature layer
-                BaseShape serviceAreaPolygon = serviceAreaResult.ServiceAreas[i];
+                var serviceAreaPolygon = serviceAreaResult.ServiceAreas[i];
                 serviceAreaLayer.InternalFeatures.Add(new Feature(serviceAreaPolygon, columnValues));
             }
 
@@ -135,7 +143,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             //loadingImage.Visibility = Visibility.Visible;
 
             // Run the service area query
-            CloudRoutingGetServiceAreaResult getServiceAreaResult = await GetServiceArea(point);
+            var getServiceAreaResult = await GetServiceArea(point);
 
             // Hide the loading graphic
             //loadingImage.Visibility = Visibility.Hidden;
@@ -153,15 +161,17 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void SetUpLegendAdornment(Collection<ClassBreak> classBreaks)
         {
-            // Create a legend adornment based on the service area classbreaks
-            LegendAdornmentLayer legend = new LegendAdornmentLayer();
-
-            // Set up the legend adornment
-            legend.Title = new LegendItem()
+            // Create a legend adornment based on the service area class breaks
+            var legend = new LegendAdornmentLayer
             {
-                TextStyle = new TextStyle("Travel Times", new GeoFont("Verdana", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
+                // Set up the legend adornment
+                Title = new LegendItem()
+                {
+                    TextStyle = new TextStyle("Travel Times", new GeoFont("Verdana", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
+                },
+                Location = AdornmentLocation.LowerRight
             };
-            legend.Location = AdornmentLocation.LowerRight;
+
             mapView.AdornmentOverlay.Layers.Add(legend);
 
             // Add a LegendItems to the legend adornment for each ClassBreak
@@ -191,11 +201,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             };
         }
 
+        #region Component Designer generated code
         private Panel panel1;
         private Label label2;
         private Label label1;
-
-
         private MapView mapView;
 
         private void InitializeComponent()
@@ -272,8 +281,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-        #region Component Designer generated code
         #endregion Component Designer generated code
-
     }
 }

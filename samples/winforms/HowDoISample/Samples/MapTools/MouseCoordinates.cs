@@ -18,7 +18,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
@@ -28,19 +34,18 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             await mapView.RefreshAsync();
         }
 
-        private void displayMouseCoordinates_CheckedChanged(object sender, EventArgs e)
+        private void DisplayMouseCoordinates_CheckedChanged(object sender, EventArgs e)
         {
-            CheckBox checkbox = sender as CheckBox;
+            var checkbox = sender as CheckBox;
 
-            if (checkbox.Checked == true)
+            switch (checkbox != null && checkbox.Checked)
             {
-                mapView.MapTools.MouseCoordinate.IsEnabled = true;
-
-            }
-            else
-            {
-                mapView.MapTools.MouseCoordinate.IsEnabled = false;
-
+                case true:
+                    mapView.MapTools.MouseCoordinate.IsEnabled = true;
+                    break;
+                default:
+                    mapView.MapTools.MouseCoordinate.IsEnabled = false;
+                    break;
             }
         }
 
@@ -51,7 +56,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private void MouseCoordinate_CustomMouseCoordinateFormat(object sender, CustomFormattedMouseCoordinateMapToolEventArgs e)
         {
             ((MouseCoordinateMapTool)sender).Foreground = new SolidColorBrush(Colors.Red);
-            e.Result = $"X: {e.WorldCoordinate.X.ToString("N0")}, Y: {e.WorldCoordinate.Y.ToString("N0")}";
+            e.Result = $"X: {e.WorldCoordinate.X:N0}, Y: {e.WorldCoordinate.Y:N0}";
         }
 
         private void coordinateType_SelectedIndexChanged(object sender, EventArgs e)
@@ -74,7 +79,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                     // Set to a custom format
                     mapView.MapTools.MouseCoordinate.MouseCoordinateType = MouseCoordinateType.Custom;
                     // Add an EventHandler to handle what the formatted output should look like
-                    mapView.MapTools.MouseCoordinate.CustomFormatted += new System.EventHandler<CustomFormattedMouseCoordinateMapToolEventArgs>(MouseCoordinate_CustomMouseCoordinateFormat);
+                    mapView.MapTools.MouseCoordinate.CustomFormatted += MouseCoordinate_CustomMouseCoordinateFormat;
                     break;
             }
         }
@@ -157,7 +162,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.displayMouseCoordinates.TabIndex = 1;
             this.displayMouseCoordinates.Text = "Display Mouse Coordinates";
             this.displayMouseCoordinates.UseVisualStyleBackColor = true;
-            this.displayMouseCoordinates.CheckedChanged += new System.EventHandler(this.displayMouseCoordinates_CheckedChanged);
+            this.displayMouseCoordinates.CheckedChanged += new System.EventHandler(this.DisplayMouseCoordinates_CheckedChanged);
             // 
             // label1
             // 

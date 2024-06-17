@@ -24,7 +24,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Create an overlay that we can add layers to, and add it to the MapView
-            LayerOverlay layerOverlay = new LayerOverlay();
+            var layerOverlay = new LayerOverlay();
             mapView.Overlays.Add(layerOverlay);
 
             // Reproject a raster layer and set the extent
@@ -36,7 +36,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// </summary>
         private async Task ReprojectRasterLayerAsync(LayerOverlay layerOverlay)
         {
-            GeoTiffRasterLayer worldRasterLayer = new GeoTiffRasterLayer(@"./Data/GeoTiff/World.tif");
+            var worldRasterLayer = new GeoTiffRasterLayer(@"./Data/GeoTiff/World.tif");
 
             // Create a new ProjectionConverter to convert between World Geodetic System (4326) and US National Atlas Equal Area (2163)
             ProjectionConverter projectionConverter = new UnmanagedProjectionConverter(4326, 2163);

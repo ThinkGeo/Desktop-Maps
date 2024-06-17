@@ -17,7 +17,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             /**********************
@@ -34,8 +40,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Project cityLimits layer to Spherical Mercator to match the map projection
             cityLimits.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
-            LayerOverlay poiOverlay = new LayerOverlay();
-            LayerOverlay landuseOverlay = new LayerOverlay();
+            var poiOverlay = new LayerOverlay();
+            var landuseOverlay = new LayerOverlay();
 
             // Add cityLimits layer to the landuseGroup overlay
             landuseOverlay.Layers.Add(cityLimits);
@@ -102,30 +108,28 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void ShowPoi_CheckedChanged(object sender, EventArgs e)
         {
-            CheckBox checkbox = sender as CheckBox;
-            if (checkbox.Checked == true)
+            if (sender is CheckBox checkbox && checkbox.Checked)
             {
-                LayerOverlay poiOverlay = (LayerOverlay)mapView.Overlays["poiOverlay"];
+                var poiOverlay = (LayerOverlay)mapView.Overlays["poiOverlay"];
                 poiOverlay.IsVisible = true;
             }
             else
             {
-                LayerOverlay poiOverlay = (LayerOverlay)mapView.Overlays["poiOverlay"];
+                var poiOverlay = (LayerOverlay)mapView.Overlays["poiOverlay"];
                 poiOverlay.IsVisible = false;
             }
         }
 
         private void ShowLandUse_CheckedChanged(object sender, EventArgs e)
         {
-            CheckBox checkbox = sender as CheckBox;
-            if (checkbox.Checked == true)
+            if (sender is CheckBox checkbox && checkbox.Checked)
             {
-                LayerOverlay landuseOverlay = (LayerOverlay)mapView.Overlays["landuseOverlay"];
+                var landuseOverlay = (LayerOverlay)mapView.Overlays["landuseOverlay"];
                 landuseOverlay.IsVisible = true;
             }
             else
             {
-                LayerOverlay landuseOverlay = (LayerOverlay)mapView.Overlays["landuseOverlay"];
+                var landuseOverlay = (LayerOverlay)mapView.Overlays["landuseOverlay"];
                 landuseOverlay.IsVisible = false;
             }
         }

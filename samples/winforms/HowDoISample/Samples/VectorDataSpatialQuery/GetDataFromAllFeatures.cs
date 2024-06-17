@@ -15,34 +15,39 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void Form_Load(object sender, EventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the Map Unit to meters (used in Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Create a feature layer to hold the Frisco hotels data
-            ShapeFileFeatureLayer hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
+            var hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
 
             // Convert the Frisco shapefile from its native projection to Spherical Mercator, to match the map
-            ProjectionConverter projectionConverter = new ProjectionConverter(2276, 3857);
+            var projectionConverter = new ProjectionConverter(2276, 3857);
             hotelsLayer.FeatureSource.ProjectionConverter = projectionConverter;
 
             // Add a style to use to draw the Frisco hotel points
             hotelsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
             hotelsLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 24, GeoBrushes.MediumPurple, GeoPens.Purple);
 
-            InMemoryFeatureLayer highlightedHotelLayer = new InMemoryFeatureLayer();
+            var highlightedHotelLayer = new InMemoryFeatureLayer();
             highlightedHotelLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
             highlightedHotelLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 30, GeoBrushes.BrightYellow, GeoPens.Black);
 
             // Add the feature layer to an overlay, and add the overlay to the map
-            LayerOverlay hotelsOverlay = new LayerOverlay();
+            var hotelsOverlay = new LayerOverlay();
             hotelsOverlay.Layers.Add("Frisco Hotels", hotelsLayer);
             hotelsOverlay.Layers.Add("Highlighted Hotel", highlightedHotelLayer);
             mapView.Overlays.Add(hotelsOverlay);
 
-            // Open the hotels layer so we can read the data from it
+            // Open the hotels layer, so we can read the data from it
             hotelsLayer.Open();
 
             // Get all features from the hotels layer
@@ -50,15 +55,15 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var features = hotelsLayer.QueryTools.GetAllFeatures(ReturningColumnsType.AllColumns);
 
             // Create a collection of Hotel objects to use as the data source for our list box
-            Collection<Hotel> hotels = new Collection<Hotel>();
+            var hotels = new Collection<Hotel>();
 
             // Create a hotel object based on the data from each hotel feature, and add them to the collection
-            foreach (Feature feature in features)
+            foreach (var feature in features)
             {
                 string name = feature.ColumnValues["NAME"];
                 string address = feature.ColumnValues["ADDRESS"];
                 int rooms = int.Parse(feature.ColumnValues["ROOMS"]);
-                PointShape location = (PointShape)feature.GetShape();
+                var location = (PointShape)feature.GetShape();
 
                 hotels.Add(new Hotel(name, address, rooms, location));
             }
@@ -77,19 +82,19 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void lsbHotels_SelectedIndexChanged(object sender, EventArgs e)
         {
-            InMemoryFeatureLayer highlightedHotelLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Highlighted Hotel");
+            var highlightedHotelLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Highlighted Hotel");
             highlightedHotelLayer.Open();
             highlightedHotelLayer.InternalFeatures.Clear();
 
             // Get the selected location
-            Hotel hotel = lsbHotels.SelectedItem as Hotel;
+            var hotel = lsbHotels.SelectedItem as Hotel;
             if (hotel != null)
             {
                 highlightedHotelLayer.InternalFeatures.Add(new Feature(hotel.Location));
 
                 // Center the map on the chosen location
                 mapView.CurrentExtent = hotel.Location.GetBoundingBox();
-                ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
+                var standardZoomLevelSet = new ZoomLevelSet();
                 await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
                 await mapView.RefreshAsync();
             }

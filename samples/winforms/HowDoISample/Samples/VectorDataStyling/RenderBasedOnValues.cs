@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Windows.Forms;
 using ThinkGeo.Core;
 
-
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public class RenderBasedOnValues : UserControl
@@ -22,7 +21,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Project the layer's data to match the projection of the map
@@ -32,7 +36,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var layerOverlay = new LayerOverlay();
             layerOverlay.Layers.Add(friscoCrime);
 
-            // Setup the legend adornment
+            // Set up the legend adornment
             legend.Title = new LegendItem()
             {
                 TextStyle = new TextStyle("Crime Categories", new GeoFont("Verdana", 10, DrawingFontStyles.Bold), GeoBrushes.Black)

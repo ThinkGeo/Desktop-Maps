@@ -18,17 +18,26 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            ShapeFileFeatureLayer housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
-
-            // Project the layer's data to match the projection of the map
-            housingUnitsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+            var housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp")
+            {
+                FeatureSource =
+                    {
+                        // Project the layer's data to match the projection of the map
+                        ProjectionConverter = new ProjectionConverter(2276, 3857)
+                    }
+            };
 
             // Here we use a dot density type based on the number of housing units in the area.
             // It draws 1 sized blue circles with a ratio of one dot per 10 housing units in the data
-            DotDensityStyle housingUnitsStyle = new DotDensityStyle("H_UNITS", .1, 1, GeoColors.Blue);
+            var housingUnitsStyle = new DotDensityStyle("H_UNITS", .1, 1, GeoColors.Blue);
 
             // Add and apply the ClassBreakStyle to the housingUnitsLayer
             housingUnitsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(housingUnitsStyle);

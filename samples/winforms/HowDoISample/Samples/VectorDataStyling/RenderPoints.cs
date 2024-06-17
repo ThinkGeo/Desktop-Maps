@@ -17,14 +17,19 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10778329.017082, 3909598.36751101, -10776250.8853871, 3907890.47766975);
 
-            ShapeFileFeatureLayer hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
-            LayerOverlay layerOverlay = new LayerOverlay();
+            var hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
+            var layerOverlay = new LayerOverlay();
 
             // Project the layer's data to match the projection of the map
             hotelsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
@@ -44,8 +49,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             if (mapView.Overlays.Count > 0)
             {
-                LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["hotels"];
-                ShapeFileFeatureLayer hotelsLayer = (ShapeFileFeatureLayer)layerOverlay.Layers["hotels"];
+                var layerOverlay = (LayerOverlay)mapView.Overlays["hotels"];
+                var hotelsLayer = (ShapeFileFeatureLayer)layerOverlay.Layers["hotels"];
 
                 // Create a point style
                 var pointStyle = new PointStyle(PointSymbolType.Circle, 12, GeoBrushes.Blue, new GeoPen(GeoBrushes.White, 2));
@@ -64,8 +69,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void icon_CheckedChanged(object sender, EventArgs e)
         {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["hotels"];
-            ShapeFileFeatureLayer hotelsLayer = (ShapeFileFeatureLayer)layerOverlay.Layers["hotels"];
+            var layerOverlay = (LayerOverlay)mapView.Overlays["hotels"];
+            var hotelsLayer = (ShapeFileFeatureLayer)layerOverlay.Layers["hotels"];
 
             // Create a point style
             var pointStyle = new PointStyle(new GeoImage(@"../../../Resources/hotel_icon.png"))
@@ -86,8 +91,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void symbol_CheckedChanged(object sender, EventArgs e)
         {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["hotels"];
-            ShapeFileFeatureLayer hotelsLayer = (ShapeFileFeatureLayer)layerOverlay.Layers["hotels"];
+            var layerOverlay = (LayerOverlay)mapView.Overlays["hotels"];
+            var hotelsLayer = (ShapeFileFeatureLayer)layerOverlay.Layers["hotels"];
 
             // Create a point style
             var symbolPointStyle = new PointStyle(new GeoFont("Verdana", 16, DrawingFontStyles.Bold), "@", GeoBrushes.Black)
@@ -113,8 +118,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private RadioButton icon;
         private RadioButton pointSymbol;
         private Label label1;
-
-
         private MapView mapView;
 
         private void InitializeComponent()

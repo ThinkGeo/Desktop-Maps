@@ -21,8 +21,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.ZoomLevelSet = new ThinkGeoCloudMapsZoomLevelSet();
 
             // Create the layer overlay with some additional settings and add to the map.
-            ThinkGeoCloudRasterMapsOverlay cloudOverlay = new ThinkGeoCloudRasterMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~");
-            cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1;
+            var cloudOverlay = new ThinkGeoCloudRasterMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1
+            };
             mapView.Overlays.Add("Cloud Overlay", cloudOverlay);
 
             // Set the current extent to a neighborhood in Frisco Texas.
@@ -34,12 +38,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            RadioButton button = (RadioButton)sender;
+            var button = (RadioButton)sender;
             if (mapView.Overlays.Contains("Cloud Overlay"))
             {
-                ThinkGeoCloudRasterMapsOverlay cloudOverlay = (ThinkGeoCloudRasterMapsOverlay)mapView.Overlays["Cloud Overlay"];
+                var cloudOverlay = (ThinkGeoCloudRasterMapsOverlay)mapView.Overlays["Cloud Overlay"];
 
-                switch (button.Text.ToString())
+                switch (button.Text)
                 {
                     case "Light":
                         cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Light_V2_X1;
@@ -52,8 +56,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                         break;
                     case "Hybrid":
                         cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1;
-                        break;
-                    default:
                         break;
                 }
                 await mapView.RefreshAsync();
@@ -62,12 +64,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
-            RadioButton button = (RadioButton)sender;
+            var button = (RadioButton)sender;
             if (mapView.Overlays.Contains("Cloud Overlay"))
             {
-                ThinkGeoCloudRasterMapsOverlay cloudOverlay = (ThinkGeoCloudRasterMapsOverlay)mapView.Overlays["Cloud Overlay"];
+                var cloudOverlay = (ThinkGeoCloudRasterMapsOverlay)mapView.Overlays["Cloud Overlay"];
 
-                switch (button.Text.ToString())
+                switch (button.Text)
                 {
                     case "Light":
                         cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Light_V2_X1;
@@ -80,8 +82,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                         break;
                     case "Hybrid":
                         cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1;
-                        break;
-                    default:
                         break;
                 }
                 await mapView.RefreshAsync();
@@ -90,12 +90,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void radioButton3_CheckedChanged(object sender, EventArgs e)
         {
-            RadioButton button = (RadioButton)sender;
+            var button = (RadioButton)sender;
             if (mapView.Overlays.Contains("Cloud Overlay"))
             {
-                ThinkGeoCloudRasterMapsOverlay cloudOverlay = (ThinkGeoCloudRasterMapsOverlay)mapView.Overlays["Cloud Overlay"];
+                var cloudOverlay = (ThinkGeoCloudRasterMapsOverlay)mapView.Overlays["Cloud Overlay"];
 
-                switch (button.Text.ToString())
+                switch (button.Text)
                 {
                     case "Light":
                         cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Light_V2_X1;
@@ -108,8 +108,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                         break;
                     case "Hybrid":
                         cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1;
-                        break;
-                    default:
                         break;
                 }
                 await mapView.RefreshAsync();
@@ -118,12 +116,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void radioButton4_CheckedChanged(object sender, EventArgs e)
         {
-            RadioButton button = (RadioButton)sender;
+            var button = (RadioButton)sender;
             if (mapView.Overlays.Contains("Cloud Overlay"))
             {
-                ThinkGeoCloudRasterMapsOverlay cloudOverlay = (ThinkGeoCloudRasterMapsOverlay)mapView.Overlays["Cloud Overlay"];
+                var cloudOverlay = (ThinkGeoCloudRasterMapsOverlay)mapView.Overlays["Cloud Overlay"];
 
-                switch (button.Text.ToString())
+                switch (button.Text)
                 {
                     case "Light":
                         cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Light_V2_X1;
@@ -136,8 +134,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                         break;
                     case "Hybrid":
                         cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1;
-                        break;
-                    default:
                         break;
                 }
                 await mapView.RefreshAsync();

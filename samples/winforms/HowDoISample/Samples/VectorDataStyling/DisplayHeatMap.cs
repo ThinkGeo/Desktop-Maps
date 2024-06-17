@@ -19,20 +19,31 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
 
-            ShapeFileFeatureLayer coyoteSightings = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Coyote_Sightings.shp");
-
-            // Project the layer's data to match the projection of the map
-            coyoteSightings.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+            var coyoteSightings = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Coyote_Sightings.shp")
+            {
+                FeatureSource =
+                    {
+                        // Project the layer's data to match the projection of the map
+                        ProjectionConverter = new ProjectionConverter(2276, 3857)
+                    }
+            };
 
             // Add the layer to a layer overlay
-            var layerOverlay = new LayerOverlay();
-            layerOverlay.TileType = TileType.SingleTile;
+            var layerOverlay = new LayerOverlay
+            {
+                TileType = TileType.SingleTile
+            };
             layerOverlay.Layers.Add(coyoteSightings);
 
             // Add the overlay to the map
@@ -46,7 +57,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// <summary>
         /// Create a heat style that bases the color intensity on the proximity of surrounding points
         /// </summary>
-        private void AddHeatStyle(ShapeFileFeatureLayer layer)
+        private void AddHeatStyle(FeatureLayer layer)
         {
             // Create the heat style
             var heatStyle = new HeatStyle(20, 1, DistanceUnit.Kilometer);

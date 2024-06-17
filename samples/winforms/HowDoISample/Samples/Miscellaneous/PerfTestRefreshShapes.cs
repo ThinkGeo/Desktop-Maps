@@ -6,11 +6,9 @@ using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class PerfTestRefreshShapes : UserControl, IDisposable
+    public class PerfTestRefreshShapes : UserControl
     {
-        DispatcherTimer timer;
-
-        private delegate void InvokeDelegate(Feature currentFeature);
+        private DispatcherTimer timer;
 
         public PerfTestRefreshShapes()
         {
@@ -20,13 +18,19 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void Form_Load(object sender, EventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Creating a rectangle area we will use to generate the polygons and also start the map there.
-            RectangleShape currentExtent = new RectangleShape(-10810995.245624, 3939081.90719325, -10747552.5124997, 3884429.43227297);
+            var currentExtent = new RectangleShape(-10810995.245624, 3939081.90719325, -10747552.5124997, 3884429.43227297);
 
-            //Do all the things we need to setup the polygon layer and overlay such as creating all the polygons etc.
+            //Do all the things we need to set up the polygon layer and overlay such as creating all the polygons etc.
             AddPolygonOverlay(AreaBaseShape.ScaleDown(currentExtent.GetBoundingBox(), 80).GetBoundingBox());
 
             //Set the maps current extent so we start there
@@ -35,25 +39,27 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             await mapView.RefreshAsync();
         }
 
-        private void AddPolygonOverlay(RectangleShape boundingRectangle)
+        private void AddPolygonOverlay(BaseShape boundingRectangle)
         {
-            //We are going to store all of the polygons in an in memory layer
-            InMemoryFeatureLayer polygonLayer = new InMemoryFeatureLayer();
+            //We are going to store all the polygons in an in memory layer
+            var polygonLayer = new InMemoryFeatureLayer();
 
             //Here we generate all of our make believe polygons
-            Collection<Feature> features = GetGeneratedPolygons(boundingRectangle.GetBoundingBox());
+            var features = GetGeneratedPolygons(boundingRectangle.GetBoundingBox());
 
-            //Add all of the polygons to the layer
+            //Add all the polygons to the layer
             foreach (var feature in features)
             {
                 polygonLayer.InternalFeatures.Add(feature);
             }
 
             //We are going to style them based on their values we randomly added using the column DataPoint1
-            ValueStyle valueStyle = new ValueStyle();
-            valueStyle.ColumnName = "DataPoint1";
+            var valueStyle = new ValueStyle
+            {
+                ColumnName = "DataPoint1"
+            };
 
-            //Here we add all of the different sub styles so for example "1" is going to be a red semitransparent fill with a black border etc.
+            //Here we add all the different sub styles so for example "1" is going to be a red semitransparent fill with a black border etc.
             valueStyle.ValueItems.Add(new ValueItem("1", new AreaStyle(new GeoPen(GeoColors.Black, 1f), new GeoSolidBrush(new GeoColor(50, GeoColors.Red)))));
             valueStyle.ValueItems.Add(new ValueItem("2", new AreaStyle(new GeoPen(GeoColors.Black, 1f), new GeoSolidBrush(new GeoColor(50, GeoColors.Blue)))));
             valueStyle.ValueItems.Add(new ValueItem("3", new AreaStyle(new GeoPen(GeoColors.Black, 1f), new GeoSolidBrush(new GeoColor(50, GeoColors.Green)))));
@@ -63,16 +69,17 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // on as such you can see the whole globe.  Zoom level 20 is the lowest street level.
             polygonLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(valueStyle);
 
-            // He we say that whatever is one zoom level 1 is applied all the way to zoom level 20.  If you only wanted to see this style at lower levels
-            // you would make the above line start at ZoomLevel15 say and them apply it to 20.  That way once you zoomed out further than 15 the style would no longer apply.
+            // We can define a style that applies from zoom level 1 all the way to level 20. However, if you only want this style to be visible at lower zoom levels
+            // you can adjust the starting level. For example, by setting the style to start at zoom level 15 and apply it up to level 20, the style will no longer be applied once you zoom out beyond level 15.
             polygonLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Create the overlay to house the layer and add it to the map.
-            LayerOverlay polygonOverlay = new LayerOverlay();
-
-            // Here we set the overlay to draw as a single tile.  Alternatively we could draw it as multiples tiles all threaded but single tile is a bit faster
-            //We like to use multi tile for slow data sources or very complex ones that may take sime to render as you can start to see data as it comes in.
-            polygonOverlay.TileType = TileType.SingleTile;
+            var polygonOverlay = new LayerOverlay
+            {
+                // Here we set the overlay to draw as a single tile.  Alternatively we could draw it as multiples tiles all threaded but single tile is a bit faster
+                //We like to use multi tile for slow data sources or very complex ones that may take time to render as you can start to see data as it comes in.
+                TileType = TileType.SingleTile
+            };
 
             polygonOverlay.Layers.Add("PolygonLayer", polygonLayer);
             mapView.Overlays.Add("PolygonOverlay", polygonOverlay);
@@ -80,25 +87,24 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private Collection<Feature> GetGeneratedPolygons(RectangleShape boundingRectangle)
         {
-            //Here i just created about 20,000 rectangles around the bounding box area and generated random number from 1-4 for their data
-
-            Random random = new Random();
+            // We just created approximately 20,000 rectangles around the bounding box area and assigned them random data values between 1 and 4.
+            var random = new Random();
 
             boundingRectangle.ScaleTo(10);
 
-            Collection<Feature> features = new Collection<Feature>();
+            var features = new Collection<Feature>();
 
-            for (int x = 1; x < 150; x++)
+            for (var x = 1; x < 150; x++)
             {
-                for (int y = 1; y < 150; y++)
+                for (var y = 1; y < 150; y++)
                 {
-                    double upperLeftX = boundingRectangle.UpperLeftPoint.X + x * boundingRectangle.Width / 150;
-                    double upperLeftY = boundingRectangle.UpperLeftPoint.Y - y * boundingRectangle.Height / 150;
+                    var upperLeftX = boundingRectangle.UpperLeftPoint.X + x * boundingRectangle.Width / 150;
+                    var upperLeftY = boundingRectangle.UpperLeftPoint.Y - y * boundingRectangle.Height / 150;
 
-                    double lowerRightX = upperLeftX + boundingRectangle.Width / 150;
-                    double lowerRightY = upperLeftY - boundingRectangle.Height / 150;
+                    var lowerRightX = upperLeftX + boundingRectangle.Width / 150;
+                    var lowerRightY = upperLeftY - boundingRectangle.Height / 150;
 
-                    Feature feature = new Feature(new RectangleShape(new PointShape(upperLeftX, upperLeftY), new PointShape(lowerRightX, lowerRightY)));
+                    var feature = new Feature(new RectangleShape(new PointShape(upperLeftX, upperLeftY), new PointShape(lowerRightX, lowerRightY)));
                     feature.ColumnValues.Add("DataPoint1", random.Next(1, 5).ToString());
 
                     features.Add(feature);
@@ -112,20 +118,21 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             if (timer != null) return;
             //When you click this I start a timer that ticks every second
-            timer = new DispatcherTimer();
-            timer.Interval = new TimeSpan(0, 0, 1);
+            timer = new DispatcherTimer
+            {
+                Interval = new TimeSpan(0, 0, 1)
+            };
             timer.Tick += Timer_Tick;
             timer.Start();
         }
 
         private async void Timer_Tick(object sender, EventArgs e)
         {
-            //I go to find the layer and then loop through all of the features and assign them new
+            //I go to find the layer and then loop through all the features and assign them new
             // random colors and refresh just the overlay that we are using to draw the polygons
-
             var polygonLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("PolygonLayer");
 
-            Random random = new Random();
+            var random = new Random();
 
             foreach (var feature in polygonLayer.InternalFeatures)
             {
@@ -138,22 +145,22 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void btnRotate_Click(object sender, EventArgs e)
         {
-            //I go to find the layer and then loop through all of the features and rotate them
+            //I go to find the layer and then loop through all the features and rotate them
             var polygonLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("PolygonLayer");
 
-            Collection<Feature> newFeatures = new Collection<Feature>();
+            var newFeatures = new Collection<Feature>();
 
-            PointShape center = polygonLayer.GetBoundingBox().GetCenterPoint();
+            var center = polygonLayer.GetBoundingBox().GetCenterPoint();
 
             foreach (var feature in polygonLayer.InternalFeatures)
             {
                 // Here we need to clone the features and add them back to the layer
-                PolygonShape shape = (PolygonShape)feature.GetShape();
+                var shape = (PolygonShape)feature.GetShape();
 
                 shape.Rotate(center, 10);
                 shape.Id = feature.Id;
 
-                Feature newFeature = new Feature(shape);
+                var newFeature = new Feature(shape);
                 newFeature.ColumnValues.Add("DataPoint1", feature.ColumnValues["DataPoint1"]);
                 newFeatures.Add(newFeature);
             }
@@ -171,22 +178,22 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void btnOffset_Click(object sender, EventArgs e)
         {
-            //I go to find the layer and then loop through all of the features and rotate them
+            //I go to find the layer and then loop through all the features and rotate them
             var polygonLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("PolygonLayer");
 
-            Collection<Feature> newFeatures = new Collection<Feature>();
+            var newFeatures = new Collection<Feature>();
 
-            PointShape center = polygonLayer.GetBoundingBox().GetCenterPoint();
+            polygonLayer.GetBoundingBox().GetCenterPoint();
 
             foreach (var feature in polygonLayer.InternalFeatures)
             {
                 // Here we need to clone the features and add them back to the layer
-                PolygonShape shape = (PolygonShape)feature.GetShape();
+                var shape = (PolygonShape)feature.GetShape();
 
                 shape.TranslateByOffset(2000, 2000);
                 shape.Id = feature.Id;
 
-                Feature newFeature = new Feature(shape);
+                var newFeature = new Feature(shape);
                 newFeature.ColumnValues.Add("DataPoint1", feature.ColumnValues["DataPoint1"]);
                 newFeatures.Add(newFeature);
             }
@@ -200,19 +207,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // We are only going to refresh the one overlay that draws the polygons.  This saves us having toe refresh the background data.
             await mapView.RefreshAsync(mapView.Overlays["PolygonOverlay"]);
-        }
-
-        private void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
-        {
-            //I go to find the layer and then loop through all of the features and rotate them
-            var polygonLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("PolygonLayer");
-
-            var features = polygonLayer.QueryTools.GetFeaturesContaining(new PointShape(e.WorldX, e.WorldY), ReturningColumnsType.AllColumns);
-
-            if (features.Count > 0)
-            {
-                System.Windows.MessageBox.Show($"Feature: {features[0].Id} DataPoint1: {features[0].ColumnValues["DataPoint1"]}");
-            }
         }
 
         protected override void Dispose(bool disposing)
@@ -327,8 +321,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-
         #endregion Component Designer generated code
-
     }
 }

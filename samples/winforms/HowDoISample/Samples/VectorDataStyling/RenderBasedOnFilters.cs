@@ -6,8 +6,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public class RenderBasedOnFilters : UserControl
     {
-        private readonly ShapeFileFeatureLayer friscoCrimeLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Crime.shp");
-
         public RenderBasedOnFilters()
         {
             InitializeComponent();
@@ -19,16 +17,25 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10780196.9469504, 3916119.49665258, -10776231.7761301, 3912703.71697007);
 
-            ShapeFileFeatureLayer friscoCrimeLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Crime.shp");
-
-            // Project the layer's data to match the projection of the map
-            friscoCrimeLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+            var friscoCrimeLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Crime.shp")
+            {
+                FeatureSource =
+                    {
+                        // Project the layer's data to match the projection of the map
+                        ProjectionConverter = new ProjectionConverter(2276, 3857)
+                    }
+            };
 
             // Add friscoCrimeLayer to a LayerOverlay
             var layerOverlay = new LayerOverlay();
@@ -46,7 +53,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// <summary>
         /// Adds a filter style to various categories of the Frisco Crime layer
         /// </summary>
-        private void AddFilterStyle(ShapeFileFeatureLayer layer)
+        private void AddFilterStyle(FeatureLayer layer)
         {
             // Create a filter style based on the "Drugs" Offense Group 
             var drugFilterStyle = new FilterStyle()

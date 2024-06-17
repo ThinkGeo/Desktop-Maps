@@ -22,7 +22,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 ClientId = SampleKeys.ClientId,
                 ClientSecret = SampleKeys.ClientSecret,
                 MapType = ThinkGeoCloudVectorMapsMapType.Light
-
             };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
@@ -46,7 +45,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void panNorth_Click(object sender, EventArgs e)
         {
-            var percentage = (int)panPercentage.Value;
+            var percentage = panPercentage.Value;
             switch (((Button)sender).Name)
             {
                 case "panNorth":
@@ -66,7 +65,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void panWest_Click(object sender, EventArgs e)
         {
-            var percentage = (int)panPercentage.Value;
+            var percentage = panPercentage.Value;
             switch (((Button)sender).Name)
             {
                 case "panNorth":
@@ -86,7 +85,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void panEast_Click(object sender, EventArgs e)
         {
-            var percentage = (int)panPercentage.Value;
+            var percentage = panPercentage.Value;
             switch (((Button)sender).Name)
             {
                 case "panNorth":
@@ -106,7 +105,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void panSouth_Click(object sender, EventArgs e)
         {
-            var percentage = (int)panPercentage.Value;
+            var percentage = panPercentage.Value;
             switch (((Button)sender).Name)
             {
                 case "panNorth":
@@ -126,7 +125,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void rotate_Click(object sender, EventArgs e)
         {
-            mapView.RotatedAngle = (float)rotateAngle.Value;
+            mapView.RotatedAngle = rotateAngle.Value;
             await mapView.RefreshAsync();
         }
 

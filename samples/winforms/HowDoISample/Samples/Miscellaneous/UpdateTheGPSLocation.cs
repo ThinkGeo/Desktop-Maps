@@ -10,8 +10,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public class UpdateTheGPSLocation : UserControl
     {
-        bool cancelFeed;
-        bool pauseFeed;
+        private bool cancelFeed;
+        private bool pauseFeed;
 
         private delegate void InvokeDelegate(Feature currentFeature);
 
@@ -26,18 +26,26 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            // Setup the overlay that we will refresh often
-            LayerOverlay vehicleOverlay = new LayerOverlay();
+            // Set up the overlay that we will refresh often
+            var vehicleOverlay = new LayerOverlay();
 
             // This in memory layer will hold the active point, we will be adding and removing from it frequently
-            InMemoryFeatureLayer vehicleLayer = new InMemoryFeatureLayer();
+            var vehicleLayer = new InMemoryFeatureLayer();
 
-            // Set the points image to an car icon and then apply it to all zoomlevels
-            PointStyle vehiclePointStyle = new PointStyle(new GeoImage(@"../../../Resources/vehicle-location.png"));
-            vehiclePointStyle.YOffsetInPixel = -12;
+            // Set the points image to a car icon and then apply it to all zoom levels
+            var vehiclePointStyle = new PointStyle(new GeoImage(@"../../../Resources/vehicle-location.png"))
+            {
+                YOffsetInPixel = -12
+            };
 
             vehicleLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = vehiclePointStyle;
             vehicleLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
@@ -51,7 +59,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10779430.188014803, 3912668.1732483786, -10778438.895309737, 3911814.2283277493);
 
-            // We hookup this even so when you leave this sample we stop the background data feed task
+            // We hook up this even so when you leave this sample we stop the background data feed task
             //this.Unloaded -= RefreshDynamicItems_Unloaded;
             //this.Unloaded += RefreshDynamicItems_Unloaded;
 
@@ -60,18 +68,17 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Refresh the map
             await mapView.RefreshAsync();
-
         }
 
         private async Task StartDataFeed()
         {
-            // Create a task that runs until we set the cacnelFeed variable
+            // Create a task that runs until we set the cancelFeed variable
 
 
             // Create a queue and load it up with coordinated from the CSV file
-            Queue<Feature> vehicleLocationQueue = new Queue<Feature>();
+            var vehicleLocationQueue = new Queue<Feature>();
 
-            string[] locations = File.ReadAllLines(@"./Data/Csv/vehicle-route.csv");
+            var locations = File.ReadAllLines(@"./Data/Csv/vehicle-route.csv");
 
             foreach (var location in locations)
             {
@@ -86,11 +93,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 {
                     // Get the latest point from the queue and then re-add it so the points
                     // will loop forever
-                    Feature currentFeature = vehicleLocationQueue.Dequeue();
+                    var currentFeature = vehicleLocationQueue.Dequeue();
                     vehicleLocationQueue.Enqueue(currentFeature);
 
                     // This event fires when the feature source has new data.  We need to make sure we refresh the map
-                    // on the UI threat so we use the Invoke method on the map using the delegate we created at the top.                                    
+                    // on the UI threat, so we use the Invoke method on the map using the delegate we created at the top.                                    
                     mapView.BeginInvoke(new InvokeDelegate(UpdateMap), new object[] { currentFeature });
                 }
 
@@ -110,8 +117,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void UpdateMap(Feature currentFeature)
         {
             // We need to first find our vehicle overlay and in memory layer in the map
-            LayerOverlay vehicleOverlay = (LayerOverlay)mapView.Overlays["Vehicle Overlay"];
-            InMemoryFeatureLayer vehicleLayer = (InMemoryFeatureLayer)vehicleOverlay.Layers["Vehicle Layer"];
+            var vehicleOverlay = (LayerOverlay)mapView.Overlays["Vehicle Overlay"];
+            var vehicleLayer = (InMemoryFeatureLayer)vehicleOverlay.Layers["Vehicle Layer"];
 
             // Let's clear the old location and add the new one
             vehicleLayer.InternalFeatures.Clear();

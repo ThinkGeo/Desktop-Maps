@@ -17,11 +17,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.DecimalDegree;
 
             // Create a new overlay that will hold our new layer and add it to the map.
-            LayerOverlay layerOverlay = new LayerOverlay();
+            var layerOverlay = new LayerOverlay();
             mapView.Overlays.Add(layerOverlay);
 
             // Create the new layer and dd the layer to the overlay we created earlier.
-            EcwRasterLayer ecwRasterLayer = new EcwRasterLayer("./Data/Ecw/World.ecw");
+            var ecwRasterLayer = new EcwRasterLayer("./Data/Ecw/World.ecw");
             layerOverlay.Layers.Add(ecwRasterLayer);
 
             // Set the map view current extent to a slightly zoomed in area of the image.

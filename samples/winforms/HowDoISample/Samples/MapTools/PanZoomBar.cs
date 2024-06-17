@@ -17,7 +17,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
@@ -28,8 +34,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void DisplayPanZoomBar_CheckedChanged(object sender, EventArgs e)
         {
-            CheckBox checkbox = sender as CheckBox;
-            if (checkbox.Checked == true)
+            if (sender is CheckBox checkbox && checkbox.Checked)
             {
                 mapView.MapTools.PanZoomBar.IsEnabled = true;
 
@@ -37,7 +42,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             else
             {
                 mapView.MapTools.PanZoomBar.IsEnabled = false;
-
             }
         }
 

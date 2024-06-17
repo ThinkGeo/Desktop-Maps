@@ -19,20 +19,25 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private void Form_Load(object sender, EventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map's unit of measurement to meters (Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Create a new feature layer to display the search radius of the reverse geocode and create a style for it
-            InMemoryFeatureLayer searchRadiusFeatureLayer = new InMemoryFeatureLayer();
+            var searchRadiusFeatureLayer = new InMemoryFeatureLayer();
             searchRadiusFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = new AreaStyle(new GeoPen(new GeoColor(100, GeoColors.Blue)), new GeoSolidBrush(new GeoColor(10, GeoColors.Blue)));
             searchRadiusFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Cross, 20, GeoBrushes.Red);
             searchRadiusFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Create a new feature layer to display selected locations returned from the reverse geocode and create styles for it
-            InMemoryFeatureLayer selectedResultItemFeatureLayer = new InMemoryFeatureLayer();
+            var selectedResultItemFeatureLayer = new InMemoryFeatureLayer();
             // Add a point, line, and polygon style to the layer. These styles control how the shapes will be drawn
             selectedResultItemFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 24, GeoBrushes.MediumPurple, GeoPens.Purple);
             selectedResultItemFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.MediumPurple, 6, false);
@@ -40,12 +45,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             selectedResultItemFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Create an overlay and add the feature layers to it
-            LayerOverlay searchFeaturesOverlay = new LayerOverlay();
+            var searchFeaturesOverlay = new LayerOverlay();
             searchFeaturesOverlay.Layers.Add("Search Radius", searchRadiusFeatureLayer);
             searchFeaturesOverlay.Layers.Add("Result Feature Geometry", selectedResultItemFeatureLayer);
 
             // Create a popup overlay to display the best match
-            PopupOverlay bestMatchPopupOverlay = new PopupOverlay();
+            var bestMatchPopupOverlay = new PopupOverlay();
 
             // Add the overlays to the map
             mapView.Overlays.Add("Search Features Overlay", searchFeaturesOverlay);
@@ -55,7 +60,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
 
             // Initialize the ReverseGeocodingCloudClient with our ThinkGeo Cloud credentials
-            reverseGeocodingCloudClient = new ReverseGeocodingCloudClient("FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~", "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~");
+            reverseGeocodingCloudClient = new ReverseGeocodingCloudClient(SampleKeys.ClientId2, SampleKeys.ClientSecret2);
 
             cboLocationCategories.SelectedIndex = 0;
         }
@@ -65,16 +70,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             //Perform some simple validation on the input text boxes
             if (ValidateSearchParameters())
             {
-                CloudReverseGeocodingOptions options = new CloudReverseGeocodingOptions();
+                var options = new CloudReverseGeocodingOptions();
 
                 // Set up the CloudReverseGeocodingOptions object based on the parameters set in the UI
                 string[] coordinates = txtCoordinates.Text.Split(',');
                 double lat = double.Parse(coordinates[0].Trim());
                 double lon = double.Parse(coordinates[1].Trim());
                 int searchRadius = int.Parse(txtSearchRadius.Text);
-                DistanceUnit searchRadiusDistanceUnit = DistanceUnit.Meter;
+                var searchRadiusDistanceUnit = DistanceUnit.Meter;
                 int pointProjectionInSrid = 3857;
-                PointShape searchPoint = new PointShape(lon, lat);
+                var searchPoint = new PointShape(lon, lat);
                 options.MaxResults = int.Parse(txtMaxResults.Text);
 
                 switch (cboLocationCategories.SelectedItem.ToString())
@@ -125,7 +130,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async Task DisplaySearchResultsAsync(PointShape searchPoint, int searchRadius, CloudReverseGeocodingResult searchResult)
         {
             // Get the 'Search Radius' layer from the MapView
-            InMemoryFeatureLayer searchRadiusFeatureLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Search Radius");
+            var searchRadiusFeatureLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Search Radius");
 
             // Clear the existing features and add new features showing the area that was searched by the reverse geocode
             searchRadiusFeatureLayer.Clear();
@@ -133,28 +138,30 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             searchRadiusFeatureLayer.InternalFeatures.Add(new Feature(searchPoint));
 
             // Get the 'Result Feature' layer and clear it
-            InMemoryFeatureLayer selectedResultItemFeatureLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Result Feature Geometry");
+            var selectedResultItemFeatureLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Result Feature Geometry");
             selectedResultItemFeatureLayer.Clear();
 
             // If a match was found for the geocode, update the UI
             if (searchResult?.BestMatchLocation != null)
             {
                 // Get the 'Best Match' PopupOverlay from the MapView and clear it
-                PopupOverlay bestMatchPopupOverlay = (PopupOverlay)mapView.Overlays["Best Match Popup Overlay"];
+                var bestMatchPopupOverlay = (PopupOverlay)mapView.Overlays["Best Match Popup Overlay"];
                 bestMatchPopupOverlay.Popups.Clear();
 
                 // Get the location of the 'Best Match' found within the search radius
-                PointShape bestMatchLocation = searchResult.BestMatchLocation.LocationFeature.GetShape().GetClosestPointTo(searchPoint, GeographyUnit.Meter);
+                var bestMatchLocation = searchResult.BestMatchLocation.LocationFeature.GetShape().GetClosestPointTo(searchPoint, GeographyUnit.Meter);
                 if (bestMatchLocation == null)
                 {
                     bestMatchLocation = searchResult.BestMatchLocation.LocationFeature.GetShape().GetCenterPoint();
                 }
 
                 // Create a popup to display the best match, and add it to the PopupOverlay
-                Popup bestMatchPopup = new Popup(bestMatchLocation);
-                bestMatchPopup.Content = "Best Match: " + searchResult.BestMatchLocation.Address;
-                bestMatchPopup.FontSize = 10d;
-                bestMatchPopup.FontFamily = new System.Windows.Media.FontFamily("Verdana");
+                var bestMatchPopup = new Popup(bestMatchLocation)
+                {
+                    Content = "Best Match: " + searchResult.BestMatchLocation.Address,
+                    FontSize = 10d,
+                    FontFamily = new System.Windows.Media.FontFamily("Verdana")
+                };
                 bestMatchPopupOverlay.Popups.Add(bestMatchPopup);
 
                 // Sort the locations found into three groups (Addresses, Places, Roads) based on their LocationCategory
@@ -162,7 +169,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 Collection<CloudReverseGeocodingLocation> nearbyAddresses = new Collection<CloudReverseGeocodingLocation>();
                 Collection<CloudReverseGeocodingLocation> nearbyPlaces = new Collection<CloudReverseGeocodingLocation>();
                 Collection<CloudReverseGeocodingLocation> nearbyRoads = new Collection<CloudReverseGeocodingLocation>();
-                foreach (CloudReverseGeocodingLocation foundLocation in nearbyLocations)
+                foreach (var foundLocation in nearbyLocations)
                 {
                     if (foundLocation.LocationCategory.ToLower().Contains("addresspoint"))
                     {
@@ -200,7 +207,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Set the map extent to show the results of the search
             mapView.CurrentExtent = searchRadiusFeatureLayer.GetBoundingBox();
-            ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
+            var standardZoomLevelSet = new ZoomLevelSet();
             if (mapView.CurrentScale < standardZoomLevelSet.ZoomLevel18.Scale)
             {
                 await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
@@ -297,14 +304,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void lsbAddresses_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ListBox selectedResultList = (ListBox)sender;
+            var selectedResultList = (ListBox)sender;
             if (selectedResultList.SelectedItem != null)
             {
                 // Get the selected location
-                Feature locationFeature = ((CloudReverseGeocodingLocation)selectedResultList.SelectedItem).LocationFeature;
+                var locationFeature = ((CloudReverseGeocodingLocation)selectedResultList.SelectedItem).LocationFeature;
 
                 // Get the 'Result Feature' layer from the MapView
-                InMemoryFeatureLayer selectedResultItemFeatureLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Result Feature Geometry");
+                var selectedResultItemFeatureLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Result Feature Geometry");
 
                 // Clear the existing features and add the geometry of the selected location
                 selectedResultItemFeatureLayer.Clear();
@@ -312,7 +319,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
                 // Center the map on the chosen location
                 mapView.CurrentExtent = locationFeature.GetBoundingBox();
-                ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
+                var standardZoomLevelSet = new ZoomLevelSet();
                 if (mapView.CurrentScale < standardZoomLevelSet.ZoomLevel18.Scale)
                 {
                     await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);

@@ -17,16 +17,27 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a new overlay that will hold our new layer and add it to the map.
-            LayerOverlay parksOverlay = new LayerOverlay();
+            var parksOverlay = new LayerOverlay();
             mapView.Overlays.Add(parksOverlay);
 
             // Create the new layer and set the projection as the data is in srid 2276 and our background is srid 3857 (spherical mercator).
-            ShapeFileFeatureLayer parksLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
-            parksLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+            var parksLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp")
+            {
+                FeatureSource =
+                {
+                    ProjectionConverter = new ProjectionConverter(2276, 3857)
+                }
+            };
 
             // Add the layer to the overlay we created earlier.
             parksOverlay.Layers.Add("Frisco Parks", parksLayer);

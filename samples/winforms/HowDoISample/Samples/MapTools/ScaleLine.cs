@@ -17,7 +17,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
@@ -26,18 +32,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             await mapView.RefreshAsync();
         }
 
-        private void displayScaleLine_CheckedChanged(object sender, EventArgs e)
+        private void DisplayScaleLine_CheckedChanged(object sender, EventArgs e)
         {
-            CheckBox checkbox = sender as CheckBox;
-            if (checkbox.Checked)
-            {
-                mapView.MapTools.ScaleLine.IsEnabled = true;
-            }
-            else
-            {
-                mapView.MapTools.ScaleLine.IsEnabled = false;
-            }
-
+            if (sender is CheckBox checkbox) mapView.MapTools.ScaleLine.IsEnabled = checkbox.Checked;
         }
 
         #region Component Designer generated code
@@ -97,7 +94,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.displayScaleLine.TabIndex = 1;
             this.displayScaleLine.Text = "Display ScaleBar";
             this.displayScaleLine.UseVisualStyleBackColor = true;
-            this.displayScaleLine.CheckedChanged += new System.EventHandler(this.displayScaleLine_CheckedChanged);
+            this.displayScaleLine.CheckedChanged += new System.EventHandler(this.DisplayScaleLine_CheckedChanged);
             // 
             // label1
             // 

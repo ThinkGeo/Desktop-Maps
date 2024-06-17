@@ -18,17 +18,26 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
 
             // Create a layer with polygon data
-            ShapeFileFeatureLayer friscoSubdivisions = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
-
-            // Project the layer's data to match the projection of the map
-            friscoSubdivisions.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+            var friscoSubdivisions = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp")
+            {
+                FeatureSource =
+                {
+                    // Project the layer's data to match the projection of the map
+                    ProjectionConverter = new ProjectionConverter(2276, 3857)
+                }
+            };
 
             // Add the layer to a layer overlay
             var layerOverlay = new LayerOverlay();
@@ -46,9 +55,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// <summary>
         /// Create a areaStyle and add it to the Historic Sites layer
         /// </summary>
-        private void AddAreaStyle(ShapeFileFeatureLayer layer)
+        private void AddAreaStyle(FeatureLayer layer)
         {
-            // Create a area style
+            // Create an area style
             var areaStyle = new AreaStyle(GeoPens.DimGray, new GeoSolidBrush(new GeoColor(128, GeoColors.ForestGreen)));
 
             // Add the area style to the collection of custom styles for ZoomLevel 1. 

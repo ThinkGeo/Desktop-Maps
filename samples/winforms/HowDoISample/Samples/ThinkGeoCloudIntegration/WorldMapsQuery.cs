@@ -17,16 +17,22 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void Form_Load(object sender, EventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map's unit of measurement to meters (Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Create a new feature layer to display the query shape used to perform the query
-            InMemoryFeatureLayer queryShapeFeatureLayer = new InMemoryFeatureLayer();
+            var queryShapeFeatureLayer = new InMemoryFeatureLayer();
 
-            // Add a point, line, and polygon style to the layer. These styles control how the the query shape will be drawn
+            // Add a point, line, and polygon style to the layer. These styles control how the query shape will be drawn
             queryShapeFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 20, GeoBrushes.Blue);
             queryShapeFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = new LineStyle(GeoPens.Blue);
             queryShapeFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = new AreaStyle(GeoPens.Blue, new GeoSolidBrush(new GeoColor(10, GeoColors.Blue)));
@@ -35,7 +41,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             queryShapeFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Create a new feature layer to display the shapes returned by the query.
-            InMemoryFeatureLayer queriedFeaturesLayer = new InMemoryFeatureLayer();
+            var queriedFeaturesLayer = new InMemoryFeatureLayer();
 
             // Add a point, line, and polygon style to the layer. These styles control how the returned shapes will be drawn
             queriedFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 20, GeoBrushes.OrangeRed);
@@ -44,7 +50,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             queriedFeaturesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Add the feature layers to an overlay, then add that overlay to the map
-            LayerOverlay queriedFeaturesOverlay = new LayerOverlay();
+            var queriedFeaturesOverlay = new LayerOverlay();
             queriedFeaturesOverlay.Layers.Add("Queried Features Layer", queriedFeaturesLayer);
             queriedFeaturesOverlay.Layers.Add("Query Shape Layer", queryShapeFeatureLayer);
             mapView.Overlays.Add("Queried Features Overlay", queriedFeaturesOverlay);
@@ -56,26 +62,25 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.TrackOverlay.TrackEnded += OnShapeDrawn;
 
             // Initialize the MapsQueryCloudClient with our ThinkGeo Cloud credentials
-            mapsQueryCloudClient = new MapsQueryCloudClient("FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~", "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~");
+            mapsQueryCloudClient = new MapsQueryCloudClient(SampleKeys.ClientId2, SampleKeys.ClientSecret2);
 
             // Create a sample shape and add it to the query shape layer
-            RectangleShape sampleShape = new RectangleShape(-10779877.70, 3915441.00, -10779248.97, 3915119.63);
+            var sampleShape = new RectangleShape(-10779877.70, 3915441.00, -10779248.97, 3915119.63);
             queryShapeFeatureLayer.InternalFeatures.Add(new Feature(sampleShape));
 
             // Run the world maps query
             await PerformWorldMapsQueryAsync();
 
             txtMaximumResults.DataBindings.Add("Text", maxResults, "Value");
-
         }
 
         private async Task PerformWorldMapsQueryAsync()
         {
             //Get the feature layers from the MapView
 
-            LayerOverlay queriedFeaturesOverlay = (LayerOverlay)mapView.Overlays["Queried Features Overlay"];
-            InMemoryFeatureLayer queryShapeFeatureLayer = (InMemoryFeatureLayer)queriedFeaturesOverlay.Layers["Query Shape Layer"];
-            InMemoryFeatureLayer queriedFeaturesLayer = (InMemoryFeatureLayer)queriedFeaturesOverlay.Layers["Queried Features Layer"];
+            var queriedFeaturesOverlay = (LayerOverlay)mapView.Overlays["Queried Features Overlay"];
+            var queryShapeFeatureLayer = (InMemoryFeatureLayer)queriedFeaturesOverlay.Layers["Query Shape Layer"];
+            var queriedFeaturesLayer = (InMemoryFeatureLayer)queriedFeaturesOverlay.Layers["Queried Features Layer"];
 
             // Show an error if trying to query with no query shape
             if (queryShapeFeatureLayer.InternalFeatures.Count == 0)
@@ -85,11 +90,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
 
             //Set the MapsQuery parameters based on the drawn query shape and the UI
-            BaseShape queryShape = queryShapeFeatureLayer.InternalFeatures[0].GetShape();
+            var queryShape = queryShapeFeatureLayer.InternalFeatures[0].GetShape();
             int projectionInSrid = 3857;
             string queryLayer = cboQueryLayer.SelectedItem.ToString().ToLower();
 
-            CloudMapsQueryResult result = new CloudMapsQueryResult();
+            var result = new CloudMapsQueryResult();
 
             //Show a loading graphic to let users know the request is running
             //loadingImage.Visibility = Visibility.Visible;
@@ -113,8 +118,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                         break;
                     case "Within":
                         result = await mapsQueryCloudClient.GetFeaturesWithinAsync(queryLayer, queryShape, projectionInSrid, new CloudMapsQuerySpatialQueryOptions() { MaxResults = (int)maxResults.Value });
-                        break;
-                    default:
                         break;
                 }
             }
@@ -143,7 +146,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             if (result.Features.Count > 0)
             {
                 //Add any features found by the query to the map
-                foreach (Feature feature in result.Features)
+                foreach (var feature in result.Features)
                 {
                     queriedFeaturesLayer.InternalFeatures.Add(feature);
                 }
@@ -155,7 +158,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
             else
             {
-                MessageBox.Show("No features found in the selected area");
+                MessageBox.Show(@"No features found in the selected area");
             }
 
             //Refresh and redraw the map
@@ -169,8 +172,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
 
             // Get the query shape layer from the MapView
-            LayerOverlay queriedFeaturesOverlay = (LayerOverlay)mapView.Overlays["Queried Features Overlay"];
-            InMemoryFeatureLayer queryShapeFeatureLayer = (InMemoryFeatureLayer)queriedFeaturesOverlay.Layers["Query Shape Layer"];
+            var queriedFeaturesOverlay = (LayerOverlay)mapView.Overlays["Queried Features Overlay"];
+            var queryShapeFeatureLayer = (InMemoryFeatureLayer)queriedFeaturesOverlay.Layers["Query Shape Layer"];
 
             // Add the newly drawn shape, then redraw the overlay
             queryShapeFeatureLayer.InternalFeatures.Add(new Feature(e.TrackShape));
@@ -208,9 +211,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async Task ClearQueryShapesAsync()
         {
             // Get the query shape layer from the MapView
-            LayerOverlay queriedFeaturesOverlay = (LayerOverlay)mapView.Overlays["Queried Features Overlay"];
-            InMemoryFeatureLayer queryShapeFeatureLayer = (InMemoryFeatureLayer)queriedFeaturesOverlay.Layers["Query Shape Layer"];
-            InMemoryFeatureLayer queriedFeaturesLayer = (InMemoryFeatureLayer)queriedFeaturesOverlay.Layers["Queried Features Layer"];
+            var queriedFeaturesOverlay = (LayerOverlay)mapView.Overlays["Queried Features Overlay"];
+            var queryShapeFeatureLayer = (InMemoryFeatureLayer)queriedFeaturesOverlay.Layers["Query Shape Layer"];
+            var queriedFeaturesLayer = (InMemoryFeatureLayer)queriedFeaturesOverlay.Layers["Queried Features Layer"];
 
             // Clear the old query result and query shape from the map
             queriedFeaturesLayer.InternalFeatures.Clear();

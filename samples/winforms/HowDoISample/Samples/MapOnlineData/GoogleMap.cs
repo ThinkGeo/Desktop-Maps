@@ -36,11 +36,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 mapView.Overlays.Clear();
 
                 // Create a new overlay that will hold our new layer and add it to the map.
-                LayerOverlay worldOverlay = new LayerOverlay();
+                var worldOverlay = new LayerOverlay();
                 mapView.Overlays.Add("WorldOverlay", worldOverlay);
 
                 // Create the new layer.
-                Core.Async.GoogleMapsLayer worldLayer = new Core.Async.GoogleMapsLayer(txtApiKey.Text);
+                var worldLayer = new Core.Async.GoogleMapsLayer(txtApiKey.Text);
 
                 // Add the layer to the overlay we created earlier.
                 worldOverlay.Layers.Add("WorldLayer", worldLayer);

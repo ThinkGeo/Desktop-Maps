@@ -17,15 +17,20 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudRasterMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudRasterMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10779675.1746605, 3914631.77546835, -10779173.5566652, 3914204.80300804);
 
             // Create a layer with line data
-            ShapeFileFeatureLayer friscoRailroad = new ShapeFileFeatureLayer(@"./Data/Railroad/Railroad.shp");
-            LayerOverlay layerOverlay = new LayerOverlay();
+            var friscoRailroad = new ShapeFileFeatureLayer(@"./Data/Railroad/Railroad.shp");
+            var layerOverlay = new LayerOverlay();
 
             // Project the layer's data to match the projection of the map
             friscoRailroad.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
@@ -45,8 +50,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             if (mapView.Overlays.Count > 0)
             {
-                LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["overlay"];
-                ShapeFileFeatureLayer friscoRailroad = (ShapeFileFeatureLayer)layerOverlay.Layers["Railroad"];
+                var layerOverlay = (LayerOverlay)mapView.Overlays["overlay"];
+                var friscoRailroad = (ShapeFileFeatureLayer)layerOverlay.Layers["Railroad"];
 
                 // Create a line style
                 var lineStyle = new LineStyle(new GeoPen(GeoBrushes.DimGray, 10), new GeoPen(GeoBrushes.WhiteSmoke, 6));
@@ -67,8 +72,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             if (mapView.Overlays.Count > 0)
             {
-                LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["overlay"];
-                ShapeFileFeatureLayer friscoRailroad = (ShapeFileFeatureLayer)layerOverlay.Layers["Railroad"];
+                var layerOverlay = (LayerOverlay)mapView.Overlays["overlay"];
+                var friscoRailroad = (ShapeFileFeatureLayer)layerOverlay.Layers["Railroad"];
 
                 var lineStyle = new LineStyle(
                     outerPen: new GeoPen(GeoColors.Black, 12),
@@ -93,13 +98,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
         }
 
-        private Panel panel1;
-        private RadioButton rbDashedLineStyle;
-        private Label label1;
-        private RadioButton rbLineStyle;
-
         #region Component Designer generated code
-
+        private Panel panel1;
+        private Label label1;
+        private RadioButton rbDashedLineStyle;
+        private RadioButton rbLineStyle;
         private MapView mapView;
 
         private void InitializeComponent()
@@ -192,11 +195,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
-
         }
 
         #endregion Component Designer generated code
-
-
     }
 }

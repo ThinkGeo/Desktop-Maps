@@ -17,12 +17,17 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            ShapeFileFeatureLayer dividedCityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimitsDivided.shp");
-            InMemoryFeatureLayer unionLayer = new InMemoryFeatureLayer();
-            LayerOverlay layerOverlay = new LayerOverlay();
+            var dividedCityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimitsDivided.shp");
+            var unionLayer = new InMemoryFeatureLayer();
+            var layerOverlay = new LayerOverlay();
 
             // Project dividedCityLimits layer to Spherical Mercator to match the map projection
             dividedCityLimits.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
@@ -55,10 +60,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void unionShapes_Click(object sender, EventArgs e)
         {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
+            var layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
 
-            ShapeFileFeatureLayer dividedCityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["dividedCityLimits"];
-            InMemoryFeatureLayer unionLayer = (InMemoryFeatureLayer)layerOverlay.Layers["unionLayer"];
+            var dividedCityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["dividedCityLimits"];
+            var unionLayer = (InMemoryFeatureLayer)layerOverlay.Layers["unionLayer"];
 
             // Query the dividedCityLimits layer to get all the features
             dividedCityLimits.Open();
@@ -76,7 +81,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Hide the dividedCityLimits layer
             dividedCityLimits.IsVisible = false;
 
-            // Redraw the layerOverlay to see the unioned features on the map
+            // Redraw the layerOverlay to see the union features on the map
             await layerOverlay.RefreshAsync();
         }
 

@@ -2,15 +2,10 @@
 using System.Windows.Forms;
 using ThinkGeo.Core;
 
-
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public class RenderBasedOnScales : UserControl
     {
-        private readonly ShapeFileFeatureLayer hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
-        private readonly ShapeFileFeatureLayer streetsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Streets.shp");
-        private readonly ShapeFileFeatureLayer parksLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
-
         public RenderBasedOnScales()
         {
             InitializeComponent();
@@ -24,9 +19,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Set the map background color
             mapView.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColor.FromArgb(255, 234, 232, 226));
 
-            ShapeFileFeatureLayer hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
-            ShapeFileFeatureLayer streetsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Streets.shp");
-            ShapeFileFeatureLayer parksLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
+            var hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
+            var streetsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Streets.shp");
+            var parksLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
 
             // Project the layer's data to match the projection of the map
             hotelsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);

@@ -18,12 +18,17 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             ShapeFileFeatureLayer.BuildIndexFile(@"./Data/Shapefile/FriscoCityLimits.shp");
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            ShapeFileFeatureLayer cityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimits.shp");
-            InMemoryFeatureLayer scaledLayer = new InMemoryFeatureLayer();
-            LayerOverlay layerOverlay = new LayerOverlay();
+            var cityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimits.shp");
+            var scaledLayer = new InMemoryFeatureLayer();
+            var layerOverlay = new LayerOverlay();
 
             // Project cityLimits layer to Spherical Mercator to match the map projection
             cityLimits.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
@@ -55,10 +60,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void scaleShape_Click(object sender, EventArgs e)
         {
-            LayerOverlay layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
+            var layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
 
-            ShapeFileFeatureLayer cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
-            InMemoryFeatureLayer scaledLayer = (InMemoryFeatureLayer)layerOverlay.Layers["scaledLayer"];
+            var cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
+            var scaledLayer = (InMemoryFeatureLayer)layerOverlay.Layers["scaledLayer"];
 
             // Query the cityLimits layer to get all the features
             cityLimits.Open();
@@ -66,7 +71,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             cityLimits.Close();
 
             // Scale the first feature by the scaleFactor TextBox on the UI
-            var scale = AreaBaseShape.ScaleTo(features[0].GetShape(), Convert.ToSingle(scaleFactor.Text));
+            var scale = BaseShape.ScaleTo(features[0].GetShape(), Convert.ToSingle(scaleFactor.Text));
 
             // Add the scaled shape into scaledLayer to display the result.
             // If this were to be a permanent change to the cityLimits FeatureSource, you would modify the

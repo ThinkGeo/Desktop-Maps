@@ -128,18 +128,18 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         protected override void DrawCore(IEnumerable<Feature> features, GeoCanvas canvas, Collection<SimpleCandidate> labelsInThisLayer, Collection<SimpleCandidate> labelsInAllLayers)
         {
             var engine = new Engine();
-            // Add all of the user variables
+            // Add all the user variables
             foreach (string customVariableKey in userVariables.Keys)
             {
                 engine.SetValue(customVariableKey, userVariables[customVariableKey]);
             }
-            // Add all of the column variables
+            // Add all the column variables
             foreach (string columnVariable in columnVariables)
             {
                 engine.SetValue(columnVariable, string.Empty);
             }
 
-            foreach (Feature feature in features)
+            foreach (var feature in features)
             {
                 if (canvas.CancellationToken.IsCancellationRequested)
                     return;
@@ -154,7 +154,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
                 if (evaluatedTrue)
                 {
-                    foreach (Style style in customTrueStyles)
+                    foreach (var style in customTrueStyles)
                     {
                         if (canvas.CancellationToken.IsCancellationRequested)
                             return;
@@ -164,7 +164,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 }
                 else
                 {
-                    foreach (Style style in customFalseStyles)
+                    foreach (var style in customFalseStyles)
                     {
                         if (canvas.CancellationToken.IsCancellationRequested)
                             return;

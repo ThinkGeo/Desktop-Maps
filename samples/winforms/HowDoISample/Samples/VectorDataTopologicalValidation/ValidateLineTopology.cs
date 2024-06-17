@@ -17,7 +17,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             // Create an InMemoryFeatureLayer to hold the shapes to be validated
             // Add styles to display points, lines, and polygons on this layer in green
-            InMemoryFeatureLayer validatedFeaturesLayer = new InMemoryFeatureLayer();
+            var validatedFeaturesLayer = new InMemoryFeatureLayer();
             validatedFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Green, 12, GeoColors.Green);
             validatedFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(50, GeoColors.Green), GeoColors.Green);
             validatedFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.Green, 3, false);
@@ -25,7 +25,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Create an InMemoryFeatureLayer to hold the shapes to perform the validation against
             // Add styles to display points, lines, and polygons on this layer in blue
-            InMemoryFeatureLayer filterFeaturesLayer = new InMemoryFeatureLayer();
+            var filterFeaturesLayer = new InMemoryFeatureLayer();
             filterFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Blue, 12, GeoColors.Blue);
             filterFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(50, GeoColors.Blue), GeoColors.Blue);
             filterFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.Blue, 3, false);
@@ -33,14 +33,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Create an InMemoryFeatureLayer to hold the result features from the validation API
             // Add styles to display points, lines, and polygons on this layer in red
-            InMemoryFeatureLayer resultFeaturesLayer = new InMemoryFeatureLayer();
+            var resultFeaturesLayer = new InMemoryFeatureLayer();
             resultFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Red, 12, GeoColors.Red);
             resultFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(50, GeoColors.Red), GeoColors.Red);
             resultFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.Red, 3, false);
             resultFeaturesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Add the layers to an overlay, and add the overlay to the map
-            LayerOverlay featuresOverlay = new LayerOverlay();
+            var featuresOverlay = new LayerOverlay();
             featuresOverlay.Layers.Add("Filter Features", filterFeaturesLayer);
             featuresOverlay.Layers.Add("Validated Features", validatedFeaturesLayer);
             featuresOverlay.Layers.Add("Result Features", resultFeaturesLayer);
@@ -57,16 +57,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void rdoCheckLineEndpointsMustTouchPoints_CheckedChanged(object sender, EventArgs e)
         {
             // Create a sample set of point and line features to use for the validation
-            Feature lineFeature = new Feature("LINESTRING(0 0,100 0,100 50)");
-            Feature pointOnEndpointFeature = new Feature("POINT(0 0)");
+            var lineFeature = new Feature("LINESTRING(0 0,100 0,100 50)");
+            var pointOnEndpointFeature = new Feature("POINT(0 0)");
 
             // Use the TopologyValidator API to validate the sample data
-            Collection<Feature> lines = new Collection<Feature>() { lineFeature };
-            Collection<Feature> points = new Collection<Feature>() { pointOnEndpointFeature };
-            TopologyValidationResult result = TopologyValidator.LineEndPointsMustTouchPoints(lines, points);
+            var lines = new Collection<Feature>() { lineFeature };
+            var points = new Collection<Feature>() { pointOnEndpointFeature };
+            var result = TopologyValidator.LineEndPointsMustTouchPoints(lines, points);
 
             // Get the invalid features returned from the API
-            Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
+            var invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
             await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { lineFeature }, invalidResultFeatures, new Collection<Feature>() { pointOnEndpointFeature });
@@ -78,17 +78,17 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void rdoCheckLinesMustOverlapPolygonBoundaries_CheckedChanged(object sender, EventArgs e)
         {
             // Create a sample set of line and polygon features to use for the validation
-            Feature lineFeature = new Feature("LINESTRING(-50 0,150 0)");
-            Feature lineOnBoundaryFeature = new Feature("LINESTRING(-50 0,150 0)");
-            Feature polygonFeature = new Feature("POLYGON((0 0,100 0,100 100,0 100,0 0))");
+            var lineFeature = new Feature("LINESTRING(-50 0,150 0)");
+            var lineOnBoundaryFeature = new Feature("LINESTRING(-50 0,150 0)");
+            var polygonFeature = new Feature("POLYGON((0 0,100 0,100 100,0 100,0 0))");
 
             // Use the TopologyValidator API to validate the sample data
-            Collection<Feature> lines = new Collection<Feature>() { lineFeature, lineOnBoundaryFeature };
-            Collection<Feature> polygons = new Collection<Feature>() { polygonFeature };
-            TopologyValidationResult result = TopologyValidator.LinesMustOverlapPolygonBoundaries(lines, polygons);
+            var lines = new Collection<Feature>() { lineFeature, lineOnBoundaryFeature };
+            var polygons = new Collection<Feature>() { polygonFeature };
+            var result = TopologyValidator.LinesMustOverlapPolygonBoundaries(lines, polygons);
 
             // Get the invalid features returned from the API
-            Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
+            var invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
             await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { lineFeature, lineOnBoundaryFeature }, invalidResultFeatures, new Collection<Feature>() { polygonFeature });
@@ -101,16 +101,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void rdoCheckLinesMustOverlapLines_CheckedChanged(object sender, EventArgs e)
         {
             // Create a sample set of line features to use for the validation
-            Feature lineFeature = new Feature("LINESTRING(0 0,100 0,100 100,0 100)");
-            Feature coveringLineFeature = new Feature("LINESTRING(0 -50,50 0,100 0,100 150)");
+            var lineFeature = new Feature("LINESTRING(0 0,100 0,100 100,0 100)");
+            var coveringLineFeature = new Feature("LINESTRING(0 -50,50 0,100 0,100 150)");
 
             // Use the TopologyValidator API to validate the sample data
-            Collection<Feature> coveringLines = new Collection<Feature>() { coveringLineFeature };
-            Collection<Feature> coveredLines = new Collection<Feature>() { lineFeature };
-            TopologyValidationResult result = TopologyValidator.LinesMustBeCoveredByLines(coveringLines, coveredLines);
+            var coveringLines = new Collection<Feature>() { coveringLineFeature };
+            var coveredLines = new Collection<Feature>() { lineFeature };
+            var result = TopologyValidator.LinesMustBeCoveredByLines(coveringLines, coveredLines);
 
             // Get the invalid features returned from the API
-            Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
+            var invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
             await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { lineFeature }, invalidResultFeatures, new Collection<Feature>() { coveringLineFeature });
@@ -123,15 +123,15 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void rdoCheckLinesMustBeSinglePart_CheckedChanged(object sender, EventArgs e)
         {
             // Create a sample set of line features to use for the validation
-            Feature singleLineFeature = new Feature("MULTILINESTRING((0 -50,100 -50,100 -100,0 -100))");
-            Feature multiLineFeature = new Feature("MULTILINESTRING((0 0,100 0),(100 100,0 100))");
+            var singleLineFeature = new Feature("MULTILINESTRING((0 -50,100 -50,100 -100,0 -100))");
+            var multiLineFeature = new Feature("MULTILINESTRING((0 0,100 0),(100 100,0 100))");
 
             // Use the TopologyValidator API to validate the sample data
-            Collection<Feature> lines = new Collection<Feature>() { singleLineFeature, multiLineFeature };
-            TopologyValidationResult result = TopologyValidator.LinesMustBeSinglePart(lines);
+            var lines = new Collection<Feature>() { singleLineFeature, multiLineFeature };
+            var result = TopologyValidator.LinesMustBeSinglePart(lines);
 
             // Get the invalid features returned from the API
-            Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
+            var invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
             await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { singleLineFeature, multiLineFeature }, invalidResultFeatures);
@@ -144,15 +144,15 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void rdoCheckLinesMustFormClosedPolygon_CheckedChanged(object sender, EventArgs e)
         {
             // Create a sample set of line features to use for the validation
-            Feature lineFeature1 = new Feature("LINESTRING(0 0,100 0,100 100,20 100)");
-            Feature lineFeature2 = new Feature("LINESTRING(0 0,-50 0,-50 100,0 100)");
+            var lineFeature1 = new Feature("LINESTRING(0 0,100 0,100 100,20 100)");
+            var lineFeature2 = new Feature("LINESTRING(0 0,-50 0,-50 100,0 100)");
 
             // Use the TopologyValidator API to validate the sample data
-            Collection<Feature> lines = new Collection<Feature>() { lineFeature1, lineFeature2 };
-            TopologyValidationResult result = TopologyValidator.LinesMustFormClosedPolygon(lines);
+            var lines = new Collection<Feature>() { lineFeature1, lineFeature2 };
+            var result = TopologyValidator.LinesMustFormClosedPolygon(lines);
 
             // Get the invalid features returned from the API
-            Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
+            var invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
             await ClearMapAndAddFeaturesAsync(lines, invalidResultFeatures);
@@ -165,19 +165,19 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void rdoCheckLinesMustNotHavePseudonodes_CheckedChanged(object sender, EventArgs e)
         {
             // Create a sample set of line features to use for the validation
-            Feature lineSegmentFeature1 = new Feature("LINESTRING(0 0,50 0,50 50,0 0)");
-            Feature lineSegmentFeature2 = new Feature("LINESTRING(-50 0,-50 50)");
-            Feature lineSegmentFeature3 = new Feature("LINESTRING(-100 0,-50 50)");
-            Feature lineSegmentFeature4 = new Feature("LINESTRING(-50 -50,-50 -100)");
-            Feature lineSegmentFeature5 = new Feature("LINESTRING(-100 -50,-50 -100)");
-            Feature lineSegmentFeature6 = new Feature("LINESTRING(-50 -100,0 -100)");
+            var lineSegmentFeature1 = new Feature("LINESTRING(0 0,50 0,50 50,0 0)");
+            var lineSegmentFeature2 = new Feature("LINESTRING(-50 0,-50 50)");
+            var lineSegmentFeature3 = new Feature("LINESTRING(-100 0,-50 50)");
+            var lineSegmentFeature4 = new Feature("LINESTRING(-50 -50,-50 -100)");
+            var lineSegmentFeature5 = new Feature("LINESTRING(-100 -50,-50 -100)");
+            var lineSegmentFeature6 = new Feature("LINESTRING(-50 -100,0 -100)");
 
             // Use the TopologyValidator API to validate the sample data
-            Collection<Feature> lines = new Collection<Feature>() { lineSegmentFeature1, lineSegmentFeature2, lineSegmentFeature3, lineSegmentFeature4, lineSegmentFeature5, lineSegmentFeature6 };
-            TopologyValidationResult result = TopologyValidator.LinesMustNotHavePseudonodes(lines);
+            var lines = new Collection<Feature>() { lineSegmentFeature1, lineSegmentFeature2, lineSegmentFeature3, lineSegmentFeature4, lineSegmentFeature5, lineSegmentFeature6 };
+            var result = TopologyValidator.LinesMustNotHavePseudonodes(lines);
 
             // Get the invalid features returned from the API
-            Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
+            var invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
             await ClearMapAndAddFeaturesAsync(lines, invalidResultFeatures);
@@ -190,16 +190,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void rdoCheckLinesMustNotIntersect_CheckedChanged(object sender, EventArgs e)
         {
             // Create a sample set of line features to use for the validation
-            Feature lineFeature1 = new Feature("LINESTRING(0 0,100 0,100 100)");
-            Feature lineFeature2 = new Feature("LINESTRING(0 -50,30 0,60 0,100 50)");
-            Feature lineFeature3 = new Feature("LINESTRING(20 50,20 -50)");
+            var lineFeature1 = new Feature("LINESTRING(0 0,100 0,100 100)");
+            var lineFeature2 = new Feature("LINESTRING(0 -50,30 0,60 0,100 50)");
+            var lineFeature3 = new Feature("LINESTRING(20 50,20 -50)");
 
             // Use the TopologyValidator API to validate the sample data
-            Collection<Feature> lines = new Collection<Feature>() { lineFeature1, lineFeature2, lineFeature3 };
-            TopologyValidationResult result = TopologyValidator.LinesMustNotIntersect(lines);
+            var lines = new Collection<Feature>() { lineFeature1, lineFeature2, lineFeature3 };
+            var result = TopologyValidator.LinesMustNotIntersect(lines);
 
             // Get the invalid features returned from the API
-            Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
+            var invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
             await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { lineFeature1, lineFeature2, lineFeature3 }, invalidResultFeatures);
@@ -212,16 +212,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void rdoCheckLinesMustNotSelfIntersectOrTouch_CheckedChanged(object sender, EventArgs e)
         {
             // Create a sample set of line features to use for the validation
-            Feature lineFeature1 = new Feature("LINESTRING(0 0,100 0,100 100)");
-            Feature lineFeature2 = new Feature("LINESTRING(0 -50,30 0,60 0,100 50)");
-            Feature lineFeature3 = new Feature("LINESTRING(20 50,20 -50)");
+            var lineFeature1 = new Feature("LINESTRING(0 0,100 0,100 100)");
+            var lineFeature2 = new Feature("LINESTRING(0 -50,30 0,60 0,100 50)");
+            var lineFeature3 = new Feature("LINESTRING(20 50,20 -50)");
 
             // Use the TopologyValidator API to validate the sample data
-            Collection<Feature> lines = new Collection<Feature>() { lineFeature1, lineFeature2, lineFeature3 };
-            TopologyValidationResult result = TopologyValidator.LinesMustNotSelfIntersectOrTouch(lines);
+            var lines = new Collection<Feature>() { lineFeature1, lineFeature2, lineFeature3 };
+            var result = TopologyValidator.LinesMustNotSelfIntersectOrTouch(lines);
 
             // Get the invalid features returned from the API
-            Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
+            var invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
             await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { lineFeature1, lineFeature2, lineFeature3 }, invalidResultFeatures);
@@ -234,16 +234,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void rdoCheckLinesMustNotOverlap_CheckedChanged(object sender, EventArgs e)
         {
             // Create a sample set of line features to use for the validation
-            Feature lineFeature1 = new Feature("LINESTRING(0 0,100 0,100 100)");
-            Feature lineFeature2 = new Feature("LINESTRING(0 -50,30 0,60 0,100 50)");
-            Feature lineFeature3 = new Feature("LINESTRING(20 50,20 -50)");
+            var lineFeature1 = new Feature("LINESTRING(0 0,100 0,100 100)");
+            var lineFeature2 = new Feature("LINESTRING(0 -50,30 0,60 0,100 50)");
+            var lineFeature3 = new Feature("LINESTRING(20 50,20 -50)");
 
             // Use the TopologyValidator API to validate the sample data
-            Collection<Feature> lines = new Collection<Feature>() { lineFeature1, lineFeature2, lineFeature3 };
-            TopologyValidationResult result = TopologyValidator.LinesMustNotOverlap(lines);
+            var lines = new Collection<Feature>() { lineFeature1, lineFeature2, lineFeature3 };
+            var result = TopologyValidator.LinesMustNotOverlap(lines);
 
             // Get the invalid features returned from the API
-            Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
+            var invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
             await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { lineFeature1, lineFeature2, lineFeature3 }, invalidResultFeatures);
@@ -256,16 +256,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void rdoCheckLinesMustNotOverlapLines_CheckedChanged(object sender, EventArgs e)
         {
             // Create a sample set of line features to use for the validation
-            Feature overlappingLineFeature = new Feature("LINESTRING(0 0,100 0,100 100,0 100)");
-            Feature overlappedLineFeature = new Feature("LINESTRING(150 0,100 30,100 60,150 100)");
+            var overlappingLineFeature = new Feature("LINESTRING(0 0,100 0,100 100,0 100)");
+            var overlappedLineFeature = new Feature("LINESTRING(150 0,100 30,100 60,150 100)");
 
             // Use the TopologyValidator API to validate the sample data
-            Collection<Feature> coveringLines = new Collection<Feature>() { overlappingLineFeature };
-            Collection<Feature> coveredLines = new Collection<Feature>() { overlappedLineFeature };
-            TopologyValidationResult result = TopologyValidator.LinesMustNotOverlapLines(coveringLines, coveredLines);
+            var coveringLines = new Collection<Feature>() { overlappingLineFeature };
+            var coveredLines = new Collection<Feature>() { overlappedLineFeature };
+            var result = TopologyValidator.LinesMustNotOverlapLines(coveringLines, coveredLines);
 
             // Get the invalid features returned from the API
-            Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
+            var invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
             await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { overlappedLineFeature }, invalidResultFeatures, new Collection<Feature>() { overlappingLineFeature });
@@ -278,14 +278,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void rdoCheckLinesMustNotSelfIntersect_CheckedChanged(object sender, EventArgs e)
         {
             // Create a sample set of line features to use for the validation
-            Feature selfIntersectingLine = new Feature("LINESTRING(0 0,100 0,100 100,50 100,50 -50)");
+            var selfIntersectingLine = new Feature("LINESTRING(0 0,100 0,100 100,50 100,50 -50)");
 
             // Use the TopologyValidator API to validate the sample data
-            Collection<Feature> lines = new Collection<Feature>() { selfIntersectingLine };
-            TopologyValidationResult result = TopologyValidator.LinesMustNotSelfIntersect(lines);
+            var lines = new Collection<Feature>() { selfIntersectingLine };
+            var result = TopologyValidator.LinesMustNotSelfIntersect(lines);
 
             // Get the invalid features returned from the API
-            Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
+            var invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
             await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { selfIntersectingLine }, invalidResultFeatures);
@@ -298,14 +298,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void rdoCheckLinesMustNotSelfOverlap_CheckedChanged(object sender, EventArgs e)
         {
             // Create a sample set of line features to use for the validation
-            Feature selfOverlappingLine = new Feature("LINESTRING(0 0,100 0,100 100,0 100,20 0,40 0,40 -50)");
+            var selfOverlappingLine = new Feature("LINESTRING(0 0,100 0,100 100,0 100,20 0,40 0,40 -50)");
 
             // Use the TopologyValidator API to validate the sample data
-            Collection<Feature> lines = new Collection<Feature>() { selfOverlappingLine };
-            TopologyValidationResult result = TopologyValidator.LinesMustNotSelfOverlap(lines);
+            var lines = new Collection<Feature>() { selfOverlappingLine };
+            var result = TopologyValidator.LinesMustNotSelfOverlap(lines);
 
             // Get the invalid features returned from the API
-            Collection<Feature> invalidResultFeatures = result.InvalidFeatures;
+            var invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
             await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { selfOverlappingLine }, invalidResultFeatures);
@@ -318,9 +318,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async Task ClearMapAndAddFeaturesAsync(Collection<Feature> validatedFeatures, Collection<Feature> resultFeatures, Collection<Feature> filterFeatures = null)
         {
             // Get the InMemoryFeatureLayers from the MapView
-            InMemoryFeatureLayer validatedFeaturesLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Validated Features");
-            InMemoryFeatureLayer filterFeaturesLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Filter Features");
-            InMemoryFeatureLayer resultFeaturesLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Result Features");
+            var validatedFeaturesLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Validated Features");
+            var filterFeaturesLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Filter Features");
+            var resultFeaturesLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Result Features");
 
             validatedFeaturesLayer.Open();
             filterFeaturesLayer.Open();
@@ -334,26 +334,26 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Add (blue) filter features to the map, if there are any
             if (filterFeatures != null)
             {
-                foreach (Feature filterFeature in filterFeatures)
+                foreach (var filterFeature in filterFeatures)
                 {
                     filterFeaturesLayer.InternalFeatures.Add(filterFeature);
                 }
             }
 
             // Add (green) validated features to the map
-            foreach (Feature validatedFeature in validatedFeatures)
+            foreach (var validatedFeature in validatedFeatures)
             {
                 validatedFeaturesLayer.InternalFeatures.Add(validatedFeature);
             }
 
             // Add (red) invalid features to the map
-            foreach (Feature resultFeature in resultFeatures)
+            foreach (var resultFeature in resultFeatures)
             {
                 resultFeaturesLayer.InternalFeatures.Add(resultFeature);
             }
 
             // Refresh/redraw the layers and reset the map extent
-            LayerOverlay featureOverlay = (LayerOverlay)mapView.Overlays["Features Overlay"];
+            var featureOverlay = (LayerOverlay)mapView.Overlays["Features Overlay"];
             mapView.CurrentExtent = featureOverlay.GetBoundingBox();
             await mapView.RefreshAsync();
 

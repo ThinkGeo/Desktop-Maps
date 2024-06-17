@@ -30,7 +30,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void rbLayerOrOverlay_CheckedChanged(object sender, EventArgs e)
         {
             // Based on the radio buttons we switch between using the overlay and layer.
-            RadioButton button = (RadioButton)sender;
+            var button = (RadioButton)sender;
             if (button.Text != null && button.Checked)
             {
                 switch (button.Text)
@@ -53,7 +53,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Create a WMS overlay using the WMS parameters below.
             // This is a public service and is very slow most of the time.
-            WmsOverlay wmsOverlay = new WmsOverlay();
+            var wmsOverlay = new WmsOverlay();
             wmsOverlay.Uri = new Uri("http://ows.mundialis.de/services/service");
             wmsOverlay.Parameters.Add("layers", "OSM-WMS");
             wmsOverlay.Parameters.Add("STYLES", "default");
@@ -68,7 +68,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Clear();
 
             // Create an overlay that we will add the layer to.
-            LayerOverlay staticOverlay = new LayerOverlay();
+            var staticOverlay = new LayerOverlay();
             mapView.Overlays.Add(staticOverlay);
 
             // Create the WMS layer using the parameters below.

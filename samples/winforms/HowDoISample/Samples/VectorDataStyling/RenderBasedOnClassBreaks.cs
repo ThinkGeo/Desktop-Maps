@@ -3,14 +3,10 @@ using System.Linq;
 using System.Windows.Forms;
 using ThinkGeo.Core;
 
-
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public class RenderBasedOnClassBreaks : UserControl
     {
-        private readonly ShapeFileFeatureLayer housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
-        private readonly LegendAdornmentLayer legend = new LegendAdornmentLayer();
-
         public RenderBasedOnClassBreaks()
         {
             InitializeComponent();
@@ -22,18 +18,25 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            ShapeFileFeatureLayer housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
-            LegendAdornmentLayer legend = new LegendAdornmentLayer();
-
-            // Setup the legend adornment
-            legend.Title = new LegendItem()
+            var housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
+            var legend = new LegendAdornmentLayer
             {
-                TextStyle = new TextStyle("Housing Units", new GeoFont("Verdana", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
+                // Set up the legend adornment
+                Title = new LegendItem()
+                {
+                    TextStyle = new TextStyle("Housing Units", new GeoFont("Verdana", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
+                },
+                Location = AdornmentLocation.LowerRight
             };
-            legend.Location = AdornmentLocation.LowerRight;
+
             mapView.AdornmentOverlay.Layers.Add(legend);
 
             // Project the layer's data to match the projection of the map
@@ -89,37 +92,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Add and apply the ClassBreakStyle to the housingUnitsLayer
             layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(housingUnitsStyle);
             layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-        }
-
-        private void AddClassBreakStyle()
-        {
-            // Create the ClassBreakStyle based on the H_UNITS numerical column
-            var housingUnitsStyle = new ClassBreakStyle("H_UNITS");
-
-            var classBreakIntervals = new double[] { 0, 1000, 2000, 3000, 4000, 5000 };
-            var colors = GeoColor.GetColorsInHueFamily(GeoColors.Red, classBreakIntervals.Count()).Reverse().ToList();
-
-            // Create ClassBreaks for each of the classBreakIntervals
-            for (int i = 0; i < classBreakIntervals.Count(); i++)
-            {
-                // Create the classBreak using one of the intervals and colors defined above
-                var classBreak = new ClassBreak(classBreakIntervals[i], AreaStyle.CreateSimpleAreaStyle(new GeoColor(192, colors[i]), GeoColors.Transparent));
-
-                // Add the classBreak to the housingUnitsStyle ClassBreaks collection
-                housingUnitsStyle.ClassBreaks.Add(classBreak);
-
-                // Add a LegendItem to the legend adornment to represent the classBreak
-                var legendItem = new LegendItem()
-                {
-                    ImageStyle = classBreak.DefaultAreaStyle,
-                    TextStyle = new TextStyle($@">{classBreak.Value} units", new GeoFont("Verdana", 10), GeoBrushes.Black)
-                };
-                legend.LegendItems.Add(legendItem);
-            }
-
-            // Add and apply the ClassBreakStyle to the housingUnitsLayer
-            housingUnitsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(housingUnitsStyle);
-            housingUnitsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
         }
 
         #region Component Designer generated code

@@ -2,7 +2,6 @@
 using System.Windows.Forms;
 using ThinkGeo.Core;
 
-
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public class RenderLabels : UserControl
@@ -20,9 +19,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Set the map background color            
             mapView.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColor.FromArgb(255, 232, 232, 232));
 
-            ShapeFileFeatureLayer hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
-            ShapeFileFeatureLayer streetsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Streets.shp");
-            ShapeFileFeatureLayer parksLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
+            var hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
+            var streetsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Streets.shp");
+            var parksLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
 
             // Project the layer's data to match the projection of the map
             hotelsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
@@ -49,7 +48,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             await mapView.RefreshAsync();
         }
 
-
         /// <summary>
         /// Adds a PointStyle and TextStyle to the Hotels Layer
         /// </summary>
@@ -73,7 +71,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// <summary>
         /// Adds a LineStyle and TextStyle to the Streets Layer
         /// </summary>
-        private void StyleStreetsLayer(ShapeFileFeatureLayer layer)
+        private static void StyleStreetsLayer(FeatureLayer layer)
         {
             var lineStyle = new LineStyle(new GeoPen(GeoBrushes.DimGray, 6), new GeoPen(GeoBrushes.WhiteSmoke, 4));
             var textStyle = new TextStyle("FULL_NAME", new GeoFont("Segoe UI", 12, DrawingFontStyles.Bold), GeoBrushes.MidnightBlue)
@@ -91,7 +89,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// <summary>
         /// Adds an AreaStyle and TextStyle to the Parks Layer
         /// </summary>
-        private void StyleParksLayer(ShapeFileFeatureLayer layer)
+        private static void StyleParksLayer(FeatureLayer layer)
         {
             var areaStyle = new AreaStyle(GeoPens.DimGray, GeoBrushes.PastelGreen);
             var textStyle = new TextStyle("NAME", new GeoFont("Segoe UI", 12, DrawingFontStyles.Bold), GeoBrushes.DarkGreen)

@@ -17,17 +17,17 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.DecimalDegree;
 
             // Create a new overlay that will hold our new layer and add it to the map.
-            LayerOverlay chartOverlay = new LayerOverlay();
+            var chartOverlay = new LayerOverlay();
 
             // Currently this layer only works in single tile mode at the moment.
-            // If you use multi tile not all of the data may load in.
+            // If you use multi tile not all the data may load in.
             chartOverlay.TileType = TileType.SingleTile;
 
             // Add the chart to the overlay for display
             mapView.Overlays.Add(chartOverlay);
 
             // Create the new layer.
-            NauticalChartsFeatureLayer nauticalLayer = new NauticalChartsFeatureLayer(@"./Data/S57/US1GC09M/US1GC09M.000");
+            var nauticalLayer = new NauticalChartsFeatureLayer(@"./Data/S57/US1GC09M/US1GC09M.000");
 
             // Add the layer to the overlay we created earlier.
             chartOverlay.Layers.Add("Charts", nauticalLayer);

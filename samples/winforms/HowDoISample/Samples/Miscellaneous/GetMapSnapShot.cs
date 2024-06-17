@@ -16,7 +16,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void Form_Load(object sender, EventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // set the map extent to Frisco, TX
@@ -37,14 +43,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             snapShot.Save(@".\snapshot.png");
 
             var fullPath = Path.GetFullPath(@".\snapshot.png");
-            MessageBox.Show($"The snapshot image was saved at this path: {fullPath}");
+            MessageBox.Show($@"The snapshot image was saved at this path: {fullPath}");
         }
 
         #region Component Designer generated code
+
         private Panel panel1;
         private Button snapshot;
-
-
         private MapView mapView;
 
         private void InitializeComponent()
@@ -108,9 +113,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         }
 
-
-
         #endregion Component Designer generated code
-
     }
 }

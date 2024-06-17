@@ -20,13 +20,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColor.FromHtml("#42B2EE"));
 
             // Create a new overlay that will hold our new layer and add it to the map.
-            LayerOverlay layerOverlay = new LayerOverlay();
+            var layerOverlay = new LayerOverlay();
             mapView.Overlays.Add("world overlay", layerOverlay);
 
-            // Create the world layer, it will be decimal degrees at first but we will be able to change it
-            ShapeFileFeatureLayer worldLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Countries02.shp");
+            // Create the world layer, it will be decimal degrees at first, but we will be able to change it
+            var worldLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Countries02.shp");
 
-            // Setup the styles for the countries for zoom level 1 and then apply it until zoom level 20
+            // Set up the styles for the countries for zoom level 1 and then apply it until zoom level 20
             worldLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle.OutlinePen.Color = GeoColors.DarkSlateGray;
             worldLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle.FillBrush = new GeoSolidBrush(GeoColor.FromHtml("#C9E1BE"));
             worldLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
@@ -44,56 +44,52 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void Radial_CheckChanged(object sender, EventArgs e)
         {
 
-            RadioButton radioButton = (RadioButton)sender;
-            FeatureLayer layer = mapView.FindFeatureLayer("world layer");
+            var radioButton = (RadioButton)sender;
+            var layer = mapView.FindFeatureLayer("world layer");
 
             if (layer != null)
             {
                 switch (radioButton.Text)
                 {
                     case "Decimal Degrees":
-                        // Set the new projection converter and open it.  Next set the map to the correct map unit and lastley set the new extent
+                        // Set the new projection converter and open it.  Next set the map to the correct map unit and lastly set the new extent
                         layer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 4326);
                         layer.FeatureSource.ProjectionConverter.Open();
                         mapView.MapUnit = GeographyUnit.DecimalDegree;
                         mapView.CurrentExtent = new RectangleShape(-176.885988320039, 121.810205234135, 168.699949179961, -92.642919765865);
                         break;
                     case "MGA Zone 55":
-                        // Set the new projection converter and open it.  Next set the map to the correct map unit and lastley set the new extent
-                        layer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, @"+proj=utm +zone=55 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
+                        // Set the new projection converter and open it.  Next set the map to the correct map unit and lastly set the new extent
+                        layer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, SampleKeys.ProjString1);
                         layer.FeatureSource.ProjectionConverter.Open();
                         mapView.MapUnit = GeographyUnit.Meter;
                         mapView.CurrentExtent = new RectangleShape(-4415962.270035205, 10196887.263572674, 3690059.470408367, 3223755.308540492);
                         break;
                     case "Albers Equal Area Conic":
-                        // Set the new projection converter and open it.  Next set the map to the correct map unit and lastley set the new extent
-                        layer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, @"+proj=aea +lat_1=20 +lat_2=60 +lat_0=40 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m no_defs");
+                        // Set the new projection converter and open it.  Next set the map to the correct map unit and lastly set the new extent
+                        layer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, SampleKeys.ProjString2);
                         layer.FeatureSource.ProjectionConverter.Open();
                         mapView.MapUnit = GeographyUnit.Meter;
                         mapView.CurrentExtent = new RectangleShape(-4167908.28780145, 3251198.24423971, 3952761.55210086, -3744318.54555566);
                         break;
                     case "Polar Stereographic":
-                        // Set the new projection converter and open it.  Next set the map to the correct map unit and lastley set the new extent
-                        layer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, @"+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +k=1 +x_0=0 +y_0=0 +a=6378273 +b=6356889.449 +units=m +no_defs s");
+                        // Set the new projection converter and open it.  Next set the map to the correct map unit and lastly set the new extent
+                        layer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, SampleKeys.ProjString3);
                         layer.FeatureSource.ProjectionConverter.Open();
                         mapView.MapUnit = GeographyUnit.Meter;
                         mapView.CurrentExtent = new RectangleShape(-7944508.96033433, 6176987.61570341, 8296830.7194703, -7814045.96388732);
                         break;
                     case "Equal Area Cylindrical":
-                        // Set the new projection converter and open it.  Next set the map to the correct map unit and lastley set the new extent
-                        layer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, @"+proj=cea +lon_0=0 +x_0=0 +y_0=0 +lat_ts=45 +ellps=WGS84 +datum=WGS84 +units=m +no_defs");
+                        // Set the new projection converter and open it.  Next set the map to the correct map unit and lastly set the new extent
+                        layer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, SampleKeys.ProjString4);
                         layer.FeatureSource.ProjectionConverter.Open();
                         mapView.MapUnit = GeographyUnit.Meter;
                         mapView.CurrentExtent = new RectangleShape(-13262961.8178162, 11618032.522095, 25138095.3911286, -12211718.1365584);
-                        break;
-                    default:
                         break;
                 }
 
                 await mapView.RefreshAsync();
             }
-
-
         }
 
         protected override void Dispose(bool disposing)
@@ -102,6 +98,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             GC.SuppressFinalize(this);
         }
 
+        #region Component Designer generated code
         private Panel panel1;
         private Label label1;
         private RadioButton rdoPolar;
@@ -109,9 +106,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private RadioButton rdoMGAZone;
         private RadioButton rdoDecimalDegrees;
         private RadioButton rdoCylindrical;
-
-        #region Component Designer generated code
-
         private MapView mapView;
 
         private void InitializeComponent()
@@ -252,7 +246,5 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         }
 
         #endregion Component Designer generated code
-
-
     }
 }

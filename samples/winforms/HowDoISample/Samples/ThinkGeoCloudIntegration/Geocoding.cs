@@ -17,7 +17,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void Form_Load(object sender, EventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map's unit of measurement to meters (Spherical Mercator)
@@ -31,7 +36,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
 
             // Initialize the GeocodingCloudClient using our ThinkGeo Cloud credentials
-            geocodingCloudClient = new GeocodingCloudClient("FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~", "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~");
+            geocodingCloudClient = new GeocodingCloudClient(SampleKeys.ClientId2, SampleKeys.ClientSecret2);
 
             cboSearchType.SelectedIndex = 0;
             cboLocationType.SelectedIndex = 0;
@@ -44,17 +49,18 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Show a loading graphic to let users know the request is running
             //loadingImage.Visibility = Visibility.Visible;
 
-            CloudGeocodingOptions options = new CloudGeocodingOptions();
-
-            // Set up the CloudGeocodingOptions object based on the parameters set in the UI
-            options.MaxResults = int.Parse(txtMaxResults.Text);
-            options.SearchMode = cboSearchType.SelectedItem.ToString() == "Fuzzy" ? CloudGeocodingSearchMode.FuzzyMatch : CloudGeocodingSearchMode.ExactMatch;
-            options.LocationType = (CloudGeocodingLocationType)Enum.Parse(typeof(CloudGeocodingLocationType), cboLocationType.SelectedItem.ToString());
-            options.ResultProjectionInSrid = 3857;
+            var options = new CloudGeocodingOptions
+            {
+                // Set up the CloudGeocodingOptions object based on the parameters set in the UI
+                MaxResults = int.Parse(txtMaxResults.Text),
+                SearchMode = cboSearchType.SelectedItem != null && cboSearchType.SelectedItem.ToString() == "Fuzzy" ? CloudGeocodingSearchMode.FuzzyMatch : CloudGeocodingSearchMode.ExactMatch,
+                LocationType = (CloudGeocodingLocationType)Enum.Parse(typeof(CloudGeocodingLocationType), cboLocationType.SelectedItem.ToString()),
+                ResultProjectionInSrid = 3857
+            };
 
             // Run the geocode
-            string searchString = txtSearchString.Text.Trim();
-            CloudGeocodingResult searchResult = await geocodingCloudClient.SearchAsync(searchString, options);
+            var searchString = txtSearchString.Text.Trim();
+            var searchResult = await geocodingCloudClient.SearchAsync(searchString, options);
 
             // Hide the loading graphic
             //loadingImage.Visibility = Visibility.Hidden;
@@ -68,7 +74,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async Task UpdateSearchResultsOnUIAsync(CloudGeocodingResult searchResult)
         {
             // Clear the locations list and existing location markers on the map
-            SimpleMarkerOverlay geocodedLocationOverlay = (SimpleMarkerOverlay)mapView.Overlays["Geocoded Locations Overlay"];
+            var geocodedLocationOverlay = (SimpleMarkerOverlay)mapView.Overlays["Geocoded Locations Overlay"];
             geocodedLocationOverlay.Markers.Clear();
             lsbLocations.DataSource = null;
             await geocodedLocationOverlay.RefreshAsync();
@@ -90,7 +96,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             if (ValidateSearchParameters())
             {
                 // Run the Cloud Geocoding query
-                CloudGeocodingResult searchResult = await PerformGeocodingQuery();
+                var searchResult = await PerformGeocodingQuery();
 
                 // Handle an error returned from the geocoding service
                 if (searchResult.Exception != null)
@@ -111,7 +117,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             if (chosenLocation != null)
             {
                 // Get the MarkerOverlay from the MapView
-                SimpleMarkerOverlay geocodedLocationOverlay = (SimpleMarkerOverlay)mapView.Overlays["Geocoded Locations Overlay"];
+                var geocodedLocationOverlay = (SimpleMarkerOverlay)mapView.Overlays["Geocoded Locations Overlay"];
 
                 // Clear the existing markers and add a new marker at the chosen location
                 geocodedLocationOverlay.Markers.Clear();
@@ -119,7 +125,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
                 // Center the map on the chosen location
                 mapView.CurrentExtent = chosenLocation.BoundingBox;
-                ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
+                var standardZoomLevelSet = new ZoomLevelSet();
                 await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
                 await mapView.RefreshAsync();
             }
@@ -138,8 +144,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                         break;
                     case "Exact":
                         txtSearchTypeDescription.Text = "(Only returns exact matches for the search address)";
-                        break;
-                    default:
                         break;
                 }
             }
@@ -174,11 +178,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                     case "State":
                         txtLocationTypeDescription.Text = "(Searches for states matching the search string)";
                         break;
-                    default:
-                        break;
                 }
             }
-
         }
         private bool ValidateSearchParameters()
         {
@@ -347,6 +348,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.txtLocationTypeDescription.Name = "txtLocationTypeDescription";
             this.txtLocationTypeDescription.Size = new System.Drawing.Size(294, 38);
             this.txtLocationTypeDescription.TabIndex = 10;
+            this.txtLocationTypeDescription.Text = "(Searches for any matches to the search string)";
             // 
             // cboLocationType
             // 
@@ -409,6 +411,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.txtSearchTypeDescription.Name = "txtSearchTypeDescription";
             this.txtSearchTypeDescription.Size = new System.Drawing.Size(295, 43);
             this.txtSearchTypeDescription.TabIndex = 5;
+            this.txtSearchTypeDescription.Text = "(Returns both exact and approximate matches for the search address)";
             // 
             // label4
             // 
@@ -478,6 +481,5 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         }
 
         #endregion Component Designer generated code
-
     }
 }

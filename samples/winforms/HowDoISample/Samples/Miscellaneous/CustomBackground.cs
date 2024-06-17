@@ -16,10 +16,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.Meter;
 
-            ShapeFileFeatureLayer housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
-
-            // Project the layer's data to match the projection of the map
-            housingUnitsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+            var housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp")
+            {
+                FeatureSource =
+                    {
+                        // Project the layer's data to match the projection of the map
+                        ProjectionConverter = new ProjectionConverter(2276, 3857)
+                    }
+            };
 
             // Add and apply the ClassBreakStyle to the housingUnitsLayer
             housingUnitsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(new AreaStyle(GeoPens.Black));

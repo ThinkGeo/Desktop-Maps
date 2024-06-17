@@ -469,10 +469,10 @@
         "source": "Samples/VectorDataSpatialQuery/GetDataFromAllFeatures"
       },
       {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.GetDatafromOneFeature",
+        "id": "ThinkGeo.UI.WinForms.HowDoI.GetDataFromOneFeature",
         "title": "Get Data from One Feature",
         "description": "Learn how to get data from a feature in a ShapeFile",
-        "source": "Samples/VectorDataSpatialQuery/GetDatafromOneFeature"
+        "source": "Samples/VectorDataSpatialQuery/GetDataFromOneFeature"
       }
     ]
   },

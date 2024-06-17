@@ -18,18 +18,26 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+
+            };
             thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            LayerOverlay layerOverlay = new LayerOverlay();
+            var layerOverlay = new LayerOverlay();
             layerOverlay.TileType = TileType.SingleTile;
             mapView.Overlays.Add(layerOverlay);
 
-            RadiusLayer radiusLayer = new RadiusLayer();
-            radiusLayer.RingDistanceUnit = DistanceUnit.Mile;
-            radiusLayer.RingGeography = GeographyUnit.Meter;
-            radiusLayer.RingDistance = 5;
+            var radiusLayer = new RadiusLayer
+            {
+                RingDistanceUnit = DistanceUnit.Mile,
+                RingGeography = GeographyUnit.Meter,
+                RingDistance = 5
+            };
 
             layerOverlay.Layers.Add(radiusLayer);
             mapView.CurrentExtent = new RectangleShape(-10812042.5236828, 3942445.36497713, -10748599.7905585, 3887792.89005685);
@@ -85,7 +93,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
     // This layer overrides the DrawCore and draws circles every x miles based on the center point
     // of the screen.  You notice in the DrawCore we can draw directly on the canvas which gives us
-    // allot of power.  This is similar to custom styles where we can also draw directly on the canvas
+    // a lot of power.  This is similar to custom styles where we can also draw directly on the canvas
     // from the style.
     public class RadiusLayer : Layer
     {
@@ -106,9 +114,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         public AreaStyle RingAreaStyle { get; set; }
         protected override void DrawCore(GeoCanvas canvas, Collection<SimpleCandidate> labelsInAllLayers)
         {
-            PointShape centerPoint = canvas.CurrentWorldExtent.GetCenterPoint();
+            var centerPoint = canvas.CurrentWorldExtent.GetCenterPoint();
 
-            double currentRingDistance = RingDistance;
+            var currentRingDistance = RingDistance;
             MultipolygonShape circle = null;
 
             // Keep drawing rings until the only barley fit inside the current extent.
@@ -121,5 +129,4 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             } while (canvas.CurrentWorldExtent.Contains(circle));
         }
     }
-
 }

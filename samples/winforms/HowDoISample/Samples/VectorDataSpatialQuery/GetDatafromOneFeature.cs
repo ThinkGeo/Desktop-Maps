@@ -7,9 +7,9 @@ using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
-    public class GetDatafromOneFeature : UserControl
+    public class GetDataFromOneFeature : UserControl
     {
-        public GetDatafromOneFeature()
+        public GetDataFromOneFeature()
         {
             InitializeComponent();
         }
@@ -17,17 +17,22 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void Form_Load(object sender, EventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the Map Unit to meters (used in Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Create a feature layer to hold the Frisco parks data
-            ShapeFileFeatureLayer parksLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
+            var parksLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
 
             // Convert the Frisco shapefile from its native projection to Spherical Mercator, to match the map
-            ProjectionConverter projectionConverter = new ProjectionConverter(2276, 3857);
+            var projectionConverter = new ProjectionConverter(2276, 3857);
             parksLayer.FeatureSource.ProjectionConverter = projectionConverter;
 
             // Add a style to use to draw the Frisco parks polygons
@@ -35,12 +40,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             parksLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(50, GeoColors.MediumPurple), GeoColors.MediumPurple, 2);
 
             // Add the feature layer to an overlay, and add the overlay to the map
-            LayerOverlay parksOverlay = new LayerOverlay();
+            var parksOverlay = new LayerOverlay();
             parksOverlay.Layers.Add("Frisco Parks", parksLayer);
             mapView.Overlays.Add(parksOverlay);
 
             // Add a PopupOverlay to the map, to display feature information
-            PopupOverlay popupOverlay = new PopupOverlay();
+            var popupOverlay = new PopupOverlay();
             mapView.Overlays.Add("Info Popup Overlay", popupOverlay);
 
             // Set the map extent to the bounding box of the parks
@@ -55,11 +60,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private Feature GetFeatureFromLocation(PointShape location)
         {
             // Get the parks layer from the MapView
-            FeatureLayer parksLayer = mapView.FindFeatureLayer("Frisco Parks");
+            var parksLayer = mapView.FindFeatureLayer("Frisco Parks");
 
             // Find the feature that was clicked on by querying the layer for features containing the clicked coordinates
             parksLayer.Open();
-            Feature selectedFeature = parksLayer.QueryTools.GetFeaturesContaining(location, ReturningColumnsType.AllColumns).FirstOrDefault();
+            var selectedFeature = parksLayer.QueryTools.GetFeaturesContaining(location, ReturningColumnsType.AllColumns).FirstOrDefault();
             parksLayer.Close();
 
             return selectedFeature;
@@ -70,21 +75,23 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// </summary>
         private async Task DisplayFeatureInfoAsync(Feature feature)
         {
-            StringBuilder parkInfoString = new StringBuilder();
+            var parkInfoString = new StringBuilder();
 
             // Each column in a feature is a data attribute
             // Add all attribute pairs to the info string
             foreach (var column in feature.ColumnValues)
             {
-                parkInfoString.AppendLine(String.Format("{0}: {1}", column.Key, column.Value));
+                parkInfoString.AppendLine($"{column.Key}: {column.Value}");
             }
 
             // Create a new popup with the park info string
-            PopupOverlay popupOverlay = (PopupOverlay)mapView.Overlays["Info Popup Overlay"];
-            Popup popup = new Popup(feature.GetShape().GetCenterPoint());
-            popup.Content = parkInfoString.ToString();
-            popup.FontSize = 10d;
-            popup.FontFamily = new System.Windows.Media.FontFamily("Verdana");
+            var popupOverlay = (PopupOverlay)mapView.Overlays["Info Popup Overlay"];
+            var popup = new Popup(feature.GetShape().GetCenterPoint())
+            {
+                Content = parkInfoString.ToString(),
+                FontSize = 10d,
+                FontFamily = new System.Windows.Media.FontFamily("Verdana")
+            };
 
             // Clear the popup overlay and add the new popup to it
             popupOverlay.Popups.Clear();
@@ -97,7 +104,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
             // Get the selected feature based on the map click location
-            Feature selectedFeature = GetFeatureFromLocation(e.WorldLocation);
+            var selectedFeature = GetFeatureFromLocation(e.WorldLocation);
 
             // If a feature was selected, get the data from it and display it
             if (selectedFeature != null)
@@ -110,8 +117,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private Panel panel1;
         private Label label1;
-
-
         private MapView mapView;
 
         private void InitializeComponent()
@@ -162,11 +167,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.label1.TabIndex = 0;
             this.label1.Text = "Click on a Park to View More\r\nInformation";
             // 
-            // GetDatafromOneFeature
+            // GetDataFromOneFeature
             // 
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.mapView);
-            this.Name = "GetDatafromOneFeature";
+            this.Name = "GetDataFromOneFeature";
             this.Size = new System.Drawing.Size(1232, 670);
             this.Load += new System.EventHandler(this.Form_Load);
             this.panel1.ResumeLayout(false);

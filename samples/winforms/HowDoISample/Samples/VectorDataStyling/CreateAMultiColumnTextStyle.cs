@@ -6,7 +6,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public class CreateAMultiColumnTextStyle : UserControl
     {
-
         public CreateAMultiColumnTextStyle()
         {
             InitializeComponent();
@@ -22,10 +21,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             countries02Layer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle =
                 AreaStyle.CreateSimpleAreaStyle(GeoColors.SandyBrown, GeoColors.Black);
 
-            var textStyle = new TextStyle();
-            textStyle.TextContent = "{CNTRY_NAME}: " + Environment.NewLine + " Population:{POP_CNTRY}";
-            textStyle.Font = new GeoFont("Arial", 10);
-            textStyle.TextBrush = GeoBrushes.Black;
+            var textStyle = new TextStyle
+            {
+                TextContent = "{CNTRY_NAME}: " + Environment.NewLine + " Population:{POP_CNTRY}",
+                Font = new GeoFont("Arial", 10),
+                TextBrush = GeoBrushes.Black
+            };
 
             countries02Layer.ZoomLevelSet.ZoomLevel01.DefaultTextStyle = textStyle;
             countries02Layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;

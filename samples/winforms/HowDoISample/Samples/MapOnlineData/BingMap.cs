@@ -33,21 +33,27 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void btnActivate_Click(object sender, EventArgs e)
         {
-            if (txtApplicationID.Text != null && !mapView.Overlays.Contains("Bing Map"))
+            if (!mapView.Overlays.Contains("Bing Map"))
             {
                 btnActivate.Enabled = false;
                 // Set the map zoom level set to the bing map zoom level set so all the zoom levels line up.
                 mapView.ZoomLevelSet = new BingMapsZoomLevelSet();
 
                 // Create the layer overlay with some additional settings and add to the map.
-                LayerOverlay layerOverlay = new LayerOverlay() { TileHeight = 256, TileWidth = 256 };
-                layerOverlay.TileSizeMode = TileSizeMode.Small;
-                layerOverlay.MaxExtent = MaxExtents.BingMaps;
+                var layerOverlay = new LayerOverlay
+                {
+                    TileHeight = 256,
+                    TileWidth = 256,
+                    TileSizeMode = TileSizeMode.Small,
+                    MaxExtent = MaxExtents.BingMaps
+                };
                 mapView.Overlays.Add("Bing Map", layerOverlay);
 
                 // Create the bing map layer and add it to the map.
-                Core.Async.BingMapsLayer bingMapsLayer = new Core.Async.BingMapsLayer(txtApplicationID.Text, BingMapsMapType.Road);
-                bingMapsLayer.TileCache = new FileRasterTileCache("C:\\temp", "bingMapsRoad");
+                var bingMapsLayer = new Core.Async.BingMapsLayer(txtApplicationID.Text, BingMapsMapType.Road)
+                {
+                    TileCache = new FileRasterTileCache("C:\\temp", "bingMapsRoad")
+                };
                 layerOverlay.Layers.Add(bingMapsLayer);
 
                 // Refresh the map.

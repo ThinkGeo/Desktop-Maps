@@ -6,7 +6,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public class CreateAFleeBooleanStyle : UserControl
     {
-
         public CreateAFleeBooleanStyle()
         {
             InitializeComponent();
@@ -18,14 +17,23 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a layer with polygon data
-            ShapeFileFeatureLayer countries02Layer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Countries02.shp");
-
-            // Project the layer's data to match the projection of the map
-            countries02Layer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 3857);
+            var countries02Layer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Countries02.shp")
+            {
+                FeatureSource =
+                    {
+                        // Project the layer's data to match the projection of the map
+                        ProjectionConverter = new ProjectionConverter(4326, 3857)
+                    }
+            };
 
             // Add the layer to a layer overlay
             var layerOverlay = new LayerOverlay();
@@ -48,8 +56,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private void AddFleeBooleanStyle(ShapeFileFeatureLayer layer)
         {
             // Highlight the countries that are land locked and have a population greater than 10 million  
-            string expression = "(POP_CNTRY>10000000 && LANDLOCKED=='Y')";
-            FleeBooleanStyle landLockedCountryStyle = new FleeBooleanStyle(expression);
+            var expression = "(POP_CNTRY>10000000 && LANDLOCKED=='Y')";
+            var landLockedCountryStyle = new FleeBooleanStyle(expression);
 
             // You can access the static methods on these types.  We use this  
             // to access the Convert.Toxxx methods to convert variable types  
@@ -61,7 +69,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             landLockedCountryStyle.ColumnVariables.Add("POP_CNTRY");
             landLockedCountryStyle.ColumnVariables.Add("LANDLOCKED");
 
-            landLockedCountryStyle.CustomTrueStyles.Add(new AreaStyle(new GeoPen(GeoColor.FromArgb(255, 118, 138, 69), 1), new GeoSolidBrush(GeoColor.FromArgb(205,255,255,0))));
+            landLockedCountryStyle.CustomTrueStyles.Add(new AreaStyle(new GeoPen(GeoColor.FromArgb(255, 118, 138, 69), 1), new GeoSolidBrush(GeoColor.FromArgb(205, 255, 255, 0))));
             landLockedCountryStyle.CustomFalseStyles.Add(AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(205, 233, 232, 214), GeoColor.FromArgb(205, 118, 138, 69)));
 
             // Add the landLockedCountryStyle to the collection of custom styles for ZoomLevel 1. 

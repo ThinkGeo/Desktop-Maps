@@ -17,10 +17,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Create a new overlay that will hold our new layer
-            LayerOverlay layerOverlay = new LayerOverlay();
+            var layerOverlay = new LayerOverlay();
 
             // Create the background world maps using vector tiles stored locally in our MBTiles file and also set the styling though a json file
-            ThinkGeoMBTilesLayer mbTilesLayer = new ThinkGeoMBTilesLayer(@"./Data/Mbtiles/Frisco.mbtiles", new Uri(@"./Data/Json/thinkgeo-world-streets-dark.json", UriKind.Relative));
+            var mbTilesLayer = new ThinkGeoMBTilesLayer(@"./Data/Mbtiles/Frisco.mbtiles", new Uri(@"./Data/Json/thinkgeo-world-streets-dark.json", UriKind.Relative));
             layerOverlay.Layers.Add(mbTilesLayer);
 
             // Add the overlay to the map

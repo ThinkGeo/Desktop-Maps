@@ -20,14 +20,19 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void Form_Load(object sender, EventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map's unit of measurement to meters (Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Create a new feature layer to display the route
-            InMemoryFeatureLayer routingLayer = new InMemoryFeatureLayer();
+            var routingLayer = new InMemoryFeatureLayer();
 
             // Add point, line, and text styles to display the waypoints, route, and labels for the route
             routingLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 24, GeoBrushes.MediumPurple, GeoPens.Purple);
@@ -39,14 +44,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             routingLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Create a feature layer to highlight selected features
-            InMemoryFeatureLayer highlightLayer = new InMemoryFeatureLayer();
+            var highlightLayer = new InMemoryFeatureLayer();
 
             // Add styles to display the highlighted route features
             highlightLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.BrightYellow, 6, GeoColors.Black, 2, false);
             highlightLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Add the layer to an overlay, and add the overlay to the mapview
-            LayerOverlay routingOverlay = new LayerOverlay();
+            var routingOverlay = new LayerOverlay();
             routingOverlay.Layers.Add("Routing Layer", routingLayer);
             routingOverlay.Layers.Add("Highlight Layer", highlightLayer);
             mapView.Overlays.Add("Routing Overlay", routingOverlay);
@@ -62,7 +67,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             };
 
             // Add the waypoints to the map to be displayed
-            foreach (PointShape routingWaypoint in routingWaypoints)
+            foreach (var routingWaypoint in routingWaypoints)
             {
                 routingLayer.InternalFeatures.Add(new Feature(routingWaypoint));
             }
@@ -71,7 +76,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
 
             // Initialize the RoutingCloudClient with our ThinkGeo Cloud Client credentials
-            routingCloudClient = new RoutingCloudClient("FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~", "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~");
+            routingCloudClient = new RoutingCloudClient(SampleKeys.ClientId2, SampleKeys.ClientSecret2);
 
             // Run the routing request
             await RouteWaypointsAsync();
@@ -79,21 +84,22 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async Task<CloudRoutingOptimizationResult> GetOptimizedRoute()
         {
             // Set up options for the TSP routing request
-            CloudRoutingOptimizationOptions options = new CloudRoutingOptimizationOptions();
+            var options = new CloudRoutingOptimizationOptions
+            {
+                // Enable turn-by-turn so we get turn by turn instructions
+                TurnByTurn = true,
 
-            // Enable turn-by-turn so we get turn by turn instructions
-            options.TurnByTurn = true;
+                // A specific starting and ending location can be specified, if desired. 
+                // For this example, any point can be used as the start and end
+                Destination = CloudRoutingTspFixDestinationCoordinate.Any,
+                Source = CloudRoutingTspFixSourceCoordinate.Any,
 
-            // A specific starting and ending location can be specified, if desired. 
-            // For this example, any point can be used as the start and end
-            options.Destination = CloudRoutingTspFixDestinationCoordinate.Any;
-            options.Source = CloudRoutingTspFixSourceCoordinate.Any;
-
-            // The 'roundtrip' option specifies whether the route returns to the starting point or not
-            options.Roundtrip = true;
+                // The 'roundtrip' option specifies whether the route returns to the starting point or not
+                Roundtrip = true
+            };
 
             // Send the TSP routing request
-            CloudRoutingOptimizationResult optimizedRoutingResult = await routingCloudClient.GetOptimizedRouteAsync(routingWaypoints, 3857, options);
+            var optimizedRoutingResult = await routingCloudClient.GetOptimizedRouteAsync(routingWaypoints, 3857, options);
 
             return optimizedRoutingResult;
         }
@@ -104,30 +110,32 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async Task DrawOptimizedRouteAsync(CloudRoutingOptimizationResult optimizedRoutingResult)
         {
             // Get the routing feature layer from the MapView
-            InMemoryFeatureLayer routingLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Routing Layer");
+            var routingLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Routing Layer");
 
             // Clear the previous features from the routing layer
             routingLayer.InternalFeatures.Clear();
 
             // Create a collection to hold the route segments. These include information like distance, duration, warnings, and instructions for turn-by-turn routing
-            List<CloudRoutingSegment> routeSegments = new List<CloudRoutingSegment>();
+            var routeSegments = new List<CloudRoutingSegment>();
 
             // CloudRoutingOptimizationResult.TspResult.VisitSequences is an ordered array of integers
             // Each integer corresponds to the index of the corresponding waypoint in the original set of waypoints passed into the query
             // For example, if the second element in 'VisitSequences' is '3', the second stop on the route is originalWaypointArray[3]
 
-            List<TspRouteSegemt> displayItems = new List<TspRouteSegemt>();
+            var displayItems = new List<TspRouteSegemt>();
 
             int index = 0;
             // Add the route visit points and route segments to the map
             foreach (int waypointIndex in optimizedRoutingResult.TspResult.VisitSequences)
             {
-                Dictionary<string, string> columnValues = new Dictionary<string, string>();
+                var columnValues = new Dictionary<string, string>
+                {
+                    // Get the order of the stops and label the point
+                    // '0' represents the start/end point of the route for a round trip route, so we change the label to indicate that for readability
+                    { "SequenceNumber", (index == 0 || index == optimizedRoutingResult.TspResult.VisitSequences.Count - 1 ? "Start/End Point" : "Stop " + index) }
+                };
 
-                // Get the order of the stops and label the point
-                // '0' represents the start/end point of the route for a round trip route, so we change the label to indicate that for readability
-                columnValues.Add("SequenceNumber", (index == 0 || index == optimizedRoutingResult.TspResult.VisitSequences.Count - 1 ? "Start/End Point" : "Stop " + index));
-                PointShape waypoint = routingWaypoints[waypointIndex];
+                var waypoint = routingWaypoints[waypointIndex];
 
                 // Add the point to the map
                 routingLayer.InternalFeatures.Add(new Feature(waypoint, columnValues));
@@ -135,18 +143,19 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 // Increment the index for labeling purposes
                 index++;
             }
-            foreach (CloudRoutingRoute route in optimizedRoutingResult.TspResult.Routes)
+            foreach (var route in optimizedRoutingResult.TspResult.Routes)
             {
                 routingLayer.InternalFeatures.Add(new Feature(route.Shape));
                 routeSegments.AddRange(route.Segments);
                 foreach (var segment in route.Segments)
                 {
-                    TspRouteSegemt segmentForDisplay = new TspRouteSegemt();
-                    segmentForDisplay.DisplayInformation = $"{segment.Instruction} Distance: {Math.Round(segment.Distance, 0)} meters.";
-                    segmentForDisplay.Shape = new Feature(segment.Shape);
+                    var segmentForDisplay = new TspRouteSegemt
+                    {
+                        DisplayInformation = $"{segment.Instruction} Distance: {Math.Round(segment.Distance, 0)} meters.",
+                        Shape = new Feature(segment.Shape)
+                    };
                     displayItems.Add(segmentForDisplay);
                 }
-
             }
 
             // Set the data source for the list box to the route segments
@@ -155,12 +164,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Set the map extent to the newly displayed route
             routingLayer.Open();
             mapView.CurrentExtent = routingLayer.GetBoundingBox();
-            ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
+            var standardZoomLevelSet = new ZoomLevelSet();
             await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel13.Scale);
             routingLayer.Close();
             await mapView.RefreshAsync();
         }
-
 
         /// <summary>
         /// Perform routing using the RoutingCloudClient through a preset set of waypoints
@@ -171,7 +179,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             //loadingImage.Visibility = Visibility.Visible;
 
             // Run the optimized routing query
-            CloudRoutingOptimizationResult optimizedRoutingResult = await GetOptimizedRoute();
+            var optimizedRoutingResult = await GetOptimizedRoute();
 
             // Hide the loading graphic
             //loadingImage.Visibility = Visibility.Hidden;
@@ -187,13 +195,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             await DrawOptimizedRouteAsync(optimizedRoutingResult);
         }
 
-
         private async void lsbRouteSegments_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ListBox routeSegments = (ListBox)sender;
+            var routeSegments = (ListBox)sender;
             if (routeSegments.SelectedItem != null)
             {
-                InMemoryFeatureLayer highlightLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Highlight Layer");
+                var highlightLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Highlight Layer");
                 highlightLayer.InternalFeatures.Clear();
 
                 // Highlight the selected route segment
@@ -201,7 +208,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
                 // Zoom to the selected feature and zoom out to an appropriate level
                 mapView.CurrentExtent = ((TspRouteSegemt)routeSegments.SelectedItem).Shape.GetBoundingBox();
-                ZoomLevelSet standardZoomLevelSet = new ZoomLevelSet();
+                var standardZoomLevelSet = new ZoomLevelSet();
                 if (mapView.CurrentScale < standardZoomLevelSet.ZoomLevel15.Scale)
                 {
                     await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel15.Scale);
@@ -220,8 +227,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private Panel panel1;
         private ListBox lsbRouteSegments;
         private Label label1;
-
-
         private MapView mapView;
 
         private void InitializeComponent()
@@ -300,7 +305,5 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         }
 
         #endregion Component Designer generated code
-
     }
-
 }

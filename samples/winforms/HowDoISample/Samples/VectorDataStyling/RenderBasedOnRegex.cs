@@ -17,13 +17,22 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light
+            };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            ShapeFileFeatureLayer coyoteSightings = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Coyote_Sightings.shp");
-
-            // Project the layer's data to match the projection of the map
-            coyoteSightings.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+            var coyoteSightings = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Coyote_Sightings.shp")
+            {
+                FeatureSource =
+                    {
+                        // Project the layer's data to match the projection of the map
+                        ProjectionConverter = new ProjectionConverter(2276, 3857)
+                    }
+            };
 
             // Add the layer to a layer overlay
             var layerOverlay = new LayerOverlay();
@@ -34,14 +43,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Create a regex style and item that looks for big / large / huge based on the comments
             // from users and draws them differently
-            RegexStyle regexStyle = new RegexStyle();
-            regexStyle.ColumnName = "Comments";
+            var regexStyle = new RegexStyle
+            {
+                ColumnName = "Comments"
+            };
 
-            RegexItem largeItem = new RegexItem("big|large|huge", new PointStyle(PointSymbolType.Circle, 12, GeoBrushes.Red));
+            var largeItem = new RegexItem("big|large|huge", new PointStyle(PointSymbolType.Circle, 12, GeoBrushes.Red));
             regexStyle.RegexItems.Add(largeItem);
 
             // We have a default drawing style for every sighting
-            PointStyle allSightingsStyle = new PointStyle(PointSymbolType.Circle, 5, GeoBrushes.Green);
+            var allSightingsStyle = new PointStyle(PointSymbolType.Circle, 5, GeoBrushes.Green);
 
             // Add the point style to the collection of custom styles for ZoomLevel 1.
             coyoteSightings.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(allSightingsStyle);
