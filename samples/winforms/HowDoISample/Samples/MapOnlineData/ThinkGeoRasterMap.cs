@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 using ThinkGeo.Core;
 
@@ -34,6 +35,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Refresh the map.
             await mapView.RefreshAsync();
+        }
+
+        private void lblCloudMapsLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo("https://cloud.thinkgeo.com/") { UseShellExecute = true });
         }
 
         private async void radioButton1_CheckedChanged(object sender, EventArgs e)
@@ -146,38 +152,42 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private RadioButton radioButton3;
         private RadioButton radioButton2;
         private RadioButton radioButton1;
+        private LinkLabel lblCloudMapsLink;
+        private Label label2;
         private Label label1;
 
         private MapView mapView;
 
         private void InitializeComponent()
         {
-            mapView = new MapView();
-            panel1 = new Panel();
-            radioButton4 = new RadioButton();
-            radioButton3 = new RadioButton();
-            radioButton2 = new RadioButton();
-            radioButton1 = new RadioButton();
-            label1 = new Label();
-            panel1.SuspendLayout();
-            SuspendLayout();
+            this.mapView = new ThinkGeo.UI.WinForms.MapView();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.radioButton4 = new System.Windows.Forms.RadioButton();
+            this.radioButton3 = new System.Windows.Forms.RadioButton();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.lblCloudMapsLink = new System.Windows.Forms.LinkLabel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.panel1.SuspendLayout();
+            this.SuspendLayout();
             // 
             // mapView
             // 
-            mapView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom
-            | AnchorStyles.Left
-            | AnchorStyles.Right;
-            mapView.BackColor = System.Drawing.Color.White;
-            mapView.CurrentScale = 0D;
-            mapView.Location = new System.Drawing.Point(0, 0);
-            mapView.MapResizeMode = MapResizeMode.PreserveScale;
-            mapView.MaximumScale = 1.7976931348623157E+308D;
-            mapView.MinimumScale = 200D;
-            mapView.Name = "mapView";
-            mapView.RestrictExtent = null;
-            mapView.RotatedAngle = 0F;
-            mapView.Size = new System.Drawing.Size(908, 630);
-            mapView.TabIndex = 0;
+            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.mapView.BackColor = System.Drawing.Color.White;
+            this.mapView.CurrentScale = 0D;
+            this.mapView.Location = new System.Drawing.Point(0, 0);
+            this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
+            this.mapView.MaximumScale = 1.7976931348623157E+308D;
+            this.mapView.MinimumScale = 200D;
+            this.mapView.Name = "mapView";
+            this.mapView.RestrictExtent = null;
+            this.mapView.RotatedAngle = 0F;
+            this.mapView.Size = new System.Drawing.Size(908, 630);
+            this.mapView.TabIndex = 0;
             // 
             // panel1
             // 
@@ -188,6 +198,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             panel1.Controls.Add(radioButton3);
             panel1.Controls.Add(radioButton2);
             panel1.Controls.Add(radioButton1);
+            panel1.Controls.Add(lblCloudMapsLink);
+            panel1.Controls.Add(label2);
             panel1.Controls.Add(label1);
             panel1.Location = new System.Drawing.Point(907, 0);
             panel1.Name = "panel1";
@@ -200,7 +212,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             radioButton4.Checked = true;
             radioButton4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             radioButton4.ForeColor = System.Drawing.Color.White;
-            radioButton4.Location = new System.Drawing.Point(23, 139);
+            radioButton4.Location = new System.Drawing.Point(23, 190);
             radioButton4.Name = "radioButton4";
             radioButton4.Size = new System.Drawing.Size(79, 24);
             radioButton4.TabIndex = 4;
@@ -214,7 +226,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             radioButton3.AutoSize = true;
             radioButton3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             radioButton3.ForeColor = System.Drawing.Color.White;
-            radioButton3.Location = new System.Drawing.Point(23, 111);
+            radioButton3.Location = new System.Drawing.Point(23, 170);
             radioButton3.Name = "radioButton3";
             radioButton3.Size = new System.Drawing.Size(73, 24);
             radioButton3.TabIndex = 3;
@@ -227,7 +239,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             radioButton2.AutoSize = true;
             radioButton2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             radioButton2.ForeColor = System.Drawing.Color.White;
-            radioButton2.Location = new System.Drawing.Point(23, 83);
+            radioButton2.Location = new System.Drawing.Point(23, 150);
             radioButton2.Name = "radioButton2";
             radioButton2.Size = new System.Drawing.Size(66, 24);
             radioButton2.TabIndex = 2;
@@ -240,7 +252,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             radioButton1.AutoSize = true;
             radioButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             radioButton1.ForeColor = System.Drawing.Color.White;
-            radioButton1.Location = new System.Drawing.Point(23, 56);
+            radioButton1.Location = new System.Drawing.Point(23, 130);
             radioButton1.Name = "radioButton1";
             radioButton1.Size = new System.Drawing.Size(67, 24);
             radioButton1.TabIndex = 1;
@@ -248,16 +260,41 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             radioButton1.UseVisualStyleBackColor = true;
             radioButton1.CheckedChanged += new EventHandler(radioButton1_CheckedChanged);
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            label2.ForeColor = System.Drawing.Color.White;
+            label2.Location = new System.Drawing.Point(18, 100);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(107, 25);
+            label2.TabIndex = 0;
+            label2.Text = "Map Type:";
+            // 
+            // lblCloudMapsLink
+            // 
+            this.lblCloudMapsLink.AutoSize = true;
+            this.lblCloudMapsLink.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.lblCloudMapsLink.ForeColor = System.Drawing.Color.White;
+            this.lblCloudMapsLink.LinkColor = System.Drawing.Color.White;
+            this.lblCloudMapsLink.Location = new System.Drawing.Point(18, 50);
+            this.lblCloudMapsLink.Name = "lblCloudMapsLink";
+            this.lblCloudMapsLink.Size = new System.Drawing.Size(262, 20);
+            this.lblCloudMapsLink.TabIndex = 1;
+            this.lblCloudMapsLink.TabStop = true;
+            this.lblCloudMapsLink.Text = "Sign up for a Cloud Maps account";
+            this.lblCloudMapsLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblCloudMapsLink_LinkClicked);
+            // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             label1.ForeColor = System.Drawing.Color.White;
             label1.Location = new System.Drawing.Point(18, 15);
             label1.Name = "label1";
             label1.Size = new System.Drawing.Size(107, 25);
             label1.TabIndex = 0;
-            label1.Text = "Map Type:";
+            label1.Text = "ThinkGeo Raster Cloud Maps:";
             // 
             // ThinkGeoRasterMap
             // 
@@ -269,10 +306,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
-
         }
         #endregion Component Designer generated code
 
     }
-
 }
