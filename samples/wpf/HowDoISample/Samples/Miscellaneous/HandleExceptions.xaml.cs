@@ -69,6 +69,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 staticOverlay.ThrowingException += (sender, e) =>
                 {
                     TxtException.Text = e.Exception?.InnerException.Message;
+                    e.Handled = true;
                 };
             }
 
