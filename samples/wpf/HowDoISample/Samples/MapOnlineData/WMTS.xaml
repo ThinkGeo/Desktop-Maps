@@ -7,14 +7,28 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded"></thinkGeoUi:MapView>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
-            <ColumnDefinition Width="0" />
+            <ColumnDefinition Width="240" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded"></thinkGeoUi:MapView>
+
+        <Grid Grid.Column="1" Grid.Row="0" Margin="5 0 5 0">
+            <Label Grid.Column="1" Grid.Row="0"  Content="Public WMTS:" FontWeight="Bold" FontSize="16" Margin="-8 10 0 0" />
+            <StackPanel Grid.Column="1" Grid.Row="2">
+                <RadioButton Checked="WMTS_Checked" IsChecked="True">SwissTopo</RadioButton>
+                <RadioButton Checked="WMTS_Checked">VLIZ</RadioButton>
+                <RadioButton Checked="WMTS_Checked">EMODNET</RadioButton>
+                <RadioButton Checked="WMTS_Checked">LINZ</RadioButton>
+            </StackPanel>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+        </Grid>
     </Grid>
     <UserControl.Resources>
         <Style TargetType="Label">
