@@ -95,7 +95,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
     }
 
-    public class CustomWmsLayer : Core.Async.WmsLayer
+    public class CustomWmsLayer : Core.WmsAsyncLayer
     {
         private readonly bool _drawCustomException;
         public CustomWmsLayer(Uri uri, bool drawCustomException)

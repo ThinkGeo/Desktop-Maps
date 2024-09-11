@@ -38,7 +38,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.Overlays.Add(layerOverlay);
 
             // Create the new layer and dd the layer to the overlay we created earlier.
-            var layer = new KmlFeatureLayer("./Data/Kml/Frisco.kml");
+            var layer = new KmlGdalFeatureLayer("./Data/Kml/Frisco.kml");
             layer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimplePointStyle(PointSymbolType.Diamond, GeoColors.Black, 10);
             layer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.Red, 4, true);
             layer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.Blue);

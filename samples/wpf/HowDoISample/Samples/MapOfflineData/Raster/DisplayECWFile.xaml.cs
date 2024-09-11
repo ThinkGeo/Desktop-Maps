@@ -27,7 +27,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.Overlays.Add(layerOverlay);
 
             // Create the new layer and dd the layer to the overlay we created earlier.
-            var ecwRasterLayer = new EcwRasterLayer("./Data/Ecw/World.ecw");
+            var ecwRasterLayer = new EcwGdalRasterLayer("./Data/Ecw/World.ecw");
             layerOverlay.Layers.Add(ecwRasterLayer);
 
             // Set the map view current extent to a slightly zoomed in area of the image.
