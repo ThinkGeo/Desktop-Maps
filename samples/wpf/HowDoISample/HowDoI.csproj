@@ -353,7 +353,7 @@
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.122" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
-    <PackageReference Include="ThinkGeo.Cad" Version="14.2.0-beta042" />
+    <PackageReference Include="ThinkGeo.Cad" Version="14.2.0-beta044" />
     <PackageReference Include="ThinkGeo.Ecw" Version="14.2.0-beta046" />
     <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.2.0-beta042" />
     <PackageReference Include="ThinkGeo.GeoPdf" Version="14.2.0-beta046" />
