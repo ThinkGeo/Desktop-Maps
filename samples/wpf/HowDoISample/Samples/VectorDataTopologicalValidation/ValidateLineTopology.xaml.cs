@@ -58,6 +58,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             RdoCheckLineEndpointsMustTouchPoints.IsChecked = true;
 
             await MapView.RefreshAsync();
+            await MapView.ZoomInAsync();
         }
 
         /// <summary>
@@ -396,7 +397,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             validatedFeaturesLayer.Close();
             filterFeaturesLayer.Close();
             resultFeaturesLayer.Close();
-            await MapView.ZoomOutAsync();
         }
 
         public void Dispose()

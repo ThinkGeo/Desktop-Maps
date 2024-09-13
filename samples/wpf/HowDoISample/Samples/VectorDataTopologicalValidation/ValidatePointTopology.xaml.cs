@@ -59,6 +59,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             RdoCheckIfPointsAreTouchingLines.IsChecked = true;
 
             await MapView.RefreshAsync();
+            await MapView.ZoomInAsync();
         }
 
         /// <summary>
