@@ -355,6 +355,7 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
     <PackageReference Include="ThinkGeo.Cad" Version="14.2.0-beta045" />
     <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.2.0-beta043" />
+    <PackageReference Include="ThinkGeo.Gdal" Version="14.2.0-beta047" />
     <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.2.0-beta047" />
     <PackageReference Include="ThinkGeo.PostgreSql" Version="14.2.0-beta043" />
     <PackageReference Include="ThinkGeo.Printers" Version="14.2.0-beta043" />
@@ -526,6 +527,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\Gdal\FdoGdal.tif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\GeoPackage\mora_surficial_geology.gpkg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\GeoPdf\bangalore.pdf">
