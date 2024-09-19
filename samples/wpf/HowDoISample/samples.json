@@ -322,6 +322,12 @@
     "title": "Markers and Popups",
     "children": [
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.AnimatedMarker",
+        "title": "Animated Marker",
+        "description": "Learn to add an animated marker on the map using the custom icon.",
+        "source": "Samples/MarkersandPopups/AnimatedMarker"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.Markers",
         "title": "Markers",
         "description": "Learn to add, edit, or remove markers on the map using the MarkerOverlay.",
