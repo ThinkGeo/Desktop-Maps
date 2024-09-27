@@ -94,7 +94,7 @@ private async void Form_Load(object? sender, EventArgs e)
 
 The first time you run your application, if you have not installed a license, you may encounter a 'licenses not installed' exception. 
 
-![Registration Exception](./assets/WPF_LicenseNotInstalledException.png "Registration Exception")
+![Registration Exception](https://docs.thinkgeo.com/products/desktop-maps/assets/WPF_LicenseNotInstalledException.png "Registration Exception")
 
 You can open [ThinkGeo's Registration Website](https://helpdesk.thinkgeo.com/register) to create an account and start a 30-day free evaluation. From there, you can download and install the Product Center to manage licenses for ThinkGeo products.  
 
