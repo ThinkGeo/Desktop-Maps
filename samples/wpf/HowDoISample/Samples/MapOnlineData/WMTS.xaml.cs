@@ -37,7 +37,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             LoadWmtsServer1();
             LoadWmtsServer2();
             LoadWmtsServer3();
-            LoadWmtsServer4();
 
             await SwitchToLayer(defaultLayerName);
         }
@@ -101,26 +100,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             string layerName = "VLIZ";
             layerOverlay.Layers.Add(layerName, wmtsLayer);
-            bBoxDict.Add(layerName, new RectangleShape(-14871588.140544016, 17407590.17351944, 18002448.801711123, -10574476.985662017));
+            bBoxDict.Add(layerName, new RectangleShape(14702448.140544016, -1074476.17351944, 15302448.801711123, -5574476.985662017));
         }
 
         private void LoadWmtsServer3()
-        {
-            var wmtsLayer = new Core.WmtsAsyncLayer(new Uri("https://ows.emodnet-seabedhabitats.eu/geoserver/emodnet_view/gwc/service/wmts"));
-            wmtsLayer.DrawingExceptionMode = DrawingExceptionMode.DrawException;
-            wmtsLayer.CapabilitesCacheTimeout = new TimeSpan(0, 0, 0, 1);
-            wmtsLayer.ActiveLayerName = "bboxes_eunis_2019";
-            wmtsLayer.ActiveStyleName = "";
-            wmtsLayer.TileMatrixSetName = "EPSG:900913";
-            wmtsLayer.TileCache = new FileRasterTileCache(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "WmtsTmpTileCache_4"));
-            wmtsLayer.OutputFormat = "image/png8";
-
-            string layerName = "EMODNET";
-            layerOverlay.Layers.Add(layerName, wmtsLayer);
-            bBoxDict.Add(layerName, new RectangleShape(-2714010.470843626, 8601816.214356067, 1395244.1469382662, 5104057.819458384));
-        }
-
-        private void LoadWmtsServer4()
         {
             var wmtsLayer = new Core.WmtsAsyncLayer(new Uri("https://basemaps.linz.govt.nz/v1/tiles/aerial/NZTM2000Quad/WMTSCapabilities.xml?api=c01j20m6pmjhc81bn55sakayftb"));
             wmtsLayer.DrawingExceptionMode = DrawingExceptionMode.DrawException;
@@ -133,7 +116,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             string layerName = "LINZ";
             layerOverlay.Layers.Add(layerName, wmtsLayer);
-            bBoxDict.Add(layerName, new RectangleShape(11103497.448365476, -5354740.842272079, 19322006.68392926, -12350257.632067444));
+            bBoxDict.Add(layerName, new RectangleShape(14303497.448365476, -7610740.842272079, 16022006.68392926, -9080257.632067444));
         }
 
         public void Dispose()

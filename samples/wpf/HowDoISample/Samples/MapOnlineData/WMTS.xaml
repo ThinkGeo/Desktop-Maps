@@ -9,7 +9,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
-            <ColumnDefinition Width="240" />
+            <ColumnDefinition Width="150" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -21,7 +21,6 @@
             <StackPanel Grid.Column="1" Grid.Row="2">
                 <RadioButton Checked="WMTS_Checked" IsChecked="True">SwissTopo</RadioButton>
                 <RadioButton Checked="WMTS_Checked">VLIZ</RadioButton>
-                <RadioButton Checked="WMTS_Checked">EMODNET</RadioButton>
                 <RadioButton Checked="WMTS_Checked">LINZ</RadioButton>
             </StackPanel>
             <Grid.RowDefinitions>
