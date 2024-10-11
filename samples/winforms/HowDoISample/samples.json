@@ -193,12 +193,6 @@
         "source": "Samples/MapOfflineData/Vector/DisplayTinyGeoFile"
       },
       {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayTableFromOracle",
-        "title": "Display a table from Oracle",
-        "description": "This sample shows how to display a Oracle layer.",
-        "source": "Samples/MapOfflineData/Database/DisplayTableFromOracle"
-      },
-      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayTableFromPostgres",
         "title": "Display a table from Postgres",
         "description": "This sample shows how to display a Postgres layer.",
