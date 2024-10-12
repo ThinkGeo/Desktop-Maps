@@ -61,25 +61,25 @@
     <Page Remove="Labeling\**" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Jint" Version="2.11.58" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="ThinkGeo.Ecw" Version="14.0.0-beta006" />
-    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.0.0-beta006" />
-    <PackageReference Include="ThinkGeo.GeoPdf" Version="14.0.0-beta006" />
-    <PackageReference Include="ThinkGeo.Kml" Version="14.0.0-beta006" />
-    <PackageReference Include="ThinkGeo.MrSid" Version="14.0.0-beta006" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.0.0-beta006" />
-    <PackageReference Include="ThinkGeo.Oracle" Version="14.0.0-beta006" />
-    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="14.0.0-beta006" />
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.0.0-beta006" />
-    <PackageReference Include="ThinkGeo.Printers" Version="14.0.0-beta006" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="14.0.0-beta006" />
-    <PackageReference Include="ThinkGeo.UI.WinForms" Version="14.0.0-beta006" />
-    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="14.0.0-beta006" />
-    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.336902">
+    <PackageReference Include="Jint" Version="3.1.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="ThinkGeo.Ecw" Version="14.2.1" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.2.1" />
+    <PackageReference Include="ThinkGeo.GeoPdf" Version="14.2.1" />
+    <PackageReference Include="ThinkGeo.Kml" Version="14.2.1" />
+    <PackageReference Include="ThinkGeo.MrSid" Version="14.2.1" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.2.1" />
+    <PackageReference Include="ThinkGeo.Oracle" Version="14.0.0-beta009" />
+    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="14.2.1" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.2.1" />
+    <PackageReference Include="ThinkGeo.Printers" Version="14.2.1" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="14.2.1" />
+    <PackageReference Include="ThinkGeo.UI.WinForms" Version="14.2.1" />
+    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="14.2.1" />
+    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.421302">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Windows.Compatibility" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.6" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Resources\AQUA.png" />
@@ -148,64 +148,67 @@
     <Resource Include="Resources\ZoomOut.png" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Samples\CreatingStyles\CreateMultiColumnTextStyleSample.cs">
+    <Compile Update="Samples\UsingOverlays\Placeholder.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\CreatingStyles\CreateDotDensityStyleSample.cs">
+    <Compile Update="Samples\VectorDataStyling\CreateAMultiColumnTextStyle.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\CreatingStyles\CreateRegexStyleSample.cs">
+    <Compile Update="Samples\VectorDataStyling\DisplayDotDensity.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\CreatingStyles\FleeBooleanStyle\CreateFleeBooleanStyleSample.cs">
+    <Compile Update="Samples\VectorDataStyling\RenderBasedOnRegex.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\CreatingStyles\StylingAcrossMultipleScales.cs">
+    <Compile Update="Samples\VectorDataStyling\FleeBooleanStyle\CreateAFleeBooleanStyle.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\GenerateMapImageSample.cs">
+    <Compile Update="Samples\VectorDataStyling\RenderBasedOnScales.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\Raster\GdalLayerSample.cs">
+    <Compile Update="Samples\Miscellaneous\DrawTheMapOnAnImage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Samples\MapOfflineData\Raster\DisplayGdalFile.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Samples\DisplayingLayers\Raster\KmlLayerSample.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\Vector\OfflineCloudMapsVectorLayerSample.cs">
+    <Compile Update="Samples\MapOfflineData\Vector\DisplayCloudMapsVectorLayerOffline.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\DisplayingLayers\Vector\GeoPdfLayerSample.cs">
+    <Compile Update="Samples\MapOfflineData\Vector\DisplayGeoPdfFile.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\Extensibility\ExtendingStylesSample.cs">
+    <Compile Update="Samples\VectorDataStyling\CustomStyles.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\Extensibility\ExtendingLayersSample.cs">
+    <Compile Update="Samples\Miscellaneous\CustomFeatureLayer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\Misc\GetSnapShotSample.cs">
+    <Compile Update="Samples\Miscellaneous\GetMapSnapShot.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\ProjectingData\RasterProjectionSample.cs">
+    <Compile Update="Samples\MapProjection\ProjectARaster.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\ProjectingData\WorldProjectionSample.cs">
+    <Compile Update="Samples\MapProjection\ProjectTheWorld.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\UsingMapTools\DisplayCompassSample.cs">
+    <Compile Update="Samples\MapTools\Compass.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\UsingMapTools\DisplayMagneticNorthSample.cs">
+    <Compile Update="Samples\MapTools\MagneticNorth.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\UsingOverlays\DisplaySimpleBackgroundOverlaySample.cs">
+    <Compile Update="Samples\Miscellaneous\CustomBackground.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\UsingOverlays\DrawGPSLocationOverlaySample.cs">
+    <Compile Update="Samples\Miscellaneous\UpdateTheGPSLocation.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\UsingOverlays\RefreshDynamicItemsSample.cs" />
+    <Compile Update="Samples\Miscellaneous\PerfTestRefreshShapes.cs" />
     <Compile Update="Style2\RotatePointWithTextStyle.cs" />
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -867,9 +870,6 @@
     <PackageReference Include="System.Data.OleDb">
       <Version>4.7.0</Version>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Samples\Interpolation\" />
   </ItemGroup>
   <ProjectExtensions><VisualStudio><UserProperties samples_1json__JsonSchema="https://github.com/fbecart/zinoma/releases/latest/download/zinoma-schema.json" /></VisualStudio></ProjectExtensions>
 </Project>

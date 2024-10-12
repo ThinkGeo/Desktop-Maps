@@ -97,6 +97,12 @@
     "title": "Map Offline Data",
     "children": [
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayGeoPackageFile",
+        "title": "Display a GeoPackage File",
+        "description": "Show the GeoPackage File",
+        "source": "Samples/MapOfflineData/DisplayGeoPackageFile"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMBTilesFile",
         "title": "Display a MBTiles File",
         "description": "Show the Standard MBTiles File (v1.3)",
@@ -223,12 +229,6 @@
         "source": "Samples/MapOfflineData/Vector/DisplayTinyGeoFile"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayTableFromOracle",
-        "title": "Display a table from Oracle",
-        "description": "This sample shows how to display a Oracle layer.",
-        "source": "Samples/MapOfflineData/Database/DisplayTableFromOracle"
-      },
-      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayTableFromPostgres",
         "title": "Display a table from Postgres",
         "description": "This sample shows how to display a Postgres layer.",
@@ -315,6 +315,12 @@
   {
     "title": "Markers and Popups",
     "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.AnimatedMarker",
+        "title": "Animated Marker",
+        "description": "Learn to add an animated marker on the map using the custom icon.",
+        "source": "Samples/MarkersandPopups/AnimatedMarker"
+      },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.Markers",
         "title": "Markers",

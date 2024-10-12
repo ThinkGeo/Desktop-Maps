@@ -64,28 +64,28 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     break;
                 case "MGA Zone 55":
                     // Set the new projection converter and open it. Next, set the map to the correct map unit and lastly, set the new extent.
-                    layer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, @"+proj=utm +zone=55 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
+                    layer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, SampleKeys.ProjString1);
                     layer.FeatureSource.ProjectionConverter.Open();
                     MapView.MapUnit = GeographyUnit.Meter;
                     MapView.CurrentExtent = new RectangleShape(-4415962.270035205, 10196887.263572674, 3690059.470408367, 3223755.308540492);
                     break;
                 case "Albers Equal Area Conic":
                     // Set the new projection converter and open it. Next, set the map to the correct map unit and lastly, set the new extent.
-                    layer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, @"+proj=aea +lat_1=20 +lat_2=60 +lat_0=40 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m no_defs");
+                    layer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, SampleKeys.ProjString2);
                     layer.FeatureSource.ProjectionConverter.Open();
                     MapView.MapUnit = GeographyUnit.Meter;
                     MapView.CurrentExtent = new RectangleShape(-4167908.28780145, 3251198.24423971, 3952761.55210086, -3744318.54555566);
                     break;
                 case "Polar Stereographic":
                     // Set the new projection converter and open it. Next, set the map to the correct map unit and lastly, set the new extent.
-                    layer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, @"+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +k=1 +x_0=0 +y_0=0 +a=6378273 +b=6356889.449 +units=m +no_defs s");
+                    layer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, SampleKeys.ProjString3);
                     layer.FeatureSource.ProjectionConverter.Open();
                     MapView.MapUnit = GeographyUnit.Meter;
                     MapView.CurrentExtent = new RectangleShape(-7944508.96033433, 6176987.61570341, 8296830.7194703, -7814045.96388732);
                     break;
                 case "Equal Area Cylindrical":
                     // Set the new projection converter and open it. Next, set the map to the correct map unit and lastly, set the new extent.
-                    layer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, @"+proj=cea +lon_0=0 +x_0=0 +y_0=0 +lat_ts=45 +ellps=WGS84 +datum=WGS84 +units=m +no_defs");
+                    layer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, SampleKeys.ProjString4);
                     layer.FeatureSource.ProjectionConverter.Open();
                     MapView.MapUnit = GeographyUnit.Meter;
                     MapView.CurrentExtent = new RectangleShape(-17364804.1443055, 14762778.3057369, 15059282.8174688, -13168814.679406);

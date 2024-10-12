@@ -347,27 +347,20 @@
     <Page Remove="SampleTemplate.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="AvalonEdit" Version="6.0.1" />
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
-    <PackageReference Include="Jint" Version="2.11.58" />
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="AvalonEdit" Version="6.3.0.90" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="Jint" Version="4.0.0" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.122" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
-    <PackageReference Include="ThinkGeo.Cad" Version="14.1.0" />
-    <PackageReference Include="ThinkGeo.Ecw" Version="14.1.0" />
-    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.1.0" />
-    <PackageReference Include="ThinkGeo.GeoPdf" Version="14.1.0" />
-    <PackageReference Include="ThinkGeo.Kml" Version="14.1.0" />
-    <PackageReference Include="ThinkGeo.MrSid" Version="14.1.0" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.1.0" />
-    <PackageReference Include="ThinkGeo.Oracle" Version="14.0.0-beta009" />
-    <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="14.1.0" />
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.1.0" />
-    <PackageReference Include="ThinkGeo.Printers" Version="14.1.0" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="14.1.0" />
-    <PackageReference Include="ThinkGeo.UI.Wpf" Version="14.1.0" />
-    <PackageReference Include="ThinkGeo.UnmanagedGeoTiff" Version="14.1.0" />
-    <PackageReference Include="ThinkGeo.UnmanagedProj" Version="14.1.0" />
+    <PackageReference Include="ThinkGeo.Cad" Version="14.2.1" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.2.1" />
+    <PackageReference Include="ThinkGeo.Gdal" Version="14.2.1" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.2.1" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.2.1" />
+    <PackageReference Include="ThinkGeo.Printers" Version="14.2.1" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="14.2.1" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="14.2.1" />
     <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
   </ItemGroup>
   <ItemGroup>
@@ -534,6 +527,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\Gdal\FdoGdal.tif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\GeoPackage\mora_surficial_geology.gpkg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\GeoPdf\bangalore.pdf">
@@ -1048,9 +1044,6 @@
     <Compile Update="Samples\MapOfflineData\Database\DisplayTableFromSQLServer.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\MapOfflineData\Database\DisplayTableFromOracle.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Samples\MapOfflineData\Database\DisplayTableFromPostgres.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -1181,9 +1174,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\MapOfflineData\Database\DisplayTableFromSQLServer.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\MapOfflineData\Database\DisplayTableFromOracle.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\MapOfflineData\Database\DisplayTableFromPostgres.xaml">

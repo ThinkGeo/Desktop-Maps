@@ -150,7 +150,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     engine.SetValue(columnName, feature.ColumnValues[columnName]);
                 }
 
-                var evaluatedTrue = engine.Execute(_fleeExpression).GetCompletionValue().AsBoolean();
+                var evaluatedTrue = engine.Evaluate(_fleeExpression).AsBoolean();
 
                 if (evaluatedTrue)
                 {
