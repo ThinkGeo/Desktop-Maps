@@ -30,8 +30,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             {
                 ClientId = SampleKeys.ClientId,
                 ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light
-
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
@@ -60,58 +61,52 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = new RectangleShape(-10779430.188014803, 3912668.1732483786, -10778438.895309737, 3911814.2283277493);
 
             // We hook up this even so when you leave this sample we stop the background data feed task
-            //this.Unloaded -= RefreshDynamicItems_Unloaded;
-            //this.Unloaded += RefreshDynamicItems_Unloaded;
+            this.Disposed -= RefreshDynamicItems_Disposed;
+            this.Disposed += RefreshDynamicItems_Disposed;
 
             //  Here we call the method below to start the background data feed
-            await StartDataFeed();
+            StartDataFeed();
 
             // Refresh the map
             await mapView.RefreshAsync();
         }
 
-        private async Task StartDataFeed()
+        private void StartDataFeed()
         {
             // Create a task that runs until we set the cancelFeed variable
-
-
-            // Create a queue and load it up with coordinated from the CSV file
-            var vehicleLocationQueue = new Queue<Feature>();
-
-            var locations = File.ReadAllLines(@"./Data/Csv/vehicle-route.csv");
-
-            foreach (var location in locations)
+            Task.Run(async () =>
             {
-                vehicleLocationQueue.Enqueue(new Feature(double.Parse(location.Split(',')[0]), double.Parse(location.Split(',')[1])));
-            }
+                // Create a queue and load it up with coordinated from the CSV file
+                var vehicleLocationQueue = new Queue<Feature>();
+                var locations = File.ReadAllLines(@"./Data/Csv/vehicle-route.csv");
 
-            // Keep looping as long as it's not canceled
-            do
-            {
-                // If the feed is not paused then update the vehicle location
-                if (!pauseFeed)
+                foreach (var location in locations)
                 {
-                    // Get the latest point from the queue and then re-add it so the points
-                    // will loop forever
-                    var currentFeature = vehicleLocationQueue.Dequeue();
-                    vehicleLocationQueue.Enqueue(currentFeature);
-
-                    // This event fires when the feature source has new data.  We need to make sure we refresh the map
-                    // on the UI threat, so we use the Invoke method on the map using the delegate we created at the top.                                    
-                    mapView.BeginInvoke(new InvokeDelegate(UpdateMap), new object[] { currentFeature });
+                    vehicleLocationQueue.Enqueue(new Feature(double.Parse(location.Split(',')[0]), double.Parse(location.Split(',')[1])));
                 }
 
-                // Sleep for two second
-                Debug.WriteLine($"Sleeping Vehicle Location Data Feed: {DateTime.Now}");
-                await Task.Delay(1000);
+                // Keep looping as long as it's not canceled
+                do
+                {
+                    // If the feed is not paused then update the vehicle location
+                    if (!pauseFeed)
+                    {
+                        // Get the latest point from the queue and then re-add it so the points
+                        // will loop forever
+                        var currentFeature = vehicleLocationQueue.Dequeue();
+                        vehicleLocationQueue.Enqueue(currentFeature);
 
-            } while (cancelFeed == false);
-        }
+                        // This event fires when the feature source has new data.  We need to make sure we refresh the map
+                        // on the UI threat, so we use the Invoke method on the map using the delegate we created at the top.                                    
+                        mapView.Invoke(new Action(() => UpdateMap(currentFeature)));
+                    }
 
-        protected override void Dispose(bool disposing)
-        {
-            cancelFeed = true;
-            base.Dispose(disposing);
+                    // Sleep for two second
+                    Debug.WriteLine($"Sleeping Vehicle Location Data Feed: {DateTime.Now}");
+                    await Task.Delay(1000);
+
+                } while (cancelFeed == false);
+            });            
         }
 
         private async void UpdateMap(Feature currentFeature)
@@ -132,6 +127,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Refresh the vehicle overlay
             await mapView.RefreshAsync(mapView.Overlays["Vehicle Overlay"]);
+        }
+
+        private void RefreshDynamicItems_Disposed(object sender, EventArgs e)
+        {
+            cancelFeed = true;
         }
 
         private void pauseDataFeed_Click(object sender, EventArgs e)
