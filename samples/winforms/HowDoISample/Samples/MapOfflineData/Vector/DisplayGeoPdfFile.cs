@@ -31,7 +31,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(layerOverlay);
 
             // Create the new layer and set the projection as the data is in srid 4326 and our background is srid 3857 (spherical mercator).
-            var geoPdfLayer = new GeoPdfFeatureLayer(@"./Data/GeoPdf/bangalore.pdf")
+            var geoPdfLayer = new GeoPdfGdalFeatureLayer(@"./Data/GeoPdf/bangalore.pdf")
             {
                 FeatureSource =
                 {

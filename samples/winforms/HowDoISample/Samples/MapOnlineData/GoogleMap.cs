@@ -40,7 +40,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 mapView.Overlays.Add("WorldOverlay", worldOverlay);
 
                 // Create the new layer.
-                var worldLayer = new Core.Async.GoogleMapsLayer(txtApiKey.Text);
+                var worldLayer = new Core.GoogleMapsAsyncLayer(txtApiKey.Text);
 
                 // Add the layer to the overlay we created earlier.
                 worldOverlay.Layers.Add("WorldLayer", worldLayer);

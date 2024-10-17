@@ -69,7 +69,6 @@
     <PackageReference Include="ThinkGeo.Kml" Version="14.2.1" />
     <PackageReference Include="ThinkGeo.MrSid" Version="14.2.1" />
     <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.2.1" />
-    <PackageReference Include="ThinkGeo.Oracle" Version="14.0.0-beta009" />
     <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="14.2.1" />
     <PackageReference Include="ThinkGeo.PostgreSql" Version="14.2.1" />
     <PackageReference Include="ThinkGeo.Printers" Version="14.2.1" />

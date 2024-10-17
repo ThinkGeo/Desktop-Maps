@@ -31,7 +31,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(layerOverlay);
 
             // Create the new layer and dd the layer to the overlay we created earlier.
-            var jp2000RasterLayer = new MrSidRasterLayer("./Data/Jp2/m_3309650_sw_14_1_20160911_20161121.jp2");
+            var jp2000RasterLayer = new MrSidGdalRasterLayer("./Data/Jp2/m_3309650_sw_14_1_20160911_20161121.jp2");
             layerOverlay.Layers.Add(jp2000RasterLayer);
 
             // Set the map view current extent to a slightly zoomed in area of the image.

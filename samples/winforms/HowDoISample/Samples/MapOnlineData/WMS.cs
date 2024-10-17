@@ -74,7 +74,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Create the WMS layer using the parameters below.
             // This is a public service and is very slow most of the time.
             //Core.Async.WmsRasterLayer wmsImageLayer = new Core.Async.WmsRasterLayer(new Uri("http://ows.mundialis.de/services/service"));
-            var wmsImageLayer = new Core.Async.WmsLayer(new Uri("http://ows.mundialis.de/services/service"));
+            var wmsImageLayer = new Core.WmsAsyncLayer(new Uri("http://ows.mundialis.de/services/service"));
 
             //wmsImageLayer.UpperThreshold = double.MaxValue;
             //wmsImageLayer.LowerThreshold = 0;

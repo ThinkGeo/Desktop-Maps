@@ -39,7 +39,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var worldRasterLayer = new GeoTiffRasterLayer(@"./Data/GeoTiff/World.tif");
 
             // Create a new ProjectionConverter to convert between World Geodetic System (4326) and US National Atlas Equal Area (2163)
-            ProjectionConverter projectionConverter = new UnmanagedProjectionConverter(4326, 2163);
+            ProjectionConverter projectionConverter = new GdalProjectionConverter(4326, 2163);
             worldRasterLayer.ImageSource.ProjectionConverter = projectionConverter;
 
             layerOverlay.Layers.Clear();
