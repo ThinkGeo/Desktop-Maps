@@ -11,8 +11,9 @@
         <Grid Grid.Column="1" Grid.Row="0">
 
             <Label Grid.Column="1" Grid.Row="0" Content="Layer or Overlay:" FontSize="16" FontWeight="Bold"></Label>
-            <RadioButton Grid.Column="1" Grid.Row="1" Checked="RbLayerOrOverlay_Checked" IsChecked="True">Use WmsOverlay</RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="2" Checked="RbLayerOrOverlay_Checked">Use WmsRasterLayer</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="1" Checked="RbLayerOrOverlay_Checked" >Use WmsOverlay</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="2" Checked="RbLayerOrOverlay_Checked" >Use WmsRasterLayer</RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="3" Checked="RbLayerOrOverlay_Checked" IsChecked="True" >Use WmsLayer with ReProjection</RadioButton>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />
                 <ColumnDefinition Width="*" />
@@ -27,7 +28,7 @@
         </Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="205" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
