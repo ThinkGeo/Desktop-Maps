@@ -80,7 +80,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Create the WMS layer using the parameters below.
             // This is a public service and is very slow most of the time.
-            var wmsImageLayer = new Core.WmsAsyncLayer(new Uri("http://ows.mundialis.de/services/service"));
+            var wmsImageLayer = new WmsAsyncLayer(new Uri("http://ows.mundialis.de/services/service"));
             wmsImageLayer.ActiveLayerNames.Add("OSM-WMS");
             wmsImageLayer.ActiveStyleNames.Add("default");
             wmsImageLayer.Exceptions = "application/vnd.ogc.se_xml";
@@ -102,39 +102,31 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var staticOverlay = new LayerOverlay();
             MapView.Overlays.Add(staticOverlay);
 
-            // Create a ProjectionConverter to convert from EPSG:4326 (WGS 84) to EPSG:3857 (Spherical Mercator).
-            var gdalProjectionConverter = new GdalProjectionConverter(4326, 3857);
-            // Open the projection converter before using it
-            if (!gdalProjectionConverter.IsOpen)
-            {
-                gdalProjectionConverter.Open();
-            }
-
             // Create the first WMS layer using the parameters below.
-            var wmsImageLayer = new Core.WmsAsyncLayer(new Uri("http://ows.mundialis.de/services/service"));
-            wmsImageLayer.ActiveLayerNames.Add("OSM-WMS");
-            wmsImageLayer.ActiveStyleNames.Add("default");
-            wmsImageLayer.Exceptions = "application/vnd.ogc.se_xml";
-            wmsImageLayer.Transparency = 100;
+            var wmsLayer1 = new WmsAsyncLayer(new Uri("http://ows.mundialis.de/services/service"));
+            wmsLayer1.ActiveLayerNames.Add("OSM-WMS");
+            wmsLayer1.ActiveStyleNames.Add("default");
+            wmsLayer1.Exceptions = "application/vnd.ogc.se_xml";
+            wmsLayer1.Transparency = 100;
 
             // Apply the projection conversion to WMS layer (convert from EPSG:4326 to EPSG:3857)
-            wmsImageLayer.ProjectionConverter = gdalProjectionConverter;
+            wmsLayer1.ProjectionConverter = new GdalProjectionConverter(4326, 3857); 
             // Add the layer to the overlay.
-            staticOverlay.Layers.Add("wmsImageLayer", wmsImageLayer);
+            staticOverlay.Layers.Add("wmsImageLayer", wmsLayer1);
 
             // Create the second WMS layer using the parameters below.
-            var wmsLayer = new WmsAsyncLayer(new Uri("http://geo.vliz.be/geoserver/Dataportal/ows?service=WMS&"));
-            wmsLayer.DrawingExceptionMode = DrawingExceptionMode.DrawException;
-            wmsLayer.Parameters.Add("LAYERS", "eurobis_grid_15m-obisenv");  
-            wmsLayer.Parameters.Add("STYLES", "generic");  
-            wmsLayer.OutputFormat = "image/png";  
-            wmsLayer.Crs = "EPSG:3857";  // Coordinate system, typically EPSG:3857 for WMS with Spherical Mercator
-            wmsLayer.Transparency = 100;
+            var wmsLayer2 = new WmsAsyncLayer(new Uri("http://geo.vliz.be/geoserver/Dataportal/ows?service=WMS&"));
+            wmsLayer2.DrawingExceptionMode = DrawingExceptionMode.DrawException;
+            wmsLayer2.Parameters.Add("LAYERS", "eurobis_grid_15m-obisenv");
+            wmsLayer2.Parameters.Add("STYLES", "generic");
+            wmsLayer2.OutputFormat = "image/png";
+            wmsLayer2.Crs = "EPSG:3857";  // Coordinate system, typically EPSG:3857 for WMS with Spherical Mercator
+            wmsLayer2.Transparency = 100;
 
             // Set the map's current extent
-            MapView.CurrentExtent = new RectangleShape(14702448.140544016, -1074476.17351944, 15302448.801711123, -5574476.985662017);
-            staticOverlay.Layers.Add(wmsLayer);
-        }       
+            MapView.CurrentExtent = new RectangleShape(14702448, -1074476, 15302448, -5574476);
+            staticOverlay.Layers.Add(wmsLayer2);
+        }
 
         public void Dispose()
         {
