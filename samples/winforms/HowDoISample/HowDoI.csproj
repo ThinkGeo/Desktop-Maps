@@ -64,16 +64,16 @@
     <PackageReference Include="Jint" Version="3.1.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="ThinkGeo.Ecw" Version="14.2.1" />
-    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.2.1" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.3.0-beta006" />
     <PackageReference Include="ThinkGeo.GeoPdf" Version="14.2.1" />
     <PackageReference Include="ThinkGeo.Kml" Version="14.2.1" />
     <PackageReference Include="ThinkGeo.MrSid" Version="14.2.1" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.2.1" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.3.0-beta006" />
     <PackageReference Include="ThinkGeo.PersonalGeoDatabase" Version="14.2.1" />
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.2.1" />
-    <PackageReference Include="ThinkGeo.Printers" Version="14.2.1" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="14.2.1" />
-    <PackageReference Include="ThinkGeo.UI.WinForms" Version="14.2.1" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.3.0-beta006" />
+    <PackageReference Include="ThinkGeo.Printers" Version="14.3.0-beta006" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="14.3.0-beta006" />
+    <PackageReference Include="ThinkGeo.UI.WinForms" Version="14.3.0-beta006" />
     <PackageReference Include="ThinkGeo.UnmanagedProj" Version="14.2.1" />
     <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.421302">
       <PrivateAssets>all</PrivateAssets>

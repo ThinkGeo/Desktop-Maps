@@ -56,6 +56,12 @@
         "source": "Samples/MapOnlineData/NOAAWeatherWarnings"
       },
       {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.OGCAPIFeatureSever",
+        "title": "OGC API Feature Sever",
+        "description": "This sample shows how to display a OGC API Feature layer.",
+        "source": "Samples/MapOnlineData/OGCAPIFeatureSever"
+      },
+      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.OpenStreetMap",
         "title": "Open Street Map",
         "description": "This sample shows how to display a Open Street Maps layer.",
