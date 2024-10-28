@@ -76,8 +76,14 @@
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.WMS",
         "title": "WMS",
-        "description": "This sample shows how to display a WMS layer. (This sample may be slow as we use a public WMS sever)",
+        "description": "This sample shows how to display a WMS layer. (This sample may be slow as we use a public WMS server)",
         "source": "Samples/MapOnlineData/WMS"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.WMTS",
+        "title": "WMTS",
+        "description": "This sample shows how to display a WMTS layer. (This sample may be slow as we use a public WMTS server)",
+        "source": "Samples/MapOnlineData/WMTS"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.CachingMapTiles",
