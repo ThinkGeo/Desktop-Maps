@@ -14,16 +14,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void Form_Load(object sender, EventArgs e)
         {
-            // It is important to set the map unit first to either feet, meters or decimal degrees.
-            mapView.MapUnit = GeographyUnit.DecimalDegree;
-
-            // This code sets up the sample to use the overlay versus the layer.
-            UseOverlay();
-
-            // Set the current extent to a local area.
-            mapView.CurrentExtent = new RectangleShape(-96.8538765269409, 33.1618647290098, -96.7987487018851, 33.1054126590461);
-
-            // Refresh the map.
+            UseLayerWithReProjection();
             await mapView.RefreshAsync();
         }
 
@@ -41,6 +32,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                     case "Use WmsRasterLayer":
                         UseLayer();
                         break;
+                    case "Use WmsLayer with ReProjection":
+                        UseLayerWithReProjection();
+                        break;
                 }
                 await mapView.RefreshAsync();
             }
@@ -48,6 +42,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void UseOverlay()
         {
+            mapView.MapUnit = GeographyUnit.DecimalDegree;
+
             // Clear out the overlays so we start fresh
             mapView.Overlays.Clear();
 
@@ -60,10 +56,15 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Add the overlay to the map.
             mapView.Overlays.Add(wmsOverlay);
+
+            // Set the current extent to a local area.
+            mapView.CurrentExtent = new RectangleShape(-96.8538765269409, 33.1618647290098, -96.7987487018851, 33.1054126590461);
         }
 
         private void UseLayer()
         {
+            mapView.MapUnit = GeographyUnit.DecimalDegree;
+
             // Clear out the overlays so we start fresh
             mapView.Overlays.Clear();
 
@@ -73,23 +74,59 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Create the WMS layer using the parameters below.
             // This is a public service and is very slow most of the time.
-            //Core.Async.WmsRasterLayer wmsImageLayer = new Core.Async.WmsRasterLayer(new Uri("http://ows.mundialis.de/services/service"));
-            var wmsImageLayer = new Core.WmsAsyncLayer(new Uri("http://ows.mundialis.de/services/service"));
-
-            //wmsImageLayer.UpperThreshold = double.MaxValue;
-            //wmsImageLayer.LowerThreshold = 0;
+            var wmsImageLayer = new WmsAsyncLayer(new Uri("http://ows.mundialis.de/services/service"));
             wmsImageLayer.ActiveLayerNames.Add("OSM-WMS");
             wmsImageLayer.ActiveStyleNames.Add("default");
             wmsImageLayer.Exceptions = "application/vnd.ogc.se_xml";
 
             // Add the layer to the overlay.
             staticOverlay.Layers.Add("wmsImageLayer", wmsImageLayer);
+
+            // Set the current extent to a local area.
+            mapView.CurrentExtent = new RectangleShape(-96.8538765269409, 33.1618647290098, -96.7987487018851, 33.1054126590461);
+        }
+
+        private void UseLayerWithReProjection()
+        {
+            mapView.MapUnit = GeographyUnit.Meter;
+            // Clear out the overlays so we start fresh
+            mapView.Overlays.Clear();
+
+            // Create an overlay that we will add the layer to.
+            var staticOverlay = new LayerOverlay();
+            mapView.Overlays.Add(staticOverlay);
+
+            // Create the first WMS layer using the parameters below.
+            var wmsLayer1 = new WmsAsyncLayer(new Uri("http://ows.mundialis.de/services/service"));
+            wmsLayer1.ActiveLayerNames.Add("OSM-WMS");
+            wmsLayer1.ActiveStyleNames.Add("default");
+            wmsLayer1.Exceptions = "application/vnd.ogc.se_xml";
+            wmsLayer1.Transparency = 100;
+
+            // Apply the projection conversion to WMS layer (convert from EPSG:4326 to EPSG:3857)
+            wmsLayer1.ProjectionConverter = new GdalProjectionConverter(4326, 3857);
+            // Add the layer to the overlay.
+            staticOverlay.Layers.Add("wmsImageLayer", wmsLayer1);
+
+            // Create the second WMS layer using the parameters below.
+            var wmsLayer2 = new WmsAsyncLayer(new Uri("http://geo.vliz.be/geoserver/Dataportal/ows?service=WMS&"));
+            wmsLayer2.DrawingExceptionMode = DrawingExceptionMode.DrawException;
+            wmsLayer2.Parameters.Add("LAYERS", "eurobis_grid_15m-obisenv");
+            wmsLayer2.Parameters.Add("STYLES", "generic");
+            wmsLayer2.OutputFormat = "image/png";
+            wmsLayer2.Crs = "EPSG:3857";  // Coordinate system, typically EPSG:3857 for WMS with Spherical Mercator
+            wmsLayer2.Transparency = 100;
+
+            // Set the map's current extent
+            mapView.CurrentExtent = new RectangleShape(14702448, -1074476, 15302448, -5574476);
+            staticOverlay.Layers.Add(wmsLayer2);
         }
 
         #region Component Designer generated code
 
         private MapView mapView;
         private Panel panel1;
+        private RadioButton radioButton3;
         private RadioButton radioButton2;
         private RadioButton radioButton1;
         private Label label1;
@@ -98,6 +135,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             mapView = new MapView();
             panel1 = new Panel();
+            radioButton3 = new RadioButton();
             radioButton2 = new RadioButton();
             radioButton1 = new RadioButton();
             label1 = new Label();
@@ -126,13 +164,28 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom
             | AnchorStyles.Right;
             panel1.BackColor = System.Drawing.Color.Gray;
+            panel1.Controls.Add(radioButton3);
             panel1.Controls.Add(radioButton2);
             panel1.Controls.Add(radioButton1);
             panel1.Controls.Add(label1);
             panel1.Location = new System.Drawing.Point(965, 0);
             panel1.Name = "panel1";
             panel1.Size = new System.Drawing.Size(285, 611);
-            panel1.TabIndex = 1;
+            panel1.TabIndex = 3;
+            // 
+            // radioButton3
+            // 
+            radioButton3.AutoSize = true;
+            radioButton3.Checked = true;
+            radioButton3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            radioButton3.ForeColor = System.Drawing.Color.White;
+            radioButton3.Location = new System.Drawing.Point(20, 122);
+            radioButton3.Name = "radioButton3";
+            radioButton3.Size = new System.Drawing.Size(231, 24);
+            radioButton3.TabIndex = 3;
+            radioButton3.Text = "Use WmsLayer with ReProjection";
+            radioButton3.UseVisualStyleBackColor = true;
+            radioButton3.CheckedChanged += new EventHandler(rbLayerOrOverlay_CheckedChanged);
             // 
             // radioButton2
             // 
@@ -150,7 +203,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // radioButton1
             // 
             radioButton1.AutoSize = true;
-            radioButton1.Checked = true;
             radioButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             radioButton1.ForeColor = System.Drawing.Color.White;
             radioButton1.Location = new System.Drawing.Point(20, 48);
