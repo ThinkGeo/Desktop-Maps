@@ -68,6 +68,12 @@
         "source": "Samples/MapOnlineData/OpenStreetMap"
       },
       {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.WFS",
+        "title": "WFS",
+        "description": "This sample shows how to display a WFS V2 Feature layer. (This WFSV2 server may be slow)",
+        "source": "Samples/MapOnlineData/WFS"
+      },
+      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.WMS",
         "title": "WMS",
         "description": "This sample shows how to display a WMS layer. (This sample may be slow as we use a public WMS sever)",
