@@ -103,6 +103,12 @@
         "source": "Samples/MapOfflineData/DisplayGeoPackageFile"
       },
       {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayMBTilesFile",
+        "title": "Display a MBTiles File",
+        "description": "This sample shows how to display a Standard MBTiles File (v1.3).",
+        "source": "Samples/MapOfflineData/DisplayMBTilesFile"
+      },
+      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DisplaySQLiteFile",
         "title": "Display a SQLite File",
         "description": "This sample shows how to display a SQLite layer.",

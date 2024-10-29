@@ -440,6 +440,12 @@
     <None Update="Data\Mbtiles\Frisco.mbtiles">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Data\Mbtiles\maplibre.mbtiles">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Mbtiles\style.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Data\MrSid\World.sdw">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
