@@ -97,6 +97,12 @@
     "title": "Map Offline Data",
     "children": [
       {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayGeoPackageFile",
+        "title": "Display a GeoPackage File",
+        "description": "This sample shows how to display a GeoPackage layer.",
+        "source": "Samples/MapOfflineData/DisplayGeoPackageFile"
+      },
+      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DisplaySQLiteFile",
         "title": "Display a SQLite File",
         "description": "This sample shows how to display a SQLite layer.",

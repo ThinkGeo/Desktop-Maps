@@ -395,6 +395,9 @@
     <None Update="Data\Gdal\FdoGdal.tif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Data\GeoPackage\mora_surficial_geology.gpkg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Data\GeoPdf\bangalore.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
