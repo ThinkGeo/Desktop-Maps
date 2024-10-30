@@ -235,6 +235,12 @@
         "source": "Samples/MapOfflineData/Database/DisplayTableFromSQLServer"
       },
       {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.GenerateESRIGridFile",
+        "title": "Generate an ESRI Grid File",
+        "description": "This sample shows how to generate an ESRI Grid layer.",
+        "source": "Samples/MapOfflineData/GenerateESRIGridFile"
+      },
+      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.GroupingLayersUsingLayerOverlay",
         "title": "Grouping Layers Using LayerOverlay",
         "description": "Learn to group layers into logical groups using LayerOverlays.",
