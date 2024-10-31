@@ -711,6 +711,12 @@
         "source": "Samples/Miscellaneous/ResizeTheMap"
       },
       {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.WrapTheDateLine",
+        "title": "Wrap The DateLine",
+        "description": "Say the world width is 0 ~ 1, here shows what the shapes with different length look like in the multi-world map.",
+        "source": "Samples/Miscellaneous/WrapTheDateLine"
+      },
+      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DrawTheMapOnAnImage",
         "title": "Draw the map on an Image",
         "description": "This sample shows how to draw your map onto an image file",
