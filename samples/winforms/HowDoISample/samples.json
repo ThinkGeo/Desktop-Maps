@@ -705,6 +705,12 @@
         "source": "Samples/Miscellaneous/HandleExceptions"
       },
       {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.ResizeTheMap",
+        "title": "Resize The Map",
+        "description": "Learn how to resize the map while keeping the width of the world extent the same.",
+        "source": "Samples/Miscellaneous/ResizeTheMap"
+      },
+      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DrawTheMapOnAnImage",
         "title": "Draw the map on an Image",
         "description": "This sample shows how to draw your map onto an image file",
