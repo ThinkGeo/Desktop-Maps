@@ -25,9 +25,11 @@ You can switch between the Beta Branch and Release Branch by checking/unchecking
 
 When using `ThinkGeo.UI.WinForms` in a WinForms project, you need to add assemblies like `WindowsBase` and `WindowsFormsIntegration` because:
 
-- `WindowsBase` contains essential classes and types for Windows applications, including functionalities for data binding, resources, and threading. Since `ThinkGeo.UI.WinForms` relies on these core functionalities, referencing `WindowsBase` ensures you have access to the necessary types.
+- ThinkGeo’s controls for WinForms typically rely on Windows Presentation Foundation (WPF) functionality when running on .NET. The required `WindowsBase.dll` file is part of the .NET runtime and is not directly related to the Visual Studio installation itself.
 
-- `WindowsFormsIntegration` is specifically used to integrate Windows Forms and WPF (Windows Presentation Foundation) applications. `ThinkGeo.UI.WinForms` includes components that interact with WPF elements or require WPF features, so you'll need this assembly to bridge the two frameworks.
+- `WindowsFormsIntegration.dll` is an essential library for integrating Windows Forms and WPF content, enabling you to host WPF content in a Windows Forms application and vice versa. If you are using `ThinkGeo.UI.WinForms` and need to incorporate any WPF elements, you may need to reference `WindowsFormsIntegration.dll` to enable smooth interaction between WPF and WinForms controls.
+
+You can add the two DLLs located in the directory: "C:\Program Files\Microsoft Visual Studio\2022\Professional\dotnet\net8.0\runtime\shared\Microsoft.WindowsDesktop.App\8.0.10"
 
 <img src="https://docs.thinkgeo.com/products/desktop-maps/assets/WinForms_Add_Assemblies_ScreenShot.gif"  width="840" height="580">
 
