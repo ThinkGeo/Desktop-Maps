@@ -14,7 +14,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void Form_Load(object sender, EventArgs e)
         {
-            UseLayerWithReProjection();
+            UseOverlay();
             await mapView.RefreshAsync();
         }
 
@@ -29,7 +29,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                     case "Use WmsOverlay":
                         UseOverlay();
                         break;
-                    case "Use WmsRasterLayer":
+                    case "Use WmsAsyncLayer":
                         UseLayer();
                         break;
                     case "Use WmsLayer with ReProjection":
@@ -135,9 +135,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             mapView = new MapView();
             panel1 = new Panel();
-            radioButton3 = new RadioButton();
-            radioButton2 = new RadioButton();
             radioButton1 = new RadioButton();
+            radioButton2 = new RadioButton();
+            radioButton3 = new RadioButton();
             label1 = new Label();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -164,28 +164,29 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom
             | AnchorStyles.Right;
             panel1.BackColor = System.Drawing.Color.Gray;
-            panel1.Controls.Add(radioButton3);
-            panel1.Controls.Add(radioButton2);
             panel1.Controls.Add(radioButton1);
+            panel1.Controls.Add(radioButton2);
+            panel1.Controls.Add(radioButton3);
             panel1.Controls.Add(label1);
             panel1.Location = new System.Drawing.Point(965, 0);
             panel1.Name = "panel1";
             panel1.Size = new System.Drawing.Size(285, 611);
             panel1.TabIndex = 3;
             // 
-            // radioButton3
+            // radioButton1
             // 
-            radioButton3.AutoSize = true;
-            radioButton3.Checked = true;
-            radioButton3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            radioButton3.ForeColor = System.Drawing.Color.White;
-            radioButton3.Location = new System.Drawing.Point(20, 122);
-            radioButton3.Name = "radioButton3";
-            radioButton3.Size = new System.Drawing.Size(231, 24);
-            radioButton3.TabIndex = 3;
-            radioButton3.Text = "Use WmsLayer with ReProjection";
-            radioButton3.UseVisualStyleBackColor = true;
-            radioButton3.CheckedChanged += new EventHandler(rbLayerOrOverlay_CheckedChanged);
+            radioButton1.AutoSize = true;
+            radioButton1.Checked = true;
+            radioButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            radioButton1.ForeColor = System.Drawing.Color.White;
+            radioButton1.Location = new System.Drawing.Point(20, 48);
+            radioButton1.Name = "radioButton1";
+            radioButton1.Size = new System.Drawing.Size(161, 24);
+            radioButton1.TabIndex = 1;
+            radioButton1.TabStop = true;
+            radioButton1.Text = "Use WmsOverlay";
+            radioButton1.UseVisualStyleBackColor = true;
+            radioButton1.CheckedChanged += new EventHandler(rbLayerOrOverlay_CheckedChanged);// 
             // 
             // radioButton2
             // 
@@ -196,23 +197,22 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             radioButton2.Name = "radioButton2";
             radioButton2.Size = new System.Drawing.Size(196, 24);
             radioButton2.TabIndex = 2;
-            radioButton2.Text = "Use WmsRasterLayer";
+            radioButton2.Text = "Use WmsAsyncLayer";
             radioButton2.UseVisualStyleBackColor = true;
             radioButton2.CheckedChanged += new EventHandler(rbLayerOrOverlay_CheckedChanged);
-            // 
-            // radioButton1
-            // 
-            radioButton1.AutoSize = true;
-            radioButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            radioButton1.ForeColor = System.Drawing.Color.White;
-            radioButton1.Location = new System.Drawing.Point(20, 48);
-            radioButton1.Name = "radioButton1";
-            radioButton1.Size = new System.Drawing.Size(161, 24);
-            radioButton1.TabIndex = 1;
-            radioButton1.TabStop = true;
-            radioButton1.Text = "Use WmsOverlay";
-            radioButton1.UseVisualStyleBackColor = true;
-            radioButton1.CheckedChanged += new EventHandler(rbLayerOrOverlay_CheckedChanged);
+            //
+            // radioButton3
+            //
+            radioButton3.AutoSize = true;
+            radioButton3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            radioButton3.ForeColor = System.Drawing.Color.White;
+            radioButton3.Location = new System.Drawing.Point(20, 122);
+            radioButton3.Name = "radioButton3";
+            radioButton3.Size = new System.Drawing.Size(231, 24);
+            radioButton3.TabIndex = 3;
+            radioButton3.Text = "Use WmsLayer with ReProjection";
+            radioButton3.UseVisualStyleBackColor = true;
+            radioButton3.CheckedChanged += new EventHandler(rbLayerOrOverlay_CheckedChanged);
             // 
             // label1
             // 
