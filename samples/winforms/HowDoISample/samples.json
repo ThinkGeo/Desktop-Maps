@@ -157,6 +157,12 @@
         "source": "Samples/MapOfflineData/Raster/DisplayMrSidFile"
       },
       {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayCADFile",
+        "title": "Display a CAD File",
+        "description": "This sample shows how to display a CAD layer using data from a .dwg file.",
+        "source": "Samples/MapOfflineData/Vector/DisplayCADFile"
+      },
+      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayFileGeoDatabase",
         "title": "Display a FileGeoDatabase",
         "description": "This sample shows how to display a file geodatabase layer.",
