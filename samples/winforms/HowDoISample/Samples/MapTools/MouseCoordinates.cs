@@ -55,7 +55,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// </summary>
         private void MouseCoordinate_CustomMouseCoordinateFormat(object sender, CustomFormattedMouseCoordinateMapToolEventArgs e)
         {
-            ((MouseCoordinateMapTool)sender).Foreground = new SolidColorBrush(Colors.Red);
+            ((MouseCoordinateMapTool)sender).Foreground = new SolidColorBrush(Colors.Black);
             e.Result = $"X: {e.WorldCoordinate.X:N0}, Y: {e.WorldCoordinate.Y:N0}";
         }
 

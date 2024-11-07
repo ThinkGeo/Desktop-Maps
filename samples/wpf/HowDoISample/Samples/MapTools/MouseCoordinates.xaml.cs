@@ -91,7 +91,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private static void MouseCoordinate_CustomMouseCoordinateFormat(object sender, CustomFormattedMouseCoordinateMapToolEventArgs e)
         {
-            ((MouseCoordinateMapTool)sender).Foreground = new SolidColorBrush(Colors.Red);
+            ((MouseCoordinateMapTool)sender).Foreground = new SolidColorBrush(Colors.Black);
             e.Result = $"X: {e.WorldCoordinate.X:N0}, Y: {e.WorldCoordinate.Y:N0}";
         }
         public void Dispose()
