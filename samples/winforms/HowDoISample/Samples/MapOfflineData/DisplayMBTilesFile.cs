@@ -56,6 +56,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
         }
 
+        private void DisplayMBTilesFile_VisibleChanged(object sender, EventArgs e)
+        {
+            if (!this.Visible)
+            {
+                ThinkGeoDebugger.DisplayTileId = false;
+            }
+        }
+
         #region Component Designer generated code
 
         private MapView mapView;
@@ -156,7 +164,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
-
+            //
+            // Attach VisibleChanged event
+            //
+            this.VisibleChanged += DisplayMBTilesFile_VisibleChanged;           
         }
 
         #endregion Component Designer generated code
