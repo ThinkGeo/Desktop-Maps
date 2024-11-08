@@ -133,10 +133,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             string myDocuments = Environment.GetEnvironmentVariable("TEMP");
             string path = myDocuments + @"\" + "ThinkGeoWinformsHowDoISamples";
 
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
+            // Clean the temp folder before generating a new HTML file
+            CleanTempFolder(path);
 
             // Grab the .cs source file
             string mainFolder = ((new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory)).Parent.Parent.Parent).FullName;
@@ -174,6 +172,29 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             return htmlFileName;
         }
+
+        private void CleanTempFolder(string folderPath)
+        {
+            try
+            {
+                if (Directory.Exists(folderPath))
+                {
+                    foreach (string filePath in Directory.GetFiles(folderPath))
+                    {
+                        File.Delete(filePath);
+                    }
+                }
+                else
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to clean up directory: {ex.Message}", "Cleanup Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
 
         private static string RemoveRegion(string inputText)
         {
