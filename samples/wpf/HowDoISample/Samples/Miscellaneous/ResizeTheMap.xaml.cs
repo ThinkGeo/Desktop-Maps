@@ -40,7 +40,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             MapView.MapResizeMode = MapResizeMode.PreserveExtent;
 
-            MapView.CurrentExtent = GetDrawingExtent(MaxExtents.OsmMaps, MapView.ActualWidth, MapView.ActualHeight);
+            // Get the center point of the MaxExtents.OsmMaps
+            var centerPoint = MaxExtents.OsmMaps.GetCenterPoint();
+            MapView.CurrentExtent = GetDrawingExtent(centerPoint, MapView.ActualWidth, MapView.ActualHeight);
 
             await MapView.RefreshAsync();
         }
@@ -63,7 +65,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private async Task UpdateExtent(CurrentExtentChangingMapViewEventArgs e)
         {
-            MapView.CurrentExtent = GetDrawingExtent(e.OldExtent, MapView.ActualWidth, MapView.ActualHeight);
+            var centerPoint = e.OldExtent.GetCenterPoint();
+            MapView.CurrentExtent = GetDrawingExtent(centerPoint, MapView.ActualWidth, MapView.ActualHeight);
             await MapView.RefreshAsync();
         }
 
@@ -88,51 +91,48 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _cancellationTokenSource.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
 
-            var customZoomLevelSet = new ZoomLevelSet();
-            var newExtent = GetExtent(MapView.CurrentExtent, e.NewSize.Width, e.NewSize.Height);
-            var baseScale = MapUtil.GetScale(MapView.MapUnit, newExtent, e.NewSize.Width, e.NewSize.Height);
-            baseScale = Math.Max(baseScale, customZoomLevelSet.ZoomLevel08.Scale);
+            // Capture the current center of the map
+            var currentCenter = MapView.CurrentExtent.GetCenterPoint();
 
-            var scale = baseScale;
-
-            while (scale > customZoomLevelSet.ZoomLevel20.Scale)
+            // Recalculate the extent only if the width or height actually changed
+            if (e.NewSize.Width != e.PreviousSize.Width || e.NewSize.Height != e.PreviousSize.Height)
             {
-                customZoomLevelSet.CustomZoomLevels.Add(new ZoomLevel(scale));
-                scale /= 2;
+                // Calculate the extent based on the maximum world extent to prevent duplication
+                var newExtent = GetDrawingExtent(currentCenter, MapView.ActualWidth, MapView.ActualHeight);
+
+                // Set custom zoom levels based on the new extent size
+                var baseScale = MapUtil.GetScale(MapView.MapUnit, newExtent, MapView.ActualWidth, MapView.ActualHeight);
+                var customZoomLevelSet = new ZoomLevelSet();
+                baseScale = Math.Max(baseScale, customZoomLevelSet.ZoomLevel08.Scale);
+
+                //var scale = baseScale;
+                var scale = Math.Max(baseScale, customZoomLevelSet.ZoomLevel08.Scale);
+                while (scale > customZoomLevelSet.ZoomLevel20.Scale)
+                {
+                    customZoomLevelSet.CustomZoomLevels.Add(new ZoomLevel(scale));
+                    scale /= 2;
+                }
+
+                MapView.ZoomLevelSet = customZoomLevelSet;
+                MapView.CurrentExtent = newExtent;
+
+                await MapView.RefreshAsync(OverlayRefreshType.Redraw, _cancellationTokenSource.Token);
             }
-
-            MapView.ZoomLevelSet = customZoomLevelSet;
-            MapView.CurrentExtent = newExtent;
-
-            await MapView.RefreshAsync(OverlayRefreshType.Redraw, _cancellationTokenSource.Token);
         }
 
-        private static RectangleShape GetExtent(RectangleShape maxExtent, double width, double height)
+        // Helper method to calculate the new extent based on the center point and dimensions
+        private static RectangleShape GetDrawingExtent(PointShape centerPoint, double width, double height)
         {
-            var center = maxExtent.GetCenterPoint();
-            var resolution = maxExtent.Width / width;
+            var resolution = MaxExtents.OsmMaps.Width / width;
             var halfWidth = resolution * width / 2;
             var halfHeight = resolution * height / 2;
-            return new RectangleShape(center.X - halfWidth, center.Y + halfHeight, center.X + halfWidth, center.Y - halfHeight);
-        }
 
-        private static RectangleShape GetDrawingExtent(RectangleShape worldExtent, double screenWidth, double screenHeight)
-        {
-            var screenRatio = screenHeight / screenWidth;
-            var worldRatio = worldExtent.Height / worldExtent.Width;
-
-            if (Math.Abs(worldRatio - screenRatio) <= double.Epsilon)
-            {
-                return (RectangleShape)worldExtent.CloneDeep();
-            }
-
-            var worldWidth = worldExtent.Width;
-            var worldHeight = worldExtent.Height * screenRatio / worldRatio;
-
-            var centerPoint = worldExtent.GetCenterPoint();
-            var pointShape = new PointShape(centerPoint.X - worldWidth * 0.5, centerPoint.Y + worldHeight * 0.5);
-            var lowerRightPoint = new PointShape(pointShape.X + worldWidth, pointShape.Y - worldHeight);
-            return new RectangleShape(pointShape, lowerRightPoint);
+            return new RectangleShape(
+                centerPoint.X - halfWidth,
+                centerPoint.Y + halfHeight,
+                centerPoint.X + halfWidth,
+                centerPoint.Y - halfHeight
+            );
         }
 
         private static void InitializeMapViewInternal(MapViewBase mapView)
