@@ -164,14 +164,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
-            this.mapView.Location = new System.Drawing.Point(5, 0);
+            this.mapView.Location = new System.Drawing.Point(0, 0);
             this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
             this.mapView.MaximumScale = 1.7976931348623157E+308D;
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotatedAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(969, 562);
+            this.mapView.Size = new System.Drawing.Size(1050, 562);
             this.mapView.TabIndex = 0;
             // 
             // panel1
@@ -182,9 +182,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Controls.Add(this.centerOnVehicle);
             this.panel1.Controls.Add(this.pauseDataFeed);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(975, 0);
+            this.panel1.Location = new System.Drawing.Point(1050, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(302, 562);
+            this.panel1.Size = new System.Drawing.Size(250, 562);
             this.panel1.TabIndex = 1;
             // 
             // centerOnVehicle
