@@ -21,17 +21,26 @@ You can switch between the Beta Branch and Release Branch by checking/unchecking
 
 <img src="https://docs.thinkgeo.com/products/desktop-maps/assets/WinForms_Add_Nuget_Packages_ScreenShot.gif"  width="840" height="580">
 
-### Step 3: Add the Windows Assemblies
+### Step 3: Enable WPF Support for the Project
 
-When using `ThinkGeo.UI.WinForms` in a WinForms project, you need to add assemblies like `WindowsBase` and `WindowsFormsIntegration` because:
+When using `ThinkGeo.UI.WinForms` in a WinForms project, you may need to enable support for WPF assemblies, specifically `WindowsBase` and `WindowsFormsIntegration`, due to the following reasons:
 
-- ThinkGeo’s controls for WinForms typically rely on Windows Presentation Foundation (WPF) functionality when running on .NET. The required `WindowsBase.dll` file is part of the .NET runtime and is not directly related to the Visual Studio installation itself.
+- ThinkGeo Controls and WPF Integration: ThinkGeo’s WinForms controls often rely on Windows Presentation Foundation (WPF) functionality when running on .NET. The required `WindowsBase.dll` file, part of the .NET runtime, supports WPF elements within the application.
 
-- `WindowsFormsIntegration.dll` is an essential library for integrating Windows Forms and WPF content, enabling you to host WPF content in a Windows Forms application and vice versa. If you are using `ThinkGeo.UI.WinForms` and need to incorporate any WPF elements, you may need to reference `WindowsFormsIntegration.dll` to enable smooth interaction between WPF and WinForms controls.
+- Hosting WPF Content in WinForms: `WindowsFormsIntegration.dll` is essential for integrating Windows Forms and WPF content, allowing you to host WPF elements within a Windows Forms application if needed. Referencing this library enables smooth interaction between WPF and WinForms controls.
 
-You can add the two DLLs located in the directory: "C:\Program Files\Microsoft Visual Studio\2022\Professional\dotnet\net8.0\runtime\shared\Microsoft.WindowsDesktop.App\8.0.10"
+To enable these dependencies:
 
-<img src="https://docs.thinkgeo.com/products/desktop-maps/assets/WinForms_Add_Assemblies_ScreenShot.gif"  width="840" height="580">
+1. Open Project Properties: In Visual Studio, right-click your project and select `Properties`.
+
+2. Enable WPF Support:
+
+   - Go to the `Application` tab and then to the `General` section.
+   - Check the box labeled `Enable WPF for this project`.
+
+Enabling this option automatically includes the necessary WPF assemblies, such as `WindowsBase` and `WindowsFormsIntegration`, you no longer need to manually locate and add these DLLs, as Visual Studio will handle the references for you.
+
+<img src="https://docs.thinkgeo.com/products/desktop-maps/assets/WinForms_Enable_WPF_ScreenShot.gif"  width="840" height="610">
 
 ### Step 4: Add the Map Control to `Form1.cs`
 
