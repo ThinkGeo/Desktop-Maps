@@ -19,6 +19,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         public ResizeTheMap()
         {
             InitializeComponent();
+            mapView.SizeChanged += MapView_SizeChanged;
         }
 
         /// <summary>
@@ -39,10 +40,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             };
 
             mapView.Overlays.Add("base", overlay);
-
             mapView.MapResizeMode = MapResizeMode.PreserveExtent;
 
-            mapView.CurrentExtent = GetDrawingExtent(MaxExtents.OsmMaps, mapView.ActualWidth, mapView.ActualHeight);
+            // Get the center point of the MaxExtents.OsmMaps
+            var centerPoint = MaxExtents.OsmMaps.GetCenterPoint();
+            mapView.CurrentExtent = GetDrawingExtent(centerPoint, mapView.ActualWidth, mapView.ActualHeight);
 
             await mapView.RefreshAsync();
         }
@@ -63,7 +65,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async Task UpdateExtent(CurrentExtentChangingMapViewEventArgs e)
         {
-            mapView.CurrentExtent = GetDrawingExtent(e.OldExtent, mapView.ActualWidth, mapView.ActualHeight);
+            var centerPoint = e.OldExtent.GetCenterPoint();
+            mapView.CurrentExtent = GetDrawingExtent(centerPoint, mapView.ActualWidth, mapView.ActualHeight);
             await mapView.RefreshAsync();
         }
 
@@ -82,21 +85,42 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             Debug.WriteLine($"Current Scaling changed from {e.OldScale} to {e.NewScale}.");
         }
 
-        private async void Form_Resize(object sender, EventArgs e)
+        private async void MapView_SizeChanged(object sender, EventArgs e)
         {
-            // Get the new size from the form
-            var newSize = this.ClientSize; // or this.Size
+            var newSize = this.ClientSize;
 
-            _cancellationTokenSource.Cancel();
+            // Cancel the previous task if not yet canceled
+            // and then create a new cancellation token source for the current operation
+            CancelPreviousOperation();
             _cancellationTokenSource = new CancellationTokenSource();
 
+            // Ensure that mapView.CurrentExtent is not null
+            var currentCenter = mapView.CurrentExtent?.GetCenterPoint();
+            if (currentCenter == null)
+            {
+                return;
+            }
+
+            if (newSize.Width != previousSize.Width || newSize.Height != previousSize.Height)
+            {
+                await UpdateMapExtentAndZoomLevels(currentCenter);
+            }
+
+            // Update the previous size for comparison in the next event
+            previousSize = newSize;
+        }
+
+        // Helper method to update the extent and zoom levels based on current map size
+        private async Task UpdateMapExtentAndZoomLevels(PointShape currentCenter)
+        {
+            var newExtent = GetDrawingExtent(currentCenter, mapView.ActualWidth, mapView.ActualHeight);
+
+            // Set custom zoom levels based on the new extent size
+            var baseScale = MapUtil.GetScale(mapView.MapUnit, newExtent, mapView.ActualWidth, mapView.ActualHeight);
             var customZoomLevelSet = new ZoomLevelSet();
-            var newExtent = GetExtent(mapView.CurrentExtent, newSize.Width, newSize.Height);
-            var baseScale = MapUtil.GetScale(mapView.MapUnit, newExtent, newSize.Width, newSize.Height);
             baseScale = Math.Max(baseScale, customZoomLevelSet.ZoomLevel08.Scale);
 
-            var scale = baseScale;
-
+            var scale = Math.Max(baseScale, customZoomLevelSet.ZoomLevel08.Scale);
             while (scale > customZoomLevelSet.ZoomLevel20.Scale)
             {
                 customZoomLevelSet.CustomZoomLevels.Add(new ZoomLevel(scale));
@@ -106,35 +130,33 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.ZoomLevelSet = customZoomLevelSet;
             mapView.CurrentExtent = newExtent;
 
+            // Refresh the map view with the current cancellation token
             await mapView.RefreshAsync(OverlayRefreshType.Redraw, _cancellationTokenSource.Token);
         }
 
-        private static RectangleShape GetExtent(RectangleShape maxExtent, double width, double height)
+        // Helper method to cancel the previous operation
+        private void CancelPreviousOperation()
         {
-            var center = maxExtent.GetCenterPoint();
-            var resolution = maxExtent.Width / width;
-            var halfWidth = resolution * width / 2;
-            var halfHeight = resolution * height / 2;
-            return new RectangleShape(center.X - halfWidth, center.Y + halfHeight, center.X + halfWidth, center.Y - halfHeight);
+            if (_cancellationTokenSource != null && !_cancellationTokenSource.IsCancellationRequested)
+            {
+                _cancellationTokenSource.Cancel();
+                _cancellationTokenSource.Dispose();
+            }
         }
 
-        private static RectangleShape GetDrawingExtent(RectangleShape worldExtent, double screenWidth, double screenHeight)
+        // Helper method to calculate the new extent based on the center point and dimensions
+        private static RectangleShape GetDrawingExtent(PointShape centerPoint, double width, double height)
         {
-            var screenRatio = screenHeight / screenWidth;
-            var worldRatio = worldExtent.Height / worldExtent.Width;
+            var resolution = MaxExtents.OsmMaps.Width / width;
+            var halfWidth = resolution * width / 2;
+            var halfHeight = resolution * height / 2;
 
-            if (Math.Abs(worldRatio - screenRatio) <= double.Epsilon)
-            {
-                return (RectangleShape)worldExtent.CloneDeep();
-            }
-
-            var worldWidth = worldExtent.Width;
-            var worldHeight = worldExtent.Height * screenRatio / worldRatio;
-
-            var centerPoint = worldExtent.GetCenterPoint();
-            var pointShape = new PointShape(centerPoint.X - worldWidth * 0.5, centerPoint.Y + worldHeight * 0.5);
-            var lowerRightPoint = new PointShape(pointShape.X + worldWidth, pointShape.Y - worldHeight);
-            return new RectangleShape(pointShape, lowerRightPoint);
+            return new RectangleShape(
+                centerPoint.X - halfWidth,
+                centerPoint.Y + halfHeight,
+                centerPoint.X + halfWidth,
+                centerPoint.Y - halfHeight
+            );
         }
 
         private static void InitializeMapViewInternal(MapView mapView)
@@ -198,7 +220,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             Name = "ResizeTheMap";
             Size = new System.Drawing.Size(1377, 743);
             Load += new EventHandler(Form_Load);
-            Load += new EventHandler(Form_Resize);
+            Load += new EventHandler(MapView_SizeChanged);
             ResumeLayout(false);
         }
 
