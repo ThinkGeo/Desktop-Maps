@@ -33,7 +33,20 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     ProjectionConverter = new ProjectionConverter(4326, 3857)
                 }
             };
-            ignLayer.ZoomLevelSet.ZoomLevel13.DefaultPointStyle = PointStyle.CreateSimplePointStyle(PointSymbolType.Circle, GeoColors.Black, 10);
+
+            // Create a new text style and set various settings to make it look good.
+            var ignNamedPlacesTextStyle = new TextStyle("etiqueta", new GeoFont("Arial", 14), GeoBrushes.DarkRed)
+            {
+                MaskType = MaskType.RoundedCorners,
+                OverlappingRule = LabelOverlappingRule.NoOverlapping,
+                Mask = new AreaStyle(GeoBrushes.WhiteSmoke),
+                SuppressPartialLabels = true,
+                YOffsetInPixel = -12
+            };
+
+
+            ignLayer.ZoomLevelSet.ZoomLevel13.DefaultPointStyle = PointStyle.CreateSimplePointStyle(PointSymbolType.Circle, GeoColors.DarkRed, 10);
+            ignLayer.ZoomLevelSet.ZoomLevel13.DefaultTextStyle = ignNamedPlacesTextStyle;
             ignLayer.ZoomLevelSet.ZoomLevel13.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             var overlay = new OgcApiFeaturesOverlay()
@@ -42,7 +55,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 DrawingBulkCount = 100
             };
 
-            MapView.CurrentExtent = new RectangleShape(237159, 5069993, 247529, 5062228);
+            MapView.CurrentExtent = new RectangleShape(230520.1470584352, 5060781.8198189195, 240851.88532424968, 5053934.33607308);
             MapView.Overlays.Add("LayerOverlay", overlay);
 
             await MapView.RefreshAsync();
