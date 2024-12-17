@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 using ThinkGeo.Core;
 
@@ -9,6 +10,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class DisplayCommonRasterFile : IDisposable
     {
+        private LayerOverlay rasterOverlay;
+        private SkiaRasterLayer skiaRasterLayer;
+        private WpfRasterLayer wpfRasterLayer;
+
         public DisplayCommonRasterFile()
         {
             InitializeComponent();
@@ -33,17 +38,48 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            // Create a new overlay that will hold our new layer and add it to the map.
-            var layerOverlay = new LayerOverlay();
-            layerOverlay.TileType = TileType.SingleTile;
-            MapView.Overlays.Add(layerOverlay);
+            // Create an overlay for the raster layers
+            rasterOverlay = new LayerOverlay { TileType = TileType.SingleTile };
+            MapView.Overlays.Add(rasterOverlay);
 
-            // Create the new layer and dd the layer to the overlay we created earlier.
-            var commonRasterLayer = new NativeImageRasterLayer("./Data/Jpg/m_3309650_sw_14_1_20160911_20161121.jpg");
-            layerOverlay.Layers.Add(commonRasterLayer);
+            // Path to the raster file
+            string rasterFileRelativePath = "./Data/Jpg/m_3309650_sw_14_1_20160911_20161121.jpg";
+            string rasterFileAbsolutePath = Path.GetFullPath(rasterFileRelativePath);
+
+            // Initialize SkiaRasterLayer and WpfRasterLayer
+            skiaRasterLayer = new SkiaRasterLayer(rasterFileRelativePath);
+            wpfRasterLayer = new WpfRasterLayer(rasterFileAbsolutePath);
+
+            // Set default layer to SkiaRasterLayer
+            rasterOverlay.Layers.Add(skiaRasterLayer);
 
             // Set the map view current extent to a slightly zoomed in area of the image.
             MapView.CurrentExtent = new RectangleShape(-10783910.2966461, 3917274.29233111, -10777309.4670677, 3912119.9131963);
+
+            await MapView.RefreshAsync();
+        }
+
+        private async void SwitchRasterLayer_OnCheckedChanged(object sender, RoutedEventArgs e)
+        {
+            if (rasterOverlay == null) return;
+            var selectedRadioButton = sender as System.Windows.Controls.RadioButton;
+            
+            rasterOverlay.Layers.Clear();
+
+            if (selectedRadioButton != null)
+            {
+                switch (selectedRadioButton.Tag)
+                {
+                    case "SkiaRasterLayer":
+                        rasterOverlay.Layers.Add(skiaRasterLayer);
+                        //MapView.CurrentExtent = skiaRasterLayer.GetBoundingBox();
+                        break;
+                    case "WpfRasterLayer":
+                        rasterOverlay.Layers.Add(wpfRasterLayer);
+                        //MapView.CurrentExtent = wpfRasterLayer.GetBoundingBox();
+                        break;
+                }
+            }
 
             await MapView.RefreshAsync();
         }
