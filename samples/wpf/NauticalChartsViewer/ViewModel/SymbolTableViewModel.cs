@@ -248,9 +248,9 @@ namespace NauticalChartsViewer
                 {
                     if (item.Token.Equals("NODTA"))
                     {
-                        backgroundColor = new RGBColor(item.Color.RedComponent, item.Color.GreenComponent, item.Color.BlueComponent);
+                        backgroundColor = new RGBColor(item.Color.R, item.Color.G, item.Color.B);
                     }
-                    colorRef.Add(item.Token, new RGBColor(item.Color.RedComponent, item.Color.GreenComponent, item.Color.BlueComponent));
+                    colorRef.Add(item.Token, new RGBColor(item.Color.R, item.Color.G, item.Color.B));
 
                 }
 

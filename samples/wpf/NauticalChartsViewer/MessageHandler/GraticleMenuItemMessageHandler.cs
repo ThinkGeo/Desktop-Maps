@@ -9,7 +9,7 @@ namespace NauticalChartsViewer
     {
         private const string GraticuleOverlayName = "GraticuleOverlay";
 
-        public override void Handle(Window owner, MapView map, MenuItemMessage message)
+        public async override void Handle(Window owner, MapView map, MenuItemMessage message)
         {
             LayerOverlay adornmentOverlay;
             if (!map.Overlays.Contains(GraticuleOverlayName))
@@ -26,7 +26,7 @@ namespace NauticalChartsViewer
             adornmentOverlay = map.Overlays[GraticuleOverlayName] as LayerOverlay;
             adornmentOverlay.IsVisible = message.MenuItem.IsChecked;
 
-            map.Refresh();
+            await map.RefreshAsync();
         }
 
         public override string[] Actions
