@@ -580,6 +580,9 @@
     <None Update="Data\Mbtiles\style.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Data\Mbtiles\test.mbtiles">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Data\MrSid\World.sdw">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

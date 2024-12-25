@@ -109,6 +109,12 @@
         "source": "Samples/MapOfflineData/DisplayMBTilesFile"
       },
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayRasterMBTilesFile",
+        "title": "Display a Raster MBTiles File",
+        "description": "Show the Raster MBTiles File",
+        "source": "Samples/MapOfflineData/Raster/DisplayRasterMBTilesFile"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplaySQLiteFile",
         "title": "Display a SQLite File",
         "description": "This sample shows how to display a SQLite layer.",
