@@ -122,8 +122,8 @@
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayCommonRasterFile",
-        "title": "Display Common Raster File",
-        "description": "This sample shows how to display common images types such as PNG, JPEG, Bitmap etc.",
+        "title": "Display Common Raster Files",
+        "description": "This sample shows how to display common image types such as PNG, JPEG, Bitmap etc.",
         "source": "Samples/MapOfflineData/Raster/DisplayCommonRasterFile"
       },
       {

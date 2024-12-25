@@ -1,6 +1,6 @@
 ﻿using System;
-using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
@@ -43,12 +43,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.Overlays.Add(rasterOverlay);
 
             // Path to the raster file
-            string rasterFileRelativePath = "./Data/Jpg/m_3309650_sw_14_1_20160911_20161121.jpg";
-            string rasterFileAbsolutePath = Path.GetFullPath(rasterFileRelativePath);
+            string skiaRasterFilePath = "./Data/Jpg/m_3309650_sw_14_1_20160911_20161121.jpg";
+            string wpfRasterFilePath = "./Data/GeoTiff/m_3309650_sw_14_1_20160911_20161121.tif";
 
             // Initialize SkiaRasterLayer and WpfRasterLayer
-            skiaRasterLayer = new SkiaRasterLayer(rasterFileRelativePath);
-            wpfRasterLayer = new WpfRasterLayer(rasterFileAbsolutePath);
+            skiaRasterLayer = new SkiaRasterLayer(skiaRasterFilePath);
+            wpfRasterLayer = new WpfRasterLayer(wpfRasterFilePath);
 
             // Set default layer to SkiaRasterLayer
             rasterOverlay.Layers.Add(skiaRasterLayer);
@@ -62,7 +62,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private async void SwitchRasterLayer_OnCheckedChanged(object sender, RoutedEventArgs e)
         {
             if (rasterOverlay == null) return;
-            var selectedRadioButton = sender as System.Windows.Controls.RadioButton;
+            var selectedRadioButton = sender as RadioButton;
             
             rasterOverlay.Layers.Clear();
 
@@ -72,11 +72,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 {
                     case "SkiaRasterLayer":
                         rasterOverlay.Layers.Add(skiaRasterLayer);
-                        //MapView.CurrentExtent = skiaRasterLayer.GetBoundingBox();
                         break;
                     case "WpfRasterLayer":
                         rasterOverlay.Layers.Add(wpfRasterLayer);
-                        //MapView.CurrentExtent = wpfRasterLayer.GetBoundingBox();
                         break;
                 }
             }

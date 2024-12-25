@@ -30,7 +30,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <Label Grid.Column="1" Grid.Row="0" Content="Show Raster Layer" FontSize="16" FontWeight="Bold" Foreground="White" Margin="0 5 0 5"/>
+            <Label Grid.Column="1" Grid.Row="0" Content="Use Raster Layer" FontSize="16" FontWeight="Bold" Foreground="White" Margin="0 5 0 5"/>
             <RadioButton Grid.Column="1" Grid.Row="1" Margin="0 5 0 5" Tag="SkiaRasterLayer"  IsChecked="True" Checked="SwitchRasterLayer_OnCheckedChanged">SkiaRasterLayer</RadioButton>
             <RadioButton Grid.Column="1" Grid.Row="2" Margin="0 5 0 5" Tag="WpfRasterLayer" Checked="SwitchRasterLayer_OnCheckedChanged">WpfRasterLayer</RadioButton>
         </Grid>
