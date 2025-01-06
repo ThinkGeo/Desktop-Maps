@@ -61,11 +61,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Update="Samples\MapOfflineData\Raster\DisplayCommonRasterFile.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -1162,12 +1157,6 @@
     <Compile Update="Samples\VectorDataSpatialQuery\FindFeaturesWithinAFeature.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Samples\VectorDataStyling\RenderPoints.xaml">
