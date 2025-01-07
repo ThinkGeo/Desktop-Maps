@@ -23,7 +23,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             layerOverlay.TileType = TileType.MultiTile;
             MapView.Overlays.Add(layerOverlay);
 
-            var openstackMbtiles = new MbTilesLayer(@".\Data\Mbtiles\maplibre.mbtiles", @".\Data\Mbtiles\style.json");
+            var openstackMbtiles = new VectorMbTilesAsyncLayer(@".\Data\Mbtiles\maplibre.mbtiles", @".\Data\Mbtiles\style.json");
             layerOverlay.Layers.Add(openstackMbtiles);
 
             MapView.CurrentExtent = new RectangleShape(-11305077.39954415, 11301934.55158609, 6893050.193489946, -2669531.148872344);
@@ -50,9 +50,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 layerOverlay.TileWidth = tileSize;
                 layerOverlay.TileHeight = tileSize;
 
-                if (layerOverlay.Layers[0] is MbTilesLayer mbTilesLayer)
+                if (layerOverlay.Layers[0] is VectorMbTilesAsyncLayer mbTilesLayer)
                 {
-                    mbTilesLayer.ZoomLevelSet = new SphericalMercatorZoomLevelSet(tileSize, MaxExtents.SphericalMercator);
+                    await mbTilesLayer.CloseAsync();
+
+                    mbTilesLayer.TileWidth =  tileSize;
+                    mbTilesLayer.TileHeight = tileSize;
+                    await mbTilesLayer.OpenAsync();
                 }
                 await MapView.RefreshAsync();
             }

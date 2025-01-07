@@ -13,6 +13,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public RenderLabels()
         {
             InitializeComponent();
+
+            MapView.MinimumScale = 1;
+            var zooms = new ZoomLevelSet();
+
+            for (int i = 30; i >= 0 ; i--)
+            {
+                zooms.CustomZoomLevels.Add(new ZoomLevel(Math.Pow(2, i)));
+            }
+
+            MapView.ZoomLevelSet = zooms;
+
+
         }
 
         /// <summary>
@@ -22,6 +34,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             MapView.MapUnit = GeographyUnit.Meter;
+        
 
             // Set the map background color
             MapView.Background = new SolidColorBrush(Color.FromRgb(234, 232, 226));
@@ -45,6 +58,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             layerOverlay.Layers.Add(parksLayer);
             layerOverlay.Layers.Add(streetsLayer);
             layerOverlay.Layers.Add(hotelsLayer);
+            layerOverlay.TileType = TileType.SingleTile;
 
             // Add overlay to map
             MapView.Overlays.Add(layerOverlay);
@@ -101,10 +115,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var areaStyle = new AreaStyle(GeoPens.DimGray, GeoBrushes.PastelGreen);
             var textStyle = new TextStyle("NAME", new GeoFont("Segoe UI", 12, DrawingFontStyles.Bold), GeoBrushes.DarkGreen)
             {
-                FittingPolygon = false,
+                FittingPolygon = true,
                 HaloPen = new GeoPen(GeoBrushes.White, 2),
                 DrawingLevel = DrawingLevel.LabelLevel,
-                AllowLineCarriage = true
+                AllowLineCarriage = true,
+                FittingPolygonInScreen = true
             };
             parksLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(areaStyle);
             parksLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(textStyle);

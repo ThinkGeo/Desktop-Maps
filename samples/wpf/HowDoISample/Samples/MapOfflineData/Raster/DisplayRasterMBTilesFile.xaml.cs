@@ -10,10 +10,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class DisplayRasterMBTilesFile : IDisposable
     {
-        private LayerOverlay layerOverlay;
-        private RasterMbTilesLayer rasterMbTilesLayer = new RasterMbTilesLayer(@".\Data\Mbtiles\test.mbtiles");
-        private bool isMapViewLoaded = false;
-        
+        private RasterMbTilesAsyncLayer rasterMbTilesLayer;
+
         public DisplayRasterMBTilesFile()
         {
             InitializeComponent();
@@ -21,70 +19,65 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            isMapViewLoaded = false;
-
-            layerOverlay = new LayerOverlay();
+            var layerOverlay = new LayerOverlay();
             MapView.Overlays.Add(layerOverlay);
+            rasterMbTilesLayer = new RasterMbTilesAsyncLayer(@".\Data\Mbtiles\test.mbtiles");
+            layerOverlay.TileType = TileType.SingleTile;
             layerOverlay.Layers.Add(rasterMbTilesLayer);
-            await MapView.RefreshAsync();
 
-            isMapViewLoaded = true;
-        }
+            string cachePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rasterMbTilesLayerCache");
 
-        private async void TileType_Checked(object sender, RoutedEventArgs e)
-        {
-            if (layerOverlay == null) return;
-
-            var radioButton = sender as RadioButton;
-            if (radioButton?.Tag == null) return;
-
-            switch (radioButton.Tag.ToString())
-            {
-                case "SingleTile":
-                    layerOverlay.TileType = TileType.SingleTile;
-                    break;
-                case "MultiTile":
-                    layerOverlay.TileType = TileType.MultiTile;
-                    break;
-                default:
-                    return;
-            }
-
-            await MapView.RefreshAsync();
-        }
-
-        private async void TileCache_Checked(object sender, RoutedEventArgs e)
-        {
-            if (layerOverlay == null) return;
-
-            string cachePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cache", "test");
-            
             if (!System.IO.Directory.Exists(cachePath))
             {
                 System.IO.Directory.CreateDirectory(cachePath);
             }
 
-            var radioButton = sender as RadioButton;
-            if (radioButton?.Tag == null) return;
+            rasterMbTilesLayer.TileCache = new FileRasterTileCache(cachePath, "raw");
+            rasterMbTilesLayer.ProjectedTileCache = new FileRasterTileCache(cachePath, "projected")
+                { EnableDebugInfo = true};
 
-            switch (radioButton.Tag.ToString())
-            {
-                case "Raw":
-                    rasterMbTilesLayer.TileCache = new FileRasterTileCache(cachePath, "raw");
-                    break;
-                case "Projected":
-                    rasterMbTilesLayer.TileCache = new FileRasterTileCache(cachePath, "projected");
-                    break;
-                default:
-                    return;
-            }
+            rasterMbTilesLayer.TileCache.GottenCacheTile += TileCache_GottenCacheTile;
+            rasterMbTilesLayer.ProjectedTileCache.GottenCacheTile += ProjectedTileCache_GottenCacheTile;
 
+            layerOverlay.Drawn += LayerOverlayOnDrawn;
             await MapView.RefreshAsync();
+
         }
+
+        private void LayerOverlayOnDrawn(object sender, DrawnOverlayEventArgs e)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                LogTextBox.ScrollToEnd();
+            });
+        }
+
+        private void ProjectedTileCache_GottenCacheTile(object sender, GottenCacheImageBitmapTileCacheEventArgs e)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                var message = e.Tile.Content == null ? "Projection Cache Not Hit:" : "Projection Cache Hit:";
+                message += $"{e.Tile.ZoomIndex}-{e.Tile.Column}-{e.Tile.Row}";
+
+                LogTextBox.Text += message + Environment.NewLine;
+            });
+        }
+
+        private void TileCache_GottenCacheTile(object sender, GottenCacheImageBitmapTileCacheEventArgs e)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                var message = e.Tile.Content == null ? "Cache Not Hit:" : "Cache Hit:";
+                message += $"{e.Tile.ZoomIndex}-{e.Tile.Column}-{e.Tile.Row}";
+
+                LogTextBox.Text += message + Environment.NewLine;
+            });
+        }
+
 
         private async void Projection_Checked(object sender, RoutedEventArgs e)
         {
-            if (!isMapViewLoaded || rasterMbTilesLayer == null) return;
+            if (rasterMbTilesLayer == null) return;
 
             var radioButton = sender as RadioButton;
             if (radioButton?.Tag == null) return;
@@ -98,60 +91,28 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 case "4326":
                     MapView.MapUnit = GeographyUnit.DecimalDegree;
-                    var projectionConverter = new GdalProjectionConverter(3857, 4326);
-                    projectionConverter.Open(); 
-                    rasterMbTilesLayer.ProjectionConverter = projectionConverter;
+                    rasterMbTilesLayer.ProjectionConverter = new GdalProjectionConverter(3857, 4326);
                     break;
 
                 default:
                     return;
             }
 
-            layerOverlay.Layers.Clear();
-            layerOverlay.Layers.Add(rasterMbTilesLayer);
-            rasterMbTilesLayer.Open();
+            await rasterMbTilesLayer.CloseAsync();
+            await rasterMbTilesLayer.OpenAsync();
             MapView.CurrentExtent = rasterMbTilesLayer.GetBoundingBox();
-
-            if (radioButton.Tag.ToString() == "4326")
-            {
-                await MapView.ZoomInAsync();
-            }
-
             await MapView.RefreshAsync();
         }
 
-        private void RenderBeyondMaxZoomCheckBox_Checked(object sender, RoutedEventArgs e)
+        private async void RenderBeyondMaxZoomCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            if (rasterMbTilesLayer != null)
-            {
-                rasterMbTilesLayer.RenderBeyondMaxZoom = true;
-            }
-        }
+            if (!(sender is CheckBox checkBox))
+                return;
 
-        private void RenderBeyondMaxZoomCheckBox_Unchecked(object sender, RoutedEventArgs e)
-        {
-            if (rasterMbTilesLayer != null)
-            {
-                rasterMbTilesLayer.RenderBeyondMaxZoom = false;
-            }
-        }
+            if (checkBox.IsChecked.HasValue)
+                rasterMbTilesLayer.RenderBeyondMaxZoom = checkBox.IsChecked.Value;
 
-        private async void TransparencyCheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            if (rasterMbTilesLayer != null)
-            {
-                rasterMbTilesLayer.Transparency = (int)Transparency.Value;
-                await MapView.RefreshAsync();
-            }
-        }
-
-        private async void TransparencyCheckBox_Unchecked(object sender, RoutedEventArgs e)
-        {
-            if (rasterMbTilesLayer != null)
-            {
-                rasterMbTilesLayer.Transparency = 255;
-                await MapView.RefreshAsync();
-            }
+            await MapView.RefreshAsync();
         }
 
         public void Dispose()

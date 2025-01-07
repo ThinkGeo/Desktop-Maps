@@ -8,87 +8,55 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="220" />
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
 
         <thinkGeoUi:MapView x:Name="MapView" Grid.Column="0" Loaded="MapView_Loaded" />
 
         <Grid Grid.Column="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="5" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <Label Grid.Column="1" Grid.Row="0" Content="Set Tile Type" FontSize="16" FontWeight="Bold" Foreground="White" Margin="0 5 0 5" />
-            <RadioButton x:Name="SingleTileRadioButton" Grid.Column="1" Grid.Row="1" GroupName="Group1" Margin="0 5 0 5" Tag="SingleTile" 
-                         Checked="TileType_Checked" IsChecked="True" >Single Tile</RadioButton>
-            <RadioButton x:Name="MultiTileRadioButton" Grid.Column="1" Grid.Row="2" GroupName="Group1" Margin="0 5 0 5" Tag="MultiTile" 
-                         Checked="TileType_Checked" >Multi Tile</RadioButton>
-            <Label Grid.Column="1" Grid.Row="3" Content="Set Tile Cache" FontSize="16" FontWeight="Bold" Foreground="White" Margin="0 5 0 5" />
-            <RadioButton x:Name="ProjectedCacheRadioButton" Grid.Column="1" Grid.Row="4" GroupName="Group2" Margin="0 5 0 5" Tag="Projected" 
-                         Checked="TileCache_Checked" IsChecked="True" >Projected</RadioButton>
-            <RadioButton x:Name="RawCacheRadioButton" Grid.Column="1" Grid.Row="5" GroupName="Group2" Margin="0 5 0 5" Tag="Raw" 
-                         Checked="TileCache_Checked" >Raw</RadioButton>
-            <Label Grid.Column="1" Grid.Row="6" Content="Set Projection" FontSize="16" FontWeight="Bold" Foreground="White" Margin="0 5 0 5" />
-            <RadioButton x:Name="EPSG3857RadioButton" Grid.Column="1" Grid.Row="7" GroupName="Group3" Margin="0 5 0 5" Tag="3857" 
-              Checked="Projection_Checked" IsChecked="True" >EPSG 3857</RadioButton>
-            <RadioButton x:Name="EPSG4326RadioButton" Grid.Column="1" Grid.Row="8" GroupName="Group3" Margin="0 5 0 5" Tag="4326" 
-              Checked="Projection_Checked" >EPSG 4326</RadioButton>
-            <CheckBox Grid.Column="1" Grid.Row="9" FontSize="16" FontWeight="Bold" Foreground="White" Margin="0 5 0 5" 
-                      Checked="RenderBeyondMaxZoomCheckBox_Checked" Unchecked="RenderBeyondMaxZoomCheckBox_Unchecked" IsChecked="True">
-                <CheckBox.Content>
-                    <TextBlock Text="Set Render Beyond Max Zoom" 
-               TextWrapping="Wrap" Width="150"/>
-                </CheckBox.Content>
-            </CheckBox>
-            <CheckBox x:Name="TransparencyCheckBox" Grid.Column="1" Grid.Row="10" Content="Set Transparency" FontSize="16" FontWeight="Bold" Foreground="White" Margin="0 5 0 5" 
-                      Checked="TransparencyCheckBox_Checked" Unchecked="TransparencyCheckBox_Unchecked" IsChecked="False"/>
-            <Slider Grid.Column="1" Grid.Row="11" x:Name="Transparency" Maximum="255" Value="50" AutoToolTipPlacement="TopLeft" TickFrequency="5" 
-                    IsSnapToTickEnabled="True" Width="150" Margin="-40 5 0 5"></Slider>
-            <TextBox Grid.Column="2" Grid.Row="11" Text="{Binding ElementName=Transparency, Path=Value, UpdateSourceTrigger=PropertyChanged}" 
-                     Width="28"  DockPanel.Dock="Right"  Margin="-30 5 0 5"></TextBox>
+            <!-- Top stack of controls -->
+            <StackPanel Grid.Column="1" Grid.Row="0" Margin="0">
+                <Label Content="Projection" Margin="5"
+                       FontSize="16" FontWeight="Bold" 
+                       Foreground="White" />
+
+                <RadioButton Tag="3857" 
+                             Checked="Projection_Checked" 
+                             IsChecked="True" 
+                             Foreground="White"
+                             Margin="10,5"
+                             Content="EPSG 3857"/>
+
+                <RadioButton Tag="4326" Checked="Projection_Checked"
+                             Foreground="White"
+                             Margin="10, 5" Content="EPSG 4326"/>
+
+                <CheckBox FontSize="14" FontWeight="Bold" Foreground="White"
+                          Checked="RenderBeyondMaxZoomCheckBox_Checked"
+                          Unchecked="RenderBeyondMaxZoomCheckBox_Checked" 
+                          Margin="10" Content="Render Beyond Max Zoom"/>
+            </StackPanel>
+
+            <!-- TextBox that fills remaining space (row 1) -->
+            <TextBox x:Name="LogTextBox" 
+                     Grid.Column="1" Grid.Row="1" Margin="5"
+                     Foreground="Black" 
+                     VerticalScrollBarVisibility="Auto"
+                     HorizontalScrollBarVisibility="Auto"
+                     TextWrapping="Wrap"
+                     AcceptsReturn="True" 
+                     IsReadOnly="True"/>
         </Grid>
+
     </Grid>
 
-    <UserControl.Resources>
-        <Style TargetType="Label">
-            <Setter Property="Foreground" Value="WhiteSmoke" />
-            <Setter Property="FontSize" Value="14" />
-        </Style>
-        <Style TargetType="Grid">
-            <Setter Property="Background" Value="DimGray" />
-        </Style>
-        <Style TargetType="TextBox">
-            <Setter Property="Height" Value="20" />
-        </Style>
-        <Style TargetType="Button">
-            <Setter Property="Height" Value="22" />
-            <Setter Property="Margin" Value="0,10,0,0" />
-        </Style>
-        <Style TargetType="ComboBox">
-            <Setter Property="Height" Value="20" />
-        </Style>
-        <Style TargetType="RadioButton">
-            <Setter Property="Foreground" Value="WhiteSmoke" />
-        </Style>
-    </UserControl.Resources>
 </UserControl>
