@@ -22,48 +22,56 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            try
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-            };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
+                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+                {
+                    ClientId = SampleKeys.ClientId,
+                    ClientSecret = SampleKeys.ClientSecret,
+                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                };
+                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            // Set the Map Unit to meters (used in Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+                // Set the Map Unit to meters (used in Spherical Mercator)
+                MapView.MapUnit = GeographyUnit.Meter;
 
-            // Create a feature layer to hold the Frisco parks data
-            var parksLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
+                // Create a feature layer to hold the Frisco parks data
+                var parksLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
 
-            // Convert the Frisco shapefile from its native projection to Spherical Mercator, to match the map
-            var projectionConverter = new ProjectionConverter(2276, 3857);
-            parksLayer.FeatureSource.ProjectionConverter = projectionConverter;
+                // Convert the Frisco shapefile from its native projection to Spherical Mercator, to match the map
+                var projectionConverter = new ProjectionConverter(2276, 3857);
+                parksLayer.FeatureSource.ProjectionConverter = projectionConverter;
 
-            // Add a style to use to draw the Frisco parks polygons
-            parksLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-            parksLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(50, GeoColors.MediumPurple), GeoColors.MediumPurple, 2);
+                // Add a style to use to draw the Frisco parks polygons
+                parksLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+                parksLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(50, GeoColors.MediumPurple), GeoColors.MediumPurple, 2);
 
-            // Add the feature layer to an overlay, and add the overlay to the map
-            var parksOverlay = new LayerOverlay();
-            parksOverlay.Layers.Add("Frisco Parks", parksLayer);
-            MapView.Overlays.Add(parksOverlay);
+                // Add the feature layer to an overlay, and add the overlay to the map
+                var parksOverlay = new LayerOverlay();
+                parksOverlay.Layers.Add("Frisco Parks", parksLayer);
+                MapView.Overlays.Add(parksOverlay);
 
-            // Add a PopupOverlay to the map, to display feature information
-            var popupOverlay = new PopupOverlay();
-            MapView.Overlays.Add("Info Popup Overlay", popupOverlay);
+                // Add a PopupOverlay to the map, to display feature information
+                var popupOverlay = new PopupOverlay();
+                MapView.Overlays.Add("Info Popup Overlay", popupOverlay);
 
-            // Set the map extent to the bounding box of the parks
-            parksLayer.Open();
-            MapView.CurrentExtent = parksLayer.GetBoundingBox();
-            await MapView.ZoomInAsync();
-            parksLayer.Close();
+                // Set the map extent to the bounding box of the parks
+                parksLayer.Open();
+                MapView.CurrentExtent = parksLayer.GetBoundingBox();
+                await MapView.ZoomInAsync();
+                parksLayer.Close();
 
-            // Refresh and redraw the map
-            await MapView.RefreshAsync();
+                // Refresh and redraw the map
+                await MapView.RefreshAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         /// <summary>
@@ -118,13 +126,21 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void MapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
-            // Get the selected feature based on the map click location
-            var selectedFeature = GetFeatureFromLocation(e.WorldLocation);
-
-            // If a feature was selected, get the data from it and display it
-            if (selectedFeature != null)
+            try
             {
-                await DisplayFeatureInfoAsync(selectedFeature);
+                // Get the selected feature based on the map click location
+                var selectedFeature = GetFeatureFromLocation(e.WorldLocation);
+
+                // If a feature was selected, get the data from it and display it
+                if (selectedFeature != null)
+                {
+                    await DisplayFeatureInfoAsync(selectedFeature);
+                }
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
             }
         }
 

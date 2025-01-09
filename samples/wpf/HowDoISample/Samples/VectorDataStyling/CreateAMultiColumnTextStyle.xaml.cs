@@ -20,37 +20,45 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.DecimalDegree;
-
-            MapView.Background = Brushes.DodgerBlue;
-
-            // Create a layer with polygon data
-            var countries02Layer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Countries02.shp");
-            countries02Layer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle =
-                AreaStyle.CreateSimpleAreaStyle(GeoColors.SandyBrown, GeoColors.Black);
-
-            var textStyle = new TextStyle
+            try
             {
-                TextContent = "{CNTRY_NAME}: " + Environment.NewLine + " Population:{POP_CNTRY}",
-                Font = new GeoFont("Arial", 10),
-                TextBrush = GeoBrushes.Black
-            };
+                // Set the map's unit of measurement to meters(Spherical Mercator)
+                MapView.MapUnit = GeographyUnit.DecimalDegree;
 
-            countries02Layer.ZoomLevelSet.ZoomLevel01.DefaultTextStyle = textStyle;
-            countries02Layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+                MapView.Background = Brushes.DodgerBlue;
 
-            // Add layers to a layerOverlay
-            var layerOverlay = new LayerOverlay();
-            layerOverlay.Layers.Add(countries02Layer);
+                // Create a layer with polygon data
+                var countries02Layer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Countries02.shp");
+                countries02Layer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle =
+                    AreaStyle.CreateSimpleAreaStyle(GeoColors.SandyBrown, GeoColors.Black);
 
-            // Add overlay to map
-            MapView.Overlays.Add(layerOverlay);
+                var textStyle = new TextStyle
+                {
+                    TextContent = "{CNTRY_NAME}: " + Environment.NewLine + " Population:{POP_CNTRY}",
+                    Font = new GeoFont("Arial", 10),
+                    TextBrush = GeoBrushes.Black
+                };
 
-            // Set the map extent
-            MapView.CurrentExtent = new RectangleShape(-8.70, 62.60, 38.81, 31.11);
+                countries02Layer.ZoomLevelSet.ZoomLevel01.DefaultTextStyle = textStyle;
+                countries02Layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            await MapView.RefreshAsync();
+                // Add layers to a layerOverlay
+                var layerOverlay = new LayerOverlay();
+                layerOverlay.Layers.Add(countries02Layer);
+
+                // Add overlay to map
+                MapView.Overlays.Add(layerOverlay);
+
+                // Set the map extent
+                MapView.CurrentExtent = new RectangleShape(-8.70, 62.60, 38.81, 31.11);
+
+                await MapView.RefreshAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         public void Dispose()

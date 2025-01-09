@@ -19,38 +19,46 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
-
-            // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            try
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-            };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                // Set the map's unit of measurement to meters(Spherical Mercator)
+                MapView.MapUnit = GeographyUnit.Meter;
 
-            // Set the map extent
-            MapView.CurrentExtent = new RectangleShape(-10778329.017082, 3909598.36751101, -10776250.8853871, 3907890.47766975);
+                // Add Cloud Maps as a background overlay
+                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+                {
+                    ClientId = SampleKeys.ClientId,
+                    ClientSecret = SampleKeys.ClientSecret,
+                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                };
+                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            var hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
-            var layerOverlay = new LayerOverlay();
+                // Set the map extent
+                MapView.CurrentExtent = new RectangleShape(-10778329.017082, 3909598.36751101, -10776250.8853871, 3907890.47766975);
 
-            // Project the layer's data to match the projection of the map
-            hotelsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+                var hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
+                var layerOverlay = new LayerOverlay();
 
-            // Add the layer to a layer overlay
-            layerOverlay.Layers.Add("hotels", hotelsLayer);
+                // Project the layer's data to match the projection of the map
+                hotelsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
-            // Add the overlay to the map
-            MapView.Overlays.Add("hotels", layerOverlay);
+                // Add the layer to a layer overlay
+                layerOverlay.Layers.Add("hotels", hotelsLayer);
 
-            PointSymbol.IsChecked = true;
+                // Add the overlay to the map
+                MapView.Overlays.Add("hotels", layerOverlay);
 
-            await MapView.RefreshAsync();
+                PointSymbol.IsChecked = true;
+
+                await MapView.RefreshAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         /// <summary>
@@ -58,22 +66,30 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void PointSymbol_OnChecked(object sender, RoutedEventArgs e)
         {
-            if (MapView.Overlays.Count <= 0) return;
-            var layerOverlay = (LayerOverlay)MapView.Overlays["hotels"];
-            var hotelsLayer = (ShapeFileFeatureLayer)layerOverlay.Layers["hotels"];
+            try
+            {
+                if (MapView.Overlays.Count <= 0) return;
+                var layerOverlay = (LayerOverlay)MapView.Overlays["hotels"];
+                var hotelsLayer = (ShapeFileFeatureLayer)layerOverlay.Layers["hotels"];
 
-            // Create a point style
-            var pointStyle = new PointStyle(PointSymbolType.Circle, 12, GeoBrushes.Blue, new GeoPen(GeoBrushes.White, 2));
+                // Create a point style
+                var pointStyle = new PointStyle(PointSymbolType.Circle, 12, GeoBrushes.Blue, new GeoPen(GeoBrushes.White, 2));
 
-            // Add the point style to the collection of custom styles for ZoomLevel 1.
-            hotelsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
-            hotelsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(pointStyle);
+                // Add the point style to the collection of custom styles for ZoomLevel 1.
+                hotelsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
+                hotelsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(pointStyle);
 
-            // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the point style on every zoom level on the map. 
-            hotelsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+                // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the point style on every zoom level on the map. 
+                hotelsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            // Refresh the layerOverlay to show the new style
-            await layerOverlay.RefreshAsync();
+                // Refresh the layerOverlay to show the new style
+                await layerOverlay.RefreshAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         /// <summary>
@@ -81,24 +97,32 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void Icon_OnChecked(object sender, RoutedEventArgs e)
         {
-            var layerOverlay = (LayerOverlay)MapView.Overlays["hotels"];
-            var hotelsLayer = (ShapeFileFeatureLayer)layerOverlay.Layers["hotels"];
-
-            // Create a point style
-            var pointStyle = new PointStyle(new GeoImage(@"./Resources/hotel_icon.png"))
+            try
             {
-                ImageScale = .25
-            };
+                var layerOverlay = (LayerOverlay)MapView.Overlays["hotels"];
+                var hotelsLayer = (ShapeFileFeatureLayer)layerOverlay.Layers["hotels"];
 
-            // Add the point style to the collection of custom styles for ZoomLevel 1.
-            hotelsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
-            hotelsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(pointStyle);
+                // Create a point style
+                var pointStyle = new PointStyle(new GeoImage(@"./Resources/hotel_icon.png"))
+                {
+                    ImageScale = .25
+                };
 
-            // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the point style on every zoom level on the map. 
-            hotelsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+                // Add the point style to the collection of custom styles for ZoomLevel 1.
+                hotelsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
+                hotelsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(pointStyle);
 
-            // Refresh the layerOverlay to show the new style
-            await layerOverlay.RefreshAsync();
+                // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the point style on every zoom level on the map. 
+                hotelsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
+                // Refresh the layerOverlay to show the new style
+                await layerOverlay.RefreshAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         /// <summary>
@@ -106,25 +130,33 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void Symbol_Checked(object sender, RoutedEventArgs e)
         {
-            var layerOverlay = (LayerOverlay)MapView.Overlays["hotels"];
-            var hotelsLayer = (ShapeFileFeatureLayer)layerOverlay.Layers["hotels"];
-
-            // Create a point style
-            var symbolPointStyle = new PointStyle(new GeoFont("Verdana", 16, DrawingFontStyles.Bold), "@", GeoBrushes.Black)
+            try
             {
-                Mask = new AreaStyle(GeoBrushes.White),
-                MaskType = MaskType.Circle
-            };
+                var layerOverlay = (LayerOverlay)MapView.Overlays["hotels"];
+                var hotelsLayer = (ShapeFileFeatureLayer)layerOverlay.Layers["hotels"];
 
-            // Add the point style to the collection of custom styles for ZoomLevel 1.
-            hotelsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
-            hotelsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(symbolPointStyle);
+                // Create a point style
+                var symbolPointStyle = new PointStyle(new GeoFont("Verdana", 16, DrawingFontStyles.Bold), "@", GeoBrushes.Black)
+                {
+                    Mask = new AreaStyle(GeoBrushes.White),
+                    MaskType = MaskType.Circle
+                };
 
-            // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the point style on every zoom level on the map. 
-            hotelsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+                // Add the point style to the collection of custom styles for ZoomLevel 1.
+                hotelsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
+                hotelsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(symbolPointStyle);
 
-            // Refresh the layerOverlay to show the new style
-            await layerOverlay.RefreshAsync();
+                // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the point style on every zoom level on the map. 
+                hotelsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
+                // Refresh the layerOverlay to show the new style
+                await layerOverlay.RefreshAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         public void Dispose()

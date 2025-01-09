@@ -21,70 +21,78 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            try
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-            };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
+                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+                {
+                    ClientId = SampleKeys.ClientId,
+                    ClientSecret = SampleKeys.ClientSecret,
+                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                };
+                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            // Set the Map Unit to meters (used in Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+                // Set the Map Unit to meters (used in Spherical Mercator)
+                MapView.MapUnit = GeographyUnit.Meter;
 
-            // Create a feature layer to hold the Frisco hotels data
-            var hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
+                // Create a feature layer to hold the Frisco hotels data
+                var hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
 
-            // Convert the Frisco shapefile from its native projection to Spherical Mercator, to match the map
-            var projectionConverter = new ProjectionConverter(2276, 3857);
-            hotelsLayer.FeatureSource.ProjectionConverter = projectionConverter;
+                // Convert the Frisco shapefile from its native projection to Spherical Mercator, to match the map
+                var projectionConverter = new ProjectionConverter(2276, 3857);
+                hotelsLayer.FeatureSource.ProjectionConverter = projectionConverter;
 
-            // Add a style to use to draw the Frisco hotel points
-            hotelsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-            hotelsLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 24, GeoBrushes.MediumPurple, GeoPens.Purple);
+                // Add a style to use to draw the Frisco hotel points
+                hotelsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+                hotelsLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 24, GeoBrushes.MediumPurple, GeoPens.Purple);
 
-            var highlightedHotelLayer = new InMemoryFeatureLayer();
-            highlightedHotelLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-            highlightedHotelLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 30, GeoBrushes.BrightYellow, GeoPens.Black);
+                var highlightedHotelLayer = new InMemoryFeatureLayer();
+                highlightedHotelLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+                highlightedHotelLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 30, GeoBrushes.BrightYellow, GeoPens.Black);
 
-            // Add the feature layer to an overlay, and add the overlay to the map
-            var hotelsOverlay = new LayerOverlay();
-            hotelsOverlay.Layers.Add("Frisco Hotels", hotelsLayer);
-            hotelsOverlay.Layers.Add("Highlighted Hotel", highlightedHotelLayer);
-            MapView.Overlays.Add(hotelsOverlay);
+                // Add the feature layer to an overlay, and add the overlay to the map
+                var hotelsOverlay = new LayerOverlay();
+                hotelsOverlay.Layers.Add("Frisco Hotels", hotelsLayer);
+                hotelsOverlay.Layers.Add("Highlighted Hotel", highlightedHotelLayer);
+                MapView.Overlays.Add(hotelsOverlay);
 
-            // Open the hotels layer, so we can read the data from it
-            hotelsLayer.Open();
+                // Open the hotels layer, so we can read the data from it
+                hotelsLayer.Open();
 
-            // Get all features from the hotels layer
-            // ReturningColumnsType.AllColumns will return all attributes for the features
-            var features = hotelsLayer.QueryTools.GetAllFeatures(ReturningColumnsType.AllColumns);
+                // Get all features from the hotels layer
+                // ReturningColumnsType.AllColumns will return all attributes for the features
+                var features = hotelsLayer.QueryTools.GetAllFeatures(ReturningColumnsType.AllColumns);
 
-            // Create a collection of Hotel objects to use as the data source for our list box
-            var hotels = new Collection<Hotel>();
+                // Create a collection of Hotel objects to use as the data source for our list box
+                var hotels = new Collection<Hotel>();
 
-            // Create a hotel object based on the data from each hotel feature, and add them to the collection
-            foreach (var feature in features)
-            {
-                var name = feature.ColumnValues["NAME"];
-                var address = feature.ColumnValues["ADDRESS"];
-                var rooms = int.Parse(feature.ColumnValues["ROOMS"]);
-                var location = (PointShape)feature.GetShape();
+                // Create a hotel object based on the data from each hotel feature, and add them to the collection
+                foreach (var feature in features)
+                {
+                    var name = feature.ColumnValues["NAME"];
+                    var address = feature.ColumnValues["ADDRESS"];
+                    var rooms = int.Parse(feature.ColumnValues["ROOMS"]);
+                    var location = (PointShape)feature.GetShape();
 
-                hotels.Add(new Hotel(name, address, rooms, location));
+                    hotels.Add(new Hotel(name, address, rooms, location));
+                }
+
+                // Set the hotel collection as the data source of the list box
+                LsbHotels.ItemsSource = hotels;
+
+                // Set the map extent to the extent of the hotel features
+                MapView.CurrentExtent = hotelsLayer.GetBoundingBox();
+                hotelsLayer.Close();
+
+                await MapView.RefreshAsync();
             }
-
-            // Set the hotel collection as the data source of the list box
-            LsbHotels.ItemsSource = hotels;
-
-            // Set the map extent to the extent of the hotel features
-            MapView.CurrentExtent = hotelsLayer.GetBoundingBox();
-            hotelsLayer.Close();
-
-            await MapView.RefreshAsync();
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         /// <summary>
@@ -92,23 +100,31 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void LsbHotels_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var highlightedHotelLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Highlighted Hotel");
-            highlightedHotelLayer.Open();
-            highlightedHotelLayer.InternalFeatures.Clear();
-
-            // Get the selected location
-            if (LsbHotels.SelectedItem is Hotel hotel)
+            try
             {
-                highlightedHotelLayer.InternalFeatures.Add(new Feature(hotel.Location));
+                var highlightedHotelLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Highlighted Hotel");
+                highlightedHotelLayer.Open();
+                highlightedHotelLayer.InternalFeatures.Clear();
 
-                // Center the map on the chosen location
-                MapView.CurrentExtent = hotel.Location.GetBoundingBox();
-                var standardZoomLevelSet = new ZoomLevelSet();
-                await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
-                await MapView.RefreshAsync();
+                // Get the selected location
+                if (LsbHotels.SelectedItem is Hotel hotel)
+                {
+                    highlightedHotelLayer.InternalFeatures.Add(new Feature(hotel.Location));
+
+                    // Center the map on the chosen location
+                    MapView.CurrentExtent = hotel.Location.GetBoundingBox();
+                    var standardZoomLevelSet = new ZoomLevelSet();
+                    await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
+                    await MapView.RefreshAsync();
+                }
+
+                highlightedHotelLayer.Close();
             }
-
-            highlightedHotelLayer.Close();
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         /// <summary>
