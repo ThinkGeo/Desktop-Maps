@@ -20,28 +20,44 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            UseLayerWithReProjection();
-            await MapView.RefreshAsync();
+            try
+            { 
+                UseLayerWithReProjection();
+                await MapView.RefreshAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         private async void RbLayerOrOverlay_Checked(object sender, RoutedEventArgs e)
         {
-            // Based on the radio buttons we switch between using the overlay and layer.
-            var button = (RadioButton)sender;
-            if (button.Content == null) return;
-            switch (button.Content.ToString())
-            {
-                case "Use WmsOverlay":
-                    UseOverlay();
-                    break;
-                case "Use WmsRasterLayer":
-                    UseLayer();
-                    break;
-                case "Use WmsLayer with ReProjection":
-                    UseLayerWithReProjection();
-                    break;
+            try
+            { 
+                // Based on the radio buttons we switch between using the overlay and layer.
+                var button = (RadioButton)sender;
+                if (button.Content == null) return;
+                switch (button.Content.ToString())
+                {
+                    case "Use WmsOverlay":
+                        UseOverlay();
+                        break;
+                    case "Use WmsRasterLayer":
+                        UseLayer();
+                        break;
+                    case "Use WmsLayer with ReProjection":
+                        UseLayerWithReProjection();
+                        break;
+                }
+                await MapView.RefreshAsync();
             }
-            await MapView.RefreshAsync();
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         private void UseOverlay()

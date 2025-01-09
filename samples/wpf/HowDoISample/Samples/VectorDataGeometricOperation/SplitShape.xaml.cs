@@ -79,27 +79,35 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void SplitShape_OnClick(object sender, RoutedEventArgs e)
         {
-            var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
+            try
+            {
+                var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
 
-            var cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
-            var splitLayer = (InMemoryFeatureLayer)layerOverlay.Layers["splitLayer"];
+                var cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
+                var splitLayer = (InMemoryFeatureLayer)layerOverlay.Layers["splitLayer"];
 
-            // Query the cityLimits layer to get all the features
-            cityLimits.Open();
-            var feature = cityLimits.QueryTools.GetAllFeatures(ReturningColumnsType.NoColumns).First();
-            cityLimits.Close();
+                // Query the cityLimits layer to get all the features
+                cityLimits.Open();
+                var feature = cityLimits.QueryTools.GetAllFeatures(ReturningColumnsType.NoColumns).First();
+                cityLimits.Close();
 
-            // Split the polygon using a line that crosses through it
-            // TODO: We do not have an API for splitting a polygon using a line shape. This sample will be more involved than normal
-            var split = feature;
+                // Split the polygon using a line that crosses through it
+                // TODO: We do not have an API for splitting a polygon using a line shape. This sample will be more involved than normal
+                var split = feature;
 
-            // Add the split shape into an InMemoryFeatureLayer to display the result.
-            // If this were to be a permanent change to the cityLimits FeatureSource, you would modify the underlying data using BeginTransaction and CommitTransaction instead.
-            splitLayer.InternalFeatures.Clear();
-            splitLayer.InternalFeatures.Add(split);
+                // Add the split shape into an InMemoryFeatureLayer to display the result.
+                // If this were to be a permanent change to the cityLimits FeatureSource, you would modify the underlying data using BeginTransaction and CommitTransaction instead.
+                splitLayer.InternalFeatures.Clear();
+                splitLayer.InternalFeatures.Add(split);
 
-            // Redraw the layerOverlay to see the split features on the map
-            await layerOverlay.RefreshAsync();
+                // Redraw the layerOverlay to see the split features on the map
+                await layerOverlay.RefreshAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         public void Dispose()

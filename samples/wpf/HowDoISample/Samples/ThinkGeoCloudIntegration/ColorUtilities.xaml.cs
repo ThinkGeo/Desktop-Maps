@@ -30,68 +30,76 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            try
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-            };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
-
-            // Set the map's unit of measurement to meters (Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
-
-            // Create a new ShapeFileFeatureLayer using a shapefile containing Frisco Census data
-            var housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
-            housingUnitsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-
-            // Create a new ProjectionConverter to convert between Texas North Central (2276) and Spherical Mercator (3857)
-            var projectionConverter = new ProjectionConverter(2276, 3857);
-            housingUnitsLayer.FeatureSource.ProjectionConverter = projectionConverter;
-
-            // Create a new overlay and add the census feature layer
-            var housingUnitsOverlay = new LayerOverlay();
-            housingUnitsOverlay.Layers.Add("Frisco Housing Units", housingUnitsLayer);
-            MapView.Overlays.Add("Frisco Housing Units Overlay", housingUnitsOverlay);
-
-            // Create a legend adornment to display class breaks
-            var legend = new LegendAdornmentLayer
-            {
-                // Set up the legend adornment
-                Title = new LegendItem()
+                // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
+                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
                 {
-                    TextStyle = new TextStyle("Housing Unit Counts", new GeoFont("Verdana", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
-                },
-                Location = AdornmentLocation.LowerRight
-            };
+                    ClientId = SampleKeys.ClientId,
+                    ClientSecret = SampleKeys.ClientSecret,
+                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                };
+                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            MapView.AdornmentOverlay.Layers.Add("Legend", legend);
+                // Set the map's unit of measurement to meters (Spherical Mercator)
+                MapView.MapUnit = GeographyUnit.Meter;
 
-            // Get the extent of the features from the housing units shapefile, and set the map extent.
-            housingUnitsLayer.Open();
-            MapView.CurrentExtent = housingUnitsLayer.GetBoundingBox();
-            await MapView.ZoomOutAsync();
-            housingUnitsLayer.Close();
+                // Create a new ShapeFileFeatureLayer using a shapefile containing Frisco Census data
+                var housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
+                housingUnitsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            // Initialize the ColorCloudClient using our ThinkGeo Cloud credentials
-            _colorCloudClient = new ColorCloudClient
-            {
-                ClientId = SampleKeys.ClientId2,
-                ClientSecret = SampleKeys.ClientSecret2,
-            };
+                // Create a new ProjectionConverter to convert between Texas North Central (2276) and Spherical Mercator (3857)
+                var projectionConverter = new ProjectionConverter(2276, 3857);
+                housingUnitsLayer.FeatureSource.ProjectionConverter = projectionConverter;
 
-            // Set the initial color scheme for the housing units layer
-            var colors = await GetColorsFromCloud();
-            // If colors were successfully generated, update the map
-            if (colors.Count > 0)
-            {
-                await UpdateHousingUnitsLayerColorsAsync(colors);
+                // Create a new overlay and add the census feature layer
+                var housingUnitsOverlay = new LayerOverlay();
+                housingUnitsOverlay.Layers.Add("Frisco Housing Units", housingUnitsLayer);
+                MapView.Overlays.Add("Frisco Housing Units Overlay", housingUnitsOverlay);
+
+                // Create a legend adornment to display class breaks
+                var legend = new LegendAdornmentLayer
+                {
+                    // Set up the legend adornment
+                    Title = new LegendItem()
+                    {
+                        TextStyle = new TextStyle("Housing Unit Counts", new GeoFont("Verdana", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
+                    },
+                    Location = AdornmentLocation.LowerRight
+                };
+
+                MapView.AdornmentOverlay.Layers.Add("Legend", legend);
+
+                // Get the extent of the features from the housing units shapefile, and set the map extent.
+                housingUnitsLayer.Open();
+                MapView.CurrentExtent = housingUnitsLayer.GetBoundingBox();
+                await MapView.ZoomOutAsync();
+                housingUnitsLayer.Close();
+
+                // Initialize the ColorCloudClient using our ThinkGeo Cloud credentials
+                _colorCloudClient = new ColorCloudClient
+                {
+                    ClientId = SampleKeys.ClientId2,
+                    ClientSecret = SampleKeys.ClientSecret2,
+                };
+
+                // Set the initial color scheme for the housing units layer
+                var colors = await GetColorsFromCloud();
+                // If colors were successfully generated, update the map
+                if (colors.Count > 0)
+                {
+                    await UpdateHousingUnitsLayerColorsAsync(colors);
+                }
+
+                await MapView.RefreshAsync();
             }
-
-            await MapView.RefreshAsync();
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         /// <summary>
@@ -209,13 +217,21 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void GenerateColors_Click(object sender, RoutedEventArgs e)
         {
-            // Get a new set of colors from the ThinkGeo Cloud
-            var colors = await GetColorsFromCloud();
-
-            // If colors were successfully generated, update the map
-            if (colors.Count > 0)
+            try
             {
-                await UpdateHousingUnitsLayerColorsAsync(colors);
+                // Get a new set of colors from the ThinkGeo Cloud
+                var colors = await GetColorsFromCloud();
+
+                // If colors were successfully generated, update the map
+                if (colors.Count > 0)
+                {
+                    await UpdateHousingUnitsLayerColorsAsync(colors);
+                }
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
             }
         }
 

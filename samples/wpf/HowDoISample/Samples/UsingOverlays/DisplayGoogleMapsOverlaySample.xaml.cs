@@ -36,9 +36,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void DisplayGoogleMaps_Click(object sender, RoutedEventArgs e)
         {
-            var googleMapsOverlay = new GoogleMapsOverlay(GoogleApiKey.Text, string.Empty);
-            MapView.Overlays.Add(googleMapsOverlay);
-            await MapView.RefreshAsync();
+            try
+            {
+                var googleMapsOverlay = new GoogleMapsOverlay(GoogleApiKey.Text, string.Empty);
+                MapView.Overlays.Add(googleMapsOverlay);
+                await MapView.RefreshAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)

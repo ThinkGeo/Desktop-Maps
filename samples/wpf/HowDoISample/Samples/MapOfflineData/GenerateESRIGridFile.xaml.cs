@@ -25,58 +25,74 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            MapView.MapUnit = GeographyUnit.Meter;
-            MapView.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColors.Snow);
-
-            // Create background hybrid satellite map requested from ThinkGeo Cloud Service. 
-            var cloudOverlay = new ThinkGeoCloudRasterMapsOverlay
+            try
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1
-            };
-            MapView.Overlays.Add("Cloud Overlay", cloudOverlay);
+                MapView.MapUnit = GeographyUnit.Meter;
+                MapView.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColors.Snow);
 
-            //Applies class break style to show sample points of pH level of a field.
-            var classBreakStyle = new ClassBreakStyle("PH");
-            const byte alpha = 180;
-            const int symbolSize = 10;
-            classBreakStyle.ClassBreaks.Add(new ClassBreak(double.MinValue, new PointStyle(PointSymbolType.Circle, symbolSize, new GeoSolidBrush(GeoColors.Transparent))));
-            classBreakStyle.ClassBreaks.Add(new ClassBreak(6.2, new PointStyle(PointSymbolType.Circle, symbolSize, new GeoSolidBrush(GeoColor.FromArgb(alpha, 255, 0, 0)))));
-            classBreakStyle.ClassBreaks.Add(new ClassBreak(6.83, new PointStyle(PointSymbolType.Circle, symbolSize, new GeoSolidBrush(GeoColor.FromArgb(alpha, 255, 128, 0)))));
-            classBreakStyle.ClassBreaks.Add(new ClassBreak(7.0, new PointStyle(PointSymbolType.Circle, symbolSize, new GeoSolidBrush(GeoColor.FromArgb(alpha, 245, 210, 10)))));
-            classBreakStyle.ClassBreaks.Add(new ClassBreak(7.08, new PointStyle(PointSymbolType.Circle, symbolSize, new GeoSolidBrush(GeoColor.FromArgb(alpha, 225, 255, 0)))));
-            classBreakStyle.ClassBreaks.Add(new ClassBreak(7.15, new PointStyle(PointSymbolType.Circle, symbolSize, new GeoSolidBrush(GeoColor.FromArgb(alpha, 224, 251, 132)))));
-            classBreakStyle.ClassBreaks.Add(new ClassBreak(7.21, new PointStyle(PointSymbolType.Circle, symbolSize, new GeoSolidBrush(GeoColor.FromArgb(alpha, 128, 255, 128)))));
-            classBreakStyle.ClassBreaks.Add(new ClassBreak(7.54, new PointStyle(PointSymbolType.Circle, symbolSize, new GeoSolidBrush(GeoColor.FromArgb(alpha, 0, 255, 0)))));
+                // Create background hybrid satellite map requested from ThinkGeo Cloud Service. 
+                var cloudOverlay = new ThinkGeoCloudRasterMapsOverlay
+                {
+                    ClientId = SampleKeys.ClientId,
+                    ClientSecret = SampleKeys.ClientSecret,
+                    MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1
+                };
+                MapView.Overlays.Add("Cloud Overlay", cloudOverlay);
 
-            //load the point shapefile containing ph values in different points of a field.
-            var samplesLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/sample_ph_2.shp");
-            samplesLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(classBreakStyle);
-            samplesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+                //Applies class break style to show sample points of pH level of a field.
+                var classBreakStyle = new ClassBreakStyle("PH");
+                const byte alpha = 180;
+                const int symbolSize = 10;
+                classBreakStyle.ClassBreaks.Add(new ClassBreak(double.MinValue, new PointStyle(PointSymbolType.Circle, symbolSize, new GeoSolidBrush(GeoColors.Transparent))));
+                classBreakStyle.ClassBreaks.Add(new ClassBreak(6.2, new PointStyle(PointSymbolType.Circle, symbolSize, new GeoSolidBrush(GeoColor.FromArgb(alpha, 255, 0, 0)))));
+                classBreakStyle.ClassBreaks.Add(new ClassBreak(6.83, new PointStyle(PointSymbolType.Circle, symbolSize, new GeoSolidBrush(GeoColor.FromArgb(alpha, 255, 128, 0)))));
+                classBreakStyle.ClassBreaks.Add(new ClassBreak(7.0, new PointStyle(PointSymbolType.Circle, symbolSize, new GeoSolidBrush(GeoColor.FromArgb(alpha, 245, 210, 10)))));
+                classBreakStyle.ClassBreaks.Add(new ClassBreak(7.08, new PointStyle(PointSymbolType.Circle, symbolSize, new GeoSolidBrush(GeoColor.FromArgb(alpha, 225, 255, 0)))));
+                classBreakStyle.ClassBreaks.Add(new ClassBreak(7.15, new PointStyle(PointSymbolType.Circle, symbolSize, new GeoSolidBrush(GeoColor.FromArgb(alpha, 224, 251, 132)))));
+                classBreakStyle.ClassBreaks.Add(new ClassBreak(7.21, new PointStyle(PointSymbolType.Circle, symbolSize, new GeoSolidBrush(GeoColor.FromArgb(alpha, 128, 255, 128)))));
+                classBreakStyle.ClassBreaks.Add(new ClassBreak(7.54, new PointStyle(PointSymbolType.Circle, symbolSize, new GeoSolidBrush(GeoColor.FromArgb(alpha, 0, 255, 0)))));
 
-            //Create an overlay for our points (and later the grid) and add our points layer to it.
-            var gridOverlay = new LayerOverlay
+                //load the point shapefile containing ph values in different points of a field.
+                var samplesLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/sample_ph_2.shp");
+                samplesLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(classBreakStyle);
+                samplesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
+                //Create an overlay for our points (and later the grid) and add our points layer to it.
+                var gridOverlay = new LayerOverlay
+                {
+                    TileType = TileType.SingleTile
+                };
+                gridOverlay.Layers.Add("GridFeatureLayer", samplesLayer);
+                MapView.Overlays.Add("GridFeatureOverlay", gridOverlay);
+
+                //set the map's current extent to the point shapefile location.
+                samplesLayer.Open();
+                MapView.CurrentExtent = samplesLayer.GetBoundingBox();
+                samplesLayer.Close();
+
+                await MapView.RefreshAsync();
+            }
+            catch 
             {
-                TileType = TileType.SingleTile
-            };
-            gridOverlay.Layers.Add("GridFeatureLayer", samplesLayer);
-            MapView.Overlays.Add("GridFeatureOverlay", gridOverlay);
-
-            //set the map's current extent to the point shapefile location.
-            samplesLayer.Open();
-            MapView.CurrentExtent = samplesLayer.GetBoundingBox();
-            samplesLayer.Close();
-
-            await MapView.RefreshAsync();
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         private async void BtnGenerateGridFile_Click(object sender, RoutedEventArgs e)
         {
-            // call the functions to generate the grid file and render it.
-            const string filename = @"./Data/GridFile/generated.grd";
-            GenerateGrid(filename);
-            await LoadGridAsync(filename);
+            try
+            { 
+                // call the functions to generate the grid file and render it.
+                const string filename = @"./Data/GridFile/generated.grd";
+                GenerateGrid(filename);
+                await LoadGridAsync(filename);
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         private static void GenerateGrid(string filename)

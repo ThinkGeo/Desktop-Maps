@@ -28,53 +28,61 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
-
-            // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            try
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-            };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                // Set the map's unit of measurement to meters(Spherical Mercator)
+                MapView.MapUnit = GeographyUnit.Meter;
 
-            // Set up the overlay that we will refresh often
-            var vehicleOverlay = new LayerOverlay();
+                // Add Cloud Maps as a background overlay
+                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+                {
+                    ClientId = SampleKeys.ClientId,
+                    ClientSecret = SampleKeys.ClientSecret,
+                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                };
+                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            // This in memory layer will hold the active point, we will be adding and removing from it frequently
-            var vehicleLayer = new InMemoryFeatureLayer();
+                // Set up the overlay that we will refresh often
+                var vehicleOverlay = new LayerOverlay();
 
-            // Set the points image to a car icon and then apply it to all zoom levels
-            var vehiclePointStyle = new PointStyle(new GeoImage(@"./Resources/vehicle-location.png"))
+                // This in memory layer will hold the active point, we will be adding and removing from it frequently
+                var vehicleLayer = new InMemoryFeatureLayer();
+
+                // Set the points image to a car icon and then apply it to all zoom levels
+                var vehiclePointStyle = new PointStyle(new GeoImage(@"./Resources/vehicle-location.png"))
+                {
+                    YOffsetInPixel = -12
+                };
+
+                vehicleLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = vehiclePointStyle;
+                vehicleLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
+                // Add the in memory layer to the overlay
+                vehicleOverlay.Layers.Add("Vehicle Layer", vehicleLayer);
+
+                // Add the overlay to the map
+                MapView.Overlays.Add("Vehicle Overlay", vehicleOverlay);
+
+                // Set the map extent
+                MapView.CurrentExtent = new RectangleShape(-10779430.188014803, 3912668.1732483786, -10778438.895309737, 3911814.2283277493);
+
+                // We hook up this even so when you leave this sample we stop the background data feed task
+                this.Unloaded -= RefreshDynamicItems_Unloaded;
+                this.Unloaded += RefreshDynamicItems_Unloaded;
+
+                //  Here we call the method below to start the background data feed
+                StartDataFeed();
+
+                // Refresh the map
+                await MapView.RefreshAsync();
+            }
+            catch 
             {
-                YOffsetInPixel = -12
-            };
-
-            vehicleLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = vehiclePointStyle;
-            vehicleLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-
-            // Add the in memory layer to the overlay
-            vehicleOverlay.Layers.Add("Vehicle Layer", vehicleLayer);
-
-            // Add the overlay to the map
-            MapView.Overlays.Add("Vehicle Overlay", vehicleOverlay);
-
-            // Set the map extent
-            MapView.CurrentExtent = new RectangleShape(-10779430.188014803, 3912668.1732483786, -10778438.895309737, 3911814.2283277493);
-
-            // We hook up this even so when you leave this sample we stop the background data feed task
-            this.Unloaded -= RefreshDynamicItems_Unloaded;
-            this.Unloaded += RefreshDynamicItems_Unloaded;
-
-            //  Here we call the method below to start the background data feed
-            StartDataFeed();
-
-            // Refresh the map
-            await MapView.RefreshAsync();
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         private void StartDataFeed()

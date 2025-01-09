@@ -35,17 +35,25 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void DisplayVectorCloudMaps_Click(object sender, RoutedEventArgs e)
         {
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            try
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-            };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+                {
+                    ClientId = SampleKeys.ClientId,
+                    ClientSecret = SampleKeys.ClientSecret,
+                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                };
+                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            await MapView.RefreshAsync();
+                await MapView.RefreshAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)

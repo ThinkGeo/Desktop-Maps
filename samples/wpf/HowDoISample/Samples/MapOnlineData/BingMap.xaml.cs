@@ -29,29 +29,37 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void BtnActivate_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(TxtApplicationId.Text) || MapView.Overlays.Contains("Bing Map")) return;
-            BtnActivate.IsEnabled = false;
-            // Set the map zoom level set to the bing map zoom level set so all the zoom levels line up.
-            MapView.ZoomLevelSet = new BingMapsZoomLevelSet();
-
-            // Create the layer overlay with some additional settings and add to the map.
-            var layerOverlay = new LayerOverlay
+            try
             {
-                TileHeight = 256,
-                TileWidth = 256,
-                TileSizeMode = TileSizeMode.Small
-            };
-            MapView.Overlays.Add("Bing Map", layerOverlay);
+                if (string.IsNullOrEmpty(TxtApplicationId.Text) || MapView.Overlays.Contains("Bing Map")) return;
+                BtnActivate.IsEnabled = false;
+                // Set the map zoom level set to the bing map zoom level set so all the zoom levels line up.
+                MapView.ZoomLevelSet = new BingMapsZoomLevelSet();
 
-            // Create the bing map layer and add it to the map.                
-            var bingMapsLayer = new Core.BingMapsAsyncLayer(TxtApplicationId.Text, BingMapsMapType.Road)
+                // Create the layer overlay with some additional settings and add to the map.
+                var layerOverlay = new LayerOverlay
+                {
+                    TileHeight = 256,
+                    TileWidth = 256,
+                    TileSizeMode = TileSizeMode.Small
+                };
+                MapView.Overlays.Add("Bing Map", layerOverlay);
+
+                // Create the bing map layer and add it to the map.                
+                var bingMapsLayer = new Core.BingMapsAsyncLayer(TxtApplicationId.Text, BingMapsMapType.Road)
+                {
+                    TileCache = new FileRasterTileCache("C:\\temp", "bingMapsRoad")
+                };
+                layerOverlay.Layers.Add(bingMapsLayer);
+
+                // Refresh the map.
+                await MapView.RefreshAsync();
+            }
+            catch 
             {
-                TileCache = new FileRasterTileCache("C:\\temp", "bingMapsRoad")
-            };
-            layerOverlay.Layers.Add(bingMapsLayer);
-
-            // Refresh the map.
-            await MapView.RefreshAsync();
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)

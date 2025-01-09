@@ -19,98 +19,106 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
-
-            // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            try
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-            };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                // Set the map's unit of measurement to meters(Spherical Mercator)
+                MapView.MapUnit = GeographyUnit.Meter;
 
-            /**********************
-             * Landuse LayerOverlay
-             **********************/
+                // Add Cloud Maps as a background overlay
+                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+                {
+                    ClientId = SampleKeys.ClientId,
+                    ClientSecret = SampleKeys.ClientSecret,
+                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                };
+                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            // Create cityLimits layer
-            var cityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimits.shp");
+                /**********************
+                 * Landuse LayerOverlay
+                 **********************/
 
-            // Style cityLimits layer
-            cityLimits.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.Transparent, GeoColors.DimGray, 2);
-            cityLimits.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+                // Create cityLimits layer
+                var cityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimits.shp");
 
-            // Project cityLimits layer to Spherical Mercator to match the map projection
-            cityLimits.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+                // Style cityLimits layer
+                cityLimits.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.Transparent, GeoColors.DimGray, 2);
+                cityLimits.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            var poiOverlay = new LayerOverlay();
-            var landuseOverlay = new LayerOverlay();
+                // Project cityLimits layer to Spherical Mercator to match the map projection
+                cityLimits.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
-            // Add cityLimits layer to the landuseGroup overlay
-            landuseOverlay.Layers.Add(cityLimits);
+                var poiOverlay = new LayerOverlay();
+                var landuseOverlay = new LayerOverlay();
 
-            // Create Parks landuse layer
-            var parks = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
+                // Add cityLimits layer to the landuseGroup overlay
+                landuseOverlay.Layers.Add(cityLimits);
 
-            // Style Parks landuse layer
-            parks.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(128, GeoColors.Green), GeoColors.Transparent);
-            parks.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+                // Create Parks landuse layer
+                var parks = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
 
-            // Project Parks landuse layer to Spherical Mercator to match the map projection
-            parks.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+                // Style Parks landuse layer
+                parks.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(128, GeoColors.Green), GeoColors.Transparent);
+                parks.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            // Add Parks landuse layer to the landuseGroup overlay
-            landuseOverlay.Layers.Add(parks);
+                // Project Parks landuse layer to Spherical Mercator to match the map projection
+                parks.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
-            // Add Landuse overlay to the map
-            MapView.Overlays.Add("landuseOverlay", landuseOverlay);
+                // Add Parks landuse layer to the landuseGroup overlay
+                landuseOverlay.Layers.Add(parks);
 
-            /******************
-             * POI LayerOverlay
-             ******************/
+                // Add Landuse overlay to the map
+                MapView.Overlays.Add("landuseOverlay", landuseOverlay);
 
-            // Create Hotel POI layer
-            var hotels = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
+                /******************
+                 * POI LayerOverlay
+                 ******************/
 
-            // Style Hotel POI layer
-            hotels.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Blue, 8, GeoColors.White, 2);
-            hotels.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+                // Create Hotel POI layer
+                var hotels = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
 
-            // Project Hotels POI layer to Spherical Mercator to match the map projection
-            hotels.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+                // Style Hotel POI layer
+                hotels.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Blue, 8, GeoColors.White, 2);
+                hotels.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            // Add Hotel POI layer to the poiGroup overlay
-            poiOverlay.Layers.Add(hotels);
+                // Project Hotels POI layer to Spherical Mercator to match the map projection
+                hotels.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
-            // Create School POI layer
-            var schools = new ShapeFileFeatureLayer(@"./Data/Shapefile/Schools.shp");
+                // Add Hotel POI layer to the poiGroup overlay
+                poiOverlay.Layers.Add(hotels);
 
-            // Style School POI layer
-            schools.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimpleSquareStyle(GeoColors.Red, 8, GeoColors.White, 2);
-            schools.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+                // Create School POI layer
+                var schools = new ShapeFileFeatureLayer(@"./Data/Shapefile/Schools.shp");
 
-            // Project Schools POI layer to Spherical Mercator to match the map projection
-            schools.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+                // Style School POI layer
+                schools.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimpleSquareStyle(GeoColors.Red, 8, GeoColors.White, 2);
+                schools.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            // Add School POI layer to the poiGroup overlay
-            poiOverlay.Layers.Add(schools);
+                // Project Schools POI layer to Spherical Mercator to match the map projection
+                schools.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
-            // Add POI overlay to the map
-            MapView.Overlays.Add("poiOverlay", poiOverlay);
+                // Add School POI layer to the poiGroup overlay
+                poiOverlay.Layers.Add(schools);
 
-            // Set the map extent
-            cityLimits.Open();
-            MapView.CurrentExtent = cityLimits.GetBoundingBox();
-            cityLimits.Close();
+                // Add POI overlay to the map
+                MapView.Overlays.Add("poiOverlay", poiOverlay);
 
-            ShowPoi.IsChecked = true;
-            ShowLandUse.IsChecked = true;
+                // Set the map extent
+                cityLimits.Open();
+                MapView.CurrentExtent = cityLimits.GetBoundingBox();
+                cityLimits.Close();
 
-            await MapView.RefreshAsync();
+                ShowPoi.IsChecked = true;
+                ShowLandUse.IsChecked = true;
+
+                await MapView.RefreshAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         /// <summary>

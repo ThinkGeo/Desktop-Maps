@@ -19,29 +19,36 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            var layerOverlay = new LayerOverlay();
-            MapView.Overlays.Add(layerOverlay);
-            rasterMbTilesLayer = new RasterMbTilesAsyncLayer(@".\Data\Mbtiles\test.mbtiles");
-            layerOverlay.TileType = TileType.SingleTile;
-            layerOverlay.Layers.Add(rasterMbTilesLayer);
+            try
+            { 
+                var layerOverlay = new LayerOverlay();
+                MapView.Overlays.Add(layerOverlay);
+                rasterMbTilesLayer = new RasterMbTilesAsyncLayer(@".\Data\Mbtiles\test.mbtiles");
+                layerOverlay.TileType = TileType.SingleTile;
+                layerOverlay.Layers.Add(rasterMbTilesLayer);
 
-            string cachePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rasterMbTilesLayerCache");
+                string cachePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rasterMbTilesLayerCache");
 
-            if (!System.IO.Directory.Exists(cachePath))
-            {
-                System.IO.Directory.CreateDirectory(cachePath);
+                if (!System.IO.Directory.Exists(cachePath))
+                {
+                    System.IO.Directory.CreateDirectory(cachePath);
+                }
+
+                rasterMbTilesLayer.TileCache = new FileRasterTileCache(cachePath, "raw");
+                rasterMbTilesLayer.ProjectedTileCache = new FileRasterTileCache(cachePath, "projected")
+                    { EnableDebugInfo = true};
+
+                rasterMbTilesLayer.TileCache.GottenCacheTile += TileCache_GottenCacheTile;
+                rasterMbTilesLayer.ProjectedTileCache.GottenCacheTile += ProjectedTileCache_GottenCacheTile;
+
+                layerOverlay.Drawn += LayerOverlayOnDrawn;
+                await MapView.RefreshAsync();
             }
-
-            rasterMbTilesLayer.TileCache = new FileRasterTileCache(cachePath, "raw");
-            rasterMbTilesLayer.ProjectedTileCache = new FileRasterTileCache(cachePath, "projected")
-                { EnableDebugInfo = true};
-
-            rasterMbTilesLayer.TileCache.GottenCacheTile += TileCache_GottenCacheTile;
-            rasterMbTilesLayer.ProjectedTileCache.GottenCacheTile += ProjectedTileCache_GottenCacheTile;
-
-            layerOverlay.Drawn += LayerOverlayOnDrawn;
-            await MapView.RefreshAsync();
-
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         private void LayerOverlayOnDrawn(object sender, DrawnOverlayEventArgs e)
@@ -77,42 +84,58 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private async void Projection_Checked(object sender, RoutedEventArgs e)
         {
-            if (rasterMbTilesLayer == null) return;
-
-            var radioButton = sender as RadioButton;
-            if (radioButton?.Tag == null) return;
-
-            switch (radioButton.Tag.ToString())
+            try
             {
-                case "3857":
-                    MapView.MapUnit = GeographyUnit.Meter;
-                    rasterMbTilesLayer.ProjectionConverter = null;
-                    break;
+                if (rasterMbTilesLayer == null) return;
 
-                case "4326":
-                    MapView.MapUnit = GeographyUnit.DecimalDegree;
-                    rasterMbTilesLayer.ProjectionConverter = new GdalProjectionConverter(3857, 4326);
-                    break;
+                var radioButton = sender as RadioButton;
+                if (radioButton?.Tag == null) return;
 
-                default:
-                    return;
+                switch (radioButton.Tag.ToString())
+                {
+                    case "3857":
+                        MapView.MapUnit = GeographyUnit.Meter;
+                        rasterMbTilesLayer.ProjectionConverter = null;
+                        break;
+
+                    case "4326":
+                        MapView.MapUnit = GeographyUnit.DecimalDegree;
+                        rasterMbTilesLayer.ProjectionConverter = new GdalProjectionConverter(3857, 4326);
+                        break;
+
+                    default:
+                        return;
+                }
+
+                await rasterMbTilesLayer.CloseAsync();
+                await rasterMbTilesLayer.OpenAsync();
+                MapView.CurrentExtent = rasterMbTilesLayer.GetBoundingBox();
+                await MapView.RefreshAsync();
             }
-
-            await rasterMbTilesLayer.CloseAsync();
-            await rasterMbTilesLayer.OpenAsync();
-            MapView.CurrentExtent = rasterMbTilesLayer.GetBoundingBox();
-            await MapView.RefreshAsync();
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         private async void RenderBeyondMaxZoomCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            if (!(sender is CheckBox checkBox))
-                return;
+            try
+            { 
+                if (!(sender is CheckBox checkBox))
+                    return;
 
-            if (checkBox.IsChecked.HasValue)
-                rasterMbTilesLayer.RenderBeyondMaxZoom = checkBox.IsChecked.Value;
+                if (checkBox.IsChecked.HasValue)
+                    rasterMbTilesLayer.RenderBeyondMaxZoom = checkBox.IsChecked.Value;
 
-            await MapView.RefreshAsync();
+                await MapView.RefreshAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         public void Dispose()

@@ -19,39 +19,47 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            // It is important to set the map unit first to either feet, meters or decimal degrees.
-            MapView.MapUnit = GeographyUnit.Meter;
-
-            // Set the map zoom level set to the Cloud Maps zoom level set.
-            MapView.ZoomLevelSet = new ThinkGeoCloudMapsZoomLevelSet();
-
-            // Create the layer overlay with some additional settings and add to the map.
-            var cloudOverlay = new ThinkGeoCloudVectorMapsOverlay
+            try
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                // Set up the tile cache for the cloudOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-            };
-            MapView.Overlays.Add("Cloud Overlay", cloudOverlay);
+                // It is important to set the map unit first to either feet, meters or decimal degrees.
+                MapView.MapUnit = GeographyUnit.Meter;
 
-            var magneticDeclinationAdornmentLayer = new MagneticDeclinationAdornmentLayer(AdornmentLocation.LowerLeft);
-            var proj4Projection = new Projection(3857);
-            magneticDeclinationAdornmentLayer.Projection = proj4Projection;
-            magneticDeclinationAdornmentLayer.TrueNorthPointStyle.SymbolSize = 25;
-            magneticDeclinationAdornmentLayer.TrueNorthLineStyle.InnerPen.Width = 2f;
-            magneticDeclinationAdornmentLayer.TrueNorthLineStyle.OuterPen.Width = 5f;
-            magneticDeclinationAdornmentLayer.MagneticNorthLineStyle.InnerPen.Width = 2f;
-            magneticDeclinationAdornmentLayer.MagneticNorthLineStyle.OuterPen.Width = 5f;
+                // Set the map zoom level set to the Cloud Maps zoom level set.
+                MapView.ZoomLevelSet = new ThinkGeoCloudMapsZoomLevelSet();
 
-            MapView.AdornmentOverlay.Layers.Add(magneticDeclinationAdornmentLayer);
+                // Create the layer overlay with some additional settings and add to the map.
+                var cloudOverlay = new ThinkGeoCloudVectorMapsOverlay
+                {
+                    ClientId = SampleKeys.ClientId,
+                    ClientSecret = SampleKeys.ClientSecret,
+                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                    // Set up the tile cache for the cloudOverlay, passing in the location and an ID to distinguish the cache. 
+                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                };
+                MapView.Overlays.Add("Cloud Overlay", cloudOverlay);
 
-            // Set the current extent to a neighborhood in Frisco Texas.
-            MapView.CurrentExtent = new RectangleShape(-10781708.9749424, 3913502.90429046, -10777685.1114043, 3910360.79646662);
+                var magneticDeclinationAdornmentLayer = new MagneticDeclinationAdornmentLayer(AdornmentLocation.LowerLeft);
+                var proj4Projection = new Projection(3857);
+                magneticDeclinationAdornmentLayer.Projection = proj4Projection;
+                magneticDeclinationAdornmentLayer.TrueNorthPointStyle.SymbolSize = 25;
+                magneticDeclinationAdornmentLayer.TrueNorthLineStyle.InnerPen.Width = 2f;
+                magneticDeclinationAdornmentLayer.TrueNorthLineStyle.OuterPen.Width = 5f;
+                magneticDeclinationAdornmentLayer.MagneticNorthLineStyle.InnerPen.Width = 2f;
+                magneticDeclinationAdornmentLayer.MagneticNorthLineStyle.OuterPen.Width = 5f;
 
-            // Refresh the map.
-            await MapView.RefreshAsync();
+                MapView.AdornmentOverlay.Layers.Add(magneticDeclinationAdornmentLayer);
+
+                // Set the current extent to a neighborhood in Frisco Texas.
+                MapView.CurrentExtent = new RectangleShape(-10781708.9749424, 3913502.90429046, -10777685.1114043, 3910360.79646662);
+
+                // Refresh the map.
+                await MapView.RefreshAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         public void Dispose()
@@ -64,7 +72,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private async void MapView_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            await MapView.AdornmentOverlay.RefreshAsync();
+            try
+            { 
+                await MapView.AdornmentOverlay.RefreshAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
     }
 }

@@ -30,15 +30,23 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            // It is important to set the map unit first to either feet, meters or decimal degrees.
-            MapView.MapUnit = GeographyUnit.Meter;
-            MapView.Overlays.Add(layerOverlay);
+            try
+            {
+                // It is important to set the map unit first to either feet, meters or decimal degrees.
+                MapView.MapUnit = GeographyUnit.Meter;
+                MapView.Overlays.Add(layerOverlay);
 
-            LoadWmtsServer1();
-            LoadWmtsServer2();
-            LoadWmtsServer3();
+                LoadWmtsServer1();
+                LoadWmtsServer2();
+                LoadWmtsServer3();
 
-            await SwitchToLayer(defaultLayerName);
+                await SwitchToLayer(defaultLayerName);
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         private void UpdateCancellationToken()
@@ -50,11 +58,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private async void WMTS_Checked(object sender, RoutedEventArgs e)
         {
-            var buttonContent = ((RadioButton)sender).Content;
-            if (buttonContent == null) return;
+            try
+            { 
+                var buttonContent = ((RadioButton)sender).Content;
+                if (buttonContent == null) return;
 
-            var activeLayerName = buttonContent.ToString();
-            await SwitchToLayer(activeLayerName);
+                var activeLayerName = buttonContent.ToString();
+                await SwitchToLayer(activeLayerName);
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         private async Task SwitchToLayer(string activeLayerName)

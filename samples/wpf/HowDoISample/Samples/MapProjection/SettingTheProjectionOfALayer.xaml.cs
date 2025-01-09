@@ -20,26 +20,34 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            try
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-            };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
+                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+                {
+                    ClientId = SampleKeys.ClientId,
+                    ClientSecret = SampleKeys.ClientSecret,
+                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                };
+                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            // Set the Map Unit to meters (Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+                // Set the Map Unit to meters (Spherical Mercator)
+                MapView.MapUnit = GeographyUnit.Meter;
 
-            // Create an overlay that we can add feature layers to, and add it to the MapView
-            var subdivisionsOverlay = new LayerOverlay();
-            MapView.Overlays.Add("Frisco Subdivisions Overlay", subdivisionsOverlay);
+                // Create an overlay that we can add feature layers to, and add it to the MapView
+                var subdivisionsOverlay = new LayerOverlay();
+                MapView.Overlays.Add("Frisco Subdivisions Overlay", subdivisionsOverlay);
 
-            // Reproject a shapefile and set the extent
-            await ReprojectFeaturesFromShapefileAsync();
+                // Reproject a shapefile and set the extent
+                await ReprojectFeaturesFromShapefileAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         /// <summary>

@@ -19,50 +19,58 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
-
-            // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            try
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-            };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                // Set the map's unit of measurement to meters(Spherical Mercator)
+                MapView.MapUnit = GeographyUnit.Meter;
 
-            var cityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimits.shp");
-            var bufferLayer = new InMemoryFeatureLayer();
-            var layerOverlay = new LayerOverlay();
+                // Add Cloud Maps as a background overlay
+                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+                {
+                    ClientId = SampleKeys.ClientId,
+                    ClientSecret = SampleKeys.ClientSecret,
+                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                };
+                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            // Project cityLimits layer to Spherical Mercator to match the map projection
-            cityLimits.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+                var cityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimits.shp");
+                var bufferLayer = new InMemoryFeatureLayer();
+                var layerOverlay = new LayerOverlay();
 
-            // Style cityLimits layer
-            cityLimits.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(32, GeoColors.Orange), GeoColors.DimGray);
-            cityLimits.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+                // Project cityLimits layer to Spherical Mercator to match the map projection
+                cityLimits.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
-            // Style the bufferLayer
-            bufferLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(32, GeoColors.Green), GeoColors.DimGray);
-            bufferLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+                // Style cityLimits layer
+                cityLimits.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(32, GeoColors.Orange), GeoColors.DimGray);
+                cityLimits.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            // Add cityLimits to a LayerOverlay
-            layerOverlay.Layers.Add("cityLimits", cityLimits);
+                // Style the bufferLayer
+                bufferLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(32, GeoColors.Green), GeoColors.DimGray);
+                bufferLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            // Add bufferLayer to the layerOverlay
-            layerOverlay.Layers.Add("bufferLayer", bufferLayer);
+                // Add cityLimits to a LayerOverlay
+                layerOverlay.Layers.Add("cityLimits", cityLimits);
 
-            // Set the map extent to the cityLimits layer bounding box
-            cityLimits.Open();
-            MapView.CurrentExtent = cityLimits.GetBoundingBox();
-            cityLimits.Close();
+                // Add bufferLayer to the layerOverlay
+                layerOverlay.Layers.Add("bufferLayer", bufferLayer);
 
-            // Add LayerOverlay to Map
-            MapView.Overlays.Add("layerOverlay", layerOverlay);
+                // Set the map extent to the cityLimits layer bounding box
+                cityLimits.Open();
+                MapView.CurrentExtent = cityLimits.GetBoundingBox();
+                cityLimits.Close();
 
-            await MapView.RefreshAsync();
+                // Add LayerOverlay to Map
+                MapView.Overlays.Add("layerOverlay", layerOverlay);
+
+                await MapView.RefreshAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         /// <summary>
@@ -70,26 +78,34 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void BufferShape_OnClick(object sender, RoutedEventArgs e)
         {
-            var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
+            try
+            {
+                var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
 
-            var cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
-            var bufferLayer = (InMemoryFeatureLayer)layerOverlay.Layers["bufferLayer"];
+                var cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
+                var bufferLayer = (InMemoryFeatureLayer)layerOverlay.Layers["bufferLayer"];
 
-            // Query the cityLimits layer to get all the features
-            cityLimits.Open();
-            var features = cityLimits.QueryTools.GetAllFeatures(ReturningColumnsType.NoColumns);
-            cityLimits.Close();
+                // Query the cityLimits layer to get all the features
+                cityLimits.Open();
+                var features = cityLimits.QueryTools.GetAllFeatures(ReturningColumnsType.NoColumns);
+                cityLimits.Close();
 
-            // Buffer the first feature by the amount of the bufferDistance TextBox
-            var buffer = features[0].Buffer(Convert.ToInt32(BufferDistance.Text), GeographyUnit.Meter, DistanceUnit.Meter);
+                // Buffer the first feature by the amount of the bufferDistance TextBox
+                var buffer = features[0].Buffer(Convert.ToInt32(BufferDistance.Text), GeographyUnit.Meter, DistanceUnit.Meter);
 
-            // Add the buffer shape into an InMemoryFeatureLayer to display the result.
-            // If this were to be a permanent change to the cityLimits FeatureSource, you would modify the underlying data using BeginTransaction and CommitTransaction instead.
-            bufferLayer.InternalFeatures.Clear();
-            bufferLayer.InternalFeatures.Add(buffer);
+                // Add the buffer shape into an InMemoryFeatureLayer to display the result.
+                // If this were to be a permanent change to the cityLimits FeatureSource, you would modify the underlying data using BeginTransaction and CommitTransaction instead.
+                bufferLayer.InternalFeatures.Clear();
+                bufferLayer.InternalFeatures.Add(buffer);
 
-            // Redraw the layerOverlay to see the buffered features on the map
-            await layerOverlay.RefreshAsync();
+                // Redraw the layerOverlay to see the buffered features on the map
+                await layerOverlay.RefreshAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         public void Dispose()

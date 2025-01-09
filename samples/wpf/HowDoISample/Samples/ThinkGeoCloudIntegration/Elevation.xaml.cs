@@ -81,90 +81,98 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void PerformElevationQuery(BaseShape queryShape)
         {
-            // Get feature layers from the MapView
-            var elevationPointsOverlay = (LayerOverlay)MapView.Overlays["Elevation Features Overlay"];
-            var drawnShapesLayer = (InMemoryFeatureLayer)elevationPointsOverlay.Layers["Drawn Shape Layer"];
-            var elevationPointsLayer = (InMemoryFeatureLayer)elevationPointsOverlay.Layers["Elevation Points Layer"];
-
-            // Clear the existing shapes from the map
-            elevationPointsLayer.Open();
-            elevationPointsLayer.Clear();
-            elevationPointsLayer.Close();
-            drawnShapesLayer.Open();
-            drawnShapesLayer.Clear();
-            drawnShapesLayer.Close();
-
-            // Add the drawn shape to the map
-            drawnShapesLayer.InternalFeatures.Add(new Feature(queryShape));
-
-            // Set options from the UI and run the query using the ElevationCloudClient
-            var elevationPoints = new Collection<CloudElevationPointResult>();
-            const int projectionInSrid = 3857;
-
-            // Show a loading graphic to let users know the request is running
-            LoadingImage.Visibility = Visibility.Visible;
-
-            // The point interval distance determines how many elevation points are retrieved for line and area queries
-            var pointIntervalDistance = (int)IntervalDistance.Value;
-            switch (queryShape.GetWellKnownType())
+            try
             {
-                case WellKnownType.Point:
-                    var drawnPoint = (PointShape)queryShape;
-                    var elevation = await _elevationCloudClient.GetElevationOfPointAsync(drawnPoint.X, drawnPoint.Y, projectionInSrid);
+                // Get feature layers from the MapView
+                var elevationPointsOverlay = (LayerOverlay)MapView.Overlays["Elevation Features Overlay"];
+                var drawnShapesLayer = (InMemoryFeatureLayer)elevationPointsOverlay.Layers["Drawn Shape Layer"];
+                var elevationPointsLayer = (InMemoryFeatureLayer)elevationPointsOverlay.Layers["Elevation Points Layer"];
 
-                    // The API for getting the elevation of a single point returns a double, so we manually create a CloudElevationPointResult to use as a data source for the Elevations list
-                    elevationPoints.Add(new CloudElevationPointResult(elevation, drawnPoint));
+                // Clear the existing shapes from the map
+                elevationPointsLayer.Open();
+                elevationPointsLayer.Clear();
+                elevationPointsLayer.Close();
+                drawnShapesLayer.Open();
+                drawnShapesLayer.Clear();
+                drawnShapesLayer.Close();
 
-                    // Update the UI with the average, highest, and lowest elevations
-                    TxtAverageElevation.Text = $"Average Elevation: {elevation:0.00} feet";
-                    TxtHighestElevation.Text = $"Highest Elevation: {elevation:0.00} feet";
-                    TxtLowestElevation.Text = $"Lowest Elevation: {elevation:0.00} feet";
-                    break;
-                case WellKnownType.Line:
-                    var drawnLine = (LineShape)queryShape;
-                    var result = await _elevationCloudClient.GetElevationOfLineAsync(drawnLine, projectionInSrid, pointIntervalDistance, DistanceUnit.Meter, DistanceUnit.Feet);
-                    elevationPoints = result.ElevationPoints;
+                // Add the drawn shape to the map
+                drawnShapesLayer.InternalFeatures.Add(new Feature(queryShape));
 
-                    // Update the UI with the average, highest, and lowest elevations
-                    TxtAverageElevation.Text = $"Average Elevation: {result.AverageElevation:0.00} feet";
-                    TxtHighestElevation.Text = $"Highest Elevation: {result.HighestElevationPoint.Elevation:0.00} feet";
-                    TxtLowestElevation.Text = $"Lowest Elevation: {result.LowestElevationPoint.Elevation:0.00} feet";
-                    break;
-                case WellKnownType.Polygon:
-                    var drawnPolygon = (PolygonShape)queryShape;
-                    result = await _elevationCloudClient.GetElevationOfAreaAsync(drawnPolygon, projectionInSrid, pointIntervalDistance, DistanceUnit.Meter);
-                    elevationPoints = result.ElevationPoints;
+                // Set options from the UI and run the query using the ElevationCloudClient
+                var elevationPoints = new Collection<CloudElevationPointResult>();
+                const int projectionInSrid = 3857;
 
-                    // Update the UI with the average, highest, and lowest elevations
-                    TxtAverageElevation.Text = $"Average Elevation: {result.AverageElevation:0.00} feet";
-                    TxtHighestElevation.Text = $"Highest Elevation: {result.HighestElevationPoint.Elevation:0.00} feet";
-                    TxtLowestElevation.Text = $"Lowest Elevation: {result.LowestElevationPoint.Elevation:0.00} feet";
-                    break;
-                case WellKnownType.Invalid:
-                case WellKnownType.Multipoint:
-                case WellKnownType.Multiline:
-                case WellKnownType.Multipolygon:
-                case WellKnownType.GeometryCollection:
-                default:
-                    break;
+                // Show a loading graphic to let users know the request is running
+                LoadingImage.Visibility = Visibility.Visible;
+
+                // The point interval distance determines how many elevation points are retrieved for line and area queries
+                var pointIntervalDistance = (int)IntervalDistance.Value;
+                switch (queryShape.GetWellKnownType())
+                {
+                    case WellKnownType.Point:
+                        var drawnPoint = (PointShape)queryShape;
+                        var elevation = await _elevationCloudClient.GetElevationOfPointAsync(drawnPoint.X, drawnPoint.Y, projectionInSrid);
+
+                        // The API for getting the elevation of a single point returns a double, so we manually create a CloudElevationPointResult to use as a data source for the Elevations list
+                        elevationPoints.Add(new CloudElevationPointResult(elevation, drawnPoint));
+
+                        // Update the UI with the average, highest, and lowest elevations
+                        TxtAverageElevation.Text = $"Average Elevation: {elevation:0.00} feet";
+                        TxtHighestElevation.Text = $"Highest Elevation: {elevation:0.00} feet";
+                        TxtLowestElevation.Text = $"Lowest Elevation: {elevation:0.00} feet";
+                        break;
+                    case WellKnownType.Line:
+                        var drawnLine = (LineShape)queryShape;
+                        var result = await _elevationCloudClient.GetElevationOfLineAsync(drawnLine, projectionInSrid, pointIntervalDistance, DistanceUnit.Meter, DistanceUnit.Feet);
+                        elevationPoints = result.ElevationPoints;
+
+                        // Update the UI with the average, highest, and lowest elevations
+                        TxtAverageElevation.Text = $"Average Elevation: {result.AverageElevation:0.00} feet";
+                        TxtHighestElevation.Text = $"Highest Elevation: {result.HighestElevationPoint.Elevation:0.00} feet";
+                        TxtLowestElevation.Text = $"Lowest Elevation: {result.LowestElevationPoint.Elevation:0.00} feet";
+                        break;
+                    case WellKnownType.Polygon:
+                        var drawnPolygon = (PolygonShape)queryShape;
+                        result = await _elevationCloudClient.GetElevationOfAreaAsync(drawnPolygon, projectionInSrid, pointIntervalDistance, DistanceUnit.Meter);
+                        elevationPoints = result.ElevationPoints;
+
+                        // Update the UI with the average, highest, and lowest elevations
+                        TxtAverageElevation.Text = $"Average Elevation: {result.AverageElevation:0.00} feet";
+                        TxtHighestElevation.Text = $"Highest Elevation: {result.HighestElevationPoint.Elevation:0.00} feet";
+                        TxtLowestElevation.Text = $"Lowest Elevation: {result.LowestElevationPoint.Elevation:0.00} feet";
+                        break;
+                    case WellKnownType.Invalid:
+                    case WellKnownType.Multipoint:
+                    case WellKnownType.Multiline:
+                    case WellKnownType.Multipolygon:
+                    case WellKnownType.GeometryCollection:
+                    default:
+                        break;
+                }
+
+                // Add the elevation result points to the map and list box
+                foreach (var elevationPoint in elevationPoints)
+                {
+                    elevationPointsLayer.InternalFeatures.Add(new Feature(elevationPoint.Point));
+                }
+                LsbElevations.ItemsSource = elevationPoints;
+
+                // Hide the loading graphic
+                LoadingImage.Visibility = Visibility.Hidden;
+
+                // Set the map extent to the elevation query feature
+                drawnShapesLayer.Open();
+                MapView.CurrentExtent = drawnShapesLayer.GetBoundingBox();
+                await MapView.ZoomToScaleAsync(MapView.CurrentScale * 2);
+                drawnShapesLayer.Close();
+                await MapView.RefreshAsync();
             }
-
-            // Add the elevation result points to the map and list box
-            foreach (var elevationPoint in elevationPoints)
+            catch 
             {
-                elevationPointsLayer.InternalFeatures.Add(new Feature(elevationPoint.Point));
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
             }
-            LsbElevations.ItemsSource = elevationPoints;
-
-            // Hide the loading graphic
-            LoadingImage.Visibility = Visibility.Hidden;
-
-            // Set the map extent to the elevation query feature
-            drawnShapesLayer.Open();
-            MapView.CurrentExtent = drawnShapesLayer.GetBoundingBox();
-            await MapView.ZoomToScaleAsync(MapView.CurrentScale * 2);
-            drawnShapesLayer.Close();
-            await MapView.RefreshAsync();
         }
 
         /// <summary>
@@ -205,11 +213,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void LsbElevations_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (LsbElevations.SelectedItem == null) return;
-            // Set the map extent to the selected point
-            var elevationPoint = (CloudElevationPointResult)LsbElevations.SelectedItem;
-            MapView.CurrentExtent = elevationPoint.Point.GetBoundingBox();
-            await MapView.RefreshAsync();
+            try
+            { 
+                if (LsbElevations.SelectedItem == null) return;
+                // Set the map extent to the selected point
+                var elevationPoint = (CloudElevationPointResult)LsbElevations.SelectedItem;
+                MapView.CurrentExtent = elevationPoint.Point.GetBoundingBox();
+                await MapView.RefreshAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         /// <summary>

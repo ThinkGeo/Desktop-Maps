@@ -23,59 +23,67 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            try
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-            };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
+                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+                {
+                    ClientId = SampleKeys.ClientId,
+                    ClientSecret = SampleKeys.ClientSecret,
+                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                };
+                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            // Set the map's unit of measurement to meters (Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+                // Set the map's unit of measurement to meters (Spherical Mercator)
+                MapView.MapUnit = GeographyUnit.Meter;
 
-            // Create a new feature layer to display the search radius of the reverse geocode and create a style for it
-            var searchRadiusFeatureLayer = new InMemoryFeatureLayer();
-            searchRadiusFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = new AreaStyle(new GeoPen(new GeoColor(100, GeoColors.Blue)), new GeoSolidBrush(new GeoColor(10, GeoColors.Blue)));
-            searchRadiusFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Cross, 20, GeoBrushes.Red);
-            searchRadiusFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+                // Create a new feature layer to display the search radius of the reverse geocode and create a style for it
+                var searchRadiusFeatureLayer = new InMemoryFeatureLayer();
+                searchRadiusFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = new AreaStyle(new GeoPen(new GeoColor(100, GeoColors.Blue)), new GeoSolidBrush(new GeoColor(10, GeoColors.Blue)));
+                searchRadiusFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Cross, 20, GeoBrushes.Red);
+                searchRadiusFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            // Create a new feature layer to display selected locations returned from the reverse geocode and create styles for it
-            var selectedResultItemFeatureLayer = new InMemoryFeatureLayer();
-            // Add a point, line, and polygon style to the layer. These styles control how the shapes will be drawn
-            selectedResultItemFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 24, GeoBrushes.MediumPurple, GeoPens.Purple);
-            selectedResultItemFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.MediumPurple, 6, false);
-            selectedResultItemFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(80, GeoColors.MediumPurple), GeoColors.MediumPurple, 2);
-            selectedResultItemFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+                // Create a new feature layer to display selected locations returned from the reverse geocode and create styles for it
+                var selectedResultItemFeatureLayer = new InMemoryFeatureLayer();
+                // Add a point, line, and polygon style to the layer. These styles control how the shapes will be drawn
+                selectedResultItemFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 24, GeoBrushes.MediumPurple, GeoPens.Purple);
+                selectedResultItemFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.MediumPurple, 6, false);
+                selectedResultItemFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(80, GeoColors.MediumPurple), GeoColors.MediumPurple, 2);
+                selectedResultItemFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            // Create an overlay and add the feature layers to it
-            var searchFeaturesOverlay = new LayerOverlay();
-            searchFeaturesOverlay.Layers.Add("Search Radius", searchRadiusFeatureLayer);
-            searchFeaturesOverlay.Layers.Add("Result Feature Geometry", selectedResultItemFeatureLayer);
+                // Create an overlay and add the feature layers to it
+                var searchFeaturesOverlay = new LayerOverlay();
+                searchFeaturesOverlay.Layers.Add("Search Radius", searchRadiusFeatureLayer);
+                searchFeaturesOverlay.Layers.Add("Result Feature Geometry", selectedResultItemFeatureLayer);
 
-            // Create a popup overlay to display the best match
-            var bestMatchPopupOverlay = new PopupOverlay();
+                // Create a popup overlay to display the best match
+                var bestMatchPopupOverlay = new PopupOverlay();
 
-            // Add the overlays to the map
-            MapView.Overlays.Add("Search Features Overlay", searchFeaturesOverlay);
-            MapView.Overlays.Add("Best Match Popup Overlay", bestMatchPopupOverlay);
+                // Add the overlays to the map
+                MapView.Overlays.Add("Search Features Overlay", searchFeaturesOverlay);
+                MapView.Overlays.Add("Best Match Popup Overlay", bestMatchPopupOverlay);
 
-            // Set the map extent to Frisco, TX
-            MapView.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
+                // Set the map extent to Frisco, TX
+                MapView.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
 
-            // Initialize the ReverseGeocodingCloudClient with our ThinkGeo Cloud credentials
-            _reverseGeocodingCloudClient = new ReverseGeocodingCloudClient
+                // Initialize the ReverseGeocodingCloudClient with our ThinkGeo Cloud credentials
+                _reverseGeocodingCloudClient = new ReverseGeocodingCloudClient
+                {
+                    ClientId = SampleKeys.ClientId2,
+                    ClientSecret = SampleKeys.ClientSecret2,
+                };
+
+                CboLocationCategories.SelectedIndex = 0;
+
+                await MapView.RefreshAsync();
+            }
+            catch 
             {
-                ClientId = SampleKeys.ClientId2,
-                ClientSecret = SampleKeys.ClientSecret2,
-            };
-
-            CboLocationCategories.SelectedIndex = 0;
-
-            await MapView.RefreshAsync();
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         /// <summary>
@@ -107,64 +115,72 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void PerformReverseGeocode()
         {
-            // Perform some simple validation on the input text boxes
-            if (!ValidateSearchParameters()) return;
-            var options = new CloudReverseGeocodingOptions();
-
-            // Set up the CloudReverseGeocodingOptions object based on the parameters set in the UI
-            var coordinates = TxtCoordinates.Text.Split(',');
-            var lat = double.Parse(coordinates[0].Trim());
-            var lon = double.Parse(coordinates[1].Trim());
-            var searchRadius = int.Parse(TxtSearchRadius.Text);
-            const DistanceUnit searchRadiusDistanceUnit = DistanceUnit.Meter;
-            const int pointProjectionInSrid = 3857;
-            var searchPoint = new PointShape(lon, lat);
-            options.MaxResults = int.Parse(TxtMaxResults.Text);
-
-            switch (((ComboBoxItem)CboLocationCategories.SelectedItem).Content.ToString())
-            {
-                case "All":
-                    options.LocationCategories = CloudLocationCategories.All;
-                    break;
-                case "Common":
-                    options.LocationCategories = CloudLocationCategories.Common;
-                    break;
-                case "None":
-                    options.LocationCategories = CloudLocationCategories.None;
-                    break;
-                default:
-                    options.LocationCategories = CloudLocationCategories.All;
-                    break;
-            }
-
-            // Show a loading graphic to let users know the request is running
-            LoadingImage.Visibility = Visibility.Visible;
-
-            // Run the reverse geocode
-            //var searchResult = await _reverseGeocodingCloudClient.SearchPointAsync(lon, lat, pointProjectionInSrid, searchRadius, searchRadiusDistanceUnit, options);
-            CloudReverseGeocodingResult searchResult;
             try
-            {
-                searchResult = await _reverseGeocodingCloudClient.SearchPointAsync(lon, lat, pointProjectionInSrid, searchRadius, searchRadiusDistanceUnit, options);
+            { 
+                // Perform some simple validation on the input text boxes
+                if (!ValidateSearchParameters()) return;
+                var options = new CloudReverseGeocodingOptions();
 
-            }
-            catch (System.ArgumentNullException)
-            {
-                MessageBox.Show("Please enter a valid set of coordinates to search", "Error");
-                return;
-            }
-            // Hide the loading graphic
-            LoadingImage.Visibility = Visibility.Hidden;
+                // Set up the CloudReverseGeocodingOptions object based on the parameters set in the UI
+                var coordinates = TxtCoordinates.Text.Split(',');
+                var lat = double.Parse(coordinates[0].Trim());
+                var lon = double.Parse(coordinates[1].Trim());
+                var searchRadius = int.Parse(TxtSearchRadius.Text);
+                const DistanceUnit searchRadiusDistanceUnit = DistanceUnit.Meter;
+                const int pointProjectionInSrid = 3857;
+                var searchPoint = new PointShape(lon, lat);
+                options.MaxResults = int.Parse(TxtMaxResults.Text);
 
-            // Handle an exception returned from the service
-            if (searchResult.Exception != null)
-            {
-                MessageBox.Show(searchResult.Exception.Message, "Error");
-                return;
-            }
+                switch (((ComboBoxItem)CboLocationCategories.SelectedItem).Content.ToString())
+                {
+                    case "All":
+                        options.LocationCategories = CloudLocationCategories.All;
+                        break;
+                    case "Common":
+                        options.LocationCategories = CloudLocationCategories.Common;
+                        break;
+                    case "None":
+                        options.LocationCategories = CloudLocationCategories.None;
+                        break;
+                    default:
+                        options.LocationCategories = CloudLocationCategories.All;
+                        break;
+                }
 
-            // Update the UI
-            await DisplaySearchResultsAsync(searchPoint, searchRadius, searchResult);
+                // Show a loading graphic to let users know the request is running
+                LoadingImage.Visibility = Visibility.Visible;
+
+                // Run the reverse geocode
+                //var searchResult = await _reverseGeocodingCloudClient.SearchPointAsync(lon, lat, pointProjectionInSrid, searchRadius, searchRadiusDistanceUnit, options);
+                CloudReverseGeocodingResult searchResult;
+                try
+                {
+                    searchResult = await _reverseGeocodingCloudClient.SearchPointAsync(lon, lat, pointProjectionInSrid, searchRadius, searchRadiusDistanceUnit, options);
+
+                }
+                catch (System.ArgumentNullException)
+                {
+                    MessageBox.Show("Please enter a valid set of coordinates to search", "Error");
+                    return;
+                }
+                // Hide the loading graphic
+                LoadingImage.Visibility = Visibility.Hidden;
+
+                // Handle an exception returned from the service
+                if (searchResult.Exception != null)
+                {
+                    MessageBox.Show(searchResult.Exception.Message, "Error");
+                    return;
+                }
+
+                // Update the UI
+                await DisplaySearchResultsAsync(searchPoint, searchRadius, searchResult);
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         /// <summary>
@@ -255,27 +271,35 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void LsbSearchResults_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            var selectedResultList = (ListBox)sender;
-            if (selectedResultList.SelectedItem != null)
+            try
             {
-                // Get the selected location
-                var locationFeature = ((CloudReverseGeocodingLocation)selectedResultList.SelectedItem).LocationFeature;
-
-                // Get the 'Result Feature' layer from the MapView
-                var selectedResultItemFeatureLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Result Feature Geometry");
-
-                // Clear the existing features and add the geometry of the selected location
-                selectedResultItemFeatureLayer.Clear();
-                selectedResultItemFeatureLayer.InternalFeatures.Add(new Feature(locationFeature.GetShape()));
-
-                // Center the map on the chosen location
-                MapView.CurrentExtent = locationFeature.GetBoundingBox();
-                var standardZoomLevelSet = new ZoomLevelSet();
-                if (MapView.CurrentScale < standardZoomLevelSet.ZoomLevel18.Scale)
+                var selectedResultList = (ListBox)sender;
+                if (selectedResultList.SelectedItem != null)
                 {
-                    await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
+                    // Get the selected location
+                    var locationFeature = ((CloudReverseGeocodingLocation)selectedResultList.SelectedItem).LocationFeature;
+
+                    // Get the 'Result Feature' layer from the MapView
+                    var selectedResultItemFeatureLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Result Feature Geometry");
+
+                    // Clear the existing features and add the geometry of the selected location
+                    selectedResultItemFeatureLayer.Clear();
+                    selectedResultItemFeatureLayer.InternalFeatures.Add(new Feature(locationFeature.GetShape()));
+
+                    // Center the map on the chosen location
+                    MapView.CurrentExtent = locationFeature.GetBoundingBox();
+                    var standardZoomLevelSet = new ZoomLevelSet();
+                    if (MapView.CurrentScale < standardZoomLevelSet.ZoomLevel18.Scale)
+                    {
+                        await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
+                    }
+                    await MapView.RefreshAsync();
                 }
-                await MapView.RefreshAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
             }
         }
 
