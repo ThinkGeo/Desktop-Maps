@@ -16,24 +16,13 @@
 
         <thinkGeoUi:MapView x:Name="MapView" Grid.Column="0" Loaded="MapView_Loaded" />
 
-        <Grid Grid.Column="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="5" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="5" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-
-            <CheckBox Grid.Column="1" Grid.Row="0" Content="Show Tile ID" FontSize="16" FontWeight="Bold" Foreground="White" Margin="0 5 0 5"  
+        <StackPanel Grid.Row="0" Grid.Column="1" Margin="5">
+            <CheckBox Content="Show Tile ID" FontSize="16" FontWeight="Bold" Foreground="White" Margin="0 5 0 5"  
                       IsChecked="True" Checked="ShowTileID_OnCheckedChanged" Unchecked="ShowTileID_OnCheckedChanged" />
-            <RadioButton Grid.Column="1" Grid.Row="1" Margin="0 5 0 5" Tag="256" Checked="SwitchTileSize_OnCheckedChanged">256 * 256</RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="2" Margin="0 5 0 5" Tag="512" IsChecked="True" Checked="SwitchTileSize_OnCheckedChanged">512 * 512</RadioButton>
-        </Grid>
+            <RadioButton  Margin="0, 5" Checked="SwitchTileSize_OnCheckedChanged" Content="256 * 256"/>
+            <RadioButton  Margin="0, 5" Checked="SwitchTileSize_OnCheckedChanged" Content="512 * 512"/>
+            <RadioButton  Margin="0, 5" IsChecked="True"  Checked="SwitchTileSize_OnCheckedChanged" Content="Single Tile"/>
+        </StackPanel>
     </Grid>
 
     <UserControl.Resources>
