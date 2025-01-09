@@ -68,6 +68,12 @@
         "source": "Samples/MapOnlineData/OpenStreetMap"
       },
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.MVT",
+        "title": "MVT",
+        "description": "This sample shows how to display a MVT Feature Layer.",
+        "source": "Samples/MapOnlineData/MVT"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.WFS",
         "title": "WFS",
         "description": "This sample shows how to display a WFS V2 Feature Layer.(This WFSV2 sever may be slow )",
