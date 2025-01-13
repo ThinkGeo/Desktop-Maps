@@ -684,7 +684,7 @@
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.ReverseGeocoding",
         "title": "Reverse Geocoding",
-        "description": "Learn how to use the ReverseGeocodingCloudClient to access the ReverseGeocoding APIs available from the ThinkGeo Cloud",
+        "description": "Click anywhere on the map to use the ReverseGeocodingCloudClient to access the ReverseGeocoding APIs available from the ThinkGeo Cloud",
         "source": "Samples/ThinkGeoCloudIntegration/ReverseGeocoding"
       },
       {

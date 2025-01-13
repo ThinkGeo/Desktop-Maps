@@ -80,8 +80,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MaxResults = int.Parse(TxtMaxResults.Text),
                 SearchMode = ((ComboBoxItem)CboSearchType.SelectedItem).Content.ToString() == "Fuzzy" ? CloudGeocodingSearchMode.FuzzyMatch : CloudGeocodingSearchMode.ExactMatch,
                 LocationType = (CloudGeocodingLocationType)Enum.Parse(typeof(CloudGeocodingLocationType), ((ComboBoxItem)CboLocationType.SelectedItem).Content.ToString() ?? string.Empty),
-                ResultProjectionInSrid = 3857
-            };
+                ResultProjectionInSrid = 3857,
+                BBox = MapView.CurrentExtent,
+                IncludeOverturePlaces = (bool)((ComboBoxItem)CboIncludeOverturePlaces.SelectedValue).Tag
+        };
 
             // Run the geocode
             var searchString = TxtSearchString.Text.Trim();
@@ -200,32 +202,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void cboLocationType_SelectionChanged(object sender, RoutedEventArgs e)
         {
             var comboBoxContent = (CboLocationType.SelectedItem as ComboBoxItem)?.Content;
-
-            if (comboBoxContent == null) return;
-            switch (comboBoxContent.ToString())
-            {
-                case "Default":
-                    TxtLocationTypeDescription.Text = "(Searches for any matches to the search string)";
-                    break;
-                case "Address":
-                    TxtLocationTypeDescription.Text = "(Searches for addresses matching the search string)";
-                    break;
-                case "Street":
-                    TxtLocationTypeDescription.Text = "(Searches for streets matching the search string)";
-                    break;
-                case "City":
-                    TxtLocationTypeDescription.Text = "(Searches for cities matching the search string)";
-                    break;
-                case "County":
-                    TxtLocationTypeDescription.Text = "(Searches for counties matching the search string)";
-                    break;
-                case "ZipCode":
-                    TxtLocationTypeDescription.Text = "(Searches for zip codes matching the search string)";
-                    break;
-                case "State":
-                    TxtLocationTypeDescription.Text = "(Searches for states matching the search string)";
-                    break;
-            }
         }
 
         /// <summary>
@@ -271,5 +247,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
+
     }
 }

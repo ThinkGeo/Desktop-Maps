@@ -130,6 +130,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 const int pointProjectionInSrid = 3857;
                 var searchPoint = new PointShape(lon, lat);
                 options.MaxResults = int.Parse(TxtMaxResults.Text);
+	            options.IncludeOverturePlaces = (bool)((ComboBoxItem)CboIncludeOverturePlaces.SelectedValue).Tag;
 
                 switch (((ComboBoxItem)CboLocationCategories.SelectedItem).Content.ToString())
                 {
@@ -240,6 +241,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     }
                     else if (!nameof(CloudLocationCategories.Intersection).Equals(foundLocation.LocationCategory))
                     {
+                        // Note:  Overture Place data does not have 'address' info, so it's null and we just use lat/lon.
+                        if (foundLocation.LocationCategory == "Overture_Places")
+                        {
+                            foundLocation.Address = foundLocation.LocationName;
+                        }
                         nearbyPlaces.Add(foundLocation);
                     }
                 }
@@ -304,28 +310,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Helper function to change the tip shown for different CloudLocationCategories
-        /// </summary>
-        private void CboLocationType_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            var comboBoxContent = (CboLocationCategories.SelectedItem as ComboBoxItem)?.Content;
-
-            if (comboBoxContent == null) return;
-            switch (comboBoxContent.ToString())
-            {
-                case "All":
-                    TxtLocationCategoriesDescription.Text = "(Includes all available location types in the search)";
-                    break;
-                case "Common":
-                    TxtLocationCategoriesDescription.Text = "(Includes only commonly-used 'Place' types in the search)";
-                    break;
-                case "None":
-                    TxtLocationCategoriesDescription.Text = "(Only the best matching result will be returned)";
-                    break;
-            }
-        }
-
-        /// <summary>
         /// Helper function to perform simple validation on the input text boxes
         /// </summary>
         private bool ValidateSearchParameters()
@@ -371,6 +355,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MessageBox.Show("Please enter an integer greater than 0", "Error");
             return false;
 
+        }
+
+
+        /// <summary>
+        /// Helper function to change the tip shown for different CloudLocationCategories
+        /// </summary>
+        private void CboLocationType_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            var comboBoxContent = (CboLocationCategories.SelectedItem as ComboBoxItem)?.Content;
         }
     }
 }
