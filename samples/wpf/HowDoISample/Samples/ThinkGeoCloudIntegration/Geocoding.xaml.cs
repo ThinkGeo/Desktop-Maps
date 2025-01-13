@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -71,6 +72,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async Task<CloudGeocodingResult> PerformGeocodingQuery()
         {
+            // Overture Queries require a BBox - check to make sure the extent is not too large.
+            bool includeOvertureBool = (bool)((ComboBoxItem)CboIncludeOverturePlaces.SelectedValue).Tag;
+            if (includeOvertureBool && MapView.CurrentExtent.GetArea(GeographyUnit.Meter, AreaUnit.SquareMiles) > 100000)
+            {
+                MessageBox.Show("Please zoom in before including Overture Place Data in Request.");
+                return await Task.FromResult<CloudGeocodingResult>(new CloudGeocodingResult(null, null));
+            }
+
             // Show a loading graphic to let users know the request is running
             LoadingImage.Visibility = Visibility.Visible;
 
@@ -82,8 +91,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 LocationType = (CloudGeocodingLocationType)Enum.Parse(typeof(CloudGeocodingLocationType), ((ComboBoxItem)CboLocationType.SelectedItem).Content.ToString() ?? string.Empty),
                 ResultProjectionInSrid = 3857,
                 BBox = MapView.CurrentExtent,
-                IncludeOverturePlaces = (bool)((ComboBoxItem)CboIncludeOverturePlaces.SelectedValue).Tag
-        };
+                IncludeOverturePlaces = includeOvertureBool
+            };
 
             // Run the geocode
             var searchString = TxtSearchString.Text.Trim();
@@ -106,13 +115,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             LsbLocations.ItemsSource = null;
             await geocodedLocationOverlay.RefreshAsync();
 
-            // Update the UI with the number of results found and the list of locations found
-            TxtSearchResultsDescription.Text = $"Found {searchResult.Locations.Count} matching locations.";
-            LsbLocations.ItemsSource = searchResult.Locations;
-            if (searchResult.Locations.Count > 0)
+            if (searchResult.Locations != null)
             {
-                LsbLocations.Visibility = Visibility.Visible;
-                LsbLocations.SelectedIndex = 0;
+                // Update the UI with the number of results found and the list of locations found
+                TxtSearchResultsDescription.Text = $"Found {searchResult.Locations.Count} matching locations.";
+                LsbLocations.ItemsSource = searchResult.Locations;
+                if (searchResult.Locations.Count > 0)
+                {
+                    LsbLocations.Visibility = Visibility.Visible;
+                    LsbLocations.SelectedIndex = 0;
+                }
             }
         }
 
