@@ -26,6 +26,12 @@
         "source": "Samples/MapOnlineData/ThinkGeoRasterMap"
       },
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.RasterMBTiles",
+        "title": "ThinkGeo RasterMBTiles Map",
+        "description": "This sample shows how to display ThinkGeo RasterMBTiles background images.",
+        "source": "Samples/MapOnlineData/RasterMBTiles"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.ThinkGeoVectorMap",
         "title": "ThinkGeo Vector Map",
         "description": "This sample shows how to display ThinkGeo cloud vector background maps.",
