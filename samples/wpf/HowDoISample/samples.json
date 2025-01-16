@@ -26,10 +26,10 @@
         "source": "Samples/MapOnlineData/ThinkGeoRasterMap"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.RasterMBTiles",
-        "title": "ThinkGeo RasterMBTiles Map",
-        "description": "This sample shows how to display ThinkGeo RasterMBTiles background images.",
-        "source": "Samples/MapOnlineData/RasterMBTiles"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.RasterXYZServer",
+        "title": "Raster Map from XYZ Server",
+        "description": "This sample shows how to display raster map from XYZ server.",
+        "source": "Samples/MapOnlineData/RasterXYZServer"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.ThinkGeoVectorMap",
@@ -269,6 +269,35 @@
         "title": "Grouping Layers Using LayerOverlay",
         "description": "Learn to group layers into logical groups using LayerOverlays.",
         "source": "Samples/MapOfflineData/GroupingLayersUsingLayerOverlay"
+      }
+    ]
+  },
+  {
+    "title": "XYZ Based Layers",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayRasterMBTilesFile",
+        "title": "Display Raster from MBTiles",
+        "description": "This sample demonstrates how to display a raster map using data from an MBTiles file.",
+        "source": "Samples/MapOfflineData/Raster/DisplayRasterMBTilesFile"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.RasterXYZServer",
+        "title": "Display Raster from XYZ Server",
+        "description": "This sample demonstrates how to display a raster map from an XYZ server.",
+        "source": "Samples/MapOnlineData/RasterXYZServer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMBTilesFile",
+        "title": "Display Vector from MBTiles",
+        "description": "This sample demonstrates how to display a vector map from a standard MBTiles file (v1.3).",
+        "source": "Samples/MapOfflineData/DisplayMBTilesFile"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.MVT",
+        "title": "Display Vector from MVT Server",
+        "description": "This sample demonstrates how to display a vector map from an MVT server.",
+        "source": "Samples/MapOnlineData/MVT"
       }
     ]
   },

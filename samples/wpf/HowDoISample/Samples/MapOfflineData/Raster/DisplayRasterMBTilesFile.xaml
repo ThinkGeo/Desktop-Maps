@@ -59,4 +59,24 @@
 
     </Grid>
 
+    <UserControl.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="WhiteSmoke" />
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+        <Style TargetType="Grid">
+            <Setter Property="Background" Value="DimGray" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Height" Value="22" />
+            <Setter Property="Margin" Value="0,10,0,0" />
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Height" Value="20" />
+        </Style>
+        <Style TargetType="RadioButton">
+            <Setter Property="Foreground" Value="WhiteSmoke" />
+        </Style>
+    </UserControl.Resources>
+
 </UserControl>
