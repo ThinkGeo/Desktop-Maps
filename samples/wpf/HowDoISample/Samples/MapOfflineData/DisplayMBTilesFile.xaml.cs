@@ -9,9 +9,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Show the Standard MBTiles File (v1.3)
     /// </summary>
-    public partial class DisplayMBTilesFile : IDisposable
+    public partial class DisplayMbTilesFile : IDisposable
     {
-        public DisplayMBTilesFile()
+        public DisplayMbTilesFile()
         {
             InitializeComponent();
         }

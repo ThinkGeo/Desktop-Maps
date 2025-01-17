@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -6,17 +7,22 @@ using ThinkGeo.Core;
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Interaction logic for DisplayRasterMBTilesFile.xaml
+    /// Interaction logic for DisplayRasterMbTilesFile.xaml
     /// </summary>
-    public partial class DisplayRasterMBTilesFile : IDisposable
+    public partial class DisplayRasterMbTilesFile : IDisposable
     {
+        // Observable collection to hold log messages.
+        public ObservableCollection<string> LogMessages { get; } = new ObservableCollection<string>();
         private RasterMbTilesAsyncLayer rasterMbTilesLayer;
+        private int _logIndex = 0;
 
-        public DisplayRasterMBTilesFile()
+        public DisplayRasterMbTilesFile()
         {
             InitializeComponent();
-        }
 
+            DataContext = this;
+        }
+        
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             try
@@ -41,7 +47,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 rasterMbTilesLayer.TileCache.GottenCacheTile += TileCache_GottenCacheTile;
                 rasterMbTilesLayer.ProjectedTileCache.GottenCacheTile += ProjectedTileCache_GottenCacheTile;
 
-                layerOverlay.Drawn += LayerOverlayOnDrawn;
+                //layerOverlay.Drawn += LayerOverlayOnDrawn;
                 await MapView.RefreshAsync();
             }
             catch 
@@ -51,22 +57,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
         }
 
-        private void LayerOverlayOnDrawn(object sender, DrawnOverlayEventArgs e)
-        {
-            Dispatcher.Invoke(() =>
-            {
-                LogTextBox.ScrollToEnd();
-            });
-        }
-
         private void ProjectedTileCache_GottenCacheTile(object sender, GottenCacheImageBitmapTileCacheEventArgs e)
         {
             Dispatcher.Invoke(() =>
             {
-                var message = e.Tile.Content == null ? "Projection Cache Not Hit:" : "Projection Cache Hit:";
+                var message = e.Tile.Content == null ? "Projection Cache Not Hit: " : "Projection Cache Hit: ";
                 message += $"{e.Tile.ZoomIndex}-{e.Tile.Column}-{e.Tile.Row}";
 
-                LogTextBox.Text += message + Environment.NewLine;
+                AppendLog(message);
             });
         }
 
@@ -74,10 +72,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             Dispatcher.Invoke(() =>
             {
-                var message = e.Tile.Content == null ? "Cache Not Hit:" : "Cache Hit:";
+                var message = e.Tile.Content == null ? "Cache Not Hit: " : "Cache Hit: ";
                 message += $"{e.Tile.ZoomIndex}-{e.Tile.Column}-{e.Tile.Row}";
 
-                LogTextBox.Text += message + Environment.NewLine;
+                AppendLog(message);
             });
         }
 
@@ -138,10 +136,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
         }
 
+        public void AppendLog(string message)
+        {
+            // Add log message to the observable collection
+            LogMessages.Add($"{_logIndex++}: {message}");
+            LogListBox.ScrollIntoView(LogMessages[LogMessages.Count - 1]);
+        }
+
         public void Dispose()
         {
-            ThinkGeoDebugger.DisplayTileId = false;
-            // Dispose of unmanaged resources.
             MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);

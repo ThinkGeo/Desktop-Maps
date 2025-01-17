@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.IO.Compression;
+using System.Threading.Tasks;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -7,15 +11,16 @@ using ThinkGeo.Core;
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Interaction logic for RasterMBTiles.xaml
+    /// Interaction logic for DisplayRasterMbTilesFile.xaml
     /// </summary>
-    public partial class RasterXyzServer : IDisposable
+    public partial class DisplayRasterFileTiles : IDisposable
     {
+        // Observable collection to hold log messages.
         public ObservableCollection<string> LogMessages { get; } = new ObservableCollection<string>();
-        private ThinkGeoRasterMapsAsyncLayer _thinkGeoRasterMapsAsyncLayer;
-        private int _logIndex;
+        private XyzFileTilesAsyncLayer fileTilesAsyncLayer;
+        private int _logIndex = 0;
 
-        public RasterXyzServer()
+        public DisplayRasterFileTiles()
         {
             InitializeComponent();
 
@@ -26,34 +31,32 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             try
             {
+                if (!Directory.Exists(@".\Data\OSM_Tiles_z0-z5_Created_By_QGIS"))
+                    ZipFile.ExtractToDirectory(@".\Data\OSM_Tiles_z0-z5_Created_By_QGIS.zip", @".\Data\OSM_Tiles_z0-z5_Created_By_QGIS");
+
                 var layerOverlay = new LayerOverlay();
-                layerOverlay.TileType = TileType.SingleTile;
                 MapView.Overlays.Add(layerOverlay);
+                fileTilesAsyncLayer = new XyzFileTilesAsyncLayer(@".\Data\OSM_Tiles_z0-z5_Created_By_QGIS");
+                fileTilesAsyncLayer.MaxZoom = 5; // The MaxZoom with data
 
-                // Add Cloud Maps as a background overlay
-                _thinkGeoRasterMapsAsyncLayer = new ThinkGeoRasterMapsAsyncLayer
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudRasterMapsMapType.Light_V2_X1,
-                };
+                layerOverlay.TileType = TileType.SingleTile;
+                layerOverlay.Layers.Add(fileTilesAsyncLayer);
 
-                layerOverlay.Layers.Add(_thinkGeoRasterMapsAsyncLayer);
-
-                string cachePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "thinkGeoRasterMapsOnlineLayerCache");
+                string cachePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FileTilesLayerCache");
 
                 if (!System.IO.Directory.Exists(cachePath))
                 {
                     System.IO.Directory.CreateDirectory(cachePath);
                 }
 
-                _thinkGeoRasterMapsAsyncLayer.TileCache = new FileRasterTileCache(cachePath, "raw");
-                _thinkGeoRasterMapsAsyncLayer.ProjectedTileCache = new FileRasterTileCache(cachePath, "projected")
-                    { EnableDebugInfo = true };
+                fileTilesAsyncLayer.TileCache = new FileRasterTileCache(cachePath, "raw");
+                fileTilesAsyncLayer.ProjectedTileCache = new FileRasterTileCache(cachePath, "projected")
+                { EnableDebugInfo = true };
 
-                _thinkGeoRasterMapsAsyncLayer.TileCache.GottenCacheTile += TileCache_GottenCacheTile;
-                _thinkGeoRasterMapsAsyncLayer.ProjectedTileCache.GottenCacheTile += ProjectedTileCache_GottenCacheTile;
+                fileTilesAsyncLayer.TileCache.GottenCacheTile += TileCache_GottenCacheTile;
+                fileTilesAsyncLayer.ProjectedTileCache.GottenCacheTile += ProjectedTileCache_GottenCacheTile;
 
+                //layerOverlay.Drawn += LayerOverlayOnDrawn;
                 await MapView.RefreshAsync();
             }
             catch
@@ -73,7 +76,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 AppendLog(message);
             });
         }
-
         private void TileCache_GottenCacheTile(object sender, GottenCacheImageBitmapTileCacheEventArgs e)
         {
             Dispatcher.Invoke(() =>
@@ -90,7 +92,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             try
             {
-                if (_thinkGeoRasterMapsAsyncLayer == null) return;
+                if (fileTilesAsyncLayer == null) return;
 
                 var radioButton = sender as RadioButton;
                 if (radioButton?.Tag == null) return;
@@ -99,21 +101,40 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 {
                     case "3857":
                         MapView.MapUnit = GeographyUnit.Meter;
-                        _thinkGeoRasterMapsAsyncLayer.ProjectionConverter = null;
+                        fileTilesAsyncLayer.ProjectionConverter = null;
                         break;
 
                     case "4326":
                         MapView.MapUnit = GeographyUnit.DecimalDegree;
-                        _thinkGeoRasterMapsAsyncLayer.ProjectionConverter = new GdalProjectionConverter(3857, 4326);
+                        fileTilesAsyncLayer.ProjectionConverter = new GdalProjectionConverter(3857, 4326);
                         break;
 
                     default:
                         return;
                 }
 
-                await _thinkGeoRasterMapsAsyncLayer.CloseAsync();
-                await _thinkGeoRasterMapsAsyncLayer.OpenAsync();
-                MapView.CurrentExtent = _thinkGeoRasterMapsAsyncLayer.GetBoundingBox();
+                await fileTilesAsyncLayer.CloseAsync();
+                await fileTilesAsyncLayer.OpenAsync();
+                MapView.CurrentExtent = fileTilesAsyncLayer.GetBoundingBox();
+                await MapView.RefreshAsync();
+            }
+            catch
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
+        }
+
+        private async void RenderBeyondMaxZoomCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (!(sender is CheckBox checkBox))
+                    return;
+
+                if (checkBox.IsChecked.HasValue)
+                    fileTilesAsyncLayer.RenderBeyondMaxZoom = checkBox.IsChecked.Value;
+
                 await MapView.RefreshAsync();
             }
             catch
@@ -130,13 +151,33 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             LogListBox.ScrollIntoView(LogMessages[LogMessages.Count - 1]);
         }
 
+
         public void Dispose()
         {
-            ThinkGeoDebugger.DisplayTileId = false;
-            // Dispose of unmanaged resources.
             MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
+        }
+    }
+
+
+    class XyzFileTilesAsyncLayer : RasterXyzTileAsyncLayer
+    {
+        private string _root;
+
+        public XyzFileTilesAsyncLayer(string tilesFolder)
+        {
+            _root = tilesFolder;
+        }
+
+        protected override async Task<RasterTile> GetTileAsyncCore(int zoomLevel, long x, long y, float resolutionFactor, CancellationToken cancellationToken)
+        {
+            var path = @$"{_root}\{zoomLevel}\{x}\{y}.jpg";
+            if (!File.Exists(path))
+                return new RasterTile(null, zoomLevel, x, y);
+
+            var bytes = await File.ReadAllBytesAsync(path);
+            return new RasterTile(bytes, zoomLevel, x, y);
         }
     }
 }
