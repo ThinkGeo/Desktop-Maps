@@ -170,14 +170,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _root = tilesFolder;
         }
 
-        protected override async Task<RasterTile> GetTileAsyncCore(int zoomLevel, long x, long y, float resolutionFactor, CancellationToken cancellationToken)
+        protected override Task<RasterTile> GetTileAsyncCore(int zoomLevel, long x, long y, float resolutionFactor, CancellationToken cancellationToken)
         {
-            var path = @$"{_root}\{zoomLevel}\{x}\{y}.jpg";
+            var path = $"{_root}\\{zoomLevel}\\{x}\\{y}.jpg";
             if (!File.Exists(path))
-                return new RasterTile(null, zoomLevel, x, y);
+                return Task.FromResult(new RasterTile(null, zoomLevel, x, y));
 
-            var bytes = await File.ReadAllBytesAsync(path);
-            return new RasterTile(bytes, zoomLevel, x, y);
+            var bytes = File.ReadAllBytes(path);
+            return Task.FromResult(new RasterTile(bytes, zoomLevel, x, y));
         }
     }
 }
