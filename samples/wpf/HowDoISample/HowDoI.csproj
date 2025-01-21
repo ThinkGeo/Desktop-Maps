@@ -30,7 +30,7 @@
     <None Remove="HowDoI\**" />
     <Page Remove="HowDoI\**" />
     <Compile Remove="SampleTemplate.xaml.cs" />
-    <Page Update="Samples\MapOfflineData\GenerateESRIGridFile.xaml">
+    <Page Update="Samples\MapOfflineData\Vector\GenerateESRIGridFile.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Samples\MapOfflineData\Raster\DisplayGdalFile.xaml">
@@ -77,7 +77,7 @@
     <Compile Update="Samples\MapOfflineData\Raster\DisplayECWFile.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\MapOfflineData\GenerateESRIGridFile.xaml.cs">
+    <Compile Update="Samples\MapOfflineData\Vector\GenerateESRIGridFile.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\MapOfflineData\Raster\DisplayESRIGridFile.xaml.cs">
