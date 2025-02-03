@@ -37,6 +37,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 };
                 MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
+                //Add a mouse move event handler to the map so that we can refresh the textboxes (off the map)
+                MapView.MouseMove += MapView_MouseMove;
+
                 // Set the map extent
                 MapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
 
@@ -48,6 +51,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
             }
         }
+
 
         /// <summary>
         /// Sets the visibility of the MouseCoordinates to true
@@ -80,10 +84,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     // Set to Lon, Lat format
                     MapView.MapTools.MouseCoordinate.MouseCoordinateType = MouseCoordinateType.LongitudeLatitude;
                     break;
-                case "(degrees), (minutes), (seconds)":
-                    // Set to Degrees, Minutes, Seconds format
-                    MapView.MapTools.MouseCoordinate.MouseCoordinateType = MouseCoordinateType.DegreesMinutesSeconds;
-                    break;
                 case "(custom)":
                     // Set to a custom format
                     MapView.MapTools.MouseCoordinate.MouseCoordinateType = MouseCoordinateType.Custom;
@@ -102,6 +102,40 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             ((MouseCoordinateMapTool)sender).Foreground = new SolidColorBrush(Colors.Black);
             e.Result = $"X: {e.WorldCoordinate.X:N0}, Y: {e.WorldCoordinate.Y:N0}";
         }
+
+        /// <summary>
+        /// Event handler for the MapView's MouseMove event.  
+        /// We just get the mouse position's current location 
+        /// </summary>
+        private void MapView_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (DisplayMouseCoordinatesTextBox.IsChecked == true)
+            {
+                var currentPoint = e.GetPosition(MapView);
+                var worldPoint = MapUtil.ToWorldCoordinate(MapView.CurrentExtent, currentPoint.X, currentPoint.Y, MapView.ActualWidth,
+                    MapView.ActualHeight);
+
+                switch (((ComboBoxItem)CoordinateType.SelectedItem).Content)
+                {
+                    case "(lat), (lon)":
+                        // Set to Lat, Lon format
+                        txtCoordinate.Text = $"{worldPoint.Y:F3}, {worldPoint.X:F3}";
+                        break;
+                    case "(lon), (lat)":
+                        // Set to Lon, Lat format
+                        txtCoordinate.Text = $"{worldPoint.X:F3}, {worldPoint.Y:F3}";
+                        break;
+                    case "(custom)":
+                        txtCoordinate.Text = $"{worldPoint.X:N0}, {worldPoint.Y:N0}";
+                        break;
+                }
+            }
+            else
+            {
+                txtCoordinate.Text = "N/A";
+            }
+        }
+
         public void Dispose()
         {
             // Dispose of unmanaged resources.
