@@ -300,6 +300,12 @@
         "source": "Samples/MapOnlineData/RasterXyzServer"
       },
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.WMTSAsXYZLayer",
+        "title": "Display Raster from WMTS Server",
+        "description": "This sample shows how to display the tiles from a raster WMTS server.",
+        "source": "Samples/XYZBasedLayers/WMTSAsXYZLayer"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMbTilesFile",
         "title": "Display Vector from MBTiles",
         "description": "This sample shows how to display a MBTiles file. The demo mbtile/json come from https://github.com/maplibre/demotiles?tab=readme-ov-file",

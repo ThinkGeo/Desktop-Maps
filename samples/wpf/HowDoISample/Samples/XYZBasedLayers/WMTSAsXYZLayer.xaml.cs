@@ -1,9 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.IO.Compression;
-using System.Threading.Tasks;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -11,52 +10,73 @@ using ThinkGeo.Core;
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Interaction logic for DisplayRasterMbTilesFile.xaml
+    /// Learn how to display a WMTS Layer on the map
     /// </summary>
-    public partial class DisplayRasterFileTiles : IDisposable
+    public partial class WMTSAsXYZLayer : IDisposable
     {
-        // Observable collection to hold log messages.
+        private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
+        private readonly string defaultLayerName = "LINZ";
+        private readonly Dictionary<string, RectangleShape> bBoxDict = new Dictionary<string, RectangleShape>();
+
         public ObservableCollection<string> LogMessages { get; } = new ObservableCollection<string>();
-        private XyzFileTilesAsyncLayer fileTilesAsyncLayer;
+        private WmtsAsyncLayer wmtsAsyncLayer;
         private int _logIndex = 0;
 
-        public DisplayRasterFileTiles()
+        public WMTSAsXYZLayer()
         {
             InitializeComponent();
 
             DataContext = this;
         }
 
+        /// <summary>
+        /// Add the WMTS layer to the map
+        /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (!Directory.Exists(@".\Data\OSM_Tiles_z0-z5_Created_By_QGIS"))
-                    ZipFile.ExtractToDirectory(@".\Data\OSM_Tiles_z0-z5_Created_By_QGIS.zip", @".\Data\OSM_Tiles_z0-z5_Created_By_QGIS");
-
                 var layerOverlay = new LayerOverlay();
                 MapView.Overlays.Add(layerOverlay);
-                fileTilesAsyncLayer = new XyzFileTilesAsyncLayer(@".\Data\OSM_Tiles_z0-z5_Created_By_QGIS");
-                fileTilesAsyncLayer.MaxZoomOfTheData = 5; // The MaxZoom with data
+                wmtsAsyncLayer = new Core.WmtsAsyncLayer(new Uri("https://basemaps.linz.govt.nz/v1/tiles/aerial/NZTM2000Quad/WMTSCapabilities.xml?api=c01j20m6pmjhc81bn55sakayftb"));
+                wmtsAsyncLayer.DrawingExceptionMode = DrawingExceptionMode.DrawException;
+                wmtsAsyncLayer.CapabilitiesCacheTimeout = new TimeSpan(0, 0, 0, 1);
+                wmtsAsyncLayer.ActiveLayerName = "aerial";
+                wmtsAsyncLayer.ActiveStyleName = "default";
+                wmtsAsyncLayer.OutputFormat = "image/png";
+                wmtsAsyncLayer.TileMatrixSetName = "NZTM2000Quad";
 
+                string layerName = "LINZ";
                 layerOverlay.TileType = TileType.SingleTile;
-                layerOverlay.Layers.Add(fileTilesAsyncLayer);
+                layerOverlay.Layers.Add(layerName, wmtsAsyncLayer);
 
-                string cachePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FileTilesLayerCache");
+                string cachePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "wmtsAsyncLayerCache");
 
                 if (!System.IO.Directory.Exists(cachePath))
                 {
                     System.IO.Directory.CreateDirectory(cachePath);
                 }
 
-                fileTilesAsyncLayer.TileCache = new FileRasterTileCache(cachePath, "raw");
-                fileTilesAsyncLayer.ProjectedTileCache = new FileRasterTileCache(cachePath, "projected");
+                ThinkGeoDebugger.DisplayTileId = true;
 
-                fileTilesAsyncLayer.TileCache.GottenTile += TileCache_GottenCacheTile;
-                fileTilesAsyncLayer.ProjectedTileCache.GottenTile += ProjectedTileCache_GottenCacheTile;
+                wmtsAsyncLayer.TileCache = new FileRasterTileCache(cachePath, "raw");
+                wmtsAsyncLayer.ProjectedTileCache = new FileRasterTileCache(cachePath, "projected");
 
-                //layerOverlay.Drawn += LayerOverlayOnDrawn;
-                await MapView.RefreshAsync();
+                wmtsAsyncLayer.TileCache.GottenTile += TileCache_GottenCacheTile;
+                wmtsAsyncLayer.ProjectedTileCache.GottenTile += ProjectedTileCache_GottenCacheTile;
+
+                UpdateCancellationToken();
+                //MapView.CurrentExtent = new RectangleShape(14303497.448365476, -7610740.842272079, 16022006.68392926, -9080257.632067444);
+                //await MapView.RefreshAsync(OverlayRefreshType.Redraw, cancellationTokenSource.Token);
+
+                //var fullExtent = wmtsAsyncLayer.GetBoundingBox();
+                await wmtsAsyncLayer.CloseAsync();
+                await wmtsAsyncLayer.OpenAsync();
+                MapView.CurrentExtent = wmtsAsyncLayer.GetBoundingBox();
+                await MapView.ZoomInAsync();
+                await MapView.CenterAtAsync(MapView.CurrentExtent.GetCenterPoint());
+                await MapView.RefreshAsync(OverlayRefreshType.Redraw, cancellationTokenSource.Token);
             }
             catch
             {
@@ -65,33 +85,40 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
         }
 
+        private void UpdateCancellationToken()
+        {
+            cancellationTokenSource.Cancel();
+            cancellationTokenSource.Dispose();
+            cancellationTokenSource = new CancellationTokenSource();
+        }
+
         private void ProjectedTileCache_GottenCacheTile(object sender, GottenTileTileCacheEventArgs e)
         {
             Dispatcher.Invoke(() =>
             {
-                var message = e.Tile.Content == null ? "Projection Cache Not Hit: " : "Projection Cache Hit: ";
+                var message = e.Tile.Content == null ? "Projected Tle Not Exist: " : "Projected Tile From Cache: ";
                 message += $"{e.Tile.ZoomIndex}-{e.Tile.X}-{e.Tile.Y}";
 
                 AppendLog(message);
             });
         }
+
         private void TileCache_GottenCacheTile(object sender, GottenTileTileCacheEventArgs e)
         {
             Dispatcher.Invoke(() =>
             {
-                var message = e.Tile.Content == null ? "Cache Not Hit: " : "Cache Hit: ";
+                var message = e.Tile.Content == null ? "Tile From Source: " : "Tile From Cache: ";
                 message += $"{e.Tile.ZoomIndex}-{e.Tile.X}-{e.Tile.Y}";
 
                 AppendLog(message);
             });
         }
-
 
         private async void Projection_Checked(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (fileTilesAsyncLayer == null) return;
+                if (wmtsAsyncLayer == null) return;
 
                 var radioButton = sender as RadioButton;
                 if (radioButton?.Tag == null) return;
@@ -100,22 +127,23 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 {
                     case "3857":
                         MapView.MapUnit = GeographyUnit.Meter;
-                        fileTilesAsyncLayer.ProjectionConverter = null;
+                        wmtsAsyncLayer.ProjectionConverter = null;
                         break;
 
-                    case "4326":
-                        MapView.MapUnit = GeographyUnit.DecimalDegree;
-                        fileTilesAsyncLayer.ProjectionConverter = new GdalProjectionConverter(3857, 4326);
+                    case "2193":
+                        MapView.MapUnit = GeographyUnit.Meter;
+                        wmtsAsyncLayer.ProjectionConverter = new GdalProjectionConverter(3857, 2193);
                         break;
 
                     default:
                         return;
                 }
 
-                await fileTilesAsyncLayer.CloseAsync();
-                await fileTilesAsyncLayer.OpenAsync();
-                MapView.CurrentExtent = fileTilesAsyncLayer.GetBoundingBox();
-                await MapView.RefreshAsync();
+                await wmtsAsyncLayer.CloseAsync();
+                await wmtsAsyncLayer.OpenAsync();
+                MapView.CurrentExtent = wmtsAsyncLayer.GetBoundingBox();
+                await MapView.RefreshAsync(OverlayRefreshType.Redraw, cancellationTokenSource.Token);
+                //await MapView.RefreshAsync();
             }
             catch
             {
@@ -132,7 +160,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     return;
 
                 if (checkBox.IsChecked.HasValue)
-                    fileTilesAsyncLayer.RenderBeyondMaxZoom = checkBox.IsChecked.Value;
+                    wmtsAsyncLayer.RenderBeyondMaxZoom = checkBox.IsChecked.Value;
 
                 await MapView.RefreshAsync();
             }
@@ -178,27 +206,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             ThinkGeoDebugger.DisplayTileId = false;
             MapView.Dispose();
             GC.SuppressFinalize(this);
-        }
-    }
-
-
-    class XyzFileTilesAsyncLayer : RasterXyzTileAsyncLayer
-    {
-        private string _root;
-
-        public XyzFileTilesAsyncLayer(string tilesFolder)
-        {
-            _root = tilesFolder;
-        }
-
-        protected override Task<RasterTile> GetTileAsyncCore(int zoomLevel, long x, long y, float resolutionFactor, CancellationToken cancellationToken)
-        {
-            var path = $"{_root}\\{zoomLevel}\\{x}\\{y}.jpg";
-            if (!File.Exists(path))
-                return Task.FromResult(new RasterTile(null, zoomLevel, x, y));
-
-            var bytes = File.ReadAllBytes(path);
-            return Task.FromResult(new RasterTile(bytes, zoomLevel, x, y));
         }
     }
 }

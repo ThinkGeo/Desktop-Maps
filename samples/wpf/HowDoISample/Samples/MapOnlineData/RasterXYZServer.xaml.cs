@@ -122,6 +122,48 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
         }
 
+        private async void RenderBeyondMaxZoomCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (!(sender is CheckBox checkBox))
+                    return;
+
+                if (checkBox.IsChecked.HasValue)
+                    _thinkGeoRasterMapsAsyncLayer.RenderBeyondMaxZoom = checkBox.IsChecked.Value;
+
+                await MapView.RefreshAsync();
+            }
+            catch
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
+        }
+
+        private async void DisplayTileIdCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (!(sender is CheckBox checkBox))
+                    return;
+
+                if (!checkBox.IsChecked.HasValue)
+                    return;
+
+                if (ThinkGeoDebugger.DisplayTileId != checkBox.IsChecked.Value)
+                {
+                    ThinkGeoDebugger.DisplayTileId = checkBox.IsChecked.Value;
+                    await MapView.RefreshAsync();
+                }
+            }
+            catch
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
+        }
+
         public void AppendLog(string message)
         {
             // Add log message to the observable collection
@@ -132,9 +174,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             ThinkGeoDebugger.DisplayTileId = false;
-            // Dispose of unmanaged resources.
             MapView.Dispose();
-            // Suppress finalization.
             GC.SuppressFinalize(this);
         }
     }
