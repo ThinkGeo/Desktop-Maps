@@ -112,19 +112,25 @@
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayGeoPackageFile",
         "title": "Display a GeoPackage File",
         "description": "Show the GeoPackage File",
-        "source": "Samples/MapOfflineData/DisplayGeoPackageFile"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMbTilesFile",
-        "title": "Display a MBTiles File",
-        "description": "Show the Standard MBTiles File (v1.3)",
-        "source": "Samples/MapOfflineData/DisplayMbTilesFile"
+        "source": "Samples/MapOfflineData/Vector/DisplayGeoPackageFile"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayRasterMbTilesFile",
-        "title": "Display a Raster MBTiles File",
-        "description": "Show the Raster MBTiles File",
+        "title": "Display Raster from MBTiles",
+        "description": "Display a raster MBTiles file.",
         "source": "Samples/MapOfflineData/Raster/DisplayRasterMbTilesFile"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayRasterFileTiles",
+        "title": "Display Raster from File Tiles",
+        "description": "Display the raster tiles created by QGIS. The demo tiles cover zoom0 to zoom5",
+        "source": "Samples/MapOfflineData/Raster/DisplayRasterFileTiles"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMbTilesFile",
+        "title": "Display Vector from MBTiles",
+        "description": "Show how to display a MBTiles file. The demo mbtile/json come from https://github.com/maplibre/demotiles?tab=readme-ov-file",
+        "source": "Samples/MapOfflineData/Vector/DisplayMbTilesFile"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplaySQLiteFile",
@@ -262,7 +268,7 @@
         "id": "ThinkGeo.UI.Wpf.HowDoI.GenerateESRIGridFile",
         "title": "Generate an ESRI Grid File",
         "description": "This sample shows how to generate an ESRI .grd Grid File from point data and display it on the map.",
-        "source": "Samples/MapOfflineData/GenerateESRIGridFile"
+        "source": "Samples/MapOfflineData/Vector/GenerateESRIGridFile"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.GroupingLayersUsingLayerOverlay",
@@ -297,7 +303,7 @@
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMbTilesFile",
         "title": "Display Vector from MBTiles",
         "description": "This sample shows how to display a MBTiles file. The demo mbtile/json come from https://github.com/maplibre/demotiles?tab=readme-ov-file",
-        "source": "Samples/MapOfflineData/DisplayMbTilesFile"
+        "source": "Samples/MapOfflineData/Vector/DisplayMbTilesFile"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.MVT",
