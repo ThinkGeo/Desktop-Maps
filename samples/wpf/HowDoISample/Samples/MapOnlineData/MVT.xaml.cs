@@ -24,7 +24,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var scaleFactor = (float)PresentationSource.FromVisual(Application.Current.MainWindow).CompositionTarget.TransformToDevice.M11;
                 var openstackMbtiles = new MvtTilesAsyncLayer($@"https://tiles.preludemaps.com/data/planet_1015",
                     "https://tiles.preludemaps.com/styles/TG_Savannah_Light/style.json");
-                openstackMbtiles.MaxZoom = 14;
+                openstackMbtiles.MaxZoomOfTheData = 14;
 
                 _layerOverlay.Layers.Add(openstackMbtiles);
                 await openstackMbtiles.OpenAsync();

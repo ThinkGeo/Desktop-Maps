@@ -37,7 +37,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var layerOverlay = new LayerOverlay();
                 MapView.Overlays.Add(layerOverlay);
                 fileTilesAsyncLayer = new XyzFileTilesAsyncLayer(@".\Data\OSM_Tiles_z0-z5_Created_By_QGIS");
-                fileTilesAsyncLayer.MaxZoom = 5; // The MaxZoom with data
+                fileTilesAsyncLayer.MaxZoomOfTheData = 5; // The MaxZoom with data
 
                 layerOverlay.TileType = TileType.SingleTile;
                 layerOverlay.Layers.Add(fileTilesAsyncLayer);
@@ -50,11 +50,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 }
 
                 fileTilesAsyncLayer.TileCache = new FileRasterTileCache(cachePath, "raw");
-                fileTilesAsyncLayer.ProjectedTileCache = new FileRasterTileCache(cachePath, "projected")
-                { EnableDebugInfo = true };
+                fileTilesAsyncLayer.ProjectedTileCache = new FileRasterTileCache(cachePath, "projected");
 
-                fileTilesAsyncLayer.TileCache.GottenCacheTile += TileCache_GottenCacheTile;
-                fileTilesAsyncLayer.ProjectedTileCache.GottenCacheTile += ProjectedTileCache_GottenCacheTile;
+                fileTilesAsyncLayer.TileCache.GottenTile += TileCache_GottenCacheTile;
+                fileTilesAsyncLayer.ProjectedTileCache.GottenTile += ProjectedTileCache_GottenCacheTile;
 
                 //layerOverlay.Drawn += LayerOverlayOnDrawn;
                 await MapView.RefreshAsync();
@@ -66,22 +65,22 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
         }
 
-        private void ProjectedTileCache_GottenCacheTile(object sender, GottenCacheImageBitmapTileCacheEventArgs e)
+        private void ProjectedTileCache_GottenCacheTile(object sender, GottenTileTileCacheEventArgs e)
         {
             Dispatcher.Invoke(() =>
             {
                 var message = e.Tile.Content == null ? "Projection Cache Not Hit: " : "Projection Cache Hit: ";
-                message += $"{e.Tile.ZoomIndex}-{e.Tile.Column}-{e.Tile.Row}";
+                message += $"{e.Tile.ZoomIndex}-{e.Tile.X}-{e.Tile.Y}";
 
                 AppendLog(message);
             });
         }
-        private void TileCache_GottenCacheTile(object sender, GottenCacheImageBitmapTileCacheEventArgs e)
+        private void TileCache_GottenCacheTile(object sender, GottenTileTileCacheEventArgs e)
         {
             Dispatcher.Invoke(() =>
             {
                 var message = e.Tile.Content == null ? "Cache Not Hit: " : "Cache Hit: ";
-                message += $"{e.Tile.ZoomIndex}-{e.Tile.Column}-{e.Tile.Row}";
+                message += $"{e.Tile.ZoomIndex}-{e.Tile.X}-{e.Tile.Y}";
 
                 AppendLog(message);
             });

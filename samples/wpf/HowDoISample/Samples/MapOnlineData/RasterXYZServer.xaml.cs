@@ -48,11 +48,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 }
 
                 _thinkGeoRasterMapsAsyncLayer.TileCache = new FileRasterTileCache(cachePath, "raw");
-                _thinkGeoRasterMapsAsyncLayer.ProjectedTileCache = new FileRasterTileCache(cachePath, "projected")
-                    { EnableDebugInfo = true };
+                _thinkGeoRasterMapsAsyncLayer.ProjectedTileCache = new FileRasterTileCache(cachePath, "projected");
 
-                _thinkGeoRasterMapsAsyncLayer.TileCache.GottenCacheTile += TileCache_GottenCacheTile;
-                _thinkGeoRasterMapsAsyncLayer.ProjectedTileCache.GottenCacheTile += ProjectedTileCache_GottenCacheTile;
+                _thinkGeoRasterMapsAsyncLayer.TileCache.GottenTile += TileCache_GottenCacheTile;
+                _thinkGeoRasterMapsAsyncLayer.ProjectedTileCache.GottenTile += ProjectedTileCache_GottenCacheTile;
 
                 await MapView.RefreshAsync();
             }
@@ -63,23 +62,23 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
         }
 
-        private void ProjectedTileCache_GottenCacheTile(object sender, GottenCacheImageBitmapTileCacheEventArgs e)
+        private void ProjectedTileCache_GottenCacheTile(object sender, GottenTileTileCacheEventArgs e)
         {
             Dispatcher.Invoke(() =>
             {
                 var message = e.Tile.Content == null ? "Projection Cache Not Hit: " : "Projection Cache Hit: ";
-                message += $"{e.Tile.ZoomIndex}-{e.Tile.Column}-{e.Tile.Row}";
+                message += $"{e.Tile.ZoomIndex}-{e.Tile.X}-{e.Tile.Y}";
 
                 AppendLog(message);
             });
         }
 
-        private void TileCache_GottenCacheTile(object sender, GottenCacheImageBitmapTileCacheEventArgs e)
+        private void TileCache_GottenCacheTile(object sender, GottenTileTileCacheEventArgs e)
         {
             Dispatcher.Invoke(() =>
             {
                 var message = e.Tile.Content == null ? "Cache Not Hit: " : "Cache Hit: ";
-                message += $"{e.Tile.ZoomIndex}-{e.Tile.Column}-{e.Tile.Row}";
+                message += $"{e.Tile.ZoomIndex}-{e.Tile.X}-{e.Tile.Y}";
 
                 AppendLog(message);
             });

@@ -8,7 +8,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="220" />
+            <ColumnDefinition Width="240" />
         </Grid.ColumnDefinitions>
 
         <thinkGeoUi:MapView x:Name="MapView" Grid.Column="0" Loaded="MapView_Loaded" />
@@ -40,10 +40,17 @@
                              Foreground="White"
                              Margin="10, 5" Content="EPSG 4326"/>
 
+
+                <CheckBox FontSize="14" FontWeight="Bold" Foreground="White" IsChecked="True"
+                          Checked="DisplayTileIdCheckBox_Checked"
+                          Unchecked="DisplayTileIdCheckBox_Checked" 
+                          Margin="4" Content="Show Debug Info"/>
+
                 <CheckBox FontSize="14" FontWeight="Bold" Foreground="White"
                           Checked="RenderBeyondMaxZoomCheckBox_Checked"
                           Unchecked="RenderBeyondMaxZoomCheckBox_Checked" 
-                          Margin="10" Content="Render Beyond Max Zoom"/>
+                          Margin="4" Content="Render Beyond Max Zoom"/>
+
             </StackPanel>
 
 

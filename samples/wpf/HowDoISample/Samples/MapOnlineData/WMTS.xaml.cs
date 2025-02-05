@@ -92,7 +92,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             var wmtsLayer = new Core.WmtsAsyncLayer(new Uri("https://wmts.geo.admin.ch/1.0.0"));
             wmtsLayer.DrawingExceptionMode = DrawingExceptionMode.DrawException;
-            wmtsLayer.CapabilitesCacheTimeout = new TimeSpan(0, 0, 0, 1);
+            wmtsLayer.CapabilitiesCacheTimeout = new TimeSpan(0, 0, 0, 1);
             wmtsLayer.ActiveLayerName = "ch.swisstopo.pixelkarte-farbe-pk25.noscale";
             wmtsLayer.ActiveStyleName = "default";
             wmtsLayer.OutputFormat = "image/png";
@@ -107,7 +107,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             var wmtsLayer = new Core.WmtsAsyncLayer(new Uri("https://geo.vliz.be/geoserver/Dataportal/gwc/service/wmts"));
             wmtsLayer.DrawingExceptionMode = DrawingExceptionMode.DrawException;
-            wmtsLayer.CapabilitesCacheTimeout = new TimeSpan(0, 0, 0, 1);
+            wmtsLayer.CapabilitiesCacheTimeout = new TimeSpan(0, 0, 0, 1);
             wmtsLayer.ActiveLayerName = "eurobis_grid_15m-obisenv";
             wmtsLayer.ActiveStyleName = "generic";
             wmtsLayer.OutputFormat = "image/png";
@@ -123,7 +123,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             var wmtsLayer = new Core.WmtsAsyncLayer(new Uri("https://basemaps.linz.govt.nz/v1/tiles/aerial/NZTM2000Quad/WMTSCapabilities.xml?api=c01j20m6pmjhc81bn55sakayftb"));
             wmtsLayer.DrawingExceptionMode = DrawingExceptionMode.DrawException;
-            wmtsLayer.CapabilitesCacheTimeout = new TimeSpan(0, 0, 0, 1);
+            wmtsLayer.CapabilitiesCacheTimeout = new TimeSpan(0, 0, 0, 1);
             wmtsLayer.ActiveLayerName = "aerial";
             wmtsLayer.ActiveStyleName = "default";
             wmtsLayer.OutputFormat = "image/png";
