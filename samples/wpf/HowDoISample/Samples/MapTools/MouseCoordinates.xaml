@@ -21,8 +21,6 @@
                 <ComboBoxItem Content="(custom)"></ComboBoxItem>
             </ComboBox>
 
-            <TextBox Grid.Column="1" Grid.Row="3" x:Name="txtCoordinate" IsReadOnly="True" IsEnabled="False" Margin="0,343,0,10"/>
-
             <!-- Controls Grid Layout -->
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />
@@ -38,6 +36,9 @@
             </Grid.RowDefinitions>
         </Grid>
 
+        <TextBox Grid.Column="1" Grid.Row="3" x:Name="txtCoordinate" IsReadOnly="True" IsEnabled="False" 
+         VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="10,0,10,10" Height="20"/>
+        
         <!-- Grid Layout -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
