@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -14,11 +12,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class WMTSAsXYZLayer : IDisposable
     {
-        private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-
-        private readonly string defaultLayerName = "LINZ";
-        private readonly Dictionary<string, RectangleShape> bBoxDict = new Dictionary<string, RectangleShape>();
-
         public ObservableCollection<string> LogMessages { get; } = new ObservableCollection<string>();
         private WmtsAsyncLayer wmtsAsyncLayer;
         private int _logIndex = 0;
@@ -39,17 +32,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             {
                 var layerOverlay = new LayerOverlay();
                 MapView.Overlays.Add(layerOverlay);
-                wmtsAsyncLayer = new Core.WmtsAsyncLayer(new Uri("https://basemaps.linz.govt.nz/v1/tiles/aerial/NZTM2000Quad/WMTSCapabilities.xml?api=c01j20m6pmjhc81bn55sakayftb"));
+                wmtsAsyncLayer = new WmtsAsyncLayer(new Uri("https://wmts.geo.admin.ch/1.0.0"));
                 wmtsAsyncLayer.DrawingExceptionMode = DrawingExceptionMode.DrawException;
                 wmtsAsyncLayer.CapabilitiesCacheTimeout = new TimeSpan(0, 0, 0, 1);
-                wmtsAsyncLayer.ActiveLayerName = "aerial";
+                wmtsAsyncLayer.ActiveLayerName = "ch.swisstopo.pixelkarte-farbe-pk25.noscale";
                 wmtsAsyncLayer.ActiveStyleName = "default";
                 wmtsAsyncLayer.OutputFormat = "image/png";
-                wmtsAsyncLayer.TileMatrixSetName = "NZTM2000Quad";
+                wmtsAsyncLayer.TileMatrixSetName = "21781_26";
 
-                string layerName = "LINZ";
                 layerOverlay.TileType = TileType.SingleTile;
-                layerOverlay.Layers.Add(layerName, wmtsAsyncLayer);
+                layerOverlay.Layers.Add(wmtsAsyncLayer);
 
                 string cachePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "wmtsAsyncLayerCache");
 
@@ -66,17 +58,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 wmtsAsyncLayer.TileCache.GottenTile += TileCache_GottenCacheTile;
                 wmtsAsyncLayer.ProjectedTileCache.GottenTile += ProjectedTileCache_GottenCacheTile;
 
-                UpdateCancellationToken();
-                //MapView.CurrentExtent = new RectangleShape(14303497.448365476, -7610740.842272079, 16022006.68392926, -9080257.632067444);
-                //await MapView.RefreshAsync(OverlayRefreshType.Redraw, cancellationTokenSource.Token);
-
-                //var fullExtent = wmtsAsyncLayer.GetBoundingBox();
-                await wmtsAsyncLayer.CloseAsync();
                 await wmtsAsyncLayer.OpenAsync();
+                // Create a zoomlevelSet from the WMTS server
+                MapView.ZoomLevelSet = GetZoomLevelSetFromWmtsServer();
+
                 MapView.CurrentExtent = wmtsAsyncLayer.GetBoundingBox();
-                await MapView.ZoomInAsync();
-                await MapView.CenterAtAsync(MapView.CurrentExtent.GetCenterPoint());
-                await MapView.RefreshAsync(OverlayRefreshType.Redraw, cancellationTokenSource.Token);
+                await MapView.RefreshAsync();
             }
             catch
             {
@@ -85,11 +72,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
         }
 
-        private void UpdateCancellationToken()
+        private ZoomLevelSet GetZoomLevelSetFromWmtsServer()
         {
-            cancellationTokenSource.Cancel();
-            cancellationTokenSource.Dispose();
-            cancellationTokenSource = new CancellationTokenSource();
+            var scales = wmtsAsyncLayer.TileMatrixSets[wmtsAsyncLayer.TileMatrixSetName].TileMatrices
+                .Select((matrix, i) => matrix.Scale);
+            var zoomLevels = scales.Select((d, i) => new ZoomLevel(d));
+            var zoomLevelSet = new ZoomLevelSet();
+            foreach (var zoomLevel in zoomLevels)
+            {
+                zoomLevelSet.CustomZoomLevels.Add(zoomLevel);
+            }
+
+            return zoomLevelSet;
         }
 
         private void ProjectedTileCache_GottenCacheTile(object sender, GottenTileTileCacheEventArgs e)
@@ -123,16 +117,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var radioButton = sender as RadioButton;
                 if (radioButton?.Tag == null) return;
 
+                var srid = 0;
                 switch (radioButton.Tag.ToString())
                 {
-                    case "3857":
+                    case "21781":
                         MapView.MapUnit = GeographyUnit.Meter;
                         wmtsAsyncLayer.ProjectionConverter = null;
                         break;
 
-                    case "2193":
-                        MapView.MapUnit = GeographyUnit.Meter;
-                        wmtsAsyncLayer.ProjectionConverter = new GdalProjectionConverter(3857, 2193);
+                    case "4326":
+                        MapView.MapUnit = GeographyUnit.DecimalDegree;
+                        var currentCrs = wmtsAsyncLayer.TileMatrixSets[wmtsAsyncLayer.TileMatrixSetName].SupportedCrs;
+                        wmtsAsyncLayer.ProjectionConverter = new GdalProjectionConverter(currentCrs, 4326);
                         break;
 
                     default:
@@ -142,8 +138,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 await wmtsAsyncLayer.CloseAsync();
                 await wmtsAsyncLayer.OpenAsync();
                 MapView.CurrentExtent = wmtsAsyncLayer.GetBoundingBox();
-                await MapView.RefreshAsync(OverlayRefreshType.Redraw, cancellationTokenSource.Token);
-                //await MapView.RefreshAsync();
+                await MapView.RefreshAsync();
             }
             catch
             {

@@ -49,6 +49,7 @@
                 <CheckBox FontSize="14" FontWeight="Bold" Foreground="White"
                           Checked="RenderBeyondMaxZoomCheckBox_Checked"
                           Unchecked="RenderBeyondMaxZoomCheckBox_Checked" 
+                          ToolTip="The data only covers zoom 0~5. Check this to render zoom 6+ by stretching the data from zoom 5."
                           Margin="4" Content="Render Beyond Max Zoom"/>
             
             </StackPanel>
