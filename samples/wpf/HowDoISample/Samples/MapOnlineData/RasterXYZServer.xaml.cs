@@ -40,7 +40,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 layerOverlay.Layers.Add(_thinkGeoRasterMapsAsyncLayer);
 
-                string cachePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "thinkGeoRasterMapsOnlineLayerCache");
+                string cachePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cache", "thinkgeo_raster_maps_online_layer");
 
                 if (!System.IO.Directory.Exists(cachePath))
                 {

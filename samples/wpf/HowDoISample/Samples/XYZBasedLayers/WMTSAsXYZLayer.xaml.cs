@@ -43,7 +43,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 layerOverlay.TileType = TileType.SingleTile;
                 layerOverlay.Layers.Add(wmtsAsyncLayer);
 
-                string cachePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "wmtsAsyncLayerCache");
+                string cachePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cache", "wmts_async_layer");
 
                 if (!System.IO.Directory.Exists(cachePath))
                 {

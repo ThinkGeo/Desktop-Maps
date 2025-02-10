@@ -33,7 +33,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 layerOverlay.TileType = TileType.SingleTile;
                 layerOverlay.Layers.Add(rasterMbTilesLayer);
 
-                string cachePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rasterMbTilesLayerCache");
+                string cachePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cache", "raster_mb_tiles_layer");
 
                 if (!System.IO.Directory.Exists(cachePath))
                 {

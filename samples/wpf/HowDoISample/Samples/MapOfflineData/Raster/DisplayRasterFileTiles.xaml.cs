@@ -42,7 +42,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 layerOverlay.TileType = TileType.SingleTile;
                 layerOverlay.Layers.Add(fileTilesAsyncLayer);
 
-                string cachePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FileTilesLayerCache");
+                string cachePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cache", "raster_file_tiles_layer");
 
                 if (!System.IO.Directory.Exists(cachePath))
                 {
