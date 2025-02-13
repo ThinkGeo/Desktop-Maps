@@ -74,12 +74,6 @@
         "source": "Samples/MapOnlineData/OpenStreetMap"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.MVT",
-        "title": "MVT",
-        "description": "This sample shows how to display a MVT Feature Layer.",
-        "source": "Samples/MapOnlineData/MVT"
-      },
-      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.WFS",
         "title": "WFS",
         "description": "This sample shows how to display a WFS V2 Feature Layer.(This WFSV2 sever may be slow )",
@@ -310,12 +304,6 @@
         "title": "Display Vector from MBTiles",
         "description": "This sample shows how to display a MBTiles file. The demo mbtile/json come from https://github.com/maplibre/demotiles?tab=readme-ov-file",
         "source": "Samples/MapOfflineData/Vector/DisplayMbTilesFile"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.MVT",
-        "title": "Display Vector from MVT Server",
-        "description": "This sample shows how to display a vector map from an MVT server.",
-        "source": "Samples/MapOnlineData/MVT"
       }
     ]
   },
