@@ -22,9 +22,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            ThinkGeoDebugger.DisplayTileId = true;
             try
             {
+                ThinkGeoDebugger.DisplayTileId = true;
                 // It is important to set the map unit first to either feet, meters or decimal degrees.
                 MapView.MapUnit = GeographyUnit.Meter;
                 var layerOverlay = new WmtsOverlay(new Uri("https://wmts.geo.admin.ch/1.0.0"));
@@ -39,6 +39,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 await layerOverlay.OpenAsync();
                 MapView.ZoomLevelSet = GetZoomLevelSetFromWmtsServer(layerOverlay);
                 MapView.CurrentExtent = layerOverlay.GetBoundingBox();
+                MapView.StretchMode = MapViewStretchMode.ShowNewTilesOnStart;
                 await MapView.RefreshAsync();
             }
             catch
