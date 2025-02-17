@@ -50,7 +50,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private ZoomLevelSet GetZoomLevelSetFromWmtsServer(WmtsOverlay wmtsOverlay)
         {
-            var scales = wmtsOverlay.TileMatrixSets[wmtsOverlay.TileMatrixSetName].TileMatrices
+            var scales = wmtsOverlay.GetTileMatrixSets()[wmtsOverlay.TileMatrixSetName].TileMatrices
                 .Select((matrix, i) => matrix.Scale);
             var zoomLevels = scales.Select((d, i) => new ZoomLevel(d));
             var zoomLevelSet = new ZoomLevelSet();
