@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ThinkGeo.Core;
@@ -52,6 +53,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             rdoCheckIfPointsAreTouchingLines.Checked = true;
 
             await mapView.RefreshAsync();
+            await mapView.ZoomToScaleAsync(1000);
         }
 
         private async void rdoCheckIfPointsAreTouchingLines_CheckedChanged(object sender, EventArgs e)
@@ -195,7 +197,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             validatedFeaturesLayer.Close();
             filterFeaturesLayer.Close();
             resultFeaturesLayer.Close();
-            await mapView.ZoomOutAsync();
+            await mapView.ZoomToScaleAsync(1000);
         }
 
         #region Component Designer generated code

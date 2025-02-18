@@ -18,7 +18,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             layerOverlay.TileType = TileType.MultiTile;
             mapView.Overlays.Add(layerOverlay);
 
-            var openstackMbtiles = new MbTilesLayer(@"../../../Data\Mbtiles\maplibre.mbtiles", @"../../../Data\Mbtiles\style.json");
+            var openstackMbtiles = new VectorMbTilesAsyncLayer(@"../../../Data\Mbtiles\maplibre.mbtiles", @"../../../Data\Mbtiles\style.json");
             layerOverlay.Layers.Add(openstackMbtiles);
 
             mapView.CurrentExtent = new RectangleShape(-11305077.39954415, 11301934.55158609, 6893050.193489946, -2669531.148872344);
