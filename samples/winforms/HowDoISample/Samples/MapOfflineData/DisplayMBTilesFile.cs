@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Forms;
 using ThinkGeo.Core;
 
@@ -11,19 +12,20 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
+        LayerOverlay _layerOverlay;
+
         private async void Form_Load(object sender, EventArgs e)
         {
             mapView.MapUnit = GeographyUnit.Meter;
-            var layerOverlay = new LayerOverlay();
-            layerOverlay.TileType = TileType.MultiTile;
-            mapView.Overlays.Add(layerOverlay);
+            _layerOverlay = new LayerOverlay();
+            _layerOverlay.TileType = TileType.MultiTile;
+            mapView.Overlays.Add(_layerOverlay);
 
             var openstackMbtiles = new VectorMbTilesAsyncLayer(@"../../../Data\Mbtiles\maplibre.mbtiles", @"../../../Data\Mbtiles\style.json");
-            layerOverlay.Layers.Add(openstackMbtiles);
+            _layerOverlay.Layers.Add(openstackMbtiles);
 
-            mapView.CurrentExtent = new RectangleShape(-11305077.39954415, 11301934.55158609, 6893050.193489946, -2669531.148872344);
+            mapView.CurrentExtent = MaxExtents.SphericalMercator;
             await openstackMbtiles.OpenAsync();
-            mapView.BackColor = System.Drawing.Color.FromArgb(216, 242, 255);
 
             checkBox1.Checked = true; // Assuming you want to show Tile ID by default
             ThinkGeoDebugger.DisplayTileId = checkBox1.Checked;
@@ -38,22 +40,40 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 await mapView.RefreshAsync();
         }
 
-        private async void rbLayerOrOverlay_CheckedChanged(object sender, EventArgs e)
+        private async void SwitchTileSize_OnCheckedChanged(object sender, EventArgs e)
         {
-            if (mapView.Overlays.Count > 0 && mapView.Overlays[0] is LayerOverlay layerOverlay)
-            {
-                var tileSize = int.Parse(((RadioButton)sender).Tag.ToString());
-                mapView.ZoomLevelSet = new SphericalMercatorZoomLevelSet(tileSize);
+                if (mapView.Overlays.Count <= 0) return;
 
-                layerOverlay.TileWidth = tileSize;
-                layerOverlay.TileHeight = tileSize;
+                if (!(_layerOverlay.Layers[0] is VectorMbTilesAsyncLayer mbTilesLayer))
+                    return;
 
-                if (layerOverlay.Layers[0] is MbTilesLayer mbTilesLayer)
+                var content = ((RadioButton)sender).Tag.ToString();
                 {
-                    mbTilesLayer.ZoomLevelSet = new SphericalMercatorZoomLevelSet(tileSize, MaxExtents.SphericalMercator);
+                    if (content == "256")
+                    {
+                        mapView.ZoomLevelSet = new SphericalMercatorZoomLevelSet(256);
+                        _layerOverlay.TileType = TileType.MultiTile;
+                        _layerOverlay.TileWidth = 256;
+                        _layerOverlay.TileHeight = 256;
+                        await mbTilesLayer.CloseAsync();
+                        mbTilesLayer.TileWidth = 256;
+                        mbTilesLayer.TileHeight = 256;
+                        await mbTilesLayer.OpenAsync();
+
+                    }
+                    else if (content == "512")
+                    {
+                        mapView.ZoomLevelSet = new SphericalMercatorZoomLevelSet(512);
+                        _layerOverlay.TileType = TileType.MultiTile;
+                        _layerOverlay.TileWidth = 512;
+                        _layerOverlay.TileHeight = 512;
+                        await mbTilesLayer.CloseAsync();
+                        mbTilesLayer.TileWidth = 512;
+                        mbTilesLayer.TileHeight = 512;
+                        await mbTilesLayer.OpenAsync();
+                    }
                 }
-                await mapView.RefreshAsync();
-            }
+            await mapView.RefreshAsync();
         }
 
         private void DisplayMBTilesFile_VisibleChanged(object sender, EventArgs e)
@@ -125,7 +145,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             radioButton2.Text = "512 * 512";
             radioButton2.Tag = "512";
             radioButton2.UseVisualStyleBackColor = true;
-            radioButton2.CheckedChanged += new EventHandler(rbLayerOrOverlay_CheckedChanged);
+            radioButton2.CheckedChanged += SwitchTileSize_OnCheckedChanged;
             // 
             // radioButton1
             // 
@@ -140,7 +160,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             radioButton1.Text = "256 * 256";
             radioButton1.Tag = "256";
             radioButton1.UseVisualStyleBackColor = true;
-            radioButton1.CheckedChanged += new EventHandler(rbLayerOrOverlay_CheckedChanged);
+            radioButton1.CheckedChanged += SwitchTileSize_OnCheckedChanged;
             // 
             // checkBox1
             // 

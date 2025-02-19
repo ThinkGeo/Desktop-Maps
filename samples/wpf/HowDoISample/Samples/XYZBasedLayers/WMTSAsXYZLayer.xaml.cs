@@ -74,7 +74,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private ZoomLevelSet GetZoomLevelSetFromWmtsServer()
         {
-            var scales = wmtsAsyncLayer.TileMatrixSets[wmtsAsyncLayer.TileMatrixSetName].TileMatrices
+            var scales = wmtsAsyncLayer.GetTileMatrixSets()[wmtsAsyncLayer.TileMatrixSetName].TileMatrices
                 .Select((matrix, i) => matrix.Scale);
             var zoomLevels = scales.Select((d, i) => new ZoomLevel(d));
             var zoomLevelSet = new ZoomLevelSet();
@@ -117,7 +117,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var radioButton = sender as RadioButton;
                 if (radioButton?.Tag == null) return;
 
-                var srid = 0;
                 switch (radioButton.Tag.ToString())
                 {
                     case "21781":
@@ -127,7 +126,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                     case "4326":
                         MapView.MapUnit = GeographyUnit.DecimalDegree;
-                        var currentCrs = wmtsAsyncLayer.TileMatrixSets[wmtsAsyncLayer.TileMatrixSetName].SupportedCrs;
+                        var currentCrs = wmtsAsyncLayer.GetTileMatrixSets()[wmtsAsyncLayer.TileMatrixSetName].SupportedCrs;
                         wmtsAsyncLayer.ProjectionConverter = new GdalProjectionConverter(currentCrs, 4326);
                         break;
 
