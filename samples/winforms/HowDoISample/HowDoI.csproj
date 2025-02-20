@@ -400,6 +400,12 @@
     <None Update="Data\GeoPdf\bangalore.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Data\GeoTiff\m_3309650_sw_14_1_20160911_20161121.tfw">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\GeoTiff\m_3309650_sw_14_1_20160911_20161121.tif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Data\GeoTiff\World.tfw">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
