@@ -100,13 +100,13 @@
         "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayGeoPackageFile",
         "title": "Display a GeoPackage File",
         "description": "This sample shows how to display a GeoPackage layer.",
-        "source": "Samples/MapOfflineData/DisplayGeoPackageFile"
+        "source": "Samples/MapOfflineData/Vector/DisplayGeoPackageFile"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayMBTilesFile",
         "title": "Display a MBTiles File",
         "description": "This sample shows how to display a Standard MBTiles File (v1.3).",
-        "source": "Samples/MapOfflineData/DisplayMBTilesFile"
+        "source": "Samples/MapOfflineData/Vector/DisplayMBTilesFile"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DisplaySQLiteFile",
@@ -244,7 +244,7 @@
         "id": "ThinkGeo.UI.WinForms.HowDoI.GenerateESRIGridFile",
         "title": "Generate an ESRI Grid File",
         "description": "This sample shows how to generate an ESRI Grid layer.",
-        "source": "Samples/MapOfflineData/GenerateESRIGridFile"
+        "source": "Samples/MapOfflineData/Vector/GenerateESRIGridFile"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.GroupingLayersUsingLayerOverlay",

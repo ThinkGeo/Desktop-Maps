@@ -14,7 +14,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void Form_Load(object sender, EventArgs e)
         {
-            UseOverlay();
+            UseLayerWithReProjection();
             await mapView.RefreshAsync();
         }
 
@@ -29,7 +29,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                     case "Use WmsOverlay":
                         UseOverlay();
                         break;
-                    case "Use WmsAsyncLayer":
+                    case "Use WmsRasterLayer":
                         UseLayer();
                         break;
                     case "Use WmsLayer with ReProjection":
@@ -176,7 +176,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // radioButton1
             // 
             radioButton1.AutoSize = true;
-            radioButton1.Checked = true;
             radioButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             radioButton1.ForeColor = System.Drawing.Color.White;
             radioButton1.Location = new System.Drawing.Point(20, 48);
@@ -197,13 +196,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             radioButton2.Name = "radioButton2";
             radioButton2.Size = new System.Drawing.Size(196, 24);
             radioButton2.TabIndex = 2;
-            radioButton2.Text = "Use WmsAsyncLayer";
+            radioButton2.Text = "Use WmsRasterLayer";
             radioButton2.UseVisualStyleBackColor = true;
             radioButton2.CheckedChanged += new EventHandler(rbLayerOrOverlay_CheckedChanged);
             //
             // radioButton3
             //
             radioButton3.AutoSize = true;
+            radioButton3.Checked = true;
             radioButton3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             radioButton3.ForeColor = System.Drawing.Color.White;
             radioButton3.Location = new System.Drawing.Point(20, 122);

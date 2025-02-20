@@ -1,10 +1,12 @@
 ﻿using System;
-using System.Windows;
 using System.Windows.Forms;
 using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
+    /// <summary>
+    /// Show the Standard MBTiles File (v1.3)
+    /// </summary>
     public partial class DisplayMBTilesFile : UserControl
     {
         public DisplayMBTilesFile()
@@ -42,43 +44,43 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void SwitchTileSize_OnCheckedChanged(object sender, EventArgs e)
         {
-                if (mapView.Overlays.Count <= 0) return;
+            if (mapView.Overlays.Count <= 0) return;
 
-                if (!(_layerOverlay.Layers[0] is VectorMbTilesAsyncLayer mbTilesLayer))
-                    return;
+            if (!(_layerOverlay.Layers[0] is VectorMbTilesAsyncLayer mbTilesLayer))
+                return;
 
-                var content = ((RadioButton)sender).Tag.ToString();
+            var content = ((RadioButton)sender).Tag.ToString();
+            {
+                if (content == "256")
                 {
-                    if (content == "256")
-                    {
-                        mapView.ZoomLevelSet = new SphericalMercatorZoomLevelSet(256);
-                        _layerOverlay.TileType = TileType.MultiTile;
-                        _layerOverlay.TileWidth = 256;
-                        _layerOverlay.TileHeight = 256;
-                        await mbTilesLayer.CloseAsync();
-                        mbTilesLayer.TileWidth = 256;
-                        mbTilesLayer.TileHeight = 256;
-                        await mbTilesLayer.OpenAsync();
+                    mapView.ZoomLevelSet = new SphericalMercatorZoomLevelSet(256);
+                    _layerOverlay.TileType = TileType.MultiTile;
+                    _layerOverlay.TileWidth = 256;
+                    _layerOverlay.TileHeight = 256;
+                    await mbTilesLayer.CloseAsync();
+                    mbTilesLayer.TileWidth = 256;
+                    mbTilesLayer.TileHeight = 256;
+                    await mbTilesLayer.OpenAsync();
 
-                    }
-                    else if (content == "512")
-                    {
-                        mapView.ZoomLevelSet = new SphericalMercatorZoomLevelSet(512);
-                        _layerOverlay.TileType = TileType.MultiTile;
-                        _layerOverlay.TileWidth = 512;
-                        _layerOverlay.TileHeight = 512;
-                        await mbTilesLayer.CloseAsync();
-                        mbTilesLayer.TileWidth = 512;
-                        mbTilesLayer.TileHeight = 512;
-                        await mbTilesLayer.OpenAsync();
-                    }
                 }
+                else if (content == "512")
+                {
+                    mapView.ZoomLevelSet = new SphericalMercatorZoomLevelSet(512);
+                    _layerOverlay.TileType = TileType.MultiTile;
+                    _layerOverlay.TileWidth = 512;
+                    _layerOverlay.TileHeight = 512;
+                    await mbTilesLayer.CloseAsync();
+                    mbTilesLayer.TileWidth = 512;
+                    mbTilesLayer.TileHeight = 512;
+                    await mbTilesLayer.OpenAsync();
+                }
+            }
             await mapView.RefreshAsync();
         }
 
         private void DisplayMBTilesFile_VisibleChanged(object sender, EventArgs e)
         {
-            if (!this.Visible)
+            if (!Visible)
             {
                 ThinkGeoDebugger.DisplayTileId = false;
             }
@@ -187,7 +189,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             //
             // Attach VisibleChanged event
             //
-            this.VisibleChanged += DisplayMBTilesFile_VisibleChanged;           
+            VisibleChanged += DisplayMBTilesFile_VisibleChanged;
         }
 
         #endregion Component Designer generated code

@@ -7,6 +7,12 @@ using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
+    /// <summary>
+    /// Learn how to generate and display an ESRI Grid Layer on the map
+    /// We start with a shapefile of points with each point containing a soil PH value.
+    /// Clicking the Generate button will build a .grd file using an Inverse Distance Weighted (IDW) interpolation model and then displays the grid.
+    /// Although this sample is a soil map, this same technique can be used to translate any other point-based data to a grid
+    /// </summary>
     public partial class GenerateESRIGridFile : UserControl
     {
         public GenerateESRIGridFile()
@@ -14,6 +20,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the ESRI Grid layer to the map
+        /// </summary>
         private async void Form_Load(object sender, EventArgs e)
         {
             mapView.MapUnit = GeographyUnit.Meter;
@@ -146,75 +155,75 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void InitializeComponent()
         {
-            this.mapView = new ThinkGeo.UI.WinForms.MapView();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.panel1.SuspendLayout();
-            this.SuspendLayout();
+            mapView = new MapView();
+            panel1 = new Panel();
+            button1 = new Button();
+            label1 = new Label();
+            panel1.SuspendLayout();
+            SuspendLayout();
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.mapView.BackColor = System.Drawing.Color.White;
-            this.mapView.CurrentScale = 0D;
-            this.mapView.Location = new System.Drawing.Point(0, 0);
-            this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
-            this.mapView.MaximumScale = 1.7976931348623157E+308D;
-            this.mapView.MinimumScale = 200D;
-            this.mapView.Name = "mapView";
-            this.mapView.RestrictExtent = null;
-            this.mapView.RotatedAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(891, 560);
-            this.mapView.TabIndex = 0;
+            mapView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom
+            | AnchorStyles.Left
+            | AnchorStyles.Right;
+            mapView.BackColor = System.Drawing.Color.White;
+            mapView.CurrentScale = 0D;
+            mapView.Location = new System.Drawing.Point(0, 0);
+            mapView.MapResizeMode = MapResizeMode.PreserveScale;
+            mapView.MaximumScale = 1.7976931348623157E+308D;
+            mapView.MinimumScale = 200D;
+            mapView.Name = "mapView";
+            mapView.RestrictExtent = null;
+            mapView.RotatedAngle = 0F;
+            mapView.Size = new System.Drawing.Size(891, 560);
+            mapView.TabIndex = 0;
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.BackColor = System.Drawing.Color.Gray;
-            this.panel1.Controls.Add(this.button1);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(894, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(300, 560);
-            this.panel1.TabIndex = 1;
+            panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom
+            | AnchorStyles.Right;
+            panel1.BackColor = System.Drawing.Color.Gray;
+            panel1.Controls.Add(button1);
+            panel1.Controls.Add(label1);
+            panel1.Location = new System.Drawing.Point(894, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new System.Drawing.Size(300, 560);
+            panel1.TabIndex = 1;
             // 
             // button1
             // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.button1.ForeColor = System.Drawing.Color.Black;
-            this.button1.Location = new System.Drawing.Point(3, 50);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(293, 35);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "Generate Grid File";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.generateGridFile_Click);
+            button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            button1.ForeColor = System.Drawing.Color.Black;
+            button1.Location = new System.Drawing.Point(3, 50);
+            button1.Name = "button1";
+            button1.Size = new System.Drawing.Size(293, 35);
+            button1.TabIndex = 9;
+            button1.Text = "Generate Grid File";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += new EventHandler(generateGridFile_Click);
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(3, 20);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(94, 25);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Generate Grid File:";
+            label1.AutoSize = true;
+            label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            label1.ForeColor = System.Drawing.Color.White;
+            label1.Location = new System.Drawing.Point(3, 20);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(94, 25);
+            label1.TabIndex = 0;
+            label1.Text = "Generate Grid File:";
             // 
             // GenerateESRIGridFile
             // 
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.mapView);
-            this.Name = "GenerateESRIGridFile";
-            this.Size = new System.Drawing.Size(1194, 560);
-            this.Load += new System.EventHandler(this.Form_Load);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.ResumeLayout(false);
+            Controls.Add(panel1);
+            Controls.Add(mapView);
+            Name = "GenerateESRIGridFile";
+            Size = new System.Drawing.Size(1194, 560);
+            Load += new EventHandler(Form_Load);
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            ResumeLayout(false);
 
         }
 

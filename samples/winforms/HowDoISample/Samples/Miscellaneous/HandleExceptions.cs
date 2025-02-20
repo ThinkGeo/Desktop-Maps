@@ -4,6 +4,9 @@ using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
+    /// <summary>
+    /// Learn how to display a WMS Layer on the map
+    /// </summary>
     public partial class HandleExceptions : UserControl
     {
         public HandleExceptions()
@@ -11,6 +14,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Add the WMS layer to the map
+        /// </summary>
         private async void Form_Load(object sender, EventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.

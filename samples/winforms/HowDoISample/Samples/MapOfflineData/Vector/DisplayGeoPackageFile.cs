@@ -4,6 +4,9 @@ using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
+    /// <summary>
+    /// Interaction logic for DisplayGeoPackageFile
+    /// </summary>
     public partial class DisplayGeoPackageFile : UserControl
     {
         public DisplayGeoPackageFile()
@@ -55,33 +58,33 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void InitializeComponent()
         {
-            this.mapView = new ThinkGeo.UI.WinForms.MapView();
-            this.SuspendLayout();
+            mapView = new MapView();
+            SuspendLayout();
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.mapView.BackColor = System.Drawing.Color.White;
-            this.mapView.CurrentScale = 0D;
-            this.mapView.Location = new System.Drawing.Point(0, 0);
-            this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
-            this.mapView.MaximumScale = 1.7976931348623157E+308D;
-            this.mapView.MinimumScale = 200D;
-            this.mapView.Name = "mapView";
-            this.mapView.RestrictExtent = null;
-            this.mapView.RotatedAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(950, 575);
-            this.mapView.TabIndex = 0;
+            mapView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom
+            | AnchorStyles.Left
+            | AnchorStyles.Right;
+            mapView.BackColor = System.Drawing.Color.White;
+            mapView.CurrentScale = 0D;
+            mapView.Location = new System.Drawing.Point(0, 0);
+            mapView.MapResizeMode = MapResizeMode.PreserveScale;
+            mapView.MaximumScale = 1.7976931348623157E+308D;
+            mapView.MinimumScale = 200D;
+            mapView.Name = "mapView";
+            mapView.RestrictExtent = null;
+            mapView.RotatedAngle = 0F;
+            mapView.Size = new System.Drawing.Size(950, 575);
+            mapView.TabIndex = 0;
             // 
             // DisplayGeoPackageFile
             // 
-            this.Controls.Add(this.mapView);
-            this.Name = "DisplayGeoPackageFile";
-            this.Size = new System.Drawing.Size(950, 575);
-            this.Load += new System.EventHandler(this.Form_Load);
-            this.ResumeLayout(false);
+            Controls.Add(mapView);
+            Name = "DisplayGeoPackageFile";
+            Size = new System.Drawing.Size(950, 575);
+            Load += new EventHandler(Form_Load);
+            ResumeLayout(false);
 
         }
 

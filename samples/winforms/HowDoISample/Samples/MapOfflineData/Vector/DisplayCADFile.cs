@@ -4,6 +4,9 @@ using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
+    /// <summary>
+    /// Learn how to display a Shapefile Layer on the map
+    /// </summary>
     public partial class DisplayCADFile : UserControl
     {
         private CadFeatureLayer _cadLayer;
@@ -13,6 +16,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the shapefile layer to the map
+        /// </summary>
         private async void Form_Load(object sender, EventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.

@@ -34,7 +34,19 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                     ProjectionConverter = new ProjectionConverter(4326, 3857)
                 }
             };
+
+            // Create a new text style and set various settings to make it look good.
+            var ignNamedPlacesTextStyle = new TextStyle("etiqueta", new GeoFont("Arial", 14), GeoBrushes.DarkRed)
+            {
+                MaskType = MaskType.RoundedCorners,
+                OverlappingRule = LabelOverlappingRule.NoOverlapping,
+                Mask = new AreaStyle(GeoBrushes.WhiteSmoke),
+                SuppressPartialLabels = true,
+                YOffsetInPixel = -12
+            };
+
             ignLayer.ZoomLevelSet.ZoomLevel13.DefaultPointStyle = PointStyle.CreateSimplePointStyle(PointSymbolType.Circle, GeoColors.Black, 10);
+            ignLayer.ZoomLevelSet.ZoomLevel13.DefaultTextStyle = ignNamedPlacesTextStyle;
             ignLayer.ZoomLevelSet.ZoomLevel13.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             var overlay = new OgcApiFeaturesOverlay()

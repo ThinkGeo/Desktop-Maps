@@ -4,6 +4,9 @@ using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
+    /// <summary>
+    /// This sample shows learn how to work with different shapes across the Date Line.
+    /// </summary>
     public partial class WrapTheDateLine : UserControl
     {
         public WrapTheDateLine()
