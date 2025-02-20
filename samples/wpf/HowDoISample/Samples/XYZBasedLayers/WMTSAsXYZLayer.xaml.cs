@@ -34,7 +34,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapView.Overlays.Add(layerOverlay);
                 wmtsAsyncLayer = new WmtsAsyncLayer(new Uri("https://wmts.geo.admin.ch/1.0.0"));
                 wmtsAsyncLayer.DrawingExceptionMode = DrawingExceptionMode.DrawException;
-                wmtsAsyncLayer.CapabilitiesCacheTimeout = new TimeSpan(0, 0, 0, 1);
                 wmtsAsyncLayer.ActiveLayerName = "ch.swisstopo.pixelkarte-farbe-pk25.noscale";
                 wmtsAsyncLayer.ActiveStyleName = "default";
                 wmtsAsyncLayer.OutputFormat = "image/png";
