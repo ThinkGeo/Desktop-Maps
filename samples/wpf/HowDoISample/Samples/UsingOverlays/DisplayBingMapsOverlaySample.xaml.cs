@@ -36,9 +36,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void DisplayBingMaps_Click(object sender, RoutedEventArgs e)
         {
-            var bingMapsOverlay = new BingMapsOverlay(BingApplicationId.Text, BingMapsMapType.Road);
-            MapView.Overlays.Add(bingMapsOverlay);
-            await MapView.RefreshAsync();
+            try
+            {
+                var bingMapsOverlay = new BingMapsOverlay(BingApplicationId.Text, BingMapsMapType.Road);
+                MapView.Overlays.Add(bingMapsOverlay);
+                await MapView.RefreshAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)

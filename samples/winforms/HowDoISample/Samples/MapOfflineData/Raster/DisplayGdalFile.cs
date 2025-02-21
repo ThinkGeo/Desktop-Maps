@@ -20,8 +20,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Create the new layer and dd the layer to the overlay we created earlier.
             var worldLayer = new GdalRasterLayer("./Data/GeoTiff/World.tif")
             {
-                LowerThreshold = 0,
-                UpperThreshold = double.MaxValue
+                LowerScale = 0,
+                UpperScale = double.MaxValue
             };
 
             worldLayer.Open();

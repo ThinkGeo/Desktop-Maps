@@ -8,7 +8,7 @@ namespace NauticalChartsViewer
     {
         private const string chartsOverlayName = "ChartsOverlay";
 
-        public override void Handle(Window owner, MapView map, MenuItemMessage message)
+        public async override void Handle(Window owner, MapView map, MenuItemMessage message)
         {
             switch (message.MenuItem.Action)
             {
@@ -59,7 +59,7 @@ namespace NauticalChartsViewer
                     nauticalChartsFeatureLayer.SymbolTextDisplayMode = Globals.SymbolTextDisplayMode;
                 }
 
-                map.Refresh();
+                await map.RefreshAsync();
             }
         }
 

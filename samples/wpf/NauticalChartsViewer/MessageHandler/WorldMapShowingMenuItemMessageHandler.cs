@@ -10,7 +10,7 @@ namespace NauticalChartsViewer
         private const string thinkGeoCloudClientId = "USlbIyO5uIMja2y0qoM21RRM6NBXUad4hjK3NBD6pD0~";
         private const string thinkGeoCloudClientSecret = "f6OJsvCDDzmccnevX55nL7nXpPDXXKANe5cN6czVjCH0s8jhpCH-2A~~";
 
-        public override void Handle(Window owner, MapView map, MenuItemMessage message)
+        public async override void Handle(Window owner, MapView map, MenuItemMessage message)
         {
             /*===========================================
                Backgrounds for this sample are powered by ThinkGeo Cloud Maps and require
@@ -48,7 +48,7 @@ namespace NauticalChartsViewer
                     break;
             }
 
-            map.Refresh(backgroundOverlay);
+            await map.RefreshAsync(backgroundOverlay);
         }
 
         public override string[] Actions

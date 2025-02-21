@@ -22,47 +22,54 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            // It is important to set the map unit first to either feet, meters or decimal degrees.
-            MapView.MapUnit = GeographyUnit.Meter;
-
-            // Create background world map with vector tile requested from ThinkGeo Cloud Service. 
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            try
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-            };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                // It is important to set the map unit first to either feet, meters or decimal degrees.
+                MapView.MapUnit = GeographyUnit.Meter;
 
-            // Create a new overlay that will hold our new layer and add it to the map.
-            var isoLineOverlay = new LayerOverlay();
-            MapView.Overlays.Add("isoLineOverlay", isoLineOverlay);
+                // Create background world map with vector tile requested from ThinkGeo Cloud Service. 
+                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+                {
+                    ClientId = SampleKeys.ClientId,
+                    ClientSecret = SampleKeys.ClientSecret,
+                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                };
+                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            // Load a csv file with the mosquito data that we will use for the iso line.
-            var csvPointData = GetDataFromCsv(@"./Data/Csv/Frisco_Mosquitos.csv");
+                // Create a new overlay that will hold our new layer and add it to the map.
+                var isoLineOverlay = new LayerOverlay();
+                MapView.Overlays.Add("isoLineOverlay", isoLineOverlay);
 
-            // Create the layer based on the method GetDynamicIsoLineLayer and pass in the points we loaded above and add it to the map.
-            //  We then set the drawing quality high, so we get a crisp rendering.
-            var isoLineLayer = GetDynamicIsoLineLayer(csvPointData);
-            isoLineOverlay.Layers.Add("IsoLineLayer", isoLineLayer);
-            isoLineOverlay.DrawingQuality = DrawingQuality.HighQuality;
+                // Load a csv file with the mosquito data that we will use for the iso line.
+                var csvPointData = GetDataFromCsv(@"./Data/Csv/Frisco_Mosquitos.csv");
 
-            // Create a layer that, so we can get the current extent below to set the maps extend 
-            // We won't use it after so later in the code we will just close it.
-            var mosquitosLayer = new ShapeFileFeatureSource(@"./Data/Shapefile/Frisco_Mosquitos.shp")
+                // Create the layer based on the method GetDynamicIsoLineLayer and pass in the points we loaded above and add it to the map.
+                //  We then set the drawing quality high, so we get a crisp rendering.
+                var isoLineLayer = GetDynamicIsoLineLayer(csvPointData);
+                isoLineOverlay.Layers.Add("IsoLineLayer", isoLineLayer);
+                isoLineOverlay.DrawingQuality = DrawingQuality.HighQuality;
+
+                // Create a layer that, so we can get the current extent below to set the maps extend 
+                // We won't use it after so later in the code we will just close it.
+                var mosquitosLayer = new ShapeFileFeatureSource(@"./Data/Shapefile/Frisco_Mosquitos.shp")
+                {
+                    ProjectionConverter = new ProjectionConverter(2276, 3857)
+                };
+
+                // Open the layer and set the map view current extent to the bounding box of the layer scaled up just a bit then close the layer
+                mosquitosLayer.Open();
+                MapView.CurrentExtent = mosquitosLayer.GetBoundingBox();
+                mosquitosLayer.Close();
+
+                await MapView.RefreshAsync();
+            }
+            catch 
             {
-                ProjectionConverter = new ProjectionConverter(2276, 3857)
-            };
-
-            // Open the layer and set the map view current extent to the bounding box of the layer scaled up just a bit then close the layer
-            mosquitosLayer.Open();
-            MapView.CurrentExtent = mosquitosLayer.GetBoundingBox();
-            mosquitosLayer.Close();
-
-            await MapView.RefreshAsync();
-
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         private static Dictionary<PointShape, double> GetDataFromCsv(string csvFilePath)

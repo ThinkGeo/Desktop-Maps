@@ -11,7 +11,7 @@ namespace NauticalChartsViewer
         private const string chartsOverlayName = "ChartsOverlay";
         private const string boundingBoxPreviewOverlayName = "BoundingBoxPreview";
 
-        public override void Handle(Window owner, MapView map, MenuItemMessage message)
+        public async override void Handle(Window owner, MapView map, MenuItemMessage message)
         {
             switch (message.MenuItem.Action.ToLowerInvariant())
             {
@@ -31,7 +31,16 @@ namespace NauticalChartsViewer
                             {
                                 if (map.Overlays.Contains(chartsOverlayName))
                                 {
-                                    GeoCollection<Layer> layers = (map.Overlays[chartsOverlayName] as LayerOverlay).Layers;
+                                    var baseLayers = (map.Overlays[chartsOverlayName] as LayerOverlay).Layers;
+                                    GeoCollection<Layer> layers = new GeoCollection<Layer>();
+
+                                    foreach (var baseLayer in baseLayers)
+                                    {
+                                        if (baseLayer is Layer layer)
+                                        {
+                                            layers.Add(layer.Name, layer);
+                                        }
+                                    }
                                     foreach (Layer layer in layers)
                                     {
                                         layer.Close();
@@ -49,7 +58,7 @@ namespace NauticalChartsViewer
                                 {
                                     ((InMemoryFeatureLayer)((LayerOverlay)map.Overlays[boundingBoxPreviewOverlayName]).Layers[0]).InternalFeatures.Clear();
                                 }
-                                map.Refresh();
+                                await map.RefreshAsync();
                             }
                         }
                     }

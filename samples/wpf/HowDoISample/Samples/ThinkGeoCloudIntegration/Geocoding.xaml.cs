@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,38 +25,46 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            try
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-            };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
+                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+                {
+                    ClientId = SampleKeys.ClientId,
+                    ClientSecret = SampleKeys.ClientSecret,
+                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                };
+                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            // Set the map's unit of measurement to meters (Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+                // Set the map's unit of measurement to meters (Spherical Mercator)
+                MapView.MapUnit = GeographyUnit.Meter;
 
-            // Create a marker overlay to display the geocoded locations that will be generated, and add it to the map
-            MarkerOverlay geocodedLocationsOverlay = new SimpleMarkerOverlay();
-            MapView.Overlays.Add("Geocoded Locations Overlay", geocodedLocationsOverlay);
+                // Create a marker overlay to display the geocoded locations that will be generated, and add it to the map
+                MarkerOverlay geocodedLocationsOverlay = new SimpleMarkerOverlay();
+                MapView.Overlays.Add("Geocoded Locations Overlay", geocodedLocationsOverlay);
 
-            // Set the map extent to Frisco, TX
-            MapView.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
+                // Set the map extent to Frisco, TX
+                MapView.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
 
-            // Initialize the GeocodingCloudClient using our ThinkGeo Cloud credentials
-            _geocodingCloudClient = new GeocodingCloudClient
+                // Initialize the GeocodingCloudClient using our ThinkGeo Cloud credentials
+                _geocodingCloudClient = new GeocodingCloudClient
+                {
+                    ClientId = SampleKeys.ClientId2,
+                    ClientSecret = SampleKeys.ClientSecret2,
+                };
+
+                CboSearchType.SelectedIndex = 0;
+                CboLocationType.SelectedIndex = 0;
+
+                await MapView.RefreshAsync();
+            }
+            catch 
             {
-                ClientId = SampleKeys.ClientId2,
-                ClientSecret = SampleKeys.ClientSecret2,
-            };
-
-            CboSearchType.SelectedIndex = 0;
-            CboLocationType.SelectedIndex = 0;
-
-            await MapView.RefreshAsync();
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         /// <summary>
@@ -63,6 +72,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async Task<CloudGeocodingResult> PerformGeocodingQuery()
         {
+            // Overture Queries require a BBox - check to make sure the extent is not too large.
+            bool includeOvertureBool = (bool)((ComboBoxItem)CboIncludeOverturePlaces.SelectedValue).Tag;
+            if (includeOvertureBool && MapView.CurrentExtent.GetArea(GeographyUnit.Meter, AreaUnit.SquareMiles) > 100000)
+            {
+                MessageBox.Show("Please zoom in before including Overture Place Data in Request.");
+                return await Task.FromResult<CloudGeocodingResult>(new CloudGeocodingResult(null, null));
+            }
+
             // Show a loading graphic to let users know the request is running
             LoadingImage.Visibility = Visibility.Visible;
 
@@ -72,7 +89,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MaxResults = int.Parse(TxtMaxResults.Text),
                 SearchMode = ((ComboBoxItem)CboSearchType.SelectedItem).Content.ToString() == "Fuzzy" ? CloudGeocodingSearchMode.FuzzyMatch : CloudGeocodingSearchMode.ExactMatch,
                 LocationType = (CloudGeocodingLocationType)Enum.Parse(typeof(CloudGeocodingLocationType), ((ComboBoxItem)CboLocationType.SelectedItem).Content.ToString() ?? string.Empty),
-                ResultProjectionInSrid = 3857
+                ResultProjectionInSrid = 3857,
+                BBox = MapView.CurrentExtent,
+                IncludeOverturePlaces = includeOvertureBool
             };
 
             // Run the geocode
@@ -96,13 +115,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             LsbLocations.ItemsSource = null;
             await geocodedLocationOverlay.RefreshAsync();
 
-            // Update the UI with the number of results found and the list of locations found
-            TxtSearchResultsDescription.Text = $"Found {searchResult.Locations.Count} matching locations.";
-            LsbLocations.ItemsSource = searchResult.Locations;
-            if (searchResult.Locations.Count > 0)
+            if (searchResult.Locations != null)
             {
-                LsbLocations.Visibility = Visibility.Visible;
-                LsbLocations.SelectedIndex = 0;
+                // Update the UI with the number of results found and the list of locations found
+                TxtSearchResultsDescription.Text = $"Found {searchResult.Locations.Count} matching locations.";
+                LsbLocations.ItemsSource = searchResult.Locations;
+                if (searchResult.Locations.Count > 0)
+                {
+                    LsbLocations.Visibility = Visibility.Visible;
+                    LsbLocations.SelectedIndex = 0;
+                }
             }
         }
 
@@ -111,21 +133,29 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void Search_Click(object sender, RoutedEventArgs e)
         {
-            // Perform some simple validation on the input text boxes
-            if (ValidateSearchParameters())
+            try
             {
-                // Run the Cloud Geocoding query
-                var searchResult = await PerformGeocodingQuery();
-
-                // Handle an error returned from the geocoding service
-                if (searchResult.Exception != null)
+                // Perform some simple validation on the input text boxes
+                if (ValidateSearchParameters())
                 {
-                    MessageBox.Show(searchResult.Exception.Message, "Error");
-                    return;
-                }
+                    // Run the Cloud Geocoding query
+                    var searchResult = await PerformGeocodingQuery();
 
-                // Update the UI based on the results
-                await UpdateSearchResultsOnUIAsync(searchResult);
+                    // Handle an error returned from the geocoding service
+                    if (searchResult.Exception != null)
+                    {
+                        MessageBox.Show(searchResult.Exception.Message, "Error");
+                        return;
+                    }
+
+                    // Update the UI based on the results
+                    await UpdateSearchResultsOnUIAsync(searchResult);
+                }
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
             }
         }
 
@@ -134,21 +164,29 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void lsbLocations_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            // Get the selected location
-            var chosenLocation = LsbLocations.SelectedItem as CloudGeocodingLocation;
-            if (chosenLocation == null) return;
-            // Get the MarkerOverlay from the MapView
-            var geocodedLocationOverlay = (SimpleMarkerOverlay)MapView.Overlays["Geocoded Locations Overlay"];
+            try
+            { 
+                // Get the selected location
+                var chosenLocation = LsbLocations.SelectedItem as CloudGeocodingLocation;
+                if (chosenLocation == null) return;
+                // Get the MarkerOverlay from the MapView
+                var geocodedLocationOverlay = (SimpleMarkerOverlay)MapView.Overlays["Geocoded Locations Overlay"];
 
-            // Clear the existing markers and add a new marker at the chosen location
-            geocodedLocationOverlay.Markers.Clear();
-            geocodedLocationOverlay.Markers.Add(CreateNewMarker(chosenLocation.LocationPoint));
+                // Clear the existing markers and add a new marker at the chosen location
+                geocodedLocationOverlay.Markers.Clear();
+                geocodedLocationOverlay.Markers.Add(CreateNewMarker(chosenLocation.LocationPoint));
 
-            // Center the map on the chosen location
-            MapView.CurrentExtent = chosenLocation.BoundingBox;
-            var standardZoomLevelSet = new ZoomLevelSet();
-            await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
-            await MapView.RefreshAsync();
+                // Center the map on the chosen location
+                MapView.CurrentExtent = chosenLocation.BoundingBox;
+                var standardZoomLevelSet = new ZoomLevelSet();
+                await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
+                await MapView.RefreshAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         /// <summary>
@@ -176,32 +214,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void cboLocationType_SelectionChanged(object sender, RoutedEventArgs e)
         {
             var comboBoxContent = (CboLocationType.SelectedItem as ComboBoxItem)?.Content;
-
-            if (comboBoxContent == null) return;
-            switch (comboBoxContent.ToString())
-            {
-                case "Default":
-                    TxtLocationTypeDescription.Text = "(Searches for any matches to the search string)";
-                    break;
-                case "Address":
-                    TxtLocationTypeDescription.Text = "(Searches for addresses matching the search string)";
-                    break;
-                case "Street":
-                    TxtLocationTypeDescription.Text = "(Searches for streets matching the search string)";
-                    break;
-                case "City":
-                    TxtLocationTypeDescription.Text = "(Searches for cities matching the search string)";
-                    break;
-                case "County":
-                    TxtLocationTypeDescription.Text = "(Searches for counties matching the search string)";
-                    break;
-                case "ZipCode":
-                    TxtLocationTypeDescription.Text = "(Searches for zip codes matching the search string)";
-                    break;
-                case "State":
-                    TxtLocationTypeDescription.Text = "(Searches for states matching the search string)";
-                    break;
-            }
         }
 
         /// <summary>
@@ -247,5 +259,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
+
     }
 }

@@ -22,57 +22,65 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
-
-            // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            try
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-            };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                // Set the map's unit of measurement to meters(Spherical Mercator)
+                MapView.MapUnit = GeographyUnit.Meter;
 
-            // Create a feature layer to hold the Census Housing data
-            var censusHousingLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp")
-            {
-                FeatureSource =
+                // Add Cloud Maps as a background overlay
+                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+                {
+                    ClientId = SampleKeys.ClientId,
+                    ClientSecret = SampleKeys.ClientSecret,
+                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                };
+                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+
+                // Create a feature layer to hold the Census Housing data
+                var censusHousingLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp")
+                {
+                    FeatureSource =
                     {
                         // Project censusHousing layer to Spherical Mercator to match the map projection
                         ProjectionConverter = new ProjectionConverter(2276, 3857)
                     }
-            };
+                };
 
-            // Add a style to use to draw the censusHousing layer
-            censusHousingLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(32, GeoColors.Orange), GeoColors.DimGray);
-            censusHousingLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+                // Add a style to use to draw the censusHousing layer
+                censusHousingLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(32, GeoColors.Orange), GeoColors.DimGray);
+                censusHousingLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            var censusHousingOverlay = new LayerOverlay();
-            censusHousingOverlay.Layers.Add("CensusHousingLayer", censusHousingLayer);
-            MapView.Overlays.Add("CensusHousingOverlay", censusHousingOverlay);
+                var censusHousingOverlay = new LayerOverlay();
+                censusHousingOverlay.Layers.Add("CensusHousingLayer", censusHousingLayer);
+                MapView.Overlays.Add("CensusHousingOverlay", censusHousingOverlay);
 
-            // Create a layer to hold the centerPointLayer and Style it
-            var centerPointLayer = new InMemoryFeatureLayer();
-            centerPointLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Green, 12, GeoColors.White, 4);
-            centerPointLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(64, GeoColors.Green), GeoColors.Black, 2);
-            centerPointLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+                // Create a layer to hold the centerPointLayer and Style it
+                var centerPointLayer = new InMemoryFeatureLayer();
+                centerPointLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Green, 12, GeoColors.White, 4);
+                centerPointLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(64, GeoColors.Green), GeoColors.Black, 2);
+                centerPointLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            var centerPointOverlay = new LayerOverlay();
-            centerPointOverlay.Layers.Add("CenterPointLayer", centerPointLayer);
-            MapView.Overlays.Add("CenterPointOverlay", centerPointOverlay);
+                var centerPointOverlay = new LayerOverlay();
+                centerPointOverlay.Layers.Add("CenterPointLayer", centerPointLayer);
+                MapView.Overlays.Add("CenterPointOverlay", centerPointOverlay);
 
-            // Set the map extent to the censusHousing layer bounding box
-            censusHousingLayer.Open();
-            MapView.CurrentExtent = censusHousingLayer.GetBoundingBox();
-            censusHousingLayer.Close();
+                // Set the map extent to the censusHousing layer bounding box
+                censusHousingLayer.Open();
+                MapView.CurrentExtent = censusHousingLayer.GetBoundingBox();
+                censusHousingLayer.Close();
 
-            // Add LayerOverlay to Map          
-            CentroidCenter.IsChecked = true;
+                // Add LayerOverlay to Map          
+                CentroidCenter.IsChecked = true;
 
-            await MapView.RefreshAsync();
+                await MapView.RefreshAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         /// <summary>
@@ -113,14 +121,22 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
         {
-            var censusHousingOverlay = (LayerOverlay)MapView.Overlays["CensusHousingOverlay"];
-            var censusHousingLayer = (ShapeFileFeatureLayer)censusHousingOverlay.Layers["CensusHousingLayer"];
+            try
+            { 
+                var censusHousingOverlay = (LayerOverlay)MapView.Overlays["CensusHousingOverlay"];
+                var censusHousingLayer = (ShapeFileFeatureLayer)censusHousingOverlay.Layers["CensusHousingLayer"];
 
-            // Query the censusHousing layer to get the first feature closest to the map click event
-            var feature = censusHousingLayer.QueryTools.GetFeaturesNearestTo(e.WorldLocation, GeographyUnit.Meter, 1,
-                ReturningColumnsType.NoColumns).First();
+                // Query the censusHousing layer to get the first feature closest to the map click event
+                var feature = censusHousingLayer.QueryTools.GetFeaturesNearestTo(e.WorldLocation, GeographyUnit.Meter, 1,
+                    ReturningColumnsType.NoColumns).First();
 
-            await CalculateCenterPointAsync(feature);
+                await CalculateCenterPointAsync(feature);
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         /// <summary>
@@ -128,13 +144,21 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
-            var centerPointOverlay = (LayerOverlay)MapView.Overlays["CenterPointOverlay"];
-            var centerPointLayer = (InMemoryFeatureLayer)centerPointOverlay.Layers["CenterPointLayer"];
-
-            // Recalculate the center point if a feature has already been selected
-            if (centerPointLayer.InternalFeatures.Contains("selectedFeature"))
+            try
             {
-                await CalculateCenterPointAsync(centerPointLayer.InternalFeatures["selectedFeature"]);
+                var centerPointOverlay = (LayerOverlay)MapView.Overlays["CenterPointOverlay"];
+                var centerPointLayer = (InMemoryFeatureLayer)centerPointOverlay.Layers["CenterPointLayer"];
+
+                // Recalculate the center point if a feature has already been selected
+                if (centerPointLayer.InternalFeatures.Contains("selectedFeature"))
+                {
+                    await CalculateCenterPointAsync(centerPointLayer.InternalFeatures["selectedFeature"]);
+                }
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
             }
         }
 

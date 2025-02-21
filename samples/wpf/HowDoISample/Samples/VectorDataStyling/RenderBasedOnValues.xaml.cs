@@ -20,48 +20,55 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
-
-            // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            try
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-            };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                // Set the map's unit of measurement to meters(Spherical Mercator)
+                MapView.MapUnit = GeographyUnit.Meter;
 
-            var friscoCrime = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Crime.shp");
-            var legend = new LegendAdornmentLayer();
+                // Add Cloud Maps as a background overlay
+                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+                {
+                    ClientId = SampleKeys.ClientId,
+                    ClientSecret = SampleKeys.ClientSecret,
+                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                };
+                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            // Project the layer's data to match the projection of the map
-            friscoCrime.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+                var friscoCrime = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Crime.shp");
+                var legend = new LegendAdornmentLayer();
 
-            // Add friscoCrimeLayer to a LayerOverlay
-            var layerOverlay = new LayerOverlay();
-            layerOverlay.Layers.Add(friscoCrime);
+                // Project the layer's data to match the projection of the map
+                friscoCrime.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
-            // Set up the legend adornment
-            legend.Title = new LegendItem()
+                // Add friscoCrimeLayer to a LayerOverlay
+                var layerOverlay = new LayerOverlay();
+                layerOverlay.Layers.Add(friscoCrime);
+
+                // Set up the legend adornment
+                legend.Title = new LegendItem()
+                {
+                    TextStyle = new TextStyle("Crime Categories", new GeoFont("Verdana", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
+                };
+                legend.Location = AdornmentLocation.LowerRight;
+                MapView.AdornmentOverlay.Layers.Add(legend);
+
+                AddValueStyle(friscoCrime, legend);
+
+                // Add layerOverlay to the mapView
+                MapView.Overlays.Add(layerOverlay);
+
+                // Set the map extent
+                MapView.CurrentExtent = new RectangleShape(-10780196.9469504, 3916119.49665258, -10776231.7761301, 3912703.71697007);
+
+                await MapView.RefreshAsync();
+            }
+            catch 
             {
-                TextStyle = new TextStyle("Crime Categories", new GeoFont("Verdana", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
-            };
-            legend.Height = 600;
-            legend.Location = AdornmentLocation.LowerRight;
-            MapView.AdornmentOverlay.Layers.Add(legend);
-
-            AddValueStyle(friscoCrime, legend);
-
-            // Add layerOverlay to the mapView
-            MapView.Overlays.Add(layerOverlay);
-
-            // Set the map extent
-            MapView.CurrentExtent = new RectangleShape(-10780196.9469504, 3916119.49665258, -10776231.7761301, 3912703.71697007);
-
-            await MapView.RefreshAsync();
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         /// <summary>

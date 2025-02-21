@@ -19,42 +19,50 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            MapView.MapUnit = GeographyUnit.Meter;
-
-            // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            try
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-            };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                MapView.MapUnit = GeographyUnit.Meter;
 
-            // See the implementation of the new layer and feature source below.
-            var csvLayer = new SimpleCsvFeatureLayer(@"./Data/Csv/vehicle-route.csv");
+                // Add Cloud Maps as a background overlay
+                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+                {
+                    ClientId = SampleKeys.ClientId,
+                    ClientSecret = SampleKeys.ClientSecret,
+                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                };
+                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            // Set the points image to a car icon and then apply it to all zoom levels
-            var vehiclePointStyle = new PointStyle(new GeoImage(@"./Resources/vehicle-location.png"))
+                // See the implementation of the new layer and feature source below.
+                var csvLayer = new SimpleCsvFeatureLayer(@"./Data/Csv/vehicle-route.csv");
+
+                // Set the points image to a car icon and then apply it to all zoom levels
+                var vehiclePointStyle = new PointStyle(new GeoImage(@"./Resources/vehicle-location.png"))
+                {
+                    YOffsetInPixel = -12
+                };
+
+                csvLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = vehiclePointStyle;
+                csvLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
+                var layerOverlay = new LayerOverlay
+                {
+                    TileType = TileType.SingleTile
+                };
+                layerOverlay.Layers.Add(csvLayer);
+                MapView.Overlays.Add(layerOverlay);
+
+                csvLayer.Open();
+                MapView.CurrentExtent = csvLayer.GetBoundingBox();
+
+                await MapView.RefreshAsync();
+            }
+            catch 
             {
-                YOffsetInPixel = -12
-            };
-
-            csvLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = vehiclePointStyle;
-            csvLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-
-            var layerOverlay = new LayerOverlay
-            {
-                TileType = TileType.SingleTile
-            };
-            layerOverlay.Layers.Add(csvLayer);
-            MapView.Overlays.Add(layerOverlay);
-
-            csvLayer.Open();
-            MapView.CurrentExtent = csvLayer.GetBoundingBox();
-
-            await MapView.RefreshAsync();
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         public void Dispose()

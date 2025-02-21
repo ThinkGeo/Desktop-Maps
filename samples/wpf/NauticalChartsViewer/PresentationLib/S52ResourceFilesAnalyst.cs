@@ -317,9 +317,9 @@ namespace ThinkGeo.MapSuite
             XElement element = document.Root.XPathSelectElements("ColorSchemas/" + colorSchema.ToString().ToUpperInvariant() + "/Color").Where(x => x.Attribute("token").Value.ToString() == newColorEntry.Token).First();
             if (element != null)
             {
-                element.Attribute("r").SetValue(newColorEntry.Color.RedComponent);
-                element.Attribute("g").SetValue(newColorEntry.Color.GreenComponent);
-                element.Attribute("b").SetValue(newColorEntry.Color.BlueComponent);
+                element.Attribute("r").SetValue(newColorEntry.Color.R);
+                element.Attribute("g").SetValue(newColorEntry.Color.G);
+                element.Attribute("b").SetValue(newColorEntry.Color.B);
                 document.Save(resourceFile);
             }
         }

@@ -56,16 +56,34 @@
         "source": "Samples/MapOnlineData/NOAAWeatherWarnings"
       },
       {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.OGCAPIFeatureSever",
+        "title": "OGC API Feature Sever",
+        "description": "This sample shows how to display a OGC API Feature layer.",
+        "source": "Samples/MapOnlineData/OGCAPIFeatureSever"
+      },
+      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.OpenStreetMap",
         "title": "Open Street Map",
         "description": "This sample shows how to display a Open Street Maps layer.",
         "source": "Samples/MapOnlineData/OpenStreetMap"
       },
       {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.WFS",
+        "title": "WFS",
+        "description": "This sample shows how to display a WFS V2 Feature layer. (This WFSV2 server may be slow)",
+        "source": "Samples/MapOnlineData/WFS"
+      },
+      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.WMS",
         "title": "WMS",
-        "description": "This sample shows how to display a WMS layer. (This sample may be slow as we use a public WMS sever)",
+        "description": "This sample shows how to display a WMS layer. (This sample may be slow as we use a public WMS server)",
         "source": "Samples/MapOnlineData/WMS"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.WMTS",
+        "title": "WMTS",
+        "description": "This sample shows how to display a WMTS layer. (This sample may be slow as we use a public WMTS server)",
+        "source": "Samples/MapOnlineData/WMTS"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.CachingMapTiles",
@@ -78,6 +96,18 @@
   {
     "title": "Map Offline Data",
     "children": [
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayGeoPackageFile",
+        "title": "Display a GeoPackage File",
+        "description": "This sample shows how to display a GeoPackage layer.",
+        "source": "Samples/MapOfflineData/Vector/DisplayGeoPackageFile"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayMBTilesFile",
+        "title": "Display a MBTiles File",
+        "description": "This sample shows how to display a Standard MBTiles File (v1.3).",
+        "source": "Samples/MapOfflineData/Vector/DisplayMBTilesFile"
+      },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DisplaySQLiteFile",
         "title": "Display a SQLite File",
@@ -125,6 +155,12 @@
         "title": "Display a MrSid File",
         "description": "This sample shows how to display a MrSids layer.",
         "source": "Samples/MapOfflineData/Raster/DisplayMrSidFile"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayCADFile",
+        "title": "Display a CAD File",
+        "description": "This sample shows how to display a CAD layer using data from a .dwg file.",
+        "source": "Samples/MapOfflineData/Vector/DisplayCADFile"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayFileGeoDatabase",
@@ -203,6 +239,12 @@
         "title": "Display a table from SQL Server",
         "description": "This sample shows how to display a SQL Server layer.",
         "source": "Samples/MapOfflineData/Database/DisplayTableFromSQLServer"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.GenerateESRIGridFile",
+        "title": "Generate an ESRI Grid File",
+        "description": "This sample shows how to generate an ESRI Grid layer.",
+        "source": "Samples/MapOfflineData/Vector/GenerateESRIGridFile"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.GroupingLayersUsingLayerOverlay",
@@ -661,6 +703,24 @@
         "title": "Print the Map",
         "description": "Learn to print maps using the PrintOverlay.",
         "source": "Samples/Miscellaneous/PrintTheMap"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.HandleExceptions",
+        "title": "Handle Exceptions",
+        "description": "Learn how to throw an overlay exception, or draw the exception on the map.",
+        "source": "Samples/Miscellaneous/HandleExceptions"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.ResizeTheMap",
+        "title": "Resize The Map",
+        "description": "Learn how to resize the map while keeping the width of the world extent the same.",
+        "source": "Samples/Miscellaneous/ResizeTheMap"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.WrapTheDateLine",
+        "title": "Wrap The DateLine",
+        "description": "Say the world width is 0 ~ 1, here shows what the shapes with different length look like in the multi-world map.",
+        "source": "Samples/Miscellaneous/WrapTheDateLine"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DrawTheMapOnAnImage",

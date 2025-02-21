@@ -7,6 +7,6 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="ThinkGeo.UI.Wpf" Version="13.3.0"/>
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="14.2.1"/>
   </ItemGroup>
 </Project>

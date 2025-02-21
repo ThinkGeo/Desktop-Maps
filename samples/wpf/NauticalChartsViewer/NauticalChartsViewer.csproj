@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
@@ -55,9 +55,9 @@
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
     <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
     <PackageReference Include="System.ComponentModel.Composition" Version="4.7.0" />
-    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="13.3.0" />
-    <PackageReference Include="ThinkGeo.UI.Wpf" Version="13.3.0" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.0" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.3.0-beta042" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="14.3.0-beta042" />
   </ItemGroup>
 
   <ItemGroup>

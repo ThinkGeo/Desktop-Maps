@@ -52,6 +52,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries.Checked = true;
 
             await mapView.RefreshAsync();
+            await mapView.ZoomToScaleAsync(800);
         }
 
 
@@ -152,7 +153,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Create a sample set of points and polygon features to use for the validation
             var pointFeature = new Feature("POINT(50 50)");
             var polygonWithPointFeature = new Feature("POLYGON((0 0,100 0,100 100,0 100,0 0))");
-            var polygonFeature = new Feature("POLYGON((150 0,250 0,250 100,150 100,150 0))");
+            var polygonFeature = new Feature("POLYGON((120 0,220 0,220 100,120 100,120 0))");
 
             // Use the TopologyValidator API to validate the sample data
             var polygons = new Collection<Feature>() { polygonFeature, polygonWithPointFeature };
@@ -307,7 +308,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             validatedFeaturesLayer.Close();
             filterFeaturesLayer.Close();
             resultFeaturesLayer.Close();
-            await mapView.ZoomOutAsync();
+            await mapView.ZoomToScaleAsync(800);
         }
 
         #region Component Designer generated code

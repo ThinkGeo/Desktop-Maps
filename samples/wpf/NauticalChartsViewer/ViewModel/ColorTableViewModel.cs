@@ -131,7 +131,7 @@ namespace NauticalChartsViewer
                     if ((!string.IsNullOrEmpty(entry.Token.ToUpperInvariant()) && entry.Token.Contains(searchText.ToUpperInvariant())) ||
                         (!string.IsNullOrEmpty(entry.Name.ToUpperInvariant()) && entry.Name.Contains(searchText.ToUpperInvariant())))
                     {
-                        colorItems.Add(new ColorItem(entry.Name, entry.Token, entry.Color.RedComponent, entry.Color.GreenComponent, entry.Color.BlueComponent));
+                        colorItems.Add(new ColorItem(entry.Name, entry.Token, entry.Color.R, entry.Color.G, entry.Color.B));
                     }
                 }
             }
@@ -195,7 +195,7 @@ namespace NauticalChartsViewer
             Collection<ColorEntry> colorEntries = colorTables[selectedColorSchema];
             foreach (ColorEntry entry in colorEntries)
             {
-                colorItems.Add(new ColorItem(entry.Name, entry.Token, entry.Color.RedComponent, entry.Color.GreenComponent, entry.Color.BlueComponent));
+                colorItems.Add(new ColorItem(entry.Name, entry.Token, entry.Color.R, entry.Color.G, entry.Color.B));
             }
         }
     }

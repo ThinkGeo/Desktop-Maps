@@ -20,51 +20,59 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
-
-            // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            try
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-            };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                // Set the map's unit of measurement to meters(Spherical Mercator)
+                MapView.MapUnit = GeographyUnit.Meter;
 
-            var housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
-            var legend = new LegendAdornmentLayer
-            {
-                // Set up the legend adornment
-                Title = new LegendItem()
+                // Add Cloud Maps as a background overlay
+                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
                 {
-                    TextStyle = new TextStyle("Housing Units", new GeoFont("Verdana", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
-                },
-                Location = AdornmentLocation.LowerRight
-            };
+                    ClientId = SampleKeys.ClientId,
+                    ClientSecret = SampleKeys.ClientSecret,
+                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                };
+                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            MapView.AdornmentOverlay.Layers.Add(legend);
+                var housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
+                var legend = new LegendAdornmentLayer
+                {
+                    // Set up the legend adornment
+                    Title = new LegendItem()
+                    {
+                        TextStyle = new TextStyle("Housing Units", new GeoFont("Verdana", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
+                    },
+                    Location = AdornmentLocation.LowerRight
+                };
 
-            // Project the layer's data to match the projection of the map
-            housingUnitsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+                MapView.AdornmentOverlay.Layers.Add(legend);
 
-            AddClassBreakStyle(housingUnitsLayer, legend);
+                // Project the layer's data to match the projection of the map
+                housingUnitsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
-            // Add housingUnitsLayer to a LayerOverlay
-            var layerOverlay = new LayerOverlay();
-            layerOverlay.Layers.Add(housingUnitsLayer);
+                AddClassBreakStyle(housingUnitsLayer, legend);
 
-            // Add layerOverlay to the mapView
-            MapView.Overlays.Add(layerOverlay);
+                // Add housingUnitsLayer to a LayerOverlay
+                var layerOverlay = new LayerOverlay();
+                layerOverlay.Layers.Add(housingUnitsLayer);
 
-            // Set the map extent
-            housingUnitsLayer.Open();
-            MapView.CurrentExtent = housingUnitsLayer.GetBoundingBox();
-            housingUnitsLayer.Close();
+                // Add layerOverlay to the mapView
+                MapView.Overlays.Add(layerOverlay);
 
-            await MapView.RefreshAsync();
+                // Set the map extent
+                housingUnitsLayer.Open();
+                MapView.CurrentExtent = housingUnitsLayer.GetBoundingBox();
+                housingUnitsLayer.Close();
+
+                await MapView.RefreshAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         /// <summary>

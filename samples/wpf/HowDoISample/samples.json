@@ -26,6 +26,12 @@
         "source": "Samples/MapOnlineData/ThinkGeoRasterMap"
       },
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.RasterXyzServer",
+        "title": "Raster Map from XYZ Server",
+        "description": "This sample shows how to display raster map from XYZ server.",
+        "source": "Samples/MapOnlineData/RasterXyzServer"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.ThinkGeoVectorMap",
         "title": "ThinkGeo Vector Map",
         "description": "This sample shows how to display ThinkGeo cloud vector background maps.",
@@ -100,13 +106,25 @@
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayGeoPackageFile",
         "title": "Display a GeoPackage File",
         "description": "Show the GeoPackage File",
-        "source": "Samples/MapOfflineData/DisplayGeoPackageFile"
+        "source": "Samples/MapOfflineData/Vector/DisplayGeoPackageFile"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMBTilesFile",
-        "title": "Display a MBTiles File",
-        "description": "Show the Standard MBTiles File (v1.3)",
-        "source": "Samples/MapOfflineData/DisplayMBTilesFile"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayRasterMbTilesFile",
+        "title": "Display Raster from MBTiles",
+        "description": "Display a raster MBTiles file. This sample data covers from zoom0 to zoom5",
+        "source": "Samples/MapOfflineData/Raster/DisplayRasterMbTilesFile"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayRasterFileTiles",
+        "title": "Display Raster from File Tiles",
+        "description": "Display the raster tiles created by QGIS. The demo tiles cover from zoom0 to zoom5",
+        "source": "Samples/MapOfflineData/Raster/DisplayRasterFileTiles"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMbTilesFile",
+        "title": "Display Vector from MBTiles",
+        "description": "Show how to display a MBTiles file. The demo mbtile/json come from https://github.com/maplibre/demotiles?tab=readme-ov-file",
+        "source": "Samples/MapOfflineData/Vector/DisplayMbTilesFile"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplaySQLiteFile",
@@ -116,8 +134,8 @@
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayCommonRasterFile",
-        "title": "Display Common Raster File",
-        "description": "This sample shows how to display common images types such as PNG, JPEG, Bitmap etc.",
+        "title": "Display Common Raster Files",
+        "description": "This sample shows how to display common image types such as PNG, JPEG, Bitmap etc.",
         "source": "Samples/MapOfflineData/Raster/DisplayCommonRasterFile"
       },
       {
@@ -244,7 +262,7 @@
         "id": "ThinkGeo.UI.Wpf.HowDoI.GenerateESRIGridFile",
         "title": "Generate an ESRI Grid File",
         "description": "This sample shows how to generate an ESRI .grd Grid File from point data and display it on the map.",
-        "source": "Samples/MapOfflineData/GenerateESRIGridFile"
+        "source": "Samples/MapOfflineData/Vector/GenerateESRIGridFile"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.GroupingLayersUsingLayerOverlay",
@@ -332,6 +350,41 @@
         "title": "Popups",
         "description": "Learn to add, edit, or remove popups on the map using the PopupOverlay.",
         "source": "Samples/MarkersandPopups/Popups"
+      }
+    ]
+  },
+  {
+    "title": "XYZ Based Layers",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayRasterMbTilesFile",
+        "title": "Display Raster from MBTiles",
+        "description": "This sample shows how to display a raster MBTiles file. The demo file has 6 zooms (zoom 0~5)",
+        "source": "Samples/MapOfflineData/Raster/DisplayRasterMbTilesFile"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayRasterFileTiles",
+        "title": "Display Raster from File Tiles",
+        "description": "This sample shows how to display the raster tiles created by QGIS. The demo tiles has 6 zooms (zoom 0~5)",
+        "source": "Samples/MapOfflineData/Raster/DisplayRasterFileTiles"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.RasterXyzServer",
+        "title": "Display Raster from XYZ Server",
+        "description": "This sample shows how to display the tiles from a raster XYZ server.  This demo server has 20 zooms (zoom 0~19)",
+        "source": "Samples/MapOnlineData/RasterXyzServer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.WMTSAsXYZLayer",
+        "title": "Display Raster from WMTS Server",
+        "description": "This sample shows how to display the tiles from a WMTS server.  This demo server has 27 zooms (zoom 0~26).",
+        "source": "Samples/XYZBasedLayers/WMTSAsXYZLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMbTilesFile",
+        "title": "Display Vector from MBTiles",
+        "description": "This sample shows how to display a MBTiles file. The demo mbtile/json come from https://github.com/maplibre/demotiles?tab=readme-ov-file",
+        "source": "Samples/MapOfflineData/Vector/DisplayMbTilesFile"
       }
     ]
   },
@@ -666,7 +719,7 @@
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.ReverseGeocoding",
         "title": "Reverse Geocoding",
-        "description": "Learn how to use the ReverseGeocodingCloudClient to access the ReverseGeocoding APIs available from the ThinkGeo Cloud",
+        "description": "Click anywhere on the map to use the ReverseGeocodingCloudClient to access the ReverseGeocoding APIs available from the ThinkGeo Cloud",
         "source": "Samples/ThinkGeoCloudIntegration/ReverseGeocoding"
       },
       {

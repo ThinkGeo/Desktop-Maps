@@ -5,7 +5,8 @@
              xmlns:gif="http://wpfanimatedgif.codeplex.com"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
-             xmlns:code="clr-namespace:ThinkGeo.Core;assembly=ThinkGeo.Core"
+             xmlns:code="clr-namespace:ThinkGeo.Core;assembly=ThinkGeo.Core" xmlns:system="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800">
@@ -21,18 +22,10 @@
                Width="64"
                Visibility="Hidden"
                gif:ImageBehavior.AnimatedSource="..\..\Resources\loading.gif" />
-        <Grid Grid.Column="1"
-              Grid.Row="0">
+        <Grid Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1"
                    Grid.Row="0"
-                   Grid.ColumnSpan="2">
-                <Label.Content>
-                    <AccessText HorizontalAlignment="Center"
-                                FontSize="16"
-                                TextWrapping="Wrap"
-                                Text="Click on the Map or Enter a Location to Reverse Geocode" />
-                </Label.Content>
-            </Label>
+                   Grid.ColumnSpan="2"/>
             <Label Grid.Column="1"
                    Grid.Row="1"
                    FontSize="14">Location:</Label>
@@ -54,7 +47,7 @@
             <TextBox Grid.Column="2"
                      Grid.Row="4"
                      x:Name="TxtMaxResults"
-                     Text="10"></TextBox>
+                     Text="100"></TextBox>
             <Label Grid.Column="1"
                    Grid.Row="5"
                    FontSize="14">Categories:</Label>
@@ -66,10 +59,25 @@
                 <ComboBoxItem>Common</ComboBoxItem>
                 <ComboBoxItem>None</ComboBoxItem>
             </ComboBox>
-            <TextBlock Grid.Column="1"
-                       Grid.Row="6"
-                       Grid.ColumnSpan="2"
-                       x:Name="TxtLocationCategoriesDescription"></TextBlock>
+            <Label Grid.Column="1"
+                   Grid.Row="5"
+                   FontSize="14" Grid.ColumnSpan="2" Margin="0,28,65,0" Grid.RowSpan="2">Include Overture Places:</Label>
+            <ComboBox Grid.Column="2"
+                      Grid.Row="6"
+                      x:Name="CboIncludeOverturePlaces"
+                      SelectedIndex="0" Margin="60,3,0,3">
+                <ComboBoxItem Content="No">
+                    <ComboBoxItem.Tag>
+                        <sys:Boolean>False</sys:Boolean>
+                    </ComboBoxItem.Tag>
+                </ComboBoxItem>
+                <ComboBoxItem Content="Yes">
+                    <ComboBoxItem.Tag>
+                        <sys:Boolean>True</sys:Boolean>
+                    </ComboBoxItem.Tag>
+                </ComboBoxItem>
+            </ComboBox>
+
             <Button Grid.Column="1"
                     Grid.Row="7"
                     Grid.ColumnSpan="2"
@@ -86,10 +94,11 @@
                         Grid.Row="9"
                         Grid.ColumnSpan="2"
                         x:Name="TabSearchResults">
+
                 <TabItem x:Name="NearbyAddressesTabItem"
                          Header="Address">
-                    <ListBox x:Name="LsbAddresses"
-                             SelectionChanged="LsbSearchResults_SelectionChanged">
+                    <ListBox x:Name="LsbAddresses" Height="Auto"
+                             SelectionChanged="LsbSearchResults_SelectionChanged"  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible">
                         <ListBox.ItemTemplate>
                             <DataTemplate DataType="{x:Type code:CloudReverseGeocodingLocation}">
                                 <Grid Width="280">
@@ -98,11 +107,11 @@
                                         <RowDefinition Height="Auto"></RowDefinition>
                                     </Grid.RowDefinitions>
                                     <TextBlock Grid.Row="0"
-                                               Text="{Binding Path=Address}"
-                                               TextWrapping="Wrap" />
+                                                   Text="{Binding Path=Address}"
+                                                   TextWrapping="Wrap" 
+                                                   FontWeight="Bold" />
                                     <TextBlock Grid.Row="1"
-                                               Text="{Binding Path=LocationType, StringFormat=Type: {0}}"
-                                               FontWeight="Bold" />
+                                                   Text="{Binding Path=LocationType, StringFormat=Type: {0}}"/>
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -121,10 +130,10 @@
                                     </Grid.RowDefinitions>
                                     <TextBlock Grid.Row="0"
                                                Text="{Binding Path=Address}"
-                                               TextWrapping="Wrap" />
-                                    <TextBlock Grid.Row="1"
-                                               Text="{Binding Path=LocationType, StringFormat=Type: {0}}"
+                                               TextWrapping="Wrap" 
                                                FontWeight="Bold" />
+                                    <TextBlock Grid.Row="1"
+                                               Text="{Binding Path=LocationType, StringFormat=Type: {0}}"/>
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -143,10 +152,10 @@
                                     </Grid.RowDefinitions>
                                     <TextBlock Grid.Row="0"
                                                Text="{Binding Path=Address}"
-                                               TextWrapping="Wrap" />
+                                               TextWrapping="Wrap" 
+                                               FontWeight="Bold"/>
                                     <TextBlock Grid.Row="1"
-                                               Text="{Binding Path=LocationType, StringFormat=Type: {0}}"
-                                               FontWeight="Bold" />
+                                               Text="{Binding Path=LocationType, StringFormat=Type: {0}}" />
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -170,7 +179,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
         </Grid>
 

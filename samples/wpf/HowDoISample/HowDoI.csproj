@@ -30,7 +30,7 @@
     <None Remove="HowDoI\**" />
     <Page Remove="HowDoI\**" />
     <Compile Remove="SampleTemplate.xaml.cs" />
-    <Page Update="Samples\MapOfflineData\GenerateESRIGridFile.xaml">
+    <Page Update="Samples\MapOfflineData\Vector\GenerateESRIGridFile.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Samples\MapOfflineData\Raster\DisplayGdalFile.xaml">
@@ -61,6 +61,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Update="Samples\MapOfflineData\Raster\DisplayCommonRasterFile.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -71,13 +74,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
-    <Compile Update="Samples\MapOfflineData\Raster\DisplayCommonRasterFile.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Samples\MapOfflineData\Raster\DisplayECWFile.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\MapOfflineData\GenerateESRIGridFile.xaml.cs">
+    <Compile Update="Samples\MapOfflineData\Vector\GenerateESRIGridFile.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\MapOfflineData\Raster\DisplayESRIGridFile.xaml.cs">
@@ -353,14 +353,14 @@
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.122" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
-    <PackageReference Include="ThinkGeo.Cad" Version="14.2.1" />
-    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.2.1" />
-    <PackageReference Include="ThinkGeo.Gdal" Version="14.2.1" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.2.1" />
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.2.1" />
-    <PackageReference Include="ThinkGeo.Printers" Version="14.2.1" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="14.2.1" />
-    <PackageReference Include="ThinkGeo.UI.Wpf" Version="14.2.1" />
+    <PackageReference Include="ThinkGeo.Cad" Version="14.2.2" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.2.2" />
+    <PackageReference Include="ThinkGeo.Gdal" Version="14.2.2" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.2.2" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.2.2" />
+    <PackageReference Include="ThinkGeo.Printers" Version="14.2.2" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="14.2.2" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="14.2.2" />
     <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
   </ItemGroup>
   <ItemGroup>
@@ -535,6 +535,12 @@
     <None Update="Data\GeoPdf\bangalore.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Data\GeoTiff\m_3309650_sw_14_1_20160911_20161121.tfw">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\GeoTiff\m_3309650_sw_14_1_20160911_20161121.tif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Data\GeoTiff\World.tfw">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -580,10 +586,16 @@
     <None Update="Data\Mbtiles\style.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Data\Mbtiles\test.mbtiles">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Data\MrSid\World.sdw">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\MrSid\World.sid">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\OSM_Tiles_z0-z5_Created_By_QGIS.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\Png\m_3309650_sw_14_1_20160911_20161121.pgw">

@@ -21,49 +21,57 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
-
-            // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            try
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-            };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                // Set the map's unit of measurement to meters(Spherical Mercator)
+                MapView.MapUnit = GeographyUnit.Meter;
 
-            // Load the Frisco data to a layer
-            _friscoCityBoundary = new ShapeFileFeatureLayer(@"./Data/Shapefile/City_ETJ.shp")
-            {
-                FeatureSource =
+                // Add Cloud Maps as a background overlay
+                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
                 {
-                    // Convert the Frisco shapefile from its native projection to Spherical Mercator, to match the map
-                    ProjectionConverter = new ProjectionConverter(2276, 3857)
-                }
-            };
+                    ClientId = SampleKeys.ClientId,
+                    ClientSecret = SampleKeys.ClientSecret,
+                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                };
+                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            // Style the data so that we can see it on the map
-            _friscoCityBoundary.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(16, GeoColors.Blue), GeoColors.DimGray, 2);
-            _friscoCityBoundary.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+                // Load the Frisco data to a layer
+                _friscoCityBoundary = new ShapeFileFeatureLayer(@"./Data/Shapefile/City_ETJ.shp")
+                {
+                    FeatureSource =
+                    {
+                        // Convert the Frisco shapefile from its native projection to Spherical Mercator, to match the map
+                        ProjectionConverter = new ProjectionConverter(2276, 3857)
+                    }
+                };
 
-            // Add Frisco data to a LayerOverlay and add it to the map
-            var layerOverlay = new LayerOverlay();
-            layerOverlay.Layers.Add(_friscoCityBoundary);
-            MapView.Overlays.Add(layerOverlay);
+                // Style the data so that we can see it on the map
+                _friscoCityBoundary.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(16, GeoColors.Blue), GeoColors.DimGray, 2);
+                _friscoCityBoundary.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            // Set the map extent
-            MapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
+                // Add Frisco data to a LayerOverlay and add it to the map
+                var layerOverlay = new LayerOverlay();
+                layerOverlay.Layers.Add(_friscoCityBoundary);
+                MapView.Overlays.Add(layerOverlay);
 
-            // Populate Controls
-            _friscoCityBoundary.Open();
-            FeatureIds.ItemsSource = _friscoCityBoundary.FeatureSource.GetFeatureIds();
-            _friscoCityBoundary.Close();
-            FeatureIds.SelectedIndex = 0;
+                // Set the map extent
+                MapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
 
-            await MapView.RefreshAsync();
+                // Populate Controls
+                _friscoCityBoundary.Open();
+                FeatureIds.ItemsSource = _friscoCityBoundary.FeatureSource.GetFeatureIds();
+                _friscoCityBoundary.Close();
+                FeatureIds.SelectedIndex = 0;
+
+                await MapView.RefreshAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         /// <summary>
@@ -71,7 +79,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void ZoomToScale_Click(object sender, RoutedEventArgs e)
         {
-            await MapView.ZoomToScaleAsync(Convert.ToDouble(ZoomScale.Text));
+            try
+            { 
+                await MapView.ZoomToScaleAsync(Convert.ToDouble(ZoomScale.Text));
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         /// <summary>
@@ -79,8 +95,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void LayerBoundingBox_Click(object sender, RoutedEventArgs e)
         {
-            MapView.CurrentExtent = _friscoCityBoundary.GetBoundingBox();
-            await MapView.RefreshAsync();
+            try
+            { 
+                MapView.CurrentExtent = _friscoCityBoundary.GetBoundingBox();
+                await MapView.RefreshAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         /// <summary>
@@ -88,9 +112,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void FeatureBoundingBox_Click(object sender, RoutedEventArgs e)
         {
-            var feature = _friscoCityBoundary.FeatureSource.GetFeatureById(FeatureIds.SelectedItem.ToString(), ReturningColumnsType.NoColumns);
-            MapView.CurrentExtent = feature.GetBoundingBox();
-            await MapView.RefreshAsync();
+            try
+            { 
+                var feature = _friscoCityBoundary.FeatureSource.GetFeatureById(FeatureIds.SelectedItem.ToString(), ReturningColumnsType.NoColumns);
+                MapView.CurrentExtent = feature.GetBoundingBox();
+                await MapView.RefreshAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         /// <summary>
@@ -98,17 +130,25 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void ZoomToLatLon_Click(object sender, RoutedEventArgs e)
         {
-            // Create a PointShape from the lat-lon
-            var latlonPoint = new PointShape(Convert.ToDouble(Latitude.Text), Convert.ToDouble(Longitude.Text));
+            try
+            { 
+                // Create a PointShape from the lat-lon
+                var latlonPoint = new PointShape(Convert.ToDouble(Latitude.Text), Convert.ToDouble(Longitude.Text));
 
-            // Convert the lat-lon projection to match the map
-            var projectionConverter = new ProjectionConverter(4326, 3857);
-            projectionConverter.Open();
-            var convertedPoint = (PointShape)projectionConverter.ConvertToExternalProjection(latlonPoint);
-            projectionConverter.Close();
+                // Convert the lat-lon projection to match the map
+                var projectionConverter = new ProjectionConverter(4326, 3857);
+                projectionConverter.Open();
+                var convertedPoint = (PointShape)projectionConverter.ConvertToExternalProjection(latlonPoint);
+                projectionConverter.Close();
 
-            // Zoom to the converted lat-lon at the desired scale
-            await MapView.ZoomToAsync(convertedPoint, Convert.ToDouble(LatlonScale.Text));
+                // Zoom to the converted lat-lon at the desired scale
+                await MapView.ZoomToAsync(convertedPoint, Convert.ToDouble(LatlonScale.Text));
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         public void Dispose()

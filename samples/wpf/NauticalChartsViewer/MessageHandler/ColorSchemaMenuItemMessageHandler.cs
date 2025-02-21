@@ -9,7 +9,7 @@ namespace NauticalChartsViewer
     {
         private const string chartsOverlayName = "ChartsOverlay";
 
-        public override void Handle(Window owner, MapView map, MenuItemMessage message)
+        public async override void Handle(Window owner, MapView map, MenuItemMessage message)
         {
             Globals.CurrentColorSchema = (NauticalChartsDefaultColorSchema)Enum.Parse(typeof(NauticalChartsDefaultColorSchema), message.MenuItem.Action, true);
             if (map.Overlays.Contains(chartsOverlayName))
@@ -20,7 +20,7 @@ namespace NauticalChartsViewer
                     NauticalChartsFeatureLayer maritimeFeatureLayer = item as NauticalChartsFeatureLayer;
                     maritimeFeatureLayer.DefaultColorSchema = Globals.CurrentColorSchema;
                 }
-                map.Refresh();
+                await map.RefreshAsync();
             }
         }
 

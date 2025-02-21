@@ -19,46 +19,54 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            // It is important to set the map unit first to either feet, meters or decimal degrees.
-            MapView.MapUnit = GeographyUnit.Meter;
-
-            // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            try
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-            };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                // It is important to set the map unit first to either feet, meters or decimal degrees.
+                MapView.MapUnit = GeographyUnit.Meter;
 
-            // Create a new overlay that will hold our new layer and add it to the map.
-            var fileGeoDatabaseOverlay = new LayerOverlay();
-            MapView.Overlays.Add("overlay", fileGeoDatabaseOverlay);
+                // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
+                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+                {
+                    ClientId = SampleKeys.ClientId,
+                    ClientSecret = SampleKeys.ClientSecret,
+                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                };
+                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            // Create the new layer and set the projection as the data is in srid 2276 and our background is srid 3857 (spherical mercator).
-            var fileGeoDatabaseFeatureLayer = new FileGeoDatabaseFeatureLayer(@"./Data/FileGeoDatabase/zoning.gdb")
-            {
-                FeatureSource =
+                // Create a new overlay that will hold our new layer and add it to the map.
+                var fileGeoDatabaseOverlay = new LayerOverlay();
+                MapView.Overlays.Add("overlay", fileGeoDatabaseOverlay);
+
+                // Create the new layer and set the projection as the data is in srid 2276 and our background is srid 3857 (spherical mercator).
+                var fileGeoDatabaseFeatureLayer = new FileGeoDatabaseFeatureLayer(@"./Data/FileGeoDatabase/zoning.gdb")
+                {
+                    FeatureSource =
                     {
                         ProjectionConverter = new ProjectionConverter(2276, 3857)
                     },
-                ActiveLayer = "zoning"
-            };
+                    ActiveLayer = "zoning"
+                };
 
-            // Add the layer to the overlay we created earlier.
-            fileGeoDatabaseOverlay.Layers.Add("Zoning", fileGeoDatabaseFeatureLayer);
+                // Add the layer to the overlay we created earlier.
+                fileGeoDatabaseOverlay.Layers.Add("Zoning", fileGeoDatabaseFeatureLayer);
 
-            // Create an Area style on zoom level 1 and then apply it to all zoom levels up to 20.
-            fileGeoDatabaseFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = new AreaStyle(GeoPens.Black, new GeoSolidBrush(new GeoColor(50, GeoColors.Blue)));
-            fileGeoDatabaseFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+                // Create an Area style on zoom level 1 and then apply it to all zoom levels up to 20.
+                fileGeoDatabaseFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = new AreaStyle(GeoPens.Black, new GeoSolidBrush(new GeoColor(50, GeoColors.Blue)));
+                fileGeoDatabaseFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            // Open the layer and set the map view current extent to the bounding box of the layer.  
-            fileGeoDatabaseFeatureLayer.Open();
-            MapView.CurrentExtent = fileGeoDatabaseFeatureLayer.GetBoundingBox();
+                // Open the layer and set the map view current extent to the bounding box of the layer.  
+                fileGeoDatabaseFeatureLayer.Open();
+                MapView.CurrentExtent = fileGeoDatabaseFeatureLayer.GetBoundingBox();
 
-            await MapView.RefreshAsync();
+                await MapView.RefreshAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         public void Dispose()

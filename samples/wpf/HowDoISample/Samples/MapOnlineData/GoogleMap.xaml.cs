@@ -32,26 +32,34 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void BtnActivate_Click(object sender, RoutedEventArgs e)
         {
-            // Sets the map zoom level set to the Google maps zoom level set.
-            MapView.ZoomLevelSet = new GoogleMapsZoomLevelSet();
+            try
+            {
+                // Sets the map zoom level set to the Google maps zoom level set.
+                MapView.ZoomLevelSet = new GoogleMapsZoomLevelSet();
 
-            // Clear the current overlay
-            MapView.Overlays.Clear();
+                // Clear the current overlay
+                MapView.Overlays.Clear();
 
-            // Create a new overlay that will hold our new layer and add it to the map.
-            var worldOverlay = new LayerOverlay();
-            MapView.Overlays.Add("WorldOverlay", worldOverlay);
+                // Create a new overlay that will hold our new layer and add it to the map.
+                var worldOverlay = new LayerOverlay();
+                MapView.Overlays.Add("WorldOverlay", worldOverlay);
 
-            // Create the new layer.
-            var worldLayer = new Core.GoogleMapsAsyncLayer(TxtApiKey.Text, string.Empty);
+                // Create the new layer.
+                var worldLayer = new Core.GoogleMapsAsyncLayer(TxtApiKey.Text, string.Empty);
 
-            // Add the layer to the overlay we created earlier.
-            worldOverlay.Layers.Add("WorldLayer", worldLayer);
+                // Add the layer to the overlay we created earlier.
+                worldOverlay.Layers.Add("WorldLayer", worldLayer);
 
-            // Set the current extent to the whole world.
-            MapView.CurrentExtent = new RectangleShape(-10000000, 10000000, 10000000, -10000000);
+                // Set the current extent to the whole world.
+                MapView.CurrentExtent = new RectangleShape(-10000000, 10000000, 10000000, -10000000);
 
-            await MapView.RefreshAsync();
+                await MapView.RefreshAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)

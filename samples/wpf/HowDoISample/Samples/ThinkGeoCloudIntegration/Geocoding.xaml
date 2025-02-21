@@ -6,31 +6,28 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
              xmlns:code="clr-namespace:ThinkGeo.Core;assembly=ThinkGeo.Core"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <thinkGeoUi:MapView  Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded"></thinkGeoUi:MapView>
         <Image Grid.Column="0" x:Name="LoadingImage"  Height="64" Width="64" Visibility="Hidden" gif:ImageBehavior.AnimatedSource="..\..\Resources\loading.gif" />
         <Grid Grid.Column="1" Grid.Row="0">
-            <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2">
-                <Label.Content>
-                    <AccessText FontSize="17" TextWrapping="Wrap"   Text="Geocode"/>
-                </Label.Content>
-            </Label>
+            <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Margin="0,-6,0,34" Grid.RowSpan="2"/>
             <Label Grid.Column="1" Grid.Row="1" FontSize="14">Search Text:</Label>
-            <TextBox Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" x:Name="TxtSearchString" Text="6101 Frisco Square Blvd, Frisco, TX 75034"></TextBox>
-            <Label Grid.Column="1" Grid.Row="3" FontSize="14">Maximum Results:</Label>
-            <TextBox  Grid.Column="2" Grid.Row="3" x:Name="TxtMaxResults" Text="10"></TextBox>
-            
+            <TextBox Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" x:Name="TxtSearchString" Text="6101 Frisco Square Blvd, Frisco, TX 75034" Margin="0,28,0,0" Grid.RowSpan="2"></TextBox>
+            <Label Grid.Column="1" Grid.Row="3" FontSize="14" Margin="0,2,0,4">Maximum Results:</Label>
+            <TextBox  Grid.Column="2" Grid.Row="3" x:Name="TxtMaxResults" Text="100" Margin="0,5,0,4"></TextBox>
+
             <Label Grid.Column="1" Grid.Row="4" FontSize="14">SearchType:</Label>
-            <ComboBox Grid.Column="2" Grid.Row="4" x:Name="CboSearchType" SelectionChanged="cboSearchType_SelectionChanged">
+            <ComboBox Grid.Column="2" Grid.Row="4" x:Name="CboSearchType" SelectionChanged="cboSearchType_SelectionChanged" Margin="0,4,0,4">
                 <ComboBoxItem>Fuzzy</ComboBoxItem>
                 <ComboBoxItem>Exact</ComboBoxItem>
             </ComboBox>
-            <TextBlock Grid.Column="1"  Grid.Row="5" Grid.ColumnSpan="2" x:Name="TxtSearchTypeDescription"></TextBlock>
+            <TextBlock Grid.Column="1"  Grid.Row="5" Grid.ColumnSpan="2" x:Name="TxtSearchTypeDescription" Margin="0,0,0,5"></TextBlock>
 
-            <Label Grid.Column="1" Grid.Row="6" FontSize="14">LocationType:</Label>
-            <ComboBox Grid.Column="2" Grid.Row="6" x:Name="CboLocationType" SelectionChanged="cboLocationType_SelectionChanged">
+            <Label Grid.Row="6" FontSize="14" Margin="0,8,0,15"  Grid.Column="1">LocationType:</Label>
+            <ComboBox Grid.Column="2" Grid.Row="6" x:Name="CboLocationType" SelectionChanged="cboLocationType_SelectionChanged" Margin="0,1,0,8">
                 <ComboBoxItem>Default</ComboBoxItem>
                 <ComboBoxItem>Address</ComboBoxItem>
                 <ComboBoxItem>Street</ComboBoxItem>
@@ -39,13 +36,30 @@
                 <ComboBoxItem>Zipcode</ComboBoxItem>
                 <ComboBoxItem>State</ComboBoxItem>
             </ComboBox>
-            <TextBlock Grid.Column="1"  Grid.Row="7" Grid.ColumnSpan="2" x:Name="TxtLocationTypeDescription"></TextBlock>
+            <Label
+                   Grid.Row="6"
+                   FontSize="14" Grid.ColumnSpan="2" Margin="0,39,60,23" Grid.Column="1" Grid.RowSpan="2">Include Overture Places:</Label>
+            <ComboBox Grid.Column="2"
+                      Grid.Row="6"
+                      x:Name="CboIncludeOverturePlaces"
+                      SelectedIndex="0" Margin="60,29,0,13" Grid.RowSpan="2">
+                <ComboBoxItem Content="No">
+                    <ComboBoxItem.Tag>
+                        <sys:Boolean>False</sys:Boolean>
+                    </ComboBoxItem.Tag>
+                </ComboBoxItem>
+                <ComboBoxItem Content="Yes">
+                    <ComboBoxItem.Tag>
+                        <sys:Boolean>True</sys:Boolean>
+                    </ComboBoxItem.Tag>
+                </ComboBoxItem>
+            </ComboBox>
 
-            <Button Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="2" Click="Search_Click">Search</Button>
+            <Button Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="2" Click="Search_Click" Margin="0,28,0,7" Grid.RowSpan="2">Search</Button>
 
-            <TextBlock Grid.Column="1"  Grid.Row="10" Grid.ColumnSpan="2" x:Name="TxtSearchResultsDescription"></TextBlock>
+            <TextBlock Grid.Column="1"  Grid.Row="8" Grid.ColumnSpan="2" x:Name="TxtSearchResultsDescription" Margin="0,18,0,185" Grid.RowSpan="5"></TextBlock>
 
-            <ListBox Grid.Column="1"  Grid.Row="11" Grid.ColumnSpan="2" Name="LsbLocations" SelectionChanged="lsbLocations_SelectionChanged" Visibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ListBox Grid.Column="1"  Grid.Row="12" Grid.ColumnSpan="2" Name="LsbLocations" SelectionChanged="lsbLocations_SelectionChanged" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" Height="Auto" Visibility="Hidden" Margin="0,10,0,0">
                 <ListBox.ItemTemplate>
                     <DataTemplate DataType="{x:Type code:CloudGeocodingLocation}">
                         <Grid Width="Auto" Height="Auto">
@@ -53,8 +67,8 @@
                                 <RowDefinition Height="Auto" ></RowDefinition>
                                 <RowDefinition Height="Auto" ></RowDefinition>
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Text="{Binding Path=LocationName}" TextWrapping="Wrap"/>
-                            <TextBlock Grid.Row="1" Text="{Binding Path=LocationType, StringFormat=Type: {0}}" FontWeight="Bold"/>
+                            <TextBlock Grid.Row="0" Text="{Binding Path=LocationName}" TextWrapping="Wrap" FontWeight="Bold"/>
+                            <TextBlock Grid.Row="1" Text="{Binding Path=LocationType, StringFormat=Type: {0}}"/>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -74,11 +88,12 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
+                <RowDefinition Height="32.685"/>
+                <RowDefinition Height="23.935"/>
                 <RowDefinition Height="10"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
         </Grid>
 

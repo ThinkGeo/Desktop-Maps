@@ -20,24 +20,32 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
-
-            // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            try
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-            };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                // Set the map's unit of measurement to meters(Spherical Mercator)
+                MapView.MapUnit = GeographyUnit.Meter;
 
-            // Set the map extent
-            MapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
+                // Add Cloud Maps as a background overlay
+                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+                {
+                    ClientId = SampleKeys.ClientId,
+                    ClientSecret = SampleKeys.ClientSecret,
+                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                };
+                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            await MapView.RefreshAsync();
+                // Set the map extent
+                MapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
+
+                await MapView.RefreshAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         /// <summary>
@@ -46,7 +54,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void ZoomIn_Click(object sender, RoutedEventArgs e)
         {
-            await MapView.ZoomInAsync();
+            try
+            {
+                await MapView.ZoomInAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         /// <summary>
@@ -55,7 +71,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void ZoomOut_Click(object sender, RoutedEventArgs e)
         {
-            await MapView.ZoomOutAsync();
+            try
+            {
+                await MapView.ZoomOutAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         /// <summary>
@@ -64,21 +88,29 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void PanArrow_Click(object sender, RoutedEventArgs e)
         {
-            var percentage = (int)PanPercentage.Value;
-            switch (((Button)sender).Name)
+            try
             {
-                case "PanNorth":
-                    await MapView.PanByDirectionAsync(PanDirection.Up, percentage);
-                    break;
-                case "PanEast":
-                    await MapView.PanByDirectionAsync(PanDirection.Right, percentage);
-                    break;
-                case "PanWest":
-                    await MapView.PanByDirectionAsync(PanDirection.Left, percentage);
-                    break;
-                case "PanSouth":
-                    await MapView.PanByDirectionAsync(PanDirection.Down, percentage);
-                    break;
+                var percentage = (int)PanPercentage.Value;
+                switch (((Button)sender).Name)
+                {
+                    case "PanNorth":
+                        await MapView.PanByDirectionAsync(PanDirection.Up, percentage);
+                        break;
+                    case "PanEast":
+                        await MapView.PanByDirectionAsync(PanDirection.Right, percentage);
+                        break;
+                    case "PanWest":
+                        await MapView.PanByDirectionAsync(PanDirection.Left, percentage);
+                        break;
+                    case "PanSouth":
+                        await MapView.PanByDirectionAsync(PanDirection.Down, percentage);
+                        break;
+                }
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
             }
         }
 
@@ -88,8 +120,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void Rotate_Click(object sender, RoutedEventArgs e)
         {
-            MapView.RotatedAngle = (float)RotateAngle.Value;
-            await MapView.RefreshAsync();
+            try
+            {               
+                MapView.RotatedAngle = (float)RotateAngle.Value;
+                await MapView.RefreshAsync();
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         public void Dispose()

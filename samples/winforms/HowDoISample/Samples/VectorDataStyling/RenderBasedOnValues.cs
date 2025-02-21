@@ -41,7 +41,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             {
                 TextStyle = new TextStyle("Crime Categories", new GeoFont("Verdana", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
             };
-            legend.Height = 600;
             legend.Location = AdornmentLocation.LowerRight;
             mapView.AdornmentOverlay.Layers.Add(legend);
 

@@ -8,7 +8,7 @@ namespace NauticalChartsViewer
     {
         private const string chartsOverlayName = "ChartsOverlay";
 
-        public override void Handle(Window owner, MapView map, MenuItemMessage message)
+        public async override void Handle(Window owner, MapView map, MenuItemMessage message)
         {
             Globals.IsMetaObjectsVisible = message.MenuItem.IsChecked;
             if (map.Overlays.Contains(chartsOverlayName))
@@ -19,7 +19,7 @@ namespace NauticalChartsViewer
                     NauticalChartsFeatureLayer maritimeFeatureLayer = item as NauticalChartsFeatureLayer;
                     maritimeFeatureLayer.IsMetaObjectsVisible = Globals.IsMetaObjectsVisible;
                 }
-                map.Refresh();
+                await map.RefreshAsync();
             }
         }
 

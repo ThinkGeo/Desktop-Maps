@@ -362,13 +362,13 @@ namespace NauticalChartsViewer
             base.Cleanup();
         }
 
-        internal void ApplyOverlayOpacity()
+        internal async void ApplyOverlayOpacity()
         {
             if (map.Overlays.Contains(chartsOverlayName))
             {
                 LayerOverlay overlay = ((LayerOverlay)map.Overlays[chartsOverlayName]);
                 overlay.OverlayCanvas.Opacity = OverlayOpacity;
-                map.Refresh(overlay);
+                await map.RefreshAsync(overlay);
             }
         }
 
@@ -453,7 +453,7 @@ namespace NauticalChartsViewer
             ChartSelectedItem = new ChartSelectedItem(chartSelectedItem.FullName, new List<FeatureInfo>());
         }
 
-        private void HandleFeatureSelectedChanged(object item)
+        private async void HandleFeatureSelectedChanged(object item)
         {
             FeatureInfo featureInfo = item as FeatureInfo;
 
@@ -482,10 +482,10 @@ namespace NauticalChartsViewer
                 }
             }
 
-            map.Refresh();
+            await map.RefreshAsync();
         }
 
-        private void HandleLoadChartMessage(ChartMessage message)
+        private async void HandleLoadChartMessage(ChartMessage message)
         {
             LayerOverlay overlay = null;
             if (message.Charts != null)
@@ -554,16 +554,29 @@ namespace NauticalChartsViewer
                     layer.Close();
                     overlay.Layers.Add(item.FileName, layer);
                 }
+                RectangleShape preserveBoundingBox = null;
                 if (boundingBox != null)
                 {
                     map.CurrentExtent = boundingBox;
+                    preserveBoundingBox = boundingBox;
                 }
 
                 //SetupAnimationForOverlay(overlay);
 
                 ApplyOverlayOpacity();
 
-                map.Refresh();
+                map.Visibility = Visibility.Hidden;
+
+                await map.RefreshAsync();
+                
+                if (!map.CurrentExtent.Equals(preserveBoundingBox))
+                {
+                    map.CurrentExtent = preserveBoundingBox;
+                    await map.Overlays[chartsOverlayName].RefreshAsync();
+                    await map.RefreshAsync(); // Redraw with the correct extent
+                }
+
+                map.Visibility = Visibility.Visible;
             }
         }
 
@@ -581,7 +594,7 @@ namespace NauticalChartsViewer
             }
         }
 
-        private void HandleSafeWaterDepthMessage(SafeWaterDepthSettingMessage message)
+        private async void HandleSafeWaterDepthMessage(SafeWaterDepthSettingMessage message)
         {
             if (!map.Overlays.Contains(chartsOverlayName))
             {
@@ -602,7 +615,7 @@ namespace NauticalChartsViewer
             Globals.ShallowDepth = message.ShallowWaterDepth;
             Globals.SafetyContour = message.SafetyContourDepth;
             Globals.CurrentDepthUnit = message.DepthUnit;
-            map.Refresh();
+            await map.RefreshAsync();
         }
 
         private void HandleToolBarCommand(string action)
@@ -628,7 +641,7 @@ namespace NauticalChartsViewer
             }
         }
 
-        private void HandleUnloadChartMessage(ChartMessage message)
+        private async void HandleUnloadChartMessage(ChartMessage message)
         {
             if (message.Charts != null)
             {
@@ -639,7 +652,7 @@ namespace NauticalChartsViewer
                     {
                         for (int i = overlay.Layers.Count - 1; i >= 0; i--)
                         {
-                            Layer layer = overlay.Layers[i];
+                            LayerBase layer = overlay.Layers[i];
                             if (item.FileName == layer.Name)
                             {
                                 overlay.Layers.Remove(layer);
@@ -673,7 +686,7 @@ namespace NauticalChartsViewer
                         map.CurrentExtent = boundingBox;
                     }
 
-                    map.Refresh();
+                    await map.RefreshAsync();
                 }
             }
         }
@@ -686,7 +699,7 @@ namespace NauticalChartsViewer
             }
         }
 
-        private void InitBoundingBoxPreviewOverlay(MapView map)
+        private async void InitBoundingBoxPreviewOverlay(MapView map)
         {
             boundingBoxPreviewLayer = new InMemoryFeatureLayer();
             boundingBoxPreviewLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.Transparent, GeoColors.Blue);
@@ -694,7 +707,7 @@ namespace NauticalChartsViewer
 
             LayerOverlay boundingBoxPreviewOverlay = new LayerOverlay();
             boundingBoxPreviewOverlay.Layers.Add(boundingBoxPreviewLayer);
-            boundingBoxPreviewOverlay.Open();
+            await boundingBoxPreviewOverlay.OpenAsync();
             map.Overlays.Add(boundingBoxPreviewOverlayName, boundingBoxPreviewOverlay);
         }
 
@@ -828,7 +841,7 @@ namespace NauticalChartsViewer
         //    overlay.Drawn += overlay_Drawn;
         //}
 
-        private void WpfMap_MapClick(object sender, MapClickMapViewEventArgs e)
+        private async void WpfMap_MapClick(object sender, MapClickMapViewEventArgs e)
         {
             if (isIdentify)
             {
@@ -888,7 +901,7 @@ namespace NauticalChartsViewer
                     {
                         map.Overlays.Remove(highlightOverlayName);
                     }
-                    map.Refresh();
+                    await map.RefreshAsync();
                 }
             }
         }

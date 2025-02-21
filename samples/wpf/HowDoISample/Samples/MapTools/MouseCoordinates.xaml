@@ -8,19 +8,19 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded"/>
-        
+
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1" Grid.Row="0" Content="Mouse Coordinates Controls:" FontSize="16" FontWeight="Bold"/>
-            
-            <CheckBox Grid.Column="1" Grid.Row="1" x:Name="DisplayMouseCoordinates" Content="Display Mouse Coordinates" IsChecked="True" Checked="DisplayMouseCoordinates_Checked" Unchecked="DisplayMouseCoordinates_Unchecked"></CheckBox>
-            
-            <ComboBox Grid.Column="1" Grid.Row="2" x:Name="CoordinateType" SelectionChanged="CoordinateType_SelectionChanged">
+
+            <CheckBox Grid.Column="1" Grid.Row="1" x:Name="DisplayMouseCoordinates" Content="Display Mouse Coordinates on Map" IsChecked="True" Checked="DisplayMouseCoordinates_Checked" Unchecked="DisplayMouseCoordinates_Unchecked"></CheckBox>
+            <CheckBox Grid.Column="1" Grid.Row="2" x:Name="DisplayMouseCoordinatesTextBox" Content="Display Mouse Coordinates on TextBox" IsChecked="True"></CheckBox>
+
+            <ComboBox Grid.Row="3" x:Name="CoordinateType" SelectionChanged="CoordinateType_SelectionChanged" Margin="2,6,6,347" Grid.Column="1">
                 <ComboBoxItem Content="(lat), (lon)" IsSelected="True"></ComboBoxItem>
                 <ComboBoxItem Content="(lon), (lat)"></ComboBoxItem>
-                <ComboBoxItem Content="(degrees), (minutes), (seconds)"></ComboBoxItem>
                 <ComboBoxItem Content="(custom)"></ComboBoxItem>
             </ComboBox>
-            
+
             <!-- Controls Grid Layout -->
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />
@@ -31,10 +31,14 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
         </Grid>
 
+        <TextBox Grid.Column="1" Grid.Row="3" x:Name="txtCoordinate" IsReadOnly="True" IsEnabled="False" 
+         VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="10,0,10,10" Height="20"/>
+        
         <!-- Grid Layout -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -44,7 +48,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
     </Grid>
-    
+
     <UserControl.Resources>
         <Style TargetType="Label">
             <Setter Property="Foreground" Value="WhiteSmoke"></Setter>

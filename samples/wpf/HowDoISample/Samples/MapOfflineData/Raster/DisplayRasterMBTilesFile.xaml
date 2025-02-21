@@ -1,0 +1,87 @@
+﻿<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.DisplayRasterMbTilesFile"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="240" />
+        </Grid.ColumnDefinitions>
+
+        <thinkGeoUi:MapView x:Name="MapView" Grid.Column="0" Loaded="MapView_Loaded" />
+
+        <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Top stack of controls -->
+            <StackPanel Grid.Column="1" Grid.Row="0" Margin="0">
+                <Label Content="Projection" Margin="5"
+                       FontSize="16" FontWeight="Bold" 
+                       Foreground="White" />
+
+                <RadioButton Tag="3857" 
+                             Checked="Projection_Checked" 
+                             IsChecked="True" 
+                             Foreground="White"
+                             Margin="10,5"
+                             Content="EPSG 3857"/>
+
+                <RadioButton Tag="4326" Checked="Projection_Checked"
+                             Foreground="White"
+                             Margin="10, 5" Content="EPSG 4326"/>
+
+
+                <CheckBox FontSize="14" FontWeight="Bold" Foreground="White" IsChecked="True"
+                          Checked="DisplayTileIdCheckBox_Checked"
+                          Unchecked="DisplayTileIdCheckBox_Checked" 
+                          Margin="4" Content="Show Debug Info"/>
+
+                <CheckBox FontSize="14" FontWeight="Bold" Foreground="White"
+                          Checked="RenderBeyondMaxZoomCheckBox_Checked"
+                          Unchecked="RenderBeyondMaxZoomCheckBox_Checked" 
+                          ToolTip="The data only covers zoom 0~5. Check this to render zoom 6+ by stretching the data from zoom 5."
+                          Margin="4" Content="Render Beyond Max Zoom"/>
+
+            </StackPanel>
+
+
+            <ListBox  Grid.Column="1" Grid.Row="1" Margin="5"  x:Name="LogListBox"
+                      ItemsSource="{Binding Path =LogMessages}"
+                      VirtualizingStackPanel.IsVirtualizing="True"
+                      VirtualizingStackPanel.VirtualizationMode="Recycling" />
+
+        </Grid>
+
+    </Grid>
+
+    <UserControl.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="WhiteSmoke" />
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+        <Style TargetType="Grid">
+            <Setter Property="Background" Value="DimGray" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Height" Value="22" />
+            <Setter Property="Margin" Value="0,10,0,0" />
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Height" Value="20" />
+        </Style>
+        <Style TargetType="RadioButton">
+            <Setter Property="Foreground" Value="WhiteSmoke" />
+        </Style>
+    </UserControl.Resources>
+
+</UserControl>

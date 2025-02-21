@@ -27,69 +27,78 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            try
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-            };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
+                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+                {
+                    ClientId = SampleKeys.ClientId,
+                    ClientSecret = SampleKeys.ClientSecret,
+                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                };
+                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            // Set the map's unit of measurement to meters (Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+                // Set the map's unit of measurement to meters (Spherical Mercator)
+                MapView.MapUnit = GeographyUnit.Meter;
 
-            // Create a new feature layer to display the service areas
-            var serviceAreasLayer = new InMemoryFeatureLayer();
+                // Create a new feature layer to display the service areas
+                var serviceAreasLayer = new InMemoryFeatureLayer();
 
-            // Add a class break style to display the service areas
-            // We will display a different color for 15, 30, 45, and 60 minute travel times
-            var serviceAreasClassBreaks = new Collection<ClassBreak>
-            {
+                // Add a class break style to display the service areas
+                // We will display a different color for 15, 30, 45, and 60 minute travel times
+                var serviceAreasClassBreaks = new Collection<ClassBreak>
+                {
                 new ClassBreak(15, AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(60, GeoColors.Green), GeoColors.Green)),
                 new ClassBreak(30, AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(60, GeoColors.Yellow), GeoColors.Yellow)),
                 new ClassBreak(45, AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(60, GeoColors.Orange), GeoColors.Orange)),
                 new ClassBreak(60, AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(60, GeoColors.Red), GeoColors.Red))
-            };
+                };
 
-            var serviceAreasClassBreakStyle = new ClassBreakStyle("TravelTimeFromCenterPoint", BreakValueInclusion.IncludeValue, serviceAreasClassBreaks);
-            serviceAreasLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(serviceAreasClassBreakStyle);
-            serviceAreasLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+                var serviceAreasClassBreakStyle = new ClassBreakStyle("TravelTimeFromCenterPoint", BreakValueInclusion.IncludeValue, serviceAreasClassBreaks);
+                serviceAreasLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(serviceAreasClassBreakStyle);
+                serviceAreasLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            // Set up the legend adornment
-            SetUpLegendAdornment(serviceAreasClassBreaks);
+                // Set up the legend adornment
+                SetUpLegendAdornment(serviceAreasClassBreaks);
 
-            // Add the layer to an overlay, and add the overlay to the mapview
-            var serviceAreaOverlay = new LayerOverlay();
-            serviceAreaOverlay.Layers.Add("Service Area Layer", serviceAreasLayer);
-            MapView.Overlays.Add("Service Area Overlay", serviceAreaOverlay);
+                // Add the layer to an overlay, and add the overlay to the mapview
+                var serviceAreaOverlay = new LayerOverlay();
+                serviceAreaOverlay.Layers.Add("Service Area Layer", serviceAreasLayer);
+                MapView.Overlays.Add("Service Area Overlay", serviceAreaOverlay);
 
-            // Add a simple marker overlay to display the center point of the service area
-            var serviceAreaMarkerOverlay = new SimpleMarkerOverlay();
-            MapView.Overlays.Add("Service Area Marker Overlay", serviceAreaMarkerOverlay);
+                // Add a simple marker overlay to display the center point of the service area
+                var serviceAreaMarkerOverlay = new SimpleMarkerOverlay();
+                MapView.Overlays.Add("Service Area Marker Overlay", serviceAreaMarkerOverlay);
 
-            MapView.CurrentExtent = new RectangleShape(-10895153.061011, 4016319.51333112, -10653612.0529718, 3797709.61365001);
+                MapView.CurrentExtent = new RectangleShape(-10895153.061011, 4016319.51333112, -10653612.0529718, 3797709.61365001);
 
-            // Create a new set of time spans for 15, 30, 45, 60 minutes. These will be used to create the class breaks for the routing service area request
-            _serviceAreaIntervals = new Collection<TimeSpan>() {
+                // Create a new set of time spans for 15, 30, 45, 60 minutes. These will be used to create the class breaks for the routing service area request
+                _serviceAreaIntervals = new Collection<TimeSpan>() 
+                {
                 new TimeSpan(0, 15, 0),
                 new TimeSpan(0, 30, 0),
                 new TimeSpan(0, 45, 0),
                 new TimeSpan(1, 0, 0)
-            };
+                };
 
-            // Initialize the RoutingCloudClient with our ThinkGeo Cloud Client credentials
-            _routingCloudClient = new RoutingCloudClient
+                // Initialize the RoutingCloudClient with our ThinkGeo Cloud Client credentials
+                _routingCloudClient = new RoutingCloudClient
+                {
+                    ClientId = SampleKeys.ClientId2,
+                    ClientSecret = SampleKeys.ClientSecret2,
+                };
+
+                // Run a sample query
+                var samplePoint = new PointShape(-10776836.140633, 3912350.714164);
+                await GetAndDrawServiceAreaAsync(samplePoint);
+            }
+            catch 
             {
-                ClientId = SampleKeys.ClientId2,
-                ClientSecret = SampleKeys.ClientSecret2,
-            };
-
-            // Run a sample query
-            var samplePoint = new PointShape(-10776836.140633, 3912350.714164);
-            await GetAndDrawServiceAreaAsync(samplePoint);
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         /// <summary>
@@ -211,7 +220,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
         {
-            await GetAndDrawServiceAreaAsync(e.WorldLocation);
+            try
+            {
+                await GetAndDrawServiceAreaAsync(e.WorldLocation);
+            }
+            catch 
+            {
+                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+            }
         }
 
         /// <summary>
