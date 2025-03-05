@@ -41,14 +41,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapView.Overlays.Clear();
 
                 // Create a new overlay that will hold our new layer and add it to the map.
-                var worldOverlay = new LayerOverlay();
+                var worldOverlay = new GoogleMapsOverlay(TxtApiKey.Text, string.Empty);
                 MapView.Overlays.Add("WorldOverlay", worldOverlay);
-
-                // Create the new layer.
-                var worldLayer = new Core.GoogleMapsAsyncLayer(TxtApiKey.Text, string.Empty);
-
-                // Add the layer to the overlay we created earlier.
-                worldOverlay.Layers.Add("WorldLayer", worldLayer);
 
                 // Set the current extent to the whole world.
                 MapView.CurrentExtent = new RectangleShape(-10000000, 10000000, 10000000, -10000000);
