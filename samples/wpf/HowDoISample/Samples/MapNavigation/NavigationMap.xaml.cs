@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -41,7 +42,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 await MapView.RefreshAsync();
             }
-            catch 
+            catch
             {
                 // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
                 // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
@@ -58,7 +59,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             {
                 await MapView.ZoomInAsync();
             }
-            catch 
+            catch
             {
                 // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
                 // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
@@ -75,7 +76,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             {
                 await MapView.ZoomOutAsync();
             }
-            catch 
+            catch
             {
                 // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
                 // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
@@ -90,7 +91,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             try
             {
-                var percentage = (int)PanPercentage.Value;
+                var percentage = 50;
                 switch (((Button)sender).Name)
                 {
                     case "PanNorth":
@@ -107,25 +108,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                         break;
                 }
             }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
-        }
-
-        /// <summary>
-        /// Rotate the map at an angle using the value of the rotateAngle Slider. Since this is just setting a property, you must refresh the map in order for the rotation to show.
-        /// The same effect can be achieved by holding down the ALT key and left click dragging anywhere on the map.
-        /// </summary>
-        private async void Rotate_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {               
-                MapView.RotatedAngle = (float)RotateAngle.Value;
-                await MapView.RefreshAsync();
-            }
-            catch 
+            catch
             {
                 // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
                 // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
@@ -138,6 +121,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
+        }
+
+        private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+
+        private async void RotateAngle_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            _cancellationTokenSource.Cancel();
+            _cancellationTokenSource = new CancellationTokenSource();
+
+            await MapView.ZoomToAsync(MapView.CurrentExtent.GetCenterPoint(), MapView.CurrentScale,
+                RotateAngle.Value, _cancellationTokenSource.Token);
         }
     }
 }
