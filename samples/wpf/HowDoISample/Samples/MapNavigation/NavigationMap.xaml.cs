@@ -131,7 +131,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _cancellationTokenSource = new CancellationTokenSource();
 
             await MapView.ZoomToAsync(MapView.CurrentExtent.GetCenterPoint(), MapView.CurrentScale,
-                 _cancellationTokenSource.Token);
+                RotateAngle.Value, _cancellationTokenSource.Token);
         }
     }
 }
