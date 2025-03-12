@@ -74,6 +74,12 @@
         "source": "Samples/MapOnlineData/OpenStreetMap"
       },
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.MVT",
+        "title": "MVT",
+        "description": "This sample shows how to display a MVT Feature Layer.",
+        "source": "Samples/MapOnlineData/MVT"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.WFS",
         "title": "WFS",
         "description": "This sample shows how to display a WFS V2 Feature Layer.(This WFSV2 sever may be slow )",
@@ -269,6 +275,47 @@
         "title": "Grouping Layers Using LayerOverlay",
         "description": "Learn to group layers into logical groups using LayerOverlays.",
         "source": "Samples/MapOfflineData/GroupingLayersUsingLayerOverlay"
+      }
+    ]
+  },
+  {
+    "title": "XYZ Based Layers",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayRasterMbTilesFile",
+        "title": "Display Raster from MBTiles",
+        "description": "This sample shows how to display a raster MBTiles file. The demo file has 6 zooms (zoom 0~5)",
+        "source": "Samples/MapOfflineData/Raster/DisplayRasterMbTilesFile"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayRasterFileTiles",
+        "title": "Display Raster from File Tiles",
+        "description": "This sample shows how to display the raster tiles created by QGIS. The demo tiles has 6 zooms (zoom 0~5)",
+        "source": "Samples/MapOfflineData/Raster/DisplayRasterFileTiles"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.RasterXyzServer",
+        "title": "Display Raster from XYZ Server",
+        "description": "This sample shows how to display the tiles from a raster XYZ server.  This demo server has 20 zooms (zoom 0~19)",
+        "source": "Samples/MapOnlineData/RasterXyzServer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.WMTSAsXYZLayer",
+        "title": "Display Raster from WMTS Server",
+        "description": "This sample shows how to display the tiles from a WMTS server.  This demo server has 27 zooms (zoom 0~26).",
+        "source": "Samples/XYZBasedLayers/WMTSAsXYZLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMbTilesFile",
+        "title": "Display Vector from MBTiles",
+        "description": "This sample shows how to display a MBTiles file. The demo mbtile/json come from https://github.com/maplibre/demotiles?tab=readme-ov-file",
+        "source": "Samples/MapOfflineData/Vector/DisplayMbTilesFile"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.MVT",
+        "title": "Display Vector from MVT Server",
+        "description": "This sample shows how to display a vector map from an MVT server.",
+        "source": "Samples/MapOnlineData/MVT"
       }
     ]
   },
