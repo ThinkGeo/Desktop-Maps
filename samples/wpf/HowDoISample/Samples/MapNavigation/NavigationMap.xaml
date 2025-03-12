@@ -55,24 +55,11 @@
                 </Grid.RowDefinitions>
             </Grid>
 
-            <Label Grid.Column="1" Grid.Row="4" Content="Panning Percentage:" DockPanel.Dock="Top"/>
-            <Grid Grid.Column="1" Grid.Row="5">
-                <Slider Grid.Column="0" Grid.Row="0" x:Name="PanPercentage" Maximum="100" Value="50" AutoToolTipPlacement="TopLeft" TickFrequency="5" IsSnapToTickEnabled="True"></Slider>
-                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding ElementName=PanPercentage, Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="28"  DockPanel.Dock="Right"></TextBox>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-            </Grid>
+          
             <Label Grid.Column="1" Grid.Row="6" Content="Rotating:" FontSize="16" FontWeight="Bold"></Label>
-            <Label Grid.Column="1" Grid.Row="7" Content="Current Angle:"/>
             <Grid Grid.Column="1" Grid.Row="8">
                 <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding ElementName=RotateAngle, Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="28" DockPanel.Dock="Right"></TextBox>
-                <Slider Grid.Column="0" Grid.Row="0" x:Name="RotateAngle" Maximum="360" Value="0" AutoToolTipPlacement="TopLeft" TickFrequency="15" IsSnapToTickEnabled="True"></Slider>
+                <Slider Grid.Column="0" Grid.Row="0" x:Name="RotateAngle" Maximum="360" Value="0" AutoToolTipPlacement="TopLeft" TickFrequency="15" IsSnapToTickEnabled="True" ValueChanged="RotateAngle_OnValueChanged"/>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
@@ -82,9 +69,6 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
             </Grid>
-            <Button Grid.Column="1" Grid.Row="9" x:Name="Rotate" Click="Rotate_Click">
-                Update
-            </Button>
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />
@@ -92,9 +76,6 @@
                 <ColumnDefinition Width="5" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
