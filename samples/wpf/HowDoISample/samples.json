@@ -331,6 +331,17 @@
     ]
   },
   {
+    "title": "Map Events",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.BasicMapEvents",
+        "title": "Basic Map Events",
+        "description": "Learn to recognize fundamental map events.",
+        "source": "Samples/MapEvents/BasicMapEvents"
+      }
+    ]
+  },
+  {
     "title": "Markers and Popups",
     "children": [
       {
