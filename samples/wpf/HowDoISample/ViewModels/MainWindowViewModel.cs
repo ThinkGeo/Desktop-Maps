@@ -14,7 +14,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     public class MainWindowViewModel : ObservableObject
     {
         private MenuViewModel _selectedMenu;
-        private LogViewModel _logViewModel;
 
         public MainWindowViewModel(DependencyObject view)
         {
@@ -69,8 +68,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             CodeViewer = new CodeViewerViewModel();
             CodeViewer.PropertyChanged += (sender, e) => OnPropertyChanged(nameof(CodeViewer));
 
-            // Initialize LogViewModel
-            _logViewModel = new LogViewModel();
         }
 
         public ICommand ExpandedMenusCommand
@@ -91,18 +88,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         public CodeViewerViewModel CodeViewer { get; }
 
-        // Add LogViewModel property
-        public LogViewModel LogViewModel
-        {
-            get => _logViewModel;
-            set
-            {
-                if (_logViewModel == value) return;
-                _logViewModel = value;
-                OnPropertyChanged();
-            }
-        }
-
         public MenuViewModel SelectedMenu
         {
             get => _selectedMenu;
@@ -116,7 +101,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 OnPropertyChanged();
             }
         }
-
 
         private static string GetFileContent(string path)
         {

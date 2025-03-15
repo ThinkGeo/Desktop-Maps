@@ -1,25 +1,72 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Windows;
 using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Learn how to set the map extent using a variety of different methods.
+    /// Learn how to handle basic map events.
     /// </summary>
     public partial class BasicMapEvents : IDisposable
     {
         private ShapeFileFeatureLayer _friscoCityBoundary;
         public ObservableCollection<string> LogMessages { get; } = new ObservableCollection<string>();
+        public ObservableCollection<string> FilteredLogMessages { get; } = new ObservableCollection<string>();
         private int _logIndex = 0;
+
+        private bool _showOverlaysLogs = true;
+        public bool ShowOverlaysLogs
+        {
+            get => _showOverlaysLogs;
+            set
+            {
+                _showOverlaysLogs = value;
+                FilterLogMessages();
+            }
+        }
+
+        private bool _showLayerOverlayLogs = true;
+        public bool ShowLayerOverlayLogs
+        {
+            get => _showLayerOverlayLogs;
+            set
+            {
+                _showLayerOverlayLogs = value;
+                FilterLogMessages();
+            }
+        }
+
+        private bool _showShapeFileLogs = true;
+        public bool ShowShapeFileLogs
+        {
+            get => _showShapeFileLogs;
+            set
+            {
+                _showShapeFileLogs = value;
+                FilterLogMessages();
+            }
+        }
+
+        private void FilterLogMessages()
+        {
+            FilteredLogMessages.Clear();
+
+            foreach (var log in LogMessages)
+            {
+                // Example: Filter by category (Modify as needed)
+                if (ShowOverlaysLogs && log.Contains("Overlays"))
+                    FilteredLogMessages.Add(log);
+                else if (ShowLayerOverlayLogs && log.Contains("LayerOverlay"))
+                    FilteredLogMessages.Add(log);
+                else if (ShowShapeFileLogs && log.Contains("ShapeFileFeatureLayer"))
+                    FilteredLogMessages.Add(log);
+            }
+        }
 
         public BasicMapEvents()
         {
             InitializeComponent();
-            Debug.WriteLine($"DataContext: {DataContext}");
             DataContext = this;
         }
 
@@ -96,8 +143,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var checkInfo = e.WorldExtent.ToString();
                 if (checkInfo != null)
                 {
-                    var message = "LayerOverlay: Feature Layer Drawing";
-                    AppendLog(message);
+                    var category = "LayerOverlay";
+                    var message = "Feature Layer Drawing";
+                    AppendLog(category, message);
                 }
             });
         }
@@ -109,8 +157,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var checkInfo = e.NewItems.ToString();
                 if (checkInfo != null)
                 {
-                    var message = "Overlays: Feature Layer CollectionChanged";
-                    AppendLog(message);
+                    var category = "Overlays";
+                    var message = "Feature Layer CollectionChanged";
+                    AppendLog(category,message);
                 }
             });
         }
@@ -122,8 +171,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var checkInfo = e.Item.ToString();
                 if (checkInfo != null)
                 {
-                    var message = "Overlays: Feature Layer Adding";
-                    AppendLog(message);
+                    var category = "Overlays";
+                    var message = "Feature Layer Adding";
+                    AppendLog(category, message);
                 }
             });
         }
@@ -135,8 +185,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var checkInfo = e.Item.ToString();
                 if (checkInfo != null)
                 {
-                    var message = "Overlays: Feature Layer Added";
-                    AppendLog(message);
+                    var category = "Overlays";
+                    var message = "Feature Layer Added";
+                    AppendLog(category, message);
                 }
             });
         }
@@ -148,17 +199,28 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var checkInfo = e.FeaturesToDraw.ToString();
                 if (checkInfo != null)
                 {
-                    var message = "ShapeFileFeatureLayer: DrawingFeatures";
-                    AppendLog(message);
+                    var category = "ShapeFileFeatureLayer";
+                    var message = "DrawingFeatures";
+                    AppendLog(category, message);
                 }                
             });
         }
 
-        public void AppendLog(string message)
+        public void AppendLog(string category, string message)
         {
-            // Add log message to the observable collection
-            LogMessages.Add($"{_logIndex++}: {message}");
-            LogListBox.ScrollIntoView(LogMessages[LogMessages.Count - 1]);
+            var logEntry = $"{_logIndex++}. {category}: {message}";
+            LogMessages.Add(logEntry);
+
+            // Check if the new message should be shown
+            if ((ShowOverlaysLogs && category == "Overlays") ||
+                (ShowLayerOverlayLogs && category == "LayerOverlay") ||
+                (ShowShapeFileLogs && category == "ShapeFileFeatureLayer"))
+            {
+                FilteredLogMessages.Add(logEntry);
+            }
+
+            if (FilteredLogMessages?.Count > 0)
+                LogListBox.ScrollIntoView(FilteredLogMessages[FilteredLogMessages.Count - 1]);
         }
 
         public void Dispose()
@@ -167,56 +229,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
-        }
-    }
-
-    public class LogMessage
-    {
-        public string Category { get; set; }  // Overlays, ShapeFileFeatureLayer, LayerOverlay
-        public string Message { get; set; }   // Event message
-    }
-
-    public class MapEventsViewModel : INotifyPropertyChanged
-    {
-        public ObservableCollection<LogMessage> AllLogMessages { get; set; }
-        public ObservableCollection<LogMessage> FilteredLogMessages { get; set; }
-
-        public bool ShowOverlays { get; set; }
-        public bool ShowShapeFileFeatureLayer { get; set; }
-        public bool ShowLayerOverlay { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public MapEventsViewModel()
-        {
-            AllLogMessages = new ObservableCollection<LogMessage>();
-            FilteredLogMessages = new ObservableCollection<LogMessage>();
-
-            ShowOverlays = true;  // Default checked
-            ShowShapeFileFeatureLayer = true;
-            ShowLayerOverlay = true;
-        }
-
-        public void AddLog(string category, string message)
-        {
-            var log = new LogMessage { Category = category, Message = message };
-            AllLogMessages.Add(log);
-            UpdateFilteredLogs();
-        }
-
-        public void UpdateFilteredLogs()
-        {
-            FilteredLogMessages.Clear();
-
-            foreach (var log in AllLogMessages)
-            {
-                if ((ShowOverlays && log.Category == "Overlays") ||
-                    (ShowShapeFileFeatureLayer && log.Category == "ShapeFileFeatureLayer") ||
-                    (ShowLayerOverlay && log.Category == "LayerOverlay"))
-                {
-                    FilteredLogMessages.Add(log);
-                }
-            }
         }
     }
 

@@ -15,15 +15,24 @@
             <Grid>
                 <!-- Zoom To Scale Controls -->
                 <TextBlock Text="Basic Map Events:" Grid.Row="0" />
-                <CheckBox Grid.Row="1" FontSize="14" FontWeight="Bold" Foreground="White" IsChecked="True"
+                <CheckBox Grid.Row="1" FontSize="14" FontWeight="Bold" Foreground="White" 
+                          IsChecked="{Binding ShowShapeFileLogs, Mode=TwoWay}"
                           Margin="4" Content="Load Feature Layer Events"/>
-                <ListBox  Grid.Row="2" Margin="5"  x:Name="LogListBox"
-                          ItemsSource="{Binding Path =LogMessages}"
+                <CheckBox Grid.Row="2" FontSize="14" FontWeight="Bold" Foreground="White" 
+                          IsChecked="{Binding ShowOverlaysLogs, Mode=TwoWay}"
+                          Margin="4" Content="Load Overlay Events"/>
+                <CheckBox Grid.Row="3" FontSize="14" FontWeight="Bold" Foreground="White" 
+                          IsChecked="{Binding ShowLayerOverlayLogs, Mode=TwoWay}"
+                          Margin="4" Content="Load LayerOverlay Events"/>
+                <ListBox  Grid.Row="4" Margin="5"  x:Name="LogListBox"
+                          ItemsSource="{Binding Path =FilteredLogMessages}"
                           VirtualizingStackPanel.IsVirtualizing="True"
                           VirtualizingStackPanel.VirtualizationMode="Recycling"
                           VerticalAlignment="Stretch" />
                 <!-- Controls Grid Layout -->
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
