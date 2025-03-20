@@ -51,6 +51,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             set
             {
                 _showMouseMoveLogs = value;
+                OnPropertyChanged(nameof(ShowMouseMoveLogs));
                 FilterLogMessages();
             }
         }
@@ -77,22 +78,42 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
         }
 
+        private bool _showMapViewLogs = true;
+        public bool ShowMapViewLogs
+        {
+            get => _showMapViewLogs;
+            set
+            {
+                _showMapViewLogs = value;
+                FilterLogMessages();
+            }
+        }
+
         private void FilterLogMessages()
         {
             FilteredLogMessages.Clear();
 
             foreach (var log in LogMessages)
             {
-                // Example: Filter by category (Modify as needed)
-                if (ShowOverlaysLogs && log.Contains("Overlays"))
+                // Example: Filter by category 
+                if (ShowMapViewLogs && log.Contains("MapView"))
+                    FilteredLogMessages.Add(log);
+                else if (ShowOverlaysLogs && log.Contains("Overlays"))
                     FilteredLogMessages.Add(log);
                 else if (ShowExtentOverlayLogs && log.Contains("ExtentOverlay"))
-                    FilteredLogMessages.Add(log);
+                {
+                    // Filter Mouse Move events correctly
+                    if (ShowMouseMoveLogs || !log.Contains("Mouse Move"))
+                        FilteredLogMessages.Add(log);
+                }
                 else if (ShowLayerOverlayLogs && log.Contains("LayerOverlay"))
                     FilteredLogMessages.Add(log);
-                else if (ShowShapeFileLogs && log.Contains("ShapeFileFeatureLayer"))
+                else if (ShowShapeFileLogs && log.Contains("FeatureLayer"))
                     FilteredLogMessages.Add(log);
             }
+
+            // Ensure the UI updates
+            OnPropertyChanged(nameof(FilteredLogMessages));
         }
 
         public BasicMapEvents()
@@ -112,6 +133,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set the map's unit of measurement to meters(Spherical Mercator)
                 MapView.MapUnit = GeographyUnit.Meter;
 
+                // Load MapView Events
+                MapView.CollectedMapArguments += MapView_CollectedMapArguments;
+                MapView.ContextMenuClosing += MapView_ContextMenuClosing;
+                MapView.ContextMenuOpening += MapView_ContextMenuOpening;
+                MapView.CurrentExtentChanged += MapView_CurrentExtentChanged;
+                MapView.CurrentExtentChanging += MapView_CurrentExtentChanging;
+                MapView.CurrentScaleChanged += MapView_CurrentScaleChanged;
+                MapView.CurrentScaleChanging += MapView_CurrentScaleChanging;
+
                 // Load Overlays Events
                 MapView.Overlays.Adding += Overlays_Adding;
                 MapView.Overlays.Added += Overlays_Added;
@@ -124,8 +154,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapView.Overlays.PropertyChanged += Overlays_PropertyChanged;
                 MapView.Overlays.Removed += Overlays_Removed;
                 MapView.Overlays.Removing += Overlays_Removing;
-
-                //MapView.
 
                 // Load ExtentOverlay Events
                 MapView.ExtentOverlay.Drawing += ExtentOverlay_Drawing;
@@ -143,7 +171,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapView.ExtentOverlay.MapMouseWheel += ExtentOverlay_MapMouseWheel;
                 MapView.ExtentOverlay.ThrowingException += ExtentOverlay_ThrowingException;
 
-                
 
                 // Load the Frisco data to a layer
                 _friscoCityBoundary = new ShapeFileFeatureLayer(@"./Data/Shapefile/City_ETJ.shp")
@@ -156,7 +183,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 };
 
                 // Style the data so that we can see it on the map
-                _friscoCityBoundary.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(16, GeoColors.Blue), GeoColors.DimGray, 2);
+                _friscoCityBoundary.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(100, GeoColors.Blue), GeoColors.DimGray, 2);
                 _friscoCityBoundary.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
                 // Add Frisco data to a LayerOverlay and add it to the map
@@ -180,7 +207,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapView.Overlays.Add(layerOverlay);
 
                 // Set the map extent
-                MapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
+                MapView.CurrentExtent = new RectangleShape(-10786436, 3909518, -10769429, 3908502);
 
                 // Load ShapeFileFeatureLayer Events
                 _friscoCityBoundary.DrawingFeatures += _friscoCityBoundary_DrawingFeatures;
@@ -192,6 +219,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 _friscoCityBoundary.RequestingDrawing += _friscoCityBoundary_RequestingDrawing;
                 _friscoCityBoundary.StreamLoading += _friscoCityBoundary_StreamLoading;
 
+                await MapView.PanByDirectionAsync(PanDirection.Up, 20);
                 await MapView.RefreshAsync();
             }
             catch
@@ -201,7 +229,104 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
         }
 
-       
+        private void MapView_CurrentScaleChanging(object sender, CurrentScaleChangingMapViewEventArgs e)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                var checkInfo = e.ToString();
+                if (checkInfo != null)
+                {
+                    var category = "MapView";
+                    var message = "Current Scale Changing";
+                    AppendLog(category, message);
+                }
+            });
+        }
+
+        private void MapView_CurrentScaleChanged(object sender, CurrentScaleChangedMapViewEventArgs e)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                var checkInfo = e.ToString();
+                if (checkInfo != null)
+                {
+                    var category = "MapView";
+                    var message = "Current Scale Changed";
+                    AppendLog(category, message);
+                }
+            });
+        }
+
+        private void MapView_CurrentExtentChanging(object sender, CurrentExtentChangingMapViewEventArgs e)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                var checkInfo = e.ToString();
+                if (checkInfo != null)
+                {
+                    var category = "MapView";
+                    var message = "Current Extent Changing";
+                    AppendLog(category, message);
+                }
+            });
+        }
+
+        private void MapView_CurrentExtentChanged(object sender, CurrentExtentChangedMapViewEventArgs e)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                var checkInfo = e.ToString();
+                if (checkInfo != null)
+                {
+                    var category = "MapView";
+                    var message = "Current Extent Changed";
+                    AppendLog(category, message);
+                }
+            });
+        }
+
+        private void MapView_ContextMenuOpening(object sender, System.Windows.Controls.ContextMenuEventArgs e)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                var checkInfo = e.ToString();
+                if (checkInfo != null)
+                {
+                    var category = "MapView";
+                    var message = "Context Menu Opening";
+                    AppendLog(category, message);
+                }
+            });
+        }
+
+        private void MapView_ContextMenuClosing(object sender, System.Windows.Controls.ContextMenuEventArgs e)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                var checkInfo = e.ToString();
+                if (checkInfo != null)
+                {
+                    var category = "MapView";
+                    var message = "Context Menu Closing";
+                    AppendLog(category, message);
+                }
+            });
+        }
+
+        private void MapView_CollectedMapArguments(object sender, CollectedMapArgumentsMapViewEventArgs e)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                var checkInfo = e.ToString();
+                if (checkInfo != null)
+                {
+                    var category = "MapView";
+                    var message = "Collected Map Arguments";
+                    AppendLog(category, message);
+                }
+            });
+        }
+
 
         // Overlays Events Triggered Methods
         private void Overlays_Adding(object sender, AddingGeoCollectionEventArgs e)
@@ -843,8 +968,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             LogMessages.Add(logEntry);
 
             // Check if the new message should be shown
-            if ((ShowOverlaysLogs && category == "Overlays") ||
-                (ShowExtentOverlayLogs && category == "ExtentOverlay") ||
+            if ((ShowMapViewLogs && category == "MapView") ||
+                (ShowOverlaysLogs && category == "Overlays") ||
+                (ShowExtentOverlayLogs && category == "ExtentOverlay" &&
+                 (ShowMouseMoveLogs || !message.Contains("Mouse Move"))) ||
                 (ShowLayerOverlayLogs && category == "LayerOverlay") ||
                 (ShowShapeFileLogs && category == "FeatureLayer"))
             {

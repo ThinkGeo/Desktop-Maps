@@ -16,21 +16,24 @@
                 <!-- Zoom To Scale Controls -->
                 <TextBlock Text="Basic Map Events:" Grid.Row="0" />
                 <CheckBox Grid.Row="1" FontSize="14" FontWeight="Bold" Foreground="White" 
+                          IsChecked="{Binding ShowMapViewLogs, Mode=TwoWay}"
+                          Margin="4" Content="MapView Events"/>
+                <CheckBox Grid.Row="2" FontSize="14" FontWeight="Bold" Foreground="White" 
                           IsChecked="{Binding ShowOverlaysLogs, Mode=TwoWay}"
                           Margin="4" Content="Overlays Events"/>
-                <CheckBox Grid.Row="2" FontSize="14" FontWeight="Bold" Foreground="White" 
+                <CheckBox Grid.Row="3" FontSize="14" FontWeight="Bold" Foreground="White" 
                           IsChecked="{Binding ShowExtentOverlayLogs, Mode=TwoWay}"
                           Margin="4" Content="ExtentOverlay Events"/>
-                <CheckBox Grid.Row="3" FontSize="14" FontWeight="Bold" Foreground="White" 
+                <CheckBox Grid.Row="4" FontSize="14" FontWeight="Bold" Foreground="White" 
                           IsChecked="{Binding ShowMouseMoveLogs, Mode=TwoWay}"
                           Margin="20,4,4,4" Content="MouseMove Events"/>
-                <CheckBox Grid.Row="4" FontSize="14" FontWeight="Bold" Foreground="White" 
+                <CheckBox Grid.Row="5" FontSize="14" FontWeight="Bold" Foreground="White" 
                           IsChecked="{Binding ShowLayerOverlayLogs, Mode=TwoWay}"
                           Margin="4" Content="LayerOverlay Events"/>
-                <CheckBox Grid.Row="5" FontSize="14" FontWeight="Bold" Foreground="White" 
+                <CheckBox Grid.Row="6" FontSize="14" FontWeight="Bold" Foreground="White" 
                           IsChecked="{Binding ShowShapeFileLogs, Mode=TwoWay}"
                           Margin="4" Content="Feature Layer Events"/>
-                <ListBox  Grid.Row="6" Margin="5"  x:Name="LogListBox"
+                <ListBox  Grid.Row="7" Margin="5"  x:Name="LogListBox"
                           ItemsSource="{Binding Path =FilteredLogMessages}"
                           VirtualizingStackPanel.IsVirtualizing="True"
                           VirtualizingStackPanel.VirtualizationMode="Recycling"
@@ -51,6 +54,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
             </Grid>
@@ -59,7 +63,7 @@
         <!-- Grid Layout -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="260" />
+            <ColumnDefinition Width="280" />
         </Grid.ColumnDefinitions>
     </Grid>
 
