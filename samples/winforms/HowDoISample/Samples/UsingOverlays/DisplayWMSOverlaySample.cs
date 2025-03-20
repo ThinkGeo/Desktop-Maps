@@ -23,13 +23,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
 
             // Create a WmsOverlay and add it to the map.
-            WmsOverlay wmsOverlay = new WmsOverlay();
+            var wmsOverlay = new WmsOverlay(new Uri("http://ows.mundialis.de/services/service"));
             wmsOverlay.AxisOrder = WmsAxisOrder.XY;
-            wmsOverlay.Uri = new Uri("http://ows.mundialis.de/services/service");
-            wmsOverlay.Parameters.Add("VERSION", "1.3.0");
-            wmsOverlay.Parameters.Add("LAYERS", "OSM-WMS");
-            wmsOverlay.Parameters.Add("STYLES", "default");
-            wmsOverlay.Parameters.Add("CRS", "EPSG:3857");  // Make sure to match the WMS CRS to the Map's projection
+            wmsOverlay.Crs = "EPSG:3857"; // Make sure to match the WMS CRS to the Map's projection
+            wmsOverlay.ActiveLayerNames.Add("OSM-WMS");
+            wmsOverlay.ActiveStyleNames.Add("default");
             mapView.Overlays.Add(wmsOverlay);
 
             await mapView.RefreshAsync();
