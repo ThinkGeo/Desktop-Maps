@@ -44,6 +44,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
         }
 
+        private bool _showMouseMoveLogs = true;
+        public bool ShowMouseMoveLogs
+        {
+            get => _showMouseMoveLogs;
+            set
+            {
+                _showMouseMoveLogs = value;
+                FilterLogMessages();
+            }
+        }
+
         private bool _showLayerOverlayLogs = true;
         public bool ShowLayerOverlayLogs
         {
@@ -88,6 +99,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             InitializeComponent();
             DataContext = this;
+            ThinkGeoDebugger.DisplayTileId = true;
         }
 
         /// <summary>
@@ -113,6 +125,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapView.Overlays.Removed += Overlays_Removed;
                 MapView.Overlays.Removing += Overlays_Removing;
 
+                //MapView.
+
                 // Load ExtentOverlay Events
                 MapView.ExtentOverlay.Drawing += ExtentOverlay_Drawing;
                 MapView.ExtentOverlay.DrawingAttribution += ExtentOverlay_DrawingAttribution;
@@ -129,16 +143,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapView.ExtentOverlay.MapMouseWheel += ExtentOverlay_MapMouseWheel;
                 MapView.ExtentOverlay.ThrowingException += ExtentOverlay_ThrowingException;
 
-                // Add Cloud Maps as a background overlay
-                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                
 
                 // Load the Frisco data to a layer
                 _friscoCityBoundary = new ShapeFileFeatureLayer(@"./Data/Shapefile/City_ETJ.shp")
@@ -657,7 +662,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "LayerOverlay";
-                    var message = "Drawn Tile";
+                    var message = "Drawn Tile" + e.DrawnTile.Id;
                     AppendLog(category, message);
                 }
             });
@@ -671,7 +676,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "LayerOverlay";
-                    var message = "Draw Tiles Progress Changed";
+                    var message = "Draw Tiles Progress Changed" + e.ProgressPercentage;
                     AppendLog(category, message);
                 }
             });
@@ -727,7 +732,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var checkInfo = e.ToString();
                 if (checkInfo != null)
                 {
-                    var category = "ShapeFileFeatureLayer";
+                    var category = "FeatureLayer";
                     var message = "Drawing Features";
                     AppendLog(category, message);
                 }                
@@ -741,7 +746,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var checkInfo = e.ToString();
                 if (checkInfo != null)
                 {
-                    var category = "ShapeFileFeatureLayer";
+                    var category = "FeatureLayer";
                     var message = "Drawing Exception";
                     AppendLog(category, message);
                 }
@@ -755,7 +760,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var checkInfo = e.ToString();
                 if (checkInfo != null)
                 {
-                    var category = "ShapeFileFeatureLayer";
+                    var category = "FeatureLayer";
                     var message = "Drawing Progress Changed";
                     AppendLog(category, message);
                 }
@@ -769,7 +774,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var checkInfo = e.ToString();
                 if (checkInfo != null)
                 {
-                    var category = "ShapeFileFeatureLayer";
+                    var category = "FeatureLayer";
                     var message = "Drawing Wrapping Features";
                     AppendLog(category, message);
                 }
@@ -783,7 +788,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var checkInfo = e.ToString();
                 if (checkInfo != null)
                 {
-                    var category = "ShapeFileFeatureLayer";
+                    var category = "FeatureLayer";
                     var message = "Drawn Exception";
                     AppendLog(category, message);
                 }
@@ -797,7 +802,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var checkInfo = e.ToString();
                 if (checkInfo != null)
                 {
-                    var category = "ShapeFileFeatureLayer";
+                    var category = "FeatureLayer";
                     var message = "Requested Drawing";
                     AppendLog(category, message);
                 }
@@ -811,7 +816,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var checkInfo = e.ToString();
                 if (checkInfo != null)
                 {
-                    var category = "ShapeFileFeatureLayer";
+                    var category = "FeatureLayer";
                     var message = "Requesting Drawing";
                     AppendLog(category, message);
                 }
@@ -825,7 +830,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var checkInfo = e.ToString();
                 if (checkInfo != null)
                 {
-                    var category = "ShapeFileFeatureLayer";
+                    var category = "FeatureLayer";
                     var message = "Stream Loading";
                     AppendLog(category, message);
                 }
@@ -841,7 +846,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if ((ShowOverlaysLogs && category == "Overlays") ||
                 (ShowExtentOverlayLogs && category == "ExtentOverlay") ||
                 (ShowLayerOverlayLogs && category == "LayerOverlay") ||
-                (ShowShapeFileLogs && category == "ShapeFileFeatureLayer"))
+                (ShowShapeFileLogs && category == "FeatureLayer"))
             {
                 FilteredLogMessages.Add(logEntry);
                 OnPropertyChanged(nameof(FilteredLogMessages)); // Notify UI

@@ -17,23 +17,35 @@
                 <TextBlock Text="Basic Map Events:" Grid.Row="0" />
                 <CheckBox Grid.Row="1" FontSize="14" FontWeight="Bold" Foreground="White" 
                           IsChecked="{Binding ShowOverlaysLogs, Mode=TwoWay}"
-                          Margin="4" Content="Load Overlays Events"/>
+                          Margin="4" Content="Overlays Events"/>
                 <CheckBox Grid.Row="2" FontSize="14" FontWeight="Bold" Foreground="White" 
                           IsChecked="{Binding ShowExtentOverlayLogs, Mode=TwoWay}"
-                          Margin="4" Content="Load ExtentOverlay Events"/>
+                          Margin="4" Content="ExtentOverlay Events"/>
                 <CheckBox Grid.Row="3" FontSize="14" FontWeight="Bold" Foreground="White" 
-                          IsChecked="{Binding ShowLayerOverlayLogs, Mode=TwoWay}"
-                          Margin="4" Content="Load LayerOverlay Events"/>
+                          IsChecked="{Binding ShowMouseMoveLogs, Mode=TwoWay}"
+                          Margin="20,4,4,4" Content="MouseMove Events"/>
                 <CheckBox Grid.Row="4" FontSize="14" FontWeight="Bold" Foreground="White" 
+                          IsChecked="{Binding ShowLayerOverlayLogs, Mode=TwoWay}"
+                          Margin="4" Content="LayerOverlay Events"/>
+                <CheckBox Grid.Row="5" FontSize="14" FontWeight="Bold" Foreground="White" 
                           IsChecked="{Binding ShowShapeFileLogs, Mode=TwoWay}"
-                          Margin="4" Content="Load Feature Layer Events"/>
-                <ListBox  Grid.Row="5" Margin="5"  x:Name="LogListBox"
+                          Margin="4" Content="Feature Layer Events"/>
+                <ListBox  Grid.Row="6" Margin="5"  x:Name="LogListBox"
                           ItemsSource="{Binding Path =FilteredLogMessages}"
                           VirtualizingStackPanel.IsVirtualizing="True"
                           VirtualizingStackPanel.VirtualizationMode="Recycling"
-                          VerticalAlignment="Stretch" />
+                          VerticalAlignment="Stretch"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" TextWrapping="Wrap" 
+                            Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ListBox}}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
                 <!-- Controls Grid Layout -->
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -47,7 +59,7 @@
         <!-- Grid Layout -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" MinWidth="256"/>
+            <ColumnDefinition Width="260" />
         </Grid.ColumnDefinitions>
     </Grid>
 
