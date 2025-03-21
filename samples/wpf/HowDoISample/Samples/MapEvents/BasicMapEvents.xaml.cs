@@ -103,7 +103,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 else if (ShowExtentOverlayLogs && log.Contains("ExtentOverlay"))
                 {
                     // Filter Mouse Move events correctly
-                    if (ShowMouseMoveLogs || !log.Contains("Mouse Move"))
+                    if (ShowMouseMoveLogs || !log.Contains("MouseMove"))
                         FilteredLogMessages.Add(log);
                 }
                 else if (ShowLayerOverlayLogs && log.Contains("LayerOverlay"))
@@ -238,7 +238,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "MapView";
-                    var message = "Collected Map Arguments" + e.MapArguments.ToString () ;
+                    var message = $"CollectedMapArguments [CurrentScale: {(int)e.MapArguments.CurrentScale}]";
                     AppendLog(category, message);
                 }
             });
@@ -252,7 +252,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "MapView";
-                    var message = "Context Menu Closing";
+                    var message = "ContextMenuClosing";
                     AppendLog(category, message);
                 }
             });
@@ -266,7 +266,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "MapView";
-                    var message = "Context Menu Opening";
+                    var message = "ContextMenuOpening";
                     AppendLog(category, message);
                 }
             });
@@ -280,7 +280,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "MapView";
-                    var message = "Current Extent Changed";
+                    var message = $"CurrentExtentChanged [ID: {e.NewExtent.Id}]";
                     AppendLog(category, message);
                 }
             });
@@ -294,7 +294,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "MapView";
-                    var message = "Current Extent Changing";
+                    var message = $"CurrentExtentChanging [ID: {e.NewExtent.Id}]";
                     AppendLog(category, message);
                 }
             });
@@ -308,7 +308,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "MapView";
-                    var message = "Current Scale Changed";
+                    var message = $"CurrentScaleChanged [NewScale: {(int)e.NewScale}]";
                     AppendLog(category, message);
                 }
             });
@@ -322,7 +322,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "MapView";
-                    var message = "Current Scale Changing";
+                    var message = $"CurrentScaleChanging [NewScale: {(int)e.NewScale}]";
                     AppendLog(category, message);
                 }
             });
@@ -337,7 +337,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "Overlays";
-                    var message = "Adding";
+                    var message = $"Adding [Item: {e.Item.ToString()}]";
                     AppendLog(category, message);
                 }
             });
@@ -351,7 +351,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "Overlays";
-                    var message = "Added";
+                    var message = $"Added [Item: {e.Item.ToString()}]";
                     AppendLog(category, message);
                 }
             });
@@ -365,7 +365,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "Overlays";
-                    var message = "Cleared Items";
+                    var message = "ClearedItems";
                     AppendLog(category, message);
                 }
             });
@@ -379,7 +379,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "Overlays";
-                    var message = "Clearing Items";
+                    var message = "ClearingItems";
                     AppendLog(category, message);
                 }
             });
@@ -393,7 +393,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "Overlays";
-                    var message = "Collection Changed";
+                    var message = $"CollectionChanged [NewItems: {e.NewItems.ToString()}]";
                     AppendLog(category, message);
                 }
             });
@@ -435,7 +435,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "Overlays";
-                    var message = "Moved Item";
+                    var message = "MovedItem";
                     AppendLog(category, message);
                 }
             });
@@ -449,7 +449,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "Overlays";
-                    var message = "Property Changed";
+                    var message = "PropertyChanged";
                     AppendLog(category, message);
                 }
             });
@@ -506,7 +506,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "ExtentOverlay";
-                    var message = "Drawing Attribution";
+                    var message = "DrawingAttribution";
                     AppendLog(category, message);
                 }
             });
@@ -534,7 +534,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "ExtentOverlay";
-                    var message = "Drawn Attribution";
+                    var message = "DrawnAttribution";
                     AppendLog(category, message);
                 }
             });
@@ -548,7 +548,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "ExtentOverlay";
-                    var message = "Map Key Down";
+                    var message = "MapKeyDown";
                     AppendLog(category, message);
                 }
             });
@@ -562,7 +562,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "ExtentOverlay";
-                    var message = "Map Mouse Click";
+                    var message = "MapMouseClick";
                     AppendLog(category, message);
                 }
             });
@@ -576,7 +576,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "ExtentOverlay";
-                    var message = "Map Mouse Double Click";
+                    var message = "MapMouseDoubleClick";
                     AppendLog(category, message);
                 }
             });
@@ -590,7 +590,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "ExtentOverlay";
-                    var message = "Map Mouse Down";
+                    var message = "MapMouseDown";
                     AppendLog(category, message);
                 }
             });
@@ -604,7 +604,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "ExtentOverlay";
-                    var message = "Map Mouse Enter";
+                    var message = "MapMouseEnter";
                     AppendLog(category, message);
                 }
             });
@@ -618,7 +618,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "ExtentOverlay";
-                    var message = "Map Mouse Leave";
+                    var message = "MapMouseLeave";
                     AppendLog(category, message);
                 }
             });
@@ -632,7 +632,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "ExtentOverlay";
-                    var message = "Map Mouse Move";
+                    var message = "MapMouseMove";
                     AppendLog(category, message);
                 }
             });
@@ -646,7 +646,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "ExtentOverlay";
-                    var message = "Map Mouse Up";
+                    var message = "MapMouseUp";
                     AppendLog(category, message);
                 }
             });
@@ -660,7 +660,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "ExtentOverlay";
-                    var message = "Map Mouse Wheel";
+                    var message = "MapMouseWheel";
                     AppendLog(category, message);
                 }
             });
@@ -674,7 +674,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "ExtentOverlay";
-                    var message = "Throwing Exception";
+                    var message = "ThrowingException";
                     AppendLog(category, message);
                 }
             });
@@ -689,7 +689,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "LayerOverlay";
-                    var message = "Drawing";
+                    var message = $"Drawing [ID: {e.WorldExtent.Id}]";
                     AppendLog(category, message);
                 }
             });
@@ -703,7 +703,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "LayerOverlay";
-                    var message = "Drawn Attribution";
+                    var message = "DrawnAttribution";
                     AppendLog(category, message);
                 }
             });
@@ -717,7 +717,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "LayerOverlay";
-                    var message = "Drawing Exception";
+                    var message = "DrawingException";
                     AppendLog(category, message);
                 }
             });
@@ -731,7 +731,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "LayerOverlay";
-                    var message = "Drawing Tile";
+                    var message = $"DrawingTile [ID: {e.DrawingTile.Id}]";
                     AppendLog(category, message);
                 }
             });
@@ -745,7 +745,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "LayerOverlay";
-                    var message = "Drawn";
+                    var message = $"Drawn [ID: {e.WorldExtent.Id}]";
                     AppendLog(category, message);
                 }
             });
@@ -759,7 +759,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "LayerOverlay";
-                    var message = "Drawing Attribution";
+                    var message = "DrawingAttribution";
                     AppendLog(category, message);
                 }
             });
@@ -773,7 +773,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "LayerOverlay";
-                    var message = "Drawn Exception";
+                    var message = "DrawnException";
                     AppendLog(category, message);
                 }
             });
@@ -787,7 +787,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "LayerOverlay";
-                    var message = "Drawn Tile" + e.DrawnTile.Id;
+                    var message = $"DrawnTile [ID: {e.DrawnTile.Id}]";
                     AppendLog(category, message);
                 }
             });
@@ -801,7 +801,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "LayerOverlay";
-                    var message = "Draw Tiles Progress Changed" + e.ProgressPercentage;
+                    var message = $"DrawTilesProgressChanged [ProgressPercentage: {e.ProgressPercentage}]";
                     AppendLog(category, message);
                 }
             });
@@ -815,7 +815,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "LayerOverlay";
-                    var message = "Throwing Exception";
+                    var message = "ThrowingException";
                     AppendLog(category, message);
                 }
             });
@@ -829,7 +829,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "LayerOverlay";
-                    var message = "Tile Type Changed";
+                    var message = "TileTypeChanged";
                     AppendLog(category, message);
                 }
             });
@@ -843,7 +843,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "LayerOverlay";
-                    var message = "Tile Type Changing";
+                    var message = "TileTypeChanging";
                     AppendLog(category, message);
                 }
             });
@@ -858,7 +858,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "FeatureLayer";
-                    var message = "Drawing Features";
+                    var message = $"DrawingFeatures [Zoom Level Scale: {e.DrawingZoomLevel.Scale}]";
                     AppendLog(category, message);
                 }                
             });
@@ -872,7 +872,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "FeatureLayer";
-                    var message = "Drawing Exception";
+                    var message = "DrawingException";
                     AppendLog(category, message);
                 }
             });
@@ -886,7 +886,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "FeatureLayer";
-                    var message = "Drawing Progress Changed";
+                    var message = $"DrawingProgressChanged [Progress Percentage: {e.ProgressPercentage.ToString()}]";
                     AppendLog(category, message);
                 }
             });
@@ -900,7 +900,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "FeatureLayer";
-                    var message = "Drawing Wrapping Features";
+                    var message = "DrawingWrappingFeatures";
                     AppendLog(category, message);
                 }
             });
@@ -914,7 +914,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "FeatureLayer";
-                    var message = "Drawn Exception";
+                    var message = "DrawnException";
                     AppendLog(category, message);
                 }
             });
@@ -928,7 +928,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "FeatureLayer";
-                    var message = "Requested Drawing";
+                    var message = "RequestedDrawing";
                     AppendLog(category, message);
                 }
             });
@@ -942,7 +942,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "FeatureLayer";
-                    var message = "Requesting Drawing";
+                    var message = "RequestingDrawing";
                     AppendLog(category, message);
                 }
             });
@@ -956,7 +956,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "FeatureLayer";
-                    var message = "Stream Loading";
+                    var message = $"StreamLoading [Alternate Stream Name: {e.AlternateStreamName}]";
                     AppendLog(category, message);
                 }
             });
@@ -964,14 +964,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         public void AppendLog(string category, string message)
         {
-            var logEntry = $"{_logIndex++}. {category}: {message}";
+            var logEntry = $"{_logIndex++}. {category} -> {message}";
             LogMessages.Add(logEntry);
 
             // Check if the new message should be shown
             if ((ShowMapViewLogs && category == "MapView") ||
                 (ShowOverlaysLogs && category == "Overlays") ||
                 (ShowExtentOverlayLogs && category == "ExtentOverlay" &&
-                 (ShowMouseMoveLogs || !message.Contains("Mouse Move"))) ||
+                 (ShowMouseMoveLogs || !message.Contains("MouseMove"))) ||
                 (ShowLayerOverlayLogs && category == "LayerOverlay") ||
                 (ShowShapeFileLogs && category == "FeatureLayer"))
             {
