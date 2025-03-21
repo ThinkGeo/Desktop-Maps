@@ -229,7 +229,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
         }
 
-        private void MapView_CurrentScaleChanging(object sender, CurrentScaleChangingMapViewEventArgs e)
+        // MapView Events Triggered Methods
+        private void MapView_CollectedMapArguments(object sender, CollectedMapArgumentsMapViewEventArgs e)
         {
             Dispatcher.Invoke(() =>
             {
@@ -237,63 +238,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "MapView";
-                    var message = "Current Scale Changing";
-                    AppendLog(category, message);
-                }
-            });
-        }
-
-        private void MapView_CurrentScaleChanged(object sender, CurrentScaleChangedMapViewEventArgs e)
-        {
-            Dispatcher.Invoke(() =>
-            {
-                var checkInfo = e.ToString();
-                if (checkInfo != null)
-                {
-                    var category = "MapView";
-                    var message = "Current Scale Changed";
-                    AppendLog(category, message);
-                }
-            });
-        }
-
-        private void MapView_CurrentExtentChanging(object sender, CurrentExtentChangingMapViewEventArgs e)
-        {
-            Dispatcher.Invoke(() =>
-            {
-                var checkInfo = e.ToString();
-                if (checkInfo != null)
-                {
-                    var category = "MapView";
-                    var message = "Current Extent Changing";
-                    AppendLog(category, message);
-                }
-            });
-        }
-
-        private void MapView_CurrentExtentChanged(object sender, CurrentExtentChangedMapViewEventArgs e)
-        {
-            Dispatcher.Invoke(() =>
-            {
-                var checkInfo = e.ToString();
-                if (checkInfo != null)
-                {
-                    var category = "MapView";
-                    var message = "Current Extent Changed";
-                    AppendLog(category, message);
-                }
-            });
-        }
-
-        private void MapView_ContextMenuOpening(object sender, System.Windows.Controls.ContextMenuEventArgs e)
-        {
-            Dispatcher.Invoke(() =>
-            {
-                var checkInfo = e.ToString();
-                if (checkInfo != null)
-                {
-                    var category = "MapView";
-                    var message = "Context Menu Opening";
+                    var message = "Collected Map Arguments" + e.MapArguments.ToString () ;
                     AppendLog(category, message);
                 }
             });
@@ -313,7 +258,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             });
         }
 
-        private void MapView_CollectedMapArguments(object sender, CollectedMapArgumentsMapViewEventArgs e)
+        private void MapView_ContextMenuOpening(object sender, System.Windows.Controls.ContextMenuEventArgs e)
         {
             Dispatcher.Invoke(() =>
             {
@@ -321,12 +266,67 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (checkInfo != null)
                 {
                     var category = "MapView";
-                    var message = "Collected Map Arguments";
+                    var message = "Context Menu Opening";
                     AppendLog(category, message);
                 }
             });
         }
 
+        private void MapView_CurrentExtentChanged(object sender, CurrentExtentChangedMapViewEventArgs e)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                var checkInfo = e.ToString();
+                if (checkInfo != null)
+                {
+                    var category = "MapView";
+                    var message = "Current Extent Changed";
+                    AppendLog(category, message);
+                }
+            });
+        }
+
+        private void MapView_CurrentExtentChanging(object sender, CurrentExtentChangingMapViewEventArgs e)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                var checkInfo = e.ToString();
+                if (checkInfo != null)
+                {
+                    var category = "MapView";
+                    var message = "Current Extent Changing";
+                    AppendLog(category, message);
+                }
+            });
+        }
+
+        private void MapView_CurrentScaleChanged(object sender, CurrentScaleChangedMapViewEventArgs e)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                var checkInfo = e.ToString();
+                if (checkInfo != null)
+                {
+                    var category = "MapView";
+                    var message = "Current Scale Changed";
+                    AppendLog(category, message);
+                }
+            });
+        }
+
+        private void MapView_CurrentScaleChanging(object sender, CurrentScaleChangingMapViewEventArgs e)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                var checkInfo = e.ToString();
+                if (checkInfo != null)
+                {
+                    var category = "MapView";
+                    var message = "Current Scale Changing";
+                    AppendLog(category, message);
+                }
+            });
+        }
 
         // Overlays Events Triggered Methods
         private void Overlays_Adding(object sender, AddingGeoCollectionEventArgs e)
