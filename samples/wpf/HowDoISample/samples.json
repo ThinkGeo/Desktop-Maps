@@ -338,6 +338,12 @@
         "title": "Basic Map Events",
         "description": "Learn to recognize fundamental map events.",
         "source": "Samples/MapEvents/BasicMapEvents"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.EditMapEvents",
+        "title": "Edit Map Events",
+        "description": "Learn to recognize edit map events.",
+        "source": "Samples/MapEvents/EditMapEvents"
       }
     ]
   },
