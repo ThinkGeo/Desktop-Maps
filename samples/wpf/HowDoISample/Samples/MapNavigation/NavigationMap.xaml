@@ -87,7 +87,9 @@
             </Grid.RowDefinitions>
 
         </Grid>
-
+        <TextBlock Grid.Column="0" Grid.Row="0" Background="gray" VerticalAlignment="Bottom" HorizontalAlignment="Center" 
+                   Width="200" Height="40" FontSize="30"
+                   Text="{Binding ElementName=MapView, Path=CurrentZoom, StringFormat={}Zoom: {0:N2}}"/>
         <!-- Grid Layout -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />

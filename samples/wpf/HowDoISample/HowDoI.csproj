@@ -61,6 +61,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Update="Samples\MapNavigation\ZoomToBlackHole.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Samples\MapOfflineData\Raster\DisplayCommonRasterFile.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -292,6 +295,8 @@
     <None Remove="Resources\East.gif" />
     <None Remove="Resources\generic-logo.jpg" />
     <None Remove="Resources\generic-logo.png" />
+    <None Remove="Resources\globe.png" />
+    <None Remove="Resources\icon_globe_black.png" />
     <None Remove="Resources\loading.gif" />
     <None Remove="Resources\North.gif" />
     <None Remove="Resources\South.gif" />
@@ -323,6 +328,9 @@
     <Resource Include="Resources\generic-logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\icon_globe_black.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\loading.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -347,20 +355,52 @@
     <Page Remove="SampleTemplate.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Data\Jpg\m87_0.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Jpg\m87_1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Jpg\m87_2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Jpg\m87_3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Jpg\m87_4.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Jpg\m87_5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Jpg\m87_6.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Jpg\m87_7.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Jpg\m87_8.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Jpg\m87_9.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.3.0.90" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="Jint" Version="4.0.0" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.122" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
-    <PackageReference Include="ThinkGeo.Cad" Version="14.3.0-beta091" />
-    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.3.0-beta091" />
-    <PackageReference Include="ThinkGeo.Gdal" Version="14.3.0-beta091" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.3.0-beta091" />
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.3.0-beta091" />
-    <PackageReference Include="ThinkGeo.Printers" Version="14.3.0-beta091" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="14.3.0-beta091" />
-    <PackageReference Include="ThinkGeo.UI.Wpf" Version="14.3.0-beta091" />
+    <PackageReference Include="ThinkGeo.Cad" Version="14.3.0-beta106" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.3.0-beta106" />
+    <PackageReference Include="ThinkGeo.Gdal" Version="14.3.0-beta106" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.3.0-beta106" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.3.0-beta106" />
+    <PackageReference Include="ThinkGeo.Printers" Version="14.3.0-beta106" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="14.3.0-beta106" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="14.3.0-beta107" />
     <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
   </ItemGroup>
   <ItemGroup>
@@ -560,6 +600,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\Jp2\m_3309650_sw_14_1_20160911_20161121.jp2">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Jpg\m87_image_credits.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\Jpg\m_3309650_sw_14_1_20160911_20161121.jgw">
@@ -1030,7 +1073,31 @@
     <None Update="Resources\drugs_icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\empire_state_building.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\hotel_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\icon_gps_disabled.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\icon_gps_enabled.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\icon_gps_point.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\icon_north_arrow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\marker.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\pin.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\thinkgeo_logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Resources\vandalism_icon.png">
@@ -1040,6 +1107,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Resources\vehicle.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\vehicle_location.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Resources\weapon_icon.png">

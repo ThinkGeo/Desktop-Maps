@@ -53,6 +53,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 // Add Frisco data to a LayerOverlay and add it to the map
                 var layerOverlay = new LayerOverlay();
+                layerOverlay.TileType = TileType.SingleTile;
                 layerOverlay.Layers.Add(_friscoCityBoundary);
                 MapView.Overlays.Add(layerOverlay);
 

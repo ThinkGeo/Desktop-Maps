@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using ThinkGeo.Core;
 
@@ -10,6 +11,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class RenderLabels : IDisposable
     {
+        private LayerOverlay _layerOverlay = new LayerOverlay();
+        private LayerWpfDrawingOverlay _layerWpfDrawingOverlay = new LayerWpfDrawingOverlay();
+
         public RenderLabels()
         {
             InitializeComponent();
@@ -17,14 +21,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MinimumScale = 1;
             var zooms = new ZoomLevelSet();
 
-            for (int i = 30; i >= 0 ; i--)
+            for (int i = 30; i >= 0; i--)
             {
                 zooms.CustomZoomLevels.Add(new ZoomLevel(Math.Pow(2, i)));
             }
 
             MapView.ZoomLevelSet = zooms;
-
-
         }
 
         /// <summary>
@@ -56,21 +58,26 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 StyleParksLayer(parksLayer);
 
                 // Add layers to a layerOverlay
-                var layerOverlay = new LayerOverlay();
-                layerOverlay.Layers.Add(parksLayer);
-                layerOverlay.Layers.Add(streetsLayer);
-                layerOverlay.Layers.Add(hotelsLayer);
-                layerOverlay.TileType = TileType.SingleTile;
+                _layerOverlay = new LayerOverlay();
+                _layerOverlay.Layers.Add(parksLayer);
+                _layerOverlay.Layers.Add(streetsLayer);
+                _layerOverlay.Layers.Add(hotelsLayer);
+                _layerOverlay.TileType = TileType.SingleTile;
+                MapView.Overlays.Add(_layerOverlay);
 
-                // Add overlay to map
-                MapView.Overlays.Add(layerOverlay);
+                _layerWpfDrawingOverlay = new LayerWpfDrawingOverlay();
+                _layerWpfDrawingOverlay.Visibility = Visibility.Hidden;
+                _layerWpfDrawingOverlay.Layers.Add(parksLayer);
+                _layerWpfDrawingOverlay.Layers.Add(streetsLayer);
+                _layerWpfDrawingOverlay.Layers.Add(hotelsLayer);
+                MapView.Overlays.Add(_layerWpfDrawingOverlay);
 
                 // Set the map extent
                 MapView.CurrentExtent = new RectangleShape(-10778329.017082, 3909598.36751101, -10776250.8853871, 3907890.47766975);
 
                 await MapView.RefreshAsync();
             }
-            catch 
+            catch
             {
                 // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
                 // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
@@ -141,6 +148,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
+        }
+
+        private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
+        {
+            if (sender is CheckBox checkBox)
+            {
+                _layerOverlay.IsVisible = !checkBox.IsChecked.GetValueOrDefault();
+                _layerWpfDrawingOverlay.IsVisible = checkBox.IsChecked.GetValueOrDefault();
+
+                _ = MapView.RefreshAsync();
+            }
         }
     }
 }
