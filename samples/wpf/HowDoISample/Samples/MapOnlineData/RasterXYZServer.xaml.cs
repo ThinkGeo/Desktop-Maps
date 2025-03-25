@@ -53,6 +53,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 _thinkGeoRasterMapsAsyncLayer.TileCache.GottenTile += TileCache_GottenCacheTile;
                 _thinkGeoRasterMapsAsyncLayer.ProjectedTileCache.GottenTile += ProjectedTileCache_GottenCacheTile;
 
+                MapView.CurrentExtent = MaxExtents.ThinkGeoMaps;
                 await MapView.RefreshAsync();
             }
             catch

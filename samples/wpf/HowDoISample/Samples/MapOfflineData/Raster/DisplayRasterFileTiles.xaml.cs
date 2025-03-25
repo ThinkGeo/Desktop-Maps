@@ -56,6 +56,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 fileTilesAsyncLayer.ProjectedTileCache.GottenTile += ProjectedTileCache_GottenCacheTile;
 
                 //layerOverlay.Drawn += LayerOverlayOnDrawn;
+                MapView.CurrentExtent = MaxExtents.ThinkGeoMaps;
                 await MapView.RefreshAsync();
             }
             catch

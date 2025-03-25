@@ -49,6 +49,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 rasterMbTilesLayer.ProjectedTileCache.GottenTile += ProjectedTileCache_GottenCacheTile;
 
                 //layerOverlay.Drawn += LayerOverlayOnDrawn;
+                MapView.CurrentExtent = MaxExtents.ThinkGeoMaps;
                 await MapView.RefreshAsync();
             }
             catch
