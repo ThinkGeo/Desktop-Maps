@@ -8,5 +8,8 @@
              mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <thinkGeoUi:MapView x:Name="MapView" Grid.Column="0" Loaded="MapView_Loaded" />
+        <TextBlock Grid.Column="0" Grid.Row="0" Background="gray" VerticalAlignment="Bottom" HorizontalAlignment="Center" 
+                   Width="200" Height="40" FontSize="30"
+                   Text="{Binding ElementName=MapView, Path=CurrentZoom, StringFormat={}Zoom: {0:N2}}"/>
     </Grid>
 </UserControl>
