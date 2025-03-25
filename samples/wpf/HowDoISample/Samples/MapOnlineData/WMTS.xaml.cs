@@ -38,7 +38,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 await layerOverlay.OpenAsync();
                 MapView.ZoomLevelSet = GetZoomLevelSetFromWmtsServer(layerOverlay);
                 MapView.CurrentExtent = layerOverlay.GetBoundingBox();
-                MapView.StretchMode = MapViewStretchMode.ShowNewTilesOnStart;
                 await MapView.RefreshAsync();
             }
             catch

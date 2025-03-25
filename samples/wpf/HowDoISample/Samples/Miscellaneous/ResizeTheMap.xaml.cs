@@ -28,7 +28,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             try
             {
                 MapView.MapUnit = GeographyUnit.Meter;
-                MapView.ZoomLevelSnappingMode = ZoomLevelSnappingMode.None;
 
                 InitializeMapViewInternal(MapView);
 
@@ -119,7 +118,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     var newExtent = GetDrawingExtent(currentCenter, MapView.ActualWidth, MapView.ActualHeight);
 
                     // Set custom zoom levels based on the new extent size
-                    var baseScale = MapUtil.GetScale(MapView.MapUnit, newExtent, MapView.ActualWidth, MapView.ActualHeight);
+                    var baseScale = MapUtil.GetScale(newExtent, MapView.ActualWidth, MapView.MapUnit);
                     var customZoomLevelSet = new ZoomLevelSet();
                     baseScale = Math.Max(baseScale, customZoomLevelSet.ZoomLevel08.Scale);
 
@@ -166,7 +165,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             mapView.ZoomLevelSet = new ZoomLevelSet();
 
-            mapView.ZoomLevelSnappingMode = ZoomLevelSnappingMode.None;
             mapView.ZoomLevelSet.CustomZoomLevels.Add(mapView.ZoomLevelSet.ZoomLevel02);
             mapView.ZoomLevelSet.CustomZoomLevels.Add(mapView.ZoomLevelSet.ZoomLevel03);
             mapView.ZoomLevelSet.CustomZoomLevels.Add(mapView.ZoomLevelSet.ZoomLevel04);

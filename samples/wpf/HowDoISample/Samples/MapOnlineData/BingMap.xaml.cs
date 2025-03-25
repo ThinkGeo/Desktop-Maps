@@ -41,7 +41,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 {
                     TileHeight = 256,
                     TileWidth = 256,
-                    TileSizeMode = TileSizeMode.Small
                 };
                 MapView.Overlays.Add("Bing Map", layerOverlay);
 
