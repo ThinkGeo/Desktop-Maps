@@ -56,7 +56,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 rasterOverlay.Layers.Add(skiaRasterLayer);
 
                 // Set the map view current extent to a slightly zoomed in area of the image.
-                MapView.CurrentExtent = new RectangleShape(-10783910.2966461, 3917274.29233111, -10777309.4670677, 3912119.9131963);
+                MapView.CenterPoint = new PointShape(-10780600,3914700);
+                MapView.CurrentScale = 27250;
 
                 await MapView.RefreshAsync();
             }

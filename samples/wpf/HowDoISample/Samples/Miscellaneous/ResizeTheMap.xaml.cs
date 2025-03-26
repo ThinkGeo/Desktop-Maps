@@ -104,6 +104,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             try
             {
+                if (MapView.CurrentExtent == null)
+                    return;
                 Debug.WriteLine($"Size is changed from {e.PreviousSize} to {e.NewSize}");
                 _cancellationTokenSource.Cancel();
                 _cancellationTokenSource = new CancellationTokenSource();

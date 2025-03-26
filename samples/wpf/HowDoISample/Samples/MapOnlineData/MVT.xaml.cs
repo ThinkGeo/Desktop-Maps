@@ -27,7 +27,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 _layerOverlay.Layers.Add(openstackMbtiles);
                 await openstackMbtiles.OpenAsync();
-                MapView.CurrentExtent = new RectangleShape(-14377, 6712202, -12504, 6710862);
+                MapView.CenterPoint = new PointShape(-13400,6711500);
+                MapView.CurrentScale = 7300;
 
                 await MapView.RefreshAsync();
             }

@@ -61,7 +61,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 noaaWeatherWarningsFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
                 // Set the extent to a view of the US
-                MapView.CurrentExtent = new RectangleShape(-14927495.374917, 8262593.0543992, -6686622.84891633, 1827556.23117885);
+                MapView.CenterPoint = new PointShape(-10807050, 5045070);
+                MapView.CurrentScale = 34016000;
 
                 // Add a PopupOverlay to the map, to display feature information
                 var popupOverlay = new PopupOverlay();

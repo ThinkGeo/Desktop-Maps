@@ -39,7 +39,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 layerOverlay.Layers.Add(openStreetMapLayer);
 
                 // Set the current extent to a local area.
-                MapView.CurrentExtent = new RectangleShape(-10789388.4602951, 3923878.18083465, -10768258.7082788, 3906668.46719412);
+                MapView.CenterPoint = new PointShape(-10778800,3915300);
+                MapView.CurrentScale = 91000;
 
                 await MapView.RefreshAsync();
             }

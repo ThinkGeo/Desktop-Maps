@@ -43,7 +43,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     DrawingBulkCount = 500
                 };
 
-                MapView.CurrentExtent = new RectangleShape(2775135, 8437158, 2780320, 8433276);
+                MapView.CenterPoint = new PointShape(2777730,8435220);
+                MapView.CurrentScale = 20520;
                 MapView.Overlays.Add("LayerOverlay", overlay);
                 await MapView.RefreshAsync();
             }

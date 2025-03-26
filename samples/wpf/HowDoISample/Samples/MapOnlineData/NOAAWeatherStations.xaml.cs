@@ -35,7 +35,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
                 // Set the extent to a view of the US
-                MapView.CurrentExtent = new RectangleShape(-14927495, 8262593, -6686622, 1827556);
+                MapView.CenterPoint = new PointShape(-10807050, 5045070);
+                MapView.CurrentScale = 34016000;
+
                 await MapView.RefreshAsync();
 
                 // Create a new overlay that will hold our new layer and add it to the map.
