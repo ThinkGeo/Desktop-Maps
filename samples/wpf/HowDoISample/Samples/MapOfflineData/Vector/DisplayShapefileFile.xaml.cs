@@ -61,7 +61,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 parksLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
                 // Set the current extent of the map to a few parks in the area
-                MapView.CurrentExtent = new RectangleShape(-10785086.173498387, 3913489.693302595, -10779919.030415015, 3910065.3144544438);
+                MapView.CenterPoint = new PointShape(-10782500, 3911780);
+                MapView.CurrentScale = 18100;
 
                 await MapView.RefreshAsync();
             }

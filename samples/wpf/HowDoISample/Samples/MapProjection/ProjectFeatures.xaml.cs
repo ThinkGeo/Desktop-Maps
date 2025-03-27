@@ -57,7 +57,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapView.Overlays.Add("Reprojected Features Overlay", reprojectedFeaturesOverlay);
 
                 // Set the map extent
-                MapView.CurrentExtent = new RectangleShape(-10779751.80, 3915369.33, -10779407.60, 3915141.57);
+                MapView.CenterPoint = new PointShape(-10779580,3915255);
+                MapView.CurrentScale = 1570;
 
                 await MapView.RefreshAsync();
             }

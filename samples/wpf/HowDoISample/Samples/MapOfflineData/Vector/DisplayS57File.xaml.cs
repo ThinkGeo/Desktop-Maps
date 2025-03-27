@@ -41,7 +41,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 chartOverlay.Layers.Add("Charts", nauticalLayer);
 
                 // Set the current extent to a portion of the data
-                MapView.CurrentExtent = new RectangleShape(-83.79534200990409, 25.87521424320395, -80.82463888490409, 23.90646424320395);
+                MapView.CenterPoint = new PointShape(-82.30999,24.89084);
+                MapView.CurrentScale = 1156400;
 
                 await MapView.RefreshAsync();
             }

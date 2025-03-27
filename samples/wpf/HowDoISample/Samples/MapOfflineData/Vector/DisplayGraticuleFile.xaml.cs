@@ -55,7 +55,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 layerOverlay.Layers.Add("graticule", graticuleFeatureLayer);
 
                 // Set the current extent of the map to start in Frisco TX
-                MapView.CurrentExtent = new RectangleShape(-10782364.041857453, 3914916.6811720245, -10772029.75569071, 3908067.923475721);
+                MapView.CenterPoint = new PointShape(-10777200,3911500);
+                MapView.CurrentScale = 36200;
 
                 await MapView.RefreshAsync();
             }

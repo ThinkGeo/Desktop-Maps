@@ -56,7 +56,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 coyoteSightingsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
                 // Set the map view current extent to a bounding box that shows just a few sightings.  
-                MapView.CurrentExtent = new RectangleShape(-10784283.099060204, 3918532.598821122, -10781699.527518518, 3916820.409397046);
+                MapView.CenterPoint = new PointShape(-10783000,3917680);
+                MapView.CurrentScale = 9050;
 
                 // Refresh the map.
                 await MapView.RefreshAsync();
