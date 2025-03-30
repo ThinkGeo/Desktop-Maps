@@ -58,7 +58,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapView.Overlays.Add("Reprojected Features Overlay", reprojectedFeaturesOverlay);
 
                 // Set the map extent
-                MapView.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
+                MapView.CenterPoint = new PointShape(-10778720, 3915154);
+                MapView.CurrentScale = 202090;
 
                 // Initialize the ProjectionCloudClient with our ThinkGeo Cloud credentials
                 _projectionCloudClient = new ProjectionCloudClient

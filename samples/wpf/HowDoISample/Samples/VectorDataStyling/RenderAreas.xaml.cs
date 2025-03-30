@@ -33,7 +33,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
                 // Set the map extent
-                MapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
+                MapView.CenterPoint = new PointShape(-10778000, 3913000);
+                MapView.CurrentScale = 65000;
 
                 // Create a layer with polygon data
                 var friscoSubdivisions = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp")

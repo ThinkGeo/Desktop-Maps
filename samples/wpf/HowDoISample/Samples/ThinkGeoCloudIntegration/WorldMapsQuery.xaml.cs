@@ -66,7 +66,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapView.Overlays.Add("Queried Features Overlay", queriedFeaturesOverlay);
 
                 // Set the map extent to Frisco, TX
-                MapView.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
+                MapView.CenterPoint = new PointShape(-10778720, 3915154);
+                MapView.CurrentScale = 202090;
 
                 // Add an event to handle new shapes that are drawn on the map
                 MapView.TrackOverlay.TrackEnded += OnShapeDrawn;

@@ -60,7 +60,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapView.Overlays.Add(layerOverlay);
 
                 // Set the map extent
-                MapView.CurrentExtent = new RectangleShape(-10780196.9469504, 3916119.49665258, -10776231.7761301, 3912703.71697007);
+                MapView.CenterPoint = new PointShape(-10778210, 3914410);
+                MapView.CurrentScale = 18260;
 
                 await MapView.RefreshAsync();
             }

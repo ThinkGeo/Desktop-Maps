@@ -46,7 +46,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapView.Overlays.Add("Geocoded Locations Overlay", geocodedLocationsOverlay);
 
                 // Set the map extent to Frisco, TX
-                MapView.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
+                MapView.CenterPoint = new PointShape(-10778720, 3915154);
+                MapView.CurrentScale = 202090;
 
                 // Initialize the GeocodingCloudClient using our ThinkGeo Cloud credentials
                 _geocodingCloudClient = new GeocodingCloudClient

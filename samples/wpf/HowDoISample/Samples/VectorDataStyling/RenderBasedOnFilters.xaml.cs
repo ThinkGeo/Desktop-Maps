@@ -36,7 +36,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
                 // Set the map extent
-                MapView.CurrentExtent = new RectangleShape(-10780196.9469504, 3916119.49665258, -10776231.7761301, 3912703.71697007);
+                MapView.CenterPoint = new PointShape(-10778210,3914410);
+                MapView.CurrentScale = 18060;
 
                 // Project the layer's data to match the projection of the map
                 var friscoCrimeLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Crime.shp")

@@ -36,7 +36,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
                 // Set the map extent
-                MapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
+                MapView.CenterPoint = new PointShape(-10778000, 3912500);
+                MapView.CurrentScale = 68000;
 
                 // Project the layer's data to match the projection of the map
                 var coyoteSightings = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Coyote_Sightings.shp")

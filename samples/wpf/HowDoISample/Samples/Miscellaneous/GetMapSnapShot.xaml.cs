@@ -34,7 +34,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
                 // set the map extent to Frisco, TX
-                MapView.CurrentExtent = new RectangleShape(-10810995, 3939081, -10747552, 3884429);
+                MapView.CenterPoint = new PointShape(-10779270,3911750);
+                MapView.CurrentScale = 288900;
 
                 // Add a marker in the center of the map. 
                 var simpleMarkerOverlay = new SimpleMarkerOverlay();

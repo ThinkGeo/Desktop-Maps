@@ -29,7 +29,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 UseLayer(DrawingExceptionMode.DrawException, false);
 
                 // Set the current extent to a local area.
-                MapView.CurrentExtent = new RectangleShape(-96.8538765269409, 33.1618647290098, -96.7987487018851, 33.1054126590461);
+                MapView.CenterPoint = new PointShape(-96.82631,33.13364);
+                MapView.CurrentScale = 33160;
 
                 // Refresh the map.
                 await MapView.RefreshAsync();

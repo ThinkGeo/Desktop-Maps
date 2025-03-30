@@ -65,7 +65,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 };
 
                 // Set the Map Extent
-                MapView.CurrentExtent = new RectangleShape(-14269933.09, 6354969.40, -6966221.89, 2759371.58);
+                MapView.CenterPoint = new PointShape(-10618080,4557170);
+                MapView.CurrentScale = 33258550;
 
                 // Get Timezone info for Frisco, TX
                 await GetTimeZoneInfoAsync(-10779572.80, 3915268.68);

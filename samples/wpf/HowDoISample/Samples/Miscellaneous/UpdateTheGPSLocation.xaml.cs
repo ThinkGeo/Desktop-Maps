@@ -66,7 +66,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapView.Overlays.Add("Vehicle Overlay", vehicleOverlay);
 
                 // Set the map extent
-                MapView.CurrentExtent = new RectangleShape(-10779430.188014803, 3912668.1732483786, -10778438.895309737, 3911814.2283277493);
+                MapView.CenterPoint = new PointShape(-10778930,3912240);
+                MapView.CurrentScale = 4510;
 
                 // We hook up this even so when you leave this sample we stop the background data feed task
                 this.Unloaded -= RefreshDynamicItems_Unloaded;

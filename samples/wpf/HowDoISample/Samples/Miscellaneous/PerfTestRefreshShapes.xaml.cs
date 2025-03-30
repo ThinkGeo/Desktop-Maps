@@ -43,7 +43,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 AddPolygonOverlay(AreaBaseShape.ScaleDown(currentExtent.GetBoundingBox(), 80).GetBoundingBox());
 
                 //Set the maps current extent so we start there
-                MapView.CurrentExtent = currentExtent;
+                MapView.CenterPoint = currentExtent.GetCenterPoint();
+                MapView.CurrentScale = 288900;
 
                 await MapView.RefreshAsync();
             }

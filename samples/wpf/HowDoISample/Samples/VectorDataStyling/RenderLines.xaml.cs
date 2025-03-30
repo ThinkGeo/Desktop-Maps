@@ -36,7 +36,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
                 // Set the map extent
-                MapView.CurrentExtent = new RectangleShape(-10779675.1746605, 3914631.77546835, -10779173.5566652, 3914204.80300804);
+                MapView.CenterPoint = new PointShape(-10779420,3914420);
+                MapView.CurrentScale = 2260;
 
                 // Create a layer with line data
                 var friscoRailroad = new ShapeFileFeatureLayer(@"./Data/Railroad/Railroad.shp");

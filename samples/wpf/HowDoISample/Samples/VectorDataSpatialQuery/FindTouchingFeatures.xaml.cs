@@ -105,7 +105,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 await GetFeaturesTouchingAsync(sampleShape);
 
                 // Set the map extent to the sample shape
-                MapView.CurrentExtent = new RectangleShape(-10778499.3056056, 3920951.91647677, -10774534.1347853, 3917536.13679426);
+                MapView.CenterPoint = new PointShape(-10776520, 3919250);
+                MapView.CurrentScale = 18060;
 
                 await MapView.RefreshAsync();
             }

@@ -56,7 +56,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapView.Overlays.Add("Features Overlay", featuresOverlay);
 
                 // Set a default extent for the map
-                MapView.CurrentExtent = new RectangleShape(0, 200, 200, 0);
+                MapView.CenterPoint = new PointShape(100,100);
+                MapView.CurrentScale = 1060;
 
                 RdoCheckIfPointsAreTouchingLines.IsChecked = true;
 

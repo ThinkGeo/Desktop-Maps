@@ -72,7 +72,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var serviceAreaMarkerOverlay = new SimpleMarkerOverlay();
                 MapView.Overlays.Add("Service Area Marker Overlay", serviceAreaMarkerOverlay);
 
-                MapView.CurrentExtent = new RectangleShape(-10895153.061011, 4016319.51333112, -10653612.0529718, 3797709.61365001);
+                MapView.CenterPoint = new PointShape(-10774380,3907010);
+                MapView.CurrentScale = 1155580;
 
                 // Create a new set of time spans for 15, 30, 45, 60 minutes. These will be used to create the class breaks for the routing service area request
                 _serviceAreaIntervals = new Collection<TimeSpan>() 

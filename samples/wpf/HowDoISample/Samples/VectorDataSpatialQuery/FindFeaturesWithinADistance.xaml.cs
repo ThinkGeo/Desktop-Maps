@@ -74,7 +74,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 await GetFeaturesWithinDistanceAsync(sampleShape);
 
                 // Set the map extent to the initial area
-                MapView.CurrentExtent = new RectangleShape(-10781338.5834248, 3916678.62545891, -10777511.9547176, 3913262.84577639);
+                MapView.CenterPoint = new PointShape(-10779430,3914970);
+                MapView.CurrentScale = 18060;
 
                 await MapView.RefreshAsync();
             }
