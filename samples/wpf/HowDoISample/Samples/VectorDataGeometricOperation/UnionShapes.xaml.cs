@@ -59,7 +59,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 // Set the map extent to the dividedCityLimits layer bounding box
                 dividedCityLimits.Open();
-                MapView.CurrentExtent = dividedCityLimits.GetBoundingBox();
+                var dividedCityLimitsBBox = dividedCityLimits.GetBoundingBox();
+                MapView.CenterPoint = dividedCityLimitsBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(dividedCityLimitsBBox, MapView.ActualWidth, MapView.MapUnit);
                 dividedCityLimits.Close();
 
                 // Add LayerOverlay to Map

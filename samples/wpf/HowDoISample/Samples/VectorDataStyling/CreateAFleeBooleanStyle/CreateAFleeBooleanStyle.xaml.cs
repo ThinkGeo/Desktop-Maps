@@ -53,7 +53,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 AddFleeBooleanStyle(countries02Layer);
 
                 // Set the map extent
-                MapView.CurrentExtent = MaxExtents.SphericalMercator;
+                MapView.CenterPoint = MaxExtents.SphericalMercator.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(MaxExtents.SphericalMercator, MapView.ActualWidth, MapView.MapUnit);
 
                 await MapView.RefreshAsync();
             }

@@ -61,7 +61,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Create a zoomlevelSet from the WMTS server
                 MapView.ZoomLevelSet = GetZoomLevelSetFromWmtsServer();
 
-                MapView.CurrentExtent = wmtsAsyncLayer.GetBoundingBox();
+                var wmtsAsyncLayerBBox = wmtsAsyncLayer.GetBoundingBox();
+                MapView.CenterPoint = wmtsAsyncLayerBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(wmtsAsyncLayerBBox, MapView.ActualWidth, MapView.MapUnit);
                 await MapView.RefreshAsync();
             }
             catch
@@ -135,7 +137,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 await wmtsAsyncLayer.CloseAsync();
                 await wmtsAsyncLayer.OpenAsync();
-                MapView.CurrentExtent = wmtsAsyncLayer.GetBoundingBox();
+                var wmtsAsyncLayerBBox = wmtsAsyncLayer.GetBoundingBox();
+                MapView.CenterPoint = wmtsAsyncLayerBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(wmtsAsyncLayerBBox, MapView.ActualWidth, MapView.MapUnit);
                 await MapView.RefreshAsync();
             }
             catch

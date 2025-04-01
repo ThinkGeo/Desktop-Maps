@@ -85,7 +85,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 await GetFeaturesCrossingAsync(sampleShape);
 
                 // Set the map extent to the sample shapes
-                MapView.CurrentExtent = sampleShape.GetBoundingBox();
+                var sampleShapeBBox = sampleShape.GetBoundingBox();
+                MapView.CenterPoint = sampleShapeBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(sampleShapeBBox, MapView.ActualWidth, MapView.MapUnit);
+               
                 await MapView.ZoomOutAsync();
                 await MapView.RefreshAsync();
             }

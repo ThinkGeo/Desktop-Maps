@@ -74,7 +74,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 // Get the extent of the features from the housing units shapefile, and set the map extent.
                 housingUnitsLayer.Open();
-                MapView.CurrentExtent = housingUnitsLayer.GetBoundingBox();
+                var housingUnitsLayerBBox = housingUnitsLayer.GetBoundingBox();
+                MapView.CenterPoint = housingUnitsLayerBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(housingUnitsLayerBBox, MapView.ActualWidth, MapView.MapUnit);
                 await MapView.ZoomOutAsync();
                 housingUnitsLayer.Close();
 

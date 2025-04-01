@@ -50,7 +50,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapView.AdornmentOverlay.Layers.Add(magneticDeclinationAdornmentLayer);
 
                 // Set the current extent to a neighborhood in Frisco Texas.
-                MapView.CurrentExtent = new RectangleShape(-10781708.9749424, 3913502.90429046, -10777685.1114043, 3910360.79646662);
+                MapView.CenterPoint = new PointShape(-10779700, 3912000);
+                MapView.CurrentScale = 18100;
 
                 // Refresh the map.
                 await MapView.RefreshAsync();

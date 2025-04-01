@@ -21,7 +21,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Set the current extent to the whole world.
-            MapView.CurrentExtent = new RectangleShape(-10000000, 10000000, 10000000, -10000000);
+            MapView.CenterPoint = new PointShape(0, 0);
+            MapView.CurrentScale = 105721100;
         }
 
         /// <summary>

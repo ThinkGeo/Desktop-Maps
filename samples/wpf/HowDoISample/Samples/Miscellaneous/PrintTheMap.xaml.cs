@@ -1,5 +1,4 @@
-﻿using OSGeo.OGR;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Drawing;
@@ -176,7 +175,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.InteractiveOverlays.Add("printerOverlay", printerOverlay);
 
             // Set the map extent
-            MapView.CurrentExtent = pageLayer.GetPosition().GetBoundingBox();
+            var pageLayerBBox = pageLayer.GetPosition().GetBoundingBox();
+            MapView.CenterPoint = pageLayerBBox.GetCenterPoint();
+            MapView.CurrentScale = MapUtil.GetScale(pageLayerBBox, MapView.ActualWidth, MapView.MapUnit);
         }
 
         /// <summary>

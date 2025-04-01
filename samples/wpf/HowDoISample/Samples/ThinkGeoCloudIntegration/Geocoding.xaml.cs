@@ -178,7 +178,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 geocodedLocationOverlay.Markers.Add(CreateNewMarker(chosenLocation.LocationPoint));
 
                 // Center the map on the chosen location
-                MapView.CurrentExtent = chosenLocation.BoundingBox;
+                var chosenLocationBBox = chosenLocation.BoundingBox;
+                MapView.CenterPoint = chosenLocationBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(chosenLocationBBox, MapView.ActualWidth, MapView.MapUnit);
                 var standardZoomLevelSet = new ZoomLevelSet();
                 await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
                 await MapView.RefreshAsync();

@@ -68,7 +68,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 // Open the layer and set the map view current extent to the bounding box of the layer.  
                 gridFeatureLayer.Open();
-                MapView.CurrentExtent = gridFeatureLayer.GetBoundingBox();
+                var gridFeatureLayerBBox = gridFeatureLayer.GetBoundingBox();
+                MapView.CenterPoint = gridFeatureLayerBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(gridFeatureLayerBBox,MapView.ActualWidth,MapView.MapUnit);
 
                 // Refresh the map.
                 await MapView.RefreshAsync();

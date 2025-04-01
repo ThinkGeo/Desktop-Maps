@@ -164,7 +164,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 // Set the map extent to the elevation query feature
                 drawnShapesLayer.Open();
-                MapView.CurrentExtent = drawnShapesLayer.GetBoundingBox();
+                var drawnShapesLayerBBox = drawnShapesLayer.GetBoundingBox();
+                MapView.CenterPoint = drawnShapesLayerBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(drawnShapesLayerBBox, MapView.ActualWidth, MapView.MapUnit);
                 await MapView.ZoomToScaleAsync(MapView.CurrentScale * 2);
                 drawnShapesLayer.Close();
                 await MapView.RefreshAsync();
@@ -219,7 +221,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (LsbElevations.SelectedItem == null) return;
                 // Set the map extent to the selected point
                 var elevationPoint = (CloudElevationPointResult)LsbElevations.SelectedItem;
-                MapView.CurrentExtent = elevationPoint.Point.GetBoundingBox();
+                var elevationPointLayerBBox = elevationPoint.Point.GetBoundingBox();
+                MapView.CenterPoint = elevationPointLayerBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(elevationPointLayerBBox, MapView.ActualWidth, MapView.MapUnit);
                 await MapView.RefreshAsync();
             }
             catch 

@@ -37,7 +37,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 await layerOverlay.OpenAsync();
                 MapView.ZoomLevelSet = GetZoomLevelSetFromWmtsServer(layerOverlay);
-                MapView.CurrentExtent = layerOverlay.GetBoundingBox();
+                var layerOverlayBBox = layerOverlay.GetBoundingBox();
+                MapView.CenterPoint = layerOverlayBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(layerOverlayBBox, MapView.ActualWidth, MapView.MapUnit);
                 await MapView.RefreshAsync();
             }
             catch

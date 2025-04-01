@@ -60,7 +60,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 // Open the layer and set the map view current extent to the bounding box of the layer.  
                 cityBoundaryLayer.Open();
-                MapView.CurrentExtent = cityBoundaryLayer.GetBoundingBox();
+                var cityBoundaryLayerBBox = cityBoundaryLayer.GetBoundingBox();
+                MapView.CenterPoint = cityBoundaryLayerBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(cityBoundaryLayerBBox, MapView.ActualWidth, MapView.MapUnit);
 
                 await MapView.RefreshAsync();
             }

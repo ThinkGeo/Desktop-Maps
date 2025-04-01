@@ -496,7 +496,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Refresh/redraw the layers and reset the map extent
             var featureOverlay = (LayerOverlay)MapView.Overlays["Features Overlay"];
-            MapView.CurrentExtent = featureOverlay.GetBoundingBox();
+            var featureOverlayBBox = featureOverlay.GetBoundingBox();
+            MapView.CenterPoint = featureOverlayBBox.GetCenterPoint();
+            MapView.CurrentScale = MapUtil.GetScale(featureOverlayBBox, MapView.ActualWidth, MapView.MapUnit);
             await MapView.RefreshAsync();
 
             validatedFeaturesLayer.Close();

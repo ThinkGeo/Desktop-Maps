@@ -54,7 +54,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapView.Overlays.Add(layerOverlay);
 
                 csvLayer.Open();
-                MapView.CurrentExtent = csvLayer.GetBoundingBox();
+                var csvLayerBBox = csvLayer.GetBoundingBox();
+                MapView.CenterPoint = csvLayerBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(csvLayerBBox, MapView.ActualWidth, MapView.MapUnit);
 
                 await MapView.RefreshAsync();
             }

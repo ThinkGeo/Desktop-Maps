@@ -55,7 +55,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Set the map to the extent of the raster layer and refresh the map
             worldRasterLayer.Open();
-            MapView.CurrentExtent = worldRasterLayer.GetBoundingBox();
+            var worldRasterLayerBBox = worldRasterLayer.GetBoundingBox();
+            MapView.CenterPoint = worldRasterLayerBBox.GetCenterPoint();
+            MapView.CurrentScale = MapUtil.GetScale(worldRasterLayerBBox, MapView.ActualWidth, MapView.MapUnit);
             worldRasterLayer.Close();
             await MapView.RefreshAsync();
         }

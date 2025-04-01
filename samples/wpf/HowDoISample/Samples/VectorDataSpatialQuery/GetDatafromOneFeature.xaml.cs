@@ -60,7 +60,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 // Set the map extent to the bounding box of the parks
                 parksLayer.Open();
-                MapView.CurrentExtent = parksLayer.GetBoundingBox();
+                var parksLayerBBox = parksLayer.GetBoundingBox();
+                MapView.CenterPoint = parksLayerBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(parksLayerBBox, MapView.ActualWidth, MapView.MapUnit);
                 await MapView.ZoomInAsync();
                 parksLayer.Close();
 

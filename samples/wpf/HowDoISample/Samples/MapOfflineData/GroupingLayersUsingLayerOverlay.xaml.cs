@@ -106,7 +106,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 // Set the map extent
                 cityLimits.Open();
-                MapView.CurrentExtent = cityLimits.GetBoundingBox();
+                var cityLimitsBBox = cityLimits.GetBoundingBox();
+                MapView.CenterPoint = cityLimitsBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(cityLimitsBBox,MapView.ActualWidth,MapView.MapUnit);
                 cityLimits.Close();
 
                 ShowPoi.IsChecked = true;

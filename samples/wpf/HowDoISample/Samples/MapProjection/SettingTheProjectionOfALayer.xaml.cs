@@ -75,7 +75,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Set the map to the extent of the subdivisions features and refresh the map
             subdivisionsLayer.Open();
-            MapView.CurrentExtent = subdivisionsLayer.GetBoundingBox();
+            var subdivisionsLayerBBox = subdivisionsLayer.GetBoundingBox();
+            MapView.CenterPoint = subdivisionsLayerBBox.GetCenterPoint();
+            MapView.CurrentScale = MapUtil.GetScale(subdivisionsLayerBBox, MapView.ActualWidth, MapView.MapUnit);
             subdivisionsLayer.Close();
 
             await MapView.RefreshAsync();

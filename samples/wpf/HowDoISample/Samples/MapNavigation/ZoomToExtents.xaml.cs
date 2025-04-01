@@ -99,7 +99,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             try
             { 
-                MapView.CurrentExtent = _friscoCityBoundary.GetBoundingBox();
+                var friscoCityBoundaryBBox = _friscoCityBoundary.GetBoundingBox();
+                MapView.CenterPoint = friscoCityBoundaryBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(friscoCityBoundaryBBox, MapView.ActualWidth, MapView.MapUnit);
                 await MapView.RefreshAsync();
             }
             catch 
@@ -117,7 +119,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             try
             { 
                 var feature = _friscoCityBoundary.FeatureSource.GetFeatureById(FeatureIds.SelectedItem.ToString(), ReturningColumnsType.NoColumns);
-                MapView.CurrentExtent = feature.GetBoundingBox();
+                var featureBBox = feature.GetBoundingBox();
+                MapView.CenterPoint = featureBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(featureBBox,MapView.ActualWidth, MapView.MapUnit);
                 await MapView.RefreshAsync();
             }
             catch 

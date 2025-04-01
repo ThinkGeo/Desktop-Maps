@@ -101,7 +101,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Show a loading graphic to let users know the request is running
             LoadingImage.Visibility = Visibility.Visible;
 
-            var reprojectedFeatures = await _projectionCloudClient.ProjectAsync(decimalDegreeFeatures, 4326, 3857);
+            var reprojectedFeatures = new Collection<Feature>();
+
+            foreach (var feature in decimalDegreeFeatures)
+            {
+                var reprojectedFeature = await _projectionCloudClient.ProjectAsync(feature, 4326, 3857);
+                reprojectedFeatures.Add(reprojectedFeature);
+            }
 
             // Hide the loading graphic
             LoadingImage.Visibility = Visibility.Hidden;
@@ -127,7 +133,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Set the map extent to zoom into the feature and refresh the map
             reprojectedFeatureLayer.Open();
-            MapView.CurrentExtent = reprojectedFeatureLayer.GetBoundingBox();
+            var reprojectedFeatureLayerBBox = reprojectedFeatureLayer.GetBoundingBox();
+            MapView.CenterPoint = reprojectedFeatureLayerBBox.GetCenterPoint();
+            MapView.CurrentScale = MapUtil.GetScale(reprojectedFeatureLayerBBox, MapView.ActualWidth, MapView.MapUnit);
 
             var standardZoomLevelSet = new ZoomLevelSet();
             await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);

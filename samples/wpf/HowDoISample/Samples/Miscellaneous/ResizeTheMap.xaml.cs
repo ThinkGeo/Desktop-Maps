@@ -42,8 +42,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapView.MapResizeMode = MapResizeMode.PreserveExtent;
 
                 // Get the center point of the MaxExtents.OsmMaps
-                var centerPoint = MaxExtents.OsmMaps.GetCenterPoint();
-                MapView.CurrentExtent = GetDrawingExtent(centerPoint, MapView.ActualWidth, MapView.ActualHeight);
+                MapView.CenterPoint = MaxExtents.OsmMaps.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(MaxExtents.OsmMaps, MapView.ActualWidth, MapView.MapUnit);
 
                 await MapView.RefreshAsync();
             }
@@ -80,8 +80,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private async Task UpdateExtent(CurrentExtentChangingMapViewEventArgs e)
         {
-            var centerPoint = e.OldExtent.GetCenterPoint();
-            MapView.CurrentExtent = GetDrawingExtent(centerPoint, MapView.ActualWidth, MapView.ActualHeight);
+            MapView.CenterPoint = e.OldExtent.GetCenterPoint();
+            MapView.CurrentScale = MapUtil.GetScale(e.OldExtent, MapView.ActualWidth, MapView.MapUnit);
             await MapView.RefreshAsync();
         }
 
@@ -133,8 +133,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     }
 
                     MapView.ZoomLevelSet = customZoomLevelSet;
-                    MapView.CurrentExtent = newExtent;
-
+                    MapView.CenterPoint = newExtent.GetCenterPoint();
+                    MapView.CurrentScale = MapUtil.GetScale(newExtent,MapView.ActualWidth, MapView.MapUnit);
                     await MapView.RefreshAsync(OverlayRefreshType.Redraw, _cancellationTokenSource.Token);
                 }
             }

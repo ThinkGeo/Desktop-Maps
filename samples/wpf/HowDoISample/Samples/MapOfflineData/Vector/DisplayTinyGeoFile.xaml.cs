@@ -57,7 +57,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 // Open the layer and set the map view current extent to the bounding box of the layer.  
                 tinyGeoLayer.Open();
-                MapView.CurrentExtent = tinyGeoLayer.GetBoundingBox();
+                var tinyGeoLayerBBox = tinyGeoLayer.GetBoundingBox();
+                MapView.CenterPoint = tinyGeoLayerBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(tinyGeoLayerBBox,MapView.ActualWidth,MapView.MapUnit);
 
                 await MapView.RefreshAsync();
             }

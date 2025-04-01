@@ -175,7 +175,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 // Set the map extent to the extent of the query results
                 queriedFeaturesLayer.Open();
-                MapView.CurrentExtent = queriedFeaturesLayer.GetBoundingBox();
+                var queriedFeaturesLayerBBox = queriedFeaturesLayer.GetBoundingBox();
+                MapView.CenterPoint = queriedFeaturesLayerBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(queriedFeaturesLayerBBox, MapView.ActualWidth, MapView.MapUnit);
                 queriedFeaturesLayer.Close();
             }
             else

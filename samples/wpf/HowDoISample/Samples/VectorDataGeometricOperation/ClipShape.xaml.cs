@@ -69,7 +69,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 // Set the map extent to the cityLimits layer bounding box
                 cityLimits.Open();
-                MapView.CurrentExtent = cityLimits.GetBoundingBox();
+                var cityLimitsBBox = cityLimits.GetBoundingBox();
+                MapView.CenterPoint = cityLimitsBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(cityLimitsBBox, MapView.ActualWidth, MapView.MapUnit);
                 cityLimits.Close();
 
                 // Add LayerOverlay and clipOverlay to the Map

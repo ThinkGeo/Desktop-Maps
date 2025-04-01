@@ -158,7 +158,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Zoom to the extent of the service area and refresh the map
             serviceAreaLayer.Open();
-            MapView.CurrentExtent = serviceAreaLayer.GetBoundingBox();
+            var serviceAreaLayerBBox = serviceAreaLayer.GetBoundingBox();
+            MapView.CenterPoint = serviceAreaLayerBBox.GetCenterPoint();
+            MapView.CurrentScale = MapUtil.GetScale(serviceAreaLayerBBox, MapView.ActualWidth, MapView.MapUnit);
             serviceAreaLayer.Close();
 
             await MapView.RefreshAsync();

@@ -120,7 +120,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Set the map extent to zoom into the feature and refresh the map
             reprojectedFeatureLayer.Open();
-            MapView.CurrentExtent = reprojectedFeatureLayer.GetBoundingBox();
+            var reprojectedFeatureLayerBBox = reprojectedFeatureLayer.GetBoundingBox();
+            MapView.CenterPoint = reprojectedFeatureLayerBBox.GetCenterPoint();
+            MapView.CurrentScale = MapUtil.GetScale(reprojectedFeatureLayerBBox, MapView.ActualWidth, MapView.MapUnit);
 
             var standardZoomLevelSet = new ZoomLevelSet();
             await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);

@@ -31,7 +31,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var openstackMbtiles = new VectorMbTilesAsyncLayer(@".\Data\Mbtiles\maplibre.mbtiles", @".\Data\Mbtiles\style.json");
                 _layerOverlay.Layers.Add(openstackMbtiles);
 
-                MapView.CurrentExtent = MaxExtents.SphericalMercator;
+                MapView.CenterPoint = MaxExtents.SphericalMercator.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(MaxExtents.SphericalMercator, MapView.ActualWidth, MapView.MapUnit);
                 await openstackMbtiles.OpenAsync();
                 //MapView.Background = new SolidColorBrush(Color.FromRgb(216, 242, 255));
 

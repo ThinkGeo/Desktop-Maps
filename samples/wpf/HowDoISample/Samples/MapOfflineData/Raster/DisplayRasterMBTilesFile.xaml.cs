@@ -49,7 +49,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 rasterMbTilesLayer.ProjectedTileCache.GottenTile += ProjectedTileCache_GottenCacheTile;
 
                 //layerOverlay.Drawn += LayerOverlayOnDrawn;
-                MapView.CurrentExtent = MaxExtents.ThinkGeoMaps;
+                MapView.CenterPoint = MaxExtents.ThinkGeoMaps.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(MaxExtents.ThinkGeoMaps, MapView.ActualWidth, MapView.MapUnit);
                 await MapView.RefreshAsync();
             }
             catch
@@ -109,7 +110,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 await rasterMbTilesLayer.CloseAsync();
                 await rasterMbTilesLayer.OpenAsync();
-                MapView.CurrentExtent = rasterMbTilesLayer.GetBoundingBox();
+                var rasterMbTilesLayerBBox = rasterMbTilesLayer.GetBoundingBox();
+                MapView.CenterPoint = rasterMbTilesLayerBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(rasterMbTilesLayerBBox, MapView.ActualWidth, MapView.MapUnit);
                 await MapView.RefreshAsync();
             }
             catch

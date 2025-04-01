@@ -47,7 +47,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapView.Overlays.Add(layerOverlay);
 
                 gdalFeatureLayer.Open();
-                MapView.CurrentExtent = gdalFeatureLayer.GetBoundingBox();
+                var gdalFeatureLayerBBox = gdalFeatureLayer.GetBoundingBox();
+                MapView.CenterPoint = gdalFeatureLayerBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(gdalFeatureLayerBBox, MapView.ActualWidth, MapView.MapUnit);
 
                 await MapView.RefreshAsync();
 

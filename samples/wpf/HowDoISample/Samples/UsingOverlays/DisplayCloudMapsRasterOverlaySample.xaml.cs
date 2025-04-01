@@ -27,7 +27,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.BackgroundOverlay.BackgroundBrush = GeoBrushes.AliceBlue;
 
             // Set the map extent
-            MapView.CurrentExtent = new RectangleShape(-10782598.9806675, 3915669.09132595, -10772234.1196896, 3906343.77392696);
+            MapView.CenterPoint = new PointShape(-10777420, 3911000);
+            MapView.CurrentScale = 49300;
         }
 
         /// <summary>

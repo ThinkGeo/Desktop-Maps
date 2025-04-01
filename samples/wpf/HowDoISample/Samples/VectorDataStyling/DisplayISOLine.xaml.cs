@@ -60,7 +60,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 // Open the layer and set the map view current extent to the bounding box of the layer scaled up just a bit then close the layer
                 mosquitosLayer.Open();
-                MapView.CurrentExtent = mosquitosLayer.GetBoundingBox();
+                var mosquitosLayerBBox = mosquitosLayer.GetBoundingBox();
+                MapView.CenterPoint = mosquitosLayerBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(mosquitosLayerBBox, MapView.ActualWidth, MapView.MapUnit);
                 mosquitosLayer.Close();
 
                 await MapView.RefreshAsync();

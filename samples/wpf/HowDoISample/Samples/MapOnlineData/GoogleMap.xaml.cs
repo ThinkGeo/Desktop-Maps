@@ -24,7 +24,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.BackgroundOverlay.BackgroundBrush = GeoBrushes.AliceBlue;
 
             // Set the map extent
-            MapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
+            MapView.CenterPoint = new PointShape(-10778000, 3912000);
+            MapView.CurrentScale = 77000;
         }
 
         /// <summary>
@@ -45,7 +46,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapView.Overlays.Add("WorldOverlay", worldOverlay);
 
                 // Set the current extent to the whole world.
-                MapView.CurrentExtent = new RectangleShape(-10000000, 10000000, 10000000, -10000000);
+                MapView.CenterPoint = new PointShape(0, 0);
+                MapView.CurrentScale = 105721100;
 
                 await MapView.RefreshAsync();
             }

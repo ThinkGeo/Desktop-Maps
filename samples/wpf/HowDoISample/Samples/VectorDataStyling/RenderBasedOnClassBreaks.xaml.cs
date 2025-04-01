@@ -63,7 +63,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 // Set the map extent
                 housingUnitsLayer.Open();
-                MapView.CurrentExtent = housingUnitsLayer.GetBoundingBox();
+                var housingUnitsLayerBBox = housingUnitsLayer.GetBoundingBox();
+                MapView.CenterPoint = housingUnitsLayerBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(housingUnitsLayerBBox, MapView.ActualWidth, MapView.MapUnit);
                 housingUnitsLayer.Close();
 
                 await MapView.RefreshAsync();

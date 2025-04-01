@@ -56,7 +56,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 fileTilesAsyncLayer.ProjectedTileCache.GottenTile += ProjectedTileCache_GottenCacheTile;
 
                 //layerOverlay.Drawn += LayerOverlayOnDrawn;
-                MapView.CurrentExtent = MaxExtents.ThinkGeoMaps;
+                MapView.CenterPoint = MaxExtents.ThinkGeoMaps.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(MaxExtents.ThinkGeoMaps, MapView.ActualWidth, MapView.MapUnit);
                 await MapView.RefreshAsync();
             }
             catch
@@ -115,7 +116,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 await fileTilesAsyncLayer.CloseAsync();
                 await fileTilesAsyncLayer.OpenAsync();
-                MapView.CurrentExtent = fileTilesAsyncLayer.GetBoundingBox();
+                var fileTilesAsyncLayerBBox = fileTilesAsyncLayer.GetBoundingBox();
+                MapView.CenterPoint = fileTilesAsyncLayerBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(fileTilesAsyncLayerBBox, MapView.ActualWidth, MapView.MapUnit);
                 await MapView.RefreshAsync();
             }
             catch

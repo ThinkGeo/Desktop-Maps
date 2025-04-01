@@ -78,7 +78,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 GetFeaturesContaining(sampleShape);
 
                 // Set the map extent to the sample shape
-                MapView.CurrentExtent = new RectangleShape(-10781407.8544813, 3916678.62545891, -10777442.6836611, 3913262.84577639);
+                MapView.CenterPoint = new PointShape(-10779430, 3914970);
+                MapView.CurrentScale = 18060;
 
                 await MapView.RefreshAsync();
             }

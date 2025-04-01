@@ -54,7 +54,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 // Set the current extent of the map to the extent of the CAD data
                 _cadLayer.Open();
-                MapView.CurrentExtent = _cadLayer.GetBoundingBox();
+                var cadLayerBBox = _cadLayer.GetBoundingBox();
+                MapView.CenterPoint = cadLayerBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(cadLayerBBox, MapView.ActualWidth, MapView.MapUnit);
 
                 await MapView.RefreshAsync();
             }

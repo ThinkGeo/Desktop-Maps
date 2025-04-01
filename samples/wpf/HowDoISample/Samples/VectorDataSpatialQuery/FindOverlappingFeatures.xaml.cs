@@ -50,7 +50,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 zoningLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(50, GeoColors.MediumPurple), GeoColors.MediumPurple, 2);
 
                 // Set the map extent to Frisco, TX
-                MapView.CurrentExtent = new RectangleShape(-10781137.28, 3917162.59, -10774579.34, 3911241.35);
+                MapView.CenterPoint = new PointShape(-10777860, 3914200);
+                MapView.CurrentScale = 31300;
 
                 // Create a layer to hold the feature we will perform the spatial query against
                 var queryFeatureLayer = new InMemoryFeatureLayer();
@@ -84,7 +85,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 await GetFeaturesOverlapsAsync(sampleShape);
 
                 // Set the map extent to the sample shapes
-                MapView.CurrentExtent = sampleShape.GetBoundingBox();
+                var sampleShapeBBox = sampleShape.GetBoundingBox();
+                MapView.CenterPoint = sampleShapeBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(sampleShapeBBox, MapView.ActualWidth, MapView.MapUnit);
+
                 await MapView.ZoomOutAsync();
                 await MapView.RefreshAsync();
             }

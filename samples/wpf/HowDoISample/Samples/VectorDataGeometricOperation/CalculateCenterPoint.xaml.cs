@@ -68,7 +68,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 // Set the map extent to the censusHousing layer bounding box
                 censusHousingLayer.Open();
-                MapView.CurrentExtent = censusHousingLayer.GetBoundingBox();
+                var censusHousingLayerBBox = censusHousingLayer.GetBoundingBox();
+                MapView.CenterPoint = censusHousingLayerBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(censusHousingLayerBBox, MapView.ActualWidth, MapView.MapUnit);
                 censusHousingLayer.Close();
 
                 // Add LayerOverlay to Map          
