@@ -21,80 +21,64 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
-                // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-                // Set the map's unit of measurement to meters (Spherical Mercator)
-                MapView.MapUnit = GeographyUnit.Meter;
+            // Set the map's unit of measurement to meters (Spherical Mercator)
+            MapView.MapUnit = GeographyUnit.Meter;
 
-                // Create a PopupOverlay to display time zone information based on locations input by the user
-                var timezoneInfoPopupOverlay = new PopupOverlay();
+            // Create a PopupOverlay to display time zone information based on locations input by the user
+            var timezoneInfoPopupOverlay = new PopupOverlay();
 
-                // Add the overlay to the map
-                MapView.Overlays.Add("Timezone Info Popup Overlay", timezoneInfoPopupOverlay);
+            // Add the overlay to the map
+            MapView.Overlays.Add("Timezone Info Popup Overlay", timezoneInfoPopupOverlay);
 
-                // Add a new InMemoryFeatureLayer to hold the timezone shapes
-                var timezonesFeatureLayer = new InMemoryFeatureLayer();
+            // Add a new InMemoryFeatureLayer to hold the timezone shapes
+            var timezonesFeatureLayer = new InMemoryFeatureLayer();
 
-                // Add a style to use to draw the timezone polygons
-                timezonesFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-                timezonesFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(50, GeoColors.MediumPurple), GeoColors.MediumPurple, 2);
+            // Add a style to use to draw the timezone polygons
+            timezonesFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            timezonesFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(50, GeoColors.MediumPurple), GeoColors.MediumPurple, 2);
 
-                // Add the layer to an overlay, and add it to the map
-                var timezonesLayerOverlay = new LayerOverlay();
-                timezonesLayerOverlay.Layers.Add("Timezone Feature Layer", timezonesFeatureLayer);
-                MapView.Overlays.Add("Timezone Layer Overlay", timezonesLayerOverlay);
+            // Add the layer to an overlay, and add it to the map
+            var timezonesLayerOverlay = new LayerOverlay();
+            timezonesLayerOverlay.Layers.Add("Timezone Feature Layer", timezonesFeatureLayer);
+            MapView.Overlays.Add("Timezone Layer Overlay", timezonesLayerOverlay);
 
-                // Initialize the TimezoneCloudClient with our ThinkGeo Cloud credentials
-                _timeZoneCloudClient = new TimeZoneCloudClient
-                {
-                    ClientId = SampleKeys.ClientId2,
-                    ClientSecret = SampleKeys.ClientSecret2,
-                };
-
-                // Set the Map Extent
-                MapView.CenterPoint = new PointShape(-10618080,4557170);
-                MapView.CurrentScale = 33258550;
-
-                // Get Timezone info for Frisco, TX
-                await GetTimeZoneInfoAsync(-10779572.80, 3915268.68);
-            }
-            catch 
+            // Initialize the TimezoneCloudClient with our ThinkGeo Cloud credentials
+            _timeZoneCloudClient = new TimeZoneCloudClient
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+                ClientId = SampleKeys.ClientId2,
+                ClientSecret = SampleKeys.ClientSecret2,
+            };
+
+            // Set the Map Extent
+            MapView.CenterPoint = new PointShape(-10618080, 4557170);
+            MapView.CurrentScale = 33258550;
+
+            // Get Timezone info for Frisco, TX
+            _ = GetTimeZoneInfoAsync(-10779572.80, 3915268.68);
         }
 
         /// <summary>
         /// Perform the timezone query when the user clicks on the map
         /// </summary>
-        private async void MapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        private void MapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
-            try
+            if (e.MouseButton == MapMouseButton.Left)
             {
-                if (e.MouseButton == MapMouseButton.Left)
-                {
-                    // Run the timezone info query
-                    await GetTimeZoneInfoAsync(e.WorldX, e.WorldY);
-                }
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+                // Run the timezone info query
+                _ = GetTimeZoneInfoAsync(e.WorldX, e.WorldY);
             }
         }
 

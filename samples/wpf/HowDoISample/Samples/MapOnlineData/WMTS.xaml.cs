@@ -63,7 +63,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             return zoomLevelSet;
         }
 
-
         public void Dispose()
         {
             ThinkGeoDebugger.DisplayTileId = false;
@@ -71,26 +70,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             GC.SuppressFinalize(this);
         }
 
-        private async void DisplayTileIdCheckBox_Checked(object sender, RoutedEventArgs e)
+        private void DisplayTileIdCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                if (!(sender is CheckBox checkBox))
-                    return;
+            if (!(sender is CheckBox checkBox))
+                return;
 
-                if (!checkBox.IsChecked.HasValue)
-                    return;
+            if (!checkBox.IsChecked.HasValue)
+                return;
 
-                if (ThinkGeoDebugger.DisplayTileId != checkBox.IsChecked.Value)
-                {
-                    ThinkGeoDebugger.DisplayTileId = checkBox.IsChecked.Value;
-                    await MapView.RefreshAsync();
-                }
-            }
-            catch
+            if (ThinkGeoDebugger.DisplayTileId != checkBox.IsChecked.Value)
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+                ThinkGeoDebugger.DisplayTileId = checkBox.IsChecked.Value;
+                _ = MapView.RefreshAsync();
             }
         }
     }

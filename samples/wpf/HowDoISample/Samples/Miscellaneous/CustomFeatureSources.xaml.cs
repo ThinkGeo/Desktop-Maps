@@ -17,54 +17,46 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InitializeComponent();
         }
 
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            MapView.MapUnit = GeographyUnit.Meter;
+
+            // Add Cloud Maps as a background overlay
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
-                MapView.MapUnit = GeographyUnit.Meter;
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-                // Add Cloud Maps as a background overlay
-                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            // See the implementation of the new layer and feature source below.
+            var csvLayer = new SimpleCsvFeatureLayer(@"./Data/Csv/vehicle-route.csv");
 
-                // See the implementation of the new layer and feature source below.
-                var csvLayer = new SimpleCsvFeatureLayer(@"./Data/Csv/vehicle-route.csv");
-
-                // Set the points image to a car icon and then apply it to all zoom levels
-                var vehiclePointStyle = new PointStyle(new GeoImage(@"./Resources/vehicle-location.png"))
-                {
-                    YOffsetInPixel = -12
-                };
-
-                csvLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = vehiclePointStyle;
-                csvLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-
-                var layerOverlay = new LayerOverlay
-                {
-                    TileType = TileType.SingleTile
-                };
-                layerOverlay.Layers.Add(csvLayer);
-                MapView.Overlays.Add(layerOverlay);
-
-                csvLayer.Open();
-                var csvLayerBBox = csvLayer.GetBoundingBox();
-                MapView.CenterPoint = csvLayerBBox.GetCenterPoint();
-                MapView.CurrentScale = MapUtil.GetScale(csvLayerBBox, MapView.ActualWidth, MapView.MapUnit);
-
-                await MapView.RefreshAsync();
-            }
-            catch 
+            // Set the points image to a car icon and then apply it to all zoom levels
+            var vehiclePointStyle = new PointStyle(new GeoImage(@"./Resources/vehicle-location.png"))
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+                YOffsetInPixel = -12
+            };
+
+            csvLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = vehiclePointStyle;
+            csvLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
+            var layerOverlay = new LayerOverlay
+            {
+                TileType = TileType.SingleTile
+            };
+            layerOverlay.Layers.Add(csvLayer);
+            MapView.Overlays.Add(layerOverlay);
+
+            csvLayer.Open();
+            var csvLayerBBox = csvLayer.GetBoundingBox();
+            MapView.CenterPoint = csvLayerBBox.GetCenterPoint();
+            MapView.CurrentScale = MapUtil.GetScale(csvLayerBBox, MapView.ActualWidth, MapView.MapUnit);
+
+            _ = MapView.RefreshAsync();
         }
 
         public void Dispose()

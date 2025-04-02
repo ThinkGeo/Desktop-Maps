@@ -21,38 +21,30 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
-                // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
-                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-                // Creating a rectangle area we will use to generate the polygons and also start the map there.
-                var currentExtent = new RectangleShape(-10810995.245624, 3939081.90719325, -10747552.5124997, 3884429.43227297);
+            // Creating a rectangle area we will use to generate the polygons and also start the map there.
+            var currentExtent = new RectangleShape(-10810995.245624, 3939081.90719325, -10747552.5124997, 3884429.43227297);
 
-                //Do all the things we need to set up the polygon layer and overlay such as creating all the polygons etc.
-                AddPolygonOverlay(AreaBaseShape.ScaleDown(currentExtent.GetBoundingBox(), 80).GetBoundingBox());
+            //Do all the things we need to set up the polygon layer and overlay such as creating all the polygons etc.
+            AddPolygonOverlay(AreaBaseShape.ScaleDown(currentExtent.GetBoundingBox(), 80).GetBoundingBox());
 
-                //Set the maps current extent so we start there
-                MapView.CenterPoint = currentExtent.GetCenterPoint();
-                MapView.CurrentScale = 288900;
+            //Set the maps current extent so we start there
+            MapView.CenterPoint = currentExtent.GetCenterPoint();
+            MapView.CurrentScale = 288900;
 
-                await MapView.RefreshAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            _ = MapView.RefreshAsync();
         }
 
         private void AddPolygonOverlay(BaseShape boundingRectangle)
@@ -139,107 +131,83 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _timer.Start();
         }
 
-        private async void Timer_Tick(object sender, EventArgs e)
+        private void Timer_Tick(object sender, EventArgs e)
         {
-            try
-            { 
-                //I go to find the layer and then loop through all the features and assign them new
-                // random colors and refresh just the overlay that we are using to draw the polygons
-                var polygonLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("PolygonLayer");
+            //I go to find the layer and then loop through all the features and assign them new
+            // random colors and refresh just the overlay that we are using to draw the polygons
+            var polygonLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("PolygonLayer");
 
-                var random = new Random();
+            var random = new Random();
 
-                foreach (var feature in polygonLayer.InternalFeatures)
-                {
-                    feature.ColumnValues["DataPoint1"] = random.Next(1, 5).ToString();
-                }
-
-                // We are only going to refresh the one overlay that draws the polygons.  This saves us having toe refresh the background data.            
-                await MapView.RefreshAsync(MapView.Overlays["PolygonOverlay"]);
-            }
-            catch 
+            foreach (var feature in polygonLayer.InternalFeatures)
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+                feature.ColumnValues["DataPoint1"] = random.Next(1, 5).ToString();
             }
+
+            // We are only going to refresh the one overlay that draws the polygons.  This saves us having toe refresh the background data.            
+            _ = MapView.RefreshAsync(MapView.Overlays["PolygonOverlay"]);
         }
 
-        private async void BtnRotate_Click(object sender, RoutedEventArgs e)
+        private void BtnRotate_Click(object sender, RoutedEventArgs e)
         {
-            try
-            { 
-                //I go to find the layer and then loop through all the features and rotate them
-                var polygonLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("PolygonLayer");
+            //I go to find the layer and then loop through all the features and rotate them
+            var polygonLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("PolygonLayer");
 
-                var newFeatures = new Collection<Feature>();
+            var newFeatures = new Collection<Feature>();
 
-                var center = polygonLayer.GetBoundingBox().GetCenterPoint();
+            var center = polygonLayer.GetBoundingBox().GetCenterPoint();
 
-                foreach (var feature in polygonLayer.InternalFeatures)
-                {
-                    // Here we need to clone the features and add them back to the layer
-                    var shape = (PolygonShape)feature.GetShape();
-
-                    shape.Rotate(center, 10);
-                    shape.Id = feature.Id;
-
-                    var newFeature = new Feature(shape);
-                    newFeature.ColumnValues.Add("DataPoint1", feature.ColumnValues["DataPoint1"]);
-                    newFeatures.Add(newFeature);
-                }
-                polygonLayer.InternalFeatures.Clear();
-
-                foreach (var feature in newFeatures)
-                {
-                    polygonLayer.InternalFeatures.Add(feature);
-                }
-
-                // We are only going to refresh the one overlay that draws the polygons.  This saves us having toe refresh the background data.
-                await MapView.RefreshAsync(MapView.Overlays["PolygonOverlay"]);
-            }
-            catch 
+            foreach (var feature in polygonLayer.InternalFeatures)
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+                // Here we need to clone the features and add them back to the layer
+                var shape = (PolygonShape)feature.GetShape();
+
+                shape.Rotate(center, 10);
+                shape.Id = feature.Id;
+
+                var newFeature = new Feature(shape);
+                newFeature.ColumnValues.Add("DataPoint1", feature.ColumnValues["DataPoint1"]);
+                newFeatures.Add(newFeature);
             }
+            polygonLayer.InternalFeatures.Clear();
+
+            foreach (var feature in newFeatures)
+            {
+                polygonLayer.InternalFeatures.Add(feature);
+            }
+
+            // We are only going to refresh the one overlay that draws the polygons.  This saves us having toe refresh the background data.
+            _ = MapView.RefreshAsync(MapView.Overlays["PolygonOverlay"]);
         }
 
-        private async void BtnOffset_Click(object sender, RoutedEventArgs e)
+        private void BtnOffset_Click(object sender, RoutedEventArgs e)
         {
-            try
-            { 
-                // We go to find the layer and then loop through all the features and rotate them
-                var polygonLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("PolygonLayer");
+            // We go to find the layer and then loop through all the features and rotate them
+            var polygonLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("PolygonLayer");
 
-                var newFeatures = new Collection<Feature>();
+            var newFeatures = new Collection<Feature>();
 
-                foreach (var feature in polygonLayer.InternalFeatures)
-                {
-                    // Here we need to clone the features and add them back to the layer
-                    var shape = (PolygonShape)feature.GetShape();
-
-                    shape.TranslateByOffset(2000, 2000);
-                    shape.Id = feature.Id;
-
-                    var newFeature = new Feature(shape);
-                    newFeature.ColumnValues.Add("DataPoint1", feature.ColumnValues["DataPoint1"]);
-                    newFeatures.Add(newFeature);
-                }
-                polygonLayer.InternalFeatures.Clear();
-
-                foreach (var feature in newFeatures)
-                {
-                    polygonLayer.InternalFeatures.Add(feature);
-                }
-
-                // We are only going to refresh the one overlay that draws the polygons.  This saves us having toe refresh the background data.
-                await MapView.RefreshAsync(MapView.Overlays["PolygonOverlay"]);
-            }
-            catch 
+            foreach (var feature in polygonLayer.InternalFeatures)
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+                // Here we need to clone the features and add them back to the layer
+                var shape = (PolygonShape)feature.GetShape();
+
+                shape.TranslateByOffset(2000, 2000);
+                shape.Id = feature.Id;
+
+                var newFeature = new Feature(shape);
+                newFeature.ColumnValues.Add("DataPoint1", feature.ColumnValues["DataPoint1"]);
+                newFeatures.Add(newFeature);
             }
+            polygonLayer.InternalFeatures.Clear();
+
+            foreach (var feature in newFeatures)
+            {
+                polygonLayer.InternalFeatures.Add(feature);
+            }
+
+            // We are only going to refresh the one overlay that draws the polygons.  This saves us having toe refresh the background data.
+            _ = MapView.RefreshAsync(MapView.Overlays["PolygonOverlay"]);
         }
 
         public void Dispose()

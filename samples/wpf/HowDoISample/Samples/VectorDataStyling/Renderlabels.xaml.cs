@@ -32,57 +32,49 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, project and add styles to the Hotels, Streets, and Parks layer.
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                // Set the map's unit of measurement to meters(Spherical Mercator)
-                MapView.MapUnit = GeographyUnit.Meter;
+            // Set the map's unit of measurement to meters(Spherical Mercator)
+            MapView.MapUnit = GeographyUnit.Meter;
 
 
-                // Set the map background color
-                MapView.Background = new SolidColorBrush(Color.FromRgb(234, 232, 226));
+            // Set the map background color
+            MapView.Background = new SolidColorBrush(Color.FromRgb(234, 232, 226));
 
-                var hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
-                var streetsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Streets.shp");
-                var parksLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
+            var hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
+            var streetsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Streets.shp");
+            var parksLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
 
-                // Project the layer's data to match the projection of the map
-                hotelsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
-                streetsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
-                parksLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+            // Project the layer's data to match the projection of the map
+            hotelsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+            streetsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+            parksLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
-                // Add Styles to the layers
-                StyleHotelsLayer(hotelsLayer);
-                StyleStreetsLayer(streetsLayer);
-                StyleParksLayer(parksLayer);
+            // Add Styles to the layers
+            StyleHotelsLayer(hotelsLayer);
+            StyleStreetsLayer(streetsLayer);
+            StyleParksLayer(parksLayer);
 
-                // Add layers to a layerOverlay
-                _layerOverlay = new LayerOverlay();
-                _layerOverlay.Layers.Add(parksLayer);
-                _layerOverlay.Layers.Add(streetsLayer);
-                _layerOverlay.Layers.Add(hotelsLayer);
-                _layerOverlay.TileType = TileType.SingleTile;
-                MapView.Overlays.Add(_layerOverlay);
+            // Add layers to a layerOverlay
+            _layerOverlay = new LayerOverlay();
+            _layerOverlay.Layers.Add(parksLayer);
+            _layerOverlay.Layers.Add(streetsLayer);
+            _layerOverlay.Layers.Add(hotelsLayer);
+            _layerOverlay.TileType = TileType.SingleTile;
+            MapView.Overlays.Add(_layerOverlay);
 
-                _layerWpfDrawingOverlay = new LayerWpfDrawingOverlay();
-                _layerWpfDrawingOverlay.Visibility = Visibility.Hidden;
-                _layerWpfDrawingOverlay.Layers.Add(parksLayer);
-                _layerWpfDrawingOverlay.Layers.Add(streetsLayer);
-                _layerWpfDrawingOverlay.Layers.Add(hotelsLayer);
-                MapView.Overlays.Add(_layerWpfDrawingOverlay);
+            _layerWpfDrawingOverlay = new LayerWpfDrawingOverlay();
+            _layerWpfDrawingOverlay.Visibility = Visibility.Hidden;
+            _layerWpfDrawingOverlay.Layers.Add(parksLayer);
+            _layerWpfDrawingOverlay.Layers.Add(streetsLayer);
+            _layerWpfDrawingOverlay.Layers.Add(hotelsLayer);
+            MapView.Overlays.Add(_layerWpfDrawingOverlay);
 
-                // Set the map extent
-                MapView.CenterPoint = new PointShape(-10777290, 3908740);
-                MapView.CurrentScale = 9000;
+            // Set the map extent
+            MapView.CenterPoint = new PointShape(-10777290, 3908740);
+            MapView.CurrentScale = 9000;
 
-                await MapView.RefreshAsync();
-            }
-            catch
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            _ = MapView.RefreshAsync();
         }
 
         /// <summary>
@@ -143,14 +135,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             parksLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
         }
 
-        public void Dispose()
-        {
-            // Dispose of unmanaged resources.
-            MapView.Dispose();
-            // Suppress finalization.
-            GC.SuppressFinalize(this);
-        }
-
         private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
         {
             if (sender is CheckBox checkBox)
@@ -160,6 +144,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 _ = MapView.RefreshAsync();
             }
+        }
+
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            MapView.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }

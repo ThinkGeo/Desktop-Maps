@@ -17,55 +17,47 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Add the GeoTiff layer to the map
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            // It is important to set the map unit first to either feet, meters or decimal degrees.
+            MapView.MapUnit = GeographyUnit.Meter;
+
+            // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
-                // It is important to set the map unit first to either feet, meters or decimal degrees.
-                MapView.MapUnit = GeographyUnit.Meter;
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-                // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
-                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            // Create a new overlay that will hold our new layer and add it to the map.
+            var layerOverlay = new LayerOverlay();
+            MapView.Overlays.Add(layerOverlay);
 
-                // Create a new overlay that will hold our new layer and add it to the map.
-                var layerOverlay = new LayerOverlay();
-                MapView.Overlays.Add(layerOverlay);
-
-                // Create the new layer and set the projection as the data is in srid 4326 and our background is srid 3857 (spherical mercator).
-                var geoPdfLayer = new GeoPdfGdalFeatureLayer(@"./Data/GeoPdf/bangalore.pdf")
-                {
-                    FeatureSource =
+            // Create the new layer and set the projection as the data is in srid 4326 and our background is srid 3857 (spherical mercator).
+            var geoPdfLayer = new GeoPdfGdalFeatureLayer(@"./Data/GeoPdf/bangalore.pdf")
+            {
+                FeatureSource =
                 {
                     ProjectionConverter = new ProjectionConverter(4326, 3857)
                 }
-                };
+            };
 
-                // Create the new layer and dd the layer to the overlay we created earlier.
-                geoPdfLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Circle, 5, GeoBrushes.LightGray, GeoPens.Gray);
-                geoPdfLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColor.FromArgb(75, 132, 112, 255), 2, true);
-                geoPdfLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-                layerOverlay.Layers.Add(geoPdfLayer);
-                geoPdfLayer.Open();
+            // Create the new layer and dd the layer to the overlay we created earlier.
+            geoPdfLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Circle, 5, GeoBrushes.LightGray, GeoPens.Gray);
+            geoPdfLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColor.FromArgb(75, 132, 112, 255), 2, true);
+            geoPdfLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            layerOverlay.Layers.Add(geoPdfLayer);
+            geoPdfLayer.Open();
 
-                // Set the map extent
-                MapView.CenterPoint = new PointShape(8638000,1458200);
-                MapView.CurrentScale = 288900;
+            // Set the map extent
+            MapView.CenterPoint = new PointShape(8638000, 1458200);
+            MapView.CurrentScale = 288900;
 
-                await MapView.RefreshAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            _ = MapView.RefreshAsync();
         }
 
         public void Dispose()

@@ -17,57 +17,49 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay.
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            // Set the map's unit of measurement to meters(Spherical Mercator)
+            MapView.MapUnit = GeographyUnit.Meter;
+
+            // Add Cloud Maps as a background overlay
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
-                // Set the map's unit of measurement to meters(Spherical Mercator)
-                MapView.MapUnit = GeographyUnit.Meter;
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-                // Add Cloud Maps as a background overlay
-                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
-
-                // Project the layer's data to match the projection of the map
-                var coyoteSightings = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Coyote_Sightings.shp")
-                {
-                    FeatureSource =
+            // Project the layer's data to match the projection of the map
+            var coyoteSightings = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Coyote_Sightings.shp")
+            {
+                FeatureSource =
                     {
                         ProjectionConverter = new ProjectionConverter(2276, 3857)
                     }
-                };
+            };
 
-                // Add the layer to a layer overlay
-                var layerOverlay = new LayerOverlay
-                {
-                    TileType = TileType.SingleTile
-                };
-                layerOverlay.Layers.Add(coyoteSightings);
-
-                // Add the overlay to the map
-                MapView.Overlays.Add(layerOverlay);
-
-                // Apply Cluster Point Style
-                AddClusterPointStyle(coyoteSightings);
-
-                // Set the map extent
-                MapView.CenterPoint = new PointShape(-10780320,3915120);
-                MapView.CurrentScale = 288900;
-
-                await MapView.RefreshAsync();
-            }
-            catch 
+            // Add the layer to a layer overlay
+            var layerOverlay = new LayerOverlay
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+                TileType = TileType.SingleTile
+            };
+            layerOverlay.Layers.Add(coyoteSightings);
+
+            // Add the overlay to the map
+            MapView.Overlays.Add(layerOverlay);
+
+            // Apply Cluster Point Style
+            AddClusterPointStyle(coyoteSightings);
+
+            // Set the map extent
+            MapView.CenterPoint = new PointShape(-10780320, 3915120);
+            MapView.CurrentScale = 288900;
+
+            _ = MapView.RefreshAsync();
         }
 
         /// <summary>

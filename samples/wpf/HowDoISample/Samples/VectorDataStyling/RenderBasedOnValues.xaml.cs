@@ -18,58 +18,50 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, project and style the friscoCrime layer
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            // Set the map's unit of measurement to meters(Spherical Mercator)
+            MapView.MapUnit = GeographyUnit.Meter;
+
+            // Add Cloud Maps as a background overlay
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
-                // Set the map's unit of measurement to meters(Spherical Mercator)
-                MapView.MapUnit = GeographyUnit.Meter;
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-                // Add Cloud Maps as a background overlay
-                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            var friscoCrime = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Crime.shp");
+            var legend = new LegendAdornmentLayer();
 
-                var friscoCrime = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Crime.shp");
-                var legend = new LegendAdornmentLayer();
+            // Project the layer's data to match the projection of the map
+            friscoCrime.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
-                // Project the layer's data to match the projection of the map
-                friscoCrime.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+            // Add friscoCrimeLayer to a LayerOverlay
+            var layerOverlay = new LayerOverlay();
+            layerOverlay.Layers.Add(friscoCrime);
 
-                // Add friscoCrimeLayer to a LayerOverlay
-                var layerOverlay = new LayerOverlay();
-                layerOverlay.Layers.Add(friscoCrime);
-
-                // Set up the legend adornment
-                legend.Title = new LegendItem()
-                {
-                    TextStyle = new TextStyle("Crime Categories", new GeoFont("Verdana", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
-                };
-                legend.Location = AdornmentLocation.LowerRight;
-                MapView.AdornmentOverlay.Layers.Add(legend);
-
-                AddValueStyle(friscoCrime, legend);
-
-                // Add layerOverlay to the mapView
-                MapView.Overlays.Add(layerOverlay);
-
-                // Set the map extent
-                MapView.CenterPoint = new PointShape(-10778210, 3914410);
-                MapView.CurrentScale = 18260;
-
-                await MapView.RefreshAsync();
-            }
-            catch 
+            // Set up the legend adornment
+            legend.Title = new LegendItem()
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+                TextStyle = new TextStyle("Crime Categories", new GeoFont("Verdana", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
+            };
+            legend.Location = AdornmentLocation.LowerRight;
+            MapView.AdornmentOverlay.Layers.Add(legend);
+
+            AddValueStyle(friscoCrime, legend);
+
+            // Add layerOverlay to the mapView
+            MapView.Overlays.Add(layerOverlay);
+
+            // Set the map extent
+            MapView.CenterPoint = new PointShape(-10778210, 3914410);
+            MapView.CurrentScale = 18260;
+
+            _ = MapView.RefreshAsync();
         }
 
         /// <summary>

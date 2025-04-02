@@ -45,19 +45,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
         }
 
-        private async void ShowTileID_OnCheckedChanged(object sender, RoutedEventArgs e)
+        private void ShowTileID_OnCheckedChanged(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                ThinkGeoDebugger.DisplayTileId = (sender as CheckBox).IsChecked == true;
-                if (MapView != null)
-                    await MapView.RefreshAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            ThinkGeoDebugger.DisplayTileId = (sender as CheckBox).IsChecked == true;
+            if (MapView != null)
+                _ = MapView.RefreshAsync();
         }
 
         private async void SwitchTileSize_OnCheckedChanged(object sender, RoutedEventArgs e)

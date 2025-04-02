@@ -168,17 +168,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Performs the spatial query when a new polygon is drawn
         /// </summary>
-        private async void OnPolygonDrawn(object sender, TrackEndedTrackInteractiveOverlayEventArgs e)
+        private void OnPolygonDrawn(object sender, TrackEndedTrackInteractiveOverlayEventArgs e)
         {
-            try
-            {
-                await GetFeaturesIntersectsAsync((PolygonShape)e.TrackShape);
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            _ = GetFeaturesIntersectsAsync((PolygonShape)e.TrackShape);
         }
 
         /// <summary>

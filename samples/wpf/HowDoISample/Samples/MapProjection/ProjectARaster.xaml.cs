@@ -18,25 +18,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                // Set the Map Unit to meters (Spherical Mercator)
-                MapView.MapUnit = GeographyUnit.Meter;
+            // Set the Map Unit to meters (Spherical Mercator)
+            MapView.MapUnit = GeographyUnit.Meter;
 
-                // Create an overlay that we can add layers to, and add it to the MapView
-                var layerOverlay = new LayerOverlay();
-                MapView.Overlays.Add(layerOverlay);
+            // Create an overlay that we can add layers to, and add it to the MapView
+            var layerOverlay = new LayerOverlay();
+            MapView.Overlays.Add(layerOverlay);
 
-                // Reproject a raster layer and set the extent
-                await ReprojectRasterLayerAsync(layerOverlay);
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            // Reproject a raster layer and set the extent
+            _ = ReprojectRasterLayerAsync(layerOverlay);
         }
 
         /// <summary>

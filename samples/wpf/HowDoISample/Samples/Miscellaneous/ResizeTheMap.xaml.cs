@@ -23,35 +23,27 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with open street map overlay to show a basic map
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            MapView.MapUnit = GeographyUnit.Meter;
+
+            InitializeMapViewInternal(MapView);
+
+            var overlay = new OpenStreetMapOverlay
             {
-                MapView.MapUnit = GeographyUnit.Meter;
+                WrappingMode = WrappingMode.WrapDateline,
+                WrappingExtent = MaxExtents.OsmMaps
+            };
 
-                InitializeMapViewInternal(MapView);
+            MapView.Overlays.Add("base", overlay);
 
-                var overlay = new OpenStreetMapOverlay
-                {
-                    WrappingMode = WrappingMode.WrapDateline,
-                    WrappingExtent = MaxExtents.OsmMaps
-                };
+            MapView.MapResizeMode = MapResizeMode.PreserveExtent;
 
-                MapView.Overlays.Add("base", overlay);
+            // Get the center point of the MaxExtents.OsmMaps
+            MapView.CenterPoint = MaxExtents.OsmMaps.GetCenterPoint();
+            MapView.CurrentScale = MapUtil.GetScale(MaxExtents.OsmMaps, MapView.ActualWidth, MapView.MapUnit);
 
-                MapView.MapResizeMode = MapResizeMode.PreserveExtent;
-
-                // Get the center point of the MaxExtents.OsmMaps
-                MapView.CenterPoint = MaxExtents.OsmMaps.GetCenterPoint();
-                MapView.CurrentScale = MapUtil.GetScale(MaxExtents.OsmMaps, MapView.ActualWidth, MapView.MapUnit);
-
-                await MapView.RefreshAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            _ = MapView.RefreshAsync();
         }
 
         private async void MapView_CurrentExtentChanging(object sender, CurrentExtentChangingMapViewEventArgs e)
@@ -100,48 +92,40 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             Debug.WriteLine($"Current Scaling changed from {e.OldScale} to {e.NewScale}.");
         }
 
-        private async void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            try
+            if (MapView.CurrentExtent == null)
+                return;
+            Debug.WriteLine($"Size is changed from {e.PreviousSize} to {e.NewSize}");
+            _cancellationTokenSource.Cancel();
+            _cancellationTokenSource = new CancellationTokenSource();
+
+            // Capture the current center of the map
+            var currentCenter = MapView.CurrentExtent.GetCenterPoint();
+
+            // Recalculate the extent only if the width or height actually changed
+            if (e.NewSize.Width != e.PreviousSize.Width || e.NewSize.Height != e.PreviousSize.Height)
             {
-                if (MapView.CurrentExtent == null)
-                    return;
-                Debug.WriteLine($"Size is changed from {e.PreviousSize} to {e.NewSize}");
-                _cancellationTokenSource.Cancel();
-                _cancellationTokenSource = new CancellationTokenSource();
+                // Calculate the extent based on the maximum world extent to prevent duplication
+                var newExtent = GetDrawingExtent(currentCenter, MapView.ActualWidth, MapView.ActualHeight);
 
-                // Capture the current center of the map
-                var currentCenter = MapView.CurrentExtent.GetCenterPoint();
+                // Set custom zoom levels based on the new extent size
+                var baseScale = MapUtil.GetScale(newExtent, MapView.ActualWidth, MapView.MapUnit);
+                var customZoomLevelSet = new ZoomLevelSet();
+                baseScale = Math.Max(baseScale, customZoomLevelSet.ZoomLevel08.Scale);
 
-                // Recalculate the extent only if the width or height actually changed
-                if (e.NewSize.Width != e.PreviousSize.Width || e.NewSize.Height != e.PreviousSize.Height)
+                //var scale = baseScale;
+                var scale = Math.Max(baseScale, customZoomLevelSet.ZoomLevel08.Scale);
+                while (scale > customZoomLevelSet.ZoomLevel20.Scale)
                 {
-                    // Calculate the extent based on the maximum world extent to prevent duplication
-                    var newExtent = GetDrawingExtent(currentCenter, MapView.ActualWidth, MapView.ActualHeight);
-
-                    // Set custom zoom levels based on the new extent size
-                    var baseScale = MapUtil.GetScale(newExtent, MapView.ActualWidth, MapView.MapUnit);
-                    var customZoomLevelSet = new ZoomLevelSet();
-                    baseScale = Math.Max(baseScale, customZoomLevelSet.ZoomLevel08.Scale);
-
-                    //var scale = baseScale;
-                    var scale = Math.Max(baseScale, customZoomLevelSet.ZoomLevel08.Scale);
-                    while (scale > customZoomLevelSet.ZoomLevel20.Scale)
-                    {
-                        customZoomLevelSet.CustomZoomLevels.Add(new ZoomLevel(scale));
-                        scale /= 2;
-                    }
-
-                    MapView.ZoomLevelSet = customZoomLevelSet;
-                    MapView.CenterPoint = newExtent.GetCenterPoint();
-                    MapView.CurrentScale = MapUtil.GetScale(newExtent,MapView.ActualWidth, MapView.MapUnit);
-                    await MapView.RefreshAsync(OverlayRefreshType.Redraw, _cancellationTokenSource.Token);
+                    customZoomLevelSet.CustomZoomLevels.Add(new ZoomLevel(scale));
+                    scale /= 2;
                 }
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+
+                MapView.ZoomLevelSet = customZoomLevelSet;
+                MapView.CenterPoint = newExtent.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(newExtent, MapView.ActualWidth, MapView.MapUnit);
+                _ = MapView.RefreshAsync(OverlayRefreshType.Redraw, _cancellationTokenSource.Token);
             }
         }
 

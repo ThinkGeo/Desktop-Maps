@@ -14,55 +14,47 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InitializeComponent();
         }
 
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            // Set the map's unit of measurement to meters(Spherical Mercator)
+            MapView.MapUnit = GeographyUnit.Meter;
+
+            // Add Cloud Maps as a background overlay
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
-                // Set the map's unit of measurement to meters(Spherical Mercator)
-                MapView.MapUnit = GeographyUnit.Meter;
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-                // Add Cloud Maps as a background overlay
-                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            // Set the map extent
+            MapView.CenterPoint = new PointShape(-10778000, 3913000);
+            MapView.CurrentScale = 65000;
 
-                // Set the map extent
-                MapView.CenterPoint = new PointShape(-10778000, 3913000);
-                MapView.CurrentScale = 65000;
-
-                // Create a layer with polygon data
-                var friscoSubdivisions = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp")
-                {
-                    FeatureSource =
+            // Create a layer with polygon data
+            var friscoSubdivisions = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp")
+            {
+                FeatureSource =
                 {
                     // Project the layer's data to match the projection of the map
                     ProjectionConverter = new ProjectionConverter(2276, 3857)
                 }
-                };
+            };
 
-                // Add the layer to a layer overlay
-                var layerOverlay = new LayerOverlay();
-                layerOverlay.Layers.Add(friscoSubdivisions);
+            // Add the layer to a layer overlay
+            var layerOverlay = new LayerOverlay();
+            layerOverlay.Layers.Add(friscoSubdivisions);
 
-                // Add the overlay to the map
-                MapView.Overlays.Add(layerOverlay);
+            // Add the overlay to the map
+            MapView.Overlays.Add(layerOverlay);
 
-                // Add the area style to the historicSites layer
-                AddAreaStyle(friscoSubdivisions);
+            // Add the area style to the historicSites layer
+            AddAreaStyle(friscoSubdivisions);
 
-                await MapView.RefreshAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            _ = MapView.RefreshAsync();
         }
 
         /// <summary>

@@ -18,37 +18,29 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            // Set the map's unit of measurement to meters(Spherical Mercator)
+            MapView.MapUnit = GeographyUnit.Meter;
+
+            // Add Cloud Maps as a background overlay
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
-                // Set the map's unit of measurement to meters(Spherical Mercator)
-                MapView.MapUnit = GeographyUnit.Meter;
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-                // Add Cloud Maps as a background overlay
-                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            // Set the map extent
+            MapView.CenterPoint = new PointShape(-10777290, 3908740);
+            MapView.CurrentScale = 9030;
 
-                // Set the map extent
-                MapView.CenterPoint = new PointShape(-10777290,3908740);
-                MapView.CurrentScale = 9030;
+            AddSimpleMarkers();
 
-                AddSimpleMarkers();
-
-                await MapView.RefreshAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            _ = MapView.RefreshAsync();
         }
 
         /// <summary>
@@ -63,30 +55,22 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Adds a marker to the simpleMarkerOverlay where the map click event occurred.
         /// </summary>
-        private async void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
+        private void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
         {
-            try
-            { 
-                var simpleMarkerOverlay = (SimpleMarkerOverlay)MapView.Overlays["simpleMarkerOverlay"];
+            var simpleMarkerOverlay = (SimpleMarkerOverlay)MapView.Overlays["simpleMarkerOverlay"];
 
-                // Create a marker at the position the mouse was clicked
-                var marker = new Marker(e.WorldLocation)
-                {
-                    ImageSource = new BitmapImage(new Uri("/Resources/AQUA.png", UriKind.RelativeOrAbsolute)),
-                    Width = 20,
-                    Height = 34,
-                    YOffset = -17
-                };
-
-                // Add the marker to the simpleMarkerOverlay and refresh the map
-                simpleMarkerOverlay.Markers.Add(marker);
-                await simpleMarkerOverlay.RefreshAsync();
-            }
-            catch 
+            // Create a marker at the position the mouse was clicked
+            var marker = new Marker(e.WorldLocation)
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+                ImageSource = new BitmapImage(new Uri("/Resources/AQUA.png", UriKind.RelativeOrAbsolute)),
+                Width = 20,
+                Height = 34,
+                YOffset = -17
+            };
+
+            // Add the marker to the simpleMarkerOverlay and refresh the map
+            simpleMarkerOverlay.Markers.Add(marker);
+            _ = simpleMarkerOverlay.RefreshAsync();
         }
 
         /// <summary>

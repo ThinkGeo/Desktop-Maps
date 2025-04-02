@@ -214,23 +214,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Center the map on a point when it's selected in the UI
         /// </summary>
-        private async void LsbElevations_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void LsbElevations_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            try
-            { 
-                if (LsbElevations.SelectedItem == null) return;
-                // Set the map extent to the selected point
-                var elevationPoint = (CloudElevationPointResult)LsbElevations.SelectedItem;
-                var elevationPointLayerBBox = elevationPoint.Point.GetBoundingBox();
-                MapView.CenterPoint = elevationPointLayerBBox.GetCenterPoint();
-                MapView.CurrentScale = MapUtil.GetScale(elevationPointLayerBBox, MapView.ActualWidth, MapView.MapUnit);
-                await MapView.RefreshAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            if (LsbElevations.SelectedItem == null) return;
+            // Set the map extent to the selected point
+            var elevationPoint = (CloudElevationPointResult)LsbElevations.SelectedItem;
+            var elevationPointLayerBBox = elevationPoint.Point.GetBoundingBox();
+            MapView.CenterPoint = elevationPointLayerBBox.GetCenterPoint();
+            MapView.CurrentScale = MapUtil.GetScale(elevationPointLayerBBox, MapView.ActualWidth, MapView.MapUnit);
+            _ = MapView.RefreshAsync();
         }
 
         /// <summary>

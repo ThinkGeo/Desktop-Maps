@@ -18,57 +18,41 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Add the WMS layer to the map
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                // It is important to set the map unit first to either feet, meters or decimal degrees.
-                MapView.MapUnit = GeographyUnit.DecimalDegree;
+            // It is important to set the map unit first to either feet, meters or decimal degrees.
+            MapView.MapUnit = GeographyUnit.DecimalDegree;
 
-                // This code sets up the sample to use the overlay versus the layer.
-                UseLayer(DrawingExceptionMode.DrawException, false);
+            // This code sets up the sample to use the overlay versus the layer.
+            UseLayer(DrawingExceptionMode.DrawException, false);
 
-                // Set the current extent to a local area.
-                MapView.CenterPoint = new PointShape(-96.82631,33.13364);
-                MapView.CurrentScale = 33160;
+            // Set the current extent to a local area.
+            MapView.CenterPoint = new PointShape(-96.82631, 33.13364);
+            MapView.CurrentScale = 33160;
 
-                // Refresh the map.
-                await MapView.RefreshAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            // Refresh the map.
+            _ = MapView.RefreshAsync();
         }
 
-        private async void DrawingExceptionMode_Checked(object sender, RoutedEventArgs e)
+        private void DrawingExceptionMode_Checked(object sender, RoutedEventArgs e)
         {
-            try
-            { 
-                var button = (RadioButton)sender;
-                if (button.Content == null) return;
-                TxtException.Text = "";
-                switch (button.Content.ToString())
-                {
-                    case "Throw Exception":
-                        UseLayer(DrawingExceptionMode.ThrowException, false);
-                        break;
-                    case "Customize Drawing Exception":
-                        UseLayer(DrawingExceptionMode.DrawException, true);
-                        break;
-                    case "Draw Exception":
-                    default:
-                        UseLayer(DrawingExceptionMode.DrawException, false);
-                        break;
-                }
-                await MapView.RefreshAsync();
-            }
-            catch 
+            var button = (RadioButton)sender;
+            if (button.Content == null) return;
+            TxtException.Text = "";
+            switch (button.Content.ToString())
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+                case "Throw Exception":
+                    UseLayer(DrawingExceptionMode.ThrowException, false);
+                    break;
+                case "Customize Drawing Exception":
+                    UseLayer(DrawingExceptionMode.DrawException, true);
+                    break;
+                case "Draw Exception":
+                default:
+                    UseLayer(DrawingExceptionMode.DrawException, false);
+                    break;
             }
+            _ = MapView.RefreshAsync();
         }
 
         private void UseLayer(DrawingExceptionMode drawingExceptionMode, bool drawCustomException)

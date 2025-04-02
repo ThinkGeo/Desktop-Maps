@@ -151,17 +151,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Perform the spatial query when a new point is drawn
         /// </summary>
-        private async void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
+        private void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
         {
-            try
-            {
-                await GetFeaturesWithinDistanceAsync(e.WorldLocation);
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            _ = GetFeaturesWithinDistanceAsync(e.WorldLocation);
         }
 
         /// <summary>

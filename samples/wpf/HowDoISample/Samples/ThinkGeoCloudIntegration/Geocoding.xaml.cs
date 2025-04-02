@@ -23,49 +23,41 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
-                // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-                // Set the map's unit of measurement to meters (Spherical Mercator)
-                MapView.MapUnit = GeographyUnit.Meter;
+            // Set the map's unit of measurement to meters (Spherical Mercator)
+            MapView.MapUnit = GeographyUnit.Meter;
 
-                // Create a marker overlay to display the geocoded locations that will be generated, and add it to the map
-                MarkerOverlay geocodedLocationsOverlay = new SimpleMarkerOverlay();
-                MapView.Overlays.Add("Geocoded Locations Overlay", geocodedLocationsOverlay);
+            // Create a marker overlay to display the geocoded locations that will be generated, and add it to the map
+            MarkerOverlay geocodedLocationsOverlay = new SimpleMarkerOverlay();
+            MapView.Overlays.Add("Geocoded Locations Overlay", geocodedLocationsOverlay);
 
-                // Set the map extent to Frisco, TX
-                MapView.CenterPoint = new PointShape(-10778720, 3915154);
-                MapView.CurrentScale = 202090;
+            // Set the map extent to Frisco, TX
+            MapView.CenterPoint = new PointShape(-10778720, 3915154);
+            MapView.CurrentScale = 202090;
 
-                // Initialize the GeocodingCloudClient using our ThinkGeo Cloud credentials
-                _geocodingCloudClient = new GeocodingCloudClient
-                {
-                    ClientId = SampleKeys.ClientId2,
-                    ClientSecret = SampleKeys.ClientSecret2,
-                };
-
-                CboSearchType.SelectedIndex = 0;
-                CboLocationType.SelectedIndex = 0;
-
-                await MapView.RefreshAsync();
-            }
-            catch 
+            // Initialize the GeocodingCloudClient using our ThinkGeo Cloud credentials
+            _geocodingCloudClient = new GeocodingCloudClient
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+                ClientId = SampleKeys.ClientId2,
+                ClientSecret = SampleKeys.ClientSecret2,
+            };
+
+            CboSearchType.SelectedIndex = 0;
+            CboLocationType.SelectedIndex = 0;
+
+            _ = MapView.RefreshAsync();
         }
 
         /// <summary>

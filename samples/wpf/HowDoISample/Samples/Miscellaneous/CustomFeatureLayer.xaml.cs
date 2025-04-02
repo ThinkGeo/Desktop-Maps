@@ -15,48 +15,40 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InitializeComponent();
         }
 
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            // Set the map's unit of measurement to meters(Spherical Mercator)
+            MapView.MapUnit = GeographyUnit.Meter;
+
+            // Add Cloud Maps as a background overlay
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
-                // Set the map's unit of measurement to meters(Spherical Mercator)
-                MapView.MapUnit = GeographyUnit.Meter;
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-                // Add Cloud Maps as a background overlay
-                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
-
-                var layerOverlay = new LayerOverlay
-                {
-                    TileType = TileType.SingleTile
-                };
-                MapView.Overlays.Add(layerOverlay);
-
-                var radiusLayer = new RadiusLayer
-                {
-                    RingDistanceUnit = DistanceUnit.Mile,
-                    RingGeography = GeographyUnit.Meter,
-                    RingDistance = 5
-                };
-
-                layerOverlay.Layers.Add(radiusLayer);
-                MapView.CenterPoint = new PointShape(-10780320,3915120);
-                MapView.CurrentScale = 288900;
-
-                await MapView.RefreshAsync();
-            }
-            catch 
+            var layerOverlay = new LayerOverlay
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+                TileType = TileType.SingleTile
+            };
+            MapView.Overlays.Add(layerOverlay);
+
+            var radiusLayer = new RadiusLayer
+            {
+                RingDistanceUnit = DistanceUnit.Mile,
+                RingGeography = GeographyUnit.Meter,
+                RingDistance = 5
+            };
+
+            layerOverlay.Layers.Add(radiusLayer);
+            MapView.CenterPoint = new PointShape(-10780320, 3915120);
+            MapView.CurrentScale = 288900;
+
+            _ = MapView.RefreshAsync();
         }
 
         public void Dispose()

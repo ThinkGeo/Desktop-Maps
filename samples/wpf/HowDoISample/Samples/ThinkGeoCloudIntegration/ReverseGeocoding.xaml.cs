@@ -21,70 +21,62 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay, as well as several feature layers to display the reverse geocoding search area and locations
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
-                // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-                // Set the map's unit of measurement to meters (Spherical Mercator)
-                MapView.MapUnit = GeographyUnit.Meter;
+            // Set the map's unit of measurement to meters (Spherical Mercator)
+            MapView.MapUnit = GeographyUnit.Meter;
 
-                // Create a new feature layer to display the search radius of the reverse geocode and create a style for it
-                var searchRadiusFeatureLayer = new InMemoryFeatureLayer();
-                searchRadiusFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = new AreaStyle(new GeoPen(new GeoColor(100, GeoColors.Blue)), new GeoSolidBrush(new GeoColor(10, GeoColors.Blue)));
-                searchRadiusFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Cross, 20, GeoBrushes.Red);
-                searchRadiusFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            // Create a new feature layer to display the search radius of the reverse geocode and create a style for it
+            var searchRadiusFeatureLayer = new InMemoryFeatureLayer();
+            searchRadiusFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = new AreaStyle(new GeoPen(new GeoColor(100, GeoColors.Blue)), new GeoSolidBrush(new GeoColor(10, GeoColors.Blue)));
+            searchRadiusFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Cross, 20, GeoBrushes.Red);
+            searchRadiusFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-                // Create a new feature layer to display selected locations returned from the reverse geocode and create styles for it
-                var selectedResultItemFeatureLayer = new InMemoryFeatureLayer();
-                // Add a point, line, and polygon style to the layer. These styles control how the shapes will be drawn
-                selectedResultItemFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 24, GeoBrushes.MediumPurple, GeoPens.Purple);
-                selectedResultItemFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.MediumPurple, 6, false);
-                selectedResultItemFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(80, GeoColors.MediumPurple), GeoColors.MediumPurple, 2);
-                selectedResultItemFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            // Create a new feature layer to display selected locations returned from the reverse geocode and create styles for it
+            var selectedResultItemFeatureLayer = new InMemoryFeatureLayer();
+            // Add a point, line, and polygon style to the layer. These styles control how the shapes will be drawn
+            selectedResultItemFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 24, GeoBrushes.MediumPurple, GeoPens.Purple);
+            selectedResultItemFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.MediumPurple, 6, false);
+            selectedResultItemFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(80, GeoColors.MediumPurple), GeoColors.MediumPurple, 2);
+            selectedResultItemFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-                // Create an overlay and add the feature layers to it
-                var searchFeaturesOverlay = new LayerOverlay();
-                searchFeaturesOverlay.Layers.Add("Search Radius", searchRadiusFeatureLayer);
-                searchFeaturesOverlay.Layers.Add("Result Feature Geometry", selectedResultItemFeatureLayer);
+            // Create an overlay and add the feature layers to it
+            var searchFeaturesOverlay = new LayerOverlay();
+            searchFeaturesOverlay.Layers.Add("Search Radius", searchRadiusFeatureLayer);
+            searchFeaturesOverlay.Layers.Add("Result Feature Geometry", selectedResultItemFeatureLayer);
 
-                // Create a popup overlay to display the best match
-                var bestMatchPopupOverlay = new PopupOverlay();
+            // Create a popup overlay to display the best match
+            var bestMatchPopupOverlay = new PopupOverlay();
 
-                // Add the overlays to the map
-                MapView.Overlays.Add("Search Features Overlay", searchFeaturesOverlay);
-                MapView.Overlays.Add("Best Match Popup Overlay", bestMatchPopupOverlay);
+            // Add the overlays to the map
+            MapView.Overlays.Add("Search Features Overlay", searchFeaturesOverlay);
+            MapView.Overlays.Add("Best Match Popup Overlay", bestMatchPopupOverlay);
 
-                // Set the map extent to Frisco, TX
-                MapView.CenterPoint = new PointShape(-10778720, 3915154);
-                MapView.CurrentScale = 202090;
+            // Set the map extent to Frisco, TX
+            MapView.CenterPoint = new PointShape(-10778720, 3915154);
+            MapView.CurrentScale = 202090;
 
-                // Initialize the ReverseGeocodingCloudClient with our ThinkGeo Cloud credentials
-                _reverseGeocodingCloudClient = new ReverseGeocodingCloudClient
-                {
-                    ClientId = SampleKeys.ClientId2,
-                    ClientSecret = SampleKeys.ClientSecret2,
-                };
-
-                CboLocationCategories.SelectedIndex = 0;
-
-                await MapView.RefreshAsync();
-            }
-            catch 
+            // Initialize the ReverseGeocodingCloudClient with our ThinkGeo Cloud credentials
+            _reverseGeocodingCloudClient = new ReverseGeocodingCloudClient
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+                ClientId = SampleKeys.ClientId2,
+                ClientSecret = SampleKeys.ClientSecret2,
+            };
+
+            CboLocationCategories.SelectedIndex = 0;
+
+            _ = MapView.RefreshAsync();
         }
 
         /// <summary>

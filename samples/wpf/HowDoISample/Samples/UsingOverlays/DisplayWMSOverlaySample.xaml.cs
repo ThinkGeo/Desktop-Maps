@@ -17,35 +17,27 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with a background overlay and set the map's extent to Frisco, Tx.
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                // Set the map's unit of measurement to meters(Spherical Mercator)
-                MapView.MapUnit = GeographyUnit.Meter;
+            // Set the map's unit of measurement to meters(Spherical Mercator)
+            MapView.MapUnit = GeographyUnit.Meter;
 
-                // Add a simple background overlay
-                MapView.BackgroundOverlay.BackgroundBrush = GeoBrushes.AliceBlue;
+            // Add a simple background overlay
+            MapView.BackgroundOverlay.BackgroundBrush = GeoBrushes.AliceBlue;
 
-                // Set the map extent
-                MapView.CenterPoint = new PointShape(-10778000, 3912000);
-                MapView.CurrentScale = 77000;
+            // Set the map extent
+            MapView.CenterPoint = new PointShape(-10778000, 3912000);
+            MapView.CurrentScale = 77000;
 
-                // Create a WmsOverlay and add it to the map.
-                var wmsOverlay = new WmsOverlay(new Uri("http://ows.mundialis.de/services/service"));
-                wmsOverlay.AxisOrder = WmsAxisOrder.XY;
-                wmsOverlay.Crs = "EPSG:3857"; // Make sure to match the WMS CRS to the Map's projection
-                wmsOverlay.ActiveLayerNames.Add("OSM-WMS");
-                wmsOverlay.ActiveStyleNames.Add("default");
-                MapView.Overlays.Add(wmsOverlay);
+            // Create a WmsOverlay and add it to the map.
+            var wmsOverlay = new WmsOverlay(new Uri("http://ows.mundialis.de/services/service"));
+            wmsOverlay.AxisOrder = WmsAxisOrder.XY;
+            wmsOverlay.Crs = "EPSG:3857"; // Make sure to match the WMS CRS to the Map's projection
+            wmsOverlay.ActiveLayerNames.Add("OSM-WMS");
+            wmsOverlay.ActiveStyleNames.Add("default");
+            MapView.Overlays.Add(wmsOverlay);
 
-                await MapView.RefreshAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            _ = MapView.RefreshAsync();
         }
 
         public void Dispose()

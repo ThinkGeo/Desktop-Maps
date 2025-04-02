@@ -18,38 +18,30 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
+            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
-                // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
-                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-                // set the map extent to Frisco, TX
-                MapView.CenterPoint = new PointShape(-10779270,3911750);
-                MapView.CurrentScale = 288900;
+            // set the map extent to Frisco, TX
+            MapView.CenterPoint = new PointShape(-10779270, 3911750);
+            MapView.CurrentScale = 288900;
 
-                // Add a marker in the center of the map. 
-                var simpleMarkerOverlay = new SimpleMarkerOverlay();
-                var marker = new Marker(MapView.CurrentExtent.GetCenterPoint());
-                simpleMarkerOverlay.Markers.Add(marker);
-                MapView.Overlays.Add(simpleMarkerOverlay);
+            // Add a marker in the center of the map. 
+            var simpleMarkerOverlay = new SimpleMarkerOverlay();
+            var marker = new Marker(MapView.CurrentExtent.GetCenterPoint());
+            simpleMarkerOverlay.Markers.Add(marker);
+            MapView.Overlays.Add(simpleMarkerOverlay);
 
-                await MapView.RefreshAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            _ = MapView.RefreshAsync();
         }
         private void btnGetSnapshot_Click(object sender, RoutedEventArgs e)
         {
