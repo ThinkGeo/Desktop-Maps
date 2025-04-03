@@ -24,7 +24,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.DecimalDegree;
 
             // This code sets up the sample to use the overlay versus the layer.
-            UseLayer(DrawingExceptionMode.DrawException, false);
+            CreateAnOverlay(false);
 
             // Set the current extent to a local area.
             MapView.CenterPoint = new PointShape(-96.82631, 33.13364);
@@ -41,46 +41,36 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             TxtException.Text = "";
             switch (button.Content.ToString())
             {
-                case "Throw Exception":
-                    UseLayer(DrawingExceptionMode.ThrowException, false);
-                    break;
-                case "Customize Drawing Exception":
-                    UseLayer(DrawingExceptionMode.DrawException, true);
+                case "Draw Customized Exception":
+                    CreateAnOverlay(true);
                     break;
                 case "Draw Exception":
                 default:
-                    UseLayer(DrawingExceptionMode.DrawException, false);
+                    CreateAnOverlay(false);
                     break;
             }
             _ = MapView.RefreshAsync();
         }
 
-        private void UseLayer(DrawingExceptionMode drawingExceptionMode, bool drawCustomException)
+        private void CreateAnOverlay(bool drawCustomException)
         {
             // Clear out the overlays so we start fresh
             MapView.Overlays.Clear();
 
             // Create an overlay that we will add the layer to.
-            var staticOverlay = new LayerOverlay
+            var staticOverlay = new LayerOverlay();
+            staticOverlay.ThrowingException += (sender, e) =>
             {
-                DrawingExceptionMode = drawingExceptionMode
+                TxtException.Text = e.Exception?.InnerException.Message;
+                e.Handled = true;
             };
-            if (drawingExceptionMode == DrawingExceptionMode.ThrowException)
-            {
-                staticOverlay.ThrowingException += (sender, e) =>
-                {
-                    TxtException.Text = e.Exception?.InnerException.Message;
-                    e.Handled = true;
-                };
-            }
-
             MapView.Overlays.Add(staticOverlay);
 
             // Create the WMS layer using the parameters below.
             // This is a public service and is very slow most of the time.
             var wmsImageLayer = new CustomWmsLayer(new Uri("http://not_exist.com/services/service"), drawCustomException)
                 {
-                    DrawingExceptionMode = drawingExceptionMode
+                    DrawingExceptionMode = DrawingExceptionMode.DrawAndThrowException
                 };
 
             // Add the layer to the overlay.

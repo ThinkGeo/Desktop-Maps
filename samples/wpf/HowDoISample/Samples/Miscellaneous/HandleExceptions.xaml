@@ -31,9 +31,8 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Label Grid.Column="1" Grid.Row="0" Content="Overlay Exception:" FontSize="16" FontWeight="Bold"></Label>
-            <RadioButton Grid.Column="1" Grid.Row="1" Checked="DrawingExceptionMode_Checked" IsChecked="True" Content="Draw Exception" />
-            <RadioButton Grid.Column="1" Grid.Row="2" Checked="DrawingExceptionMode_Checked" Content="Customize Drawing Exception" />
-            <RadioButton Grid.Column="1" Grid.Row="3" Checked="DrawingExceptionMode_Checked" Content="Throw Exception" />
+            <RadioButton Grid.Column="1" Grid.Row="1" Checked="DrawingExceptionMode_Checked" IsChecked="True" Content="Draw and Throw Exception" />
+            <RadioButton Grid.Column="1" Grid.Row="2" Checked="DrawingExceptionMode_Checked" Content="Draw Customized Exception" />
             <Label Grid.Column="1" Grid.Row="4" Content="The exception message:" />
             <TextBox x:Name="TxtException" Grid.Column="1" Grid.Row="5" IsReadOnly="True" TextWrapping="Wrap" Height="50"/>
         </Grid>

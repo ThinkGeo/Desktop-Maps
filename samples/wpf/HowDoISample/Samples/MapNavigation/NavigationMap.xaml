@@ -9,23 +9,29 @@
     <Grid>
         <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded"/>
         <Grid Grid.Column="1" Grid.Row="0">
-            <Label Grid.Column="1" Grid.Row="0" Content="Zooming:" FontSize="16" FontWeight="Bold"></Label>
-            <Grid Grid.Column="1" Grid.Row="1" x:Name="ZoomButtonGrid">
-                <Button x:Name="ZoomIn" Click="ZoomIn_Click" Grid.Column="0" Padding="4">
-                    <Image Source="/Resources/ZoomIn.png" Stretch="None"></Image>
-                </Button>
-                <Button x:Name="ZoomOut" Click="ZoomOut_Click" Grid.Column="1" Padding="4">
-                    <Image Source="/Resources/ZoomOut.png" Stretch="None"></Image>
-                </Button>
+            
+            <Label Grid.Column="1" Grid.Row="0" Content="Zooming:" FontSize="16" FontWeight="Bold"/>
+            <Grid Grid.Column="1" Grid.Row="1">
+                <Button Click="ZoomIn_Click" Grid.Column="0" Content="Zoom In"/>
+                <Button Click="ZoomOut_Click" Grid.Column="1" Content="Zoom Out"/>
 
+                <Button Content="Zoom To Scale:" Click="ZoomToScale_Click" Grid.Row="2" Grid.Column="0"/>
+                <TextBox Grid.Column="1" Grid.Row="2" x:Name="ZoomScale" Text="10000000" VerticalAlignment="Bottom"/>
+          
                 <!-- Zoom Button Grid Layout-->
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
             </Grid>
 
-            <Label Grid.Column="1" Grid.Row="2" Content="Panning:" FontSize="16" FontWeight="Bold"></Label>
+            <Label Grid.Column="1" Grid.Row="2" Content="Panning:" FontSize="16" FontWeight="Bold"/>
             <Grid Grid.Column="1" Grid.Row="3" x:Name="PanButtonGrid">
                 <Button x:Name="PanNorth" Click="PanArrow_Click" Grid.Column="2" Grid.Row="0" Padding="2" Margin="0" Height="24" Width="24">
                     <Image Source="/Resources/North.gif" Stretch="Uniform"></Image>
@@ -54,14 +60,12 @@
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
             </Grid>
-
           
-            <Label Grid.Column="1" Grid.Row="6" Content="Rotating:" FontSize="16" FontWeight="Bold"></Label>
-            <Grid Grid.Column="1" Grid.Row="8">
+            <Label Grid.Column="1" Grid.Row="4" Content="Rotating:" FontSize="16" FontWeight="Bold"/>
+            <Grid Grid.Column="1" Grid.Row="5">
                 <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding ElementName=RotateAngle, Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="28" DockPanel.Dock="Right"></TextBox>
                 <Slider Grid.Column="0" Grid.Row="0" x:Name="RotateAngle" Maximum="360" Value="0" AutoToolTipPlacement="TopLeft" TickFrequency="15" IsSnapToTickEnabled="True" ValueChanged="RotateAngle_OnValueChanged"/>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -69,7 +73,13 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
             </Grid>
-
+            <Label Grid.Column="1" Grid.Row="6" Content="Map Resize Mode:" FontSize="16" FontWeight="Bold"></Label>
+            <StackPanel Grid.Row="7" Grid.Column="1">
+                <RadioButton Content="PreserveScale" Checked="ToggleButton_OnChecked" IsChecked="True" />    
+                <RadioButton Content="PreserveScaleAndCenter" Checked="ToggleButton_OnChecked"/>    
+                <RadioButton Content="PreserveExtent" Checked="ToggleButton_OnChecked"/>    
+            </StackPanel>
+            
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />
                 <ColumnDefinition Width="240" />
@@ -83,13 +93,19 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-
         </Grid>
-        <TextBlock Grid.Column="0" Grid.Row="0" Background="gray" VerticalAlignment="Bottom" HorizontalAlignment="Center" 
-                   Width="200" Height="40" FontSize="30"
-                   Text="{Binding ElementName=MapView, Path=CurrentZoom, StringFormat={}Zoom: {0:N2}}"/>
+        <StackPanel Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Center">
+            <TextBlock Grid.Column="0" Grid.Row="0" Background="gray" 
+                       VerticalAlignment="Bottom" HorizontalAlignment="Center" 
+                       Width="200" Height="40" FontSize="30"
+                       Text="{Binding ElementName=MapView, Path=CurrentZoom, StringFormat={}Zoom: {0:N2}}"/>
+            <TextBlock Grid.Column="0" Grid.Row="0" Background="gray" 
+                       VerticalAlignment="Bottom" HorizontalAlignment="Center" 
+                       Width="300" Height="40" FontSize="30"
+                       Text="{Binding ElementName=MapView, Path=CurrentScale, StringFormat={}Scale: {0:N0}}"/>
+        </StackPanel>
         <!-- Grid Layout -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -104,12 +120,9 @@
         <Style TargetType="Grid">
             <Setter Property="Background" Value="DimGray"></Setter>
         </Style>
-        <Style TargetType="TextBox">
-            <Setter Property="Height" Value="20"></Setter>
+        <Style TargetType="RadioButton">
+            <Setter Property="Foreground" Value="White"></Setter>
         </Style>
-        <Style TargetType="Button">
-            <Setter Property="Height" Value="22"></Setter>
-            <Setter Property="Margin" Value="0,10,0,0"></Setter>
-        </Style>
+
     </UserControl.Resources>
 </UserControl>

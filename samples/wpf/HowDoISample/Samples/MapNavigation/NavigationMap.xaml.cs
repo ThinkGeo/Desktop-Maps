@@ -36,8 +36,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
-            MapView.CenterPoint = new PointShape(-10778000, 3912000);
-            MapView.CurrentScale = 77000;
+            MapView.CenterPoint = new PointShape(-10519865,4578709);
+            MapView.CurrentScale = 35000000;
 
             _ = MapView.RefreshAsync();
         }
@@ -60,6 +60,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _ = MapView.ZoomOutAsync();
         }
 
+        private void ZoomToScale_Click(object sender, RoutedEventArgs e)
+        {
+             _ = MapView.ZoomToScaleAsync(Convert.ToDouble(ZoomScale.Text));
+        }
         /// <summary>
         /// Pan the map in a direction using the PanDirection enum and set how far to pan based on percentage.
         /// The same effect can be achieved by using the ZoomPanBar arrows on the upper left of the map or by left click dragging anywhere on the map.
@@ -101,6 +105,25 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             _ = MapView.ZoomToAsync(MapView.CurrentExtent.GetCenterPoint(), MapView.CurrentScale,
                 RotateAngle.Value, _cancellationTokenSource.Token);
+        }
+
+        private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
+        {
+            var radioButton = sender as RadioButton;
+            if (radioButton == null)
+                return;
+            switch (radioButton.Content)
+            {
+                case "PreserveScale":
+                    MapView.MapResizeMode = MapResizeMode.PreserveScale;
+                    break;
+                case "PreserveScaleAndCenter":
+                    MapView.MapResizeMode = MapResizeMode.PreserveScaleAndCenter;
+                    break;
+                case "PreserveExtent":
+                    MapView.MapResizeMode = MapResizeMode.PreserveExtent;
+                    break;
+            }
         }
     }
 }
