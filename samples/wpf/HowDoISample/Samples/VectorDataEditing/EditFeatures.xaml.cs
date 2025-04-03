@@ -38,6 +38,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Set the map extent
             MapView.CenterPoint = new PointShape(-10778000, 3912000);
             MapView.CurrentScale = 77000;
+            MapView.MapClick += MapView_MapClick;
 
             // Create the layer that will store the drawn shapes
             var featureLayer = new InMemoryFeatureLayer();
@@ -115,9 +116,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Refresh the overlays to show latest results
             await MapView.RefreshAsync(new Overlay[] { MapView.TrackOverlay, MapView.EditOverlay, layerOverlay });
-
-            // In case the user was in Delete Mode, remove the event handler to avoid deleting features unintentionally
-            MapView.MapClick -= MapView_MapClick;
         }
 
         /// <summary>
@@ -233,33 +231,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
         }
 
-        /// <summary>
-        /// Set the mode to delete features ont the map
-        /// </summary>
-        private async void DeleteShape_Click(object sender, RoutedEventArgs e)
+        private void DeleteShape_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
-                var featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
+            var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
+            var featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
 
-                // Update the layer's features from any previous mode
-                await UpdateLayerFeaturesAsync(featureLayer, layerOverlay);
+            // Set TrackMode to None, so that the user will no longer draw shapes
+            MapView.TrackOverlay.TrackMode = TrackMode.None;
 
-                // Set TrackMode to None, so that the user will no longer draw shapes
-                MapView.TrackOverlay.TrackMode = TrackMode.None;
+            // Update instructions
+            Instructions.Text = "Delete Shape Mode - Deletes a shape by left mouse clicking on the shape.";
 
-                // Add the event handler that will delete features on map click
-                MapView.MapClick += MapView_MapClick;
-
-                // Update instructions
-                Instructions.Text = "Delete Shape Mode - Deletes a shape by left mouse clicking on the shape.";
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            // Update the layer's features from any previous mode
+            _ = UpdateLayerFeaturesAsync(featureLayer, layerOverlay);
         }
 
         /// <summary>
@@ -267,6 +251,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void MapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
+            if (DeleteShape.IsChecked != null && !DeleteShape.IsChecked.Value)
+                return;
             var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
             var featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
 
