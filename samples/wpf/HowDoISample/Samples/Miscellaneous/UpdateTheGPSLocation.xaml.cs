@@ -71,11 +71,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             this.Unloaded -= RefreshDynamicItems_Unloaded;
             this.Unloaded += RefreshDynamicItems_Unloaded;
 
-            //  Here we call the method below to start the background data feed
-            StartDataFeed();
-
-            // Refresh the map
-            _ = MapView.RefreshAsync();
+            // Trigger a refresh and start the data feed after it completes
+            _ = MapView.RefreshAsync().ContinueWith(_ => StartDataFeed(), TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         private void StartDataFeed()

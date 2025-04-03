@@ -60,7 +60,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             railway.Open();
             var railwayLayerBBox = railway.GetBoundingBox();
             MapView.CenterPoint = railwayLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(railwayLayerBBox, MapView.ActualWidth, MapView.MapUnit);
+            MapView.CurrentScale = MapUtil.GetScale(railwayLayerBBox, MapView.ActualWidth, MapView.MapUnit) * 2.5; // Multiply the current scale by 2.5 to enhance the map extent.
             railway.Close();
 
             // Add LayerOverlay to Map

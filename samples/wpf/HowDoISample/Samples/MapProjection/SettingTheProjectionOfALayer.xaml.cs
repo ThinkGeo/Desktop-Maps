@@ -69,7 +69,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             subdivisionsLayer.Open();
             var subdivisionsLayerBBox = subdivisionsLayer.GetBoundingBox();
             MapView.CenterPoint = subdivisionsLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(subdivisionsLayerBBox, MapView.ActualWidth, MapView.MapUnit);
+            MapView.CurrentScale = MapUtil.GetScale(subdivisionsLayerBBox, MapView.ActualWidth, MapView.MapUnit) * 1.5; // Multiply the current scale by 1.5 to enhance the map extent.
             subdivisionsLayer.Close();
 
             await MapView.RefreshAsync();

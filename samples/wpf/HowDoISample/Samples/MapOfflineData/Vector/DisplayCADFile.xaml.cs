@@ -54,7 +54,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _cadLayer.Open();
             var cadLayerBBox = _cadLayer.GetBoundingBox();
             MapView.CenterPoint = cadLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(cadLayerBBox, MapView.ActualWidth, MapView.MapUnit);
+            MapView.CurrentScale = MapUtil.GetScale(cadLayerBBox, MapView.ActualWidth, MapView.MapUnit) * 2.0; // Multiply the current scale by 2.0 to enhance the map extent.
 
             _ = MapView.RefreshAsync();
         }

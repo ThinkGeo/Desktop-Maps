@@ -68,7 +68,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             gridFeatureLayer.Open();
             var gridFeatureLayerBBox = gridFeatureLayer.GetBoundingBox();
             MapView.CenterPoint = gridFeatureLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(gridFeatureLayerBBox, MapView.ActualWidth, MapView.MapUnit);
+            MapView.CurrentScale = MapUtil.GetScale(gridFeatureLayerBBox, MapView.ActualWidth, MapView.MapUnit) * 1.5; // Multiply the current scale by 1.5 to enhance the map extent.
 
             // Refresh the map.
             _ = MapView.RefreshAsync();

@@ -141,7 +141,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             // Create a sample set of line features to use for the validation
             var singleLineFeature = new Feature("MULTILINESTRING((0 -50,100 -50,100 -100,0 -100))");
-            var multiLineFeature = new Feature("MULTILINESTRING((0 0,100 0),(100 100,0 100))");
+            var multiLineFeature = new Feature("MULTILINESTRING((0 0,100 0),(100 50,0 50))");
 
             // Use the TopologyValidator API to validate the sample data
             var lines = new Collection<Feature>() { singleLineFeature, multiLineFeature };
@@ -393,7 +393,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var featureOverlay = (LayerOverlay)MapView.Overlays["Features Overlay"];
             var featureOverlayBBox = featureOverlay.GetBoundingBox();
             MapView.CenterPoint = featureOverlayBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(featureOverlayBBox, MapView.ActualWidth, MapView.MapUnit);
+            MapView.CurrentScale = MapUtil.GetScale(featureOverlayBBox, MapView.ActualWidth, MapView.MapUnit) * 2.0; // Multiply the current scale by 2.0 to enhance the map extent.
             await MapView.RefreshAsync();
 
             validatedFeaturesLayer.Close();
