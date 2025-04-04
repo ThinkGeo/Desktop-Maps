@@ -27,7 +27,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
             MapView.Overlays.Add(overlay);
             MapView.CenterPoint = MaxExtents.ThinkGeoMaps.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(MaxExtents.ThinkGeoMaps, MapView.ActualWidth, MapView.MapUnit) * 2.0; // Multiply the current scale by 2.0 to enhance the map extent.
+            MapView.CurrentScale = MapUtil.GetScale(MaxExtents.ThinkGeoMaps, MapView.ActualWidth, MapView.MapUnit) * 1.5; // Multiply the current scale by a factor like 1.5 (50% increase) to zoom out and expand the map extent.
 
             MapView.ZoomLevelSet = new SphericalMercatorZoomLevelSet();
             MapView.ZoomLevelSet.CustomZoomLevels.Add(MapView.ZoomLevelSet.ZoomLevel01);

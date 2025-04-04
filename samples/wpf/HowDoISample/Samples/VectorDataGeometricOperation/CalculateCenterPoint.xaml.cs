@@ -68,7 +68,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             censusHousingLayer.Open();
             var censusHousingLayerBBox = censusHousingLayer.GetBoundingBox();
             MapView.CenterPoint = censusHousingLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(censusHousingLayerBBox, MapView.ActualWidth, MapView.MapUnit) * 1.5; // Multiply the current scale by 1.5 to enhance the map extent.
+            MapView.CurrentScale = MapUtil.GetScale(censusHousingLayerBBox, MapView.ActualWidth, MapView.MapUnit) * 1.5; // Multiply the current scale by a factor like 1.5 (50% increase) to zoom out and expand the map extent.
             censusHousingLayer.Close();
 
             // Add LayerOverlay to Map          

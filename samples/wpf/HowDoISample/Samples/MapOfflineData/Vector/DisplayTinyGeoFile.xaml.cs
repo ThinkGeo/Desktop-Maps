@@ -57,7 +57,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             tinyGeoLayer.Open();
             var tinyGeoLayerBBox = tinyGeoLayer.GetBoundingBox();
             MapView.CenterPoint = tinyGeoLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(tinyGeoLayerBBox, MapView.ActualWidth, MapView.MapUnit) * 1.5; // Multiply the current scale by 1.5 to enhance the map extent.
+            MapView.CurrentScale = MapUtil.GetScale(tinyGeoLayerBBox, MapView.ActualWidth, MapView.MapUnit) * 1.5; // Multiply the current scale by a factor like 1.5 (50% increase) to zoom out and expand the map extent.
 
             _ = MapView.RefreshAsync();
         }

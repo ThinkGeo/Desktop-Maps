@@ -82,7 +82,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set the map extent to the sample shapes
                 var sampleShapeBBox = sampleShape.GetBoundingBox();
                 MapView.CenterPoint = sampleShapeBBox.GetCenterPoint();
-                MapView.CurrentScale = MapUtil.GetScale(sampleShapeBBox, MapView.ActualWidth, MapView.MapUnit) * 1.5; // Multiply the current scale by 1.5 to enhance the map extent.
+                MapView.CurrentScale = MapUtil.GetScale(sampleShapeBBox, MapView.ActualWidth, MapView.MapUnit) * 1.5; // Multiply the current scale by a factor like 1.5 (50% increase) to zoom out and expand the map extent.
 
                 await MapView.RefreshAsync();
             }
