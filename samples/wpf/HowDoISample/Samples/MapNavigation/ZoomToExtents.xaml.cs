@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Windows;
 using ThinkGeo.Core;
 
@@ -59,13 +60,25 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.CenterPoint = new PointShape(-10778000, 3912000);
             MapView.CurrentScale = 180000;
 
-            // Populate Controls
-            _friscoCityBoundary.Open();
-            FeatureIds.ItemsSource = _friscoCityBoundary.FeatureSource.GetFeatureIds();
-            _friscoCityBoundary.Close();
-            FeatureIds.SelectedIndex = 0;
-
             _ = MapView.RefreshAsync();
+        }
+
+        /// <summary>
+        /// Zoom in on the map
+        /// The same effect can be achieved by using the ZoomPanBar bar on the upper left of the map, double left-clicking on the map, or by using the scroll wheel.
+        /// </summary>
+        private void ZoomIn_Click(object sender, RoutedEventArgs e)
+        {
+            _ = MapView.ZoomInAsync();
+        }
+
+        /// <summary>
+        /// Zoom out on the map
+        /// The same effect can be achieved by using the ZoomPanBar bar on the upper left of the map, double right-clicking on the map, or by using the scroll wheel.
+        /// </summary>
+        private void ZoomOut_Click(object sender, RoutedEventArgs e)
+        {
+            _ = MapView.ZoomOutAsync();
         }
 
         /// <summary>
@@ -88,33 +101,23 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Set the map extent to fix a feature's bounding box
+        /// Set the map extent to center at a point
         /// </summary>
-        private void FeatureBoundingBox_Click(object sender, RoutedEventArgs e)
+        private void CenterAt_Click(object sender, RoutedEventArgs e)
         {
-            var feature = _friscoCityBoundary.FeatureSource.GetFeatureById(FeatureIds.SelectedItem.ToString(), ReturningColumnsType.NoColumns);
-            var featureBBox = feature.GetBoundingBox();
-            MapView.CenterPoint = featureBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(featureBBox, MapView.ActualWidth, MapView.MapUnit);
-            _ = MapView.RefreshAsync();
+            var pointInMercator = ProjectionConverter.Convert(4326, 3857, new PointShape(-96.82, 33.15));
+            _ = MapView.CenterAtAsync(pointInMercator);
         }
 
-        /// <summary>
-        /// Zoom to a lat/lon at a desired scale by converting the lat/lon to match the map's projection
-        /// </summary>
-        private void ZoomToLatLon_Click(object sender, RoutedEventArgs e)
+        private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+
+        private void RotateAngle_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            // Create a PointShape from the lat-lon
-            var latlonPoint = new PointShape(Convert.ToDouble(Latitude.Text), Convert.ToDouble(Longitude.Text));
+            _cancellationTokenSource.Cancel();
+            _cancellationTokenSource = new CancellationTokenSource();
 
-            // Convert the lat-lon projection to match the map
-            var projectionConverter = new ProjectionConverter(4326, 3857);
-            projectionConverter.Open();
-            var convertedPoint = (PointShape)projectionConverter.ConvertToExternalProjection(latlonPoint);
-            projectionConverter.Close();
-
-            // Zoom to the converted lat-lon at the desired scale
-            _ = MapView.ZoomToAsync(convertedPoint, Convert.ToDouble(LatlonScale.Text));
+            _ = MapView.ZoomToAsync(MapView.CurrentExtent.GetCenterPoint(), MapView.CurrentScale,
+                RotateAngle.Value, _cancellationTokenSource.Token);
         }
 
         public void Dispose()
