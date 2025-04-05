@@ -13,12 +13,12 @@
             <Label Grid.Column="0" Grid.Row="0" Content="Zooming:" FontSize="16" FontWeight="Bold"/>
             <Grid Grid.Column="0" Grid.Row="1">
                 <Button x:Name="ZoomIn" Content="Zoom In" Click="ZoomIn_Click" 
-                            Grid.Column="0" />
+                            Grid.Column="0" Margin="0" Padding="4"/>
                 <Button x:Name="ZoomOut" Content="Zoom Out" Click="ZoomOut_Click" 
-                            Grid.Column="1" />
+                            Grid.Column="1" Margin="0" Padding="4"/>
                 <Button x:Name="ZoomToScale" Content="Zoom To Scale" Click="ZoomToScale_Click" Grid.Row="2" 
-                            Grid.Column="0" />
-                <TextBox x:Name="ZoomScale" Text="10000" Grid.Row="2" Grid.Column="1"/>
+                            Grid.Column="0" Margin="0" Padding="4"/>
+                <TextBox x:Name="ZoomScale" Text="10000" Grid.Row="2" Grid.Column="1" Margin="0" Padding="4"/>
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -26,6 +26,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
