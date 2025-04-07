@@ -32,6 +32,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             MapView.CurrentScaleChanged += MapView_CurrentScaleChanged;
 
+            MapView.DefaultAnimationSettings.Type = MapAnimationType.DrawWithAnimation;
+            
             // stop the auto zooming whenever touching the map
             MapView.MapDoubleClick += MapView_MapDoubleClick;
             MapView.ZoomLevelSet = GetDefaultZoomLevelSet();

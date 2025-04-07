@@ -287,6 +287,15 @@
       <SubType>Code</SubType>
       <DependentUpon>RenderBasedOnClassBreaks.xaml</DependentUpon>
     </Compile>
+    <Page Update="Samples\MapNavigation\VehicleNavigation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Update="Samples\MapNavigation\VehicleNavigation.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>VehicleNavigation.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Remove="HowDoI.csproj.DotSettings" />
@@ -353,6 +362,14 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Page Remove="SampleTemplate.xaml" />
+    <None Remove="Resources\vehicle_location.png" />
+    <Resource Include="Resources\vehicle_location.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <None Remove="Resources\icon_north_arrow.png" />
+    <Resource Include="Resources\icon_north_arrow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Data\Jpg\m87_0.jpg">
@@ -1088,9 +1105,6 @@
     <None Update="Resources\icon_gps_point.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\icon_north_arrow.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Resources\marker.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -1107,9 +1121,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Resources\vehicle.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\vehicle_location.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Resources\weapon_icon.png">

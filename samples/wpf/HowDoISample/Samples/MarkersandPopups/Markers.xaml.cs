@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using ThinkGeo.Core;
@@ -10,9 +11,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class Markers : IDisposable
     {
+        public ObservableCollection<string> LogMessages { get; } = new ObservableCollection<string>();
+        private int _logIndex = 0;
+
         public Markers()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
         /// <summary>
@@ -38,18 +43,35 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.CenterPoint = new PointShape(-10777290, 3908740);
             MapView.CurrentScale = 9030;
 
-            AddSimpleMarkers();
+            var simpleMarkerOverlay = new SimpleMarkerOverlay();
+            simpleMarkerOverlay.MarkerDragged += SimpleMarkerOverlayOnMarkerDragged;
+            simpleMarkerOverlay.MarkerDragging += SimpleMarkerOverlay_MarkerDragging;
+            MapView.Overlays.Add("simpleMarkerOverlay", simpleMarkerOverlay);
+
+            // create a point at the center point
+            InMemoryFeatureLayer layer = new InMemoryFeatureLayer();
+            layer.InternalFeatures.Add(new Feature(MapView.CenterPoint)); 
+            layer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Red, 10);
+            layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
+            var overlay = new LayerOverlay();
+            overlay.Layers.Add(layer);
+            MapView.Overlays.Add(overlay);
+
+            // Create a marker at the center point
+            var marker = new Marker(MapView.CenterPoint)
+            {
+                ImageSource = new BitmapImage(new Uri("/Resources/AQUA.png", UriKind.RelativeOrAbsolute)),
+                Width = 20,
+                Height = 34,
+                YOffset = -17
+            };
+
+            marker.PositionChanged += Marker_PositionChanged;
+            // Add the marker to the simpleMarkerOverlay and refresh the map
+            simpleMarkerOverlay.Markers.Add(marker);
 
             _ = MapView.RefreshAsync();
-        }
-
-        /// <summary>
-        /// Add a SimpleMarkerOverlay to the map
-        /// </summary>
-        private void AddSimpleMarkers()
-        {
-            var simpleMarkerOverlay = new SimpleMarkerOverlay();
-            MapView.Overlays.Add("simpleMarkerOverlay", simpleMarkerOverlay);
         }
 
         /// <summary>
@@ -68,9 +90,26 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 YOffset = -17
             };
 
+            marker.PositionChanged += Marker_PositionChanged;
+
             // Add the marker to the simpleMarkerOverlay and refresh the map
             simpleMarkerOverlay.Markers.Add(marker);
             _ = simpleMarkerOverlay.RefreshAsync();
+        }
+
+        private void Marker_PositionChanged(object sender, PositionChangedMarkerEventArgs e)
+        {
+            AppendLog($"PositionChanged: {e.NewPosition.Y:N0}");
+        }
+
+        private void SimpleMarkerOverlay_MarkerDragging(object sender, MarkerDraggingSimpleMarkerOverlayEventArgs e)
+        {
+            AppendLog($"MarkerDragging: ");
+        }
+
+        private void SimpleMarkerOverlayOnMarkerDragged(object sender, MarkerDraggedSimpleMarkerOverlayEventArgs e)
+        {
+            AppendLog($"MarkerDragged: ");
         }
 
         /// <summary>
@@ -91,13 +130,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             simpleMarkerOverlay.DragMode = MarkerDragMode.Drag;
         }
 
-        /// <summary>
-        /// Sets the simpleMarkerOverlay's drag mode to copy, which allows the user to copy an existing marker by shift-clicking and dragging it.
-        /// </summary>
-        private void CopyMode_OnClick(object sender, RoutedEventArgs e)
+    
+        private void AppendLog(string message)
         {
-            var simpleMarkerOverlay = (SimpleMarkerOverlay)MapView.Overlays["simpleMarkerOverlay"];
-            simpleMarkerOverlay.DragMode = MarkerDragMode.CopyWithShiftKey;
+            // Add log message to the observable collection
+            LogMessages.Add($"{_logIndex++}: {message}");
+            LogListBox.ScrollIntoView(LogMessages[LogMessages.Count - 1]);
         }
 
         public void Dispose()

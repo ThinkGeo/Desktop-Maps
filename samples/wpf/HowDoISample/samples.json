@@ -19,6 +19,12 @@
         "title": "Zoom to Extents",
         "description": "Learn how to set the map extent in a variety of different ways.",
         "source": "Samples/MapNavigation/ZoomToExtents"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.VehicleNavigation",
+        "title": "Vehicle Navigation",
+        "description": "Navigate to the Empire State Building using GPS points.",
+        "source": "Samples/MapNavigation/VehicleNavigation"
       }
     ]
   },

@@ -13,15 +13,17 @@
             
             <RadioButton Grid.Column="1" Grid.Row="1" x:Name="StaticMode" Content="Static Mode" IsChecked="True" Click="StaticMode_OnClick"></RadioButton>
             <RadioButton Grid.Column="1" Grid.Row="2" x:Name="DragMode" Content="Drag Mode" Click="DragMode_OnClick"></RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="3" x:Name="CopyMode" Content="Copy Mode (with Shift key)" Click="CopyMode_OnClick"></RadioButton>
+
+            <ListBox  Grid.Column="1" Grid.Row="3" Margin="5"  x:Name="LogListBox"
+                      ItemsSource="{Binding Path =LogMessages}"
+                      VirtualizingStackPanel.IsVirtualizing="True"
+                      VirtualizingStackPanel.VirtualizationMode="Recycling" />
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />
-                <ColumnDefinition Width="200" />
-                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="240" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
