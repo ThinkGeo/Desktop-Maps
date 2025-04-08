@@ -17,21 +17,22 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     public partial class VehicleNavigation
     {
         private Collection<Vertex> _gpsPoints;
+        private readonly List<Vertex> _visitedVertices = new List<Vertex>();
         private int _currentGpsPointIndex;
         private Marker _vehicleMarker;
-        private readonly List<Vertex> _visitedVertices = new List<Vertex>();
-        private InMemoryFeatureLayer _visitedRoutesLayer;
         private bool _disposed;
         private bool _busy; // mark if the map is busy redrawing
+        private bool _showOverview;
 
-        private bool _initialized;
         private CancellationTokenSource _cancellationTokenSource;
         private ThinkGeoCloudRasterMapsOverlay _backgroundOverlay;
 
         private LayerWpfDrawingOverlay _routesOverlay;
         private SimpleMarkerOverlay _markerOverlay;
-        private bool _showOverview = false;
+        private InMemoryFeatureLayer _routeLayer;
+        private InMemoryFeatureLayer _visitedRoutesLayer;
 
+        private const double DefaultScale = 5000;
 
         public VehicleNavigation()
         {
@@ -46,10 +47,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private async void MapView_OnLoaded(object sender, RoutedEventArgs e)
         {
-            if (_initialized)
-                return;
-            _initialized = true;
-
             _cancellationTokenSource = new CancellationTokenSource();
             // Add Cloud Maps as a background overlay
             _backgroundOverlay = new ThinkGeoCloudRasterMapsOverlay
@@ -60,21 +57,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_raster_light")
             };
             MapView.Overlays.Add(_backgroundOverlay);
-            MapView.ExtentOverlay = new CustomEventView(); // Use the custom eventview which disables all the map events.
 
-            var animationSettings = new AnimationSettings
+            MapView.DefaultAnimationSettings = new AnimationSettings
             {
                 Type = MapAnimationType.DrawWithAnimation,
-                Duration = 1000,
+                Duration = 1200,
                 Easing = null
-            };
+            }; 
 
-            MapView.DefaultAnimationSettings = animationSettings;
-
-            _gpsPoints = await InitGpsData();
+            _gpsPoints = CollectGpsData();
 
             // Create the Layer for the Route
-            var routeLayer = GetRouteLayerFromGpsPoints(_gpsPoints);
+            _routeLayer = InitRouteLayerFromGpsPoints(_gpsPoints);
             _visitedRoutesLayer = new InMemoryFeatureLayer();
             _visitedRoutesLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle =
                 LineStyle.CreateSimpleLineStyle(GeoColors.Green, 6, true);
@@ -82,7 +76,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             _routesOverlay = new LayerWpfDrawingOverlay();
             _routesOverlay.UpdateDataWhileTransforming = true;
-            _routesOverlay.Layers.Add(routeLayer);
+            _routesOverlay.Layers.Add(_routeLayer);
             _routesOverlay.Layers.Add(_visitedRoutesLayer);
             MapView.Overlays.Add(_routesOverlay);
 
@@ -102,20 +96,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.CurrentExtentChangedInAnimation += MapViewOnCurrentExtentChangedInAnimation;
 
             MapView.CenterPoint = new PointShape(_gpsPoints[0]);
-            MapView.CurrentScale = 5000;
-            await MapView.RefreshAsync();
+            MapView.CurrentScale = DefaultScale;
 
-            await ZoomToGpsPointsAsync();
+            await ZoomToGpsPointsAsync(_gpsPoints);
         }
 
-        private async Task ZoomToGpsPointsAsync()
+        private async Task ZoomToGpsPointsAsync(Collection<Vertex> gpsPoints)
         {
-            for (_currentGpsPointIndex = 0; _currentGpsPointIndex < _gpsPoints.Count; _currentGpsPointIndex++)
+            for (_currentGpsPointIndex = 0; _currentGpsPointIndex < gpsPoints.Count; _currentGpsPointIndex++)
             {
                 while (_busy || _cancellationTokenSource.IsCancellationRequested)
                     await Task.Delay(500); // delay zooming to GPS Points if the map is refreshing
 
-                await ZoomToGpsPointAsync(_currentGpsPointIndex, _cancellationTokenSource.Token);
+                await ZoomToGpsPointAsync(gpsPoints, _currentGpsPointIndex, _cancellationTokenSource.Token);
 
                 if (_disposed)
                     break;
@@ -125,7 +118,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void MapViewOnCurrentExtentChangedInAnimation(object sender,
             CurrentExtentChangedInAnimationMapViewEventArgs e)
         {
-
             if (!MapUtil.IsSameDouble(e.FromResolution, e.ToResolution))
                 return;
 
@@ -137,9 +129,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (_currentGpsPointIndex == 0)
                 return;
 
-            if (_visitedVertices.Count == 0)
-                return;
-
             if (_currentGpsPointIndex >= _gpsPoints.Count)
                 return;
 
@@ -149,7 +138,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var x = (toPoint.X - fromPoint.X) * progress + fromPoint.X;
             var y = (toPoint.Y - fromPoint.Y) * progress + fromPoint.Y;
 
-            if (!MapUtil.IsSamePoint(_visitedVertices[_visitedVertices.Count - 1], _gpsPoints[_currentGpsPointIndex - 1]))
+            if (_visitedVertices.Count > 0 && !MapUtil.IsSamePoint(_visitedVertices[_visitedVertices.Count - 1], _gpsPoints[_currentGpsPointIndex - 1]))
             {
                 _visitedVertices.RemoveAt(_visitedVertices.Count - 1);
             }
@@ -173,30 +162,22 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _visitedRoutesLayer.InternalFeatures.Add(new Feature(lineShape));
         }
 
-        private double _currentScale = 5000;
-
-        private async Task ZoomToGpsPointAsync(int gpsPointIndex, CancellationToken cancellationToken)
+        private async Task ZoomToGpsPointAsync(Collection<Vertex> gpsPoints,  int gpsPointIndex, CancellationToken cancellationToken)
         {
-            if (gpsPointIndex >= _gpsPoints.Count)
+            if (gpsPointIndex >= gpsPoints.Count)
                 return;
 
-            var currentLocation = _gpsPoints[gpsPointIndex];
-            var angle = GetRotationAngle(gpsPointIndex, _gpsPoints);
-
-
-            var centerPoint = new PointShape(currentLocation);
-
-            // Recenter the map to display the GPS location towards the bottom for improved visibility.
-            centerPoint =
-                MapUtil.OffsetPointWithScreenOffset(centerPoint, 0, 200, angle, _currentScale, MapView.MapUnit);
-
+            var angle = GetRotationAngle(gpsPointIndex, gpsPoints);
+      
             if (_showOverview)
             {
-                var totalTime = 1000.0;
-                var currentTime = System.DateTime.Now;
+                var totalTime = 1000.0; // Set a 1-second animation
+                var currentTime = DateTime.Now;
 
                 while (true)
                 {
+                    if (cancellationToken.IsCancellationRequested)
+                        await Task.Delay(500);
                     double duration = (DateTime.Now - currentTime).TotalMilliseconds;
                     var process = duration / totalTime;
 
@@ -206,64 +187,53 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     UpdateRoutesAndMarker(process, angle);
 
                     await _routesOverlay.RefreshAsync();
-                    await Task.Delay(10);
+                    await Task.Delay(1);
                 }
             }
-
-
             else
-                await MapView.ZoomToAsync(centerPoint, _currentScale, angle, cancellationToken);
-            UpdateVisitedRoutes(_gpsPoints[gpsPointIndex]);
+            {
+                var currentLocation = gpsPoints[gpsPointIndex];
+                var centerPoint = new PointShape(currentLocation);
+                // Recenter the map to display the GPS location 200 pixels towards the bottom for improved visibility.
+                centerPoint = MapUtil.OffsetPointWithScreenOffset(centerPoint, 0, 200, angle, DefaultScale, MapView.MapUnit);
 
-            _vehicleMarker.Position = new Point(currentLocation.X, currentLocation.Y);
+                //UpdateRoutesAndMarker(0, angle);
+                await MapView.ZoomToAsync(centerPoint, DefaultScale, angle, cancellationToken);
+            }
         }
 
-        private static async Task<Collection<Vertex>> InitGpsData()
+        private static Collection<Vertex> CollectGpsData()
         {
             var gpsPoints = new Collection<Vertex>();
+            var lines = File.ReadAllLines(@"./Data/Csv/vehicle-route.csv");
 
-            // read the csv file from the embed resource. 
-            using (var stream = new FileStream(@"./Data/Csv/vehicle-route.csv", FileMode.Open))
+            // Convert GPS Points from Lat/Lon (srid:4326) to Spherical Mercator (Srid:3857), which is the projection of the base map
+            var converter = new ProjectionConverter(4326, 3857);
+            converter.Open();
+
+            foreach (var location in lines)
             {
-                if (stream == null) return null;
-
-                // Convert GPS Points from Lat/Lon (srid:4326) to Spherical Mercator (Srid:3857), which is the projection of the base map
-                var converter = new ProjectionConverter(4326, 3857);
-                converter.Open();
-
-                using (var reader = new StreamReader(stream))
-                {
-                    while (!reader.EndOfStream)
-                    {
-                        var location = await reader.ReadLineAsync();
-                        if (location == null)
-                            continue;
-                        var posItems = location.Split(',');
-                        var lat = double.Parse(posItems[0]);
-                        var lon = double.Parse(posItems[1]);
-                        var vertexInSphericalMercator = converter.ConvertToExternalProjection(lon, lat);
-                        gpsPoints.Add(vertexInSphericalMercator);
-                    }
-
-                    converter.Close();
-                }
+                var posItems = location.Split(',');
+                var lat = double.Parse(posItems[0]);
+                var lon = double.Parse(posItems[1]);
+                var vertexInSphericalMercator = converter.ConvertToExternalProjection(lon, lat);
+                gpsPoints.Add(vertexInSphericalMercator);
             }
+
+            converter.Close();
             return gpsPoints;
         }
 
-        private static InMemoryFeatureLayer GetRouteLayerFromGpsPoints(Collection<Vertex> gpsPoints)
+        private static InMemoryFeatureLayer InitRouteLayerFromGpsPoints(Collection<Vertex> gpsPoints)
         {
             var lineShape = new LineShape();
-            foreach (var vertex in gpsPoints)
-            {
-                lineShape.Vertices.Add(vertex);
-            }
+            foreach (var gpsPoint in gpsPoints)
+                lineShape.Vertices.Add(gpsPoint);
 
             // create the layers for the routes.
             var routeLayer = new InMemoryFeatureLayer();
             routeLayer.InternalFeatures.Add(new Feature(lineShape));
-            routeLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle =
-                LineStyle.CreateSimpleLineStyle(GeoColors.Yellow, 6, true);
+            routeLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.Yellow, 6, true);
             routeLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             return routeLayer;
@@ -316,9 +286,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _busy = true;
             RefreshCancellationTokenAsync();
 
-            if (AerialBackgroundCheckBox.IsChecked == null)
-                return;
-
             _backgroundOverlay.MapType = AerialBackgroundCheckBox.IsChecked.Value
                 ? ThinkGeoCloudRasterMapsMapType.Aerial_V2_X2
                 : ThinkGeoCloudRasterMapsMapType.Light_V2_X2;
@@ -330,27 +297,21 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private async void OverviewButton_OnClick(object sender, RoutedEventArgs e)
         {
             _showOverview = !_showOverview;
+            if (!_showOverview) return;
 
-            if (_showOverview)
-            {
-                var layer = GetRouteLayerFromGpsPoints(_gpsPoints);
-                layer.Open();
-                var bbox = layer.GetBoundingBox();
-                var center = bbox.GetCenterPoint();
+            while (_busy)
+                await Task.Delay(500); // delay the operation is it's rendering 
+            _busy = true;
 
-                var scale = MapUtil.GetScale(MapView.MapUnit, bbox, MapView.MapWidth, MapView.MapHeight) * 1.2;
+            RefreshCancellationTokenAsync();
 
-                //var scale = MapUtil.GetScale(bbox, MapView.MapWidth, MapView.MapUnit) * 1.2;
+            var boundingBox = _routeLayer.GetBoundingBox();
+            var center = boundingBox.GetCenterPoint();
+            var scale = MapUtil.GetScale(MapView.MapUnit, boundingBox, MapView.MapWidth, MapView.MapHeight) * 1.2;
 
-                RefreshCancellationTokenAsync();
+            await MapView.ZoomToAsync(center, scale, 0);
 
-                await MapView.ZoomToAsync(center, scale, 0);
-            }
-            else
-            {
-                //  MapView.CurrentScale = 5000;
-                _currentScale = 5000;
-            }
+            _busy = false;
         }
 
         public void Dispose()
@@ -362,18 +323,5 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             _disposed = true;
         }
-
-    }
-
-    /// <summary>
-    /// This customized class disables all the Touch events.
-    /// </summary>
-    class CustomEventView : ExtentInteractiveOverlay
-    {
-        protected override InteractiveResult MouseDownCore(InteractionArguments interactionArguments)
-            => new InteractiveResult();
-
-        protected override InteractiveResult MouseMoveCore(InteractionArguments interactionArguments)
-            => new InteractiveResult();
     }
 }
