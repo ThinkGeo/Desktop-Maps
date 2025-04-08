@@ -6,112 +6,7 @@
              xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded"/>
-        <Grid Grid.Column="1" Grid.Row="0">
-            
-            <Label Grid.Column="1" Grid.Row="0" Content="Zooming:" FontSize="16" FontWeight="Bold"/>
-            <Grid Grid.Column="1" Grid.Row="1">
-                <Button Click="ZoomIn_Click" Grid.Column="0" Content="Zoom In"/>
-                <Button Click="ZoomOut_Click" Grid.Column="1" Content="Zoom Out"/>
 
-                <Button Content="Zoom To Scale:" Click="ZoomToScale_Click" Grid.Row="2" Grid.Column="0"/>
-                <TextBox Grid.Column="1" Grid.Row="2" x:Name="ZoomScale" Text="10000000" VerticalAlignment="Bottom"/>
-          
-                <!-- Zoom Button Grid Layout-->
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                
-                <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                </Grid.RowDefinitions>
-            </Grid>
-
-            <Label Grid.Column="1" Grid.Row="2" Content="Panning:" FontSize="16" FontWeight="Bold"/>
-            <Grid Grid.Column="1" Grid.Row="3" x:Name="PanButtonGrid">
-                <Button x:Name="PanNorth" Click="PanArrow_Click" Grid.Column="2" Grid.Row="0" Padding="2" Margin="0" Height="24" Width="24">
-                    <Image Source="/Resources/North.gif" Stretch="Uniform"></Image>
-                </Button>
-                <Button x:Name="PanWest" Click="PanArrow_Click" Grid.Column="1" Grid.Row="1" Padding="2" Margin="0" Height="24" Width="24">
-                    <Image Source="/Resources/West.gif" Stretch="Uniform"></Image>
-                </Button>
-                <Button x:Name="PanEast" Click="PanArrow_Click" Grid.Column="3" Grid.Row="1"  Padding="2" Margin="0" Height="24" Width="24">
-                    <Image Source="/Resources/East.gif" Stretch="Uniform"></Image>
-                </Button>
-                <Button x:Name="PanSouth" Click="PanArrow_Click" Grid.Column="2" Grid.Row="2"  Padding="2" Margin="0" Height="24" Width="24">
-                    <Image Source="/Resources/South.gif" Stretch="Uniform"></Image>
-                </Button>
-
-                <!-- Pan Button Grid Layout -->
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="auto"></ColumnDefinition>
-                    <ColumnDefinition Width="auto"></ColumnDefinition>
-                    <ColumnDefinition Width="auto"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                </Grid.RowDefinitions>
-            </Grid>
-          
-            <Label Grid.Column="1" Grid.Row="4" Content="Rotating:" FontSize="16" FontWeight="Bold"/>
-            <Grid Grid.Column="1" Grid.Row="5">
-                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding ElementName=RotateAngle, Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="28" DockPanel.Dock="Right"></TextBox>
-                <Slider Grid.Column="0" Grid.Row="0" x:Name="RotateAngle" Maximum="360" Value="0" AutoToolTipPlacement="TopLeft" TickFrequency="15" IsSnapToTickEnabled="True" ValueChanged="RotateAngle_OnValueChanged"/>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-            </Grid>
-            <Label Grid.Column="1" Grid.Row="6" Content="Map Resize Mode:" FontSize="16" FontWeight="Bold"></Label>
-            <StackPanel Grid.Row="7" Grid.Column="1">
-                <RadioButton Content="PreserveScale" Checked="ToggleButton_OnChecked" IsChecked="True" />    
-                <RadioButton Content="PreserveScaleAndCenter" Checked="ToggleButton_OnChecked"/>    
-                <RadioButton Content="PreserveExtent" Checked="ToggleButton_OnChecked"/>    
-            </StackPanel>
-            
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="5" />
-                <ColumnDefinition Width="240" />
-                <ColumnDefinition Width="5" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-        </Grid>
-        <StackPanel Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Center">
-            <TextBlock Grid.Column="0" Grid.Row="0" Background="gray" 
-                       VerticalAlignment="Bottom" HorizontalAlignment="Center" 
-                       Width="200" Height="40" FontSize="30"
-                       Text="{Binding ElementName=MapView, Path=CurrentZoom, StringFormat={}Zoom: {0:N2}}"/>
-            <TextBlock Grid.Column="0" Grid.Row="0" Background="gray" 
-                       VerticalAlignment="Bottom" HorizontalAlignment="Center" 
-                       Width="300" Height="40" FontSize="30"
-                       Text="{Binding ElementName=MapView, Path=CurrentScale, StringFormat={}Scale: {0:N0}}"/>
-        </StackPanel>
-        <!-- Grid Layout -->
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-    </Grid>
     <UserControl.Resources>
         <Style TargetType="Label">
             <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
@@ -124,5 +19,93 @@
             <Setter Property="Foreground" Value="White"></Setter>
         </Style>
 
+        <!-- Transparent ImageButton Style -->
+        <Style x:Key="TransparentImageButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <ContentPresenter/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
+
+    <Grid>
+        <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded"/>
+
+        <!-- Image Buttons (Top-Left) -->
+        <Canvas HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,50,0">
+            <!-- Compass Button -->
+            <Button x:Name="CompassButton"
+                    Width="40" Height="40"
+                    Background="Transparent" 
+                    Canvas.Left="0" Canvas.Top="0"
+                    RenderTransformOrigin="0.5,0.5"
+                    Style="{StaticResource TransparentImageButtonStyle}"
+                    Click="CompassButton_Click">
+                <Button.RenderTransform>
+                    <RotateTransform Angle="{Binding ElementName=MapView, Path=RotationAngle}"/>
+                </Button.RenderTransform>
+                <Image Source="/Resources/icon_north_arrow.png" Stretch="Fill"/>
+            </Button>
+
+            <!-- Default Extent Button -->
+            <Button x:Name="DefaultExtentButton"
+                    Width="40" Height="40"
+                    Background="Transparent" 
+                    Canvas.Left="0" Canvas.Top="50"
+                    Style="{StaticResource TransparentImageButtonStyle}"
+                    Click="DefaultExtentButton_Click">
+                <Image Source="/Resources/icon_globe_black.png" Stretch="Fill"/>
+            </Button>
+        </Canvas>
+        
+        <!-- Overlay radio buttons in bottom-right corner -->
+        <StackPanel Orientation="Vertical"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Margin="10"
+                Background="Transparent"
+                Width="200" >
+
+            <Label Grid.Column="1" Grid.Row="0" Content="Map Resize Mode:" FontSize="16" FontWeight="Bold" Foreground="Black"></Label>
+            <RadioButton Content="PreserveScale" Checked="ToggleButton_OnChecked" IsChecked="True" Foreground="Black"/>
+            <RadioButton Content="PreserveScaleAndCenter" Checked="ToggleButton_OnChecked" Foreground="Black"/>
+            <RadioButton Content="PreserveExtent" Checked="ToggleButton_OnChecked" Foreground="Black"/>
+
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Center">
+            <TextBlock Grid.Column="0" Grid.Row="0" Background="gray" 
+                       VerticalAlignment="Bottom" HorizontalAlignment="Center" 
+                       Width="200" Height="40" FontSize="30"
+                       Text="{Binding ElementName=MapView, Path=CurrentZoom, StringFormat={}Zoom: {0:N2}}"/>
+            <TextBlock Grid.Column="0" Grid.Row="0" Background="gray" 
+                       VerticalAlignment="Bottom" HorizontalAlignment="Center" 
+                       Width="300" Height="40" FontSize="30"
+                       Text="{Binding ElementName=MapView, Path=CurrentScale, StringFormat={}Scale: {0:N0}}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+            <StackPanel Orientation="Horizontal" Height="20" Width ="120" Background="Gray">
+                <CheckBox x:Name="ThemeCheckBox" VerticalAlignment="Center" Background="Gray" BorderBrush="Black"
+                          Click="ThemeCheckBox_Click"/>
+                <TextBlock Text = "Dark Theme" VerticalAlignment="Center" Margin="10,0,0,0" FontSize="16" />
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Grid Layout -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+    </Grid>
+    
+ 
 </UserControl>
