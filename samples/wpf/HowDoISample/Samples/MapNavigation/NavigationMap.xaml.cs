@@ -155,13 +155,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Update the marker's position
             UpdateMarkerPosition(empireStateBuilding);
-
-            // Set default view
-            MapView.RotationAngle = -30;
-            MapView.CurrentScale = 100000;
-            MapView.CenterPoint = empireStateBuilding;
-
-            _ = MapView.RefreshAsync();
+            _ = MapView.ZoomToAsync(empireStateBuilding, 100000, -30);
         }
 
         public void Dispose()
