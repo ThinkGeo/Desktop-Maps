@@ -41,7 +41,7 @@
             <!-- Center At Controls-->
             <Label Grid.Column="0" Grid.Row="4" Content="Center At:" FontSize="16" FontWeight="Bold"/>
             <Grid Grid.Column="0" Grid.Row="5">
-                <Button x:Name="CenterAt" Content="Center At(33.15,-96.82)" Click="CenterAt_Click" />
+                <Button x:Name="CenterAt" Content="Center At (33.15,-96.82)" Click="CenterAt_Click" />
             </Grid>
 
             <!-- Rotating Controls -->
