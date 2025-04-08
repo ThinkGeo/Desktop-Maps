@@ -168,9 +168,6 @@
     <Compile Update="Samples\MapTools\MagneticNorth.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\Miscellaneous\UpdateTheGPSLocation.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Samples\Miscellaneous\CustomBackground.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -230,9 +227,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\Miscellaneous\WrapTheDateLine.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-    <Page Update="Samples\Miscellaneous\ResizeTheMap.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Samples\Miscellaneous\GetMapSnapShot.xaml">
@@ -1372,10 +1366,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\MapTools\PanZoomBar.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\Miscellaneous\UpdateTheGPSLocation.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\Miscellaneous\CustomBackground.xaml">

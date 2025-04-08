@@ -3,15 +3,13 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using ThinkGeo.Core;
-using ThinkGeo.UI.Wpf;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Learn how to programmatically zoom, pan, and rotate the map control.
+    /// Learn how to zoom, pan, and rotate the map control.
     /// </summary>
     public partial class NavigationMap : IDisposable
     {
@@ -60,35 +58,35 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Set the BitmapScalingMode to HighQuality for better image rendering
             RenderOptions.SetBitmapScalingMode(imageControl, BitmapScalingMode.HighQuality);
 
-            // Create a label as a TextBlock
-            var label = new TextBlock
-            {
-                Text = "Empire State Building",
-                Foreground = Brushes.White,
-                FontWeight = FontWeights.Bold,
-                FontSize = 14,
-                Background = Brushes.Black,
-                Padding = new Thickness(4)
-            };
+            //// Create a label as a TextBlock
+            //var label = new TextBlock
+            //{
+            //    Text = "Empire State Building",
+            //    Foreground = Brushes.White,
+            //    FontWeight = FontWeights.Bold,
+            //    FontSize = 14,
+            //    Background = Brushes.Black,
+            //    Padding = new Thickness(4)
+            //};
 
-            // Create a container to hold both the image and the label
-            var markerContent = new StackPanel
-            {
-                Orientation = Orientation.Vertical,
-                HorizontalAlignment = HorizontalAlignment.Center,  // Align horizontally at center
-                VerticalAlignment = VerticalAlignment.Bottom,  // Align vertically at the bottom
-                Children =
-                {
-                    label,    // Place label above the image
-                    imageControl
-                }
-            };
+            //// Create a container to hold both the image and the label
+            //var markerContent = new StackPanel
+            //{
+            //    Orientation = Orientation.Vertical,
+            //    HorizontalAlignment = HorizontalAlignment.Center,  // Align horizontally at center
+            //    VerticalAlignment = VerticalAlignment.Bottom,  // Align vertically at the bottom
+            //    Children =
+            //    {
+            //        label,    // Place label above the image
+            //        imageControl
+            //    }
+            //};
 
             // Create a marker with both label and image content
             var marker = new Marker(empireStateBuilding)
             {
-                Content = markerContent,
-                //Content = imageControl,
+                //Content = markerContent,
+                Content = imageControl,
                 ImageSource = null,
                 Width = 64,
                 Height = 84  // Make sure the height is enough to accommodate both image and label
@@ -104,8 +102,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Update the position of the marker content if needed (the marker will adjust as required)
             UpdateMarkerPosition(empireStateBuilding);
+            MapView.CurrentExtentChanged += MapView_CurrentExtentChanged;
+            MapView_CurrentExtentChanged(MapView, 
+                new CurrentExtentChangedMapViewEventArgs(MapView.CurrentExtent,MapView.CurrentExtent));
 
             _ = MapView.RefreshAsync();
+        }
+
+        private void MapView_CurrentExtentChanged(object sender, CurrentExtentChangedMapViewEventArgs e)
+        {
+            var center = MapView.CurrentExtent.GetCenterPoint();
+            txtCoordinate.Text = $"Center Point: X= {center.X:N0}, Y= {center.Y:N0}";
         }
 
         private void UpdateMarkerPosition(PointShape newPosition)
@@ -114,26 +121,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             markerOverlay.Markers[0].Position = imagePosition;
         }
 
-        private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
-        {
-            var radioButton = sender as RadioButton;
-            if (radioButton == null)
-                return;
-            switch (radioButton.Content)
-            {
-                case "PreserveScale":
-                    MapView.MapResizeMode = MapResizeMode.PreserveScale;
-                    break;
-                case "PreserveScaleAndCenter":
-                    MapView.MapResizeMode = MapResizeMode.PreserveScaleAndCenter;
-                    break;
-                case "PreserveExtent":
-                    MapView.MapResizeMode = MapResizeMode.PreserveExtent;
-                    break;
-            }
-        }
-
-        private async void ThemeCheckBox_Click(object sender, RoutedEventArgs e)
+        private void ThemeCheckBox_Click(object sender, RoutedEventArgs e)
         {
             backgroundOverlay.MapType = ThemeCheckBox.IsChecked == true
                 ? ThinkGeoCloudRasterMapsMapType.Dark_V2_X2
@@ -144,7 +132,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 ThemeCheckBox.IsChecked == true ? "thinkgeo_vector_dark" : "thinkgeo_vector_light");
 
             UpdateCancellationToken(); // if you're managing cancellation tokens for refresh
-            await backgroundOverlay.RefreshAsync(_cancellationTokenSource.Token);
+            _ = backgroundOverlay.RefreshAsync(_cancellationTokenSource.Token);
         }
 
         private void UpdateCancellationToken()
@@ -156,17 +144,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private void CompassButton_Click(object sender, RoutedEventArgs e)
         {
-            double currentScale = MapView.CurrentScale;
-            PointShape currentCenter = MapView.CenterPoint;
-
-            // Update the marker's position based on the map's current center
-            UpdateMarkerPosition(currentCenter);
-
-            MapView.RotationAngle = 0;
-            MapView.CurrentScale = currentScale;
-            MapView.CenterPoint = currentCenter;
-
-            _ = MapView.RefreshAsync();
+            var currentCenter = MapView.CenterPoint;
+            var currentScale = MapView.CurrentScale;
+            _ = MapView.ZoomToAsync(currentCenter, currentScale, 0);
         }
 
         private void DefaultExtentButton_Click(object sender, RoutedEventArgs e)

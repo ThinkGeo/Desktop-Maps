@@ -65,31 +65,24 @@
                 <Image Source="/Resources/icon_globe_black.png" Stretch="Fill"/>
             </Button>
         </Canvas>
-        
-        <!-- Overlay radio buttons in bottom-right corner -->
-        <StackPanel Orientation="Vertical"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"
-                Margin="10"
-                Background="Transparent"
-                Width="200" >
 
-            <Label Grid.Column="1" Grid.Row="0" Content="Map Resize Mode:" FontSize="16" FontWeight="Bold" Foreground="Black"></Label>
-            <RadioButton Content="PreserveScale" Checked="ToggleButton_OnChecked" IsChecked="True" Foreground="Black"/>
-            <RadioButton Content="PreserveScaleAndCenter" Checked="ToggleButton_OnChecked" Foreground="Black"/>
-            <RadioButton Content="PreserveExtent" Checked="ToggleButton_OnChecked" Foreground="Black"/>
+        <StackPanel   Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10">
+            <TextBlock   Background="gray" x:Name="txtCoordinate" IsEnabled="False" 
+                       VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="10,0,10,10" 
+                       Height="20" Width="350" FontSize="16" Text="Center Point: X = 0, Y = 0" TextAlignment="Center"/>
 
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Center">
-            <TextBlock Grid.Column="0" Grid.Row="0" Background="gray" 
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Background="gray" 
                        VerticalAlignment="Bottom" HorizontalAlignment="Center" 
-                       Width="200" Height="40" FontSize="30"
-                       Text="{Binding ElementName=MapView, Path=CurrentZoom, StringFormat={}Zoom: {0:N2}}"/>
-            <TextBlock Grid.Column="0" Grid.Row="0" Background="gray" 
+                       Width="150" Height="20" FontSize="16"
+                       Text="{Binding ElementName=MapView, Path=CurrentZoom, StringFormat={}Zoom: {0:N2}}"
+                       TextAlignment="Center"/>
+                <TextBlock Background="gray" 
                        VerticalAlignment="Bottom" HorizontalAlignment="Center" 
-                       Width="300" Height="40" FontSize="30"
-                       Text="{Binding ElementName=MapView, Path=CurrentScale, StringFormat={}Scale: {0:N0}}"/>
+                       Width="200" Height="20" FontSize="16"
+                       Text="{Binding ElementName=MapView, Path=CurrentScale, StringFormat={}Scale: {0:N0}}"
+                       TextAlignment="Center"/>
+            </StackPanel>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Bottom">

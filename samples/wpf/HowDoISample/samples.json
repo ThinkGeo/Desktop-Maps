@@ -5,7 +5,7 @@
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.NavigationMap",
         "title": "Navigation Map",
-        "description": "Learn how to use code to zoom, pan, and rotate the map control.",
+        "description": "Learn how to zoom, pan, and rotate the map control.",
         "source": "Samples/MapNavigation/NavigationMap"
       },
       {
@@ -25,6 +25,12 @@
         "title": "Vehicle Navigation",
         "description": "Navigate to the Empire State Building using GPS points.",
         "source": "Samples/MapNavigation/VehicleNavigation"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ResizeTheMap",
+        "title": "Resize the Map",
+        "description": "Learn to resize the map while preserving the world extent with various map resize modes.",
+        "source": "Samples/MapNavigation/ResizeTheMap"
       }
     ]
   },
@@ -794,12 +800,6 @@
         "source": "Samples/Miscellaneous/HandleExceptions"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.ResizeTheMap",
-        "title": "Resize the Map",
-        "description": "Learn how to resize the map while keeping the width of the world extent the same",
-        "source": "Samples/Miscellaneous/ResizeTheMap"
-      },
-      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.WrapTheDateLine",
         "title": "Wrap the DateLine",
         "description": "Say the world width is 0 ~ 1, here shows what the shapes with different length look like in the multi-world map",
@@ -816,12 +816,6 @@
         "title": "Get Map SnapShot",
         "description": "Learn how to get the snapshot of the current map",
         "source": "Samples/Miscellaneous/GetMapSnapShot"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.UpdateTheGPSLocation",
-        "title": "Update the GPS Location",
-        "description": "Learn how to display a GPS vehicle's movements in real-time",
-        "source": "Samples/Miscellaneous/UpdateTheGPSLocation"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.PerfTestRefreshShapes",
