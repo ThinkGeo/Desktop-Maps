@@ -18,6 +18,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public NavigationMap()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
         /// <summary>
@@ -72,10 +73,29 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _ = MapView.RefreshAsync();
         }
 
+        // Register the dependency property.
+        public static readonly DependencyProperty TxtCoordinatesProperty =
+            DependencyProperty.Register(
+                nameof(TxtCoordinates),
+                typeof(string),
+                typeof(NavigationMap),
+                null);
+
+        /// <summary>
+        /// Gets or sets the text that represents the coordinates.
+        /// This is a dependency property, so it participates in WPF's binding, styling, and animation systems.
+        /// </summary>
+        public string TxtCoordinates
+        {
+            get => (string)GetValue(TxtCoordinatesProperty);
+            set => SetValue(TxtCoordinatesProperty, value);
+        }
+
         private void MapView_CurrentExtentChanged(object sender, CurrentExtentChangedMapViewEventArgs e)
         {
             var center = MapView.CurrentExtent.GetCenterPoint();
-            txtCoordinate.Text = $"Center Point: X= {center.X:N0}, Y= {center.Y:N0}";
+            var centerInDecimalDegrees= ProjectionConverter.Convert(3857, 4326, center);
+            TxtCoordinates = $"Center Point: (Lat: {centerInDecimalDegrees.Y:N4}, Lon: {centerInDecimalDegrees.X:N4})";
         }
 
         private void UpdateMarkerPosition(PointShape newPosition)

@@ -95,7 +95,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             foreach (var location in locations)
             {
-                _features.Add(new Feature(double.Parse(location.Split(',')[0]), double.Parse(location.Split(',')[1])));
+                _features.Add(new Feature(double.Parse(location.Split(',')[1]), double.Parse(location.Split(',')[0])));
             }
             return _features;
         }

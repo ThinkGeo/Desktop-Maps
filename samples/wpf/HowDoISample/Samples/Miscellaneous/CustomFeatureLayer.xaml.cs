@@ -31,12 +31,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            var layerOverlay = new LayerOverlay
-            {
-                TileType = TileType.SingleTile
-            };
-            MapView.Overlays.Add(layerOverlay);
-
             var radiusLayer = new RadiusLayer
             {
                 RingDistanceUnit = DistanceUnit.Mile,
@@ -44,7 +38,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 RingDistance = 5
             };
 
-            layerOverlay.Layers.Add(radiusLayer);
+            MapView.AdornmentOverlay.Layers.Add(radiusLayer);
             MapView.CenterPoint = new PointShape(-10780320, 3915120);
             MapView.CurrentScale = 288900;
 
@@ -64,7 +58,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     // of the screen.  You notice in the DrawCore we can draw directly on the canvas which gives us
     // a lot of power.  This is similar to custom styles where we can also draw directly on the canvas
     // from the style.
-    public class RadiusLayer : Layer
+    public class RadiusLayer : AdornmentLayer
     {
         public double RingDistance { get; set; } = 1;
 

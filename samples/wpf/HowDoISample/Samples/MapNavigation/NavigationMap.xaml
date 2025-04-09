@@ -5,100 +5,59 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-
-    <UserControl.Resources>
-        <Style TargetType="Label">
-            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
-            <Setter Property="FontSize" Value="14"></Setter>
-        </Style>
-        <Style TargetType="Grid">
-            <Setter Property="Background" Value="DimGray"></Setter>
-        </Style>
-        <Style TargetType="RadioButton">
-            <Setter Property="Foreground" Value="White"></Setter>
-        </Style>
-
-        <!-- Transparent ImageButton Style -->
-        <Style x:Key="TransparentImageButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="0"/>
-            <Setter Property="OverridesDefaultStyle" Value="True"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <ContentPresenter/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </UserControl.Resources>
+             d:DesignHeight="450" d:DesignWidth="800" x:Name="ThisControl">
 
     <Grid>
         <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded"/>
 
-        <!-- Image Buttons (Top-Left) -->
-        <Canvas HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,50,0">
-            <!-- Compass Button -->
-            <Button x:Name="CompassButton"
+        <!-- Compass Button -->
+        <Button x:Name="CompassButton"
                     Width="40" Height="40"
                     Background="Transparent" 
-                    Canvas.Left="0" Canvas.Top="0"
+                    BorderThickness="0"
+                    HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,10,0"
                     RenderTransformOrigin="0.5,0.5"
-                    Style="{StaticResource TransparentImageButtonStyle}"
                     Click="CompassButton_Click">
-                <Button.RenderTransform>
-                    <RotateTransform Angle="{Binding ElementName=MapView, Path=RotationAngle}"/>
-                </Button.RenderTransform>
-                <Image Source="/Resources/icon_north_arrow.png" Stretch="Fill"/>
-            </Button>
+            <Button.RenderTransform>
+                <RotateTransform Angle="{Binding ElementName=MapView, Path=RotationAngle}"/>
+            </Button.RenderTransform>
+            <Image Source="/Resources/icon_north_arrow.png" Stretch="Fill"/>
+        </Button>
 
-            <!-- Default Extent Button -->
-            <Button x:Name="DefaultExtentButton"
+        <!-- Default Extent Button -->
+        <Button x:Name="DefaultExtentButton"
                     Width="40" Height="40"
                     Background="Transparent" 
-                    Canvas.Left="0" Canvas.Top="50"
-                    Style="{StaticResource TransparentImageButtonStyle}"
+                    BorderThickness="0"
+                    HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,60,10,0"
                     Click="DefaultExtentButton_Click">
-                <Image Source="/Resources/icon_globe_black.png" Stretch="Fill"/>
-            </Button>
-        </Canvas>
+            <Image Source="/Resources/icon_globe_black.png"/>
+        </Button>
 
-        <StackPanel   Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10">
-            <TextBlock   Background="gray" x:Name="txtCoordinate" IsEnabled="False" 
-                       VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="10,0,10,10" 
-                       Height="20" Width="350" FontSize="16" Text="Center Point: X = 0, Y = 0" TextAlignment="Center"/>
+        <StackPanel  Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10">
+            <TextBlock   Background="LightGray" IsEnabled="False"
+                       VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="0,0,0,5" 
+                       Height="20" Width="350" FontSize="16" Text="{Binding ElementName=ThisControl, Path=TxtCoordinates}" TextAlignment="Center"/>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock Background="gray" 
-                       VerticalAlignment="Bottom" HorizontalAlignment="Center" 
-                       Width="150" Height="20" FontSize="16"
-                       Text="{Binding ElementName=MapView, Path=CurrentZoom, StringFormat={}Zoom: {0:N2}}"
-                       TextAlignment="Center"/>
-                <TextBlock Background="gray" 
-                       VerticalAlignment="Bottom" HorizontalAlignment="Center" 
-                       Width="200" Height="20" FontSize="16"
-                       Text="{Binding ElementName=MapView, Path=CurrentScale, StringFormat={}Scale: {0:N0}}"
-                       TextAlignment="Center"/>
+                <TextBlock Background="LightGray" VerticalAlignment="Bottom" 
+                           Width="110" Height="20" FontSize="16"
+                           Text="{Binding ElementName=MapView, Path=RotationAngle, StringFormat={}Rotation: {0:N0}}"/>
+                <TextBlock Background="LightGray" VerticalAlignment="Bottom" 
+                           Width="100" Height="20" FontSize="16"
+                           Text="{Binding ElementName=MapView, Path=CurrentZoom, StringFormat={}Zoom: {0:N2}}"/>
+                <TextBlock Background="LightGray" VerticalAlignment="Bottom" 
+                       Width="140" Height="20" FontSize="16"
+                       Text="{Binding ElementName=MapView, Path=CurrentScale, StringFormat={}Scale: {0:N0}}"/>
+                
             </StackPanel>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Bottom">
-            <StackPanel Orientation="Horizontal" Height="20" Width ="120" Background="Gray">
-                <CheckBox x:Name="ThemeCheckBox" VerticalAlignment="Center" Background="Gray" BorderBrush="Black"
+        <StackPanel Margin="10" HorizontalAlignment="Left" VerticalAlignment="Bottom" Orientation="Horizontal" Height="20" Width ="120" Background="LightGray">
+            <CheckBox x:Name="ThemeCheckBox" VerticalAlignment="Center" Background="LightGray" BorderBrush="Black"
                           Click="ThemeCheckBox_Click"/>
-                <TextBlock Text = "Dark Theme" VerticalAlignment="Center" Margin="10,0,0,0" FontSize="16" />
-            </StackPanel>
+            <TextBlock Text = "Dark Theme" VerticalAlignment="Center" Margin="10,0,0,0" FontSize="16" />
         </StackPanel>
 
-        <!-- Grid Layout -->
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
     </Grid>
-    
- 
 </UserControl>
