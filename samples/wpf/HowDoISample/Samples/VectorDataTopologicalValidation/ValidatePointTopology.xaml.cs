@@ -210,7 +210,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var featureOverlay = (LayerOverlay)MapView.Overlays["Features Overlay"];
             var featureOverlayBBox = featureOverlay.GetBoundingBox();
             MapView.CenterPoint = featureOverlayBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(featureOverlayBBox, MapView.ActualWidth, MapView.MapUnit) * 1.5; // Multiply the current scale by a factor like 1.5 (50% increase) to zoom out and expand the map extent.
+            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, featureOverlayBBox, MapView.MapWidth, MapView.MapHeight) * 1.5; // Multiply the current scale by a factor like 1.5 (50% increase) to zoom out and expand the map extent.
             await MapView.RefreshAsync();
 
             validatedFeaturesLayer.Close();

@@ -62,7 +62,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 parksLayer.Open();
                 var parksLayerBBox = parksLayer.GetBoundingBox();
                 MapView.CenterPoint = parksLayerBBox.GetCenterPoint();
-                MapView.CurrentScale = MapUtil.GetScale(parksLayerBBox, MapView.ActualWidth, MapView.MapUnit);
+                MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, parksLayerBBox, MapView.MapWidth, MapView.MapHeight);
                 await MapView.ZoomInAsync();
                 parksLayer.Close();
 

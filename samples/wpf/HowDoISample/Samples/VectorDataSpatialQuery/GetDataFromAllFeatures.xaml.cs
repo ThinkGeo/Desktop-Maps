@@ -83,7 +83,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Set the map extent to the extent of the hotel features
             var hotelsLayerBBox = hotelsLayer.GetBoundingBox();
             MapView.CenterPoint = hotelsLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(hotelsLayerBBox, MapView.ActualWidth, MapView.MapUnit);
+            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit,hotelsLayerBBox, MapView.MapWidth, MapView.MapHeight);
             hotelsLayer.Close();
 
             _ = MapView.RefreshAsync();
@@ -108,7 +108,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     // Center the map on the chosen location
                     var hotelLayerBBox = hotel.Location.GetBoundingBox();
                     MapView.CenterPoint = hotelLayerBBox.GetCenterPoint();
-                    MapView.CurrentScale = MapUtil.GetScale(hotelLayerBBox, MapView.ActualWidth, MapView.MapUnit);
+                    MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, hotelLayerBBox, MapView.MapWidth, MapView.MapHeight);
                     var standardZoomLevelSet = new ZoomLevelSet();
                     await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
                     await MapView.RefreshAsync();

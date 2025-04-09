@@ -79,7 +79,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             inMemoryFeatureLayer.Open();
             var inMemoryFeatureLayerBBox = inMemoryFeatureLayer.GetBoundingBox();
             MapView.CenterPoint = inMemoryFeatureLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(inMemoryFeatureLayerBBox, MapView.ActualWidth, MapView.MapUnit);
+            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, inMemoryFeatureLayerBBox, MapView.MapWidth, MapView.MapHeight);
 
             _ = MapView.RefreshAsync();
         }

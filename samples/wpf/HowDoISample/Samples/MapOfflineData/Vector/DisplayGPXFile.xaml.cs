@@ -57,7 +57,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             gpxLayer.Open();
             var gpxLayerBBox = gpxLayer.GetBoundingBox();
             MapView.CenterPoint = gpxLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(gpxLayerBBox, MapView.ActualWidth, MapView.MapUnit);
+            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit,gpxLayerBBox, MapView.MapWidth, MapView.MapHeight);
 
             _ = MapView.RefreshAsync();
         }

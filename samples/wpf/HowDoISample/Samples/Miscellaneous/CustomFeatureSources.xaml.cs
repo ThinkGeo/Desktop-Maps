@@ -32,8 +32,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            // See the implementation of the new layer and feature source below.
-            var csvLayer = new SimpleCsvFeatureLayer(@"./Data/Csv/vehicle-route.csv");
+            // Load CSV data in EPSG:4326 and convert to EPSG:3857 for the map
+            var csvLayer = new SimpleCsvFeatureLayer(@"./Data/Csv/vehicle-route.csv")
+            {
+                FeatureSource = { ProjectionConverter = new ProjectionConverter(4326, 3857) }
+            };
 
             // Set the points image to a car icon and then apply it to all zoom levels
             var vehiclePointStyle = new PointStyle(new GeoImage(@"./Resources/vehicle-location.png"))
@@ -54,7 +57,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             csvLayer.Open();
             var csvLayerBBox = csvLayer.GetBoundingBox();
             MapView.CenterPoint = csvLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(csvLayerBBox, MapView.ActualWidth, MapView.MapUnit) * 1.5; // Multiply the current scale by a factor like 1.5 (50% increase) to zoom out and expand the map extent.
+            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, csvLayerBBox, MapView.MapWidth, MapView.MapHeight); 
 
             _ = MapView.RefreshAsync();
         }

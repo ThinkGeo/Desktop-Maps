@@ -96,7 +96,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             var friscoCityBoundaryBBox = _friscoCityBoundary.GetBoundingBox();
             MapView.CenterPoint = friscoCityBoundaryBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(friscoCityBoundaryBBox, MapView.ActualWidth, MapView.MapUnit);
+            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit,friscoCityBoundaryBBox, MapView.MapWidth, MapView.MapHeight);
             _ = MapView.RefreshAsync();
         }
 

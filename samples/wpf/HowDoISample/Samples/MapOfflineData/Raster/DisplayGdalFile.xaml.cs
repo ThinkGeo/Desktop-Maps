@@ -33,7 +33,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             worldLayer.Open();
             var worldLayerBBox = worldLayer.GetBoundingBox();
             MapView.CenterPoint = worldLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(worldLayerBBox, MapView.ActualWidth, MapView.MapUnit);
+            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit,worldLayerBBox, MapView.MapWidth, MapView.MapHeight);
             worldLayer.Close();
 
             // Create a new overlay that will hold our new layer and add it to the map.

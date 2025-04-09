@@ -60,7 +60,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mosquitosLayer.Open();
             var mosquitosLayerBBox = mosquitosLayer.GetBoundingBox();
             MapView.CenterPoint = mosquitosLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(mosquitosLayerBBox, MapView.ActualWidth, MapView.MapUnit);
+            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit,mosquitosLayerBBox, MapView.MapWidth, MapView.MapHeight);
             mosquitosLayer.Close();
 
             _ = MapView.RefreshAsync();

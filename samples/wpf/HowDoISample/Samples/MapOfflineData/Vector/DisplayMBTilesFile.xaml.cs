@@ -32,7 +32,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 _layerOverlay.Layers.Add(openstackMbtiles);
 
                 MapView.CenterPoint = MaxExtents.SphericalMercator.GetCenterPoint();
-                MapView.CurrentScale = MapUtil.GetScale(MaxExtents.SphericalMercator, MapView.ActualWidth, MapView.MapUnit);
+                MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit,MaxExtents.SphericalMercator, MapView.MapWidth, MapView.MapHeight);
                 await openstackMbtiles.OpenAsync();
                 //MapView.Background = new SolidColorBrush(Color.FromRgb(216, 242, 255));
 

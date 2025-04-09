@@ -172,7 +172,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Center the map on the chosen location
                 var chosenLocationBBox = chosenLocation.BoundingBox;
                 MapView.CenterPoint = chosenLocationBBox.GetCenterPoint();
-                MapView.CurrentScale = MapUtil.GetScale(chosenLocationBBox, MapView.ActualWidth, MapView.MapUnit);
+                MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, chosenLocationBBox, MapView.MapWidth, MapView.MapHeight);
                 var standardZoomLevelSet = new ZoomLevelSet();
                 await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
                 await MapView.RefreshAsync();

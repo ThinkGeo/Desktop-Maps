@@ -166,7 +166,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 drawnShapesLayer.Open();
                 var drawnShapesLayerBBox = drawnShapesLayer.GetBoundingBox();
                 MapView.CenterPoint = drawnShapesLayerBBox.GetCenterPoint();
-                MapView.CurrentScale = MapUtil.GetScale(drawnShapesLayerBBox, MapView.ActualWidth, MapView.MapUnit);
+                MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, drawnShapesLayerBBox, MapView.MapWidth, MapView.MapHeight);
                 await MapView.ZoomToScaleAsync(MapView.CurrentScale * 2);
                 drawnShapesLayer.Close();
                 await MapView.RefreshAsync();
@@ -221,7 +221,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var elevationPoint = (CloudElevationPointResult)LsbElevations.SelectedItem;
             var elevationPointLayerBBox = elevationPoint.Point.GetBoundingBox();
             MapView.CenterPoint = elevationPointLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(elevationPointLayerBBox, MapView.ActualWidth, MapView.MapUnit);
+            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, elevationPointLayerBBox, MapView.MapWidth, MapView.MapHeight);
             _ = MapView.RefreshAsync();
         }
 

@@ -49,7 +49,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             worldRasterLayer.Open();
             var worldRasterLayerBBox = worldRasterLayer.GetBoundingBox();
             MapView.CenterPoint = worldRasterLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(worldRasterLayerBBox, MapView.ActualWidth, MapView.MapUnit) * 1.5; // Multiply the current scale by a factor like 1.5 (50% increase) to zoom out and expand the map extent.
+            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, worldRasterLayerBBox, MapView.MapWidth, MapView.MapHeight) * 1.5; // Multiply the current scale by a factor like 1.5 (50% increase) to zoom out and expand the map extent.
             worldRasterLayer.Close();
             await MapView.RefreshAsync();
         }

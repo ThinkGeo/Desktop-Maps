@@ -139,7 +139,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             routingLayer.Open();
             var routingLayerBBox = routingLayer.GetBoundingBox();
             MapView.CenterPoint = routingLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(routingLayerBBox, MapView.ActualWidth, MapView.MapUnit);
+            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, routingLayerBBox, MapView.MapWidth, MapView.MapHeight);
             var standardZoomLevelSet = new ZoomLevelSet();
             await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel13.Scale);
             routingLayer.Close();
@@ -195,7 +195,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Zoom to the selected feature and zoom out to an appropriate level
                 var routeSegmentsBBox = ((CloudRoutingSegment)routeSegments.SelectedItem).Shape.GetBoundingBox();
                 MapView.CenterPoint = routeSegmentsBBox.GetCenterPoint();
-                MapView.CurrentScale = MapUtil.GetScale(routeSegmentsBBox, MapView.ActualWidth, MapView.MapUnit);
+                MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, routeSegmentsBBox, MapView.MapWidth, MapView.MapHeight);
                 var standardZoomLevelSet = new ZoomLevelSet();
                 if (MapView.CurrentScale < standardZoomLevelSet.ZoomLevel15.Scale)
                 {

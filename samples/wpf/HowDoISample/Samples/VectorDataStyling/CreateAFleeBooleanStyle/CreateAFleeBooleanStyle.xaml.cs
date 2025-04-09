@@ -52,7 +52,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Set the map extent
             MapView.CenterPoint = MaxExtents.SphericalMercator.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(MaxExtents.SphericalMercator, MapView.ActualWidth, MapView.MapUnit);
+            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, MaxExtents.SphericalMercator, MapView.MapWidth, MapView.MapHeight);
 
             _ = MapView.RefreshAsync();
         }

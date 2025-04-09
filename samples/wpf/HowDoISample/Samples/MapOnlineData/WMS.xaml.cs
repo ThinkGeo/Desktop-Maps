@@ -50,7 +50,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Extent of Australia 
             MapView.CenterPoint = australiaBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(australiaBBox, MapView.ActualWidth, MapView.MapUnit);
+            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, australiaBBox, MapView.MapWidth, MapView.MapHeight);
 
             var layerOverlay2 = new LayerOverlay();
             layerOverlay2.Opacity = 0.5;
@@ -75,7 +75,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                         wms.ProjectionConverter = null;
                         _thinkGeoRasterMapsAsyncLayer.ProjectionConverter = null;
                         MapView.CenterPoint = australiaBBox.GetCenterPoint();
-                        MapView.CurrentScale = MapUtil.GetScale(australiaBBox, MapView.ActualWidth, MapView.MapUnit);
+                        MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, australiaBBox, MapView.MapWidth, MapView.MapHeight);
                         break;
 
                     case "3112":
@@ -83,7 +83,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                         _thinkGeoRasterMapsAsyncLayer.ProjectionConverter = new GdalProjectionConverter(3857, 6669);
                         var projectionAustraliaBBox = ProjectionConverter.Convert(3857, 6669, australiaBBox);
                         MapView.CenterPoint = projectionAustraliaBBox.GetCenterPoint();
-                        MapView.CurrentScale = MapUtil.GetScale(projectionAustraliaBBox, MapView.ActualWidth, MapView.MapUnit);
+                        MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, projectionAustraliaBBox, MapView.MapWidth, MapView.MapHeight);
                         break;
 
                     default:

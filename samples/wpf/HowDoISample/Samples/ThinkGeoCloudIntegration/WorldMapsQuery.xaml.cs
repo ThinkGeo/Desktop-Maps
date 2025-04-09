@@ -169,7 +169,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 queriedFeaturesLayer.Open();
                 var queriedFeaturesLayerBBox = queriedFeaturesLayer.GetBoundingBox();
                 MapView.CenterPoint = queriedFeaturesLayerBBox.GetCenterPoint();
-                MapView.CurrentScale = MapUtil.GetScale(queriedFeaturesLayerBBox, MapView.ActualWidth, MapView.MapUnit);
+                MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit,queriedFeaturesLayerBBox, MapView.MapWidth, MapView.MapHeight);
                 queriedFeaturesLayer.Close();
             }
             else

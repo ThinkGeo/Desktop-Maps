@@ -76,7 +76,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 housingUnitsLayer.Open();
                 var housingUnitsLayerBBox = housingUnitsLayer.GetBoundingBox();
                 MapView.CenterPoint = housingUnitsLayerBBox.GetCenterPoint();
-                MapView.CurrentScale = MapUtil.GetScale(housingUnitsLayerBBox, MapView.ActualWidth, MapView.MapUnit);
+                MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, housingUnitsLayerBBox, MapView.MapWidth, MapView.MapHeight);
                 await MapView.ZoomOutAsync();
                 housingUnitsLayer.Close();
 

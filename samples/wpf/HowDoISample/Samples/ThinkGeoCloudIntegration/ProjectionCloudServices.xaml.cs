@@ -127,7 +127,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             reprojectedFeatureLayer.Open();
             var reprojectedFeatureLayerBBox = reprojectedFeatureLayer.GetBoundingBox();
             MapView.CenterPoint = reprojectedFeatureLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(reprojectedFeatureLayerBBox, MapView.ActualWidth, MapView.MapUnit);
+            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, reprojectedFeatureLayerBBox, MapView.MapWidth, MapView.MapHeight);
 
             var standardZoomLevelSet = new ZoomLevelSet();
             await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);

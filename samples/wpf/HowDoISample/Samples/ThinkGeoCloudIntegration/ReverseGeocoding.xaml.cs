@@ -258,7 +258,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Set the map extent to show the results of the search
             var searchRadiusFeatureLayerBBox = searchRadiusFeatureLayer.GetBoundingBox();
             MapView.CenterPoint = searchRadiusFeatureLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(searchRadiusFeatureLayerBBox, MapView.ActualWidth, MapView.MapUnit);
+            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, searchRadiusFeatureLayerBBox, MapView.MapWidth, MapView.MapHeight);
             var standardZoomLevelSet = new ZoomLevelSet();
             if (MapView.CurrentScale < standardZoomLevelSet.ZoomLevel18.Scale)
             {
@@ -290,7 +290,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     // Center the map on the chosen location
                     var locationFeatureBBox = locationFeature.GetBoundingBox();
                     MapView.CenterPoint = locationFeatureBBox.GetCenterPoint();
-                    MapView.CurrentScale = MapUtil.GetScale(locationFeatureBBox, MapView.ActualWidth, MapView.MapUnit);
+                    MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, locationFeatureBBox, MapView.MapWidth, MapView.MapHeight);
                     var standardZoomLevelSet = new ZoomLevelSet();
                     if (MapView.CurrentScale < standardZoomLevelSet.ZoomLevel18.Scale)
                     {

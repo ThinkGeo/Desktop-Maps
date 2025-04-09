@@ -63,7 +63,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 var wmtsAsyncLayerBBox = wmtsAsyncLayer.GetBoundingBox();
                 MapView.CenterPoint = wmtsAsyncLayerBBox.GetCenterPoint();
-                MapView.CurrentScale = MapUtil.GetScale(wmtsAsyncLayerBBox, MapView.ActualWidth, MapView.MapUnit);
+                MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, wmtsAsyncLayerBBox, MapView.MapWidth, MapView.MapHeight);
                 await MapView.RefreshAsync();
             }
             catch
@@ -139,7 +139,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 await wmtsAsyncLayer.OpenAsync();
                 var wmtsAsyncLayerBBox = wmtsAsyncLayer.GetBoundingBox();
                 MapView.CenterPoint = wmtsAsyncLayerBBox.GetCenterPoint();
-                MapView.CurrentScale = MapUtil.GetScale(wmtsAsyncLayerBBox, MapView.ActualWidth, MapView.MapUnit);
+                MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, wmtsAsyncLayerBBox, MapView.MapWidth, MapView.MapHeight);
                 await MapView.RefreshAsync();
             }
             catch

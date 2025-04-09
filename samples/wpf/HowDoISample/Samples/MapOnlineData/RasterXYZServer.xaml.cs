@@ -51,7 +51,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _thinkGeoRasterMapsAsyncLayer.ProjectedTileCache.GottenTile += ProjectedTileCache_GottenCacheTile;
 
             MapView.CenterPoint = MaxExtents.ThinkGeoMaps.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(MaxExtents.ThinkGeoMaps, MapView.ActualWidth, MapView.MapUnit);
+            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, MaxExtents.ThinkGeoMaps, MapView.MapWidth, MapView.MapHeight);
 
             _ = MapView.RefreshAsync();
         }
@@ -107,7 +107,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 await _thinkGeoRasterMapsAsyncLayer.OpenAsync();
                 var thinkGeoRasterMapsAsyncLayerBBox = _thinkGeoRasterMapsAsyncLayer.GetBoundingBox();
                 MapView.CenterPoint = thinkGeoRasterMapsAsyncLayerBBox.GetCenterPoint();
-                MapView.CurrentScale = MapUtil.GetScale(thinkGeoRasterMapsAsyncLayerBBox, MapView.ActualWidth, MapView.MapUnit);
+                MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, thinkGeoRasterMapsAsyncLayerBBox, MapView.MapWidth, MapView.MapHeight);
                 await MapView.RefreshAsync();
             }
             catch

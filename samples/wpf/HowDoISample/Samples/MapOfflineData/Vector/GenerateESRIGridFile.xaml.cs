@@ -67,7 +67,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             samplesLayer.Open();
             var samplesLayerBBox = samplesLayer.GetBoundingBox();
             MapView.CenterPoint = samplesLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(samplesLayerBBox, MapView.ActualWidth, MapView.MapUnit);
+            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, samplesLayerBBox, MapView.MapWidth, MapView.MapHeight);
             samplesLayer.Close();
 
             _ = MapView.RefreshAsync();

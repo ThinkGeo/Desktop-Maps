@@ -152,7 +152,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             serviceAreaLayer.Open();
             var serviceAreaLayerBBox = serviceAreaLayer.GetBoundingBox();
             MapView.CenterPoint = serviceAreaLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(serviceAreaLayerBBox, MapView.ActualWidth, MapView.MapUnit);
+            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit,serviceAreaLayerBBox, MapView.MapWidth, MapView.MapHeight);
             serviceAreaLayer.Close();
 
             await MapView.RefreshAsync();

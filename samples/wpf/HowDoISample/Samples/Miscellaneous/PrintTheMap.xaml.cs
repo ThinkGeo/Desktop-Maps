@@ -164,7 +164,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Set the map extent
             var pageLayerBBox = pageLayer.GetPosition().GetBoundingBox();
             MapView.CenterPoint = pageLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(pageLayerBBox, MapView.ActualWidth, MapView.MapUnit) * 1.5; // Multiply the current scale by a factor like 1.5 (50% increase) to zoom out and expand the map extent.
+            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, pageLayerBBox, MapView.MapWidth, MapView.MapHeight);
         }
 
         /// <summary>
