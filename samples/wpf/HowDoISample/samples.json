@@ -80,10 +80,10 @@
         "source": "Samples/MapOnlineData/NOAAWeatherWarnings"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.OGCAPIFeatureSever",
-        "title": "OGC API Feature Sever",
+        "id": "ThinkGeo.UI.Wpf.HowDoI.OGCAPIFeatureServer",
+        "title": "OGC API Feature Server",
         "description": "This sample shows how to display a OGC API Feature layer.",
-        "source": "Samples/MapOnlineData/OGCAPIFeatureSever"
+        "source": "Samples/MapOnlineData/OGCAPIFeatureServer"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.OpenStreetMap",

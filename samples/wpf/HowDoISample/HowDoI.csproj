@@ -45,7 +45,7 @@
     <Page Update="Samples\MapOfflineData\Vector\DisplayKMLFile.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Samples\MapOnlineData\OGCAPIFeatureSever.xaml">
+    <Page Update="Samples\MapOnlineData\OGCAPIFeatureServer.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Samples\MapOnlineData\WFS.xaml">
