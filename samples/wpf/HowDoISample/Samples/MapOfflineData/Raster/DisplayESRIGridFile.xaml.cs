@@ -68,7 +68,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             gridFeatureLayer.Open();
             var gridFeatureLayerBBox = gridFeatureLayer.GetBoundingBox();
             MapView.CenterPoint = gridFeatureLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit,gridFeatureLayerBBox, MapView.MapWidth, MapView.MapHeight) * 1.5; // Multiply the current scale by a factor like 1.5 (50% increase) to zoom out and expand the map extent.
+            var MapScale = MapUtil.GetScale(MapView.MapUnit, gridFeatureLayerBBox, MapView.MapWidth, MapView.MapHeight);
+            MapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
 
             // Refresh the map.
             _ = MapView.RefreshAsync();

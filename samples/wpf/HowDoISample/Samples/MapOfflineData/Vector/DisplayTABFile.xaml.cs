@@ -60,7 +60,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             cityBoundaryLayer.Open();
             var cityBoundaryLayerBBox = cityBoundaryLayer.GetBoundingBox();
             MapView.CenterPoint = cityBoundaryLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit,cityBoundaryLayerBBox, MapView.MapWidth, MapView.MapHeight) * 1.5; // Multiply the current scale by a factor like 1.5 (50% increase) to zoom out and expand the map extent.
+            var MapScale = MapUtil.GetScale(MapView.MapUnit, cityBoundaryLayerBBox, MapView.MapWidth, MapView.MapHeight);
+            MapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
 
             _ = MapView.RefreshAsync();
         }

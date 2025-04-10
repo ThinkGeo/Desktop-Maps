@@ -307,7 +307,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             var boundingBox = _routeLayer.GetBoundingBox();
             var center = boundingBox.GetCenterPoint();
-            var scale = MapUtil.GetScale(MapView.MapUnit, boundingBox, MapView.MapWidth, MapView.MapHeight) * 1.2;
+            
+            // Multiply the current scale by 1.5 to zoom out 50%.
+            var scale = MapUtil.GetScale(MapView.MapUnit, boundingBox, MapView.MapWidth, MapView.MapHeight) * 1.5;
 
             await MapView.ZoomToAsync(center, scale, 0);
 
