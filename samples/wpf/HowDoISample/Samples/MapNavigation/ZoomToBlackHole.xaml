@@ -79,10 +79,22 @@
             </tgWpf:MapView.Overlays>
         </tgWpf:MapView>
 
-        <Button Background="Gray"
+        <Button Background="Transparent"
                 VerticalAlignment="Top" HorizontalAlignment="Right"
                 Width="40" Height="40" Margin="10"
                 Click="DefaultExtentButton_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="OverridesDefaultStyle" Value="True"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
             <Image Source="/Resources/icon_globe_black.png" Stretch="Fill"></Image>
         </Button>
 

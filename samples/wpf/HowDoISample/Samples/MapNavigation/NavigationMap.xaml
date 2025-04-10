@@ -7,11 +7,26 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" x:Name="ThisControl">
 
+    <UserControl.Resources>
+        <!-- Reusable Style for Image Buttons Without Hover Background -->
+        <Style x:Key="ImageButtonNoHoverStyle" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    
     <Grid>
         <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded"/>
 
         <!-- Compass Button -->
         <Button x:Name="CompassButton"
+                    Style="{StaticResource ImageButtonNoHoverStyle}"
                     Width="40" Height="40"
                     Background="Transparent" 
                     BorderThickness="0"
@@ -26,6 +41,7 @@
 
         <!-- Default Extent Button -->
         <Button x:Name="DefaultExtentButton"
+                    Style="{StaticResource ImageButtonNoHoverStyle}"
                     Width="40" Height="40"
                     Background="Transparent" 
                     BorderThickness="0"
@@ -37,7 +53,8 @@
         <StackPanel  Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10">
             <TextBlock   Background="LightGray" IsEnabled="False"
                        VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="0,0,0,5" 
-                       Height="20" Width="350" FontSize="16" Text="{Binding ElementName=ThisControl, Path=TxtCoordinates}" TextAlignment="Center"/>
+                       Height="20" Width="350" FontSize="16" TextAlignment="Center"
+                       Text="{Binding ElementName=ThisControl, Path=TxtCoordinates}"/>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Background="LightGray" VerticalAlignment="Bottom" 
@@ -53,7 +70,8 @@
             </StackPanel>
         </StackPanel>
 
-        <StackPanel Margin="10" HorizontalAlignment="Left" VerticalAlignment="Bottom" Orientation="Horizontal" Height="20" Width ="120" Background="LightGray">
+        <StackPanel Margin="10" HorizontalAlignment="Left" VerticalAlignment="Bottom" Orientation="Horizontal" 
+                    Height="20" Width ="120" Background="LightGray">
             <CheckBox x:Name="ThemeCheckBox" VerticalAlignment="Center" Background="LightGray" BorderBrush="Black"
                           Click="ThemeCheckBox_Click"/>
             <TextBlock Text = "Dark Theme" VerticalAlignment="Center" Margin="10,0,0,0" FontSize="16" />
