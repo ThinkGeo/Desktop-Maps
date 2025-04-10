@@ -57,7 +57,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             csvLayer.Open();
             var csvLayerBBox = csvLayer.GetBoundingBox();
             MapView.CenterPoint = csvLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, csvLayerBBox, MapView.MapWidth, MapView.MapHeight); 
+            var MapScale = MapUtil.GetScale(MapView.MapUnit, csvLayerBBox, MapView.MapWidth, MapView.MapHeight);
+            MapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
 
             _ = MapView.RefreshAsync();
         }
