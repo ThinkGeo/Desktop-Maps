@@ -15,20 +15,41 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InitializeComponent();
         }
 
+        private CustomWmsAsyncLayer _wmsAsync;
+        private LayerOverlay _overlay;
+
         /// <summary>
         /// Add the WMS layer to the map
         /// </summary>
         private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
+
+            var a = MapUtil.GetScaleFromResolution(0.5, GeographyUnit.Meter);
+
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            MapView.MapUnit = GeographyUnit.DecimalDegree;
+            MapView.MapUnit = GeographyUnit.Meter;
 
-            // This code sets up the sample to use the overlay versus the layer.
-            CreateAnOverlay(false);
+            // Create an overlay that we will add the layer to.
+            _overlay = new LayerOverlay();
+            _overlay.TileCache = new FileRasterTileCache(@".\cache", "HandleExceptionSample"); // Tiles with exceptions will not be cached.
+            _overlay.ThrowingException += (_, arg) =>
+            {
+                TxtException.Text = arg.Exception?.Message;
+                arg.Handled = true;
+            };
+            MapView.Overlays.Add(_overlay);
 
-            // Set the current extent to a local area.
-            MapView.CenterPoint = new PointShape(-96.82631, 33.13364);
-            MapView.CurrentScale = 33160;
+            //_wms = new CustomWmsLayer(new Uri("http://not_exist.com/services/service"));
+            _wmsAsync = new CustomWmsAsyncLayer(new Uri("http://geo.vliz.be/geoserver/Dataportal/ows?service=WMS&"));
+            _wmsAsync.Parameters.Add("LAYERS", "eurobis_grid_15m-obisenv");
+            _wmsAsync.Parameters.Add("STYLES", "generic");
+            _wmsAsync.OutputFormat = "image/png";
+            _wmsAsync.Crs = "EPSG:3857";  // Coordinate system, typically EPSG:3857 for WMS with Spherical 
+            _wmsAsync.TimeoutInSeconds = 1; // 1s basically for sure will Timeout 
+            _overlay.Layers.Add("wmsImageLayer", _wmsAsync);
+
+            MapView.CenterPoint = new PointShape(234655, 1247759);
+            MapView.CurrentScale = 295830000;
 
             // Refresh the map.
             _ = MapView.RefreshAsync();
@@ -39,42 +60,24 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var button = (RadioButton)sender;
             if (button.Content == null) return;
             TxtException.Text = "";
+
             switch (button.Content.ToString())
             {
-                case "Draw Customized Exception":
-                    CreateAnOverlay(true);
+                case "Draw Custom Exception":
+                    _wmsAsync.DrawCustomException = true;
+                    _overlay.ThrowingExceptionMode = ThrowingExceptionMode.SuppressException;
                     break;
-                case "Draw Exception":
+
+                case "Throw Exception":
+                    _overlay.ThrowingExceptionMode = ThrowingExceptionMode.ThrowException;
+                    break;
+
                 default:
-                    CreateAnOverlay(false);
+                    _wmsAsync.DrawCustomException = false;
+                    _overlay.ThrowingExceptionMode = ThrowingExceptionMode.SuppressException;
                     break;
             }
             _ = MapView.RefreshAsync();
-        }
-
-        private void CreateAnOverlay(bool drawCustomException)
-        {
-            // Clear out the overlays so we start fresh
-            MapView.Overlays.Clear();
-
-            // Create an overlay that we will add the layer to.
-            var staticOverlay = new LayerOverlay();
-            staticOverlay.ThrowingException += (sender, e) =>
-            {
-                TxtException.Text = e.Exception?.InnerException.Message;
-                e.Handled = true;
-            };
-            MapView.Overlays.Add(staticOverlay);
-
-            // Create the WMS layer using the parameters below.
-            // This is a public service and is very slow most of the time.
-            var wmsImageLayer = new CustomWmsLayer(new Uri("http://not_exist.com/services/service"), drawCustomException)
-                {
-                    DrawingExceptionMode = DrawingExceptionMode.DrawAndThrowException
-                };
-
-            // Add the layer to the overlay.
-            staticOverlay.Layers.Add("wmsImageLayer", wmsImageLayer);
         }
 
         public void Dispose()
@@ -86,18 +89,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
     }
 
-    public class CustomWmsLayer : Core.WmsAsyncLayer
+    public class CustomWmsAsyncLayer : Core.WmsAsyncLayer
     {
-        private readonly bool _drawCustomException;
-        public CustomWmsLayer(Uri uri, bool drawCustomException)
+        public bool DrawCustomException { get; set; }
+        public CustomWmsAsyncLayer(Uri uri)
             : base(uri)
-        {
-            this._drawCustomException = drawCustomException;
-        }
+        { }
 
         protected override void DrawExceptionCore(GeoCanvas canvas, Exception e)
         {
-            if (!_drawCustomException)
+            if (!DrawCustomException)
             {
                 base.DrawExceptionCore(canvas, e);
             }
