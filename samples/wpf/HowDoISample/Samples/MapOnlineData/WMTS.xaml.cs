@@ -28,7 +28,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // It is important to set the map unit first to either feet, meters or decimal degrees.
                 MapView.MapUnit = GeographyUnit.Meter;
                 var layerOverlay = new WmtsOverlay(new Uri("https://wmts.geo.admin.ch/1.0.0"));
-                layerOverlay.DrawingExceptionMode = DrawingExceptionMode.DrawException;
                 layerOverlay.ActiveLayerName = "ch.swisstopo.pixelkarte-farbe-pk25.noscale";
                 layerOverlay.ActiveStyleName = "default";
                 layerOverlay.OutputFormat = "image/png";

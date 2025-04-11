@@ -37,10 +37,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             worldLayer.Close();
 
             // Create a new overlay that will hold our new layer and add it to the map.
-            var staticOverlay = new LayerOverlay
-            {
-                DrawingExceptionMode = DrawingExceptionMode.DrawException
-            };
+            var staticOverlay = new LayerOverlay();
 
             staticOverlay.Layers.Add("WorldLayer", worldLayer);
             MapView.Overlays.Add(staticOverlay);
