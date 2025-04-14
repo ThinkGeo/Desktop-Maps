@@ -17,8 +17,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private WmsAsyncLayer wms;
         private ThinkGeoRasterMapsAsyncLayer _thinkGeoRasterMapsAsyncLayer;
-        private RectangleShape australiaBBox = new RectangleShape(14114144.61573416, 5195304.319841703, 16392171.878052138, 3442348.4809069675);
-        
+        private PointShape australiaCenterPoint = new PointShape(15253160, 4318830);
+        private double australiaCurrentScale = 9266220;
+
         /// <summary>
         /// Add the WMS layer to the map
         /// </summary>
@@ -49,8 +50,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             //wms.Transparency = 100;
 
             // Extent of Australia 
-            MapView.CenterPoint = australiaBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, australiaBBox, MapView.MapWidth, MapView.MapHeight);
+            MapView.CenterPoint = australiaCenterPoint;
+            MapView.CurrentScale = australiaCurrentScale;
 
             var layerOverlay2 = new LayerOverlay();
             layerOverlay2.Opacity = 0.5;
@@ -74,16 +75,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     case "3857":
                         wms.ProjectionConverter = null;
                         _thinkGeoRasterMapsAsyncLayer.ProjectionConverter = null;
-                        MapView.CenterPoint = australiaBBox.GetCenterPoint();
-                        MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, australiaBBox, MapView.MapWidth, MapView.MapHeight);
+                        MapView.CenterPoint = australiaCenterPoint;
+                        MapView.CurrentScale = australiaCurrentScale;
                         break;
 
                     case "3112":
                         wms.ProjectionConverter = new GdalProjectionConverter(3857, 6669);
                         _thinkGeoRasterMapsAsyncLayer.ProjectionConverter = new GdalProjectionConverter(3857, 6669);
-                        var projectionAustraliaBBox = ProjectionConverter.Convert(3857, 6669, australiaBBox);
-                        MapView.CenterPoint = projectionAustraliaBBox.GetCenterPoint();
-                        MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, projectionAustraliaBBox, MapView.MapWidth, MapView.MapHeight);
+                        var projectedCenter = ProjectionConverter.Convert(3857, 6669, australiaCenterPoint);
+                        MapView.CenterPoint = projectedCenter;
+                        MapView.CurrentScale = australiaCurrentScale;
                         break;
 
                     default:

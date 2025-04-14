@@ -61,7 +61,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.DefaultAnimationSettings = new AnimationSettings
             {
                 Type = MapAnimationType.DrawWithAnimation,
-                Duration = 1200,
+                Duration = 1500,
                 Easing = null
             }; 
 
@@ -297,23 +297,32 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private async void OverviewButton_OnClick(object sender, RoutedEventArgs e)
         {
             _showOverview = !_showOverview;
-            if (!_showOverview) return;
+            if (_showOverview)
+            {
+                // Change the button content to "StreetView" when entering overview mode
+                OverviewButton.Content = "StreetView";
 
-            while (_busy)
-                await Task.Delay(500); // delay the operation is it's rendering 
-            _busy = true;
+                while (_busy)
+                    await Task.Delay(500); // delay the operation is it's rendering 
+                _busy = true;
 
-            RefreshCancellationTokenAsync();
+                RefreshCancellationTokenAsync();
 
-            var boundingBox = _routeLayer.GetBoundingBox();
-            var center = boundingBox.GetCenterPoint();
-            
-            // Multiply the current scale by 1.5 to zoom out 50%.
-            var scale = MapUtil.GetScale(MapView.MapUnit, boundingBox, MapView.MapWidth, MapView.MapHeight) * 1.5;
+                var boundingBox = _routeLayer.GetBoundingBox();
+                var center = boundingBox.GetCenterPoint();
 
-            await MapView.ZoomToAsync(center, scale, 0);
+                // Multiply the current scale by 1.5 to zoom out 50%.
+                var scale = MapUtil.GetScale(MapView.MapUnit, boundingBox, MapView.MapWidth, MapView.MapHeight) * 1.5;
 
-            _busy = false;
+                await MapView.ZoomToAsync(center, scale, 0);
+
+                _busy = false;
+            }
+            else 
+            {
+                // Change the button content back to "Overview" when exiting overview mode
+                OverviewButton.Content = "Overview";
+            }
         }
 
         public void Dispose()

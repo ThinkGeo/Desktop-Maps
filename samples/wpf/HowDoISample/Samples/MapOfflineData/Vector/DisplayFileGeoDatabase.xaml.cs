@@ -35,6 +35,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Create a new overlay that will hold our new layer and add it to the map.
             var fileGeoDatabaseOverlay = new LayerOverlay();
+            fileGeoDatabaseOverlay.TileType = TileType.SingleTile;
             MapView.Overlays.Add("overlay", fileGeoDatabaseOverlay);
 
             // Create the new layer and set the projection as the data is in srid 2276 and our background is srid 3857 (spherical mercator).

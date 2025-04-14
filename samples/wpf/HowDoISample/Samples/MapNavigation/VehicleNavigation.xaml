@@ -6,37 +6,38 @@
              xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-        
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
 
-            <thinkGeoUi:MapView Grid.Row="1" x:Name="MapView" MapUnit="Meter" Loaded="MapView_OnLoaded"/>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
 
-            <Image Source="/Resources/icon_north_arrow.png" Grid.Row="1" 
+        <thinkGeoUi:MapView Grid.Row="1" x:Name="MapView" MapUnit="Meter" Loaded="MapView_OnLoaded"/>
+
+        <Image Source="/Resources/icon_north_arrow.png" Grid.Row="1" 
                    VerticalAlignment="Top" HorizontalAlignment="Right"
                    Width="40" Height="40" Margin="5"
                    RenderTransformOrigin="0.5,0.5">
-                <Image.RenderTransform>
-                    <RotateTransform Angle="{Binding ElementName=MapView, Path=RotationAngle}"/>
-                </Image.RenderTransform>
-            </Image>
-            
-            <StackPanel Grid.Row="1" Background= "Gray" 
+            <Image.RenderTransform>
+                <RotateTransform Angle="{Binding ElementName=MapView, Path=RotationAngle}"/>
+            </Image.RenderTransform>
+        </Image>
+
+        <StackPanel Grid.Row="1" Background= "Gray" 
                          HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10">
-                <StackPanel Orientation="Horizontal" Height="20" Background="White">
-                    <CheckBox x:Name="AerialBackgroundCheckBox" Content="Aerial Background" 
+            <StackPanel Orientation="Horizontal" Height="20" Background="White">
+                <CheckBox x:Name="AerialBackgroundCheckBox" Content="Aerial Background" 
                               Checked="AerialBackgroundCheckBox_CheckedChanged" 
                               Unchecked="AerialBackgroundCheckBox_CheckedChanged"/>
-                </StackPanel>
             </StackPanel>
+        </StackPanel>
 
-            <Button Grid.Row="1" Margin="10" 
+        <Button x:Name="OverviewButton"
+                    Grid.Row="1" Margin="10" 
                     Width="100" Height="40"
                     Content="Overview"
                     HorizontalAlignment="Right" VerticalAlignment="Bottom" 
                     Click="OverviewButton_OnClick"/>
-        </Grid>
+    </Grid>
 </UserControl>

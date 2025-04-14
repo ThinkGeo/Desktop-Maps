@@ -38,10 +38,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 FeatureSource = { ProjectionConverter = new ProjectionConverter(4326, 3857) }
             };
 
-            // Set the points image to a car icon and then apply it to all zoom levels
-            var vehiclePointStyle = new PointStyle(new GeoImage(@"./Resources/vehicle-location.png"))
+            var vehiclePointStyle = new PointStyle
             {
-                YOffsetInPixel = -12
+                SymbolType = PointSymbolType.Circle,
+                SymbolSize = 10, // adjust size as needed
+                FillBrush = new GeoSolidBrush(GeoColors.Blue),
+                OutlinePen = new GeoPen(GeoColors.White, 2)
             };
 
             csvLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = vehiclePointStyle;
