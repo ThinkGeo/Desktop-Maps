@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using ThinkGeo.Core;
@@ -11,9 +10,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class NavigationMap : IDisposable
     {
-        private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
-        private ThinkGeoCloudRasterMapsOverlay backgroundOverlay;
-        private SimpleMarkerOverlay markerOverlay;
+        private ThinkGeoCloudRasterMapsOverlay _backgroundOverlay;
+        private PointShape _empireStateBuildingPosition;
 
         public NavigationMap()
         {
@@ -26,28 +24,30 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
+            MapView.CurrentExtentChanged += MapView_CurrentExtentChanged;
+            
             // Set the map's unit of measurement to meters(Spherical Mercator)
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Add ThinkGeo Cloud Maps as the background 
-            backgroundOverlay = new ThinkGeoCloudRasterMapsOverlay
+            _backgroundOverlay = new ThinkGeoCloudRasterMapsOverlay
             {
                 ClientId = SampleKeys.ClientId,
                 ClientSecret = SampleKeys.ClientSecret,
                 MapType = ThinkGeoCloudRasterMapsMapType.Light_V2_X2,
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(backgroundOverlay);
+            MapView.Overlays.Add(_backgroundOverlay);
 
             // Create the marker overlay to hold UI elements like labels
-            markerOverlay = new SimpleMarkerOverlay();
+            var markerOverlay = new SimpleMarkerOverlay();
             MapView.Overlays.Add(markerOverlay);
 
             // Convert Lat/Lon (EPSG:4326) to Spherical Mercator (EPSG:3857)
-            var empireStateBuilding = ProjectionConverter.Convert(4326, 3857, new PointShape(-73.9856654, 40.74843661));
+            _empireStateBuildingPosition = ProjectionConverter.Convert(4326, 3857, new PointShape(-73.9856654, 40.74843661));
 
             // Create a marker with both label and image content
-            var marker = new Marker(empireStateBuilding)
+            var marker = new Marker(_empireStateBuildingPosition)
             {
                 //Content = markerContent,
                 ImageSource = new BitmapImage(new Uri("/Resources/empire_state_building.png", UriKind.RelativeOrAbsolute)),
@@ -62,13 +62,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // set up the map extent and refresh
             MapView.RotationAngle = -30;
             MapView.CurrentScale = 100000;
-            MapView.CenterPoint = empireStateBuilding;
-
-            // Update the position of the marker content if needed (the marker will adjust as required)
-            UpdateMarkerPosition(empireStateBuilding);
-            MapView.CurrentExtentChanged += MapView_CurrentExtentChanged;
-            MapView_CurrentExtentChanged(MapView, 
-                new CurrentExtentChangedMapViewEventArgs(MapView.CurrentExtent,MapView.CurrentExtent));
+            MapView.CenterPoint = _empireStateBuildingPosition;
 
             _ = MapView.RefreshAsync();
         }
@@ -83,7 +77,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         /// <summary>
         /// Gets or sets the text that represents the coordinates.
-        /// This is a dependency property, so it participates in WPF's binding, styling, and animation systems.
+        /// This is a bindable property.
         /// </summary>
         public string TxtCoordinates
         {
@@ -98,47 +92,28 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             TxtCoordinates = $"Center Point: (Lat: {centerInDecimalDegrees.Y:N4}, Lon: {centerInDecimalDegrees.X:N4})";
         }
 
-        private void UpdateMarkerPosition(PointShape newPosition)
-        {
-            Point imagePosition = new Point(newPosition.X, newPosition.Y);
-            markerOverlay.Markers[0].Position = imagePosition;
-        }
-
         private void ThemeCheckBox_Click(object sender, RoutedEventArgs e)
         {
-            backgroundOverlay.MapType = ThemeCheckBox.IsChecked == true
+            _backgroundOverlay.MapType = ThemeCheckBox.IsChecked == true
                 ? ThinkGeoCloudRasterMapsMapType.Dark_V2_X2
                 : ThinkGeoCloudRasterMapsMapType.Light_V2_X2;
 
             // You may need to reset the tile cache ID to avoid mixing dark/light tiles:
-            backgroundOverlay.TileCache = new FileRasterTileCache(@".\cache",
+            _backgroundOverlay.TileCache = new FileRasterTileCache(@".\cache",
                 ThemeCheckBox.IsChecked == true ? "thinkgeo_vector_dark" : "thinkgeo_vector_light");
 
-            UpdateCancellationToken(); // if you're managing cancellation tokens for refresh
-            _ = backgroundOverlay.RefreshAsync(_cancellationTokenSource.Token);
-        }
-
-        private void UpdateCancellationToken()
-        {
-            _cancellationTokenSource.Cancel();
-            _cancellationTokenSource.Dispose();
-            _cancellationTokenSource = new CancellationTokenSource();
+            MapView.CancellationTokenSource.Cancel(); // Cancel the ongoing rendering
+            _ = _backgroundOverlay.RefreshAsync();
         }
 
         private void CompassButton_Click(object sender, RoutedEventArgs e)
         {
-            var currentCenter = MapView.CenterPoint;
-            var currentScale = MapView.CurrentScale;
-            _ = MapView.ZoomToAsync(currentCenter, currentScale, 0);
+            _ = MapView.ZoomToAsync(MapView.CenterPoint, MapView.CurrentScale, 0);
         }
 
         private void DefaultExtentButton_Click(object sender, RoutedEventArgs e)
         {
-            var empireStateBuilding = ProjectionConverter.Convert(4326, 3857, new PointShape(-73.9856654, 40.74843661));
-
-            // Update the marker's position
-            UpdateMarkerPosition(empireStateBuilding);
-            _ = MapView.ZoomToAsync(empireStateBuilding, 100000, -30);
+            _ = MapView.ZoomToAsync(_empireStateBuildingPosition, 100000, -30);
         }
 
         public void Dispose()

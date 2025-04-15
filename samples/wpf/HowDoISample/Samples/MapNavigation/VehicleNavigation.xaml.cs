@@ -21,7 +21,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private int _currentGpsPointIndex;
         private Marker _vehicleMarker;
         private bool _disposed;
-        private bool _busy; // mark if the map is busy redrawing
         private bool _showOverview;
 
         private CancellationTokenSource _cancellationTokenSource;
@@ -45,7 +44,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             this._disposed = true;
         }
 
-        private async void MapView_OnLoaded(object sender, RoutedEventArgs e)
+        private void MapView_OnLoaded(object sender, RoutedEventArgs e)
         {
             _cancellationTokenSource = new CancellationTokenSource();
             // Add Cloud Maps as a background overlay
@@ -63,7 +62,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 Type = MapAnimationType.DrawWithAnimation,
                 Duration = 1500,
                 Easing = null
-            }; 
+            };
 
             _gpsPoints = CollectGpsData();
 
@@ -98,17 +97,21 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.CenterPoint = new PointShape(_gpsPoints[0]);
             MapView.CurrentScale = DefaultScale;
 
-            await ZoomToGpsPointsAsync(_gpsPoints);
+            _ = ZoomToGpsPointsAsync(_gpsPoints);
         }
 
         private async Task ZoomToGpsPointsAsync(Collection<Vertex> gpsPoints)
         {
             for (_currentGpsPointIndex = 0; _currentGpsPointIndex < gpsPoints.Count; _currentGpsPointIndex++)
             {
-                while (_busy || _cancellationTokenSource.IsCancellationRequested)
-                    await Task.Delay(500); // delay zooming to GPS Points if the map is refreshing
-
-                await ZoomToGpsPointAsync(gpsPoints, _currentGpsPointIndex, _cancellationTokenSource.Token);
+                try
+                {
+                    await ZoomToGpsPointAsync(gpsPoints, _currentGpsPointIndex, _cancellationTokenSource.Token);
+                }
+                catch (TaskCanceledException)
+                {
+                    await Task.Delay(500);
+                }
 
                 if (_disposed)
                     break;
@@ -162,13 +165,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _visitedRoutesLayer.InternalFeatures.Add(new Feature(lineShape));
         }
 
-        private async Task ZoomToGpsPointAsync(Collection<Vertex> gpsPoints,  int gpsPointIndex, CancellationToken cancellationToken)
+        private async Task ZoomToGpsPointAsync(Collection<Vertex> gpsPoints, int gpsPointIndex, CancellationToken cancellationToken)
         {
             if (gpsPointIndex >= gpsPoints.Count)
                 return;
 
             var angle = GetRotationAngle(gpsPointIndex, gpsPoints);
-      
+
             if (_showOverview)
             {
                 var totalTime = 1000.0; // Set a 1-second animation
@@ -279,32 +282,22 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _cancellationTokenSource = new CancellationTokenSource();
         }
 
-        private async void AerialBackgroundCheckBox_CheckedChanged(object sender, RoutedEventArgs e)
+        private void AerialBackgroundCheckBox_CheckedChanged(object sender, RoutedEventArgs e)
         {
-            while (_busy)
-                await Task.Delay(500); // delay the operation is it's rendering 
-            _busy = true;
             RefreshCancellationTokenAsync();
 
             _backgroundOverlay.MapType = AerialBackgroundCheckBox.IsChecked.Value
                 ? ThinkGeoCloudRasterMapsMapType.Aerial_V2_X2
                 : ThinkGeoCloudRasterMapsMapType.Light_V2_X2;
-            await _backgroundOverlay.RefreshAsync();
-
-            _busy = false;
+            _ = _backgroundOverlay.RefreshAsync();
         }
 
-        private async void OverviewButton_OnClick(object sender, RoutedEventArgs e)
+        private void OverviewButton_OnClick(object sender, RoutedEventArgs e)
         {
             _showOverview = !_showOverview;
             if (_showOverview)
             {
-                // Change the button content to "StreetView" when entering overview mode
-                OverviewButton.Content = "StreetView";
-
-                while (_busy)
-                    await Task.Delay(500); // delay the operation is it's rendering 
-                _busy = true;
+                OverviewButton.Content = "Tracking Mode";
 
                 RefreshCancellationTokenAsync();
 
@@ -314,14 +307,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Multiply the current scale by 1.5 to zoom out 50%.
                 var scale = MapUtil.GetScale(MapView.MapUnit, boundingBox, MapView.MapWidth, MapView.MapHeight) * 1.5;
 
-                await MapView.ZoomToAsync(center, scale, 0);
-
-                _busy = false;
+                _ = MapView.ZoomToAsync(center, scale, 0);
             }
-            else 
+            else
             {
-                // Change the button content back to "Overview" when exiting overview mode
-                OverviewButton.Content = "Overview";
+                OverviewButton.Content = "Overview Mode";
             }
         }
 

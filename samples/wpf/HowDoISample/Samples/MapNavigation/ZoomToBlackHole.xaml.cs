@@ -27,25 +27,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             _cancellationTokenSource = new CancellationTokenSource();
+
             MapView.DefaultAnimationSettings.Duration = 2000;
+            MapView.DefaultAnimationSettings.Type = MapAnimationType.DrawWithAnimation;
+
             _zoomingExtents = GetZoomingExtents();
 
             MapView.CurrentScaleChanged += MapView_CurrentScaleChanged;
-
-            MapView.DefaultAnimationSettings.Type = MapAnimationType.DrawWithAnimation;
-            
-            // stop the auto zooming whenever touching the map
-            MapView.MapDoubleClick += MapView_MapDoubleClick;
             MapView.ZoomLevelSet = GetDefaultZoomLevelSet();
 
             _ = MapView.RefreshAsync();
         }
 
-        private void MapView_MapDoubleClick(object sender, MapClickMapViewEventArgs e)
-        {
-            StopCurrentAnimation();
-        }
-        
         private void MapView_CurrentScaleChanged(object sender, CurrentScaleChangedMapViewEventArgs e)
         {
             foreach (var overlay in MapView.Overlays)
@@ -83,6 +76,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _ = ZoomToBlackHoleAsync(_cancellationTokenSource.Token);
         }
 
+        private void DefaultExtentButton_Click(object sender, RoutedEventArgs e)
+        {
+            StopCurrentAnimation();
+            _ = MapView.ZoomToAsync(_zoomingExtents[0].centerPoint, _zoomingExtents[0].scale, 0, _cancellationTokenSource.Token);
+        }
 
         private async Task ZoomToBlackHoleAsync(CancellationToken cancellationToken)
         {
@@ -92,26 +90,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 try
                 {
-                    await MapView.ZoomToAsync(centerPoint, scale, 0, cancellationToken: cancellationToken);
+                    await MapView.ZoomToAsync(centerPoint, scale, 0, cancellationToken);
                 }
                 catch (TaskCanceledException)
                 {
                     break;
                 }
             }
-        }
-
-        private void DefaultExtentButton_Click(object sender, RoutedEventArgs e)
-        {
-            StopCurrentAnimation();
-
-            try
-            {
-                _ = MapView.ZoomToAsync(_zoomingExtents[0].centerPoint, _zoomingExtents[0].scale, 0,
-                    _cancellationTokenSource.Token);
-            }
-            catch (TaskCanceledException)
-            { }
         }
 
         private List<(PointShape CenterPoint, double Scale)> GetZoomingExtents()
@@ -141,18 +126,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private ZoomLevelSet GetDefaultZoomLevelSet()
         {
+            if (_zoomingExtents != null)
+                _zoomingExtents = GetZoomingExtents();
+
             var zoomLevelSet = new ZoomLevelSet();
-
-            foreach (var overlay in MapView.Overlays)
-            {
-                if (!(overlay is LayerOverlay layerOverlay))
-                    continue;
-                if (!(layerOverlay.Layers[0] is GeoImageLayer geoImageLayer))
-                    continue;
-
-                var zoomLevel = new ZoomLevel(geoImageLayer.Scale);
-                zoomLevelSet.CustomZoomLevels.Add(zoomLevel);
-            }
+            foreach (var zoomingExtent in _zoomingExtents)
+                zoomLevelSet.CustomZoomLevels.Add(new ZoomLevel(zoomingExtent.scale));
 
             return zoomLevelSet;
         }

@@ -36,7 +36,7 @@
         <Button x:Name="OverviewButton"
                     Grid.Row="1" Margin="10" 
                     Width="100" Height="40"
-                    Content="Overview"
+                    Content="Overview Mode"
                     HorizontalAlignment="Right" VerticalAlignment="Bottom" 
                     Click="OverviewButton_OnClick"/>
     </Grid>

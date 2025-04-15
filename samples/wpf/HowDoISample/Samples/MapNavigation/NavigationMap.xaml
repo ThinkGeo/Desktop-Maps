@@ -53,28 +53,28 @@
         <StackPanel  Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10">
             <TextBlock   Background="LightGray" IsEnabled="False"
                        VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="0,0,0,5" 
-                       Height="20" Width="350" FontSize="16" TextAlignment="Center"
+                       Height="30" Width="400" FontSize="20" TextAlignment="Center"
                        Text="{Binding ElementName=ThisControl, Path=TxtCoordinates}"/>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Background="LightGray" VerticalAlignment="Bottom" 
-                           Width="110" Height="20" FontSize="16"
+                           Width="140" Height="30" FontSize="20"
                            Text="{Binding ElementName=MapView, Path=RotationAngle, StringFormat={}Rotation: {0:N0}}"/>
                 <TextBlock Background="LightGray" VerticalAlignment="Bottom" 
-                           Width="100" Height="20" FontSize="16"
+                           Width="140" Height="30" FontSize="20"
                            Text="{Binding ElementName=MapView, Path=CurrentZoom, StringFormat={}Zoom: {0:N2}}"/>
                 <TextBlock Background="LightGray" VerticalAlignment="Bottom" 
-                       Width="140" Height="20" FontSize="16"
+                       Width="180" Height="30" FontSize="20"
                        Text="{Binding ElementName=MapView, Path=CurrentScale, StringFormat={}Scale: {0:N0}}"/>
                 
             </StackPanel>
         </StackPanel>
 
         <StackPanel Margin="10" HorizontalAlignment="Left" VerticalAlignment="Bottom" Orientation="Horizontal" 
-                    Height="20" Width ="120" Background="LightGray">
+                    Height="30" Width ="150" Background="LightGray">
             <CheckBox x:Name="ThemeCheckBox" VerticalAlignment="Center" Background="LightGray" BorderBrush="Black"
                           Click="ThemeCheckBox_Click"/>
-            <TextBlock Text = "Dark Theme" VerticalAlignment="Center" Margin="10,0,0,0" FontSize="16" />
+            <TextBlock Text = "Dark Theme" VerticalAlignment="Center" Margin="10,0,0,0" FontSize="20" />
         </StackPanel>
 
     </Grid>
