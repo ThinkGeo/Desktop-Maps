@@ -61,6 +61,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             centerPointLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             var centerPointOverlay = new LayerOverlay();
+            centerPointOverlay.TileType = TileType.SingleTile;
             centerPointOverlay.Layers.Add("CenterPointLayer", centerPointLayer);
             MapView.Overlays.Add("CenterPointOverlay", centerPointOverlay);
 

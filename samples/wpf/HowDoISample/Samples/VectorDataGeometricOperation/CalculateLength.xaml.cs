@@ -38,6 +38,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var friscoTrails = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hike_Bike.shp");
             var selectedLineLayer = new InMemoryFeatureLayer();
             var layerOverlay = new LayerOverlay();
+            layerOverlay.TileType = TileType.SingleTile;
 
             // Project friscoTrails layer to Spherical Mercator to match the map projection
             friscoTrails.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);

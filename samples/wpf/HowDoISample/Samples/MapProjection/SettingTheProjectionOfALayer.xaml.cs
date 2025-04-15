@@ -36,6 +36,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Create an overlay that we can add feature layers to, and add it to the MapView
             var subdivisionsOverlay = new LayerOverlay();
+            subdivisionsOverlay.TileType = TileType.SingleTile;
             MapView.Overlays.Add("Frisco Subdivisions Overlay", subdivisionsOverlay);
 
             // Reproject a shapefile and set the extent

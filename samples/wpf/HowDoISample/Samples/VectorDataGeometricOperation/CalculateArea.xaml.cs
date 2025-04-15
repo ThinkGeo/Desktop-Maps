@@ -59,6 +59,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             selectedAreaLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             var selectedAreaOverlay = new LayerOverlay();
+            selectedAreaOverlay.TileType = TileType.SingleTile;
             selectedAreaOverlay.Layers.Add("SelectedAreaLayer", selectedAreaLayer);
             MapView.Overlays.Add("SelectedAreaOverlay", selectedAreaOverlay);
 

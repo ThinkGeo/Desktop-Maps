@@ -36,6 +36,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var dividedCityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimitsDivided.shp");
             var unionLayer = new InMemoryFeatureLayer();
             var layerOverlay = new LayerOverlay();
+            layerOverlay.TileType = TileType.SingleTile;
 
             // Project dividedCityLimits layer to Spherical Mercator to match the map projection
             dividedCityLimits.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);

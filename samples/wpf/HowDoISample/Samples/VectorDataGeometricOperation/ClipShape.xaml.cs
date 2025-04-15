@@ -40,6 +40,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var clipLayer = new InMemoryFeatureLayer();
             var layerOverlay = new LayerOverlay();
             var clipOverlay = new LayerOverlay();
+            layerOverlay.TileType = TileType.SingleTile;
+            clipOverlay.TileType = TileType.SingleTile;
 
             // Project cityLimits layer to Spherical Mercator to match the map projection
             cityLimits.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);

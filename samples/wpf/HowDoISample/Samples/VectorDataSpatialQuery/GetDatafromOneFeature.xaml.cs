@@ -51,6 +51,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 // Add the feature layer to an overlay, and add the overlay to the map
                 var parksOverlay = new LayerOverlay();
+                parksOverlay.TileType = TileType.SingleTile;
                 parksOverlay.Layers.Add("Frisco Parks", parksLayer);
                 MapView.Overlays.Add(parksOverlay);
 

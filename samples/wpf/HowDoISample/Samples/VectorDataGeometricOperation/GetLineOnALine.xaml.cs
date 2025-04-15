@@ -38,6 +38,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var railway = new InMemoryFeatureLayer();
             var subLineLayer = new InMemoryFeatureLayer();
             var layerOverlay = new LayerOverlay();
+            layerOverlay.TileType = TileType.SingleTile;
 
             // Add the rail line feature to the railway layer
             railway.InternalFeatures.Add(new Feature("LineString (-10776730.91861553490161896 3925750.69222266925498843, -10778989.31895966082811356 3915278.00731692276895046, -10781766.12723691388964653 3909228.15506267035380006, -10782065.98029803484678268 3907458.59967381786555052, -10781867.48601813986897469 3905465.21030976390466094)"));

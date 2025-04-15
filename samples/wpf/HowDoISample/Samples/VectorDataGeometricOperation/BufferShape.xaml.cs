@@ -36,6 +36,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var cityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimits.shp");
             var bufferLayer = new InMemoryFeatureLayer();
             var layerOverlay = new LayerOverlay();
+            layerOverlay.TileType = TileType.SingleTile;
 
             // Project cityLimits layer to Spherical Mercator to match the map projection
             cityLimits.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);

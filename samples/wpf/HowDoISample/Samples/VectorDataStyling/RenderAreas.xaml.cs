@@ -46,6 +46,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Add the layer to a layer overlay
             var layerOverlay = new LayerOverlay();
+            layerOverlay.TileType = TileType.SingleTile;
             layerOverlay.Layers.Add(friscoSubdivisions);
 
             // Add the overlay to the map
