@@ -47,6 +47,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Add the layers to an overlay, and add the overlay to the map
             var featuresOverlay = new LayerOverlay();
+            featuresOverlay.TileType = TileType.SingleTile;
             featuresOverlay.Layers.Add("Filter Features", filterFeaturesLayer);
             featuresOverlay.Layers.Add("Validated Features", validatedFeaturesLayer);
             featuresOverlay.Layers.Add("Result Features", resultFeaturesLayer);
@@ -57,6 +58,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.CurrentScale = 1060;
 
             RdoCheckIfPolygonBoundariesOverlapPolygonBoundaries.IsChecked = true;
+
+            // Safely open and close the layer before accessing its FeatureSource
+            validatedFeaturesLayer.Open();
+            var features = validatedFeaturesLayer.FeatureSource.GetAllFeatures(ReturningColumnsType.NoColumns);
+            validatedFeaturesLayer.Close();
 
             _ = MapView.RefreshAsync();
         }

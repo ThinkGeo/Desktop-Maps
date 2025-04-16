@@ -60,10 +60,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Add each feature layer to its own overlay
             // We do this, so we can control and refresh/redraw each layer individually
             var zoningOverlay = new LayerOverlay();
+            zoningOverlay.TileType = TileType.SingleTile;
             zoningOverlay.Layers.Add("Frisco Zoning", zoningLayer);
             MapView.Overlays.Add("Frisco Zoning Overlay", zoningOverlay);
 
             var highlightedFeaturesOverlay = new LayerOverlay();
+            highlightedFeaturesOverlay.TileType = TileType.SingleTile;
             highlightedFeaturesOverlay.Layers.Add("Highlighted Features", highlightedFeaturesLayer);
             MapView.Overlays.Add("Highlighted Features Overlay", highlightedFeaturesOverlay);
 
