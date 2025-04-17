@@ -64,10 +64,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Add each feature layer to its own overlay
                 // We do this, so we can control and refresh/redraw each layer individually
                 var friscoOverlay = new LayerOverlay();
+                friscoOverlay.TileType = TileType.SingleTile;
                 friscoOverlay.Layers.Add("FriscoLayer", friscoLayer);
                 MapView.Overlays.Add("FriscoOverlay", friscoOverlay);
 
-                var highlightOverlay = new LayerOverlay { TileType = TileType.SingleTile };
+                var highlightOverlay = new LayerOverlay();
+                highlightOverlay.TileType = TileType.SingleTile;
                 MapView.Overlays.Add("HighlightOverlay", highlightOverlay);
                 highlightOverlay.Layers.Add("HighlightLayer", highlightLayer);
                 highlightOverlay.Layers.Add("QueryLayer", queryLayer);

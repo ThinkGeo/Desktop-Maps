@@ -47,6 +47,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Add the layers to an overlay, and add the overlay to the map
             var featuresOverlay = new LayerOverlay();
+            featuresOverlay.TileType = TileType.SingleTile;
             featuresOverlay.Layers.Add("Filter Features", filterFeaturesLayer);
             featuresOverlay.Layers.Add("Validated Features", validatedFeaturesLayer);
             featuresOverlay.Layers.Add("Result Features", resultFeaturesLayer);
