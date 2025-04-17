@@ -24,6 +24,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             MapView.MapUnit = GeographyUnit.Meter;
+            MapView.CurrentExtentChanged += MapView_CurrentExtentChanged;
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -107,6 +108,31 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             var pointInMercator = ProjectionConverter.Convert(4326, 3857, new PointShape(-96.82, 33.15));
             _ = MapView.CenterAtAsync(pointInMercator);
+        }
+
+        // Register the dependency property.
+        public static readonly DependencyProperty TxtCoordinatesProperty =
+            DependencyProperty.Register(
+                nameof(TxtCoordinates),
+                typeof(string),
+                typeof(ZoomToExtents),
+                null);
+
+        /// <summary>
+        /// Gets or sets the text that represents the coordinates.
+        /// This is a bindable property.
+        /// </summary>
+        public string TxtCoordinates
+        {
+            get => (string)GetValue(TxtCoordinatesProperty);
+            set => SetValue(TxtCoordinatesProperty, value);
+        }
+
+        private void MapView_CurrentExtentChanged(object sender, CurrentExtentChangedMapViewEventArgs e)
+        {
+            var center = MapView.CurrentExtent.GetCenterPoint();
+            var centerInDecimalDegrees = ProjectionConverter.Convert(3857, 4326, center);
+            TxtCoordinates = $"Center Point: (Lat: {centerInDecimalDegrees.Y:N4}, Lon: {centerInDecimalDegrees.X:N4})";
         }
 
         private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
