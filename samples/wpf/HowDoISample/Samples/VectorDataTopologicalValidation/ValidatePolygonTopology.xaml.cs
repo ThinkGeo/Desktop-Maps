@@ -59,11 +59,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             RdoCheckIfPolygonBoundariesOverlapPolygonBoundaries.IsChecked = true;
 
-            // Safely open and close the layer before accessing its FeatureSource
-            validatedFeaturesLayer.Open();
-            var features = validatedFeaturesLayer.FeatureSource.GetAllFeatures(ReturningColumnsType.NoColumns);
-            validatedFeaturesLayer.Close();
-
             _ = MapView.RefreshAsync();
         }
 
