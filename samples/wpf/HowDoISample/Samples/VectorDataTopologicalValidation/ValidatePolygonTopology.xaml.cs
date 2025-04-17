@@ -335,10 +335,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var MapScale = MapUtil.GetScale(MapView.MapUnit, featureOverlayBBox, MapView.MapWidth, MapView.MapHeight);
             MapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
             await MapView.RefreshAsync();
-
-            validatedFeaturesLayer.Close();
-            filterFeaturesLayer.Close();
-            resultFeaturesLayer.Close();
         }
 
         public void Dispose()
