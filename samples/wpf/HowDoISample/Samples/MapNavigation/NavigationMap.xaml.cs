@@ -28,7 +28,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             
             // Set the map's unit of measurement to meters(Spherical Mercator)
             MapView.MapUnit = GeographyUnit.Meter;
-
             // Add ThinkGeo Cloud Maps as the background 
             _backgroundOverlay = new ThinkGeoCloudRasterMapsOverlay
             {

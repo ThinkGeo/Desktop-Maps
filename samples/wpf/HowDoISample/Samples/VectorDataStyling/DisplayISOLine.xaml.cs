@@ -101,8 +101,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var dynamicIsoLineLayer = new DynamicIsoLineLayer(csvPointData, isoLineLevels, new InverseDistanceWeightedGridInterpolationModel(), IsoLineType.LinesOnly)
             {
                 // Set the cell height and width dynamically based on the map view size
-                CellHeightInPixel = (int)(MapView.ActualHeight / 80),
-                CellWidthInPixel = (int)(MapView.ActualWidth / 80)
+                CellHeightInPixel = (int)(MapView.MapHeight / 80),
+                CellWidthInPixel = (int)(MapView.MapWidth / 80)
             };
 
             //Create a series of colors from blue to red that we will use for the breaks based on the number of iso line levels we want.

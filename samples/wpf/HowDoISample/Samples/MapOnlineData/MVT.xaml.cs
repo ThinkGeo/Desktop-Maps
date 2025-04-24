@@ -21,15 +21,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 LayerOverlay _layerOverlay = new LayerOverlay();
                 MapView.Overlays.Add(_layerOverlay);
 
-                var scaleFactor = (float)PresentationSource.FromVisual(Application.Current.MainWindow).CompositionTarget.TransformToDevice.M11;
-                var openstackMbtiles = new MvtTilesAsyncLayer("https://tiles.preludemaps.com/styles/TG_Savannah_Light/style.json");
-                openstackMbtiles.MaxZoomOfTheData = 14;
+                var openstackMbtiles = new MvtTilesAsyncLayer("https://demotiles.maplibre.org/style.json");
+                //var openstackMbtiles = new MvtTilesAsyncLayer("https://demotiles.maplibre.org/styles/osm-bright-gl-style/style.json");
+                //var openstackMbtiles = new MvtTilesAsyncLayer("https://tiles.preludemaps.com/styles/TG_Savannah_Light/style.json");
 
                 _layerOverlay.Layers.Add(openstackMbtiles);
                 await openstackMbtiles.OpenAsync();
-                MapView.CenterPoint = new PointShape(-13400,6711500);
-                MapView.CurrentScale = 7300;
-
+                MapView.CurrentExtent = openstackMbtiles.GetBoundingBox();
                 await MapView.RefreshAsync();
             }
             catch 

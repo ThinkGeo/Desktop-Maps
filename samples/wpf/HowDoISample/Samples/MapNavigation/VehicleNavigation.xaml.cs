@@ -26,7 +26,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private CancellationTokenSource _cancellationTokenSource;
         private ThinkGeoCloudRasterMapsOverlay _backgroundOverlay;
 
-        private LayerWpfDrawingOverlay _routesOverlay;
+        private FeatureLayerWpfDrawingOverlay _routesOverlay;
         private SimpleMarkerOverlay _markerOverlay;
         private InMemoryFeatureLayer _routeLayer;
         private InMemoryFeatureLayer _visitedRoutesLayer;
@@ -57,7 +57,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
             MapView.Overlays.Add(_backgroundOverlay);
 
-            MapView.DefaultAnimationSettings = new AnimationSettings
+            MapView.DefaultAnimationSettings = new MapAnimationSettings
             {
                 Type = MapAnimationType.DrawWithAnimation,
                 Duration = 1500,
@@ -73,10 +73,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 LineStyle.CreateSimpleLineStyle(GeoColors.Green, 6, true);
             _visitedRoutesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            _routesOverlay = new LayerWpfDrawingOverlay();
+            _routesOverlay = new FeatureLayerWpfDrawingOverlay();
             _routesOverlay.UpdateDataWhileTransforming = true;
-            _routesOverlay.Layers.Add(_routeLayer);
-            _routesOverlay.Layers.Add(_visitedRoutesLayer);
+            _routesOverlay.FeatureLayers.Add(_routeLayer);
+            _routesOverlay.FeatureLayers.Add(_visitedRoutesLayer);
             MapView.Overlays.Add(_routesOverlay);
 
             // Create a marker overlay to show where the vehicle is

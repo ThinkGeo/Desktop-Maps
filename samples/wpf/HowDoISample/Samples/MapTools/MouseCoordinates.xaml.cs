@@ -104,8 +104,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (DisplayMouseCoordinatesTextBox.IsChecked == true)
             {
                 var currentPoint = e.GetPosition(MapView);
-                var worldPoint = MapUtil.ToWorldCoordinate(MapView.CurrentExtent, currentPoint.X, currentPoint.Y, MapView.ActualWidth,
-                    MapView.ActualHeight);
+                var worldPoint = MapUtil.ToWorldCoordinate(MapView.CurrentExtent, currentPoint.X, currentPoint.Y, MapView.MapWidth, MapView.MapHeight);
 
                 switch (((ComboBoxItem)CoordinateType.SelectedItem).Content)
                 {

@@ -12,7 +12,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     public partial class RenderLabels : IDisposable
     {
         private LayerOverlay _layerOverlay = new LayerOverlay();
-        private LayerWpfDrawingOverlay _layerWpfDrawingOverlay = new LayerWpfDrawingOverlay();
+        private FeatureLayerWpfDrawingOverlay _featureLayerWpfDrawingOverlay = new FeatureLayerWpfDrawingOverlay();
 
         public RenderLabels()
         {
@@ -63,12 +63,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _layerOverlay.TileType = TileType.SingleTile;
             MapView.Overlays.Add(_layerOverlay);
 
-            _layerWpfDrawingOverlay = new LayerWpfDrawingOverlay();
-            _layerWpfDrawingOverlay.Visibility = Visibility.Hidden;
-            _layerWpfDrawingOverlay.Layers.Add(parksLayer);
-            _layerWpfDrawingOverlay.Layers.Add(streetsLayer);
-            _layerWpfDrawingOverlay.Layers.Add(hotelsLayer);
-            MapView.Overlays.Add(_layerWpfDrawingOverlay);
+            _featureLayerWpfDrawingOverlay = new FeatureLayerWpfDrawingOverlay();
+            _featureLayerWpfDrawingOverlay.Visibility = Visibility.Hidden;
+            _featureLayerWpfDrawingOverlay.FeatureLayers.Add(parksLayer);
+            _featureLayerWpfDrawingOverlay.FeatureLayers.Add(streetsLayer);
+            _featureLayerWpfDrawingOverlay.FeatureLayers.Add(hotelsLayer);
+            MapView.Overlays.Add(_featureLayerWpfDrawingOverlay);
 
             // Set the map extent
             MapView.CenterPoint = new PointShape(-10777290, 3908740);
@@ -140,7 +140,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (sender is CheckBox checkBox)
             {
                 _layerOverlay.IsVisible = !checkBox.IsChecked.GetValueOrDefault();
-                _layerWpfDrawingOverlay.IsVisible = checkBox.IsChecked.GetValueOrDefault();
+                _featureLayerWpfDrawingOverlay.IsVisible = checkBox.IsChecked.GetValueOrDefault();
 
                 _ = MapView.RefreshAsync();
             }
