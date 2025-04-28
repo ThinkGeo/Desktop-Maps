@@ -37,6 +37,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Create a new overlay that will hold our new layer and add it to the map.
             var noaaWeatherWarningsOverlay = new LayerOverlay();
+            noaaWeatherWarningsOverlay.TileType = TileType.SingleTile;
             MapView.Overlays.Add("Noaa Weather Warning", noaaWeatherWarningsOverlay);
 
             // Create the new layer and set the projection as the data is in srid 4326 and our background is srid 3857 (spherical mercator).
