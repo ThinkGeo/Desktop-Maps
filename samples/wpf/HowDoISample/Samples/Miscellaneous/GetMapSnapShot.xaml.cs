@@ -37,7 +37,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Add a marker in the center of the map. 
             var simpleMarkerOverlay = new SimpleMarkerOverlay();
-            var marker = new Marker(MapView.CurrentExtent.GetCenterPoint());
+            var marker = new Marker(MapView.CenterPoint);
             simpleMarkerOverlay.Markers.Add(marker);
             MapView.Overlays.Add(simpleMarkerOverlay);
 
