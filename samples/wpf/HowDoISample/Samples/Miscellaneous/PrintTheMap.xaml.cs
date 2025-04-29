@@ -27,65 +27,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             SetupMapForPrinting();
             AddPageTitleLabel();
             AddMapLayers();
-            //AddMosquitoDataGrid();
-
-            // Create a legend adornment to display class breaks
-            var legend = new LegendAdornmentLayer
-            {
-                // Set up the legend adornment
-                Title = new LegendItem()
-                {
-                    TextStyle = new TextStyle("Housing Unit Counts Title", new GeoFont("Verdana", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
-                },
-                Location = AdornmentLocation.Center,
-                // Set up the legend adornment
-                Footer = new LegendItem()
-                {
-                    TextStyle = new TextStyle("Housing Unit Counts Foot", new GeoFont("Verdana", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
-                },
-            };
-
-            // Add a LegendItems to the legend adornment for each ClassBreak
-            var legendItem1 = new LegendItem()
-            {
-                TextStyle = new TextStyle("Housing Unit Counts Item1", new GeoFont("Verdana", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
-            };
-            legend.LegendItems.Add(legendItem1);
-            var legendItem2 = new LegendItem()
-            {
-                TextStyle = new TextStyle("Housing Unit Counts Item2", new GeoFont("Verdana", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
-            };
-            legend.LegendItems.Add(legendItem2);
-
-            var printerOverlay = (PrinterInteractiveOverlay)MapView.InteractiveOverlays["printerOverlay"];
-            var pageLayer = (PagePrinterLayer)printerOverlay.PrinterLayers["pageLayer"];
-
-            // Set the position of the map using the pageLayer's centerPoint
-            var pageCenter = pageLayer.GetPosition().GetCenterPoint();
-            var legendPrinterLayer = new LegendPrinterLayer(legend);
-
-            legendPrinterLayer.SetPosition(7.5, 2, pageCenter.X, pageCenter.Y - 3, PrintingUnit.Inch);
-
-            //var overlay = new LayerOverlay();
-            //overlay.Layers.Add(printerLayer);
-            //MapView.Overlays.Add(overlay);
-            //   MapView.AdornmentOverlay.Layers.Add(legend);
-
-            //// Set up the legend adornment
-            //legend.Title = null;
-            ////legend.Title = new LegendItem()
-            ////{
-            ////    TextStyle = new TextStyle("Crime Categories", new GeoFont("Verdana", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
-            ////};
-            //legend.Location = AdornmentLocation.Center;
-            //MapView.AdornmentOverlay.Layers.Add(legend);
-
-            //var scaleLine = new ScaleLineAdornmentLayer();
-            //scaleLine.TextStyle.Font = new GeoFont("Arial", 10);
-            //MapView.AdornmentOverlay.Layers.Add(scaleLine);
-
-            // Add the dataGridLayer to the PrinterLayers collection to print later
-            printerOverlay.PrinterLayers.Add(legendPrinterLayer);
+            AddMosquitoDataGrid();
 
             _ = MapView.RefreshAsync();
         }
@@ -143,9 +85,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Set the map's ZoomLevelSet to a set of common printer zoom settings
-            MapView.ZoomLevelSet =
-                new PrinterZoomLevelSet(GeographyUnit.Meter, PrinterHelper.GetPointsPerGeographyUnit(GeographyUnit.Meter));
-            MapView.MinimumScale = MapView.ZoomLevelSet.ZoomLevel20.Scale;
+            MapView.ZoomScales =
+                new PrinterZoomLevelSet(GeographyUnit.Meter, PrinterHelper.GetPointsPerGeographyUnit(GeographyUnit.Meter)).GetScales();
+            MapView.MinimumScale = MapView.ZoomScales[MapView.ZoomScales.Count - 1];
 
             var printerOverlay = new PrinterInteractiveOverlay();
             printerOverlay.IsEditable = true;

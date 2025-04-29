@@ -174,7 +174,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapView.CenterPoint = chosenLocationBBox.GetCenterPoint();
                 MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, chosenLocationBBox, MapView.MapWidth, MapView.MapHeight);
                 var standardZoomLevelSet = new ZoomLevelSet();
-                await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
+                await MapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel18.Scale);
                 await MapView.RefreshAsync();
             }
             catch 

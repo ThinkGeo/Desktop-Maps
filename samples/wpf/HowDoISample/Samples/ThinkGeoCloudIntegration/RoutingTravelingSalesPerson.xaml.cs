@@ -169,9 +169,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             routingLayer.Open();
             var routingLayerBBox = routingLayer.GetBoundingBox();
             MapView.CenterPoint = routingLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit,routingLayerBBox, MapView.MapWidth, MapView.MapHeight);
+            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, routingLayerBBox, MapView.MapWidth, MapView.MapHeight);
             var standardZoomLevelSet = new ZoomLevelSet();
-            await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel13.Scale);
+            await MapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel13.Scale);
             routingLayer.Close();
             await MapView.RefreshAsync();
         }
@@ -208,7 +208,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private async void LsbRouteSegments_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
-            { 
+            {
                 var routeSegments = (ListBox)sender;
                 if (routeSegments.SelectedItem == null) return;
                 var highlightLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Highlight Layer");
@@ -224,11 +224,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var standardZoomLevelSet = new ZoomLevelSet();
                 if (MapView.CurrentScale < standardZoomLevelSet.ZoomLevel15.Scale)
                 {
-                    await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel15.Scale);
+                    await MapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel15.Scale);
                 }
                 await MapView.RefreshAsync();
             }
-            catch 
+            catch
             {
                 // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
                 // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.

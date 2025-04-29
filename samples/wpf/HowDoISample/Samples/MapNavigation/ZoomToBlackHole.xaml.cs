@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -34,7 +35,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _zoomingExtents = GetZoomingExtents();
 
             MapView.CurrentScaleChanged += MapView_CurrentScaleChanged;
-            MapView.ZoomLevelSet = GetDefaultZoomLevelSet();
+            MapView.ZoomScales = GetDefaultZoomLevelSet();
 
             _ = MapView.RefreshAsync();
         }
@@ -124,14 +125,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             return zoomingExtents;
         }
 
-        private ZoomLevelSet GetDefaultZoomLevelSet()
+        private Collection<double> GetDefaultZoomLevelSet()
         {
             if (_zoomingExtents != null)
                 _zoomingExtents = GetZoomingExtents();
 
-            var zoomLevelSet = new ZoomLevelSet();
+            var zoomLevelSet = new Collection<double>();
             foreach (var zoomingExtent in _zoomingExtents)
-                zoomLevelSet.CustomZoomLevels.Add(new ZoomLevel(zoomingExtent.scale));
+                zoomLevelSet.Add(zoomingExtent.scale);
 
             return zoomLevelSet;
         }

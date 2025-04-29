@@ -32,8 +32,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             if (string.IsNullOrEmpty(TxtApplicationId.Text) || MapView.Overlays.Contains("Bing Map")) return;
             BtnActivate.IsEnabled = false;
-            // Set the map zoom level set to the bing map zoom level set so all the zoom levels line up.
-            MapView.ZoomLevelSet = new BingMapsZoomLevelSet();
 
             // Create the layer overlay with some additional settings and add to the map.
             var layerOverlay = new LayerOverlay

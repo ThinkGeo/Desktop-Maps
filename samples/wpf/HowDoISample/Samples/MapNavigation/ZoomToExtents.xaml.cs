@@ -87,7 +87,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void ZoomToScale_Click(object sender, RoutedEventArgs e)
         {
-            _ = MapView.ZoomToScaleAsync(Convert.ToDouble(ZoomScale.Text));
+            _ = MapView.ZoomToAsync(Convert.ToDouble(ZoomScale.Text));
         }
 
         /// <summary>

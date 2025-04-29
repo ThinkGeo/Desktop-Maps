@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
 using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
@@ -19,19 +20,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             {
                 ClientId = SampleKeys.ClientId,
                 ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudRasterMapsMapType.Light_V1_X2,
+                MapType = ThinkGeoCloudRasterMapsMapType.Light_V2_X2,
                 WrappingMode = WrappingMode.WrapDateline,
                 WrappingExtent = MaxExtents.ThinkGeoMaps
             };
 
             MapView.MapUnit = GeographyUnit.Meter;
             MapView.Overlays.Add(overlay);
-            MapView.CenterPoint = MaxExtents.ThinkGeoMaps.GetCenterPoint();
-            var MapScale = MapUtil.GetScale(MapView.MapUnit, MaxExtents.ThinkGeoMaps, MapView.MapWidth, MapView.MapHeight);
-            MapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
+       
+            MapView.CurrentScale = 300000000;
 
-            MapView.ZoomLevelSet = new SphericalMercatorZoomLevelSet();
-            MapView.ZoomLevelSet.CustomZoomLevels.Add(MapView.ZoomLevelSet.ZoomLevel01);
+            MapView.ZoomScales = new Collection<double>();
+            MapView.ZoomScales.Add(MapView.CurrentScale); // only set one scale in the collection. 
+
             MapView.MapTools.PanZoomBar.IsEnabled = false;
 
             var layer = new InMemoryFeatureLayer();

@@ -25,7 +25,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             MapView.CurrentExtentChanged += MapView_CurrentExtentChanged;
-            
+
             // Set the map's unit of measurement to meters(Spherical Mercator)
             MapView.MapUnit = GeographyUnit.Meter;
             // Add ThinkGeo Cloud Maps as the background 
@@ -87,7 +87,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void MapView_CurrentExtentChanged(object sender, CurrentExtentChangedMapViewEventArgs e)
         {
             var center = MapView.CurrentExtent.GetCenterPoint();
-            var centerInDecimalDegrees= ProjectionConverter.Convert(3857, 4326, center);
+            var centerInDecimalDegrees = ProjectionConverter.Convert(3857, 4326, center);
             TxtCoordinates = $"Center Point: (Lat: {centerInDecimalDegrees.Y:N4}, Lon: {centerInDecimalDegrees.X:N4})";
         }
 

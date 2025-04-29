@@ -167,7 +167,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var drawnShapesLayerBBox = drawnShapesLayer.GetBoundingBox();
                 MapView.CenterPoint = drawnShapesLayerBBox.GetCenterPoint();
                 MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, drawnShapesLayerBBox, MapView.MapWidth, MapView.MapHeight);
-                await MapView.ZoomToScaleAsync(MapView.CurrentScale * 2);
+                await MapView.ZoomToAsync(MapView.CurrentScale * 2);
                 drawnShapesLayer.Close();
                 await MapView.RefreshAsync();
             }

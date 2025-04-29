@@ -33,9 +33,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void BtnActivate_Click(object sender, RoutedEventArgs e)
         {
-            // Sets the map zoom level set to the Google maps zoom level set.
-            MapView.ZoomLevelSet = new GoogleMapsZoomLevelSet();
-
             // Clear the current overlay
             MapView.Overlays.Clear();
 

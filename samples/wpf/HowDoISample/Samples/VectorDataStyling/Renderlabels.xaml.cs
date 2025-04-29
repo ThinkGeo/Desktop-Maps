@@ -17,16 +17,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public RenderLabels()
         {
             InitializeComponent();
-
-            MapView.MinimumScale = 1;
-            var zooms = new ZoomLevelSet();
-
-            for (int i = 30; i >= 0; i--)
-            {
-                zooms.CustomZoomLevels.Add(new ZoomLevel(Math.Pow(2, i)));
-            }
-
-            MapView.ZoomLevelSet = zooms;
         }
 
         /// <summary>

@@ -110,7 +110,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     MapView.CenterPoint = hotelLayerBBox.GetCenterPoint();
                     MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, hotelLayerBBox, MapView.MapWidth, MapView.MapHeight);
                     var standardZoomLevelSet = new ZoomLevelSet();
-                    await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
+                    await MapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel18.Scale);
                     await MapView.RefreshAsync();
                 }
 

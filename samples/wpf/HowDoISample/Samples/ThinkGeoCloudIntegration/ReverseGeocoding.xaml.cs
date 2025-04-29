@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -262,7 +263,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var standardZoomLevelSet = new ZoomLevelSet();
             if (MapView.CurrentScale < standardZoomLevelSet.ZoomLevel18.Scale)
             {
-                await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
+                await MapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel18.Scale);
             }
             await MapView.RefreshAsync();
         }
@@ -294,7 +295,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     var standardZoomLevelSet = new ZoomLevelSet();
                     if (MapView.CurrentScale < standardZoomLevelSet.ZoomLevel18.Scale)
                     {
-                        await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
+                        await MapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel18.Scale);
                     }
                     await MapView.RefreshAsync();
                 }

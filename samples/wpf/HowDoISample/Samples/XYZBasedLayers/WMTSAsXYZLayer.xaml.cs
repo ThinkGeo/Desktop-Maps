@@ -59,7 +59,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 await wmtsAsyncLayer.OpenAsync();
                 // Create a zoomlevelSet from the WMTS server
-                MapView.ZoomLevelSet = GetZoomLevelSetFromWmtsServer();
+                MapView.ZoomScales = GetZoomScalesFromWmtsServer();
 
                 var wmtsAsyncLayerBBox = wmtsAsyncLayer.GetBoundingBox();
                 MapView.CenterPoint = wmtsAsyncLayerBBox.GetCenterPoint();
@@ -73,18 +73,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
         }
 
-        private ZoomLevelSet GetZoomLevelSetFromWmtsServer()
+        private Collection<double> GetZoomScalesFromWmtsServer()
         {
-            var scales = wmtsAsyncLayer.GetTileMatrixSets()[wmtsAsyncLayer.TileMatrixSetName].TileMatrices
-                .Select((matrix, i) => matrix.Scale);
-            var zoomLevels = scales.Select((d, i) => new ZoomLevel(d));
-            var zoomLevelSet = new ZoomLevelSet();
-            foreach (var zoomLevel in zoomLevels)
+            var matrices = wmtsAsyncLayer.GetTileMatrixSets()[wmtsAsyncLayer.TileMatrixSetName].TileMatrices;
+
+            var scales = new Collection<double>();
+            foreach (var matrix in matrices)
             {
-                zoomLevelSet.CustomZoomLevels.Add(zoomLevel);
+                scales.Add(matrix.Scale);
             }
 
-            return zoomLevelSet;
+            return scales;
         }
 
         private void ProjectedTileCache_GottenCacheTile(object sender, GottenTileTileCacheEventArgs e)

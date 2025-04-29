@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -35,8 +36,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapView.Overlays.Add(layerOverlay);
 
                 await layerOverlay.OpenAsync();
-                MapView.ZoomScales = layerOverlay.TileMatrixSet.Scales;
 
+                // Apply the wmts matrices to the MapView. 
+                var scales = layerOverlay.TileMatrixSet.Matrices.Select(m => m.Scale);
+                MapView.ZoomScales = new Collection<double>(scales.ToList());
+                
                 var layerOverlayBBox = layerOverlay.GetBoundingBox();
                 MapView.CenterPoint = layerOverlayBBox.GetCenterPoint();
                 MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit,layerOverlayBBox, MapView.MapWidth, MapView.MapHeight);
