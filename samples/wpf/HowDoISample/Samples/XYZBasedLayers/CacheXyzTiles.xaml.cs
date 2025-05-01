@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -15,6 +13,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     public partial class CacheXyzTiles : IDisposable
     {
         private OpenStreetMapAsyncLayer _openStreetMapAsyncLayer;
+        private int _finishedTileCount;
 
         public CacheXyzTiles()
         {
@@ -39,19 +38,40 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (!Directory.Exists(cachePath))
                 Directory.CreateDirectory(cachePath);
 
-            _openStreetMapAsyncLayer.TileCache = new FileRasterTileCache(cachePath, "cacheTest");
+            _openStreetMapAsyncLayer.TileCache = new FileRasterTileCache(cachePath, "xyzLayerCacheTest");
+            _openStreetMapAsyncLayer.TileCacheGenerated += OpenStreetMapAsyncLayerOnTileCacheGenerated;
 
             MapView.CurrentExtent = MaxExtents.OsmMaps;
-            MapView.ZoomScales = new OpenStreetMapsZoomLevelSet().GetScales();
             _ = MapView.RefreshAsync();
+        }
+
+        private void OpenStreetMapAsyncLayerOnTileCacheGenerated(object sender,
+            TileCacheGeneratedXyzTileAsyncLayerEventArgs e)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                _finishedTileCount++;
+                MyProgressBar.Maximum = e.TotalTileCount;
+                MyProgressBar.Value = _finishedTileCount;
+                LblStatus.Content = $"{_finishedTileCount} / {e.TotalTileCount}";
+            });
         }
 
         private async void BtnGenerateCache_OnClick(object sender, RoutedEventArgs e)
         {
             try
             {
+                MyProgressBar.Visibility = Visibility.Visible;
+                MyProgressBar.Value = 0;
+                LblStatus.Visibility = Visibility.Visible;
+                LblStatus.Content = "";
+                _finishedTileCount = 0;
+
                 var northAmericaExtent = new RectangleShape(-20030000, 20030000, 0, 0);
-                await _openStreetMapAsyncLayer.GenerateTileCache(northAmericaExtent, 0, 4);
+                await _openStreetMapAsyncLayer.GenerateTileCacheAsync(northAmericaExtent, 0, 4);
+
+                MyProgressBar.Visibility = Visibility.Hidden;
+                LblStatus.Visibility = Visibility.Hidden;
 
                 await MapView.RefreshAsync();
             }
@@ -67,21 +87,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _ = MapView.RefreshAsync();
         }
 
-        private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
+        private void ckbCacheOnly_OnChecked(object sender, RoutedEventArgs e)
         {
             if (_openStreetMapAsyncLayer == null)
                 return;
             var checkBox = (CheckBox)sender;
-            if (checkBox.IsChecked != null) 
+            if (checkBox.IsChecked != null)
                 _openStreetMapAsyncLayer.IsCacheOnly = checkBox.IsChecked.Value;
             _ = MapView.RefreshAsync();
-        }
-
-        public void Dispose()
-        {
-            ThinkGeoDebugger.DisplayTileId = false;
-            MapView.Dispose();
-            GC.SuppressFinalize(this);
         }
 
         private void btnOpenCacheFolder_OnClick(object sender, RoutedEventArgs e)
@@ -94,6 +107,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var cacheFolder = Path.Combine(fileRasterTileCache.CacheDirectory, fileRasterTileCache.CacheId);
             if (Directory.Exists(cacheFolder))
                 Process.Start("explorer.exe", cacheFolder);
+        }
+        public void Dispose()
+        {
+            ThinkGeoDebugger.DisplayTileId = false;
+            MapView.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }

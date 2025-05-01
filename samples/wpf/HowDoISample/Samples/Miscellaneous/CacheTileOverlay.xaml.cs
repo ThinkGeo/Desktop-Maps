@@ -57,16 +57,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _ = MapView.RefreshAsync();
         }
 
-        private async void _layerOverlay_TileCacheGenerated(object sender, TileCacheGeneratedTileOverlayEventArgs e)
+        private void _layerOverlay_TileCacheGenerated(object sender, TileCacheGeneratedLayerOverlayEventArgs e)
         {
-            _finishedTileCount++;
-            MyProgressBar.Maximum = e.TotalTileCount;
-            MyProgressBar.Value = _finishedTileCount;
-
-            await System.Windows.Threading.Dispatcher.Yield();
-
-            if (_finishedTileCount == e.TotalTileCount)
-                MyProgressBar.Visibility = Visibility.Hidden;
+            Dispatcher.Invoke(() =>
+            {
+                _finishedTileCount++;
+                MyProgressBar.Maximum = e.TotalTileCount;
+                MyProgressBar.Value = _finishedTileCount;
+                LblStatus.Content = $"{_finishedTileCount} / {e.TotalTileCount}";
+            });
         }
 
 
@@ -89,15 +88,21 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             {
                 MyProgressBar.Visibility = Visibility.Visible;
                 MyProgressBar.Value = 0;
+                LblStatus.Visibility = Visibility.Visible;
+                LblStatus.Content = "";
                 _finishedTileCount = 0;
 
                 // get the ScaleFactor
                 var dpiInfo = VisualTreeHelper.GetDpi(this);
                 var scaleFactor = (float)dpiInfo.DpiScaleX;
 
-                // generate the cache for the current and next 3 zooms. 
+                // generate the cache for the current and next 2 zooms. 
                 var zoom = _layerOverlay.TileMatrixSet.GetSnappedZoomIndex(MapView.CurrentScale);
-                await _layerOverlay.GenerateTileCache(_bbox, zoom, zoom + 3, scaleFactor);
+                await _layerOverlay.GenerateTileCacheAsync(_bbox, zoom, zoom + 2, scaleFactor);
+
+                MyProgressBar.Visibility = Visibility.Hidden;
+                LblStatus.Visibility = Visibility.Hidden;
+
                 await MapView.RefreshAsync();
             }
             catch

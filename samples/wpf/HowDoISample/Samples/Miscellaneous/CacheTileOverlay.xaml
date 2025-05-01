@@ -12,9 +12,12 @@
         </Grid.ColumnDefinitions>
 
         <thinkGeoUi:MapView x:Name="MapView" Grid.Column="0" Loaded="MapView_Loaded" />
+        
         <ProgressBar Grid.Column="0" x:Name="MyProgressBar" Height="25" VerticalAlignment="Bottom"
-                     Minimum="0" Maximum="100" Value="0" Visibility="Hidden"
-                     Margin="0,0,0,10"/>
+                     Minimum="0" Maximum="100" Value="0" Visibility="Hidden"/>
+        <Label Grid.Column="0" x:Name="LblStatus" Visibility="Visible" Height="25"
+               HorizontalAlignment="Center"  VerticalAlignment="Bottom" 
+               VerticalContentAlignment="Center" />
 
         <StackPanel Grid.Column="1" Margin="0">
             <CheckBox Content="Only Get Tiles from Cache" Foreground="White" IsChecked="True" Margin="5"
@@ -26,7 +29,7 @@
             <Button Content="Clear Cache" Height="40" 
                         Click="BtnClearCache_OnClick" Margin="5"/>
 
-            <Button Content="Open Cache Folder" Height="40" 
+            <Button Content="Open Cache Folder In Explorer" Height="40" 
                     Click="btnOpenCacheFolder_OnClick"  Margin="5"/>
 
             <Button Content="Switch to Global Tile Matrix" Height="40" 

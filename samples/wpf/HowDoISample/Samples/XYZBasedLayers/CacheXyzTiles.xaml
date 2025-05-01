@@ -13,10 +13,16 @@
 
         <thinkGeoUi:MapView x:Name="MapView" Grid.Column="0" Loaded="MapView_Loaded" />
 
+        <ProgressBar Grid.Column="0" x:Name="MyProgressBar" Height="25" VerticalAlignment="Bottom" 
+                     Minimum="0" Maximum="100" Value="0" Visibility="Hidden"/>
+        <Label Grid.Column="0" x:Name="LblStatus" Visibility="Visible" Height="25"
+               HorizontalAlignment="Center"  VerticalAlignment="Bottom" 
+               VerticalContentAlignment="Center" />
+
         <StackPanel Grid.Column="1" Margin="0">
             <CheckBox Content="Only Get Tiles from Cache" Foreground="White" IsChecked="True" Margin="5"
-                      Checked="ToggleButton_OnChecked"
-                      Unchecked="ToggleButton_OnChecked"/>
+                      Checked="ckbCacheOnly_OnChecked"
+                      Unchecked="ckbCacheOnly_OnChecked"/>
             <Button Height="40" Click = "BtnGenerateCache_OnClick" Margin="5">
                 <TextBlock Text="Generate Cache &#x0a;For North America, Zoom 0 - 4"
                            TextWrapping="Wrap"
