@@ -794,6 +794,12 @@
     "title": "Miscellaneous",
     "children": [
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CacheTileOverlay",
+        "title": "Pre-Generate Cache for Tile Overlay",
+        "description": "This sample shows how to generate cache for Tile Overlay.",
+        "source": "Samples/Miscellaneous/CacheTileOverlay"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.PrintTheMap",
         "title": "Print the Map",
         "description": "Learn to print maps using the PrintOverlay.",
