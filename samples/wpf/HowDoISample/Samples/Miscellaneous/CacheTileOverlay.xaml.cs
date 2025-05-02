@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -98,7 +95,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 // generate the cache for the current and next 2 zooms. 
                 var zoom = _layerOverlay.TileMatrixSet.GetSnappedZoomIndex(MapView.CurrentScale);
-                await _layerOverlay.GenerateTileCacheAsync(_bbox, zoom, zoom + 2, scaleFactor);
+                await _layerOverlay.GenerateTileCacheAsync(_bbox, zoom, zoom + 3, scaleFactor);
 
                 MyProgressBar.Visibility = Visibility.Hidden;
                 LblStatus.Visibility = Visibility.Hidden;

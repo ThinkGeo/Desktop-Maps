@@ -212,6 +212,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         public void Dispose()
         {
+            _timer?.Stop();
             // Dispose of unmanaged resources.
             MapView.Dispose();
             // Suppress finalization.
