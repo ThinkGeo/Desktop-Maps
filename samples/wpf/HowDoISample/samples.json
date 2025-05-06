@@ -114,12 +114,6 @@
         "title": "WMTS",
         "description": "This sample shows how to display a WMTS layer. (This sample may be slow as we use a public WMTS sever)",
         "source": "Samples/MapOnlineData/WMTS"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.CachingMapTiles",
-        "title": "Caching Map Tiles",
-        "description": "Learn how to cache map tiles. Caching tiles on an Overlay allows you to store images of rendered areas on the local disk and reuse them for faster rendering times. Saved tile images can be found in the cache folder within this project's debug folder.",
-        "source": "Samples/MapOnlineData/CachingMapTiles"
       }
     ]
   },

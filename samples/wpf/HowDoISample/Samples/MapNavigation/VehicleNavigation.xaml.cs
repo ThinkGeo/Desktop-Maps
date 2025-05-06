@@ -102,6 +102,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private async Task ZoomToGpsPointsAsync(Collection<Vertex> gpsPoints)
         {
+            await MapView.RefreshAsync();
+
             for (_currentGpsPointIndex = 0; _currentGpsPointIndex < gpsPoints.Count; _currentGpsPointIndex++)
             {
                 try

@@ -1386,9 +1386,6 @@
     <Page Update="Samples\Miscellaneous\PrintTheMap.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\MapOnlineData\CachingMapTiles.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Samples\UsingOverlays\DisplayCloudMapsRasterOverlaySample.xaml">
       <SubType>Designer</SubType>
     </Page>
