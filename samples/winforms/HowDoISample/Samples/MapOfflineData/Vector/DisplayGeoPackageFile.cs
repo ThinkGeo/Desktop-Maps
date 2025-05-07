@@ -29,6 +29,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Creat a new layerOverlay to hold the gdalFeatureLayers
             var layerOverlay = new LayerOverlay();
+            layerOverlay.TileType = TileType.SingleTile;
             var projectionConverter = new ProjectionConverter(26910, 3857);
             projectionConverter.Open();
 

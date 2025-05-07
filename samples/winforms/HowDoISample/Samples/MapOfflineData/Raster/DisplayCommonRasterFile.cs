@@ -106,7 +106,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.BackColor = System.Drawing.Color.White;
             mapView.CurrentScale = 0D;
             mapView.Location = new System.Drawing.Point(0, 0);
-            mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
+            mapView.MapResizeMode = MapResizeMode.PreserveScale;
             mapView.MaximumScale = 1.7976931348623157E+308D;
             mapView.MinimumScale = 200D;
             mapView.Name = "mapView";

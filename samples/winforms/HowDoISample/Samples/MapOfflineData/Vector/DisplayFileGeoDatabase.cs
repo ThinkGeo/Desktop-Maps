@@ -27,6 +27,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Create a new overlay that will hold our new layer and add it to the map.
             var fileGeoDatabaseOverlay = new LayerOverlay();
+            fileGeoDatabaseOverlay.TileType = TileType.SingleTile;
             mapView.Overlays.Add(fileGeoDatabaseOverlay);
 
             // Create the new layer and set the projection as the data is in srid 2276 and our background is srid 3857 (spherical mercator).
@@ -127,7 +128,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
             this.mapView.Location = new System.Drawing.Point(0, 0);
-            this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
+            this.mapView.MapResizeMode = MapResizeMode.PreserveScale;
             this.mapView.MaximumScale = 1.7976931348623157E+308D;
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
