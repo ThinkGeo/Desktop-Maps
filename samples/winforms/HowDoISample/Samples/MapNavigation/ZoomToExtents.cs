@@ -61,7 +61,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void ZoomToScale_Click(object sender, EventArgs e)
         {
-            await mapView.ZoomToScaleAsync(Convert.ToDouble(zoomScale.Text));
+            await mapView.ZoomToAsync(Convert.ToDouble(zoomScale.Text));
         }
 
         private async void latlonZoom_Click(object sender, EventArgs e)
@@ -155,7 +155,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
-            this.mapView.RotatedAngle = 0F;
+            this.mapView.RotationAngle = 0F;
             this.mapView.Size = new System.Drawing.Size(946, 634);
             this.mapView.TabIndex = 0;
             // 

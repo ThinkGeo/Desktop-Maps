@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows.Forms;
 using ThinkGeo.Core;
 
@@ -29,8 +31,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(overlay);
             mapView.CurrentExtent = MaxExtents.ThinkGeoMaps;
 
-            mapView.ZoomLevelSet = new SphericalMercatorZoomLevelSet();
-            mapView.ZoomLevelSet.CustomZoomLevels.Add(mapView.ZoomLevelSet.ZoomLevel01);
+            var zoomLevelSet = new SphericalMercatorZoomLevelSet();
+            var selectedScales = new List<double>
+            {
+                zoomLevelSet.ZoomLevel01.Scale
+            };
+            mapView.ZoomScales = new Collection<double>(selectedScales);
             mapView.MapTools.PanZoomBar.IsEnabled = false;
 
             var layer = new InMemoryFeatureLayer();
@@ -101,7 +107,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MinimumScale = 200D;
             mapView.Name = "mapView";
             mapView.RestrictExtent = null;
-            mapView.RotatedAngle = 0F;
+            mapView.RotationAngle = 0F;
             mapView.Size = new System.Drawing.Size(1377, 743);
             mapView.TabIndex = 0;
             // 

@@ -31,7 +31,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Create a new overlay that will hold our new layer and add it to the map.
             var staticOverlay = new LayerOverlay
             {
-                DrawingExceptionMode = DrawingExceptionMode.DrawException
+                ThrowingExceptionMode = ThrowingExceptionMode.ThrowException
             };
 
             staticOverlay.Layers.Add("WorldLayer", worldLayer);
@@ -63,7 +63,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
-            this.mapView.RotatedAngle = 0F;
+            this.mapView.RotationAngle = 0F;
             this.mapView.Size = new System.Drawing.Size(1227, 723);
             this.mapView.TabIndex = 0;
             // 

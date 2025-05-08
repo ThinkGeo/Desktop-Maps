@@ -30,7 +30,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             if (txtApiKey.Text != null && !mapView.Overlays.Contains("WorldOverlay"))
             {
                 // Sets the map zoom level set to the Google maps zoom level set.
-                mapView.ZoomLevelSet = new GoogleMapsZoomLevelSet();
+                var zoomLevelSet = new GoogleMapsZoomLevelSet();
+                mapView.ZoomScales = zoomLevelSet.GetScales();
 
                 // Clear the current overlay
                 mapView.Overlays.Clear();
@@ -94,7 +95,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MinimumScale = 200D;
             mapView.Name = "mapView";
             mapView.RestrictExtent = null;
-            mapView.RotatedAngle = 0F;
+            mapView.RotationAngle = 0F;
             mapView.Size = new System.Drawing.Size(868, 568);
             mapView.TabIndex = 0;
             // 

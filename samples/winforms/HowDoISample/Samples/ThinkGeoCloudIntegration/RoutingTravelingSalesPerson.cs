@@ -165,7 +165,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             routingLayer.Open();
             mapView.CurrentExtent = routingLayer.GetBoundingBox();
             var standardZoomLevelSet = new ZoomLevelSet();
-            await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel13.Scale);
+            await mapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel13.Scale);
             routingLayer.Close();
             await mapView.RefreshAsync();
         }
@@ -211,7 +211,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 var standardZoomLevelSet = new ZoomLevelSet();
                 if (mapView.CurrentScale < standardZoomLevelSet.ZoomLevel15.Scale)
                 {
-                    await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel15.Scale);
+                    await mapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel15.Scale);
                 }
                 await mapView.RefreshAsync();
             }
@@ -251,7 +251,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
-            this.mapView.RotatedAngle = 0F;
+            this.mapView.RotationAngle = 0F;
             this.mapView.Size = new System.Drawing.Size(869, 600);
             this.mapView.TabIndex = 0;
             // 

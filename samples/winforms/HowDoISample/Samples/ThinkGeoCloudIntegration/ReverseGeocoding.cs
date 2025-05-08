@@ -210,7 +210,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var standardZoomLevelSet = new ZoomLevelSet();
             if (mapView.CurrentScale < standardZoomLevelSet.ZoomLevel18.Scale)
             {
-                await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
+                await mapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel18.Scale);
             }
             await mapView.RefreshAsync();
         }
@@ -322,7 +322,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 var standardZoomLevelSet = new ZoomLevelSet();
                 if (mapView.CurrentScale < standardZoomLevelSet.ZoomLevel18.Scale)
                 {
-                    await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
+                    await mapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel18.Scale);
                 }
                 await mapView.RefreshAsync();
             }
@@ -397,7 +397,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
-            this.mapView.RotatedAngle = 0F;
+            this.mapView.RotationAngle = 0F;
             this.mapView.Size = new System.Drawing.Size(855, 588);
             this.mapView.TabIndex = 0;
             this.mapView.MapClick += new System.EventHandler<MapClickMapViewEventArgs>(this.mapView_MapClick);

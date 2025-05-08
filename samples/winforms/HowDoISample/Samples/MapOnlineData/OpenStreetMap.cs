@@ -17,7 +17,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Set the zoom level set on the map to make sure its compatible with the OSM zoom levels.
-            mapView.ZoomLevelSet = new OpenStreetMapsZoomLevelSet();
+            var zoomLevelSet = new OpenStreetMapsZoomLevelSet();
+            mapView.ZoomScales = zoomLevelSet.GetScales();
 
             // Create a new overlay that will hold our new layer and add it to the map and set the tile size to match up with the OSM til size.
             var layerOverlay = new LayerOverlay();
@@ -58,7 +59,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MinimumScale = 200D;
             mapView.Name = "mapView";
             mapView.RestrictExtent = null;
-            mapView.RotatedAngle = 0F;
+            mapView.RotationAngle = 0F;
             mapView.Size = new System.Drawing.Size(1077, 610);
             mapView.TabIndex = 0;
             // 

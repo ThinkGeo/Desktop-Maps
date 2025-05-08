@@ -146,7 +146,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Set the map extent to the elevation query feature
             drawnShapesLayer.Open();
             mapView.CurrentExtent = drawnShapesLayer.GetBoundingBox();
-            await mapView.ZoomToScaleAsync(mapView.CurrentScale * 2);
+            await mapView.ZoomToAsync(mapView.CurrentScale * 2);
             drawnShapesLayer.Close();
             await mapView.RefreshAsync();
         }
@@ -258,7 +258,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
-            this.mapView.RotatedAngle = 0F;
+            this.mapView.RotationAngle = 0F;
             this.mapView.Size = new System.Drawing.Size(943, 629);
             this.mapView.TabIndex = 0;
             // 

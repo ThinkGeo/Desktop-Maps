@@ -19,7 +19,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Set the map zoom level set to the Cloud Maps zoom level set.
-            mapView.ZoomLevelSet = new ThinkGeoCloudMapsZoomLevelSet();
+            var zoomLevelSet = new ThinkGeoCloudMapsZoomLevelSet();
+            mapView.ZoomScales = zoomLevelSet.GetScales();
 
             // Create the layer overlay with some additional settings and add to the map.
             var cloudOverlay = new ThinkGeoCloudRasterMapsOverlay
@@ -185,7 +186,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
-            this.mapView.RotatedAngle = 0F;
+            this.mapView.RotationAngle = 0F;
             this.mapView.Size = new System.Drawing.Size(908, 630);
             this.mapView.TabIndex = 0;
             // 

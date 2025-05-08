@@ -104,7 +104,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = reprojectedFeatureLayer.GetBoundingBox();
 
             var standardZoomLevelSet = new ZoomLevelSet();
-            await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
+            await mapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel18.Scale);
 
             reprojectedFeatureLayer.Close();
             await mapView.RefreshAsync();
@@ -181,7 +181,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
-            this.mapView.RotatedAngle = 0F;
+            this.mapView.RotationAngle = 0F;
             this.mapView.Size = new System.Drawing.Size(793, 596);
             this.mapView.TabIndex = 0;
             // 

@@ -24,7 +24,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.Meter;
             var layerOverlay = new WmtsOverlay(new Uri("https://wmts.geo.admin.ch/1.0.0"));
-            layerOverlay.DrawingExceptionMode = DrawingExceptionMode.DrawException;
+            layerOverlay.ThrowingExceptionMode= ThrowingExceptionMode.ThrowException;
             layerOverlay.ActiveLayerName = "ch.swisstopo.pixelkarte-farbe-pk25.noscale";
             layerOverlay.ActiveStyleName = "default";
             layerOverlay.OutputFormat = "image/png";
@@ -32,9 +32,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(layerOverlay);
 
             await layerOverlay.OpenAsync();
-            mapView.ZoomLevelSet = GetZoomLevelSetFromWmtsServer(layerOverlay);
+            var zoomLevelSet = GetZoomLevelSetFromWmtsServer(layerOverlay);
+            mapView.ZoomScales = zoomLevelSet.GetScales();
             mapView.CurrentExtent = layerOverlay.GetBoundingBox();
-            mapView.StretchMode = MapViewStretchMode.ShowNewTilesOnStart;
             await mapView.RefreshAsync();
         }
 
@@ -93,7 +93,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MinimumScale = 200D;
             mapView.Name = "mapView";
             mapView.RestrictExtent = null;
-            mapView.RotatedAngle = 0F;
+            mapView.RotationAngle = 0F;
             mapView.Size = new System.Drawing.Size(1050, 611);
             mapView.TabIndex = 0;
             // 

@@ -53,7 +53,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             {
                 if (content == "256")
                 {
-                    mapView.ZoomLevelSet = new SphericalMercatorZoomLevelSet(256);
+                    var zoomLevelSet = new SphericalMercatorZoomLevelSet(256);
+                    mapView.ZoomScales = zoomLevelSet.GetScales();
                     _layerOverlay.TileType = TileType.MultiTile;
                     _layerOverlay.TileWidth = 256;
                     _layerOverlay.TileHeight = 256;
@@ -65,7 +66,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 }
                 else if (content == "512")
                 {
-                    mapView.ZoomLevelSet = new SphericalMercatorZoomLevelSet(512);
+                    var zoomLevelSet = new SphericalMercatorZoomLevelSet(512);
+                    mapView.ZoomScales = zoomLevelSet.GetScales();
                     _layerOverlay.TileType = TileType.MultiTile;
                     _layerOverlay.TileWidth = 512;
                     _layerOverlay.TileHeight = 512;
@@ -117,7 +119,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MinimumScale = 200D;
             mapView.Name = "mapView";
             mapView.RestrictExtent = null;
-            mapView.RotatedAngle = 0F;
+            mapView.RotationAngle = 0F;
             mapView.Size = new System.Drawing.Size(1050, 611);
             mapView.TabIndex = 0;
             // 

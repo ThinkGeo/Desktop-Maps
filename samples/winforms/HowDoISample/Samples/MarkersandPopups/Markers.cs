@@ -53,12 +53,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             simpleMarkerOverlay.DragMode = MarkerDragMode.Drag;
         }
 
-        private void copyMode_CheckedChanged(object sender, EventArgs e)
-        {
-            var simpleMarkerOverlay = (SimpleMarkerOverlay)mapView.Overlays["simpleMarkerOverlay"];
-            simpleMarkerOverlay.DragMode = MarkerDragMode.CopyWithShiftKey;
-        }
-
         private async void mapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
             var simpleMarkerOverlay = (SimpleMarkerOverlay)mapView.Overlays["simpleMarkerOverlay"];
@@ -80,11 +74,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         #region Component Designer generated code
         private Panel panel1;
-        private RadioButton copyMode;
         private RadioButton dragMode;
         private RadioButton staticMode;
         private Label label1;
-        private Label label2;
         private Label label3;
         private MapView mapView;
 
@@ -92,8 +84,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             this.mapView = new ThinkGeo.UI.WinForms.MapView();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.copyMode = new System.Windows.Forms.RadioButton();
             this.dragMode = new System.Windows.Forms.RadioButton();
             this.staticMode = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
@@ -114,7 +104,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
-            this.mapView.RotatedAngle = 0F;
+            this.mapView.RotationAngle = 0F;
             this.mapView.Size = new System.Drawing.Size(692, 621);
             this.mapView.TabIndex = 0;
             this.mapView.MapClick += new System.EventHandler<MapClickMapViewEventArgs>(this.mapView_MapClick);
@@ -125,8 +115,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.copyMode);
             this.panel1.Controls.Add(this.dragMode);
             this.panel1.Controls.Add(this.staticMode);
             this.panel1.Controls.Add(this.label1);
@@ -134,30 +122,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(300, 621);
             this.panel1.TabIndex = 1;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(146, 148);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(128, 17);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Using the Shift Key";
-            // 
-            // copyMode
-            // 
-            this.copyMode.AutoSize = true;
-            this.copyMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.copyMode.ForeColor = System.Drawing.Color.White;
-            this.copyMode.Location = new System.Drawing.Point(26, 144);
-            this.copyMode.Name = "copyMode";
-            this.copyMode.Size = new System.Drawing.Size(97, 21);
-            this.copyMode.TabIndex = 3;
-            this.copyMode.Text = "Copy Mode";
-            this.copyMode.UseVisualStyleBackColor = true;
-            this.copyMode.CheckedChanged += new System.EventHandler(this.copyMode_CheckedChanged);
             // 
             // dragMode
             // 

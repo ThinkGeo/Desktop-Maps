@@ -52,7 +52,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             rdoCheckLineEndpointsMustTouchPoints.Checked = true;
 
             await mapView.RefreshAsync();
-            await mapView.ZoomToScaleAsync(1000);
+            await mapView.ZoomToAsync(1000);
         }
 
         private async void rdoCheckLineEndpointsMustTouchPoints_CheckedChanged(object sender, EventArgs e)
@@ -361,7 +361,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             validatedFeaturesLayer.Close();
             filterFeaturesLayer.Close();
             resultFeaturesLayer.Close();
-            await mapView.ZoomToScaleAsync(1000);
+            await mapView.ZoomToAsync(1000);
         }
 
         #region Component Designer generated code
@@ -419,7 +419,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
-            this.mapView.RotatedAngle = 0F;
+            this.mapView.RotationAngle = 0F;
             this.mapView.Size = new System.Drawing.Size(826, 703);
             this.mapView.TabIndex = 0;
             // 

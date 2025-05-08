@@ -49,16 +49,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             switch (((Button)sender).Name)
             {
                 case "panNorth":
-                    await mapView.PanByDirectionAsync(PanDirection.Up, percentage);
+                    await mapView.PanByDirectionAndScreenDistanceAsync(PanDirection.Up, 200);
                     break;
                 case "panEast":
-                    await mapView.PanByDirectionAsync(PanDirection.Right, percentage);
+                    await mapView.PanByDirectionAndScreenDistanceAsync(PanDirection.Right, 200);
                     break;
                 case "panWest":
-                    await mapView.PanByDirectionAsync(PanDirection.Left, percentage);
+                    await mapView.PanByDirectionAndScreenDistanceAsync(PanDirection.Left, 200);
                     break;
                 case "panSouth":
-                    await mapView.PanByDirectionAsync(PanDirection.Down, percentage);
+                    await mapView.PanByDirectionAndScreenDistanceAsync(PanDirection.Down, 200);
                     break;
             }
         }
@@ -69,16 +69,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             switch (((Button)sender).Name)
             {
                 case "panNorth":
-                    await mapView.PanByDirectionAsync(PanDirection.Up, percentage);
+                    await mapView.PanByDirectionAndScreenDistanceAsync(PanDirection.Up, 200);
                     break;
                 case "panEast":
-                    await mapView.PanByDirectionAsync(PanDirection.Right, percentage);
+                    await mapView.PanByDirectionAndScreenDistanceAsync(PanDirection.Right, 200);
                     break;
                 case "panWest":
-                    await mapView.PanByDirectionAsync(PanDirection.Left, percentage);
+                    await mapView.PanByDirectionAndScreenDistanceAsync(PanDirection.Left, 200);
                     break;
                 case "panSouth":
-                    await mapView.PanByDirectionAsync(PanDirection.Down, percentage);
+                    await mapView.PanByDirectionAndScreenDistanceAsync(PanDirection.Down, 200);
                     break;
             }
         }
@@ -89,16 +89,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             switch (((Button)sender).Name)
             {
                 case "panNorth":
-                    await mapView.PanByDirectionAsync(PanDirection.Up, percentage);
+                    await mapView.PanByDirectionAndScreenDistanceAsync(PanDirection.Up, 200);
                     break;
                 case "panEast":
-                    await mapView.PanByDirectionAsync(PanDirection.Right, percentage);
+                    await mapView.PanByDirectionAndScreenDistanceAsync(PanDirection.Right, 200);
                     break;
                 case "panWest":
-                    await mapView.PanByDirectionAsync(PanDirection.Left, percentage);
+                    await mapView.PanByDirectionAndScreenDistanceAsync(PanDirection.Left, 200);
                     break;
                 case "panSouth":
-                    await mapView.PanByDirectionAsync(PanDirection.Down, percentage);
+                    await mapView.PanByDirectionAndScreenDistanceAsync(PanDirection.Down, 200);
                     break;
             }
         }
@@ -109,23 +109,23 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             switch (((Button)sender).Name)
             {
                 case "panNorth":
-                    await mapView.PanByDirectionAsync(PanDirection.Up, percentage);
+                    await mapView.PanByDirectionAndScreenDistanceAsync(PanDirection.Up, 200);
                     break;
                 case "panEast":
-                    await mapView.PanByDirectionAsync(PanDirection.Right, percentage);
+                    await mapView.PanByDirectionAndScreenDistanceAsync(PanDirection.Right, 200);
                     break;
                 case "panWest":
-                    await mapView.PanByDirectionAsync(PanDirection.Left, percentage);
+                    await mapView.PanByDirectionAndScreenDistanceAsync(PanDirection.Left, 200);
                     break;
                 case "panSouth":
-                    await mapView.PanByDirectionAsync(PanDirection.Down, percentage);
+                    await mapView.PanByDirectionAndScreenDistanceAsync(PanDirection.Down, 200);
                     break;
             }
         }
 
         private async void rotate_Click(object sender, EventArgs e)
         {
-            mapView.RotatedAngle = rotateAngle.Value;
+            mapView.RotationAngle = rotateAngle.Value;
             await mapView.RefreshAsync();
         }
 
@@ -187,7 +187,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
-            this.mapView.RotatedAngle = 0F;
+            this.mapView.RotationAngle = 0F;
             this.mapView.Size = new System.Drawing.Size(891, 560);
             this.mapView.TabIndex = 0;
             // 

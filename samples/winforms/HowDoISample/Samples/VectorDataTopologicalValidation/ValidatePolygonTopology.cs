@@ -52,7 +52,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries.Checked = true;
 
             await mapView.RefreshAsync();
-            await mapView.ZoomToScaleAsync(800);
+            await mapView.ZoomToAsync(800);
         }
 
 
@@ -308,7 +308,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             validatedFeaturesLayer.Close();
             filterFeaturesLayer.Close();
             resultFeaturesLayer.Close();
-            await mapView.ZoomToScaleAsync(800);
+            await mapView.ZoomToAsync(800);
         }
 
         #region Component Designer generated code
@@ -360,7 +360,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
-            this.mapView.RotatedAngle = 0F;
+            this.mapView.RotationAngle = 0F;
             this.mapView.Size = new System.Drawing.Size(848, 718);
             this.mapView.TabIndex = 0;
             // 

@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Collections.ObjectModel;
 using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
@@ -28,7 +30,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void Form_Load(object sender, EventArgs e) 
         {
             mapView.MapUnit = GeographyUnit.Meter;
-            mapView.ZoomLevelSnappingMode = ZoomLevelSnappingMode.None;
             previousSize = this.Size;
 
             InitializeMapViewInternal(mapView);
@@ -44,7 +45,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Get the center point of the MaxExtents.OsmMaps
             var centerPoint = MaxExtents.OsmMaps.GetCenterPoint();
-            mapView.CurrentExtent = GetDrawingExtent(centerPoint, mapView.ActualWidth, mapView.ActualHeight);
+            mapView.CurrentExtent = GetDrawingExtent(centerPoint, mapView.MapWidth, mapView.MapHeight);
 
             await mapView.RefreshAsync();
         }
@@ -54,7 +55,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             Debug.WriteLine($"Current Extent changing from {e.OldExtent} to {e.NewExtent}.");
 
             if (!_requireExtentUpdateBySizeChange) return;
-            var newExtent = MapUtil.GetDrawingExtent(e.OldExtent, mapView.ActualWidth, mapView.ActualHeight);
+            var newExtent = MapUtil.GetDrawingExtent(e.OldExtent, mapView.MapWidth, mapView.MapHeight);
             _requireExtentUpdateBySizeChange = false;
             if (!(newExtent.Width > MaxExtents.OsmMaps.Width)) return; //Duplicated continents will be displayed
             e.Cancel = true;
@@ -66,7 +67,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async Task UpdateExtent(CurrentExtentChangingMapViewEventArgs e)
         {
             var centerPoint = e.OldExtent.GetCenterPoint();
-            mapView.CurrentExtent = GetDrawingExtent(centerPoint, mapView.ActualWidth, mapView.ActualHeight);
+            mapView.CurrentExtent = GetDrawingExtent(centerPoint, mapView.MapWidth, mapView.MapHeight);
             await mapView.RefreshAsync();
         }
 
@@ -113,10 +114,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         // Helper method to update the extent and zoom levels based on current map size
         private async Task UpdateMapExtentAndZoomLevels(PointShape currentCenter)
         {
-            var newExtent = GetDrawingExtent(currentCenter, mapView.ActualWidth, mapView.ActualHeight);
+            var newExtent = GetDrawingExtent(currentCenter, mapView.MapWidth, mapView.MapHeight);
 
             // Set custom zoom levels based on the new extent size
-            var baseScale = MapUtil.GetScale(mapView.MapUnit, newExtent, mapView.ActualWidth, mapView.ActualHeight);
+            var baseScale = MapUtil.GetScale(mapView.MapUnit, newExtent, mapView.MapWidth, mapView.MapHeight);
             var customZoomLevelSet = new ZoomLevelSet();
             baseScale = Math.Max(baseScale, customZoomLevelSet.ZoomLevel08.Scale);
 
@@ -127,7 +128,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 scale /= 2;
             }
 
-            mapView.ZoomLevelSet = customZoomLevelSet;
+            mapView.ZoomScales = customZoomLevelSet.GetScales();
             mapView.CurrentExtent = newExtent;
 
             // Refresh the map view with the current cancellation token
@@ -161,27 +162,31 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private static void InitializeMapViewInternal(MapView mapView)
         {
-            mapView.ZoomLevelSet = new ZoomLevelSet();
+            var zoomLevelSet = new ZoomLevelSet();
 
-            mapView.ZoomLevelSnappingMode = ZoomLevelSnappingMode.None;
-            mapView.ZoomLevelSet.CustomZoomLevels.Add(mapView.ZoomLevelSet.ZoomLevel02);
-            mapView.ZoomLevelSet.CustomZoomLevels.Add(mapView.ZoomLevelSet.ZoomLevel03);
-            mapView.ZoomLevelSet.CustomZoomLevels.Add(mapView.ZoomLevelSet.ZoomLevel04);
-            mapView.ZoomLevelSet.CustomZoomLevels.Add(mapView.ZoomLevelSet.ZoomLevel05);
-            mapView.ZoomLevelSet.CustomZoomLevels.Add(mapView.ZoomLevelSet.ZoomLevel06);
-            mapView.ZoomLevelSet.CustomZoomLevels.Add(mapView.ZoomLevelSet.ZoomLevel07);
-            mapView.ZoomLevelSet.CustomZoomLevels.Add(mapView.ZoomLevelSet.ZoomLevel08);
-            mapView.ZoomLevelSet.CustomZoomLevels.Add(mapView.ZoomLevelSet.ZoomLevel09);
-            mapView.ZoomLevelSet.CustomZoomLevels.Add(mapView.ZoomLevelSet.ZoomLevel10);
-            mapView.ZoomLevelSet.CustomZoomLevels.Add(mapView.ZoomLevelSet.ZoomLevel11);
-            mapView.ZoomLevelSet.CustomZoomLevels.Add(mapView.ZoomLevelSet.ZoomLevel12);
-            mapView.ZoomLevelSet.CustomZoomLevels.Add(mapView.ZoomLevelSet.ZoomLevel13);
-            mapView.ZoomLevelSet.CustomZoomLevels.Add(mapView.ZoomLevelSet.ZoomLevel14);
-            mapView.ZoomLevelSet.CustomZoomLevels.Add(mapView.ZoomLevelSet.ZoomLevel15);
-            mapView.ZoomLevelSet.CustomZoomLevels.Add(mapView.ZoomLevelSet.ZoomLevel16);
-            mapView.ZoomLevelSet.CustomZoomLevels.Add(mapView.ZoomLevelSet.ZoomLevel17);
-            mapView.ZoomLevelSet.CustomZoomLevels.Add(mapView.ZoomLevelSet.ZoomLevel18);
-            mapView.ZoomLevelSet.CustomZoomLevels.Add(mapView.ZoomLevelSet.ZoomLevel19);
+            var selectedScales = new List<double>
+            {
+                zoomLevelSet.ZoomLevel02.Scale,
+                zoomLevelSet.ZoomLevel03.Scale,
+                zoomLevelSet.ZoomLevel04.Scale,
+                zoomLevelSet.ZoomLevel05.Scale,
+                zoomLevelSet.ZoomLevel06.Scale,
+                zoomLevelSet.ZoomLevel07.Scale,
+                zoomLevelSet.ZoomLevel08.Scale,
+                zoomLevelSet.ZoomLevel09.Scale,
+                zoomLevelSet.ZoomLevel10.Scale,
+                zoomLevelSet.ZoomLevel11.Scale,
+                zoomLevelSet.ZoomLevel12.Scale,
+                zoomLevelSet.ZoomLevel13.Scale,
+                zoomLevelSet.ZoomLevel14.Scale,
+                zoomLevelSet.ZoomLevel15.Scale,
+                zoomLevelSet.ZoomLevel16.Scale,
+                zoomLevelSet.ZoomLevel17.Scale,
+                zoomLevelSet.ZoomLevel18.Scale,
+                zoomLevelSet.ZoomLevel19.Scale
+            };
+
+            mapView.ZoomScales = new Collection<double>(selectedScales);
         }
 
         #region Component Designer generated code
@@ -206,7 +211,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MinimumScale = 200D;
             mapView.Name = "mapView";
             mapView.RestrictExtent = null;
-            mapView.RotatedAngle = 0F;
+            mapView.RotationAngle = 0F;
             mapView.Size = new System.Drawing.Size(1377, 743);
             mapView.TabIndex = 0;
             mapView.CurrentExtentChanging += MapView_CurrentExtentChanging;

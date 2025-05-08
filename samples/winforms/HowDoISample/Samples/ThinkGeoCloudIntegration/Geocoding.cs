@@ -126,7 +126,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 // Center the map on the chosen location
                 mapView.CurrentExtent = chosenLocation.BoundingBox;
                 var standardZoomLevelSet = new ZoomLevelSet();
-                await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
+                await mapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel18.Scale);
                 await mapView.RefreshAsync();
             }
         }
@@ -270,7 +270,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
-            this.mapView.RotatedAngle = 0F;
+            this.mapView.RotationAngle = 0F;
             this.mapView.Size = new System.Drawing.Size(940, 532);
             this.mapView.TabIndex = 0;
             // 
