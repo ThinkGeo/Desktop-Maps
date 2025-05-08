@@ -4,7 +4,7 @@
     "children": [
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.NavigationMap",
-        "title": "Navigation Map",
+        "title": "Map Navigation",
         "description": "Learn how to zoom, pan, and rotate the map control.",
         "source": "Samples/MapNavigation/NavigationMap"
       },

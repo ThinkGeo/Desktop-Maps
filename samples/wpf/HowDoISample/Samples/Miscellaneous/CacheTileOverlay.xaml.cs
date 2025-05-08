@@ -138,7 +138,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (button.Content == "Switch to Local Tile Matrix")
             {
                 button.Content = "Switch to Global Tile Matrix";
-                _layerOverlay.TileMatrixSet = TileMatrixSet.CreateTileMatrixSet(512, _bbox, GeographyUnit.Meter);
+                _layerOverlay.TileMatrixSet = TileMatrixSet.CreateTileMatrixSet(512, _bbox, GeographyUnit.Meter, 10);
                 MapView.ZoomScales = _layerOverlay.TileMatrixSet.GetScales();
 
             }
