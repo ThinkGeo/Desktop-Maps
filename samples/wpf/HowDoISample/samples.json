@@ -846,6 +846,12 @@
         "title": "Custom Feature Sources",
         "description": "Learn how to use the FeatureSource base class to create your own custom Feature Source.",
         "source": "Samples/Miscellaneous/CustomFeatureSources"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.NavigateOnTouchScreen",
+        "title": "Navigate On TouchScreen",
+        "description": "Learn how to enable the map for TouchScreen. See this: https://youtu.be/1LAROjqIrO8?si=O1zdrhpisj1vCIB8",
+        "source": "Samples/Miscellaneous/NavigateOnTouchScreen"
       }
       //,
       //{

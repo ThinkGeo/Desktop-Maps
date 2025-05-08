@@ -41,12 +41,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 mapView.ZoomScales = zoomLevelSet.GetScales();
 
                 // Create the layer overlay with some additional settings and add to the map.
-                var layerOverlay = new LayerOverlay
-                {
-                    TileHeight = 256,
-                    TileWidth = 256,
-                    MaxExtent = MaxExtents.BingMaps
-                };
+                var layerOverlay = new LayerOverlay();
+                layerOverlay.TileMatrixSet = TileMatrixSet.CreateTileMatrixSet(256, MaxExtents.BingMaps, GeographyUnit.Meter);
+
                 mapView.Overlays.Add("Bing Map", layerOverlay);
 
                 // Create the bing map layer and add it to the map.
