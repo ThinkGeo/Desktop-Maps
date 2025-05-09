@@ -42,6 +42,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Add the layers to an overlay, and add the overlay to the map
             var featuresOverlay = new LayerOverlay();
+            featuresOverlay.TileType = TileType.SingleTile;
             featuresOverlay.Layers.Add("Filter Features", filterFeaturesLayer);
             featuresOverlay.Layers.Add("Validated Features", validatedFeaturesLayer);
             featuresOverlay.Layers.Add("Result Features", resultFeaturesLayer);
@@ -207,8 +208,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Refresh/redraw the layers and reset the map extent
             var featureOverlay = (LayerOverlay)mapView.Overlays["Features Overlay"];
-            mapView.CurrentExtent = featureOverlay.GetBoundingBox();
-            mapView.CurrentScale = 1000;
+            var featureOverlayBBox = featureOverlay.GetBoundingBox();
+            mapView.CenterPoint = featureOverlayBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(mapView.MapUnit, featureOverlayBBox, mapView.MapWidth, mapView.MapHeight);
+            mapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
             await mapView.RefreshAsync();
 
             validatedFeaturesLayer.Close();

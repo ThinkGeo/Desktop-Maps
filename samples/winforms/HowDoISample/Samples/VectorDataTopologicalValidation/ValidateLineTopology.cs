@@ -41,6 +41,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Add the layers to an overlay, and add the overlay to the map
             var featuresOverlay = new LayerOverlay();
+            featuresOverlay.TileType = TileType.SingleTile;
             featuresOverlay.Layers.Add("Filter Features", filterFeaturesLayer);
             featuresOverlay.Layers.Add("Validated Features", validatedFeaturesLayer);
             featuresOverlay.Layers.Add("Result Features", resultFeaturesLayer);
@@ -145,7 +146,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Create a sample set of line features to use for the validation
             var singleLineFeature = new Feature("MULTILINESTRING((0 -50,100 -50,100 -100,0 -100))");
-            var multiLineFeature = new Feature("MULTILINESTRING((0 0,100 0),(100 100,0 100))");
+            var multiLineFeature = new Feature("MULTILINESTRING((0 0,100 0),(100 50,0 50))");
 
             // Use the TopologyValidator API to validate the sample data
             var lines = new Collection<Feature>() { singleLineFeature, multiLineFeature };
@@ -423,8 +424,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Refresh/redraw the layers and reset the map extent
             var featureOverlay = (LayerOverlay)mapView.Overlays["Features Overlay"];
-            mapView.CurrentExtent = featureOverlay.GetBoundingBox();
-            mapView.CurrentScale = 1000;
+            var featureOverlayBBox = featureOverlay.GetBoundingBox();
+            mapView.CenterPoint = featureOverlayBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(mapView.MapUnit, featureOverlayBBox, mapView.MapWidth, mapView.MapHeight);
+            mapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
             await mapView.RefreshAsync();
 
             validatedFeaturesLayer.Close();
