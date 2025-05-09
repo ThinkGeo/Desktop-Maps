@@ -67,6 +67,14 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="9.0.2" />
+    <PackageReference Include="ThinkGeo.Cad" Version="14.3.0" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.3.0" />
+    <PackageReference Include="ThinkGeo.Gdal" Version="14.3.0" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.3.0" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.3.0" />
+    <PackageReference Include="ThinkGeo.Printers" Version="14.3.0" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="14.3.0" />
+    <PackageReference Include="ThinkGeo.UI.WinForms" Version="14.3.0" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Resources\AQUA.png" />
