@@ -19,89 +19,75 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the NOAA Weather Warning layer to the map
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            // It is important to set the map unit first to either feet, meters or decimal degrees.
+            MapView.MapUnit = GeographyUnit.Meter;
+
+            // Create background world map with vector tile requested from ThinkGeo Cloud Service. 
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
-                // It is important to set the map unit first to either feet, meters or decimal degrees.
-                MapView.MapUnit = GeographyUnit.Meter;
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-                // Create background world map with vector tile requested from ThinkGeo Cloud Service. 
-                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            // Create a new overlay that will hold our new layer and add it to the map.
+            var noaaWeatherWarningsOverlay = new LayerOverlay();
+            noaaWeatherWarningsOverlay.TileType = TileType.SingleTile;
+            MapView.Overlays.Add("Noaa Weather Warning", noaaWeatherWarningsOverlay);
 
-                // Create a new overlay that will hold our new layer and add it to the map.
-                var noaaWeatherWarningsOverlay = new LayerOverlay();
-                MapView.Overlays.Add("Noaa Weather Warning", noaaWeatherWarningsOverlay);
-
-                // Create the new layer and set the projection as the data is in srid 4326 and our background is srid 3857 (spherical mercator).
-                var noaaWeatherWarningsFeatureLayer = new NoaaWeatherWarningsFeatureLayer
-                {
-                    FeatureSource =
+            // Create the new layer and set the projection as the data is in srid 4326 and our background is srid 3857 (spherical mercator).
+            var noaaWeatherWarningsFeatureLayer = new NoaaWeatherWarningsFeatureLayer
+            {
+                FeatureSource =
                 {
                     ProjectionConverter = new ProjectionConverter(4326, 3857)
                 }
-                };
+            };
 
-                // Add the new layer to the overlay we created earlier
-                noaaWeatherWarningsOverlay.Layers.Add("Noaa Weather Warning", noaaWeatherWarningsFeatureLayer);
+            // Add the new layer to the overlay we created earlier
+            noaaWeatherWarningsOverlay.Layers.Add("Noaa Weather Warning", noaaWeatherWarningsFeatureLayer);
 
-                // Get the layers feature source and set up an event that will refresh the map when the data refreshes
-                var featureSource = (NoaaWeatherWarningsFeatureSource)noaaWeatherWarningsFeatureLayer.FeatureSource;
+            // Get the layers feature source and set up an event that will refresh the map when the data refreshes
+            var featureSource = (NoaaWeatherWarningsFeatureSource)noaaWeatherWarningsFeatureLayer.FeatureSource;
 
-                // Create the weather warnings style and add it on zoom level 1 and then apply it to all zoom levels up to 20.
-                noaaWeatherWarningsFeatureLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(new NoaaWeatherWarningsStyle());
-                noaaWeatherWarningsFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            // Create the weather warnings style and add it on zoom level 1 and then apply it to all zoom levels up to 20.
+            noaaWeatherWarningsFeatureLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(new NoaaWeatherWarningsStyle());
+            noaaWeatherWarningsFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-                // Set the extent to a view of the US
-                MapView.CurrentExtent = new RectangleShape(-14927495.374917, 8262593.0543992, -6686622.84891633, 1827556.23117885);
+            // Set the extent to a view of the US
+            MapView.CenterPoint = new PointShape(-10807050, 5045070);
+            MapView.CurrentScale = 34016000;
 
-                // Add a PopupOverlay to the map, to display feature information
-                var popupOverlay = new PopupOverlay();
-                MapView.Overlays.Add("Info Popup Overlay", popupOverlay);
+            // Add a PopupOverlay to the map, to display feature information
+            var popupOverlay = new PopupOverlay();
+            MapView.Overlays.Add("Info Popup Overlay", popupOverlay);
 
-                featureSource.Open();
-                if (featureSource.GetCount() > 0)
-                {
-                    LoadingImage.Visibility = Visibility.Hidden;
-                }
-
-                await MapView.RefreshAsync();
-            }
-            catch 
+            featureSource.Open();
+            if (featureSource.GetCount() > 0)
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+                LoadingImage.Visibility = Visibility.Hidden;
             }
+
+            _ = MapView.RefreshAsync();
         }
 
-        private async void MapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        private void MapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
-            try
-            { 
-                // Get the parks layer from the MapView
-                var weatherWarnings = MapView.FindFeatureLayer("Noaa Weather Warning");
+            // Get the parks layer from the MapView
+            var weatherWarnings = MapView.FindFeatureLayer("Noaa Weather Warning");
 
-                // Find the feature that was clicked on by querying the layer for features containing the clicked coordinates            
-                var selectedFeatures = weatherWarnings.QueryTools.GetFeaturesContaining(e.WorldLocation, ReturningColumnsType.AllColumns);
+            // Find the feature that was clicked on by querying the layer for features containing the clicked coordinates            
+            var selectedFeatures = weatherWarnings.QueryTools.GetFeaturesContaining(e.WorldLocation, ReturningColumnsType.AllColumns);
 
-                // If a feature was selected, get the data from it and display it
-                if (selectedFeatures != null)
-                {
-                    await DisplayFeatureInfoAsync(selectedFeatures);
-                }
-            }
-            catch 
+            // If a feature was selected, get the data from it and display it
+            if (selectedFeatures != null)
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+                _ = DisplayFeatureInfoAsync(selectedFeatures);
             }
         }
 

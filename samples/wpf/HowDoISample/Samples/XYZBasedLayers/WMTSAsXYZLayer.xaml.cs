@@ -59,9 +59,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 await wmtsAsyncLayer.OpenAsync();
                 // Create a zoomlevelSet from the WMTS server
-                MapView.ZoomLevelSet = GetZoomLevelSetFromWmtsServer();
+                MapView.ZoomScales = GetZoomScalesFromWmtsServer();
 
-                MapView.CurrentExtent = wmtsAsyncLayer.GetBoundingBox();
+                var wmtsAsyncLayerBBox = wmtsAsyncLayer.GetBoundingBox();
+                MapView.CenterPoint = wmtsAsyncLayerBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, wmtsAsyncLayerBBox, MapView.MapWidth, MapView.MapHeight);
                 await MapView.RefreshAsync();
             }
             catch
@@ -71,18 +73,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
         }
 
-        private ZoomLevelSet GetZoomLevelSetFromWmtsServer()
+        private Collection<double> GetZoomScalesFromWmtsServer()
         {
-            var scales = wmtsAsyncLayer.GetTileMatrixSets()[wmtsAsyncLayer.TileMatrixSetName].TileMatrices
-                .Select((matrix, i) => matrix.Scale);
-            var zoomLevels = scales.Select((d, i) => new ZoomLevel(d));
-            var zoomLevelSet = new ZoomLevelSet();
-            foreach (var zoomLevel in zoomLevels)
+            var matrices = wmtsAsyncLayer.GetTileMatrixSets()[wmtsAsyncLayer.TileMatrixSetName].TileMatrices;
+
+            var scales = new Collection<double>();
+            foreach (var matrix in matrices)
             {
-                zoomLevelSet.CustomZoomLevels.Add(zoomLevel);
+                scales.Add(matrix.Scale);
             }
 
-            return zoomLevelSet;
+            return scales;
         }
 
         private void ProjectedTileCache_GottenCacheTile(object sender, GottenTileTileCacheEventArgs e)
@@ -135,7 +136,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 await wmtsAsyncLayer.CloseAsync();
                 await wmtsAsyncLayer.OpenAsync();
-                MapView.CurrentExtent = wmtsAsyncLayer.GetBoundingBox();
+                var wmtsAsyncLayerBBox = wmtsAsyncLayer.GetBoundingBox();
+                MapView.CenterPoint = wmtsAsyncLayerBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, wmtsAsyncLayerBBox, MapView.MapWidth, MapView.MapHeight);
                 await MapView.RefreshAsync();
             }
             catch
@@ -145,45 +148,29 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
         }
 
-        private async void RenderBeyondMaxZoomCheckBox_Checked(object sender, RoutedEventArgs e)
+        private void RenderBeyondMaxZoomCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                if (!(sender is CheckBox checkBox))
-                    return;
+            if (!(sender is CheckBox checkBox))
+                return;
 
-                if (checkBox.IsChecked.HasValue)
-                    wmtsAsyncLayer.RenderBeyondMaxZoom = checkBox.IsChecked.Value;
+            if (checkBox.IsChecked.HasValue)
+                wmtsAsyncLayer.RenderBeyondMaxZoom = checkBox.IsChecked.Value;
 
-                await MapView.RefreshAsync();
-            }
-            catch
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            _ = MapView.RefreshAsync();
         }
 
-        private async void DisplayTileIdCheckBox_Checked(object sender, RoutedEventArgs e)
+        private void DisplayTileIdCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                if (!(sender is CheckBox checkBox))
-                    return;
+            if (!(sender is CheckBox checkBox))
+                return;
 
-                if (!checkBox.IsChecked.HasValue)
-                    return;
+            if (!checkBox.IsChecked.HasValue)
+                return;
 
-                if (ThinkGeoDebugger.DisplayTileId != checkBox.IsChecked.Value)
-                {
-                    ThinkGeoDebugger.DisplayTileId = checkBox.IsChecked.Value;
-                    await MapView.RefreshAsync();
-                }
-            }
-            catch
+            if (ThinkGeoDebugger.DisplayTileId != checkBox.IsChecked.Value)
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+                ThinkGeoDebugger.DisplayTileId = checkBox.IsChecked.Value;
+                _ = MapView.RefreshAsync();
             }
         }
 

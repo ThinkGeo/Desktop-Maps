@@ -18,61 +18,57 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, project and style the Frisco 2010 Census Housing Units layer
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            // Set the map's unit of measurement to meters(Spherical Mercator)
+            MapView.MapUnit = GeographyUnit.Meter;
+
+            // Add Cloud Maps as a background overlay
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
-                // Set the map's unit of measurement to meters(Spherical Mercator)
-                MapView.MapUnit = GeographyUnit.Meter;
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-                // Add Cloud Maps as a background overlay
-                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
-
-                var housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
-                var legend = new LegendAdornmentLayer
-                {
-                    // Set up the legend adornment
-                    Title = new LegendItem()
-                    {
-                        TextStyle = new TextStyle("Housing Units", new GeoFont("Verdana", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
-                    },
-                    Location = AdornmentLocation.LowerRight
-                };
-
-                MapView.AdornmentOverlay.Layers.Add(legend);
-
-                // Project the layer's data to match the projection of the map
-                housingUnitsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
-
-                AddClassBreakStyle(housingUnitsLayer, legend);
-
-                // Add housingUnitsLayer to a LayerOverlay
-                var layerOverlay = new LayerOverlay();
-                layerOverlay.Layers.Add(housingUnitsLayer);
-
-                // Add layerOverlay to the mapView
-                MapView.Overlays.Add(layerOverlay);
-
-                // Set the map extent
-                housingUnitsLayer.Open();
-                MapView.CurrentExtent = housingUnitsLayer.GetBoundingBox();
-                housingUnitsLayer.Close();
-
-                await MapView.RefreshAsync();
-            }
-            catch 
+            var housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
+            var legend = new LegendAdornmentLayer
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+                // Set up the legend adornment
+                Title = new LegendItem()
+                {
+                    TextStyle = new TextStyle("Housing Units", new GeoFont("Verdana", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
+                },
+                Location = AdornmentLocation.LowerRight
+            };
+
+            MapView.AdornmentOverlay.Layers.Add(legend);
+
+            // Project the layer's data to match the projection of the map
+            housingUnitsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+
+            AddClassBreakStyle(housingUnitsLayer, legend);
+
+            // Add housingUnitsLayer to a LayerOverlay
+            var layerOverlay = new LayerOverlay();
+            layerOverlay.TileType = TileType.SingleTile;
+            layerOverlay.Layers.Add(housingUnitsLayer);
+
+            // Add layerOverlay to the mapView
+            MapView.Overlays.Add(layerOverlay);
+
+            // Set the map extent
+            housingUnitsLayer.Open();
+            var housingUnitsLayerBBox = housingUnitsLayer.GetBoundingBox();
+            MapView.CenterPoint = housingUnitsLayerBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(MapView.MapUnit, housingUnitsLayerBBox, MapView.MapWidth, MapView.MapHeight);
+            MapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
+            housingUnitsLayer.Close();
+
+            _ = MapView.RefreshAsync();
         }
 
         /// <summary>

@@ -18,25 +18,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                // Set the Map Unit to meters (Spherical Mercator)
-                MapView.MapUnit = GeographyUnit.Meter;
+            // Set the Map Unit to meters (Spherical Mercator)
+            MapView.MapUnit = GeographyUnit.Meter;
 
-                // Create an overlay that we can add layers to, and add it to the MapView
-                var layerOverlay = new LayerOverlay();
-                MapView.Overlays.Add(layerOverlay);
+            // Create an overlay that we can add layers to, and add it to the MapView
+            var layerOverlay = new LayerOverlay();
+            layerOverlay.TileType = TileType.SingleTile;
+            MapView.Overlays.Add(layerOverlay);
 
-                // Reproject a raster layer and set the extent
-                await ReprojectRasterLayerAsync(layerOverlay);
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            // Reproject a raster layer and set the extent
+            _ = ReprojectRasterLayerAsync(layerOverlay);
         }
 
         /// <summary>
@@ -47,7 +40,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var worldRasterLayer = new GeoTiffRasterLayer(@"./Data/GeoTiff/World.tif");
 
             // Create a new ProjectionConverter to convert between World Geodetic System (4326) and US National Atlas Equal Area (2163)
-            ProjectionConverter projectionConverter = new GdalProjectionConverter(4326, 2163);
+            ProjectionConverter projectionConverter = new GdalProjectionConverter(4326, 9311);
             worldRasterLayer.ImageSource.ProjectionConverter = projectionConverter;
 
             layerOverlay.Layers.Clear();
@@ -55,7 +48,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Set the map to the extent of the raster layer and refresh the map
             worldRasterLayer.Open();
-            MapView.CurrentExtent = worldRasterLayer.GetBoundingBox();
+            var worldRasterLayerBBox = worldRasterLayer.GetBoundingBox();
+            MapView.CenterPoint = worldRasterLayerBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(MapView.MapUnit, worldRasterLayerBBox, MapView.MapWidth, MapView.MapHeight);
+            MapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
             worldRasterLayer.Close();
             await MapView.RefreshAsync();
         }

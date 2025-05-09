@@ -58,10 +58,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Add each feature layer to its own overlay
                 // We do this, so we can control and refresh/redraw each layer individually
                 var zoningOverlay = new LayerOverlay();
+                zoningOverlay.TileType = TileType.SingleTile;
                 zoningOverlay.Layers.Add("Frisco Zoning", zoningLayer);
                 MapView.Overlays.Add("Frisco Zoning Overlay", zoningOverlay);
 
                 var highlightedFeaturesOverlay = new LayerOverlay();
+                highlightedFeaturesOverlay.TileType = TileType.SingleTile;
                 highlightedFeaturesOverlay.Layers.Add("Highlighted Features", highlightedFeaturesLayer);
                 MapView.Overlays.Add("Highlighted Features Overlay", highlightedFeaturesOverlay);
 
@@ -74,7 +76,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 await GetFeaturesWithinDistanceAsync(sampleShape);
 
                 // Set the map extent to the initial area
-                MapView.CurrentExtent = new RectangleShape(-10781338.5834248, 3916678.62545891, -10777511.9547176, 3913262.84577639);
+                MapView.CenterPoint = new PointShape(-10779430,3914970);
+                MapView.CurrentScale = 18060;
 
                 await MapView.RefreshAsync();
             }
@@ -150,17 +153,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Perform the spatial query when a new point is drawn
         /// </summary>
-        private async void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
+        private void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
         {
-            try
-            {
-                await GetFeaturesWithinDistanceAsync(e.WorldLocation);
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            _ = GetFeaturesWithinDistanceAsync(e.WorldLocation);
         }
 
         /// <summary>

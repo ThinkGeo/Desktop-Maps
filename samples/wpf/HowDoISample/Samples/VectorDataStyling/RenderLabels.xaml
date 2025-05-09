@@ -9,10 +9,15 @@
     <Grid>
         <thinkGeoUi:MapView x:Name="MapView" Loaded="MapView_Loaded" Grid.Column="0" Grid.Row="0"/>
 
-        <!-- Grid Layout -->
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+        <Grid  VerticalAlignment="Bottom" Height="40" Width="250">
+            <CheckBox Width="250"  
+                      VerticalAlignment="Center" 
+                      Content="Live Rendering to Canvas" 
+                      VerticalContentAlignment="Center"
+                      FontSize="20" Checked="ToggleButton_OnChecked" Unchecked="ToggleButton_OnChecked"/>
+        </Grid>
+        
+
     </Grid>
 
     <UserControl.Resources>

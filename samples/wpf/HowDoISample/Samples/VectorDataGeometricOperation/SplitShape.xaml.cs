@@ -40,6 +40,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var adminBoundaries = new ShapeFileFeatureLayer(@"./Data/FriscoMunBnd/FriscoAdminBoundaries.shp");
             var splitLayer = new InMemoryFeatureLayer();
             var layerOverlay = new LayerOverlay();
+            layerOverlay.TileType = TileType.SingleTile;
 
             // Project cityLimits layer to Spherical Mercator to match the map projection
             cityLimits.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
@@ -67,7 +68,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Set the map extent to the cityLimits layer bounding box
             cityLimits.Open();
-            MapView.CurrentExtent = cityLimits.GetBoundingBox();
+            var cityLimitsBBox = cityLimits.GetBoundingBox();
+            MapView.CenterPoint = cityLimitsBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(MapView.MapUnit, cityLimitsBBox, MapView.MapWidth, MapView.MapHeight);
+            MapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
             cityLimits.Close();
 
             // Add LayerOverlay to Map
@@ -77,37 +81,29 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Splits the first feature in the cityLimits layer and adds them to the splitLayer to display on the map
         /// </summary>
-        private async void SplitShape_OnClick(object sender, RoutedEventArgs e)
+        private void SplitShape_OnClick(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
+            var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
 
-                var cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
-                var splitLayer = (InMemoryFeatureLayer)layerOverlay.Layers["splitLayer"];
+            var cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
+            var splitLayer = (InMemoryFeatureLayer)layerOverlay.Layers["splitLayer"];
 
-                // Query the cityLimits layer to get all the features
-                cityLimits.Open();
-                var feature = cityLimits.QueryTools.GetAllFeatures(ReturningColumnsType.NoColumns).First();
-                cityLimits.Close();
+            // Query the cityLimits layer to get all the features
+            cityLimits.Open();
+            var feature = cityLimits.QueryTools.GetAllFeatures(ReturningColumnsType.NoColumns).First();
+            cityLimits.Close();
 
-                // Split the polygon using a line that crosses through it
-                // TODO: We do not have an API for splitting a polygon using a line shape. This sample will be more involved than normal
-                var split = feature;
+            // Split the polygon using a line that crosses through it
+            // TODO: We do not have an API for splitting a polygon using a line shape. This sample will be more involved than normal
+            var split = feature;
 
-                // Add the split shape into an InMemoryFeatureLayer to display the result.
-                // If this were to be a permanent change to the cityLimits FeatureSource, you would modify the underlying data using BeginTransaction and CommitTransaction instead.
-                splitLayer.InternalFeatures.Clear();
-                splitLayer.InternalFeatures.Add(split);
+            // Add the split shape into an InMemoryFeatureLayer to display the result.
+            // If this were to be a permanent change to the cityLimits FeatureSource, you would modify the underlying data using BeginTransaction and CommitTransaction instead.
+            splitLayer.InternalFeatures.Clear();
+            splitLayer.InternalFeatures.Add(split);
 
-                // Redraw the layerOverlay to see the split features on the map
-                await layerOverlay.RefreshAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            // Redraw the layerOverlay to see the split features on the map
+            _ = layerOverlay.RefreshAsync();
         }
 
         public void Dispose()

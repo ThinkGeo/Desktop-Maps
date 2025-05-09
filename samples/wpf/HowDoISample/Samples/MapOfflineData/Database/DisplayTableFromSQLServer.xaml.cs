@@ -17,55 +17,48 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the SQLServer layer to the map
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            // It is important to set the map unit first to either feet, meters or decimal degrees.
+            MapView.MapUnit = GeographyUnit.Meter;
+
+            // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
-                // It is important to set the map unit first to either feet, meters or decimal degrees.
-                MapView.MapUnit = GeographyUnit.Meter;
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-                // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
-                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            // Create a new overlay that will hold our new layer and add it to the map.
+            var coyoteSightingsOverlay = new LayerOverlay();
+            MapView.Overlays.Add(coyoteSightingsOverlay);
 
-                // Create a new overlay that will hold our new layer and add it to the map.
-                var coyoteSightingsOverlay = new LayerOverlay();
-                MapView.Overlays.Add(coyoteSightingsOverlay);
-
-                // Create the new layer and set the projection as the data is in srid 2276 as our background is srid 3857 (spherical mercator).
-                var coyoteSightingsLayer = new SqlServerFeatureLayer("Server=demodb.thinkgeo.com;Database=thinkgeo;User Id=ThinkGeoTest;Password=ThinkGeoTestPassword;", "frisco_coyote_sightings", "id")
-                {
-                    FeatureSource =
+            // Create the new layer and set the projection as the data is in srid 2276 as our background is srid 3857 (spherical mercator).
+            var coyoteSightingsLayer = new SqlServerFeatureLayer("Server=demodb.thinkgeo.com;Database=thinkgeo;User Id=ThinkGeoTest;Password=ThinkGeoTestPassword;", "frisco_coyote_sightings", "id")
+            {
+                FeatureSource =
                     {
                         ProjectionConverter = new ProjectionConverter(2276, 3857)
                     }
-                };
+            };
 
-                // Add the layer to the overlay we created earlier.
-                coyoteSightingsOverlay.Layers.Add("Coyote Sightings", coyoteSightingsLayer);
+            // Add the layer to the overlay we created earlier.
+            coyoteSightingsOverlay.Layers.Add("Coyote Sightings", coyoteSightingsLayer);
 
-                // Set a point style to zoom level 1 and then apply it to all zoom levels up to 20.
-                coyoteSightingsLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Circle, 12, GeoBrushes.Black, new GeoPen(GeoColors.White, 1));
-                coyoteSightingsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            // Set a point style to zoom level 1 and then apply it to all zoom levels up to 20.
+            coyoteSightingsLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Circle, 12, GeoBrushes.Black, new GeoPen(GeoColors.White, 1));
+            coyoteSightingsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-                // Set the map view current extent to a bounding box that shows just a few sightings.  
-                MapView.CurrentExtent = new RectangleShape(-10784283.099060204, 3918532.598821122, -10781699.527518518, 3916820.409397046);
+            // Set the map view current extent to a bounding box that shows just a few sightings.  
+            MapView.CenterPoint = new PointShape(-10783000, 3917680);
+            MapView.CurrentScale = 9050;
 
-                // Refresh the map.
-                await MapView.RefreshAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            // Refresh the map.
+            _ = MapView.RefreshAsync();
         }
 
         public void Dispose()

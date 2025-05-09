@@ -34,6 +34,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var friscoParks = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
             var snapLayer = new InMemoryFeatureLayer();
             var layerOverlay = new LayerOverlay();
+            layerOverlay.TileType = TileType.SingleTile;
 
             // Project friscoParks layer to Spherical Mercator to match the map projection
             friscoParks.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
@@ -53,7 +54,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             layerOverlay.Layers.Add("snapLayer", snapLayer);
 
             // Set the map extent
-            MapView.CurrentExtent = new RectangleShape(-10782307.6877106, 3918904.87378907, -10774377.3460701, 3912073.31442403);
+            MapView.CenterPoint = new PointShape(-10778340, 3915490);
+            MapView.CurrentScale = 36110;
 
             // Add LayerOverlay to Map
             MapView.Overlays.Add("layerOverlay", layerOverlay);

@@ -21,75 +21,68 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay and feature layers for the queried shapes
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
-                // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-                // Set the map's unit of measurement to meters (Spherical Mercator)
-                MapView.MapUnit = GeographyUnit.Meter;
+            // Set the map's unit of measurement to meters (Spherical Mercator)
+            MapView.MapUnit = GeographyUnit.Meter;
 
-                // Create a new feature layer to display the query shape used to perform the query
-                var queryShapeFeatureLayer = new InMemoryFeatureLayer();
+            // Create a new feature layer to display the query shape used to perform the query
+            var queryShapeFeatureLayer = new InMemoryFeatureLayer();
 
-                // Add a point, line, and polygon style to the layer. These styles control how the query shape will be drawn
-                queryShapeFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 20, GeoBrushes.Blue);
-                queryShapeFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = new LineStyle(GeoPens.Blue);
-                queryShapeFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = new AreaStyle(GeoPens.Blue, new GeoSolidBrush(new GeoColor(10, GeoColors.Blue)));
+            // Add a point, line, and polygon style to the layer. These styles control how the query shape will be drawn
+            queryShapeFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 20, GeoBrushes.Blue);
+            queryShapeFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = new LineStyle(GeoPens.Blue);
+            queryShapeFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = new AreaStyle(GeoPens.Blue, new GeoSolidBrush(new GeoColor(10, GeoColors.Blue)));
 
-                // Apply these styles on all zoom levels. This ensures our shapes will be visible on all zoom levels
-                queryShapeFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            // Apply these styles on all zoom levels. This ensures our shapes will be visible on all zoom levels
+            queryShapeFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-                // Create a new feature layer to display the shapes returned by the query.
-                var queriedFeaturesLayer = new InMemoryFeatureLayer();
+            // Create a new feature layer to display the shapes returned by the query.
+            var queriedFeaturesLayer = new InMemoryFeatureLayer();
 
-                // Add a point, line, and polygon style to the layer. These styles control how the returned shapes will be drawn
-                queriedFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 20, GeoBrushes.OrangeRed);
-                queriedFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = new LineStyle(GeoPens.OrangeRed);
-                queriedFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = new AreaStyle(GeoPens.OrangeRed, new GeoSolidBrush(new GeoColor(10, GeoColors.OrangeRed)));
-                queriedFeaturesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            // Add a point, line, and polygon style to the layer. These styles control how the returned shapes will be drawn
+            queriedFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 20, GeoBrushes.OrangeRed);
+            queriedFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = new LineStyle(GeoPens.OrangeRed);
+            queriedFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = new AreaStyle(GeoPens.OrangeRed, new GeoSolidBrush(new GeoColor(10, GeoColors.OrangeRed)));
+            queriedFeaturesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-                // Add the feature layers to an overlay, then add that overlay to the map
-                var queriedFeaturesOverlay = new LayerOverlay();
-                queriedFeaturesOverlay.Layers.Add("Queried Features Layer", queriedFeaturesLayer);
-                queriedFeaturesOverlay.Layers.Add("Query Shape Layer", queryShapeFeatureLayer);
-                MapView.Overlays.Add("Queried Features Overlay", queriedFeaturesOverlay);
+            // Add the feature layers to an overlay, then add that overlay to the map
+            var queriedFeaturesOverlay = new LayerOverlay();
+            queriedFeaturesOverlay.Layers.Add("Queried Features Layer", queriedFeaturesLayer);
+            queriedFeaturesOverlay.Layers.Add("Query Shape Layer", queryShapeFeatureLayer);
+            MapView.Overlays.Add("Queried Features Overlay", queriedFeaturesOverlay);
 
-                // Set the map extent to Frisco, TX
-                MapView.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
+            // Set the map extent to Frisco, TX
+            MapView.CenterPoint = new PointShape(-10778720, 3915154);
+            MapView.CurrentScale = 202090;
 
-                // Add an event to handle new shapes that are drawn on the map
-                MapView.TrackOverlay.TrackEnded += OnShapeDrawn;
+            // Add an event to handle new shapes that are drawn on the map
+            MapView.TrackOverlay.TrackEnded += OnShapeDrawn;
 
-                // Initialize the MapsQueryCloudClient with our ThinkGeo Cloud credentials
-                _mapsQueryCloudClient = new MapsQueryCloudClient
-                {
-                    ClientId = SampleKeys.ClientId2,
-                    ClientSecret = SampleKeys.ClientSecret2,
-                };
-
-                // Create a sample shape and add it to the query shape layer
-                var sampleShape = new RectangleShape(-10779877.70, 3915441.00, -10779248.97, 3915119.63);
-                queryShapeFeatureLayer.InternalFeatures.Add(new Feature(sampleShape));
-
-                // Run the world maps query
-                await PerformWorldMapsQueryAsync();
-            }
-            catch 
+            // Initialize the MapsQueryCloudClient with our ThinkGeo Cloud credentials
+            _mapsQueryCloudClient = new MapsQueryCloudClient
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+                ClientId = SampleKeys.ClientId2,
+                ClientSecret = SampleKeys.ClientSecret2,
+            };
+
+            // Create a sample shape and add it to the query shape layer
+            var sampleShape = new RectangleShape(-10779877.70, 3915441.00, -10779248.97, 3915119.63);
+            queryShapeFeatureLayer.InternalFeatures.Add(new Feature(sampleShape));
+
+            // Run the world maps query
+            _ = PerformWorldMapsQueryAsync();
         }
 
         /// <summary>
@@ -174,7 +167,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 // Set the map extent to the extent of the query results
                 queriedFeaturesLayer.Open();
-                MapView.CurrentExtent = queriedFeaturesLayer.GetBoundingBox();
+                var queriedFeaturesLayerBBox = queriedFeaturesLayer.GetBoundingBox();
+                MapView.CenterPoint = queriedFeaturesLayerBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit,queriedFeaturesLayerBBox, MapView.MapWidth, MapView.MapHeight);
                 queriedFeaturesLayer.Close();
             }
             else
@@ -217,61 +212,37 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set the map to 'Point Drawing Mode' when the user clicks the 'Draw a New Query Point' button
         /// </summary>
-        private async void DrawPoint_Click(object sender, RoutedEventArgs e)
+        private void DrawPoint_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                // Set the drawing mode to 'Point'
-                MapView.TrackOverlay.TrackMode = TrackMode.Point;
+            // Set the drawing mode to 'Point'
+            MapView.TrackOverlay.TrackMode = TrackMode.Point;
 
-                // Clear the old shapes from the map
-                await ClearQueryShapesAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            // Clear the old shapes from the map
+            _ = ClearQueryShapesAsync();
         }
 
         /// <summary>
         /// Set the map to 'Line Drawing Mode' when the user clicks the 'Draw a New Query Line' button
         /// </summary>
-        private async void DrawLine_Click(object sender, RoutedEventArgs e)
+        private void DrawLine_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                // Set the drawing mode to 'Line'
-                MapView.TrackOverlay.TrackMode = TrackMode.Line;
+            // Set the drawing mode to 'Line'
+            MapView.TrackOverlay.TrackMode = TrackMode.Line;
 
-                // Clear the old shapes from the map
-                await ClearQueryShapesAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            // Clear the old shapes from the map
+            _ = ClearQueryShapesAsync();
         }
 
         /// <summary>
         /// Set the map to 'Polygon Drawing Mode' when the user clicks the 'Draw a New Query Polygon' button
         /// </summary>
-        private async void DrawPolygon_Click(object sender, RoutedEventArgs e)
+        private void DrawPolygon_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                // Set the drawing mode to 'Polygon'
-                MapView.TrackOverlay.TrackMode = TrackMode.Polygon;
+            // Set the drawing mode to 'Polygon'
+            MapView.TrackOverlay.TrackMode = TrackMode.Polygon;
 
-                // Clear the old shapes from the map
-                await ClearQueryShapesAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            // Clear the old shapes from the map
+            _ = ClearQueryShapesAsync();
         }
 
         /// <summary>

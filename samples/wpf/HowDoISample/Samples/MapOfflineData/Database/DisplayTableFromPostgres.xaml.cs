@@ -17,55 +17,48 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the PostgreSQL layer to the map
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            // It is important to set the map unit first to either feet, meters or decimal degrees.
+            MapView.MapUnit = GeographyUnit.Meter;
+
+            // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
-                // It is important to set the map unit first to either feet, meters or decimal degrees.
-                MapView.MapUnit = GeographyUnit.Meter;
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-                // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
-                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            // Create a new overlay that will hold our new layer and add it to the map.
+            var countriesOverlay = new LayerOverlay();
+            MapView.Overlays.Add(countriesOverlay);
 
-                // Create a new overlay that will hold our new layer and add it to the map.
-                var countriesOverlay = new LayerOverlay();
-                MapView.Overlays.Add(countriesOverlay);
-
-                // Create the new layer and set the projection as the data is in srid 4326 as our background is srid 3857 (spherical mercator).
-                var countriesLayer = new PostgreSqlFeatureLayer("User ID=ThinkGeoTest;Password=ThinkGeoTestPassword;Host=demodb.thinkgeo.com;Port=5432;Database=postgres;Pooling=true;", "countries", "gid", 4326)
-                {
-                    FeatureSource =
+            // Create the new layer and set the projection as the data is in srid 4326 as our background is srid 3857 (spherical mercator).
+            var countriesLayer = new PostgreSqlFeatureLayer("User ID=ThinkGeoTest;Password=ThinkGeoTestPassword;Host=demodb.thinkgeo.com;Port=5432;Database=postgres;Pooling=true;", "countries", "gid", 4326)
+            {
+                FeatureSource =
                     {
                         ProjectionConverter = new ProjectionConverter(4326, 3857)
                     }
-                };
+            };
 
-                // Add the layer to the overlay we created earlier.
-                countriesOverlay.Layers.Add("Countries", countriesLayer);
+            // Add the layer to the overlay we created earlier.
+            countriesOverlay.Layers.Add("Countries", countriesLayer);
 
-                // Set a point style to zoom level 1 and then apply it to all zoom levels up to 20.
-                countriesLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = new AreaStyle(new GeoPen(GeoBrushes.Black, 2), new GeoSolidBrush(GeoColors.Transparent));
-                countriesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            // Set a point style to zoom level 1 and then apply it to all zoom levels up to 20.
+            countriesLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = new AreaStyle(new GeoPen(GeoBrushes.Black, 2), new GeoSolidBrush(GeoColors.Transparent));
+            countriesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-                // Set the map view current extent to a bounding box that shows just a few sightings.  
-                MapView.CurrentExtent = new RectangleShape(-14910723.898808584, 6701313.058217316, -7200979.520684462, 2773061.32240915);
+            // Set the map view current extent to a bounding box that shows just a few sightings.  
+            MapView.CenterPoint = new PointShape(-11055850, 4737190);
+            MapView.CurrentScale = 26980800;
 
-                // Refresh the map.
-                await MapView.RefreshAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            // Refresh the map.
+            _ = MapView.RefreshAsync();
         }
 
         public void Dispose()

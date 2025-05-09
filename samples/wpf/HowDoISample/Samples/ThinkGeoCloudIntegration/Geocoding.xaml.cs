@@ -23,48 +23,41 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
-                // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-                // Set the map's unit of measurement to meters (Spherical Mercator)
-                MapView.MapUnit = GeographyUnit.Meter;
+            // Set the map's unit of measurement to meters (Spherical Mercator)
+            MapView.MapUnit = GeographyUnit.Meter;
 
-                // Create a marker overlay to display the geocoded locations that will be generated, and add it to the map
-                MarkerOverlay geocodedLocationsOverlay = new SimpleMarkerOverlay();
-                MapView.Overlays.Add("Geocoded Locations Overlay", geocodedLocationsOverlay);
+            // Create a marker overlay to display the geocoded locations that will be generated, and add it to the map
+            MarkerOverlay geocodedLocationsOverlay = new SimpleMarkerOverlay();
+            MapView.Overlays.Add("Geocoded Locations Overlay", geocodedLocationsOverlay);
 
-                // Set the map extent to Frisco, TX
-                MapView.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
+            // Set the map extent to Frisco, TX
+            MapView.CenterPoint = new PointShape(-10778720, 3915154);
+            MapView.CurrentScale = 202090;
 
-                // Initialize the GeocodingCloudClient using our ThinkGeo Cloud credentials
-                _geocodingCloudClient = new GeocodingCloudClient
-                {
-                    ClientId = SampleKeys.ClientId2,
-                    ClientSecret = SampleKeys.ClientSecret2,
-                };
-
-                CboSearchType.SelectedIndex = 0;
-                CboLocationType.SelectedIndex = 0;
-
-                await MapView.RefreshAsync();
-            }
-            catch 
+            // Initialize the GeocodingCloudClient using our ThinkGeo Cloud credentials
+            _geocodingCloudClient = new GeocodingCloudClient
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+                ClientId = SampleKeys.ClientId2,
+                ClientSecret = SampleKeys.ClientSecret2,
+            };
+
+            CboSearchType.SelectedIndex = 0;
+            CboLocationType.SelectedIndex = 0;
+
+            _ = MapView.RefreshAsync();
         }
 
         /// <summary>
@@ -177,9 +170,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 geocodedLocationOverlay.Markers.Add(CreateNewMarker(chosenLocation.LocationPoint));
 
                 // Center the map on the chosen location
-                MapView.CurrentExtent = chosenLocation.BoundingBox;
+                var chosenLocationBBox = chosenLocation.BoundingBox;
+                MapView.CenterPoint = chosenLocationBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, chosenLocationBBox, MapView.MapWidth, MapView.MapHeight);
                 var standardZoomLevelSet = new ZoomLevelSet();
-                await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
+                await MapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel18.Scale);
                 await MapView.RefreshAsync();
             }
             catch 

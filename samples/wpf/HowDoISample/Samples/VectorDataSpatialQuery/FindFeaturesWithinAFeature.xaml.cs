@@ -62,14 +62,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Add each feature layer to its own overlay
                 // We do this, so we can control and refresh/redraw each layer individually
                 var zoningOverlay = new LayerOverlay();
+                zoningOverlay.TileType = TileType.SingleTile;
                 zoningOverlay.Layers.Add("Frisco Zoning", zoningLayer);
                 MapView.Overlays.Add("Frisco Zoning Overlay", zoningOverlay);
 
                 var queryFeaturesOverlay = new LayerOverlay();
+                queryFeaturesOverlay.TileType = TileType.SingleTile;
                 queryFeaturesOverlay.Layers.Add("Query Feature", queryFeatureLayer);
                 MapView.Overlays.Add("Query Features Overlay", queryFeaturesOverlay);
 
                 var highlightedFeaturesOverlay = new LayerOverlay();
+                highlightedFeaturesOverlay.TileType = TileType.SingleTile;
                 highlightedFeaturesOverlay.Layers.Add("Highlighted Features", highlightedFeaturesLayer);
                 MapView.Overlays.Add("Highlighted Features Overlay", highlightedFeaturesOverlay);
 
@@ -81,8 +84,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 await GetFeaturesWithinAsync(sampleShape);
 
                 // Set the map extent to the sample shapes
-                MapView.CurrentExtent = sampleShape.GetBoundingBox();
-                await MapView.ZoomOutAsync();
+                var sampleShapeBBox = sampleShape.GetBoundingBox();
+                MapView.CenterPoint = sampleShapeBBox.GetCenterPoint();
+                var MapScale = MapUtil.GetScale(MapView.MapUnit, sampleShapeBBox, MapView.MapWidth, MapView.MapHeight);
+                MapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
+
                 await MapView.RefreshAsync();
             }
             catch 
@@ -161,17 +167,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Performs the spatial query when a new polygon is drawn
         /// </summary>
-        private async void OnPolygonDrawn(object sender, TrackEndedTrackInteractiveOverlayEventArgs e)
+        private void OnPolygonDrawn(object sender, TrackEndedTrackInteractiveOverlayEventArgs e)
         {
-            try
-            {
-                await GetFeaturesWithinAsync((PolygonShape)e.TrackShape);
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            _ = GetFeaturesWithinAsync((PolygonShape)e.TrackShape);
         }
 
         /// <summary>

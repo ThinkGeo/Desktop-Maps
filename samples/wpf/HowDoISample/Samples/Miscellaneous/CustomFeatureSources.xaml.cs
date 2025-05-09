@@ -17,52 +17,52 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InitializeComponent();
         }
 
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            MapView.MapUnit = GeographyUnit.Meter;
+
+            // Add Cloud Maps as a background overlay
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
-                MapView.MapUnit = GeographyUnit.Meter;
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-                // Add Cloud Maps as a background overlay
-                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
-
-                // See the implementation of the new layer and feature source below.
-                var csvLayer = new SimpleCsvFeatureLayer(@"./Data/Csv/vehicle-route.csv");
-
-                // Set the points image to a car icon and then apply it to all zoom levels
-                var vehiclePointStyle = new PointStyle(new GeoImage(@"./Resources/vehicle-location.png"))
-                {
-                    YOffsetInPixel = -12
-                };
-
-                csvLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = vehiclePointStyle;
-                csvLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-
-                var layerOverlay = new LayerOverlay
-                {
-                    TileType = TileType.SingleTile
-                };
-                layerOverlay.Layers.Add(csvLayer);
-                MapView.Overlays.Add(layerOverlay);
-
-                csvLayer.Open();
-                MapView.CurrentExtent = csvLayer.GetBoundingBox();
-
-                await MapView.RefreshAsync();
-            }
-            catch 
+            // Load CSV data in EPSG:4326 and convert to EPSG:3857 for the map
+            var csvLayer = new SimpleCsvFeatureLayer(@"./Data/Csv/vehicle-route.csv")
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+                FeatureSource = { ProjectionConverter = new ProjectionConverter(4326, 3857) }
+            };
+
+            var vehiclePointStyle = new PointStyle
+            {
+                SymbolType = PointSymbolType.Circle,
+                SymbolSize = 10, // adjust size as needed
+                FillBrush = new GeoSolidBrush(GeoColors.Blue),
+                OutlinePen = new GeoPen(GeoColors.White, 2)
+            };
+
+            csvLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = vehiclePointStyle;
+            csvLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
+            var layerOverlay = new LayerOverlay
+            {
+                TileType = TileType.SingleTile
+            };
+            layerOverlay.Layers.Add(csvLayer);
+            MapView.Overlays.Add(layerOverlay);
+
+            csvLayer.Open();
+            var csvLayerBBox = csvLayer.GetBoundingBox();
+            MapView.CenterPoint = csvLayerBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(MapView.MapUnit, csvLayerBBox, MapView.MapWidth, MapView.MapHeight);
+            MapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
+
+            _ = MapView.RefreshAsync();
         }
 
         public void Dispose()
@@ -98,7 +98,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             foreach (var location in locations)
             {
-                _features.Add(new Feature(double.Parse(location.Split(',')[0]), double.Parse(location.Split(',')[1])));
+                _features.Add(new Feature(double.Parse(location.Split(',')[1]), double.Parse(location.Split(',')[0])));
             }
             return _features;
         }

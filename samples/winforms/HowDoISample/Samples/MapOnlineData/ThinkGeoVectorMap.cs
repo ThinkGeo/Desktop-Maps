@@ -18,7 +18,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Set the map zoom level set to the Cloud Maps zoom level set.
-            mapView.ZoomLevelSet = new ThinkGeoCloudMapsZoomLevelSet();
+            var zoomLevelSet = new ThinkGeoCloudMapsZoomLevelSet();
+            mapView.ZoomScales = zoomLevelSet.GetScales();
 
             // Create the layer overlay with some additional settings and add to the map.
             var cloudOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -143,12 +144,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.BackColor = System.Drawing.Color.White;
             mapView.CurrentScale = 0D;
             mapView.Location = new System.Drawing.Point(0, 0);
-            mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
+            mapView.MapResizeMode = MapResizeMode.PreserveScale;
             mapView.MaximumScale = 1.7976931348623157E+308D;
             mapView.MinimumScale = 200D;
             mapView.Name = "mapView";
             mapView.RestrictExtent = null;
-            mapView.RotatedAngle = 0F;
+            mapView.RotationAngle = 0F;
             mapView.Size = new System.Drawing.Size(908, 630);
             mapView.TabIndex = 0;
             // 

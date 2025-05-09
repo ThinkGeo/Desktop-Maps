@@ -44,37 +44,39 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void SwitchTileSize_OnCheckedChanged(object sender, EventArgs e)
         {
-            if (mapView.Overlays.Count <= 0) return;
+            var radioButton = sender as RadioButton;
 
-            if (!(_layerOverlay.Layers[0] is VectorMbTilesAsyncLayer mbTilesLayer))
-                return;
+            if (radioButton == null || !radioButton.Checked) return;
+            
+            var content = radioButton.Tag.ToString();
+            int tileSize = content == "256" ? 256 : 512;
 
-            var content = ((RadioButton)sender).Tag.ToString();
+            var zoomLevelSet = new SphericalMercatorZoomLevelSet(tileSize);
+            mapView.ZoomScales = zoomLevelSet.GetScales();
+
+            // Remove the old overlay and layer
+            mapView.Overlays.Clear();
+
+            // Create a new overlay and layer with the selected tile size
+            var newOverlay = new LayerOverlay
             {
-                if (content == "256")
-                {
-                    mapView.ZoomLevelSet = new SphericalMercatorZoomLevelSet(256);
-                    _layerOverlay.TileType = TileType.MultiTile;
-                    _layerOverlay.TileWidth = 256;
-                    _layerOverlay.TileHeight = 256;
-                    await mbTilesLayer.CloseAsync();
-                    mbTilesLayer.TileWidth = 256;
-                    mbTilesLayer.TileHeight = 256;
-                    await mbTilesLayer.OpenAsync();
+                TileType = TileType.MultiTile,
+                TileWidth = tileSize,
+                TileHeight = tileSize
+            };
 
-                }
-                else if (content == "512")
-                {
-                    mapView.ZoomLevelSet = new SphericalMercatorZoomLevelSet(512);
-                    _layerOverlay.TileType = TileType.MultiTile;
-                    _layerOverlay.TileWidth = 512;
-                    _layerOverlay.TileHeight = 512;
-                    await mbTilesLayer.CloseAsync();
-                    mbTilesLayer.TileWidth = 512;
-                    mbTilesLayer.TileHeight = 512;
-                    await mbTilesLayer.OpenAsync();
-                }
-            }
+            var mbTilesLayer = new VectorMbTilesAsyncLayer(@"../../../Data\Mbtiles\maplibre.mbtiles", @"../../../Data\Mbtiles\style.json")
+            {
+                TileWidth = tileSize,
+                TileHeight = tileSize
+            };
+
+            await mbTilesLayer.OpenAsync();
+            newOverlay.Layers.Add(mbTilesLayer);
+            mapView.Overlays.Add(newOverlay);
+
+            _layerOverlay = newOverlay;
+
             await mapView.RefreshAsync();
         }
 
@@ -117,7 +119,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MinimumScale = 200D;
             mapView.Name = "mapView";
             mapView.RestrictExtent = null;
-            mapView.RotatedAngle = 0F;
+            mapView.RotationAngle = 0F;
             mapView.Size = new System.Drawing.Size(1050, 611);
             mapView.TabIndex = 0;
             // 

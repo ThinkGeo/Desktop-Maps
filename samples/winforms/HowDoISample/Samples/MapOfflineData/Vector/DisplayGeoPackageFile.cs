@@ -29,6 +29,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Creat a new layerOverlay to hold the gdalFeatureLayers
             var layerOverlay = new LayerOverlay();
+            layerOverlay.TileType = TileType.SingleTile;
             var projectionConverter = new ProjectionConverter(26910, 3857);
             projectionConverter.Open();
 
@@ -74,7 +75,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MinimumScale = 200D;
             mapView.Name = "mapView";
             mapView.RestrictExtent = null;
-            mapView.RotatedAngle = 0F;
+            mapView.RotationAngle = 0F;
             mapView.Size = new System.Drawing.Size(950, 575);
             mapView.TabIndex = 0;
             // 

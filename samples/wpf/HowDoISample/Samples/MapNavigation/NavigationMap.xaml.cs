@@ -1,118 +1,118 @@
 ﻿using System;
-using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Learn how to programmatically zoom, pan, and rotate the map control.
+    /// Learn how to zoom, pan, and rotate the map control.
     /// </summary>
     public partial class NavigationMap : IDisposable
     {
+        private ThinkGeoCloudRasterMapsOverlay _backgroundOverlay;
+        private PointShape _empireStateBuildingPosition;
+
         public NavigationMap()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            MapView.CurrentExtentChanged += MapView_CurrentExtentChanged;
+
+            // Set the map's unit of measurement to meters(Spherical Mercator)
+            MapView.MapUnit = GeographyUnit.Meter;
+            // Add ThinkGeo Cloud Maps as the background 
+            _backgroundOverlay = new ThinkGeoCloudRasterMapsOverlay
             {
-                // Set the map's unit of measurement to meters(Spherical Mercator)
-                MapView.MapUnit = GeographyUnit.Meter;
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudRasterMapsMapType.Light_V2_X2,
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(_backgroundOverlay);
 
-                // Add Cloud Maps as a background overlay
-                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            // Create the marker overlay to hold UI elements like labels
+            var markerOverlay = new SimpleMarkerOverlay();
+            MapView.Overlays.Add(markerOverlay);
 
-                // Set the map extent
-                MapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
+            // Convert Lat/Lon (EPSG:4326) to Spherical Mercator (EPSG:3857)
+            _empireStateBuildingPosition = ProjectionConverter.Convert(4326, 3857, new PointShape(-73.9856654, 40.74843661));
 
-                await MapView.RefreshAsync();
-            }
-            catch
+            // Create a marker with both label and image content
+            var marker = new Marker(_empireStateBuildingPosition)
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+                //Content = markerContent,
+                ImageSource = new BitmapImage(new Uri("/Resources/empire_state_building.png", UriKind.RelativeOrAbsolute)),
+                Width = 32,
+                Height = 64,
+                YOffset = -32
+            };
+
+            // Add the marker to the overlay
+            markerOverlay.Markers.Add(marker);
+
+            // set up the map extent and refresh
+            MapView.RotationAngle = -30;
+            MapView.CurrentScale = 100000;
+            MapView.CenterPoint = _empireStateBuildingPosition;
+
+            _ = MapView.RefreshAsync();
         }
 
-        /// <summary>
-        /// Zoom in on the map
-        /// The same effect can be achieved by using the ZoomPanBar bar on the upper left of the map, double left-clicking on the map, or by using the scroll wheel.
-        /// </summary>
-        private async void ZoomIn_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                await MapView.ZoomInAsync();
-            }
-            catch
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
-        }
+        // Register the dependency property.
+        public static readonly DependencyProperty TxtCoordinatesProperty =
+            DependencyProperty.Register(
+                nameof(TxtCoordinates),
+                typeof(string),
+                typeof(NavigationMap),
+                null);
 
         /// <summary>
-        /// Zoom out on the map
-        /// The same effect can be achieved by using the ZoomPanBar bar on the upper left of the map, double right-clicking on the map, or by using the scroll wheel.
+        /// Gets or sets the text that represents the coordinates.
+        /// This is a bindable property.
         /// </summary>
-        private async void ZoomOut_Click(object sender, RoutedEventArgs e)
+        public string TxtCoordinates
         {
-            try
-            {
-                await MapView.ZoomOutAsync();
-            }
-            catch
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            get => (string)GetValue(TxtCoordinatesProperty);
+            set => SetValue(TxtCoordinatesProperty, value);
         }
 
-        /// <summary>
-        /// Pan the map in a direction using the PanDirection enum and set how far to pan based on percentage.
-        /// The same effect can be achieved by using the ZoomPanBar arrows on the upper left of the map or by left click dragging anywhere on the map.
-        /// </summary>
-        private async void PanArrow_Click(object sender, RoutedEventArgs e)
+        private void MapView_CurrentExtentChanged(object sender, CurrentExtentChangedMapViewEventArgs e)
         {
-            try
-            {
-                var percentage = 50;
-                switch (((Button)sender).Name)
-                {
-                    case "PanNorth":
-                        await MapView.PanByDirectionAsync(PanDirection.Up, percentage);
-                        break;
-                    case "PanEast":
-                        await MapView.PanByDirectionAsync(PanDirection.Right, percentage);
-                        break;
-                    case "PanWest":
-                        await MapView.PanByDirectionAsync(PanDirection.Left, percentage);
-                        break;
-                    case "PanSouth":
-                        await MapView.PanByDirectionAsync(PanDirection.Down, percentage);
-                        break;
-                }
-            }
-            catch
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            var center = MapView.CurrentExtent.GetCenterPoint();
+            var centerInDecimalDegrees = ProjectionConverter.Convert(3857, 4326, center);
+            TxtCoordinates = $"Center Point: (Lat: {centerInDecimalDegrees.Y:N4}, Lon: {centerInDecimalDegrees.X:N4})";
+        }
+
+        private void ThemeCheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            _backgroundOverlay.MapType = ThemeCheckBox.IsChecked == true
+                ? ThinkGeoCloudRasterMapsMapType.Dark_V2_X2
+                : ThinkGeoCloudRasterMapsMapType.Light_V2_X2;
+
+            // You may need to reset the tile cache ID to avoid mixing dark/light tiles:
+            _backgroundOverlay.TileCache = new FileRasterTileCache(@".\cache",
+                ThemeCheckBox.IsChecked == true ? "thinkgeo_vector_dark" : "thinkgeo_vector_light");
+
+            MapView.CancellationTokenSource.Cancel(); // Cancel the ongoing rendering
+            _ = _backgroundOverlay.RefreshAsync();
+        }
+
+        private void CompassButton_Click(object sender, RoutedEventArgs e)
+        {
+            _ = MapView.ZoomToAsync(MapView.CenterPoint, MapView.CurrentScale, 0);
+        }
+
+        private void DefaultExtentButton_Click(object sender, RoutedEventArgs e)
+        {
+            _ = MapView.ZoomToAsync(_empireStateBuildingPosition, 100000, -30);
         }
 
         public void Dispose()
@@ -121,17 +121,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
-        }
-
-        private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
-
-        private async void RotateAngle_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            _cancellationTokenSource.Cancel();
-            _cancellationTokenSource = new CancellationTokenSource();
-
-            await MapView.ZoomToAsync(MapView.CurrentExtent.GetCenterPoint(), MapView.CurrentScale,
-                 _cancellationTokenSource.Token);
         }
     }
 }

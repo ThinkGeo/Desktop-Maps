@@ -17,53 +17,46 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the graticule layer to the map
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            // It is important to set the map unit first to either feet, meters or decimal degrees.
+            MapView.MapUnit = GeographyUnit.Meter;
+
+            // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
-                // It is important to set the map unit first to either feet, meters or decimal degrees.
-                MapView.MapUnit = GeographyUnit.Meter;
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-                // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
-                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            // Create a new overlay that will hold our new layer and add it to the map.
+            var layerOverlay = new LayerOverlay();
+            MapView.Overlays.Add(layerOverlay);
 
-                // Create a new overlay that will hold our new layer and add it to the map.
-                var layerOverlay = new LayerOverlay();
-                MapView.Overlays.Add(layerOverlay);
-
-                // Create the new layer and set the projection as the data is in srid 4326 and our background is srid 3857 (spherical mercator).
-                var graticuleFeatureLayer = new GraticuleFeatureLayer
-                {
-                    FeatureSource =
+            // Create the new layer and set the projection as the data is in srid 4326 and our background is srid 3857 (spherical mercator).
+            var graticuleFeatureLayer = new GraticuleFeatureLayer
+            {
+                FeatureSource =
                 {
                     ProjectionConverter = new ProjectionConverter(4326, 3857)
                 }
-                };
+            };
 
-                // We set the pen color to the graticule layer.
-                graticuleFeatureLayer.GraticuleLineStyle.OuterPen.Color = GeoColor.FromArgb(125, GeoColors.Navy);
+            // We set the pen color to the graticule layer.
+            graticuleFeatureLayer.GraticuleLineStyle.OuterPen.Color = GeoColor.FromArgb(125, GeoColors.Navy);
 
-                // Add the layer to the overlay we created earlier.
-                layerOverlay.Layers.Add("graticule", graticuleFeatureLayer);
+            // Add the layer to the overlay we created earlier.
+            layerOverlay.Layers.Add("graticule", graticuleFeatureLayer);
 
-                // Set the current extent of the map to start in Frisco TX
-                MapView.CurrentExtent = new RectangleShape(-10782364.041857453, 3914916.6811720245, -10772029.75569071, 3908067.923475721);
+            // Set the current extent of the map to start in Frisco TX
+            MapView.CenterPoint = new PointShape(-10777200, 3911500);
+            MapView.CurrentScale = 36200;
 
-                await MapView.RefreshAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            _ = MapView.RefreshAsync();
         }
 
         public void Dispose()

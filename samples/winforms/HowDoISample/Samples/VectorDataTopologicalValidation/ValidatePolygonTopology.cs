@@ -13,7 +13,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private async void Form_Load(object sender, EventArgs e)
+        private void Form_Load(object sender, EventArgs e)
         {
             // Create an InMemoryFeatureLayer to hold the shapes to be validated
             // Add styles to display points, lines, and polygons on this layer in green
@@ -41,6 +41,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Add the layers to an overlay, and add the overlay to the map
             var featuresOverlay = new LayerOverlay();
+            featuresOverlay.TileType = TileType.SingleTile;
             featuresOverlay.Layers.Add("Filter Features", filterFeaturesLayer);
             featuresOverlay.Layers.Add("Validated Features", validatedFeaturesLayer);
             featuresOverlay.Layers.Add("Result Features", resultFeaturesLayer);
@@ -50,14 +51,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = new RectangleShape(0, 200, 200, 0);
 
             rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries.Checked = true;
-
-            await mapView.RefreshAsync();
-            await mapView.ZoomToScaleAsync(800);
         }
 
 
-        private async void rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries_CheckedChanged(object sender, EventArgs e)
+        private void rdoCheckIfPolygonBoundariesOverlapPolygonBoundaries_CheckedChanged(object sender, EventArgs e)
         {
+            var radioButton = sender as RadioButton;
+            if (radioButton == null)
+                return;
+            if (!radioButton.Checked)
+                return;
             // Create a sample set of polygon features to use for the validation
             var coveringPolygonFeature = new Feature("POLYGON((0 0,100 0,100 100,0 100,0 0))");
             var coveredPolygonFeature = new Feature("POLYGON((0 0,50 0,50 50,0 50,0 0))");
@@ -71,15 +74,20 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { coveredPolygonFeature }, invalidResultFeatures, new Collection<Feature>() { coveringPolygonFeature });
+            _ = ClearMapAndAddFeaturesAsync(new Collection<Feature>() { coveredPolygonFeature }, invalidResultFeatures, new Collection<Feature>() { coveringPolygonFeature });
 
             // Update the help text
             txtValidationInfo.Text = "Features being validated against are shown in blue. \n\nPolygons being validated are shown in green. \n\nNon-overlapping polygon boundaries are shown in red.";
 
         }
 
-        private async void rdoCheckIfPolygonBoundariesOverlapLines_CheckedChanged(object sender, EventArgs e)
+        private void rdoCheckIfPolygonBoundariesOverlapLines_CheckedChanged(object sender, EventArgs e)
         {
+            var radioButton = sender as RadioButton;
+            if (radioButton == null)
+                return;
+            if (!radioButton.Checked)
+                return;
             // Create a sample set of polygon and line features to use for the validation
             var polygonFeature = new Feature("POLYGON((0 0,100 0,100 100,0 100,0 0))");
             var lineFeature = new Feature("LINESTRING(-50 0,100 0,100 150)");
@@ -93,15 +101,20 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { polygonFeature }, invalidResultFeatures, new Collection<Feature>() { lineFeature });
+            _ = ClearMapAndAddFeaturesAsync(new Collection<Feature>() { polygonFeature }, invalidResultFeatures, new Collection<Feature>() { lineFeature });
 
             // Update the help text
             txtValidationInfo.Text = "Features being validated against are shown in blue. \n\nPolygons being validated are shown in green. \n\nNon-overlapping polygon boundaries are shown in red.";
 
         }
 
-        private async void rdoCheckIfPolygonsOverlapPolygons_CheckedChanged(object sender, EventArgs e)
+        private void rdoCheckIfPolygonsOverlapPolygons_CheckedChanged(object sender, EventArgs e)
         {
+            var radioButton = sender as RadioButton;
+            if (radioButton == null)
+                return;
+            if (!radioButton.Checked)
+                return;
             // Create a sample set of polygon features to use for the validation
             var polygonFeature1 = new Feature("POLYGON((25 25,50 25,50 50,25 50,25 25))");
             var polygonFeature2 = new Feature("POLYGON((75 25,125 25,125 75,75 75,75 25))");
@@ -117,15 +130,20 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { polygonFeature1, polygonFeature2, polygonFeature3 }, invalidResultFeatures, new Collection<Feature>() { coveringPolygonFeature });
+            _ = ClearMapAndAddFeaturesAsync(new Collection<Feature>() { polygonFeature1, polygonFeature2, polygonFeature3 }, invalidResultFeatures, new Collection<Feature>() { coveringPolygonFeature });
 
             // Update the help text
             txtValidationInfo.Text = "Features being validated against are shown in blue. \n\nOverlapping regions are shown in green. \n\nNon-overlapping regions are shown in red.";
 
         }
 
-        private async void rdoCheckIfPolygonsAreWithinPolygons_CheckedChanged(object sender, EventArgs e)
+        private void rdoCheckIfPolygonsAreWithinPolygons_CheckedChanged(object sender, EventArgs e)
         {
+            var radioButton = sender as RadioButton;
+            if (radioButton == null)
+                return;
+            if (!radioButton.Checked)
+                return;
             // Create a sample set of polygon features to use for the validation
             var polygonFeature1 = new Feature("POLYGON((25 25,50 25,50 50,25 50,25 25))");
             var polygonFeature2 = new Feature("POLYGON((75 25,125 25,125 75,75 75,75 25))");
@@ -141,15 +159,20 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { polygonFeature1, polygonFeature2, polygonFeature3 }, invalidResultFeatures, new Collection<Feature>() { coveringPolygonFeature });
+            _ = ClearMapAndAddFeaturesAsync(new Collection<Feature>() { polygonFeature1, polygonFeature2, polygonFeature3 }, invalidResultFeatures, new Collection<Feature>() { coveringPolygonFeature });
 
             // Update the help text
             txtValidationInfo.Text = "Features being validated against are shown in blue. \n\nPolygons fully within polygons are shown in green. \n\nPolygons not within polygons are shown in red.";
 
         }
 
-        private async void rdoCheckIfPolygonsContainPoints_CheckedChanged(object sender, EventArgs e)
+        private void rdoCheckIfPolygonsContainPoints_CheckedChanged(object sender, EventArgs e)
         {
+            var radioButton = sender as RadioButton;
+            if (radioButton == null)
+                return;
+            if (!radioButton.Checked)
+                return;
             // Create a sample set of points and polygon features to use for the validation
             var pointFeature = new Feature("POINT(50 50)");
             var polygonWithPointFeature = new Feature("POLYGON((0 0,100 0,100 100,0 100,0 0))");
@@ -164,15 +187,20 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { polygonFeature, polygonWithPointFeature }, invalidResultFeatures, new Collection<Feature>() { pointFeature });
+            _ = ClearMapAndAddFeaturesAsync(new Collection<Feature>() { polygonFeature, polygonWithPointFeature }, invalidResultFeatures, new Collection<Feature>() { pointFeature });
 
             // Update the help text
             txtValidationInfo.Text = "Features being validated against are shown in blue. \n\nPolygons containing points are shown in green. \n\nPolygons not containing points are shown in red.";
 
         }
 
-        private async void rdoCheckIfPolygonsCoverEachOther_CheckedChanged(object sender, EventArgs e)
+        private void rdoCheckIfPolygonsCoverEachOther_CheckedChanged(object sender, EventArgs e)
         {
+            var radioButton = sender as RadioButton;
+            if (radioButton == null)
+                return;
+            if (!radioButton.Checked)
+                return;
             // Create a sample set of polygon features to use for the validation
             var polygonFeature1 = new Feature("POLYGON((0 0,100 0,100 100,0 100,0 0))");
             var polygonFeature2 = new Feature("POLYGON((-50 -50,50 -50,50 50,-50 50,-50 -50))");
@@ -186,15 +214,20 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { polygonFeature1, polygonFeature2 }, invalidResultFeatures);
+            _ = ClearMapAndAddFeaturesAsync(new Collection<Feature>() { polygonFeature1, polygonFeature2 }, invalidResultFeatures);
 
             // Update the help text
             txtValidationInfo.Text = "All non-overlapping regions from two different sets of polygons are shown in red. \n\nOverlapping regions are shown in green";
 
         }
 
-        private async void rdoCheckIfPolygonsHaveGaps_CheckedChanged(object sender, EventArgs e)
+        private void rdoCheckIfPolygonsHaveGaps_CheckedChanged(object sender, EventArgs e)
         {
+            var radioButton = sender as RadioButton;
+            if (radioButton == null)
+                return;
+            if (!radioButton.Checked)
+                return;
             // Create a sample set of polygon features to use for the validation
             var polygonFeature1 = new Feature("POLYGON((0 0,40 0,40 40,0 40,0 0))");
             var polygonFeature2 = new Feature("POLYGON((30 30,70 30,70 70,30 70,30 30))");
@@ -209,15 +242,20 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { polygonFeature1, polygonFeature2, polygonFeature3, polygonFeature4 }, invalidResultFeatures);
+            _ = ClearMapAndAddFeaturesAsync(new Collection<Feature>() { polygonFeature1, polygonFeature2, polygonFeature3, polygonFeature4 }, invalidResultFeatures);
 
             // Update the help text
             txtValidationInfo.Text = "Features being validated are shown in green. \n\nGaps (Inner rings) within the union of the polygons are shown in red.";
 
         }
 
-        private async void rdoCheckPolygonsMustNotOverlap_CheckedChanged(object sender, EventArgs e)
+        private void rdoCheckPolygonsMustNotOverlap_CheckedChanged(object sender, EventArgs e)
         {
+            var radioButton = sender as RadioButton;
+            if (radioButton == null)
+                return;
+            if (!radioButton.Checked)
+                return;
             // Create a sample set of polygon features to use for the validation
             var polygonFeature1 = new Feature("POLYGON((25 25,50 25,50 50,25 50,25 25))");
             var polygonFeature2 = new Feature("POLYGON((75 25,125 25,125 75,75 75,75 25))");
@@ -232,15 +270,20 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { polygonFeature1, polygonFeature2, polygonFeature3, polygonFeature4 }, invalidResultFeatures);
+            _ = ClearMapAndAddFeaturesAsync(new Collection<Feature>() { polygonFeature1, polygonFeature2, polygonFeature3, polygonFeature4 }, invalidResultFeatures);
 
             // Update the help text
             txtValidationInfo.Text = "Features being validated are shown in green. \n\nOverlapping polygon regions are shown in red.";
 
         }
 
-        private async void rdoCheckPolygonsMustNotOverlapPolygons_CheckedChanged(object sender, EventArgs e)
+        private void rdoCheckPolygonsMustNotOverlapPolygons_CheckedChanged(object sender, EventArgs e)
         {
+            var radioButton = sender as RadioButton;
+            if (radioButton == null)
+                return;
+            if (!radioButton.Checked)
+                return;
             // Create a sample set of polygon features to use for the validation
             var polygonFeature1 = new Feature("POLYGON((25 25,50 25,50 50,25 50,25 25))");
             var polygonFeature2 = new Feature("POLYGON((75 25,125 25,125 75,75 75,75 25))");
@@ -256,7 +299,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { polygonFeature1, polygonFeature2, polygonFeature3 }, invalidResultFeatures, new Collection<Feature>() { coveringPolygonFeature });
+            _ = ClearMapAndAddFeaturesAsync(new Collection<Feature>() { polygonFeature1, polygonFeature2, polygonFeature3 }, invalidResultFeatures, new Collection<Feature>() { coveringPolygonFeature });
 
             // Update the help text
             txtValidationInfo.Text = "Features being validated against are shown in blue. \n\nNon-overlapping polygon regions are shown in green. \n\nOverlapping polygon regions are shown in red.";
@@ -302,13 +345,15 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Refresh/redraw the layers and reset the map extent
             var featureOverlay = (LayerOverlay)mapView.Overlays["Features Overlay"];
-            mapView.CurrentExtent = featureOverlay.GetBoundingBox();
+            var featureOverlayBBox = featureOverlay.GetBoundingBox();
+            mapView.CenterPoint = featureOverlayBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(mapView.MapUnit, featureOverlayBBox, mapView.MapWidth, mapView.MapHeight);
+            mapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
             await mapView.RefreshAsync();
 
             validatedFeaturesLayer.Close();
             filterFeaturesLayer.Close();
             resultFeaturesLayer.Close();
-            await mapView.ZoomToScaleAsync(800);
         }
 
         #region Component Designer generated code
@@ -355,12 +400,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
             this.mapView.Location = new System.Drawing.Point(0, 0);
-            this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
+            this.mapView.MapResizeMode = MapResizeMode.PreserveScale;
             this.mapView.MaximumScale = 1.7976931348623157E+308D;
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
-            this.mapView.RotatedAngle = 0F;
+            this.mapView.RotationAngle = 0F;
             this.mapView.Size = new System.Drawing.Size(848, 718);
             this.mapView.TabIndex = 0;
             // 

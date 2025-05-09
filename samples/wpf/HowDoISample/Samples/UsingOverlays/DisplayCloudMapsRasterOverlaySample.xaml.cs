@@ -27,30 +27,23 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.BackgroundOverlay.BackgroundBrush = GeoBrushes.AliceBlue;
 
             // Set the map extent
-            MapView.CurrentExtent = new RectangleShape(-10782598.9806675, 3915669.09132595, -10772234.1196896, 3906343.77392696);
+            MapView.CenterPoint = new PointShape(-10777420, 3911000);
+            MapView.CurrentScale = 49300;
         }
 
         /// <summary>
         /// Create a ThinkGeo Cloud Maps raster overlay and add it to the map view.
         /// </summary>
-        private async void DisplayRasterCloudMaps_Click(object sender, RoutedEventArgs e)
+        private void DisplayRasterCloudMaps_Click(object sender, RoutedEventArgs e)
         {
-            try
+            var thinkGeoCloudRasterMapsOverlay = new ThinkGeoCloudRasterMapsOverlay
             {
-                var thinkGeoCloudRasterMapsOverlay = new ThinkGeoCloudRasterMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1,
-                };
-                MapView.Overlays.Add(thinkGeoCloudRasterMapsOverlay);
-                await MapView.RefreshAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1,
+            };
+            MapView.Overlays.Add(thinkGeoCloudRasterMapsOverlay);
+            _ = MapView.RefreshAsync();
         }
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)

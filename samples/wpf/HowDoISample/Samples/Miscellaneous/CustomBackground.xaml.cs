@@ -17,47 +17,42 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay.
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                // It is important to set the map unit first to either feet, meters or decimal degrees.
-                MapView.MapUnit = GeographyUnit.Meter;
+            // It is important to set the map unit first to either feet, meters or decimal degrees.
+            MapView.MapUnit = GeographyUnit.Meter;
 
-                var housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp")
-                {
-                    FeatureSource =
+            var housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp")
+            {
+                FeatureSource =
                     {
                         // Project the layer's data to match the projection of the map
                         ProjectionConverter = new ProjectionConverter(2276, 3857)
                     }
-                };
+            };
 
-                // Add and apply the ClassBreakStyle to the housingUnitsLayer
-                housingUnitsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(new AreaStyle(GeoPens.Black));
-                housingUnitsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            // Add and apply the ClassBreakStyle to the housingUnitsLayer
+            housingUnitsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(new AreaStyle(GeoPens.Black));
+            housingUnitsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-                // Add housingUnitsLayer to a LayerOverlay
-                var layerOverlay = new LayerOverlay();
-                layerOverlay.Layers.Add(housingUnitsLayer);
+            // Add housingUnitsLayer to a LayerOverlay
+            var layerOverlay = new LayerOverlay();
+            layerOverlay.Layers.Add(housingUnitsLayer);
 
-                // Add layerOverlay to the mapView
-                MapView.Overlays.Add(layerOverlay);
+            // Add layerOverlay to the mapView
+            MapView.Overlays.Add(layerOverlay);
 
-                MapView.BackgroundOverlay.BackgroundBrush = new GeoLinearGradientBrush(GeoColors.Blue, GeoColors.White, 90);
+            MapView.BackgroundOverlay.BackgroundBrush = new GeoLinearGradientBrush(GeoColors.Blue, GeoColors.White, 90);
 
-                // Set the map extent
-                housingUnitsLayer.Open();
-                MapView.CurrentExtent = housingUnitsLayer.GetBoundingBox();
-                housingUnitsLayer.Close();
+            // Set the map extent
+            housingUnitsLayer.Open();
+            var housingUnitsLayerBBox = housingUnitsLayer.GetBoundingBox();
+            MapView.CenterPoint = housingUnitsLayerBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(MapView.MapUnit, housingUnitsLayerBBox, MapView.MapWidth, MapView.MapHeight);
+            MapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
+            housingUnitsLayer.Close();
 
-                await MapView.RefreshAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            _ = MapView.RefreshAsync();
         }
 
         public void Dispose()

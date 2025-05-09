@@ -19,37 +19,48 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay.
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            // It is important to set the map unit first to either feet, meters or decimal degrees.
+            MapView.MapUnit = GeographyUnit.Meter;
+
+            // Create the layer overlay with some additional settings and add to the map.
+            var cloudOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
-                // It is important to set the map unit first to either feet, meters or decimal degrees.
-                MapView.MapUnit = GeographyUnit.Meter;
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                //TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add("Cloud Overlay", cloudOverlay);
 
-                // Set the map zoom level set to the Cloud Maps zoom level set.
-                MapView.ZoomLevelSet = new ThinkGeoCloudMapsZoomLevelSet();
-
-                // Create the layer overlay with some additional settings and add to the map.
-                var cloudOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                    //TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
-                MapView.Overlays.Add("Cloud Overlay", cloudOverlay);
-
-                // Set the current extent to a neighborhood in Frisco Texas.
-                MapView.CurrentExtent = new RectangleShape(-10781708.9749424, 3913502.90429046, -10777685.1114043, 3910360.79646662);
-
-                await MapView.RefreshAsync();
-            }
-            catch 
+            // Add Scale Line Adornment Layer
+            var scaleLineAdornmentLayer = new ScaleLineAdornmentLayer
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+                XOffsetInPixel = 20,
+                YOffsetInPixel = -10,
+                Projection = new Projection(3857)
+            };
+
+            // Add ScaleBarAdornmentLayer
+            var scaleBarAdornmentLayer = new ScaleBarAdornmentLayer
+            {
+                XOffsetInPixel = 10,
+                YOffsetInPixel = -50,
+                Projection = new Projection(3857)
+            };
+
+            var adornmentOverlay = new AdornmentOverlay();
+            adornmentOverlay.Layers.Add(scaleLineAdornmentLayer);
+            adornmentOverlay.Layers.Add(scaleBarAdornmentLayer);
+            MapView.Overlays.Add("AdornmentOverlay", adornmentOverlay);
+
+            // Set the current extent to a neighborhood in Frisco Texas.
+            MapView.CenterPoint = new PointShape(-10779700, 3912000);
+            MapView.CurrentScale = 18100;
+
+            _ = MapView.RefreshAsync();
         }
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
@@ -58,33 +69,25 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             e.Handled = true;
         }
 
-        private async void rbMapType_Checked(object sender, RoutedEventArgs e)
+        private void rbMapType_Checked(object sender, RoutedEventArgs e)
         {
-            try
-            { 
-                var button = (RadioButton)sender;
-                if (!MapView.Overlays.Contains("Cloud Overlay")) return;
-                var cloudOverlay = (ThinkGeoCloudVectorMapsOverlay)MapView.Overlays["Cloud Overlay"];
+            var button = (RadioButton)sender;
+            if (!MapView.Overlays.Contains("Cloud Overlay")) return;
+            var cloudOverlay = (ThinkGeoCloudVectorMapsOverlay)MapView.Overlays["Cloud Overlay"];
 
-                switch (button.Content.ToString())
-                {
-                    case "Light":
-                        cloudOverlay.MapType = ThinkGeoCloudVectorMapsMapType.Light;
-                        break;
-                    case "Dark":
-                        cloudOverlay.MapType = ThinkGeoCloudVectorMapsMapType.Dark;
-                        break;
-                    case "TransparentBackground":
-                        cloudOverlay.MapType = ThinkGeoCloudVectorMapsMapType.TransparentBackground;
-                        break;
-                }
-                await MapView.RefreshAsync();
-            }
-            catch 
+            switch (button.Content.ToString())
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+                case "Light":
+                    cloudOverlay.MapType = ThinkGeoCloudVectorMapsMapType.Light;
+                    break;
+                case "Dark":
+                    cloudOverlay.MapType = ThinkGeoCloudVectorMapsMapType.Dark;
+                    break;
+                case "TransparentBackground":
+                    cloudOverlay.MapType = ThinkGeoCloudVectorMapsMapType.TransparentBackground;
+                    break;
             }
+            _ = MapView.RefreshAsync();
         }
 
         public void Dispose()

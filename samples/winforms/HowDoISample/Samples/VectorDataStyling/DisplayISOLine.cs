@@ -91,8 +91,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var dynamicIsoLineLayer = new DynamicIsoLineLayer(csvPointData, isoLineLevels, new InverseDistanceWeightedGridInterpolationModel(), IsoLineType.LinesOnly)
             {
                 // Set the cell height and width dynamically based on the map view size
-                CellHeightInPixel = (int)(mapView.ActualHeight / 80),
-                CellWidthInPixel = (int)(mapView.ActualWidth / 80)
+                CellHeightInPixel = (int)(mapView.MapHeight / 80),
+                CellWidthInPixel = (int)(mapView.MapWidth / 80)
             };
 
             //Create a series of colors from blue to red that we will use for the breaks based on the number of iso line levels we want.
@@ -188,12 +188,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
             this.mapView.Location = new System.Drawing.Point(0, 0);
-            this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
+            this.mapView.MapResizeMode = MapResizeMode.PreserveScale;
             this.mapView.MaximumScale = 1.7976931348623157E+308D;
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
-            this.mapView.RotatedAngle = 0F;
+            this.mapView.RotationAngle = 0F;
             this.mapView.Size = new System.Drawing.Size(1193, 618);
             this.mapView.TabIndex = 0;
             // 

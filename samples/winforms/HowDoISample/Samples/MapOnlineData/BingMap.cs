@@ -37,16 +37,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             {
                 btnActivate.Enabled = false;
                 // Set the map zoom level set to the bing map zoom level set so all the zoom levels line up.
-                mapView.ZoomLevelSet = new BingMapsZoomLevelSet();
+                var zoomLevelSet = new BingMapsZoomLevelSet();
+                mapView.ZoomScales = zoomLevelSet.GetScales();
 
                 // Create the layer overlay with some additional settings and add to the map.
-                var layerOverlay = new LayerOverlay
-                {
-                    TileHeight = 256,
-                    TileWidth = 256,
-                    TileSizeMode = TileSizeMode.Small,
-                    MaxExtent = MaxExtents.BingMaps
-                };
+                var layerOverlay = new LayerOverlay();
+                layerOverlay.TileMatrixSet = TileMatrixSet.CreateTileMatrixSet(256, MaxExtents.BingMaps, GeographyUnit.Meter);
+
                 mapView.Overlays.Add("Bing Map", layerOverlay);
 
                 // Create the bing map layer and add it to the map.
@@ -96,7 +93,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MinimumScale = 200D;
             mapView.Name = "mapView";
             mapView.RestrictExtent = null;
-            mapView.RotatedAngle = 0F;
+            mapView.RotationAngle = 0F;
             mapView.Size = new System.Drawing.Size(990, 599);
             mapView.TabIndex = 0;
             // 

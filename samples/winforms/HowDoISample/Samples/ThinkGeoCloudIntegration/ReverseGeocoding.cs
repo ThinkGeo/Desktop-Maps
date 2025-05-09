@@ -63,6 +63,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             reverseGeocodingCloudClient = new ReverseGeocodingCloudClient(SampleKeys.ClientId2, SampleKeys.ClientSecret2);
 
             cboLocationCategories.SelectedIndex = 0;
+
+            _ = mapView.RefreshAsync();
         }
 
         private async Task PerformReverseGeocodeAsync()
@@ -131,7 +133,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             // Get the 'Search Radius' layer from the MapView
             var searchRadiusFeatureLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Search Radius");
-
+            searchRadiusFeatureLayer.Open();
             // Clear the existing features and add new features showing the area that was searched by the reverse geocode
             searchRadiusFeatureLayer.Clear();
             searchRadiusFeatureLayer.InternalFeatures.Add(new Feature(new EllipseShape(searchPoint, searchRadius)));
@@ -139,6 +141,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Get the 'Result Feature' layer and clear it
             var selectedResultItemFeatureLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Result Feature Geometry");
+            selectedResultItemFeatureLayer.Open();
             selectedResultItemFeatureLayer.Clear();
 
             // If a match was found for the geocode, update the UI
@@ -210,7 +213,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var standardZoomLevelSet = new ZoomLevelSet();
             if (mapView.CurrentScale < standardZoomLevelSet.ZoomLevel18.Scale)
             {
-                await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
+                await mapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel18.Scale);
             }
             await mapView.RefreshAsync();
         }
@@ -322,7 +325,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 var standardZoomLevelSet = new ZoomLevelSet();
                 if (mapView.CurrentScale < standardZoomLevelSet.ZoomLevel18.Scale)
                 {
-                    await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
+                    //await mapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel18.Scale);
+                    mapView.CurrentScale = standardZoomLevelSet.ZoomLevel18.Scale;
                 }
                 await mapView.RefreshAsync();
             }
@@ -392,15 +396,15 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
             this.mapView.Location = new System.Drawing.Point(0, 0);
-            this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
+            this.mapView.MapResizeMode = MapResizeMode.PreserveScale;
             this.mapView.MaximumScale = 1.7976931348623157E+308D;
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
-            this.mapView.RotatedAngle = 0F;
+            this.mapView.RotationAngle = 0F;
             this.mapView.Size = new System.Drawing.Size(855, 588);
             this.mapView.TabIndex = 0;
-            this.mapView.MapClick += new System.EventHandler<ThinkGeo.Core.MapClickMapViewEventArgs>(this.mapView_MapClick);
+            this.mapView.MapClick += new System.EventHandler<MapClickMapViewEventArgs>(this.mapView_MapClick);
             // 
             // panel1
             // 

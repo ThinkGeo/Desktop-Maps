@@ -19,50 +19,65 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the shapefile layer to the map
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            // It is important to set the map unit first to either feet, meters or decimal degrees.
+            MapView.MapUnit = GeographyUnit.Meter;
+
+            // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
-                // It is important to set the map unit first to either feet, meters or decimal degrees.
-                MapView.MapUnit = GeographyUnit.Meter;
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-                // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
-                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            // Create a new overlay that will hold our new layer and add it to the map.
+            var cadOverlay = new LayerOverlay();
+            MapView.Overlays.Add("CAD overlay", cadOverlay);
 
-                // Create a new overlay that will hold our new layer and add it to the map.
-                var cadOverlay = new LayerOverlay();
-                MapView.Overlays.Add("CAD overlay", cadOverlay);
+            // Create the new cad layer
+            _cadLayer = new CadFeatureLayer(@"./Data/CAD/Zipcodes.DWG");
 
-                // Create the new cad layer
-                _cadLayer = new CadFeatureLayer(@"./Data/CAD/Zipcodes.DWG");
+            // Create a new ProjectionConverter to convert between Lambert Conformal Conic and Spherical Mercator (3857)
+            var projectionConverter = new ProjectionConverter(103376, 3857);
+            _cadLayer.FeatureSource.ProjectionConverter = projectionConverter;
 
-                // Create a new ProjectionConverter to convert between Lambert Conformal Conic and Spherical Mercator (3857)
-                var projectionConverter = new ProjectionConverter(103376, 3857);
-                _cadLayer.FeatureSource.ProjectionConverter = projectionConverter;
+            // Create an Area style on zoom level 1 and then apply it to all zoom levels up to 20.
+            _cadLayer.StylingType = CadStylingType.EmbeddedStyling;
 
-                // Create an Area style on zoom level 1 and then apply it to all zoom levels up to 20.
-                _cadLayer.StylingType = CadStylingType.EmbeddedStyling;
+            // Add the layer to the overlay we created earlier.
+            cadOverlay.Layers.Add("CAD Drawing", _cadLayer);
 
-                // Add the layer to the overlay we created earlier.
-                cadOverlay.Layers.Add("CAD Drawing", _cadLayer);
+            // Set the current extent of the map to the extent of the CAD data
+            _cadLayer.Open();
+            var cadLayerBBox = _cadLayer.GetBoundingBox();
+            MapView.CenterPoint = cadLayerBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(MapView.MapUnit, cadLayerBBox, MapView.MapWidth, MapView.MapHeight);
+            MapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
 
-                // Set the current extent of the map to the extent of the CAD data
-                _cadLayer.Open();
-                MapView.CurrentExtent = _cadLayer.GetBoundingBox();
+            _ = MapView.RefreshAsync();
+        }
 
-                await MapView.RefreshAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+        private void EmbeddedStyling_Checked(object sender, RoutedEventArgs e)
+        {
+            if (_cadLayer == null) return;
+            // Create an Area style on zoom level 1 and then apply it to all zoom levels up to 20.
+            _cadLayer.StylingType = CadStylingType.EmbeddedStyling;
+
+            _ = MapView.RefreshAsync();
+        }
+
+        private void ProgrammaticStyling_Checked(object sender, RoutedEventArgs e)
+        {
+            if (_cadLayer == null) return;
+            // Create an Area style on zoom level 1 and then apply it to all zoom levels up to 20.
+            _cadLayer.StylingType = CadStylingType.StandardStyling;
+            _cadLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = new LineStyle(new GeoPen(GeoColors.Blue, 2));
+            _cadLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
+            _ = MapView.RefreshAsync();
         }
 
         public void Dispose()
@@ -71,42 +86,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
-        }
-
-        private async void EmbeddedStyling_Checked(object sender, RoutedEventArgs e)
-        {
-            try
-            { 
-                if (_cadLayer == null) return;
-                // Create an Area style on zoom level 1 and then apply it to all zoom levels up to 20.
-                _cadLayer.StylingType = CadStylingType.EmbeddedStyling;
-
-                await MapView.RefreshAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
-        }
-
-        private async void ProgrammaticStyling_Checked(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (_cadLayer == null) return;
-                // Create an Area style on zoom level 1 and then apply it to all zoom levels up to 20.
-                _cadLayer.StylingType = CadStylingType.StandardStyling;
-                _cadLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = new LineStyle(new GeoPen(GeoColors.Blue, 2));
-                _cadLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-
-                await MapView.RefreshAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
         }
     }
 }

@@ -735,12 +735,6 @@
         "source": "Samples/Miscellaneous/GetMapSnapShot"
       },
       {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.UpdateTheGPSLocation",
-        "title": "Update the GPS Location",
-        "description": "Learn how to display a GPS vehicle's movements in real-time",
-        "source": "Samples/Miscellaneous/UpdateTheGPSLocation"
-      },
-      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.PerfTestRefreshShapes",
         "title": "Perf Test: Refresh shapes",
         "description": "Learn how to use overlays to display dynamically refreshing data. This sample will shows how to refresh 20,000 polygons every seconds.",

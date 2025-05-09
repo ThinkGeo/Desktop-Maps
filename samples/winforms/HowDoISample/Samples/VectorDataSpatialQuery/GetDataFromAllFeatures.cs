@@ -12,7 +12,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private async void Form_Load(object sender, EventArgs e)
+        private void Form_Load(object sender, EventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -77,10 +77,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             lsbHotels.DisplayMember = "Name";
 
             // Refresh and redraw the map
-            await mapView.RefreshAsync();
+            _ = mapView.RefreshAsync();
         }
 
-        private async void lsbHotels_SelectedIndexChanged(object sender, EventArgs e)
+        private void lsbHotels_SelectedIndexChanged(object sender, EventArgs e)
         {
             var highlightedHotelLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Highlighted Hotel");
             highlightedHotelLayer.Open();
@@ -95,12 +95,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 // Center the map on the chosen location
                 mapView.CurrentExtent = hotel.Location.GetBoundingBox();
                 var standardZoomLevelSet = new ZoomLevelSet();
-                await mapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
-                await mapView.RefreshAsync();
+                mapView.CurrentScale = standardZoomLevelSet.ZoomLevel18.Scale;
+                _ = mapView.RefreshAsync();
             }
-
-            highlightedHotelLayer.Close();
-
         }
         public class Hotel
         {
@@ -144,12 +141,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
             this.mapView.Location = new System.Drawing.Point(0, 0);
-            this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
+            this.mapView.MapResizeMode = MapResizeMode.PreserveScale;
             this.mapView.MaximumScale = 1.7976931348623157E+308D;
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
-            this.mapView.RotatedAngle = 0F;
+            this.mapView.RotationAngle = 0F;
             this.mapView.Size = new System.Drawing.Size(748, 665);
             this.mapView.TabIndex = 0;
             // 

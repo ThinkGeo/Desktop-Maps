@@ -23,51 +23,49 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay, as well as a feature layer to display the route
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
-                // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-                // Set the map's unit of measurement to meters (Spherical Mercator)
-                MapView.MapUnit = GeographyUnit.Meter;
+            // Set the map's unit of measurement to meters (Spherical Mercator)
+            MapView.MapUnit = GeographyUnit.Meter;
 
-                // Create a new feature layer to display the route
-                var routingLayer = new InMemoryFeatureLayer();
+            // Create a new feature layer to display the route
+            var routingLayer = new InMemoryFeatureLayer();
 
-                // Add point, line, and text styles to display the waypoints, route, and labels for the route
-                routingLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 24, GeoBrushes.MediumPurple, GeoPens.Purple);
-                routingLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.MediumPurple, 3, false);
-                routingLayer.ZoomLevelSet.ZoomLevel01.DefaultTextStyle = TextStyle.CreateMaskTextStyle("SequenceNumber", new GeoFont("Verdana", 20), GeoBrushes.White, AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(90, GeoColors.Black), GeoColors.Black, 2), 0, 0);
-                routingLayer.ZoomLevelSet.ZoomLevel01.DefaultTextStyle.TextPlacement = TextPlacement.Upper;
-                routingLayer.ZoomLevelSet.ZoomLevel01.DefaultTextStyle.YOffsetInPixel = -8;
-                routingLayer.ZoomLevelSet.ZoomLevel01.DefaultTextStyle.OverlappingRule = LabelOverlappingRule.AllowOverlapping;
-                routingLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            // Add point, line, and text styles to display the waypoints, route, and labels for the route
+            routingLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 24, GeoBrushes.MediumPurple, GeoPens.Purple);
+            routingLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.MediumPurple, 3, false);
+            routingLayer.ZoomLevelSet.ZoomLevel01.DefaultTextStyle = TextStyle.CreateMaskTextStyle("SequenceNumber", new GeoFont("Verdana", 20), GeoBrushes.White, AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(90, GeoColors.Black), GeoColors.Black, 2), 0, 0);
+            routingLayer.ZoomLevelSet.ZoomLevel01.DefaultTextStyle.TextPlacement = TextPlacement.Upper;
+            routingLayer.ZoomLevelSet.ZoomLevel01.DefaultTextStyle.YOffsetInPixel = -8;
+            routingLayer.ZoomLevelSet.ZoomLevel01.DefaultTextStyle.OverlappingRule = LabelOverlappingRule.AllowOverlapping;
+            routingLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-                // Create a feature layer to highlight selected features
-                var highlightLayer = new InMemoryFeatureLayer();
+            // Create a feature layer to highlight selected features
+            var highlightLayer = new InMemoryFeatureLayer();
 
-                // Add styles to display the highlighted route features
-                highlightLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.BrightYellow, 6, GeoColors.Black, 2, false);
-                highlightLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            // Add styles to display the highlighted route features
+            highlightLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.BrightYellow, 6, GeoColors.Black, 2, false);
+            highlightLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-                // Add the layer to an overlay, and add the overlay to the mapview
-                var routingOverlay = new LayerOverlay();
-                routingOverlay.Layers.Add("Routing Layer", routingLayer);
-                routingOverlay.Layers.Add("Highlight Layer", highlightLayer);
-                MapView.Overlays.Add("Routing Overlay", routingOverlay);
+            // Add the layer to an overlay, and add the overlay to the mapview
+            var routingOverlay = new LayerOverlay();
+            routingOverlay.Layers.Add("Routing Layer", routingLayer);
+            routingOverlay.Layers.Add("Highlight Layer", highlightLayer);
+            MapView.Overlays.Add("Routing Overlay", routingOverlay);
 
-                // Create a set of preset waypoints to route through
-                _routingWaypoints = new Collection<PointShape>()
+            // Create a set of preset waypoints to route through
+            _routingWaypoints = new Collection<PointShape>()
                 {
                 new PointShape(-10776986.85, 3908680.24),
                 new PointShape(-10776836.12, 3912348.04),
@@ -76,30 +74,25 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 new PointShape(-10774900.61, 3912552.36)
                 };
 
-                // Add the waypoints to the map to be displayed
-                foreach (var routingWaypoint in _routingWaypoints)
-                {
-                    routingLayer.InternalFeatures.Add(new Feature(routingWaypoint));
-                }
-
-                // Set the map extent to Frisco, TX
-                MapView.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
-
-                // Initialize the RoutingCloudClient with our ThinkGeo Cloud Client credentials
-                _routingCloudClient = new RoutingCloudClient
-                {
-                    ClientId = SampleKeys.ClientId2,
-                    ClientSecret = SampleKeys.ClientSecret2,
-                };
-
-                // Run the routing request
-                await RouteWaypointsAsync();
-            }
-            catch 
+            // Add the waypoints to the map to be displayed
+            foreach (var routingWaypoint in _routingWaypoints)
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+                routingLayer.InternalFeatures.Add(new Feature(routingWaypoint));
             }
+
+            // Set the map extent to Frisco, TX
+            MapView.CenterPoint = new PointShape(-10778720, 3915154);
+            MapView.CurrentScale = 202090;
+
+            // Initialize the RoutingCloudClient with our ThinkGeo Cloud Client credentials
+            _routingCloudClient = new RoutingCloudClient
+            {
+                ClientId = SampleKeys.ClientId2,
+                ClientSecret = SampleKeys.ClientSecret2,
+            };
+
+            // Run the routing request
+            _ = RouteWaypointsAsync();
         }
 
         /// <summary>
@@ -174,9 +167,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Set the map extent to the newly displayed route
             routingLayer.Open();
-            MapView.CurrentExtent = routingLayer.GetBoundingBox();
+            var routingLayerBBox = routingLayer.GetBoundingBox();
+            MapView.CenterPoint = routingLayerBBox.GetCenterPoint();
+            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, routingLayerBBox, MapView.MapWidth, MapView.MapHeight);
             var standardZoomLevelSet = new ZoomLevelSet();
-            await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel13.Scale);
+            await MapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel13.Scale);
             routingLayer.Close();
             await MapView.RefreshAsync();
         }
@@ -213,7 +208,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private async void LsbRouteSegments_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
-            { 
+            {
                 var routeSegments = (ListBox)sender;
                 if (routeSegments.SelectedItem == null) return;
                 var highlightLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Highlight Layer");
@@ -223,15 +218,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 highlightLayer.InternalFeatures.Add(new Feature(((CloudRoutingSegment)routeSegments.SelectedItem).Shape));
 
                 // Zoom to the selected feature and zoom out to an appropriate level
-                MapView.CurrentExtent = ((CloudRoutingSegment)routeSegments.SelectedItem).Shape.GetBoundingBox();
+                var routeSegmentsBBox = ((CloudRoutingSegment)routeSegments.SelectedItem).Shape.GetBoundingBox();
+                MapView.CenterPoint = routeSegmentsBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, routeSegmentsBBox, MapView.MapWidth, MapView.MapHeight);
                 var standardZoomLevelSet = new ZoomLevelSet();
                 if (MapView.CurrentScale < standardZoomLevelSet.ZoomLevel15.Scale)
                 {
-                    await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel15.Scale);
+                    await MapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel15.Scale);
                 }
                 await MapView.RefreshAsync();
             }
-            catch 
+            catch
             {
                 // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
                 // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.

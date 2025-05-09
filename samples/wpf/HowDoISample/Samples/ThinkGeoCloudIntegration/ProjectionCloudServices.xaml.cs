@@ -21,59 +21,52 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay and a feature layer for the reprojected features
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
-                // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-                // Set the map's unit of measurement to meters (Spherical Mercator)
-                MapView.MapUnit = GeographyUnit.Meter;
+            // Set the map's unit of measurement to meters (Spherical Mercator)
+            MapView.MapUnit = GeographyUnit.Meter;
 
-                // Create a new feature layer to display the shapes we will be reprojecting
-                var reprojectedFeaturesLayer = new InMemoryFeatureLayer();
+            // Create a new feature layer to display the shapes we will be reprojecting
+            var reprojectedFeaturesLayer = new InMemoryFeatureLayer();
 
-                // Add a point, line, and polygon style to the layer. These styles control how the shapes will be drawn
-                reprojectedFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 24, GeoBrushes.MediumPurple, GeoPens.Purple);
-                reprojectedFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.MediumPurple, 6, false);
-                reprojectedFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(80, GeoColors.MediumPurple), GeoColors.MediumPurple, 2);
+            // Add a point, line, and polygon style to the layer. These styles control how the shapes will be drawn
+            reprojectedFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 24, GeoBrushes.MediumPurple, GeoPens.Purple);
+            reprojectedFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.MediumPurple, 6, false);
+            reprojectedFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(80, GeoColors.MediumPurple), GeoColors.MediumPurple, 2);
 
-                // Apply these styles on all zoom levels. This ensures our shapes will be visible on all zoom levels
-                reprojectedFeaturesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            // Apply these styles on all zoom levels. This ensures our shapes will be visible on all zoom levels
+            reprojectedFeaturesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-                // Add the layer to an overlay
-                var reprojectedFeaturesOverlay = new LayerOverlay();
-                reprojectedFeaturesOverlay.Layers.Add("Reprojected Features Layer", reprojectedFeaturesLayer);
+            // Add the layer to an overlay
+            var reprojectedFeaturesOverlay = new LayerOverlay();
+            reprojectedFeaturesOverlay.Layers.Add("Reprojected Features Layer", reprojectedFeaturesLayer);
 
-                // Add the overlay to the map
-                MapView.Overlays.Add("Reprojected Features Overlay", reprojectedFeaturesOverlay);
+            // Add the overlay to the map
+            MapView.Overlays.Add("Reprojected Features Overlay", reprojectedFeaturesOverlay);
 
-                // Set the map extent
-                MapView.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
+            // Set the map extent
+            MapView.CenterPoint = new PointShape(-10778720, 3915154);
+            MapView.CurrentScale = 202090;
 
-                // Initialize the ProjectionCloudClient with our ThinkGeo Cloud credentials
-                _projectionCloudClient = new ProjectionCloudClient
-                {
-                    ClientId = SampleKeys.ClientId2,
-                    ClientSecret = SampleKeys.ClientSecret2,
-                };
-
-                await MapView.RefreshAsync();
-            }
-            catch 
+            // Initialize the ProjectionCloudClient with our ThinkGeo Cloud credentials
+            _projectionCloudClient = new ProjectionCloudClient
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+                ClientId = SampleKeys.ClientId2,
+                ClientSecret = SampleKeys.ClientSecret2,
+            };
+
+            _ = MapView.RefreshAsync();
         }
 
         /// <summary>
@@ -100,7 +93,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Show a loading graphic to let users know the request is running
             LoadingImage.Visibility = Visibility.Visible;
 
-            var reprojectedFeatures = await _projectionCloudClient.ProjectAsync(decimalDegreeFeatures, 4326, 3857);
+            var reprojectedFeatures = new Collection<Feature>();
+
+            foreach (var feature in decimalDegreeFeatures)
+            {
+                var reprojectedFeature = await _projectionCloudClient.ProjectAsync(feature, 4326, 3857);
+                reprojectedFeatures.Add(reprojectedFeature);
+            }
 
             // Hide the loading graphic
             LoadingImage.Visibility = Visibility.Hidden;
@@ -126,10 +125,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Set the map extent to zoom into the feature and refresh the map
             reprojectedFeatureLayer.Open();
-            MapView.CurrentExtent = reprojectedFeatureLayer.GetBoundingBox();
+            var reprojectedFeatureLayerBBox = reprojectedFeatureLayer.GetBoundingBox();
+            MapView.CenterPoint = reprojectedFeatureLayerBBox.GetCenterPoint();
+            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, reprojectedFeatureLayerBBox, MapView.MapWidth, MapView.MapHeight);
 
             var standardZoomLevelSet = new ZoomLevelSet();
-            await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
+            await MapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel18.Scale);
 
             reprojectedFeatureLayer.Close();
             await MapView.RefreshAsync();

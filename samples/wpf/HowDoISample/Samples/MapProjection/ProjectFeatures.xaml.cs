@@ -20,52 +20,45 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
-                // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service
-                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-                // Set the map's unit of measurement to meters (Spherical Mercator)
-                MapView.MapUnit = GeographyUnit.Meter;
+            // Set the map's unit of measurement to meters (Spherical Mercator)
+            MapView.MapUnit = GeographyUnit.Meter;
 
-                // Create a new feature layer to display the shapes we will be reprojecting
-                var reprojectedFeaturesLayer = new InMemoryFeatureLayer();
+            // Create a new feature layer to display the shapes we will be reprojecting
+            var reprojectedFeaturesLayer = new InMemoryFeatureLayer();
 
-                // Add a point, line, and polygon style to the layer. These styles control how the shapes will be drawn
-                reprojectedFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 24, GeoBrushes.MediumPurple, GeoPens.Purple);
-                reprojectedFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.MediumPurple, 6, false);
-                reprojectedFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(80, GeoColors.MediumPurple), GeoColors.MediumPurple, 2);
+            // Add a point, line, and polygon style to the layer. These styles control how the shapes will be drawn
+            reprojectedFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 24, GeoBrushes.MediumPurple, GeoPens.Purple);
+            reprojectedFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.MediumPurple, 6, false);
+            reprojectedFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(80, GeoColors.MediumPurple), GeoColors.MediumPurple, 2);
 
-                // Apply these styles on all zoom levels. This ensures our shapes will be visible on all zoom levels
-                reprojectedFeaturesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            // Apply these styles on all zoom levels. This ensures our shapes will be visible on all zoom levels
+            reprojectedFeaturesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-                // Add the layer to an overlay
-                var reprojectedFeaturesOverlay = new LayerOverlay();
-                reprojectedFeaturesOverlay.Layers.Add("Reprojected Features Layer", reprojectedFeaturesLayer);
+            // Add the layer to an overlay
+            var reprojectedFeaturesOverlay = new LayerOverlay();
+            reprojectedFeaturesOverlay.Layers.Add("Reprojected Features Layer", reprojectedFeaturesLayer);
 
-                // Add the overlay to the map
-                MapView.Overlays.Add("Reprojected Features Overlay", reprojectedFeaturesOverlay);
+            // Add the overlay to the map
+            MapView.Overlays.Add("Reprojected Features Overlay", reprojectedFeaturesOverlay);
 
-                // Set the map extent
-                MapView.CurrentExtent = new RectangleShape(-10779751.80, 3915369.33, -10779407.60, 3915141.57);
+            // Set the map extent
+            MapView.CenterPoint = new PointShape(-10779580, 3915255);
+            MapView.CurrentScale = 1570;
 
-                await MapView.RefreshAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            _ = MapView.RefreshAsync();
         }
 
         /// <summary>
@@ -119,10 +112,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Set the map extent to zoom into the feature and refresh the map
             reprojectedFeatureLayer.Open();
-            MapView.CurrentExtent = reprojectedFeatureLayer.GetBoundingBox();
+            var reprojectedFeatureLayerBBox = reprojectedFeatureLayer.GetBoundingBox();
+            MapView.CenterPoint = reprojectedFeatureLayerBBox.GetCenterPoint();
+            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, reprojectedFeatureLayerBBox, MapView.MapWidth, MapView.MapHeight);
 
             var standardZoomLevelSet = new ZoomLevelSet();
-            await MapView.ZoomToScaleAsync(standardZoomLevelSet.ZoomLevel18.Scale);
+            await MapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel18.Scale);
 
             reprojectedFeatureLayer.Close();
 
@@ -132,60 +127,44 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Use the ProjectionConverter class to reproject a single feature
         /// </summary>
-        private async void ReprojectFeature_Click(object sender, RoutedEventArgs e)
+        private void ReprojectFeature_Click(object sender, RoutedEventArgs e)
         {
-            try
-            { 
-                // Create a feature with coordinates in Decimal Degrees (4326)
-                var decimalDegreeFeature = new Feature(-96.834516, 33.150083);
+            // Create a feature with coordinates in Decimal Degrees (4326)
+            var decimalDegreeFeature = new Feature(-96.834516, 33.150083);
 
-                // Convert the feature to Spherical Mercator
-                var sphericalMercatorFeature = ReprojectFeature(decimalDegreeFeature);
+            // Convert the feature to Spherical Mercator
+            var sphericalMercatorFeature = ReprojectFeature(decimalDegreeFeature);
 
-                // Add the reprojected features to the map
-                await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { sphericalMercatorFeature });
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            // Add the reprojected features to the map
+            _ = ClearMapAndAddFeaturesAsync(new Collection<Feature>() { sphericalMercatorFeature });
         }
 
         /// <summary>
         /// Use the ProjectionConverter class to reproject multiple different features
         /// </summary>
-        private async void ReprojectMultipleFeatures_Click(object sender, RoutedEventArgs e)
+        private void ReprojectMultipleFeatures_Click(object sender, RoutedEventArgs e)
         {
-            try
-            { 
-                // Create features based on the WKT in the textbox in the UI
-                var decimalDegreeFeatures = new Collection<Feature>();
-                var wktStrings = TxtWkt.Text.Split('\n');
-                foreach (var wktString in wktStrings)
-                {
-                    try
-                    {
-                        var wktFeature = new Feature(wktString);
-                        decimalDegreeFeatures.Add(wktFeature);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, "Error");
-                    }
-                }
-
-                // Convert the features to Spherical Mercator
-                var sphericalMercatorFeatures = ReprojectMultipleFeatures(decimalDegreeFeatures);
-
-                // Add the reprojected features to the map
-                await ClearMapAndAddFeaturesAsync(sphericalMercatorFeatures);
-            }
-            catch 
+            // Create features based on the WKT in the textbox in the UI
+            var decimalDegreeFeatures = new Collection<Feature>();
+            var wktStrings = TxtWkt.Text.Split('\n');
+            foreach (var wktString in wktStrings)
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+                try
+                {
+                    var wktFeature = new Feature(wktString);
+                    decimalDegreeFeatures.Add(wktFeature);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error");
+                }
             }
+
+            // Convert the features to Spherical Mercator
+            var sphericalMercatorFeatures = ReprojectMultipleFeatures(decimalDegreeFeatures);
+
+            // Add the reprojected features to the map
+            _ = ClearMapAndAddFeaturesAsync(sphericalMercatorFeatures);
         }
 
         public void Dispose()

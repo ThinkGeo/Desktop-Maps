@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.MVT"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf" 
+             Background="White"
+             mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="150" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <thinkGeoUi:MapView x:Name="MapView" Grid.Column="0" Loaded="MapView_Loaded" />
+        <TextBox Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Center" Background="Gray"
+                   Width="800" Height="30" FontSize="20" Text="https://demotiles.maplibre.org/style.json"/>
+        <TextBlock Grid.Column="0" Background="gray" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                   Width="200" Height="40" FontSize="30"
+                   Text="{Binding ElementName=MapView, Path=CurrentZoom, StringFormat={}Zoom: {0:N2}}"/>
+
+        <ComboBox Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Center" Background="Gray"
+                  Width="800" Height="30" FontSize="20" SelectedIndex="0" SelectionChanged="Selector_OnSelectionChanged">
+            <!-- The following jsons come from: https://github.com/maplibre/demotiles?tab=readme-ov-file -->
+            <ComboBoxItem Content="https://demotiles.maplibre.org/style.json"/>
+            <ComboBoxItem Content="https://demotiles.maplibre.org/styles/osm-bright-gl-style/style.json"/>
+            <ComboBoxItem Content="https://demotiles.maplibre.org/styles/osm-bright-gl-terrain/style.json"/>
+            <ComboBoxItem Content="https://demotiles.maplibre.org/debug-tiles/style.json"/>
+            <ComboBoxItem Content="https://tiles.preludemaps.com/styles/TG_Savannah_Light/style.json"/>
+        </ComboBox>
+
+        <StackPanel Grid.Row="0" Grid.Column="1" Margin="5" Background="LightGray">
+            <CheckBox Content="Show Tile ID" FontSize="16" FontWeight="Bold" Margin="0 5 0 5"  
+                      IsChecked="True" Checked="ShowTileID_OnCheckedChanged" Unchecked="ShowTileID_OnCheckedChanged" />
+            <RadioButton  Margin="0, 5" Checked="SwitchTileSize_OnCheckedChanged" Content="256 * 256"/>
+            <RadioButton  Margin="0, 5" Checked="SwitchTileSize_OnCheckedChanged" Content="512 * 512" IsChecked="True"/>
+            <RadioButton  Margin="0, 5" Checked="SwitchTileSize_OnCheckedChanged" Content="Single Tile"/>
+        </StackPanel>
+
+    </Grid>
+</UserControl>

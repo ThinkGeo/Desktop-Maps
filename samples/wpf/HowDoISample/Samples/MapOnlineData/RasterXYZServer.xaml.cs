@@ -18,48 +18,42 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public RasterXyzServer()
         {
             InitializeComponent();
-
             DataContext = this;
         }
 
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            var layerOverlay = new LayerOverlay();
+            layerOverlay.TileType = TileType.SingleTile;
+            MapView.Overlays.Add(layerOverlay);
+
+            // Add Cloud Maps as a background overlay
+            _thinkGeoRasterMapsAsyncLayer = new ThinkGeoRasterMapsAsyncLayer
             {
-                var layerOverlay = new LayerOverlay();
-                layerOverlay.TileType = TileType.SingleTile;
-                MapView.Overlays.Add(layerOverlay);
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudRasterMapsMapType.Light_V2_X1,
+            };
 
-                // Add Cloud Maps as a background overlay
-                _thinkGeoRasterMapsAsyncLayer = new ThinkGeoRasterMapsAsyncLayer
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudRasterMapsMapType.Light_V2_X1,
-                };
+            layerOverlay.Layers.Add(_thinkGeoRasterMapsAsyncLayer);
 
-                layerOverlay.Layers.Add(_thinkGeoRasterMapsAsyncLayer);
+            string cachePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cache", "thinkgeo_raster_maps_online_layer");
 
-                string cachePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cache", "thinkgeo_raster_maps_online_layer");
-
-                if (!System.IO.Directory.Exists(cachePath))
-                {
-                    System.IO.Directory.CreateDirectory(cachePath);
-                }
-
-                _thinkGeoRasterMapsAsyncLayer.TileCache = new FileRasterTileCache(cachePath, "raw");
-                _thinkGeoRasterMapsAsyncLayer.ProjectedTileCache = new FileRasterTileCache(cachePath, "projected");
-
-                _thinkGeoRasterMapsAsyncLayer.TileCache.GottenTile += TileCache_GottenCacheTile;
-                _thinkGeoRasterMapsAsyncLayer.ProjectedTileCache.GottenTile += ProjectedTileCache_GottenCacheTile;
-
-                await MapView.RefreshAsync();
-            }
-            catch
+            if (!System.IO.Directory.Exists(cachePath))
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+                System.IO.Directory.CreateDirectory(cachePath);
             }
+
+            _thinkGeoRasterMapsAsyncLayer.TileCache = new FileRasterTileCache(cachePath, "raw");
+            _thinkGeoRasterMapsAsyncLayer.ProjectedTileCache = new FileRasterTileCache(cachePath, "projected");
+
+            _thinkGeoRasterMapsAsyncLayer.TileCache.GottenTile += TileCache_GottenCacheTile;
+            _thinkGeoRasterMapsAsyncLayer.ProjectedTileCache.GottenTile += ProjectedTileCache_GottenCacheTile;
+
+            MapView.CenterPoint = MaxExtents.ThinkGeoMaps.GetCenterPoint();
+            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, MaxExtents.ThinkGeoMaps, MapView.MapWidth, MapView.MapHeight);
+
+            _ = MapView.RefreshAsync();
         }
 
         private void ProjectedTileCache_GottenCacheTile(object sender, GottenTileTileCacheEventArgs e)
@@ -83,7 +77,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 AppendLog(message);
             });
         }
-
 
         private async void Projection_Checked(object sender, RoutedEventArgs e)
         {
@@ -112,7 +105,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 await _thinkGeoRasterMapsAsyncLayer.CloseAsync();
                 await _thinkGeoRasterMapsAsyncLayer.OpenAsync();
-                MapView.CurrentExtent = _thinkGeoRasterMapsAsyncLayer.GetBoundingBox();
+                var thinkGeoRasterMapsAsyncLayerBBox = _thinkGeoRasterMapsAsyncLayer.GetBoundingBox();
+                MapView.CenterPoint = thinkGeoRasterMapsAsyncLayerBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, thinkGeoRasterMapsAsyncLayerBBox, MapView.MapWidth, MapView.MapHeight);
                 await MapView.RefreshAsync();
             }
             catch
@@ -122,45 +117,29 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
         }
 
-        private async void RenderBeyondMaxZoomCheckBox_Checked(object sender, RoutedEventArgs e)
+        private void RenderBeyondMaxZoomCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                if (!(sender is CheckBox checkBox))
-                    return;
+            if (!(sender is CheckBox checkBox))
+                return;
 
-                if (checkBox.IsChecked.HasValue)
-                    _thinkGeoRasterMapsAsyncLayer.RenderBeyondMaxZoom = checkBox.IsChecked.Value;
+            if (checkBox.IsChecked.HasValue)
+                _thinkGeoRasterMapsAsyncLayer.RenderBeyondMaxZoom = checkBox.IsChecked.Value;
 
-                await MapView.RefreshAsync();
-            }
-            catch
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            _ = MapView.RefreshAsync();
         }
 
-        private async void DisplayTileIdCheckBox_Checked(object sender, RoutedEventArgs e)
+        private void DisplayTileIdCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                if (!(sender is CheckBox checkBox))
-                    return;
+            if (!(sender is CheckBox checkBox))
+                return;
 
-                if (!checkBox.IsChecked.HasValue)
-                    return;
+            if (!checkBox.IsChecked.HasValue)
+                return;
 
-                if (ThinkGeoDebugger.DisplayTileId != checkBox.IsChecked.Value)
-                {
-                    ThinkGeoDebugger.DisplayTileId = checkBox.IsChecked.Value;
-                    await MapView.RefreshAsync();
-                }
-            }
-            catch
+            if (ThinkGeoDebugger.DisplayTileId != checkBox.IsChecked.Value)
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+                ThinkGeoDebugger.DisplayTileId = checkBox.IsChecked.Value;
+                _ = MapView.RefreshAsync();
             }
         }
 

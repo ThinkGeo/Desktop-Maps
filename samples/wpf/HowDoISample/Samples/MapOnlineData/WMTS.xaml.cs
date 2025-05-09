@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,7 +29,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // It is important to set the map unit first to either feet, meters or decimal degrees.
                 MapView.MapUnit = GeographyUnit.Meter;
                 var layerOverlay = new WmtsOverlay(new Uri("https://wmts.geo.admin.ch/1.0.0"));
-                layerOverlay.DrawingExceptionMode = DrawingExceptionMode.DrawException;
                 layerOverlay.ActiveLayerName = "ch.swisstopo.pixelkarte-farbe-pk25.noscale";
                 layerOverlay.ActiveStyleName = "default";
                 layerOverlay.OutputFormat = "image/png";
@@ -36,9 +36,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapView.Overlays.Add(layerOverlay);
 
                 await layerOverlay.OpenAsync();
-                MapView.ZoomLevelSet = GetZoomLevelSetFromWmtsServer(layerOverlay);
-                MapView.CurrentExtent = layerOverlay.GetBoundingBox();
-                MapView.StretchMode = MapViewStretchMode.ShowNewTilesOnStart;
+
+                // Apply the wmts matrices to the MapView. 
+                var scales = layerOverlay.TileMatrixSet.Matrices.Select(m => m.Scale);
+                MapView.ZoomScales = new Collection<double>(scales.ToList());
+                
+                var layerOverlayBBox = layerOverlay.GetBoundingBox();
+                MapView.CenterPoint = layerOverlayBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit,layerOverlayBBox, MapView.MapWidth, MapView.MapHeight);
                 await MapView.RefreshAsync();
             }
             catch
@@ -62,7 +67,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             return zoomLevelSet;
         }
 
-
         public void Dispose()
         {
             ThinkGeoDebugger.DisplayTileId = false;
@@ -70,26 +74,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             GC.SuppressFinalize(this);
         }
 
-        private async void DisplayTileIdCheckBox_Checked(object sender, RoutedEventArgs e)
+        private void DisplayTileIdCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                if (!(sender is CheckBox checkBox))
-                    return;
+            if (!(sender is CheckBox checkBox))
+                return;
 
-                if (!checkBox.IsChecked.HasValue)
-                    return;
+            if (!checkBox.IsChecked.HasValue)
+                return;
 
-                if (ThinkGeoDebugger.DisplayTileId != checkBox.IsChecked.Value)
-                {
-                    ThinkGeoDebugger.DisplayTileId = checkBox.IsChecked.Value;
-                    await MapView.RefreshAsync();
-                }
-            }
-            catch
+            if (ThinkGeoDebugger.DisplayTileId != checkBox.IsChecked.Value)
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+                ThinkGeoDebugger.DisplayTileId = checkBox.IsChecked.Value;
+                _ = MapView.RefreshAsync();
             }
         }
     }

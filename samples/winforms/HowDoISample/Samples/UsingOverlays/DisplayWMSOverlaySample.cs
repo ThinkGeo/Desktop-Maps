@@ -23,13 +23,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
 
             // Create a WmsOverlay and add it to the map.
-            WmsOverlay wmsOverlay = new WmsOverlay();
+            var wmsOverlay = new WmsOverlay(new Uri("http://ows.mundialis.de/services/service"));
             wmsOverlay.AxisOrder = WmsAxisOrder.XY;
-            wmsOverlay.Uri = new Uri("http://ows.mundialis.de/services/service");
-            wmsOverlay.Parameters.Add("VERSION", "1.3.0");
-            wmsOverlay.Parameters.Add("LAYERS", "OSM-WMS");
-            wmsOverlay.Parameters.Add("STYLES", "default");
-            wmsOverlay.Parameters.Add("CRS", "EPSG:3857");  // Make sure to match the WMS CRS to the Map's projection
+            wmsOverlay.Crs = "EPSG:3857"; // Make sure to match the WMS CRS to the Map's projection
+            wmsOverlay.ActiveLayerNames.Add("OSM-WMS");
+            wmsOverlay.ActiveStyleNames.Add("default");
             mapView.Overlays.Add(wmsOverlay);
 
             await mapView.RefreshAsync();
@@ -52,12 +50,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
             this.mapView.Location = new System.Drawing.Point(0, 0);
-            this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
+            this.mapView.MapResizeMode = MapResizeMode.PreserveScale;
             this.mapView.MaximumScale = 1.7976931348623157E+308D;
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
-            this.mapView.RotatedAngle = 0F;
+            this.mapView.RotationAngle = 0F;
             this.mapView.Size = new System.Drawing.Size(1174, 572);
             this.mapView.TabIndex = 0;
             // 

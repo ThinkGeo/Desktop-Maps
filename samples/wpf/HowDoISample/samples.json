@@ -4,15 +4,33 @@
     "children": [
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.NavigationMap",
-        "title": "Navigation Map",
-        "description": "Learn how to use code to zoom, pan, and rotate the map control.",
+        "title": "Map Navigation",
+        "description": "Learn how to zoom, pan, and rotate the map control.",
         "source": "Samples/MapNavigation/NavigationMap"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ZoomToBlackHole",
+        "title": "Zoom to the Black Hole",
+        "description": "Zoom into images by giving them scales and center points.",
+        "source": "Samples/MapNavigation/ZoomToBlackHole"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.ZoomToExtents",
         "title": "Zoom to Extents",
         "description": "Learn how to set the map extent in a variety of different ways.",
         "source": "Samples/MapNavigation/ZoomToExtents"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.VehicleNavigation",
+        "title": "Vehicle Navigation",
+        "description": "Navigate to the Empire State Building using GPS points.",
+        "source": "Samples/MapNavigation/VehicleNavigation"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ResizeTheMap",
+        "title": "Resize the Map",
+        "description": "Learn to resize the map while preserving the world extent with various map resize modes.",
+        "source": "Samples/MapNavigation/ResizeTheMap"
       }
     ]
   },
@@ -62,16 +80,22 @@
         "source": "Samples/MapOnlineData/NOAAWeatherWarnings"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.OGCAPIFeatureSever",
-        "title": "OGC API Feature Sever",
+        "id": "ThinkGeo.UI.Wpf.HowDoI.OGCAPIFeatureServer",
+        "title": "OGC API Feature Server",
         "description": "This sample shows how to display a OGC API Feature layer.",
-        "source": "Samples/MapOnlineData/OGCAPIFeatureSever"
+        "source": "Samples/MapOnlineData/OGCAPIFeatureServer"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.OpenStreetMap",
         "title": "Open Street Map",
         "description": "This sample shows how to display a Open Street Maps layer.",
         "source": "Samples/MapOnlineData/OpenStreetMap"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.MVT",
+        "title": "MVT",
+        "description": "This sample shows how to display a MVT Feature Layer.",
+        "source": "Samples/MapOnlineData/MVT"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.WFS",
@@ -90,12 +114,6 @@
         "title": "WMTS",
         "description": "This sample shows how to display a WMTS layer. (This sample may be slow as we use a public WMTS sever)",
         "source": "Samples/MapOnlineData/WMTS"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.CachingMapTiles",
-        "title": "Caching Map Tiles",
-        "description": "Learn how to cache map tiles. Caching tiles on an Overlay allows you to store images of rendered areas on the local disk and reuse them for faster rendering times. Saved tile images can be found in the cache folder within this project's debug folder.",
-        "source": "Samples/MapOnlineData/CachingMapTiles"
       }
     ]
   },
@@ -273,6 +291,53 @@
     ]
   },
   {
+    "title": "XYZ Based Layers",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayRasterMbTilesFile",
+        "title": "Display Raster from MBTiles",
+        "description": "This sample shows how to display a raster MBTiles file. The demo file has 6 zooms (zoom 0~5)",
+        "source": "Samples/MapOfflineData/Raster/DisplayRasterMbTilesFile"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayRasterFileTiles",
+        "title": "Display Raster from File Tiles",
+        "description": "This sample shows how to display the raster tiles created by QGIS. The demo tiles has 6 zooms (zoom 0~5)",
+        "source": "Samples/MapOfflineData/Raster/DisplayRasterFileTiles"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.RasterXyzServer",
+        "title": "Display Raster from XYZ Server",
+        "description": "This sample shows how to display the tiles from a raster XYZ server.  This demo server has 20 zooms (zoom 0~19)",
+        "source": "Samples/MapOnlineData/RasterXyzServer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.WMTSAsXYZLayer",
+        "title": "Display Raster from WMTS Server",
+        "description": "This sample shows how to display the tiles from a WMTS server.  This demo server has 27 zooms (zoom 0~26).",
+        "source": "Samples/XYZBasedLayers/WMTSAsXYZLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMbTilesFile",
+        "title": "Display Vector from MBTiles",
+        "description": "This sample shows how to display a MBTiles file. The demo mbtile/json come from https://github.com/maplibre/demotiles?tab=readme-ov-file",
+        "source": "Samples/MapOfflineData/Vector/DisplayMbTilesFile"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.MVT",
+        "title": "Display Vector from MVT Server",
+        "description": "This sample shows how to display a vector map from an MVT server.",
+        "source": "Samples/MapOnlineData/MVT"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CacheXyzTiles",
+        "title": "Pre-Generate Cache for XYZ Layers",
+        "description": "This sample shows how to generate cache for XYZ layers.",
+        "source": "Samples/XYZBasedLayers/CacheXyzTiles"
+      }
+    ]
+  },
+  {
     "title": "Map Projection",
     "children": [
       {
@@ -350,41 +415,6 @@
         "title": "Popups",
         "description": "Learn to add, edit, or remove popups on the map using the PopupOverlay.",
         "source": "Samples/MarkersandPopups/Popups"
-      }
-    ]
-  },
-  {
-    "title": "XYZ Based Layers",
-    "children": [
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayRasterMbTilesFile",
-        "title": "Display Raster from MBTiles",
-        "description": "This sample shows how to display a raster MBTiles file. The demo file has 6 zooms (zoom 0~5)",
-        "source": "Samples/MapOfflineData/Raster/DisplayRasterMbTilesFile"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayRasterFileTiles",
-        "title": "Display Raster from File Tiles",
-        "description": "This sample shows how to display the raster tiles created by QGIS. The demo tiles has 6 zooms (zoom 0~5)",
-        "source": "Samples/MapOfflineData/Raster/DisplayRasterFileTiles"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.RasterXyzServer",
-        "title": "Display Raster from XYZ Server",
-        "description": "This sample shows how to display the tiles from a raster XYZ server.  This demo server has 20 zooms (zoom 0~19)",
-        "source": "Samples/MapOnlineData/RasterXyzServer"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.WMTSAsXYZLayer",
-        "title": "Display Raster from WMTS Server",
-        "description": "This sample shows how to display the tiles from a WMTS server.  This demo server has 27 zooms (zoom 0~26).",
-        "source": "Samples/XYZBasedLayers/WMTSAsXYZLayer"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMbTilesFile",
-        "title": "Display Vector from MBTiles",
-        "description": "This sample shows how to display a MBTiles file. The demo mbtile/json come from https://github.com/maplibre/demotiles?tab=readme-ov-file",
-        "source": "Samples/MapOfflineData/Vector/DisplayMbTilesFile"
       }
     ]
   },
@@ -758,6 +788,12 @@
     "title": "Miscellaneous",
     "children": [
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.CacheTileOverlay",
+        "title": "Pre-Generate Cache for Tile Overlay",
+        "description": "This sample shows how to generate cache for Tile Overlay.",
+        "source": "Samples/Miscellaneous/CacheTileOverlay"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.PrintTheMap",
         "title": "Print the Map",
         "description": "Learn to print maps using the PrintOverlay.",
@@ -768,12 +804,6 @@
         "title": "Handle Exceptions",
         "description": "Learn how to throw an overlay exception, or draw the exception on the map.",
         "source": "Samples/Miscellaneous/HandleExceptions"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.ResizeTheMap",
-        "title": "Resize the Map",
-        "description": "Learn how to resize the map while keeping the width of the world extent the same",
-        "source": "Samples/Miscellaneous/ResizeTheMap"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.WrapTheDateLine",
@@ -792,12 +822,6 @@
         "title": "Get Map SnapShot",
         "description": "Learn how to get the snapshot of the current map",
         "source": "Samples/Miscellaneous/GetMapSnapShot"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.UpdateTheGPSLocation",
-        "title": "Update the GPS Location",
-        "description": "Learn how to display a GPS vehicle's movements in real-time",
-        "source": "Samples/Miscellaneous/UpdateTheGPSLocation"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.PerfTestRefreshShapes",
@@ -822,6 +846,12 @@
         "title": "Custom Feature Sources",
         "description": "Learn how to use the FeatureSource base class to create your own custom Feature Source.",
         "source": "Samples/Miscellaneous/CustomFeatureSources"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.NavigateOnTouchScreen",
+        "title": "Navigate On TouchScreen",
+        "description": "Learn how to enable the map for TouchScreen. See this: https://youtu.be/1LAROjqIrO8?si=O1zdrhpisj1vCIB8",
+        "source": "Samples/Miscellaneous/NavigateOnTouchScreen"
       }
       //,
       //{

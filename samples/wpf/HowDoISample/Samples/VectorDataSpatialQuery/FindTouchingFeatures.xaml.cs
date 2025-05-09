@@ -65,7 +65,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 projectionConverter.Close();
 
                 // Set the map extent to Frisco, TX
-                MapView.CurrentExtent = new RectangleShape(-10781137.28, 3917162.59, -10774579.34, 3911241.35);
+                MapView.CenterPoint = new PointShape(-10777860, 3914200);
+                MapView.CurrentScale = 31300;
 
                 // Create a layer to hold the feature we will perform the spatial query against
                 var queryFeatureLayer = new InMemoryFeatureLayer();
@@ -80,14 +81,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Add each feature layer to its own overlay
                 // We do this, so we can control and refresh/redraw each layer individually
                 var zoningOverlay = new LayerOverlay();
+                zoningOverlay.TileType = TileType.SingleTile;
                 zoningOverlay.Layers.Add("Frisco Zoning", zoningLayer);
                 MapView.Overlays.Add("Frisco Zoning Overlay", zoningOverlay);
 
                 var queryFeaturesOverlay = new LayerOverlay();
+                queryFeaturesOverlay.TileType = TileType.SingleTile;
                 queryFeaturesOverlay.Layers.Add("Query Feature", queryFeatureLayer);
                 MapView.Overlays.Add("Query Features Overlay", queryFeaturesOverlay);
 
                 var highlightedFeaturesOverlay = new LayerOverlay();
+                highlightedFeaturesOverlay.TileType = TileType.SingleTile;
                 highlightedFeaturesOverlay.Layers.Add("Highlighted Features", highlightedFeaturesLayer);
                 MapView.Overlays.Add("Highlighted Features Overlay", highlightedFeaturesOverlay);
 
@@ -105,7 +109,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 await GetFeaturesTouchingAsync(sampleShape);
 
                 // Set the map extent to the sample shape
-                MapView.CurrentExtent = new RectangleShape(-10778499.3056056, 3920951.91647677, -10774534.1347853, 3917536.13679426);
+                MapView.CenterPoint = new PointShape(-10776520, 3919250);
+                MapView.CurrentScale = 18060;
 
                 await MapView.RefreshAsync();
             }

@@ -59,7 +59,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.Overlays.Add("Elevation Features Overlay", elevationFeaturesOverlay);
 
             // Set the map extent to Frisco, TX
-            MapView.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
+            MapView.CenterPoint = new PointShape(-10778720,3915154);
+            MapView.CurrentScale = 202090;
 
             // Add an event to trigger the elevation query when a new shape is drawn
             MapView.TrackOverlay.TrackEnded += OnShapeDrawn;
@@ -163,8 +164,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 // Set the map extent to the elevation query feature
                 drawnShapesLayer.Open();
-                MapView.CurrentExtent = drawnShapesLayer.GetBoundingBox();
-                await MapView.ZoomToScaleAsync(MapView.CurrentScale * 2);
+                var drawnShapesLayerBBox = drawnShapesLayer.GetBoundingBox();
+                MapView.CenterPoint = drawnShapesLayerBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, drawnShapesLayerBBox, MapView.MapWidth, MapView.MapHeight);
+                await MapView.ZoomToAsync(MapView.CurrentScale * 2);
                 drawnShapesLayer.Close();
                 await MapView.RefreshAsync();
             }
@@ -211,21 +214,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Center the map on a point when it's selected in the UI
         /// </summary>
-        private async void LsbElevations_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void LsbElevations_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            try
-            { 
-                if (LsbElevations.SelectedItem == null) return;
-                // Set the map extent to the selected point
-                var elevationPoint = (CloudElevationPointResult)LsbElevations.SelectedItem;
-                MapView.CurrentExtent = elevationPoint.Point.GetBoundingBox();
-                await MapView.RefreshAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            if (LsbElevations.SelectedItem == null) return;
+            // Set the map extent to the selected point
+            var elevationPoint = (CloudElevationPointResult)LsbElevations.SelectedItem;
+            var elevationPointLayerBBox = elevationPoint.Point.GetBoundingBox();
+            MapView.CenterPoint = elevationPointLayerBBox.GetCenterPoint();
+            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, elevationPointLayerBBox, MapView.MapWidth, MapView.MapHeight);
+            _ = MapView.RefreshAsync();
         }
 
         /// <summary>

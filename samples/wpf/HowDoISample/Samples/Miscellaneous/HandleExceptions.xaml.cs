@@ -15,91 +15,69 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InitializeComponent();
         }
 
+        private CustomWmsAsyncLayer _wmsAsync;
+        private LayerOverlay _overlay;
+
         /// <summary>
         /// Add the WMS layer to the map
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                // It is important to set the map unit first to either feet, meters or decimal degrees.
-                MapView.MapUnit = GeographyUnit.DecimalDegree;
 
-                // This code sets up the sample to use the overlay versus the layer.
-                UseLayer(DrawingExceptionMode.DrawException, false);
+            var a = MapUtil.GetScaleFromResolution(0.5, GeographyUnit.Meter);
 
-                // Set the current extent to a local area.
-                MapView.CurrentExtent = new RectangleShape(-96.8538765269409, 33.1618647290098, -96.7987487018851, 33.1054126590461);
-
-                // Refresh the map.
-                await MapView.RefreshAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
-        }
-
-        private async void DrawingExceptionMode_Checked(object sender, RoutedEventArgs e)
-        {
-            try
-            { 
-                var button = (RadioButton)sender;
-                if (button.Content == null) return;
-                TxtException.Text = "";
-                switch (button.Content.ToString())
-                {
-                    case "Throw Exception":
-                        UseLayer(DrawingExceptionMode.ThrowException, false);
-                        break;
-                    case "Customize Drawing Exception":
-                        UseLayer(DrawingExceptionMode.DrawException, true);
-                        break;
-                    case "Draw Exception":
-                    default:
-                        UseLayer(DrawingExceptionMode.DrawException, false);
-                        break;
-                }
-                await MapView.RefreshAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
-        }
-
-        private void UseLayer(DrawingExceptionMode drawingExceptionMode, bool drawCustomException)
-        {
-            // Clear out the overlays so we start fresh
-            MapView.Overlays.Clear();
+            // It is important to set the map unit first to either feet, meters or decimal degrees.
+            MapView.MapUnit = GeographyUnit.Meter;
 
             // Create an overlay that we will add the layer to.
-            var staticOverlay = new LayerOverlay
+            _overlay = new LayerOverlay();
+            _overlay.TileCache = new FileRasterTileCache(@".\cache", "HandleExceptionSample"); // Tiles with exceptions will not be cached.
+            _overlay.ThrowingException += (_, arg) =>
             {
-                DrawingExceptionMode = drawingExceptionMode
+                TxtException.Text = arg.Exception?.Message;
+                arg.Handled = true;
             };
-            if (drawingExceptionMode == DrawingExceptionMode.ThrowException)
+            MapView.Overlays.Add(_overlay);
+
+            //_wms = new CustomWmsLayer(new Uri("http://not_exist.com/services/service"));
+            _wmsAsync = new CustomWmsAsyncLayer(new Uri("http://geo.vliz.be/geoserver/Dataportal/ows?service=WMS&"));
+            _wmsAsync.Parameters.Add("LAYERS", "eurobis_grid_15m-obisenv");
+            _wmsAsync.Parameters.Add("STYLES", "generic");
+            _wmsAsync.OutputFormat = "image/png";
+            _wmsAsync.Crs = "EPSG:3857";  // Coordinate system, typically EPSG:3857 for WMS with Spherical 
+            _wmsAsync.TimeoutInSeconds = 1; // 1s basically for sure will Timeout 
+            _overlay.Layers.Add("wmsImageLayer", _wmsAsync);
+
+            MapView.CenterPoint = new PointShape(234655, 1247759);
+            MapView.CurrentScale = 295830000;
+
+            // Refresh the map.
+            _ = MapView.RefreshAsync();
+        }
+
+        private void DrawingExceptionMode_Checked(object sender, RoutedEventArgs e)
+        {
+            var button = (RadioButton)sender;
+            if (button.Content == null) return;
+            TxtException.Text = "";
+
+            switch (button.Content.ToString())
             {
-                staticOverlay.ThrowingException += (sender, e) =>
-                {
-                    TxtException.Text = e.Exception?.InnerException.Message;
-                    e.Handled = true;
-                };
+                case "Draw Custom Exception":
+                    _wmsAsync.DrawCustomException = true;
+                    _overlay.ThrowingExceptionMode = ThrowingExceptionMode.SuppressException;
+                    break;
+
+                case "Throw Exception":
+                    _overlay.ThrowingExceptionMode = ThrowingExceptionMode.ThrowException;
+                    break;
+
+                default:
+                    _wmsAsync.DrawCustomException = false;
+                    _overlay.ThrowingExceptionMode = ThrowingExceptionMode.SuppressException;
+                    break;
             }
-
-            MapView.Overlays.Add(staticOverlay);
-
-            // Create the WMS layer using the parameters below.
-            // This is a public service and is very slow most of the time.
-            var wmsImageLayer = new CustomWmsLayer(new Uri("http://not_exist.com/services/service"), drawCustomException)
-                {
-                    DrawingExceptionMode = drawingExceptionMode
-                };
-
-            // Add the layer to the overlay.
-            staticOverlay.Layers.Add("wmsImageLayer", wmsImageLayer);
+            _ = MapView.RefreshAsync();
         }
 
         public void Dispose()
@@ -111,18 +89,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
     }
 
-    public class CustomWmsLayer : Core.WmsAsyncLayer
+    public class CustomWmsAsyncLayer : Core.WmsAsyncLayer
     {
-        private readonly bool _drawCustomException;
-        public CustomWmsLayer(Uri uri, bool drawCustomException)
+        public bool DrawCustomException { get; set; }
+        public CustomWmsAsyncLayer(Uri uri)
             : base(uri)
-        {
-            this._drawCustomException = drawCustomException;
-        }
+        { }
 
         protected override void DrawExceptionCore(GeoCanvas canvas, Exception e)
         {
-            if (!_drawCustomException)
+            if (!DrawCustomException)
             {
                 base.DrawExceptionCore(canvas, e);
             }

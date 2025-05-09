@@ -33,6 +33,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Create an overlay that we can add feature layers to, and add it to the MapView
             var subdivisionsOverlay = new LayerOverlay();
+            subdivisionsOverlay.TileType = TileType.SingleTile;
             mapView.Overlays.Add("Frisco Subdivisions Overlay", subdivisionsOverlay);
 
             // Reproject a shapefile and set the extent
@@ -86,12 +87,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
             this.mapView.Location = new System.Drawing.Point(0, 0);
-            this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
+            this.mapView.MapResizeMode = MapResizeMode.PreserveScale;
             this.mapView.MaximumScale = 1.7976931348623157E+308D;
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
-            this.mapView.RotatedAngle = 0F;
+            this.mapView.RotationAngle = 0F;
             this.mapView.Size = new System.Drawing.Size(1212, 647);
             this.mapView.TabIndex = 0;
             // 

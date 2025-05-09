@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
 using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
@@ -13,60 +14,54 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InitializeComponent();
         }
 
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            var overlay = new ThinkGeoCloudRasterMapsOverlay
             {
-                var overlay = new ThinkGeoCloudRasterMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudRasterMapsMapType.Light_V1_X2,
-                    WrappingMode = WrappingMode.WrapDateline,
-                    WrappingExtent = MaxExtents.ThinkGeoMaps
-                };
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudRasterMapsMapType.Light_V2_X2,
+                WrappingMode = WrappingMode.WrapDateline,
+                WrappingExtent = MaxExtents.ThinkGeoMaps
+            };
 
-                MapView.MapUnit = GeographyUnit.Meter;
-                MapView.Overlays.Add(overlay);
-                MapView.CurrentExtent = MaxExtents.ThinkGeoMaps;
+            MapView.MapUnit = GeographyUnit.Meter;
+            MapView.Overlays.Add(overlay);
+       
+            MapView.CurrentScale = 300000000;
 
-                MapView.ZoomLevelSet = new SphericalMercatorZoomLevelSet();
-                MapView.ZoomLevelSet.CustomZoomLevels.Add(MapView.ZoomLevelSet.ZoomLevel01);
-                MapView.MapTools.PanZoomBar.IsEnabled = false;
+            MapView.ZoomScales = new Collection<double>();
+            MapView.ZoomScales.Add(MapView.CurrentScale); // only set one scale in the collection. 
 
-                var layer = new InMemoryFeatureLayer();
-                layer.InternalFeatures.Add(GetExtent(-0.6, -0.4, 0.9, 0.99, "-0.6 ~ -0.4"));
-                layer.InternalFeatures.Add(GetExtent(-0.6, 0, 0.8, 0.89, "-0.6 ~ 0"));
-                layer.InternalFeatures.Add(GetExtent(-0.3, 0.3, 0.7, 0.79, "-0.3 ~ 0.3"));
-                layer.InternalFeatures.Add(GetExtent(-0.6, 1, 0.6, 0.69, "-0.6 ~ 1"));
-                layer.InternalFeatures.Add(GetExtent(-0.6, 1.8, 0.5, 0.59, "0.6 ~ 1.8,"));
-                layer.InternalFeatures.Add(GetExtent(-1.5, -0.5, 0.4, 0.49, "-1.5 ~ -0.5"));
-                layer.InternalFeatures.Add(GetExtent(0.4, 0.8, 0.3, 0.39, "0.4 ~ 0.8"));
-                layer.InternalFeatures.Add(GetExtent(0.4, 1.8, 0.2, 0.29, "0.4 ~ 1.8"));
-                layer.InternalFeatures.Add(GetExtent(1, 1.8, 0.1, 0.19, "1 ~ 1.8"));
-                layer.InternalFeatures.Add(GetExtent(1.4, 1.8, 0.0, 0.09, "1.4 ~ 1.8"));
+            MapView.MapTools.PanZoomBar.IsEnabled = false;
 
-                layer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(100, GeoColors.Brown), GeoColors.LightRed);
-                layer.ZoomLevelSet.ZoomLevel01.DefaultTextStyle = new TextStyle("Text", new GeoFont("Arial", 16), GeoBrushes.Yellow);
-                layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            var layer = new InMemoryFeatureLayer();
+            layer.InternalFeatures.Add(GetExtent(-0.6, -0.4, 0.9, 0.99, "-0.6 ~ -0.4"));
+            layer.InternalFeatures.Add(GetExtent(-0.6, 0, 0.8, 0.89, "-0.6 ~ 0"));
+            layer.InternalFeatures.Add(GetExtent(-0.3, 0.3, 0.7, 0.79, "-0.3 ~ 0.3"));
+            layer.InternalFeatures.Add(GetExtent(-0.6, 1, 0.6, 0.69, "-0.6 ~ 1"));
+            layer.InternalFeatures.Add(GetExtent(-0.6, 1.8, 0.5, 0.59, "0.6 ~ 1.8,"));
+            layer.InternalFeatures.Add(GetExtent(-1.5, -0.5, 0.4, 0.49, "-1.5 ~ -0.5"));
+            layer.InternalFeatures.Add(GetExtent(0.4, 0.8, 0.3, 0.39, "0.4 ~ 0.8"));
+            layer.InternalFeatures.Add(GetExtent(0.4, 1.8, 0.2, 0.29, "0.4 ~ 1.8"));
+            layer.InternalFeatures.Add(GetExtent(1, 1.8, 0.1, 0.19, "1 ~ 1.8"));
+            layer.InternalFeatures.Add(GetExtent(1.4, 1.8, 0.0, 0.09, "1.4 ~ 1.8"));
 
-                var layerOverlay = new LayerOverlay
-                {
-                    TileType = TileType.SingleTile,
-                    WrappingMode = WrappingMode.WrapDateline,
-                    WrappingExtent = MaxExtents.ThinkGeoMaps
-                };
+            layer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(100, GeoColors.Brown), GeoColors.LightRed);
+            layer.ZoomLevelSet.ZoomLevel01.DefaultTextStyle = new TextStyle("Text", new GeoFont("Arial", 16), GeoBrushes.Yellow);
+            layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-                layerOverlay.Layers.Add(layer);
-                MapView.Overlays.Add(layerOverlay);
-
-                await MapView.RefreshAsync();
-            }
-            catch 
+            var layerOverlay = new LayerOverlay
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+                TileType = TileType.SingleTile,
+                WrappingMode = WrappingMode.WrapDateline,
+                WrappingExtent = MaxExtents.ThinkGeoMaps
+            };
+
+            layerOverlay.Layers.Add(layer);
+            MapView.Overlays.Add(layerOverlay);
+
+            _ = MapView.RefreshAsync();
         }
 
         private static Feature GetExtent(double minX, double maxX, double minY, double maxY, string content)

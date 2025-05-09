@@ -5,109 +5,77 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded"/>
-        <Grid Grid.Column="1" Grid.Row="0">
-            <Label Grid.Column="1" Grid.Row="0" Content="Zooming:" FontSize="16" FontWeight="Bold"></Label>
-            <Grid Grid.Column="1" Grid.Row="1" x:Name="ZoomButtonGrid">
-                <Button x:Name="ZoomIn" Click="ZoomIn_Click" Grid.Column="0" Padding="4">
-                    <Image Source="/Resources/ZoomIn.png" Stretch="None"></Image>
-                </Button>
-                <Button x:Name="ZoomOut" Click="ZoomOut_Click" Grid.Column="1" Padding="4">
-                    <Image Source="/Resources/ZoomOut.png" Stretch="None"></Image>
-                </Button>
+             d:DesignHeight="450" d:DesignWidth="800" x:Name="ThisControl">
 
-                <!-- Zoom Button Grid Layout-->
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-            </Grid>
-
-            <Label Grid.Column="1" Grid.Row="2" Content="Panning:" FontSize="16" FontWeight="Bold"></Label>
-            <Grid Grid.Column="1" Grid.Row="3" x:Name="PanButtonGrid">
-                <Button x:Name="PanNorth" Click="PanArrow_Click" Grid.Column="2" Grid.Row="0" Padding="2" Margin="0" Height="24" Width="24">
-                    <Image Source="/Resources/North.gif" Stretch="Uniform"></Image>
-                </Button>
-                <Button x:Name="PanWest" Click="PanArrow_Click" Grid.Column="1" Grid.Row="1" Padding="2" Margin="0" Height="24" Width="24">
-                    <Image Source="/Resources/West.gif" Stretch="Uniform"></Image>
-                </Button>
-                <Button x:Name="PanEast" Click="PanArrow_Click" Grid.Column="3" Grid.Row="1"  Padding="2" Margin="0" Height="24" Width="24">
-                    <Image Source="/Resources/East.gif" Stretch="Uniform"></Image>
-                </Button>
-                <Button x:Name="PanSouth" Click="PanArrow_Click" Grid.Column="2" Grid.Row="2"  Padding="2" Margin="0" Height="24" Width="24">
-                    <Image Source="/Resources/South.gif" Stretch="Uniform"></Image>
-                </Button>
-
-                <!-- Pan Button Grid Layout -->
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="auto"></ColumnDefinition>
-                    <ColumnDefinition Width="auto"></ColumnDefinition>
-                    <ColumnDefinition Width="auto"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                </Grid.RowDefinitions>
-            </Grid>
-
-          
-            <Label Grid.Column="1" Grid.Row="6" Content="Rotating:" FontSize="16" FontWeight="Bold"></Label>
-            <Grid Grid.Column="1" Grid.Row="8">
-                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding ElementName=RotateAngle, Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="28" DockPanel.Dock="Right"></TextBox>
-                <Slider Grid.Column="0" Grid.Row="0" x:Name="RotateAngle" Maximum="360" Value="0" AutoToolTipPlacement="TopLeft" TickFrequency="15" IsSnapToTickEnabled="True" ValueChanged="RotateAngle_OnValueChanged"/>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-            </Grid>
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="5" />
-                <ColumnDefinition Width="240" />
-                <ColumnDefinition Width="5" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
-        </Grid>
-
-        <!-- Grid Layout -->
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-    </Grid>
     <UserControl.Resources>
-        <Style TargetType="Label">
-            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
-            <Setter Property="FontSize" Value="14"></Setter>
-        </Style>
-        <Style TargetType="Grid">
-            <Setter Property="Background" Value="DimGray"></Setter>
-        </Style>
-        <Style TargetType="TextBox">
-            <Setter Property="Height" Value="20"></Setter>
-        </Style>
-        <Style TargetType="Button">
-            <Setter Property="Height" Value="22"></Setter>
-            <Setter Property="Margin" Value="0,10,0,0"></Setter>
+        <!-- Reusable Style for Image Buttons Without Hover Background -->
+        <Style x:Key="ImageButtonNoHoverStyle" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </UserControl.Resources>
+    
+    <Grid>
+        <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded"/>
+
+        <!-- Compass Button -->
+        <Button x:Name="CompassButton"
+                    Style="{StaticResource ImageButtonNoHoverStyle}"
+                    Width="40" Height="40"
+                    Background="Transparent" 
+                    BorderThickness="0"
+                    HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,10,0"
+                    RenderTransformOrigin="0.5,0.5"
+                    Click="CompassButton_Click">
+            <Button.RenderTransform>
+                <RotateTransform Angle="{Binding ElementName=MapView, Path=RotationAngle}"/>
+            </Button.RenderTransform>
+            <Image Source="/Resources/icon_north_arrow.png" Stretch="Fill"/>
+        </Button>
+
+        <!-- Default Extent Button -->
+        <Button x:Name="DefaultExtentButton"
+                    Style="{StaticResource ImageButtonNoHoverStyle}"
+                    Width="40" Height="40"
+                    Background="Transparent" 
+                    BorderThickness="0"
+                    HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,60,10,0"
+                    Click="DefaultExtentButton_Click">
+            <Image Source="/Resources/icon_globe_black.png"/>
+        </Button>
+
+        <StackPanel  Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10">
+            <TextBlock   Background="LightGray" IsEnabled="False"
+                       VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="0,0,0,5" 
+                       Height="30" Width="400" FontSize="20" TextAlignment="Center"
+                       Text="{Binding ElementName=ThisControl, Path=TxtCoordinates}"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Background="LightGray" VerticalAlignment="Bottom" 
+                           Width="140" Height="30" FontSize="20"
+                           Text="{Binding ElementName=MapView, Path=RotationAngle, StringFormat={}Rotation: {0:N0}}"/>
+                <TextBlock Background="LightGray" VerticalAlignment="Bottom" 
+                           Width="140" Height="30" FontSize="20"
+                           Text="{Binding ElementName=MapView, Path=CurrentZoom, StringFormat={}Zoom: {0:N2}}"/>
+                <TextBlock Background="LightGray" VerticalAlignment="Bottom" 
+                       Width="180" Height="30" FontSize="20"
+                       Text="{Binding ElementName=MapView, Path=CurrentScale, StringFormat={}Scale: {0:N0}}"/>
+                
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Margin="10" HorizontalAlignment="Left" VerticalAlignment="Bottom" Orientation="Horizontal" 
+                    Height="30" Width ="150" Background="LightGray">
+            <CheckBox x:Name="ThemeCheckBox" VerticalAlignment="Center" Background="LightGray" BorderBrush="Black"
+                          Click="ThemeCheckBox_Click"/>
+            <TextBlock Text = "Dark Theme" VerticalAlignment="Center" Margin="10,0,0,0" FontSize="20" />
+        </StackPanel>
+
+    </Grid>
 </UserControl>

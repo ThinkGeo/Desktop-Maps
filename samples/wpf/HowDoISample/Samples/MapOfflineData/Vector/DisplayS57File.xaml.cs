@@ -17,39 +17,32 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the S57 layer to the map
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                // It is important to set the map unit first to either feet, meters or decimal degrees.
-                MapView.MapUnit = GeographyUnit.DecimalDegree;
+            // It is important to set the map unit first to either feet, meters or decimal degrees.
+            MapView.MapUnit = GeographyUnit.DecimalDegree;
 
-                // Create a new overlay that will hold our new layer and add it to the map.
-                var chartOverlay = new LayerOverlay();
+            // Create a new overlay that will hold our new layer and add it to the map.
+            var chartOverlay = new LayerOverlay();
 
-                // Currently this layer only works in single tile mode at the moment.
-                // If you use multi tile not all the data may load in.
-                chartOverlay.TileType = TileType.SingleTile;
+            // Currently this layer only works in single tile mode at the moment.
+            // If you use multi tile not all the data may load in.
+            chartOverlay.TileType = TileType.SingleTile;
 
-                // Add the chart to the overlay for display
-                MapView.Overlays.Add(chartOverlay);
+            // Add the chart to the overlay for display
+            MapView.Overlays.Add(chartOverlay);
 
-                // Create the new layer.
-                var nauticalLayer = new NauticalChartsFeatureLayer(@"./Data/S57/US1GC09M/US1GC09M.000");
+            // Create the new layer.
+            var nauticalLayer = new NauticalChartsFeatureLayer(@"./Data/S57/US1GC09M/US1GC09M.000");
 
-                // Add the layer to the overlay we created earlier.
-                chartOverlay.Layers.Add("Charts", nauticalLayer);
+            // Add the layer to the overlay we created earlier.
+            chartOverlay.Layers.Add("Charts", nauticalLayer);
 
-                // Set the current extent to a portion of the data
-                MapView.CurrentExtent = new RectangleShape(-83.79534200990409, 25.87521424320395, -80.82463888490409, 23.90646424320395);
+            // Set the current extent to a portion of the data
+            MapView.CenterPoint = new PointShape(-82.30999, 24.89084);
+            MapView.CurrentScale = 1156400;
 
-                await MapView.RefreshAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            _ = MapView.RefreshAsync();
         }
 
         public void Dispose()

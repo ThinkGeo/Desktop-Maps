@@ -48,7 +48,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 friscoLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(50, GeoColors.MediumPurple), GeoColors.MediumPurple, 2);
 
                 // Set the map extent to Frisco, TX
-                MapView.CurrentExtent = new RectangleShape(-10781137.28, 3917162.59, -10774579.34, 3911241.35);
+                MapView.CenterPoint = new PointShape(-10777860, 3914200);
+                MapView.CurrentScale = 31300;
 
                 // Create a layer to hold the feature we will perform the spatial query against
                 var queryLayer = new InMemoryFeatureLayer();
@@ -63,10 +64,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Add each feature layer to its own overlay
                 // We do this, so we can control and refresh/redraw each layer individually
                 var friscoOverlay = new LayerOverlay();
+                friscoOverlay.TileType = TileType.SingleTile;
                 friscoOverlay.Layers.Add("FriscoLayer", friscoLayer);
                 MapView.Overlays.Add("FriscoOverlay", friscoOverlay);
 
-                var highlightOverlay = new LayerOverlay { TileType = TileType.SingleTile };
+                var highlightOverlay = new LayerOverlay();
+                highlightOverlay.TileType = TileType.SingleTile;
                 MapView.Overlays.Add("HighlightOverlay", highlightOverlay);
                 highlightOverlay.Layers.Add("HighlightLayer", highlightLayer);
                 highlightOverlay.Layers.Add("QueryLayer", queryLayer);
@@ -79,8 +82,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 await GetFeaturesDisjointAsync(sampleShape);
 
                 // Set the map extent to the sample shapes
-                MapView.CurrentExtent = sampleShape.GetBoundingBox();
-                await MapView.ZoomOutAsync();
+                var sampleShapeBBox = sampleShape.GetBoundingBox();
+                MapView.CenterPoint = sampleShapeBBox.GetCenterPoint();
+                var MapScale = MapUtil.GetScale(MapView.MapUnit, sampleShapeBBox, MapView.MapWidth, MapView.MapHeight);
+                MapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
+
                 await MapView.RefreshAsync();
             }
             catch 
@@ -134,17 +140,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Performs the spatial query when a new polygon is drawn
         /// </summary>
-        private async void OnPolygonDrawn(object sender, TrackEndedTrackInteractiveOverlayEventArgs e)
+        private void OnPolygonDrawn(object sender, TrackEndedTrackInteractiveOverlayEventArgs e)
         {
-            try
-            {
-                await GetFeaturesDisjointAsync((PolygonShape)e.TrackShape);
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            _ = GetFeaturesDisjointAsync((PolygonShape)e.TrackShape);
         }
 
         /// <summary>

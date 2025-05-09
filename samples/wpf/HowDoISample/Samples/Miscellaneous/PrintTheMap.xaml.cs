@@ -22,21 +22,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the mapView to display a print preview
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                SetupMapForPrinting();
-                AddPageTitleLabel();
-                AddMapLayers();
-                AddMosquitoDataGrid();
-                await MapView.RefreshAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            SetupMapForPrinting();
+            AddPageTitleLabel();
+            AddMapLayers();
+            AddMosquitoDataGrid();
+
+            _ = MapView.RefreshAsync();
         }
 
         /// <summary>
@@ -92,11 +85,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
 
             // Set the map's ZoomLevelSet to a set of common printer zoom settings
-            MapView.ZoomLevelSet =
-                new PrinterZoomLevelSet(GeographyUnit.Meter, PrinterHelper.GetPointsPerGeographyUnit(GeographyUnit.Meter));
-            MapView.MinimumScale = MapView.ZoomLevelSet.ZoomLevel20.Scale;
+            MapView.ZoomScales =
+                new PrinterZoomLevelSet(GeographyUnit.Meter, PrinterHelper.GetPointsPerGeographyUnit(GeographyUnit.Meter)).GetScales();
+            MapView.MinimumScale = MapView.ZoomScales[MapView.ZoomScales.Count - 1];
 
             var printerOverlay = new PrinterInteractiveOverlay();
+            printerOverlay.IsEditable = true;
+
             var pageLayer = new PagePrinterLayer(PrinterPageSize.AnsiA, PrinterOrientation.Portrait)
             {
                 // Style the pageLayer to appear to look like a piece of paper
@@ -105,12 +100,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Add the pageLayer to the printerOverlay
             printerOverlay.PrinterLayers.Add("pageLayer", pageLayer);
-
             // Add the printerOverlay to the map
             MapView.InteractiveOverlays.Add("printerOverlay", printerOverlay);
 
             // Set the map extent
-            MapView.CurrentExtent = pageLayer.GetPosition().GetBoundingBox();
+            var pageLayerBBox = pageLayer.GetPosition().GetBoundingBox();
+            MapView.CenterPoint = pageLayerBBox.GetCenterPoint();
+            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, pageLayerBBox, MapView.MapWidth, MapView.MapHeight);
         }
 
         /// <summary>
@@ -127,6 +123,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             titleLabel.SetPosition(7.5, .5, 0, 4.75, PrintingUnit.Inch);
 
             printerOverlay.PrinterLayers.Add(titleLabel);
+
         }
 
         /// <summary>
@@ -203,7 +200,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             cityLimits.Close();
 
             // Create the mapPrinterLayer, adding the FeatureLayers that we want to print
-            var mapPrinterLayer = new MapPrinterLayer(new Layer[] { cityLimits, streets, parks, mosquitoSightings }, mapExtent, GeographyUnit.Meter);
+            var mapPrinterLayer = new MapPrinterLayer(new LayerBase[] { cityLimits, streets, parks, mosquitoSightings }, mapExtent, GeographyUnit.Meter);
 
             // Set the position of the map using the pageLayer's centerPoint
             var pageCenter = pageLayer.GetPosition().GetCenterPoint();

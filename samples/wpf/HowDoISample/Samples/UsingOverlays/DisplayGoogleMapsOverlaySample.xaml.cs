@@ -28,25 +28,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.BackgroundOverlay.BackgroundBrush = GeoBrushes.AliceBlue;
 
             // Set the map extent
-            MapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
+            MapView.CenterPoint = new PointShape(-10778000, 3912000);
+            MapView.CurrentScale = 77000;
         }
 
         /// <summary>
         /// Create a Google Maps overlay and add it to the map view.
         /// </summary>
-        private async void DisplayGoogleMaps_Click(object sender, RoutedEventArgs e)
+        private void DisplayGoogleMaps_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                var googleMapsOverlay = new GoogleMapsOverlay(GoogleApiKey.Text, string.Empty);
-                MapView.Overlays.Add(googleMapsOverlay);
-                await MapView.RefreshAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            var googleMapsOverlay = new GoogleMapsOverlay(GoogleApiKey.Text, string.Empty);
+            MapView.Overlays.Add(googleMapsOverlay);
+            _ = MapView.RefreshAsync();
         }
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)

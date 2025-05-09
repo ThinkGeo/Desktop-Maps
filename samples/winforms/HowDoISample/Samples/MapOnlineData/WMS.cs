@@ -47,12 +47,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Clear out the overlays so we start fresh
             mapView.Overlays.Clear();
 
-            // Create a WMS overlay using the WMS parameters below.
-            // This is a public service and is very slow most of the time.
-            var wmsOverlay = new WmsOverlay();
-            wmsOverlay.Uri = new Uri("http://ows.mundialis.de/services/service");
-            wmsOverlay.Parameters.Add("layers", "OSM-WMS");
-            wmsOverlay.Parameters.Add("STYLES", "default");
+            var wmsOverlay = new WmsOverlay(new Uri("http://ows.mundialis.de/services/service"));
+            wmsOverlay.Crs = "EPSG:4326"; // Make sure to match the WMS CRS to the Map's projection
+            wmsOverlay.ActiveLayerNames.Add("OSM-WMS");
+            wmsOverlay.ActiveStyleNames.Add("default");
 
             // Add the overlay to the map.
             mapView.Overlays.Add(wmsOverlay);
@@ -155,7 +153,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MinimumScale = 200D;
             mapView.Name = "mapView";
             mapView.RestrictExtent = null;
-            mapView.RotatedAngle = 0F;
+            mapView.RotationAngle = 0F;
             mapView.Size = new System.Drawing.Size(962, 611);
             mapView.TabIndex = 0;
             // 

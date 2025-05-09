@@ -51,6 +51,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 // Add the feature layer to an overlay, and add the overlay to the map
                 var parksOverlay = new LayerOverlay();
+                parksOverlay.TileType = TileType.SingleTile;
                 parksOverlay.Layers.Add("Frisco Parks", parksLayer);
                 MapView.Overlays.Add(parksOverlay);
 
@@ -60,7 +61,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 // Set the map extent to the bounding box of the parks
                 parksLayer.Open();
-                MapView.CurrentExtent = parksLayer.GetBoundingBox();
+                var parksLayerBBox = parksLayer.GetBoundingBox();
+                MapView.CenterPoint = parksLayerBBox.GetCenterPoint();
+                MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, parksLayerBBox, MapView.MapWidth, MapView.MapHeight);
                 await MapView.ZoomInAsync();
                 parksLayer.Close();
 
@@ -124,23 +127,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Pull data from the selected feature and display it when clicked
         /// </summary>
-        private async void MapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        private void MapView_MapClick(object sender, MapClickMapViewEventArgs e)
         {
-            try
-            {
-                // Get the selected feature based on the map click location
-                var selectedFeature = GetFeatureFromLocation(e.WorldLocation);
+            // Get the selected feature based on the map click location
+            var selectedFeature = GetFeatureFromLocation(e.WorldLocation);
 
-                // If a feature was selected, get the data from it and display it
-                if (selectedFeature != null)
-                {
-                    await DisplayFeatureInfoAsync(selectedFeature);
-                }
-            }
-            catch 
+            // If a feature was selected, get the data from it and display it
+            if (selectedFeature != null)
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+                _ = DisplayFeatureInfoAsync(selectedFeature);
             }
         }
 

@@ -21,71 +21,67 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay and a feature layer containing Frisco zoning data
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
-                // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-                // Set the Map Unit to meters (used in Spherical Mercator)
-                MapView.MapUnit = GeographyUnit.Meter;
+            // Set the Map Unit to meters (used in Spherical Mercator)
+            MapView.MapUnit = GeographyUnit.Meter;
 
-                // Create a feature layer to hold the Frisco zoning data
-                var zoningLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Zoning.shp");
+            // Create a feature layer to hold the Frisco zoning data
+            var zoningLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Zoning.shp");
 
-                // Convert the Frisco shapefile from its native projection to Spherical Mercator, to match the map
-                var projectionConverter = new ProjectionConverter(2276, 3857);
-                zoningLayer.FeatureSource.ProjectionConverter = projectionConverter;
+            // Convert the Frisco shapefile from its native projection to Spherical Mercator, to match the map
+            var projectionConverter = new ProjectionConverter(2276, 3857);
+            zoningLayer.FeatureSource.ProjectionConverter = projectionConverter;
 
-                // Add a style to use to draw the Frisco zoning polygons
-                zoningLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-                zoningLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(50, GeoColors.MediumPurple), GeoColors.MediumPurple, 2);
+            // Add a style to use to draw the Frisco zoning polygons
+            zoningLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            zoningLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(50, GeoColors.MediumPurple), GeoColors.MediumPurple, 2);
 
-                // Set the map extent to Frisco, TX
-                MapView.CurrentExtent = new RectangleShape(-10781137.28, 3917162.59, -10774579.34, 3911241.35);
+            // Set the map extent to Frisco, TX
+            MapView.CenterPoint = new PointShape(-10777860, 3914200);
+            MapView.CurrentScale = 31300;
 
-                // Create a layer to hold features found by the spatial query
-                var highlightedFeaturesLayer = new InMemoryFeatureLayer();
-                highlightedFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(90, GeoColors.MidnightBlue), GeoColors.MidnightBlue);
-                highlightedFeaturesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            // Create a layer to hold features found by the spatial query
+            var highlightedFeaturesLayer = new InMemoryFeatureLayer();
+            highlightedFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(90, GeoColors.MidnightBlue), GeoColors.MidnightBlue);
+            highlightedFeaturesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-                // Add each feature layer to its own overlay
-                // We do this, so we can control and refresh/redraw each layer individually
-                var zoningOverlay = new LayerOverlay();
-                zoningOverlay.Layers.Add("Frisco Zoning", zoningLayer);
-                MapView.Overlays.Add("Frisco Zoning Overlay", zoningOverlay);
+            // Add each feature layer to its own overlay
+            // We do this, so we can control and refresh/redraw each layer individually
+            var zoningOverlay = new LayerOverlay();
+            zoningOverlay.TileType = TileType.SingleTile;
+            zoningOverlay.Layers.Add("Frisco Zoning", zoningLayer);
+            MapView.Overlays.Add("Frisco Zoning Overlay", zoningOverlay);
 
-                var highlightedFeaturesOverlay = new LayerOverlay();
-                highlightedFeaturesOverlay.Layers.Add("Highlighted Features", highlightedFeaturesLayer);
-                MapView.Overlays.Add("Highlighted Features Overlay", highlightedFeaturesOverlay);
+            var highlightedFeaturesOverlay = new LayerOverlay();
+            highlightedFeaturesOverlay.TileType = TileType.SingleTile;
+            highlightedFeaturesOverlay.Layers.Add("Highlighted Features", highlightedFeaturesLayer);
+            MapView.Overlays.Add("Highlighted Features Overlay", highlightedFeaturesOverlay);
 
-                // Add a MarkerOverlay to the map to display the selected point for the query
-                var queryFeatureMarkerOverlay = new SimpleMarkerOverlay();
-                MapView.Overlays.Add("Query Feature Marker Overlay", queryFeatureMarkerOverlay);
+            // Add a MarkerOverlay to the map to display the selected point for the query
+            var queryFeatureMarkerOverlay = new SimpleMarkerOverlay();
+            MapView.Overlays.Add("Query Feature Marker Overlay", queryFeatureMarkerOverlay);
 
-                // Add a sample point to the map for the initial query
-                var sampleShape = new PointShape(-10779425.2690712, 3914970.73561765);
-                GetFeaturesContaining(sampleShape);
+            // Add a sample point to the map for the initial query
+            var sampleShape = new PointShape(-10779425.2690712, 3914970.73561765);
+            GetFeaturesContaining(sampleShape);
 
-                // Set the map extent to the sample shape
-                MapView.CurrentExtent = new RectangleShape(-10781407.8544813, 3916678.62545891, -10777442.6836611, 3913262.84577639);
+            // Set the map extent to the sample shape
+            MapView.CenterPoint = new PointShape(-10779430, 3914970);
+            MapView.CurrentScale = 18060;
 
-                await MapView.RefreshAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            _ = MapView.RefreshAsync();
         }
 
         /// <summary>

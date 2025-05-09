@@ -19,94 +19,82 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the cityLimits and envelopeLayer layers
         /// into a grouped LayerOverlay and display them on the map.
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            // Set the map's unit of measurement to meters(Spherical Mercator)
+            MapView.MapUnit = GeographyUnit.Meter;
+
+            // Add Cloud Maps as a background overlay
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
-                // Set the map's unit of measurement to meters(Spherical Mercator)
-                MapView.MapUnit = GeographyUnit.Meter;
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-                // Add Cloud Maps as a background overlay
-                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            var cityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimits.shp");
+            var envelopeLayer = new InMemoryFeatureLayer();
+            var layerOverlay = new LayerOverlay();
+            layerOverlay.TileType = TileType.SingleTile;
 
-                var cityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimits.shp");
-                var envelopeLayer = new InMemoryFeatureLayer();
-                var layerOverlay = new LayerOverlay();
+            // Project cityLimits layer to Spherical Mercator to match the map projection
+            cityLimits.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
-                // Project cityLimits layer to Spherical Mercator to match the map projection
-                cityLimits.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+            // Style cityLimits layer
+            cityLimits.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(32, GeoColors.Orange), GeoColors.DimGray);
+            cityLimits.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-                // Style cityLimits layer
-                cityLimits.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(32, GeoColors.Orange), GeoColors.DimGray);
-                cityLimits.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            // Style the envelopeLayer
+            envelopeLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(32, GeoColors.Green), GeoColors.DimGray);
+            envelopeLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-                // Style the envelopeLayer
-                envelopeLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(32, GeoColors.Green), GeoColors.DimGray);
-                envelopeLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            // Add cityLimits to a LayerOverlay
+            layerOverlay.Layers.Add("cityLimits", cityLimits);
 
-                // Add cityLimits to a LayerOverlay
-                layerOverlay.Layers.Add("cityLimits", cityLimits);
+            // Add envelopeLayer to the layerOverlay
+            layerOverlay.Layers.Add("envelopeLayer", envelopeLayer);
 
-                // Add envelopeLayer to the layerOverlay
-                layerOverlay.Layers.Add("envelopeLayer", envelopeLayer);
+            // Set the map extent to the cityLimits layer bounding box
+            cityLimits.Open();
+            var cityLimitsBBox = cityLimits.GetBoundingBox();
+            MapView.CenterPoint = cityLimitsBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(MapView.MapUnit, cityLimitsBBox, MapView.MapWidth, MapView.MapHeight);
+            MapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
+            cityLimits.Close();
 
-                // Set the map extent to the cityLimits layer bounding box
-                cityLimits.Open();
-                MapView.CurrentExtent = cityLimits.GetBoundingBox();
-                cityLimits.Close();
+            // Add LayerOverlay to Map
+            MapView.Overlays.Add("layerOverlay", layerOverlay);
 
-                // Add LayerOverlay to Map
-                MapView.Overlays.Add("layerOverlay", layerOverlay);
-
-                await MapView.RefreshAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            _ = MapView.RefreshAsync();
         }
 
         /// <summary>
         /// Gets the Envelope of the first feature in the cityLimits layer and adds them to the envelopeLayer to display on the map
         /// </summary>
-        private async void ShapeEnvelope_OnClick(object sender, RoutedEventArgs e)
+        private void ShapeEnvelope_OnClick(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
+            var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
 
-                var cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
-                var envelopeLayer = (InMemoryFeatureLayer)layerOverlay.Layers["envelopeLayer"];
+            var cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
+            var envelopeLayer = (InMemoryFeatureLayer)layerOverlay.Layers["envelopeLayer"];
 
-                // Query the cityLimits layer to get the first feature
-                cityLimits.Open();
-                var feature = cityLimits.QueryTools.GetAllFeatures(ReturningColumnsType.NoColumns).First();
-                cityLimits.Close();
+            // Query the cityLimits layer to get the first feature
+            cityLimits.Open();
+            var feature = cityLimits.QueryTools.GetAllFeatures(ReturningColumnsType.NoColumns).First();
+            cityLimits.Close();
 
-                // Get the bounding box (or envelope) of the feature
-                var envelope = feature.GetBoundingBox();
+            // Get the bounding box (or envelope) of the feature
+            var envelope = feature.GetBoundingBox();
 
-                // Add the envelope shape into an InMemoryFeatureLayer to display the result.
-                envelopeLayer.InternalFeatures.Clear();
-                envelopeLayer.InternalFeatures.Add(new Feature(envelope));
+            // Add the envelope shape into an InMemoryFeatureLayer to display the result.
+            envelopeLayer.InternalFeatures.Clear();
+            envelopeLayer.InternalFeatures.Add(new Feature(envelope));
 
-                // Redraw the layerOverlay to see the envelope feature on the map
-                await layerOverlay.RefreshAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            // Redraw the layerOverlay to see the envelope feature on the map
+            _ = layerOverlay.RefreshAsync();
         }
 
         public void Dispose()

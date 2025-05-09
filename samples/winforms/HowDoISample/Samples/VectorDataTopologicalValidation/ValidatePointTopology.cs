@@ -14,7 +14,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private async void Form_Load(object sender, EventArgs e)
+        private void Form_Load(object sender, EventArgs e)
         {
             // Create an InMemoryFeatureLayer to hold the shapes to be validated
             // Add styles to display points, lines, and polygons on this layer in green
@@ -42,6 +42,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Add the layers to an overlay, and add the overlay to the map
             var featuresOverlay = new LayerOverlay();
+            featuresOverlay.TileType = TileType.SingleTile;
             featuresOverlay.Layers.Add("Filter Features", filterFeaturesLayer);
             featuresOverlay.Layers.Add("Validated Features", validatedFeaturesLayer);
             featuresOverlay.Layers.Add("Result Features", resultFeaturesLayer);
@@ -49,15 +50,17 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Set a default extent for the map
             mapView.CurrentExtent = new RectangleShape(0, 200, 200, 0);
-
             rdoCheckIfPointsAreTouchingLines.Checked = true;
-
-            await mapView.RefreshAsync();
-            await mapView.ZoomToScaleAsync(1000);
         }
 
-        private async void rdoCheckIfPointsAreTouchingLines_CheckedChanged(object sender, EventArgs e)
+        private void rdoCheckIfPointsAreTouchingLines_CheckedChanged(object sender, EventArgs e)
         {
+            var radioButton = sender as RadioButton;
+            if (radioButton == null)
+                return;
+            if (!radioButton.Checked)
+                return;
+
             // Create a sample set of point and line features to use for the validation
             var uncoveredPointFeature1 = new Feature("POINT(0 0)");
             var uncoveredPointFeature2 = new Feature("POINT(50 0)");
@@ -73,15 +76,20 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { uncoveredPointFeature1, uncoveredPointFeature2, coveredPointFeature }, invalidResultFeatures, new Collection<Feature>() { lineFeature });
+            _ = ClearMapAndAddFeaturesAsync(new Collection<Feature>() { uncoveredPointFeature1, uncoveredPointFeature2, coveredPointFeature }, invalidResultFeatures, new Collection<Feature>() { lineFeature });
 
             // Update the help text
             txtValidationInfo.Text = "Features being validated against are shown in blue. \n\nPoints touching lines are shown in green. \n\nPoints not touching lines are shown in red.";
-
         }
 
-        private async void rdoCheckIfPointsAreTouchingLineEndpoints_CheckedChanged(object sender, EventArgs e)
+        private void rdoCheckIfPointsAreTouchingLineEndpoints_CheckedChanged(object sender, EventArgs e)
         {
+            var radioButton = sender as RadioButton;
+            if (radioButton == null)
+                return;
+            if (!radioButton.Checked)
+                return;
+
             // Create a sample set of point and line features to use for the validation
             var pointFeature1 = new Feature("POINT(0 0)");
             var pointFeature2 = new Feature("POINT(50 0)");
@@ -97,15 +105,20 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { pointFeature1, pointFeature2, pointFeatureOnEndpoint }, invalidResultFeatures, new Collection<Feature>() { lineFeature });
+            _ = ClearMapAndAddFeaturesAsync(new Collection<Feature>() { pointFeature1, pointFeature2, pointFeatureOnEndpoint }, invalidResultFeatures, new Collection<Feature>() { lineFeature });
 
             // Update the help text
             txtValidationInfo.Text = "Features being validated against are shown in blue. \n\nPoints touching line endpoints are shown in green. \n\nPoints not touching line endpoints are shown in red.";
-
         }
 
-        private async void rdoCheckIfPointsAreTouchingPolygonBoundaries_CheckedChanged(object sender, EventArgs e)
+        private void rdoCheckIfPointsAreTouchingPolygonBoundaries_CheckedChanged(object sender, EventArgs e)
         {
+            var radioButton = sender as RadioButton;
+            if (radioButton == null)
+                return;
+            if (!radioButton.Checked)
+                return;
+
             // Create a sample set of point and polygon features to use for the validation
             var pointFeature1 = new Feature("POINT(150 0)");
             var pointFeature2 = new Feature("POINT(50 50)");
@@ -121,15 +134,20 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { pointFeature1, pointFeature2, pointFeatureOnBoundary }, invalidResultFeatures, new Collection<Feature>() { polygonFeature });
+            _ = ClearMapAndAddFeaturesAsync(new Collection<Feature>() { pointFeature1, pointFeature2, pointFeatureOnBoundary }, invalidResultFeatures, new Collection<Feature>() { polygonFeature });
 
             // Update the help text
             txtValidationInfo.Text = "Features being validated against are shown in blue. \n\nPoints touching polygon boundaries are shown in green. \n\nPoints not touching polygon boundaries are shown in red.";
-
         }
 
-        private async void rdoCheckIfPointsAreWithinPolygons_CheckedChanged(object sender, EventArgs e)
+        private void rdoCheckIfPointsAreWithinPolygons_CheckedChanged(object sender, EventArgs e)
         {
+            var radioButton = sender as RadioButton;
+            if (radioButton == null)
+                return;
+            if (!radioButton.Checked)
+                return;
+
             // Create a sample set of point and polygon features to use for the validation
             var pointFeature1 = new Feature("POINT(150 0)");
             var pointFeature2 = new Feature("POINT(0 0)");
@@ -145,11 +163,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var invalidResultFeatures = result.InvalidFeatures;
 
             // Clear the MapView and add the new valid/invalid features to the map
-            await ClearMapAndAddFeaturesAsync(new Collection<Feature>() { pointFeature1, pointFeature2, pointFeatureInsidePolygon }, invalidResultFeatures, new Collection<Feature>() { polygonFeature });
+            _ = ClearMapAndAddFeaturesAsync(new Collection<Feature>() { pointFeature1, pointFeature2, pointFeatureInsidePolygon }, invalidResultFeatures, new Collection<Feature>() { polygonFeature });
 
             // Update the help text
             txtValidationInfo.Text = "Features being validated against are shown in blue. \n\nPoints within polygons are shown in green. \n\nPoints not within polygons are shown in red.";
-
         }
 
         private async Task ClearMapAndAddFeaturesAsync(Collection<Feature> validatedFeatures, Collection<Feature> resultFeatures, Collection<Feature> filterFeatures = null)
@@ -191,13 +208,15 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Refresh/redraw the layers and reset the map extent
             var featureOverlay = (LayerOverlay)mapView.Overlays["Features Overlay"];
-            mapView.CurrentExtent = featureOverlay.GetBoundingBox();
+            var featureOverlayBBox = featureOverlay.GetBoundingBox();
+            mapView.CenterPoint = featureOverlayBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(mapView.MapUnit, featureOverlayBBox, mapView.MapWidth, mapView.MapHeight);
+            mapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
             await mapView.RefreshAsync();
 
             validatedFeaturesLayer.Close();
             filterFeaturesLayer.Close();
             resultFeaturesLayer.Close();
-            await mapView.ZoomToScaleAsync(1000);
         }
 
         #region Component Designer generated code
@@ -231,12 +250,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
             this.mapView.Location = new System.Drawing.Point(0, 0);
-            this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
+            this.mapView.MapResizeMode = MapResizeMode.PreserveScale;
             this.mapView.MaximumScale = 1.7976931348623157E+308D;
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
-            this.mapView.RotatedAngle = 0F;
+            this.mapView.RotationAngle = 0F;
             this.mapView.Size = new System.Drawing.Size(778, 664);
             this.mapView.TabIndex = 0;
             // 

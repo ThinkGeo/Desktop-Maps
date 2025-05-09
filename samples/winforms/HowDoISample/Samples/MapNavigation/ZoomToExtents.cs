@@ -43,6 +43,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Add Frisco data to a LayerOverlay and add it to the map
             var layerOverlay = new LayerOverlay();
+            layerOverlay.TileType = TileType.SingleTile;
             layerOverlay.Layers.Add(friscoCityBoundary);
             mapView.Overlays.Add(layerOverlay);
 
@@ -60,7 +61,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void ZoomToScale_Click(object sender, EventArgs e)
         {
-            await mapView.ZoomToScaleAsync(Convert.ToDouble(zoomScale.Text));
+            await mapView.ZoomToAsync(Convert.ToDouble(zoomScale.Text));
         }
 
         private async void latlonZoom_Click(object sender, EventArgs e)
@@ -148,13 +149,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
             this.mapView.Location = new System.Drawing.Point(4, 0);
-            this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
+            this.mapView.MapResizeMode = MapResizeMode.PreserveScale;
             this.mapView.Margin = new System.Windows.Forms.Padding(0);
             this.mapView.MaximumScale = 1.7976931348623157E+308D;
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
-            this.mapView.RotatedAngle = 0F;
+            this.mapView.RotationAngle = 0F;
             this.mapView.Size = new System.Drawing.Size(946, 634);
             this.mapView.TabIndex = 0;
             // 

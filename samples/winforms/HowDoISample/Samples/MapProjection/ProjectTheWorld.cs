@@ -21,6 +21,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Create a new overlay that will hold our new layer and add it to the map.
             var layerOverlay = new LayerOverlay();
+            layerOverlay.TileType = TileType.SingleTile;
             mapView.Overlays.Add("world overlay", layerOverlay);
 
             // Create the world layer, it will be decimal degrees at first, but we will be able to change it
@@ -43,8 +44,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void Radial_CheckChanged(object sender, EventArgs e)
         {
-
             var radioButton = (RadioButton)sender;
+            if (radioButton == null)
+                return;
+
+            if (!radioButton.Checked)
+                return;
+
             var layer = mapView.FindFeatureLayer("world layer");
 
             if (layer != null)
@@ -53,10 +59,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 {
                     case "Decimal Degrees":
                         // Set the new projection converter and open it.  Next set the map to the correct map unit and lastly set the new extent
-                        layer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 4326);
-                        layer.FeatureSource.ProjectionConverter.Open();
+                        layer.FeatureSource.ProjectionConverter = null;
                         mapView.MapUnit = GeographyUnit.DecimalDegree;
-                        mapView.CurrentExtent = new RectangleShape(-176.885988320039, 121.810205234135, 168.699949179961, -92.642919765865);
+                        mapView.CurrentExtent = new RectangleShape(-76.885988320039, 21.810205234135, 68.699949179961, -72.642919765865);
                         break;
                     case "MGA Zone 55":
                         // Set the new projection converter and open it.  Next set the map to the correct map unit and lastly set the new extent
@@ -130,13 +135,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.CurrentScale = 0D;
             this.mapView.ForeColor = System.Drawing.Color.White;
             this.mapView.Location = new System.Drawing.Point(0, 0);
-            this.mapView.MapFocusMode = ThinkGeo.Core.MapFocusMode.Default;
-            this.mapView.MapResizeMode = ThinkGeo.Core.MapResizeMode.PreserveScale;
+            this.mapView.MapFocusMode = MapFocusMode.Default;
+            this.mapView.MapResizeMode = MapResizeMode.PreserveScale;
             this.mapView.MaximumScale = 1.7976931348623157E+308D;
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
-            this.mapView.RotatedAngle = 0F;
+            this.mapView.RotationAngle = 0F;
             this.mapView.Size = new System.Drawing.Size(1254, 667);
             this.mapView.TabIndex = 0;
             // 

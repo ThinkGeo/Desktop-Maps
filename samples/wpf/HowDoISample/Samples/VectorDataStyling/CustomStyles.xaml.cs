@@ -16,45 +16,67 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InitializeComponent();
         }
 
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            MapView.MapUnit = GeographyUnit.Meter;
+
+            // Add Cloud Maps as a background overlay
+            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
-                MapView.MapUnit = GeographyUnit.Meter;
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+            };
+            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-                // Add Cloud Maps as a background overlay
-                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                    // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                    TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-                };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
-
-                var worldCapitalsLayer = new ShapeFileFeatureLayer(@".\Data\Shapefile\WorldCapitals.shp")
-                {
-                    FeatureSource =
+            var worldCapitalsLayer = new ShapeFileFeatureLayer(@".\Data\Shapefile\WorldCapitals.shp")
+            {
+                FeatureSource =
                     {
                         ProjectionConverter = new ProjectionConverter(4326, 3857)
                     }
-                };
-                worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            };
+            worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-                var worldOverlay = new LayerOverlay();
-                worldOverlay.Layers.Add("WorldCapitals", worldCapitalsLayer);
-                MapView.Overlays.Add("Overlay", worldOverlay);
+            var worldOverlay = new LayerOverlay();
+            worldOverlay.Layers.Add("WorldCapitals", worldCapitalsLayer);
+            MapView.Overlays.Add("Overlay", worldOverlay);
 
-                MapView.CurrentExtent = new RectangleShape(-15360785.1188513, 14752615.1010077, 16260907.558937, -12603279.9259404);
+            MapView.CenterPoint = new PointShape(450060, 1074670);
+            MapView.CurrentScale = 147914800;
 
-                await MapView.RefreshAsync();
-            }
-            catch 
+            _ = MapView.RefreshAsync();
+        }
+
+        private void TimeBasedPointStyle_Click(object sender, RoutedEventArgs e)
+        {
+            var worldCapitalsLayer = MapView.FindFeatureLayer("WorldCapitals");
+
+            var timeBasedPointStyle = new TimeBasedPointStyle
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+                TimeZoneColumnName = "TimeZone",
+                DaytimePointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Yellow, 12, GeoColors.Black),
+                NighttimePointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Gray, 12, GeoColors.Black)
+            };
+
+            worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
+            worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(timeBasedPointStyle);
+
+            _ = MapView.RefreshAsync();
+        }
+
+        private void SizedBasedPointStyle_Click(object sender, RoutedEventArgs e)
+        {
+            var worldCapitalsLayer = MapView.FindFeatureLayer("WorldCapitals");
+
+            var sizedpointStyle = new SizedPointStyle(PointStyle.CreateSimpleCircleStyle(GeoColors.Blue, 1), "population", 500000);
+
+            worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
+            worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(sizedpointStyle);
+
+            _ = MapView.RefreshAsync();
         }
 
         public void Dispose()
@@ -63,51 +85,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
-        }
-
-        private async void TimeBasedPointStyle_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var worldCapitalsLayer = MapView.FindFeatureLayer("WorldCapitals");
-
-                var timeBasedPointStyle = new TimeBasedPointStyle
-                {
-                    TimeZoneColumnName = "TimeZone",
-                    DaytimePointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Yellow, 12, GeoColors.Black),
-                    NighttimePointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Gray, 12, GeoColors.Black)
-                };
-
-                worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
-                worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(timeBasedPointStyle);
-
-                await MapView.RefreshAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
-        }
-
-        private async void SizedBasedPointStyle_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var worldCapitalsLayer = MapView.FindFeatureLayer("WorldCapitals");
-
-                var sizedpointStyle = new SizedPointStyle(PointStyle.CreateSimpleCircleStyle(GeoColors.Blue, 1), "population", 500000);
-
-                worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
-                worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(sizedpointStyle);
-
-                await MapView.RefreshAsync();
-            }
-            catch 
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
         }
     }
 
