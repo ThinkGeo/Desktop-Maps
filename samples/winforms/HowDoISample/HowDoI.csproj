@@ -61,20 +61,25 @@
     <Page Remove="Labeling\**" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Jint" Version="4.2.0" />
+    <PackageReference Include="Jint" Version="4.2.2" />
+
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.421302">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Windows.Compatibility" Version="9.0.2" />
-    <PackageReference Include="ThinkGeo.Cad" Version="14.3.0" />
-    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.3.0" />
-    <PackageReference Include="ThinkGeo.Gdal" Version="14.3.0" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.3.0" />
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.3.0" />
-    <PackageReference Include="ThinkGeo.Printers" Version="14.3.0" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="14.3.0" />
-    <PackageReference Include="ThinkGeo.UI.WinForms" Version="14.3.0" />
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="9.0.4" />
+
+    <PackageReference Include="ThinkGeo.Cad" Version="14.4.0-beta002" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.4.0-beta002" />
+    <PackageReference Include="ThinkGeo.Gdal" Version="14.4.0-beta002" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.4.0-beta002" />
+
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.4.0-beta002" />
+    <PackageReference Include="ThinkGeo.Printers" Version="14.4.0-beta002" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="14.4.0-beta002" />
+
+    <PackageReference Include="ThinkGeo.UI.WinForms" Version="14.4.0-beta002" />
+
   </ItemGroup>
   <ItemGroup>
     <None Remove="Resources\AQUA.png" />
