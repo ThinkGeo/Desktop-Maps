@@ -200,9 +200,6 @@
     <Compile Update="Samples\Miscellaneous\CustomBackground.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Samples\Miscellaneous\UpdateTheGPSLocation.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Update="Samples\Miscellaneous\PerfTestRefreshShapes.cs" />
     <Compile Update="Style2\RotatePointWithTextStyle.cs" />
     <Compile Update="Properties\Resources.Designer.cs">

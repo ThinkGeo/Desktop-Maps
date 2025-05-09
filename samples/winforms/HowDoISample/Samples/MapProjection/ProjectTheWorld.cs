@@ -59,10 +59,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 {
                     case "Decimal Degrees":
                         // Set the new projection converter and open it.  Next set the map to the correct map unit and lastly set the new extent
-                        layer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 4326);
-                        layer.FeatureSource.ProjectionConverter.Open();
+                        layer.FeatureSource.ProjectionConverter = null;
                         mapView.MapUnit = GeographyUnit.DecimalDegree;
-                        mapView.CurrentExtent = new RectangleShape(-176.885988320039, 121.810205234135, 168.699949179961, -92.642919765865);
+                        mapView.CurrentExtent = new RectangleShape(-76.885988320039, 21.810205234135, 68.699949179961, -72.642919765865);
                         break;
                     case "MGA Zone 55":
                         // Set the new projection converter and open it.  Next set the map to the correct map unit and lastly set the new extent
