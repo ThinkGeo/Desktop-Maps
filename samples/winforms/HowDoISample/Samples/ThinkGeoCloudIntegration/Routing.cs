@@ -16,7 +16,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private async void Form_Load(object sender, EventArgs e)
+        private void Form_Load(object sender, EventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -63,7 +63,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             routingCloudClient = new RoutingCloudClient(SampleKeys.ClientId2, SampleKeys.ClientSecret2);
 
             // Run the routing request
-            await RouteWaypointsAsync();
+            _ = RouteWaypointsAsync();
         }
         private async Task<CloudRoutingGetRouteResult> GetRoute(Collection<PointShape> waypoints)
         {
@@ -132,9 +132,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Set the map extent to the newly displayed route
             routingLayer.Open();
             mapView.CurrentExtent = routingLayer.GetBoundingBox();
+
             var standardZoomLevelSet = new ZoomLevelSet();
-            await mapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel13.Scale);
-            routingLayer.Close();
+            mapView.CurrentScale =standardZoomLevelSet.ZoomLevel13.Scale;
             await mapView.RefreshAsync();
         }
 
@@ -169,7 +169,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             await DrawRouteAsync(routingResult);
         }
 
-        private async void lsbRouteSegments_SelectedIndexChanged(object sender, EventArgs e)
+        private void lsbRouteSegments_SelectedIndexChanged(object sender, EventArgs e)
         {
             var routeSegments = (ListBox)sender;
             if (routeSegments.SelectedItem != null)
@@ -185,9 +185,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 var standardZoomLevelSet = new ZoomLevelSet();
                 if (mapView.CurrentScale < standardZoomLevelSet.ZoomLevel15.Scale)
                 {
-                    await mapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel15.Scale);
+                    mapView.CurrentScale = standardZoomLevelSet.ZoomLevel15.Scale;
+                    //await mapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel15.Scale);
                 }
-                await mapView.RefreshAsync();
+                _ = mapView.RefreshAsync();
             }
         }
 

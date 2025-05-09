@@ -21,6 +21,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Create a new overlay that will hold our new layer and add it to the map.
             var layerOverlay = new LayerOverlay();
+            layerOverlay.TileType = TileType.SingleTile;
             mapView.Overlays.Add("world overlay", layerOverlay);
 
             // Create the world layer, it will be decimal degrees at first, but we will be able to change it
@@ -43,8 +44,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void Radial_CheckChanged(object sender, EventArgs e)
         {
-
             var radioButton = (RadioButton)sender;
+            if (radioButton == null)
+                return;
+
+            if (!radioButton.Checked)
+                return;
+
             var layer = mapView.FindFeatureLayer("world layer");
 
             if (layer != null)

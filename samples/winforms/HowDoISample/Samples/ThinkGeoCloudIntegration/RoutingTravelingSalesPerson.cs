@@ -211,7 +211,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 var standardZoomLevelSet = new ZoomLevelSet();
                 if (mapView.CurrentScale < standardZoomLevelSet.ZoomLevel15.Scale)
                 {
-                    await mapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel15.Scale);
+                    //await mapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel15.Scale);
+                    mapView.CurrentScale = standardZoomLevelSet.ZoomLevel15.Scale;
                 }
                 await mapView.RefreshAsync();
             }

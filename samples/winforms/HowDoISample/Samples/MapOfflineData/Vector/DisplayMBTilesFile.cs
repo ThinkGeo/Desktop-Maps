@@ -44,6 +44,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void SwitchTileSize_OnCheckedChanged(object sender, EventArgs e)
         {
+            var radioButton = sender as RadioButton;
+            if (radioButton == null)
+                return;
+
+            if (!radioButton.Checked)
+                return;
+
             if (mapView.Overlays.Count <= 0) return;
 
             if (!(_layerOverlay.Layers[0] is VectorMbTilesAsyncLayer mbTilesLayer))

@@ -14,7 +14,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private async void Form_Load(object sender, EventArgs e)
+        private void Form_Load(object sender, EventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -41,7 +41,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             cboSearchType.SelectedIndex = 0;
             cboLocationType.SelectedIndex = 0;
 
-            await mapView.RefreshAsync();
+            _ = mapView.RefreshAsync();
         }
 
         private async Task<CloudGeocodingResult> PerformGeocodingQuery()
@@ -76,7 +76,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Clear the locations list and existing location markers on the map
             var geocodedLocationOverlay = (SimpleMarkerOverlay)mapView.Overlays["Geocoded Locations Overlay"];
             geocodedLocationOverlay.Markers.Clear();
-            lsbLocations.DataSource = null;
             await geocodedLocationOverlay.RefreshAsync();
 
             // Update the UI with the number of results found and the list of locations found
@@ -93,59 +92,53 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void btnSearch_Click(object sender, EventArgs e)
         {
             // Perform some simple validation on the input text boxes
-            if (ValidateSearchParameters())
+            if (!ValidateSearchParameters()) return;
+            // Run the Cloud Geocoding query
+            var searchResult = await PerformGeocodingQuery();
+
+            // Handle an error returned from the geocoding service
+            if (searchResult.Exception != null)
             {
-                // Run the Cloud Geocoding query
-                var searchResult = await PerformGeocodingQuery();
-
-                // Handle an error returned from the geocoding service
-                if (searchResult.Exception != null)
-                {
-                    MessageBox.Show(searchResult.Exception.Message, "Error");
-                    return;
-                }
-
-                // Update the UI based on the results
-                await UpdateSearchResultsOnUIAsync(searchResult);
+                MessageBox.Show(searchResult.Exception.Message, "Error");
+                return;
             }
+
+            // Update the UI based on the results
+            await UpdateSearchResultsOnUIAsync(searchResult);
         }
 
-        private async void lsbLocations_SelectedIndexChanged(object sender, EventArgs e)
+        private void lsbLocations_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Get the selected location
             var chosenLocation = lsbLocations.SelectedItem as CloudGeocodingLocation;
-            if (chosenLocation != null)
-            {
-                // Get the MarkerOverlay from the MapView
-                var geocodedLocationOverlay = (SimpleMarkerOverlay)mapView.Overlays["Geocoded Locations Overlay"];
+            if (chosenLocation == null) return;
+            // Get the MarkerOverlay from the MapView
+            var geocodedLocationOverlay = (SimpleMarkerOverlay)mapView.Overlays["Geocoded Locations Overlay"];
 
-                // Clear the existing markers and add a new marker at the chosen location
-                geocodedLocationOverlay.Markers.Clear();
-                geocodedLocationOverlay.Markers.Add(CreateNewMarker(chosenLocation.LocationPoint));
+            // Clear the existing markers and add a new marker at the chosen location
+            geocodedLocationOverlay.Markers.Clear();
+            geocodedLocationOverlay.Markers.Add(CreateNewMarker(chosenLocation.LocationPoint));
 
-                // Center the map on the chosen location
-                mapView.CurrentExtent = chosenLocation.BoundingBox;
-                var standardZoomLevelSet = new ZoomLevelSet();
-                await mapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel18.Scale);
-                await mapView.RefreshAsync();
-            }
+            // Center the map on the chosen location
+            mapView.CurrentExtent = chosenLocation.BoundingBox;
+            var standardZoomLevelSet = new ZoomLevelSet();
+            mapView.CurrentScale = standardZoomLevelSet.ZoomLevel18.Scale;
+            _ = mapView.RefreshAsync();
         }
 
         private void cboSearchType_SelectedIndexChanged(object sender, EventArgs e)
         {
             var comboBoxContent = cboSearchType.SelectedItem.ToString();
 
-            if (comboBoxContent != null)
+            if (comboBoxContent == null) return;
+            switch (comboBoxContent)
             {
-                switch (comboBoxContent)
-                {
-                    case "Fuzzy":
-                        txtSearchTypeDescription.Text = "(Returns both exact and approximate matches for the search address)";
-                        break;
-                    case "Exact":
-                        txtSearchTypeDescription.Text = "(Only returns exact matches for the search address)";
-                        break;
-                }
+                case "Fuzzy":
+                    txtSearchTypeDescription.Text = "(Returns both exact and approximate matches for the search address)";
+                    break;
+                case "Exact":
+                    txtSearchTypeDescription.Text = "(Only returns exact matches for the search address)";
+                    break;
             }
         }
 
@@ -153,32 +146,30 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             var comboBoxContent = cboLocationType.SelectedItem.ToString();
 
-            if (comboBoxContent != null)
+            if (comboBoxContent == null) return;
+            switch (comboBoxContent)
             {
-                switch (comboBoxContent)
-                {
-                    case "Default":
-                        txtLocationTypeDescription.Text = "(Searches for any matches to the search string)";
-                        break;
-                    case "Address":
-                        txtLocationTypeDescription.Text = "(Searches for addresses matching the search string)";
-                        break;
-                    case "Street":
-                        txtLocationTypeDescription.Text = "(Searches for streets matching the search string)";
-                        break;
-                    case "City":
-                        txtLocationTypeDescription.Text = "(Searches for cities matching the search string)";
-                        break;
-                    case "County":
-                        txtLocationTypeDescription.Text = "(Searches for counties matching the search string)";
-                        break;
-                    case "ZipCode":
-                        txtLocationTypeDescription.Text = "(Searches for zip codes matching the search string)";
-                        break;
-                    case "State":
-                        txtLocationTypeDescription.Text = "(Searches for states matching the search string)";
-                        break;
-                }
+                case "Default":
+                    txtLocationTypeDescription.Text = "(Searches for any matches to the search string)";
+                    break;
+                case "Address":
+                    txtLocationTypeDescription.Text = "(Searches for addresses matching the search string)";
+                    break;
+                case "Street":
+                    txtLocationTypeDescription.Text = "(Searches for streets matching the search string)";
+                    break;
+                case "City":
+                    txtLocationTypeDescription.Text = "(Searches for cities matching the search string)";
+                    break;
+                case "County":
+                    txtLocationTypeDescription.Text = "(Searches for counties matching the search string)";
+                    break;
+                case "ZipCode":
+                    txtLocationTypeDescription.Text = "(Searches for zip codes matching the search string)";
+                    break;
+                case "State":
+                    txtLocationTypeDescription.Text = "(Searches for states matching the search string)";
+                    break;
             }
         }
         private bool ValidateSearchParameters()
