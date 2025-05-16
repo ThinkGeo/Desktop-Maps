@@ -12,11 +12,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     public partial class BasicMapEvents : IDisposable
     {
         private ShapeFileFeatureLayer _friscoCityBoundary;
-        public event PropertyChangedEventHandler PropertyChanged;
         public ObservableCollection<string> LogMessages { get; } = new ObservableCollection<string>();
         public ObservableCollection<string> FilteredLogMessages { get; } = new ObservableCollection<string>();
         private int _logIndex = 0;
 
+        public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -102,7 +102,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     FilteredLogMessages.Add(log);
                 else if (ShowExtentOverlayLogs && log.Contains("ExtentOverlay"))
                 {
-                    // Filter Mouse Move events correctly
+                    // Filter Mouse Move events 
                     if (ShowMouseMoveLogs || !log.Contains("MouseMove"))
                         FilteredLogMessages.Add(log);
                 }
@@ -126,107 +126,99 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map and a shapefile with simple data to work with
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            // Set the map's unit of measurement to meters(Spherical Mercator)
+            MapView.MapUnit = GeographyUnit.Meter;
+
+            // Load MapView Events
+            MapView.CollectedMapArguments += MapView_CollectedMapArguments;
+            MapView.ContextMenuClosing += MapView_ContextMenuClosing;
+            MapView.ContextMenuOpening += MapView_ContextMenuOpening;
+            MapView.CurrentExtentChanged += MapView_CurrentExtentChanged;
+            MapView.CurrentExtentChanging += MapView_CurrentExtentChanging;
+            MapView.CurrentScaleChanged += MapView_CurrentScaleChanged;
+            MapView.CurrentScaleChanging += MapView_CurrentScaleChanging;
+
+            // Load Overlays Events
+            MapView.Overlays.Adding += Overlays_Adding;
+            MapView.Overlays.Added += Overlays_Added;
+            MapView.Overlays.ClearedItems += Overlays_ClearedItems;
+            MapView.Overlays.ClearingItems += Overlays_ClearingItems;
+            MapView.Overlays.CollectionChanged += Overlays_CollectionChanged;
+            MapView.Overlays.Inserted += Overlays_Inserted;
+            MapView.Overlays.Inserting += Overlays_Inserting;
+            MapView.Overlays.MovedItem += Overlays_MovedItem;
+            MapView.Overlays.PropertyChanged += Overlays_PropertyChanged;
+            MapView.Overlays.Removed += Overlays_Removed;
+            MapView.Overlays.Removing += Overlays_Removing;
+
+            // Load ExtentOverlay Events
+            MapView.ExtentOverlay.Drawing += ExtentOverlay_Drawing;
+            MapView.ExtentOverlay.DrawingAttribution += ExtentOverlay_DrawingAttribution;
+            MapView.ExtentOverlay.Drawn += ExtentOverlay_Drawn;
+            MapView.ExtentOverlay.DrawnAttribution += ExtentOverlay_DrawnAttribution;
+            MapView.ExtentOverlay.MapKeyDown += ExtentOverlay_MapKeyDown;
+            MapView.ExtentOverlay.MapMouseClick += ExtentOverlay_MapMouseClick;
+            MapView.ExtentOverlay.MapMouseDoubleClick += ExtentOverlay_MapMouseDoubleClick;
+            MapView.ExtentOverlay.MapMouseDown += ExtentOverlay_MapMouseDown;
+            MapView.ExtentOverlay.MapMouseEnter += ExtentOverlay_MapMouseEnter;
+            MapView.ExtentOverlay.MapMouseLeave += ExtentOverlay_MapMouseLeave;
+            MapView.ExtentOverlay.MapMouseMove += ExtentOverlay_MapMouseMove;
+            MapView.ExtentOverlay.MapMouseUp += ExtentOverlay_MapMouseUp;
+            MapView.ExtentOverlay.MapMouseWheel += ExtentOverlay_MapMouseWheel;
+            MapView.ExtentOverlay.ThrowingException += ExtentOverlay_ThrowingException;
+
+
+            // Load the Frisco data to a layer
+            _friscoCityBoundary = new ShapeFileFeatureLayer(@"./Data/Shapefile/City_ETJ.shp")
             {
-                // Set the map's unit of measurement to meters(Spherical Mercator)
-                MapView.MapUnit = GeographyUnit.Meter;
-
-                // Load MapView Events
-                MapView.CollectedMapArguments += MapView_CollectedMapArguments;
-                MapView.ContextMenuClosing += MapView_ContextMenuClosing;
-                MapView.ContextMenuOpening += MapView_ContextMenuOpening;
-                MapView.CurrentExtentChanged += MapView_CurrentExtentChanged;
-                MapView.CurrentExtentChanging += MapView_CurrentExtentChanging;
-                MapView.CurrentScaleChanged += MapView_CurrentScaleChanged;
-                MapView.CurrentScaleChanging += MapView_CurrentScaleChanging;
-
-                // Load Overlays Events
-                MapView.Overlays.Adding += Overlays_Adding;
-                MapView.Overlays.Added += Overlays_Added;
-                MapView.Overlays.ClearedItems += Overlays_ClearedItems;
-                MapView.Overlays.ClearingItems += Overlays_ClearingItems;
-                MapView.Overlays.CollectionChanged += Overlays_CollectionChanged;
-                MapView.Overlays.Inserted += Overlays_Inserted;
-                MapView.Overlays.Inserting += Overlays_Inserting;
-                MapView.Overlays.MovedItem += Overlays_MovedItem;
-                MapView.Overlays.PropertyChanged += Overlays_PropertyChanged;
-                MapView.Overlays.Removed += Overlays_Removed;
-                MapView.Overlays.Removing += Overlays_Removing;
-
-                // Load ExtentOverlay Events
-                MapView.ExtentOverlay.Drawing += ExtentOverlay_Drawing;
-                MapView.ExtentOverlay.DrawingAttribution += ExtentOverlay_DrawingAttribution;
-                MapView.ExtentOverlay.Drawn += ExtentOverlay_Drawn;
-                MapView.ExtentOverlay.DrawnAttribution += ExtentOverlay_DrawnAttribution;
-                MapView.ExtentOverlay.MapKeyDown += ExtentOverlay_MapKeyDown;
-                MapView.ExtentOverlay.MapMouseClick += ExtentOverlay_MapMouseClick;
-                MapView.ExtentOverlay.MapMouseDoubleClick += ExtentOverlay_MapMouseDoubleClick;
-                MapView.ExtentOverlay.MapMouseDown += ExtentOverlay_MapMouseDown;
-                MapView.ExtentOverlay.MapMouseEnter += ExtentOverlay_MapMouseEnter;
-                MapView.ExtentOverlay.MapMouseLeave += ExtentOverlay_MapMouseLeave;
-                MapView.ExtentOverlay.MapMouseMove += ExtentOverlay_MapMouseMove;
-                MapView.ExtentOverlay.MapMouseUp += ExtentOverlay_MapMouseUp;
-                MapView.ExtentOverlay.MapMouseWheel += ExtentOverlay_MapMouseWheel;
-                MapView.ExtentOverlay.ThrowingException += ExtentOverlay_ThrowingException;
-
-
-                // Load the Frisco data to a layer
-                _friscoCityBoundary = new ShapeFileFeatureLayer(@"./Data/Shapefile/City_ETJ.shp")
-                {
-                    FeatureSource =
+                FeatureSource =
                     {
                         // Convert the Frisco shapefile from its native projection to Spherical Mercator, to match the map
                         ProjectionConverter = new ProjectionConverter(2276, 3857)
                     }
-                };
+            };
 
-                // Style the data so that we can see it on the map
-                _friscoCityBoundary.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(100, GeoColors.Blue), GeoColors.DimGray, 2);
-                _friscoCityBoundary.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            // Style the data so that we can see it on the map
+            _friscoCityBoundary.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(100, GeoColors.Blue), GeoColors.DimGray, 2);
+            _friscoCityBoundary.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-                // Add Frisco data to a LayerOverlay and add it to the map
-                var layerOverlay = new LayerOverlay();
+            // Add Frisco data to a LayerOverlay and add it to the map
+            var layerOverlay = new LayerOverlay();
 
-                // Load LayerOverlay Events
-                layerOverlay.Drawing += LayerOverlay_Drawing;
-                layerOverlay.DrawingAttribution += LayerOverlay_DrawingAttribution;
-                layerOverlay.DrawingException += LayerOverlay_DrawingException;
-                layerOverlay.DrawingTile += LayerOverlay_DrawingTile;
-                layerOverlay.Drawn += LayerOverlay_Drawn;
-                layerOverlay.DrawnAttribution += LayerOverlay_DrawnAttribution;
-                layerOverlay.DrawnException += LayerOverlay_DrawnException;
-                layerOverlay.DrawnTile += LayerOverlay_DrawnTile;
-                layerOverlay.DrawTilesProgressChanged += LayerOverlay_DrawTilesProgressChanged;
-                layerOverlay.ThrowingException += LayerOverlay_ThrowingException;
-                layerOverlay.TileTypeChanged += LayerOverlay_TileTypeChanged;
-                layerOverlay.TileTypeChanging += LayerOverlay_TileTypeChanging;
+            // Load LayerOverlay Events
+            layerOverlay.Drawing += LayerOverlay_Drawing;
+            layerOverlay.DrawingAttribution += LayerOverlay_DrawingAttribution;
+            layerOverlay.DrawingException += LayerOverlay_DrawingException;
+            layerOverlay.DrawingTile += LayerOverlay_DrawingTile;
+            layerOverlay.Drawn += LayerOverlay_Drawn;
+            layerOverlay.DrawnAttribution += LayerOverlay_DrawnAttribution;
+            layerOverlay.DrawnException += LayerOverlay_DrawnException;
+            layerOverlay.DrawnTile += LayerOverlay_DrawnTile;
+            layerOverlay.DrawTilesProgressChanged += LayerOverlay_DrawTilesProgressChanged;
+            layerOverlay.ThrowingException += LayerOverlay_ThrowingException;
+            layerOverlay.TileTypeChanged += LayerOverlay_TileTypeChanged;
+            layerOverlay.TileTypeChanging += LayerOverlay_TileTypeChanging;
 
-                layerOverlay.Layers.Add(_friscoCityBoundary);
-                MapView.Overlays.Add(layerOverlay);
+            layerOverlay.Layers.Add(_friscoCityBoundary);
+            MapView.Overlays.Add(layerOverlay);
 
-                // Set the map extent
-                MapView.CurrentExtent = new RectangleShape(-10786436, 3909518, -10769429, 3908502);
+            // Set the map extent
+            MapView.CurrentExtent = new RectangleShape(-10786436, 3909518, -10769429, 3908502);
 
-                // Load ShapeFileFeatureLayer Events
-                _friscoCityBoundary.DrawingFeatures += _friscoCityBoundary_DrawingFeatures;
-                _friscoCityBoundary.DrawingException += _friscoCityBoundary_DrawingException;
-                _friscoCityBoundary.DrawingProgressChanged += _friscoCityBoundary_DrawingProgressChanged;
-                _friscoCityBoundary.DrawingWrappingFeatures += _friscoCityBoundary_DrawingWrappingFeatures;
-                _friscoCityBoundary.DrawnException += _friscoCityBoundary_DrawnException;
-                _friscoCityBoundary.RequestedDrawing += _friscoCityBoundary_RequestedDrawing;
-                _friscoCityBoundary.RequestingDrawing += _friscoCityBoundary_RequestingDrawing;
-                _friscoCityBoundary.StreamLoading += _friscoCityBoundary_StreamLoading;
+            // Load ShapeFileFeatureLayer Events
+            _friscoCityBoundary.DrawingFeatures += _friscoCityBoundary_DrawingFeatures;
+            _friscoCityBoundary.DrawingException += _friscoCityBoundary_DrawingException;
+            _friscoCityBoundary.DrawingProgressChanged += _friscoCityBoundary_DrawingProgressChanged;
+            _friscoCityBoundary.DrawingWrappingFeatures += _friscoCityBoundary_DrawingWrappingFeatures;
+            _friscoCityBoundary.DrawnException += _friscoCityBoundary_DrawnException;
+            _friscoCityBoundary.RequestedDrawing += _friscoCityBoundary_RequestedDrawing;
+            _friscoCityBoundary.RequestingDrawing += _friscoCityBoundary_RequestingDrawing;
+            _friscoCityBoundary.StreamLoading += _friscoCityBoundary_StreamLoading;
 
-                await MapView.PanByDirectionAsync(PanDirection.Up, 20);
-                await MapView.RefreshAsync();
-            }
-            catch
-            {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
-            }
+            _ = MapView.PanByDirectionAsync(PanDirection.Up, 20);
+
         }
 
         // MapView Events Triggered Methods
@@ -860,7 +852,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     var category = "FeatureLayer";
                     var message = $"DrawingFeatures [Zoom Level Scale: {e.DrawingZoomLevel.Scale}]";
                     AppendLog(category, message);
-                }                
+                }
             });
         }
 

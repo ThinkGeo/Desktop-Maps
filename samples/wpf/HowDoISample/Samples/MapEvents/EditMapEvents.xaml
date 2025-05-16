@@ -10,16 +10,35 @@
         <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded"/>
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1" Grid.Row="0" Content="Interactive Controls:" FontWeight="Bold" FontSize="16"/>
-            <RadioButton Grid.Column="1" Grid.Row="1" x:Name="DrawPolygon" Content="Draw Polygon" Click="DrawPolygon_Click"></RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="2" x:Name="EditShape" Content="Edit Shape" Click="EditShape_Click"></RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="1" x:Name="DrawPolygon" Content="Draw Polygon" Click="DrawPolygon_Click" FontSize="14" FontWeight="Bold" IsChecked="True"></RadioButton>
+            <RadioButton Grid.Column="1" Grid.Row="2" x:Name="EditShape" Content="Edit Shape" Click="EditShape_Click" FontSize="14" FontWeight="Bold"></RadioButton>
 
-            <TextBlock Grid.Column="1" Grid.Row="3" Text="Basic Map Events:"  Margin="4" />
+            <TextBlock Grid.Column="1" Grid.Row="3" Text="Edit Map Events:" Margin="4" FontSize="16" FontWeight="Bold"/>
             <CheckBox Grid.Column="1" Grid.Row="4" FontSize="14" FontWeight="Bold" Foreground="White" 
-            IsChecked="{Binding ShowMapViewLogs, Mode=TwoWay}"
-            Margin="4" Content="MapView Events"/>
-            <CheckBox Grid.Row="2" FontSize="14" FontWeight="Bold" Foreground="White" 
-            IsChecked="{Binding ShowOverlaysLogs, Mode=TwoWay}"
-            Margin="4" Content="Overlays Events"/>
+                      IsChecked="{Binding ShowTrackOverlayLogs, Mode=TwoWay}"
+                      Margin="4" Content="TrackOverlay Events"/>
+            <CheckBox Grid.Column="1" Grid.Row="5" FontSize="14" FontWeight="Bold" Foreground="White" 
+                      IsChecked="{Binding ShowTrackOverlayMouseMoveLogs, Mode=TwoWay}"
+                      Margin="20,4,4,4" Content="MouseMove Events"/>
+            <CheckBox Grid.Column ="1" Grid.Row="6" FontSize="14" FontWeight="Bold" Foreground="White" 
+                      IsChecked="{Binding ShowEditOverlayLogs, Mode=TwoWay}"
+                      Margin="4" Content="EditOverlay Events"/>
+            <CheckBox Grid.Column="1" Grid.Row="7" FontSize="14" FontWeight="Bold" Foreground="White" 
+                      IsChecked="{Binding ShowEditOverlayMouseMoveLogs, Mode=TwoWay}"
+                      Margin="20,4,4,4" Content="MouseMove Events"/>
+            <ListBox  Grid.Column ="1" Grid.Row="8" Margin="5"  x:Name="LogListBox"
+                      ItemsSource="{Binding Path =FilteredLogMessages}"
+                      VirtualizingStackPanel.IsVirtualizing="True"
+                      VirtualizingStackPanel.VirtualizationMode="Recycling"
+                      VerticalAlignment="Stretch"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" TextWrapping="Wrap" 
+                        Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ListBox}}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />
@@ -27,6 +46,11 @@
                 <ColumnDefinition Width="5" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
