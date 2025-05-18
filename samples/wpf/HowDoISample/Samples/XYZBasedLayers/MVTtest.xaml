@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.MVTtest" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf" 
+             Background="White" mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="6*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+
+        <thinkGeoUi:MapView x:Name="MapView" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Loaded="MapView_Loaded" />
+
+        <TextBlock Grid.Column="0" Grid.Row="1" Background="gray" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                   Height="30" FontSize="20" Text="{Binding ElementName=MapView, Path=CurrentZoom, StringFormat={}Zoom: {0:N2}}" />
+
+        <ComboBox Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Center" Background="Gray" 
+                  Height="30" FontSize="20" SelectedIndex="0" SelectionChanged="Selector_OnSelectionChanged">
+            <!-- The following jsons come from: https://github.com/maplibre/demotiles?tab=readme-ov-file -->
+            <ComboBoxItem Content="https://demotiles.maplibre.org/style.json" />
+            <ComboBoxItem Content="https://demotiles.maplibre.org/styles/osm-bright-gl-style/style.json" />
+            <ComboBoxItem Content="https://demotiles.maplibre.org/styles/osm-bright-gl-terrain/style.json" />
+            <ComboBoxItem Content="https://demotiles.maplibre.org/debug-tiles/style.json" />
+            <ComboBoxItem Content="https://tiles.preludemaps.com/styles/TG_Savannah_Light/style.json" />
+        </ComboBox>
+
+        <Grid Grid.Row="0" Grid.Column="1" Margin="10" Background="LightGray">
+            <TextBox x:Name="JsonContentTextBox" TextWrapping="Wrap" AcceptsReturn="True" 
+                     VerticalScrollBarVisibility="Auto" FontFamily="Consolas" FontSize="12" />
+        </Grid>
+
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" Margin="10">
+            <Button x:Name="ApplyChangesButton" Content="modification" Click="ApplyChangesButton_Click" 
+                    Margin="0,0,0,10" Padding="10" />
+            <TextBlock x:Name="StatusTextBlock" Text="show" Foreground="Gray" />
+        </StackPanel>
+
+    </Grid>
+</UserControl>
