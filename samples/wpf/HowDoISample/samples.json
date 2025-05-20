@@ -422,6 +422,12 @@
     "title": "Vector Data Styling",
     "children": [
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.RenderStyleJson",
+        "title": "Render StyleJson",
+        "description": "Render shapes using styleJson.",
+        "source": "Samples/VectorDataStyling/RenderStyleJson"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.RenderPoints",
         "title": "Render Points",
         "description": "Render points using a PointStyle.",

@@ -34,10 +34,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             var mvtLayer = new MvtTilesAsyncLayer(_selectedWvtServer);
             layerOverlay.Layers.Add(mvtLayer);
-
+            MapView.Overlays.Add(layerOverlay);
             await mvtLayer.OpenAsync();
             MapView.CurrentExtent = mvtLayer.GetBoundingBox();
-            MapView.Overlays.Add(layerOverlay);
 
             await MapView.RefreshAsync();
         }
@@ -84,18 +83,31 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.Overlays.Clear();
             MapView.ZoomScales = new SphericalMercatorZoomLevelSet(tileSize).GetScales();
 
-            var layerOverlay = new LayerOverlay();
-            layerOverlay.TileType = singleTile ? TileType.SingleTile : TileType.MultiTile;
-            layerOverlay.TileWidth = tileSize;
-            layerOverlay.TileHeight = tileSize;
+            if (!_dynamicLabeling)
+            {
+                var layerOverlay = new LayerOverlay();
 
-            var mvtLayer = new MvtTilesAsyncLayer(mvtServer);
-            mvtLayer.TileWidth = tileSize;
-            mvtLayer.TileHeight = tileSize;
-            layerOverlay.Layers.Add(mvtLayer);
+                var mvtLayer = new MvtTilesAsyncLayer(mvtServer);
+                mvtLayer.TileMatrixSet = TileMatrixSet.CreateTileMatrixSet(tileSize, MaxExtents.SphericalMercator, GeographyUnit.Meter);
+                layerOverlay.Layers.Add(mvtLayer);
+                layerOverlay.TileType = singleTile ? TileType.SingleTile : TileType.MultiTile;
+                MapView.Overlays.Add(layerOverlay);
+            }
+            else
+            {
+                var layerOverlay = new LayerOverlay();
+                layerOverlay.TileType = TileType.MultiTile;
+                var mvtLayer1 = new MvtTilesAsyncLayer(_selectedWvtServer);
+                mvtLayer1.LabelDisplayMode = LabelDisplayMode.ShapesOnly;
+                layerOverlay.Layers.Add(mvtLayer1);
+                MapView.Overlays.Add(layerOverlay);
 
-            MapView.Overlays.Add(layerOverlay);
-
+                var drawingOverlay = new FeatureLayerWpfDrawingOverlay();
+                var mvtLayer2 = new MvtTilesAsyncLayer(_selectedWvtServer);
+                mvtLayer2.LabelDisplayMode = LabelDisplayMode.LabelsOnly;
+                drawingOverlay.FeatureLayers.Add(mvtLayer2);
+                MapView.Overlays.Add(drawingOverlay);
+            }
             await MapView.RefreshAsync();
         }
         public void Dispose()
@@ -105,6 +117,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
+        }
+
+        private bool _dynamicLabeling = false;
+
+        private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
+        {
+            var checkBox = sender as CheckBox;
+            _dynamicLabeling = checkBox.IsChecked.Value;
+
+            _ = RefreshMvtAsync(_selectedWvtServer, 512, false);
         }
     }
 }
