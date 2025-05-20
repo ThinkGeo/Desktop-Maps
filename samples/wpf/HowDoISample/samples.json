@@ -3,6 +3,12 @@
     "title": "Map Navigation",
     "children": [
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.StyleJsonfill",
+        "title": "fill",
+        "description": "",
+        "source": "Samples/VectorDataStyling/StyleJsonfill"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.NavigationMap",
         "title": "Map Navigation",
         "description": "Learn how to zoom, pan, and rotate the map control.",
