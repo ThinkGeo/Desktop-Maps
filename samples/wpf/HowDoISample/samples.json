@@ -9,12 +9,6 @@
         "source": "Samples/MapNavigation/NavigationMap"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.MVTtest",
-        "title": "MVTtest",
-        "description": "This sample shows how to Change style json.",
-        "source": "Samples/XYZBasedLayers/MVTtest"
-      },
-      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.ZoomToBlackHole",
         "title": "Zoom to the Black Hole",
         "description": "Zoom into images by giving them scales and center points.",
