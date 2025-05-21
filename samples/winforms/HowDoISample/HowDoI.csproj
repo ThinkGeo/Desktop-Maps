@@ -120,6 +120,7 @@
     <None Remove="Resources\TabButtonOn.png" />
     <None Remove="Resources\ThinkGeoLogo.png" />
     <None Remove="Resources\vandalism_icon.png" />
+    <None Remove="Resources\vehicle_location.png" />
     <None Remove="Resources\VirtualEarthResult.png" />
     <None Remove="Resources\weapon_icon.png" />
     <None Remove="Resources\West.gif" />
@@ -142,6 +143,9 @@
     <Resource Include="Resources\South.gif" />
     <Resource Include="Resources\ThinkGeoLogo.png" />
     <Resource Include="Resources\vandalism_icon.png" />
+    <Resource Include="Resources\vehicle_location.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\weapon_icon.png" />
     <Resource Include="Resources\West.gif" />
     <Resource Include="Resources\ZoomIn.png" />
