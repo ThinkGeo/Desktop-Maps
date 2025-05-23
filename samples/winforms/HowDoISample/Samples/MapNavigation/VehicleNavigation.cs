@@ -106,6 +106,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }));
 
             _ = ZoomToGpsPointsAsync(_gpsPoints);
+
+            mapView.CurrentExtentChanged += (s, args) =>
+            {
+                if (_vehicleMarker != null)
+                {
+                    angleLabel.Text = $"Angle: {_vehicleMarker.RotateAngle:N2}°";
+                }
+            };
         }
 
         private void AnimateTo(RectangleShape fromExtent, RectangleShape toExtent, int durationMs = 1000)
@@ -118,24 +126,25 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             double fromResolution = GetResolution(fromExtent);
             double toResolution = GetResolution(toExtent);
 
-            timer.Tick += (s, e) =>
+            var fromCenter = fromExtent.GetCenterPoint();
+            var toCenter = toExtent.GetCenterPoint();
+
+            timer.Tick += async (s, e) =>
             {
                 currentStep++;
                 double progress = (double)currentStep / steps;
 
                 // Interpolate center
-                var fromCenter = fromExtent.GetCenterPoint();
-                var toCenter = toExtent.GetCenterPoint();
                 var currentCenter = new PointShape(
                     fromCenter.X + (toCenter.X - fromCenter.X) * progress,
                     fromCenter.Y + (toCenter.Y - fromCenter.Y) * progress);
-
+                
                 // Interpolate resolution
                 double currentResolution = fromResolution + (toResolution - fromResolution) * progress;
                 var currentExtent = GetExtentFromCenterAndResolution(currentCenter, currentResolution);
 
                 mapView.CurrentExtent = currentExtent;
-                mapView.Refresh();
+                await mapView.RefreshAsync();
 
                 // Call your method like WPF does
                 UpdateRoutesAndMarker(progress);
@@ -174,6 +183,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 try
                 {
                     await ZoomToGpsPointAsync(gpsPoints, _currentGpsPointIndex, _cancellationTokenSource.Token);
+                    await Task.Delay(1000);
                 }
                 catch (TaskCanceledException)
                 {
@@ -185,7 +195,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
         }
 
-        private void UpdateRoutesAndMarker(double progress, double angle = 0)
+        private async void UpdateRoutesAndMarker(double progress, double angle = 0)
         {
             if (_currentGpsPointIndex == 0)
                 return;
@@ -199,10 +209,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var x = (toPoint.X - fromPoint.X) * progress + fromPoint.X;
             var y = (toPoint.Y - fromPoint.Y) * progress + fromPoint.Y;
 
-            if (_visitedVertices.Count > 0 && !MapUtil.IsSamePoint(_visitedVertices[_visitedVertices.Count - 1], _gpsPoints[_currentGpsPointIndex - 1]))
-            {
-                _visitedVertices.RemoveAt(_visitedVertices.Count - 1);
-            }
+            //if (_visitedVertices.Count > 0 && !MapUtil.IsSamePoint(_visitedVertices[_visitedVertices.Count - 1], _gpsPoints[_currentGpsPointIndex - 1]))
+            //{
+            //    _visitedVertices.RemoveAt(_visitedVertices.Count - 1);
+            //}
 
             UpdateVisitedRoutes(new Vertex(x, y));
 
@@ -221,9 +231,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Add it back
             _markerOverlay.Markers.Add(_vehicleMarker);
 
-            _ = _markerOverlay.RefreshAsync();
+            await _markerOverlay.RefreshAsync();
+            await _routesOverlay.RefreshAsync();
             Application.DoEvents(); 
-            Task.Delay(500);   
+            await Task.Delay(500);   
         }
 
         private void UpdateVisitedRoutes(Vertex newVertex)
@@ -247,13 +258,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             if (_showOverview)
             {
-                var totalTime = 1000.0; // Set a 1-second animation
+                var totalTime = 2000.0; // Set a 1-second animation
                 var currentTime = DateTime.Now;
 
                 while (true)
                 {
                     if (cancellationToken.IsCancellationRequested)
-                        await Task.Delay(500);
+                        await Task.Delay(1000);
                     double duration = (DateTime.Now - currentTime).TotalMilliseconds;
                     var process = duration / totalTime;
 
@@ -263,7 +274,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                     UpdateRoutesAndMarker(process, angle);
 
                     await _routesOverlay.RefreshAsync();
-                    await Task.Delay(1);
+                    await Task.Delay(100);
                 }
             }
             else
@@ -271,9 +282,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 var currentLocation = gpsPoints[gpsPointIndex];
                 var centerPoint = new PointShape(currentLocation);
                 // Recenter the map to display the GPS location 200 pixels towards the bottom for improved visibility.
-                centerPoint = MapUtil.OffsetPointWithScreenOffset(centerPoint, 0, 200, angle, DefaultScale, mapView.MapUnit);
+                centerPoint = MapUtil.OffsetPointWithScreenOffset(centerPoint, 0, 100, angle, DefaultScale, mapView.MapUnit);
 
-                //UpdateRoutesAndMarker(0, angle);
+                UpdateRoutesAndMarker(0);
                 await mapView.ZoomToAsync(centerPoint, DefaultScale, angle, cancellationToken);
             }
         }
@@ -321,17 +332,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             return -angle;
         }
 
-        private void RefreshCancellationToken()
-        {
-            _cancellationTokenSource.Cancel();
-            _cancellationTokenSource.Dispose();
-            _cancellationTokenSource = new CancellationTokenSource();
-        }
 
         #region Component Designer generated code
 
-        private Button zoomToBlackHoleButton;
-        private Label scaleLabel;
+        private Button OverviewButton;
+        private Label angleLabel;
         private MapView mapView;
         private PictureBox northArrowPictureBox;
         private CheckBox aerialBackgroundCheckBox;
@@ -341,8 +346,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private void InitializeComponent()
         {
             mapView = new ThinkGeo.UI.WinForms.MapView();
-            zoomToBlackHoleButton = new Button();
-            scaleLabel = new Label();
+            OverviewButton = new Button();
+            aerialBackgroundCheckBox = new CheckBox();
+            angleLabel = new Label();
             SuspendLayout();
             // 
             // mapView
@@ -358,33 +364,45 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.RestrictExtent = null;
             this.mapView.RotationAngle = 0F;
             this.mapView.TabIndex = 0;
-            this.mapView.Controls.Add(this.zoomToBlackHoleButton);
+            this.mapView.Controls.Add(this.OverviewButton);
+            this.Controls.Add(this.aerialBackgroundCheckBox);
             // 
-            // zoomToBlackHoleButton
+            // OverviewButton
             // 
-            zoomToBlackHoleButton.Text = "Zoom To M87 Black Hole";
-            zoomToBlackHoleButton.Location = new System.Drawing.Point(550, 670);
-            zoomToBlackHoleButton.Size = new System.Drawing.Size(147, 36);
-            zoomToBlackHoleButton.TabIndex = 11;
-            zoomToBlackHoleButton.UseVisualStyleBackColor = true;
+            OverviewButton.Text = "Overview Mode";
+            OverviewButton.Location = new System.Drawing.Point(1080, 670);
+            OverviewButton.Size = new System.Drawing.Size(147, 36);
+            OverviewButton.TabIndex = 11;
+            OverviewButton.UseVisualStyleBackColor = true;
             //this.zoomToBlackHoleButton.Click += ZoomToBlackHoleButton_Click;
+            // 
+            // aerialBackgroundCheckBox
+            // 
+            aerialBackgroundCheckBox.Name = "AerialBackgroundCheckBox";
+            aerialBackgroundCheckBox.Text = "Aerial Background";
+            aerialBackgroundCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            aerialBackgroundCheckBox.ForeColor = System.Drawing.Color.White;
+            aerialBackgroundCheckBox.Size = new System.Drawing.Size(147, 36);
+            aerialBackgroundCheckBox.Location = new System.Drawing.Point(20, 20);
+            aerialBackgroundCheckBox.UseVisualStyleBackColor = true;
+            aerialBackgroundCheckBox.CheckedChanged += AerialBackgroundCheckBox_CheckedChanged; 
             // 
             // scaleLabel
             // 
-            scaleLabel.ForeColor = System.Drawing.Color.Blue;
-            scaleLabel.Font = new System.Drawing.Font("Segoe UI", 12);
-            scaleLabel.AutoSize = true;
-            scaleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            scaleLabel.Anchor = AnchorStyles.Top;
-            scaleLabel.Location = new System.Drawing.Point(550, 20);
-            scaleLabel.Visible = true;
-            scaleLabel.Text = "Scale: 0.00";
+            angleLabel.ForeColor = System.Drawing.Color.Blue;
+            angleLabel.Font = new System.Drawing.Font("Segoe UI", 12);
+            angleLabel.AutoSize = true;
+            angleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            angleLabel.Anchor = AnchorStyles.Top;
+            angleLabel.Location = new System.Drawing.Point(550, 20);
+            angleLabel.Visible = true;
+            angleLabel.Text = "Scale: 0.00";
             // 
             // NavigationMap
             // 
             this.Controls.Add(this.mapView);
-            this.Controls.Add(zoomToBlackHoleButton);
-            this.Controls.Add(scaleLabel);
+            this.Controls.Add(OverviewButton);
+            this.Controls.Add(angleLabel);
             Name = "ZoomToBlackHole";
             Size = new System.Drawing.Size(1194, 560);
             //Load += Form_Load;
@@ -392,8 +410,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             //
             // Make sure the controls are on top of the mapView
             //
-            zoomToBlackHoleButton.BringToFront();
-            scaleLabel.BringToFront();
+            OverviewButton.BringToFront();
+            angleLabel.BringToFront();
+            aerialBackgroundCheckBox.BringToFront();
+        }
+
+        private void AerialBackgroundCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion Component Designer generated code
