@@ -23,8 +23,51 @@
             <CheckBox Content="Only Get Tiles from Cache" Foreground="White" IsChecked="True" Margin="5"
                       Checked="ckbCacheOnly_OnChecked"
                       Unchecked="ckbCacheOnly_OnChecked"/>
+            <!-- Zoom Level Inputs -->
+            <GroupBox Header="Zoom Levels" Margin="10" Padding="0" Foreground="White">
+                <StackPanel Orientation="Vertical" Margin="5">
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,2">
+                        <TextBlock Text="Min:" Foreground="White" Margin="0,5,0,6"/>
+                        <TextBox x:Name="MinZoomTextBox" Width="100" Margin="10,0,0,5" Text="0"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,2">
+                        <TextBlock Text="Max:" Foreground="White" Margin="0,5,0,6"/>
+                        <TextBox x:Name="MaxZoomTextBox" Width="100" Margin="10,0,0,5" Text="4"/>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Selected Extent" Margin="10" Padding="0" Foreground="White">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <CheckBox x:Name="SelectAreaCheckBox"
+                                  Content="Enable Area Selection"
+                                  Foreground="White"
+                                  Checked="SelectAreaCheckBox_Checked"
+                                  Unchecked="SelectAreaCheckBox_Unchecked"/>
+                    </StackPanel>
+                <!-- Extent Bounds -->
+                    <StackPanel Orientation="Vertical" Margin="5">
+                        <TextBlock Text="Extent Bounds:" Foreground="White" Margin="0,10,0,5"/>
+                        <TextBlock Text="minX:" Foreground="White" />
+                        <TextBox x:Name="MinXTextBox" Width="180" Margin="0,0,0,5" Text="-20030000"/>
+                        <TextBlock Text="maxY:" Foreground="White" />
+                        <TextBox x:Name="MaxYTextBox" Width="180" Margin="0,0,0,5" Text="20030000"/>
+                        <TextBlock Text="maxX:" Foreground="White" />
+                        <TextBox x:Name="MaxXTextBox" Width="180" Margin="0,0,0,5" Text="0"/>
+                        <TextBlock Text="minY:" Foreground="White" />
+                        <TextBox x:Name="MinYTextBox" Width="180" Margin="0,0,0,5" Text="0"/>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+            <StackPanel Orientation="Vertical" Margin="10">
+                <TextBlock Text="Cache Folder:" Margin="0,0,0,5" Foreground="White"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox x:Name="CacheFolderTextBox" Width="150" IsReadOnly="True" />
+                    <Button Content="..." Width="30" Height ="30" Margin="5,0,0,0" Click="BrowseCacheFolder_OnClick" />
+                </StackPanel>
+            </StackPanel>
             <Button Height="40" Click = "BtnGenerateCache_OnClick" Margin="5">
-                <TextBlock Text="Generate Cache &#x0a;For North America, Zoom 0 - 4"
+                <TextBlock Text="Generate Cache"
                            TextWrapping="Wrap"
                            TextAlignment="Center"/>
             </Button>
