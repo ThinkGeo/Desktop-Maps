@@ -3,18 +3,6 @@
     "title": "Map Navigation",
     "children": [
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.StyleJsonfill",
-        "title": "fill",
-        "description": "",
-        "source": "Samples/VectorDataStyling/StyleJsonfill"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.MVTtest",
-        "title": "MVTtest",
-        "description": "",
-        "source": "Samples/VectorDataStyling/MVTtest"
-      },
-      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.NavigationMap",
         "title": "Map Navigation",
         "description": "Learn how to zoom, pan, and rotate the map control.",
@@ -433,6 +421,18 @@
   {
     "title": "Vector Data Styling",
     "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.StyleJsonfill",
+        "title": "fill",
+        "description": "",
+        "source": "Samples/VectorDataStyling/StyleJsonfill"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.MVTtest",
+        "title": "MVTtest",
+        "description": "",
+        "source": "Samples/VectorDataStyling/MVTtest"
+      },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.RenderStyleJson",
         "title": "Render StyleJson",

@@ -621,6 +621,9 @@
     <None Update="Data\Json\styleJsonDemo.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Data\Json\styleJsonfill.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Data\Json\thinkgeo-world-streets-dark.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

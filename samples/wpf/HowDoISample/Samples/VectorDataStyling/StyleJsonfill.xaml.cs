@@ -1,6 +1,8 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using ThinkGeo.Core;
@@ -55,7 +57,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // 读取并显示 JSON 内容
             string jsonContent = File.ReadAllText(_selectedStylePath);
-            JsonContentTextBox.Text = JObject.Parse(jsonContent).ToString(Newtonsoft.Json.Formatting.Indented);
+            JsonContentTextBox.Text = JObject.Parse(jsonContent).ToString(Formatting.Indented);
 
             _ = MapView.RefreshAsync();
         }
@@ -79,11 +81,30 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 string tempFilePath = Path.Combine(Path.GetTempPath(), "modified_style.json");
                 File.WriteAllText(tempFilePath, modifiedJson);
 
-                // 彻底清理地图覆盖层及旧图层资源
+                await UpdateMapWithModifiedStyle(tempFilePath);
+
+                StatusTextBlock.Text = "Status: Changes applied";
+                StatusTextBlock.Foreground = Brushes.Green;
+            }
+            catch (Exception ex)
+            {
+                StatusTextBlock.Text = $"Status: Error - {ex.Message}";
+                StatusTextBlock.Foreground = Brushes.Red;
+            }
+        }
+
+        private async Task UpdateMapWithModifiedStyle(string styleFilePath)
+        {
+            try
+            {
+                StatusTextBlock.Text = "Status: Updating map with modified style...";
+                StatusTextBlock.Foreground = Brushes.Orange;
+
+                // 清除现有地图覆盖层
                 MapView.Overlays.Clear();
                 _layerOverlay.Layers.Clear();
 
-                // 初始化图层（类成员变量）
+                // 重新初始化图层
                 parksLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
                 streetsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Streets.shp");
                 hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
@@ -93,7 +114,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 streetsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
                 hotelsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
-                await _loader.LoadAsync(tempFilePath);
+                // 加载并应用样式
+                await _loader.LoadAsync(styleFilePath);
                 _loader.ApplyStyle("Parks.shp", parksLayer.ZoomLevelSet);
                 _loader.ApplyStyle("Streets.shp", streetsLayer.ZoomLevelSet);
                 _loader.ApplyStyle("hotels.shp", hotelsLayer.ZoomLevelSet);
@@ -109,13 +131,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // 刷新地图
                 await MapView.RefreshAsync();
 
-                StatusTextBlock.Text = "Status: Changes applied";
+                StatusTextBlock.Text = "Status: Map updated with modified style";
                 StatusTextBlock.Foreground = Brushes.Green;
             }
             catch (Exception ex)
             {
-                StatusTextBlock.Text = $"Status: Error - {ex.Message}";
+                StatusTextBlock.Text = $"Status: Map update failed - {ex.Message}";
                 StatusTextBlock.Foreground = Brushes.Red;
+                throw; // 重新抛出异常，以便调用者处理
             }
         }
 

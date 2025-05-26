@@ -67,7 +67,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
 
             // Expand the first node and select the first sample
-            var firstTreeNode = (TreeViewItem)TreeView.Items[0];
+            var firstTreeNode = (TreeViewItem)TreeView.Items[7];
             if (firstTreeNode == null) return;
             firstTreeNode.IsExpanded = true;
             var firstSubTreeNode = (TreeViewItem)firstTreeNode.Items[0];
