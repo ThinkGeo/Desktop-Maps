@@ -1,0 +1,57 @@
+{
+  "version": 8,
+  "name": "LocalShapefileFillUnsupportedProperties",
+  "sources": {
+    "local-shp": {
+      "type": "custom"
+    }
+  },
+  "layers": [
+    {
+      "id": "area-layer",
+      "type": "fill",
+      "source": "local-shp",
+      "source-layer": "Parks.shp",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "fill-sort-key": 50
+      },
+      "paint": {
+        "fill-antialias": true,
+        "fill-emissive-strength": 12,
+        "fill-translate": [ 100, 10 ],
+        "fill-translate-anchor": "viewport",
+        "fill-z-offset": 50
+      }
+    },
+    {
+      "id": "line-layer",
+      "type": "line",
+      "source": "local-shp",
+      "source-layer": "Streets.shp",
+      "paint": {
+        "line-color": "#003344",
+        "line-width": 2
+      }
+    },
+    {
+      "id": "poi-points",
+      "type": "symbol",
+      "source": "local-shp",
+      "source-layer": "hotels.shp",
+      "layout": {
+        "text-field": "{name}",
+        "text-font": [ "Noto Sans Regular" ],
+        "text-size": 12,
+        "text-offset": [ 0, 0.6 ],
+        "text-anchor": "top"
+      },
+      "paint": {
+        "text-color": "#FF3333",
+        "text-halo-color": "#ffffff",
+        "text-halo-width": 1
+      }
+    }
+  ]
+}

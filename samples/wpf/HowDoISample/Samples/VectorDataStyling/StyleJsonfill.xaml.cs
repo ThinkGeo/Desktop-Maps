@@ -13,10 +13,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     {
         private MapStyleLoader _loader = new MapStyleLoader();
         private LayerOverlay _layerOverlay = new LayerOverlay();
-        private string _selectedStylePath = "./Data/Json/styleJsonfill.json"; // 直接指定默认路径
         private ShapeFileFeatureLayer parksLayer;
         private ShapeFileFeatureLayer streetsLayer;
         private ShapeFileFeatureLayer hotelsLayer;
+        private string _supported = "./Data/Json/Fill_Supported.json";
+        private string _unsupported = "./Data/Json/Fill_Unsupported.json";
+        private string _selectedStylePath = "./Data/Json/Fill_AllProperties.json"; 
 
         public StyleJsonfill()
         {
@@ -27,23 +29,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             MapView.MapUnit = GeographyUnit.Meter;
 
-            // 初始化图层（类成员变量）
             parksLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
             streetsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Streets.shp");
             hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
 
-            // 投影转换
             parksLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
             streetsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
             hotelsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
-            // 加载并应用样式
             await _loader.LoadAsync(_selectedStylePath);
             _loader.ApplyStyle("Parks.shp", parksLayer.ZoomLevelSet);
             _loader.ApplyStyle("Streets.shp", streetsLayer.ZoomLevelSet);
             _loader.ApplyStyle("hotels.shp", hotelsLayer.ZoomLevelSet);
 
-            // 添加图层到叠加层
             _layerOverlay = new LayerOverlay();
             _layerOverlay.Layers.Add(parksLayer);
             _layerOverlay.Layers.Add(streetsLayer);
@@ -51,11 +49,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _layerOverlay.TileType = TileType.SingleTile;
             MapView.Overlays.Add(_layerOverlay);
 
-            // 设置地图范围和缩放
             MapView.CenterPoint = new PointShape(-10777290, 3908740);
             MapView.CurrentScale = 9000;
 
-            // 读取并显示 JSON 内容
             string jsonContent = File.ReadAllText(_selectedStylePath);
             JsonContentTextBox.Text = JObject.Parse(jsonContent).ToString(Formatting.Indented);
 
@@ -70,8 +66,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 StatusTextBlock.Foreground = Brushes.Orange;
 
                 string modifiedJson = JsonContentTextBox.Text;
-                bool isJsonValid = IsValidJson(modifiedJson); // 先获取判断结果
-                if (!isJsonValid) // 明确判断
+                bool isJsonValid = IsValidJson(modifiedJson); 
+                if (!isJsonValid) 
                 {
                     StatusTextBlock.Text = "Status: Invalid JSON format!";
                     StatusTextBlock.Foreground = Brushes.Red;
@@ -93,6 +89,21 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
         }
 
+        private async void AllProperties_Click(object sender, RoutedEventArgs e)
+        {
+            await LoadAndApplyStyle(_selectedStylePath); 
+        }
+
+        private async void SupportedProperties_Click(object sender, RoutedEventArgs e)
+        {
+            await LoadAndApplyStyle(_supported);
+        }
+
+        private async void UnsupportedProperties_Click(object sender, RoutedEventArgs e)
+        {
+            await LoadAndApplyStyle(_unsupported);
+        }
+
         private async Task UpdateMapWithModifiedStyle(string styleFilePath)
         {
             try
@@ -100,27 +111,22 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 StatusTextBlock.Text = "Status: Updating map with modified style...";
                 StatusTextBlock.Foreground = Brushes.Orange;
 
-                // 清除现有地图覆盖层
                 MapView.Overlays.Clear();
                 _layerOverlay.Layers.Clear();
 
-                // 重新初始化图层
                 parksLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
                 streetsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Streets.shp");
                 hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
 
-                // 投影转换
                 parksLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
                 streetsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
                 hotelsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
-                // 加载并应用样式
                 await _loader.LoadAsync(styleFilePath);
                 _loader.ApplyStyle("Parks.shp", parksLayer.ZoomLevelSet);
                 _loader.ApplyStyle("Streets.shp", streetsLayer.ZoomLevelSet);
                 _loader.ApplyStyle("hotels.shp", hotelsLayer.ZoomLevelSet);
 
-                // 重新构建图层覆盖层
                 _layerOverlay = new LayerOverlay();
                 _layerOverlay.Layers.Add(parksLayer);
                 _layerOverlay.Layers.Add(streetsLayer);
@@ -128,7 +134,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 _layerOverlay.TileType = TileType.SingleTile;
                 MapView.Overlays.Add(_layerOverlay);
 
-                // 刷新地图
                 await MapView.RefreshAsync();
 
                 StatusTextBlock.Text = "Status: Map updated with modified style";
@@ -138,7 +143,29 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             {
                 StatusTextBlock.Text = $"Status: Map update failed - {ex.Message}";
                 StatusTextBlock.Foreground = Brushes.Red;
-                throw; // 重新抛出异常，以便调用者处理
+                throw; 
+            }
+        }
+
+        private async Task LoadAndApplyStyle(string styleFilePath)
+        {
+            try
+            {
+                StatusTextBlock.Text = $"Status: Loading {Path.GetFileName(styleFilePath)}...";
+                StatusTextBlock.Foreground = Brushes.Orange;
+
+                string jsonContent = File.ReadAllText(styleFilePath);
+                JsonContentTextBox.Text = JObject.Parse(jsonContent).ToString(Formatting.Indented);
+
+                await UpdateMapWithModifiedStyle(styleFilePath);
+
+                StatusTextBlock.Text = $"Status: {Path.GetFileName(styleFilePath)} applied";
+                StatusTextBlock.Foreground = Brushes.Green;
+            }
+            catch (Exception ex)
+            {
+                StatusTextBlock.Text = $"Status: Error - {ex.Message}";
+                StatusTextBlock.Foreground = Brushes.Red;
             }
         }
 
