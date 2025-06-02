@@ -32,10 +32,10 @@
         "source": "Samples/MapOnlineData/ThinkGeoVectorMap"
       },
       {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.BingMap",
-        "title": "Bing Map",
-        "description": "This sample shows how to display a Bing Maps layer.",
-        "source": "Samples/MapOnlineData/BingMap"
+        "id": "ThinkGeo.UI.WinForms.HowDoI.AzureMap",
+        "title": "Azure Map",
+        "description": "This sample shows how to display an Azure Maps layer.",
+        "source": "Samples/MapOnlineData/AzureMap"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.GoogleMap",

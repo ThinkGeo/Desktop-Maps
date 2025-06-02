@@ -408,14 +408,14 @@
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
-    <PackageReference Include="ThinkGeo.Cad" Version="14.4.0-beta019" />
-    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.4.0-beta019" />
-    <PackageReference Include="ThinkGeo.Gdal" Version="14.4.0-beta019" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.4.0-beta019" />
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.4.0-beta019" />
-    <PackageReference Include="ThinkGeo.Printers" Version="14.4.0-beta019" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="14.4.0-beta019" />
-    <PackageReference Include="ThinkGeo.UI.Wpf" Version="14.4.0-beta019" />
+    <PackageReference Include="ThinkGeo.Cad" Version="14.4.0-beta020" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.4.0-beta020" />
+    <PackageReference Include="ThinkGeo.Gdal" Version="14.4.0-beta020" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.4.0-beta020" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.4.0-beta020" />
+    <PackageReference Include="ThinkGeo.Printers" Version="14.4.0-beta020" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="14.4.0-beta020" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="14.4.0-beta020" />
     <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
   </ItemGroup>
   <ItemGroup>
@@ -1147,7 +1147,7 @@
     <Compile Update="Samples\MapOnlineData\GoogleMap.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\MapOnlineData\BingMap.xaml.cs">
+    <Compile Update="Samples\MapOnlineData\AzureMap.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\MapOnlineData\ThinkGeoVectorMap.xaml.cs">
@@ -1279,7 +1279,7 @@
     <Page Update="Samples\MapOnlineData\GoogleMap.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\MapOnlineData\BingMap.xaml">
+    <Page Update="Samples\MapOnlineData\AzureMap.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\MapOnlineData\ThinkGeoVectorMap.xaml">
