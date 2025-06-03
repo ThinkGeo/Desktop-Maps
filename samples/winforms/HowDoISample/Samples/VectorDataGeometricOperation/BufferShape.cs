@@ -43,6 +43,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             bufferLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(32, GeoColors.Green), GeoColors.DimGray);
             bufferLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
+            layerOverlay.TileType = TileType.SingleTile;
+
             // Add cityLimits to a LayerOverlay
             layerOverlay.Layers.Add(cityLimits);
 

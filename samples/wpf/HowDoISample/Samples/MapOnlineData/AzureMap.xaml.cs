@@ -42,7 +42,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.Overlays.Add("Azure Map", layerOverlay);
 
             // Create the Azure map layer and add it to the map.                
-            var azureMapsLayer = new AzureRasterMapAsyncLayer(TxtApplicationId.Text, AzureMapsRasterTileSet.Imagery)
+            var azureMapsLayer = new AzureMapsRasterAsyncLayer(TxtApplicationId.Text, AzureMapsRasterTileSet.Imagery)
             {
                 TileCache = new FileRasterTileCache(@".\cache", "azureMapsImagery")
             };

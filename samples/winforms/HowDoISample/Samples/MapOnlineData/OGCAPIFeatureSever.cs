@@ -27,11 +27,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
+            var ignProjectionConverter = new ProjectionConverter(4326, 3857);
+            ignProjectionConverter.Open();
+
             var ignLayer = new OgcApiFeatureLayer("https://api-features.ign.es", "namedplace")
             {
                 FeatureSource =
                 {
-                    ProjectionConverter = new ProjectionConverter(4326, 3857)
+                    ProjectionConverter = ignProjectionConverter
                 }
             };
 

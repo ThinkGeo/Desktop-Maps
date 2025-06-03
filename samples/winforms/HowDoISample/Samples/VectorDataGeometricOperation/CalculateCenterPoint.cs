@@ -42,6 +42,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             censusHousingLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             var censusHousingOverlay = new LayerOverlay();
+            censusHousingOverlay.TileType = TileType.SingleTile;
             censusHousingOverlay.Layers.Add("CensusHousingLayer", censusHousingLayer);
             mapView.Overlays.Add("CensusHousingOverlay", censusHousingOverlay);
 
@@ -52,6 +53,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             centerPointLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             var centerPointOverlay = new LayerOverlay();
+            centerPointOverlay.TileType= TileType.SingleTile;
             centerPointOverlay.Layers.Add("CenterPointLayer", centerPointLayer);
             mapView.Overlays.Add("CenterPointOverlay", centerPointOverlay);
 

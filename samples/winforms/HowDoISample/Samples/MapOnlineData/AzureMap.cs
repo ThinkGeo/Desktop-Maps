@@ -45,7 +45,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add("Azure Map", layerOverlay);
 
             // Create the bing map layer and add it to the map.
-            var azureMapsLayer = new AzureRasterMapAsyncLayer(txtApplicationID.Text, AzureMapsRasterTileSet.Imagery)
+            var azureMapsLayer = new AzureMapsRasterAsyncLayer(txtApplicationID.Text, AzureMapsRasterTileSet.Imagery)
             {
                 TileCache = new FileRasterTileCache(@".\cache", "azureMapsImagery")
             };

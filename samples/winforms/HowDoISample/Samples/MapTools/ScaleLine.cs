@@ -34,7 +34,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void DisplayScaleLine_CheckedChanged(object sender, EventArgs e)
         {
-            if (sender is CheckBox checkbox) mapView.MapTools.ScaleLine.IsEnabled = checkbox.Checked;
+            if (sender is CheckBox checkbox)
+            {
+                mapView.MapTools.ScaleLine.IsEnabled = checkbox.Checked;
+                _ = mapView.RefreshAsync();
+            }
         }
 
         #region Component Designer generated code
