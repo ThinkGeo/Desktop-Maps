@@ -13,50 +13,22 @@
       "source": "local-shp",
       "source-layer": "Parks.shp",
       "minzoom": 0, 
-      "maxzoom": 24, 
+      "maxzoom": 24,
       "layout": {
-        "visibility": "visible", 
-        "fill-sort-key": 50 
+        "visibility": "none",
+        "fill-sort-key": 50
       },
       "paint": {
         "fill-antialias": true,
-        "fill-color": "#b6e69d", 
-        "fill-emissive-strength": 12, 
+        "fill-color": "#47F801",
+        "fill-emissive-strength": 12,
         "fill-opacity": 0.5,
-        "fill-outline-color": "rgba(228, 13, 13, 1)", 
-        "fill-pattern": "grass-pattern", 
-        "fill-pattern-cross-fade": 0.7, 
-        "fill-translate": [ 5, 10 ], 
-        "fill-translate-anchor": "viewport", 
-        "fill-z-offset": 50 
-      }
-    },
-    {
-      "id": "line-layer",
-      "type": "line",
-      "source": "local-shp",
-      "source-layer": "Streets.shp",
-      "paint": {
-        "line-color": "#003344",
-        "line-width": 2
-      }
-    },
-    {
-      "id": "poi-points",
-      "type": "symbol",
-      "source": "local-shp",
-      "source-layer": "hotels.shp",
-      "layout": {
-        "text-field": "{name}",
-        "text-font": [ "Noto Sans Regular" ],
-        "text-size": 12,
-        "text-offset": [ 0, 0.6 ],
-        "text-anchor": "top"
-      },
-      "paint": {
-        "text-color": "#FF3333",
-        "text-halo-color": "#ffffff",
-        "text-halo-width": 1
+        "fill-outline-color": "rgba(248, 1, 5, 1)",
+        "fill-pattern": "grass-pattern",
+        "fill-pattern-cross-fade": 0.7,
+        "fill-translate": [ 5, 10 ],
+        "fill-translate-anchor": "viewport",
+        "fill-z-offset": 50
       }
     }
   ]

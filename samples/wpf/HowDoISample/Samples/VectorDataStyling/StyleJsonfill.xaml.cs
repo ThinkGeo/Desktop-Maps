@@ -16,9 +16,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private ShapeFileFeatureLayer parksLayer;
         private ShapeFileFeatureLayer streetsLayer;
         private ShapeFileFeatureLayer hotelsLayer;
+        private string _allPropertiesh = "./Data/Json/Fill_AllProperties.json";
         private string _supported = "./Data/Json/Fill_Supported.json";
         private string _unsupported = "./Data/Json/Fill_Unsupported.json";
-        private string _selectedStylePath = "./Data/Json/Fill_AllProperties.json"; 
+        private bool _isUnsupportedMode = false; 
 
         public StyleJsonfill()
         {
@@ -37,7 +38,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             streetsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
             hotelsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
-            await _loader.LoadAsync(_selectedStylePath);
+            await _loader.LoadAsync(_allPropertiesh);
             _loader.ApplyStyle("Parks.shp", parksLayer.ZoomLevelSet);
             _loader.ApplyStyle("Streets.shp", streetsLayer.ZoomLevelSet);
             _loader.ApplyStyle("hotels.shp", hotelsLayer.ZoomLevelSet);
@@ -52,7 +53,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.CenterPoint = new PointShape(-10777290, 3908740);
             MapView.CurrentScale = 9000;
 
-            string jsonContent = File.ReadAllText(_selectedStylePath);
+            string jsonContent = File.ReadAllText(_allPropertiesh);
             JsonContentTextBox.Text = JObject.Parse(jsonContent).ToString(Formatting.Indented);
 
             _ = MapView.RefreshAsync();
@@ -60,6 +61,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private async void ApplyChangesButton_Click(object sender, RoutedEventArgs e)
         {
+            if (_isUnsupportedMode)
+            {
+                StatusTextBlock.Text = "Status: Cannot apply unsupported properties!";
+                StatusTextBlock.Foreground = Brushes.Red;
+                return;
+            }
             try
             {
                 StatusTextBlock.Text = "Status: Applying changes...";
@@ -91,17 +98,20 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private async void AllProperties_Click(object sender, RoutedEventArgs e)
         {
-            await LoadAndApplyStyle(_selectedStylePath); 
+            _isUnsupportedMode = false; 
+            await LoadAndApplyStyle(_allPropertiesh); 
         }
 
         private async void SupportedProperties_Click(object sender, RoutedEventArgs e)
         {
+            _isUnsupportedMode = false; 
             await LoadAndApplyStyle(_supported);
         }
 
         private async void UnsupportedProperties_Click(object sender, RoutedEventArgs e)
         {
-            await LoadAndApplyStyle(_unsupported);
+            _isUnsupportedMode = true; 
+            await LoadJsonToTextBox(_unsupported);
         }
 
         private async Task UpdateMapWithModifiedStyle(string styleFilePath)
@@ -168,6 +178,27 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 StatusTextBlock.Foreground = Brushes.Red;
             }
         }
+
+        private async Task LoadJsonToTextBox(string styleFilePath)
+        {
+            try
+            {
+                StatusTextBlock.Text = $"Status: Loading {Path.GetFileName(styleFilePath)}...";
+                StatusTextBlock.Foreground = Brushes.Orange;
+
+                string jsonContent = File.ReadAllText(styleFilePath);
+                JsonContentTextBox.Text = JObject.Parse(jsonContent).ToString(Formatting.Indented);
+
+                StatusTextBlock.Text = $"Status: {Path.GetFileName(styleFilePath)} loaded (map unchanged)";
+                StatusTextBlock.Foreground = Brushes.Green;
+            }
+            catch (Exception ex)
+            {
+                StatusTextBlock.Text = $"Status: Error - {ex.Message}";
+                StatusTextBlock.Foreground = Brushes.Red;
+            }
+        }
+
 
         private bool IsValidJson(string json)
         {
