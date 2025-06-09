@@ -33,20 +33,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (string.IsNullOrEmpty(TxtApplicationId.Text) || MapView.Overlays.Contains("Azure Map")) return;
             BtnActivate.IsEnabled = false;
 
-            // Create the layer overlay with some additional settings and add to the map.
-            var layerOverlay = new LayerOverlay
-            {
-                TileHeight = 256,
-                TileWidth = 256,
-            };
-            MapView.Overlays.Add("Azure Map", layerOverlay);
-
             // Create the Azure map layer and add it to the map.                
-            var azureMapsLayer = new AzureMapsRasterAsyncLayer(TxtApplicationId.Text, AzureMapsRasterTileSet.Imagery)
+            var azureMapsOverlay = new AzureMapsRasterOverlay(TxtApplicationId.Text, AzureMapsRasterTileSet.Imagery)
             {
                 TileCache = new FileRasterTileCache(@".\cache", "azureMapsImagery")
             };
-            layerOverlay.Layers.Add(azureMapsLayer);
+            MapView.Overlays.Add(azureMapsOverlay);
 
             // Refresh the map.
             _ = MapView.RefreshAsync();

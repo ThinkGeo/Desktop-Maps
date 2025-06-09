@@ -31,6 +31,12 @@
         "title": "Resize the Map",
         "description": "Learn to resize the map while preserving the world extent with various map resize modes.",
         "source": "Samples/MapNavigation/ResizeTheMap"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DynamicRendering",
+        "title": "Dynamic Rendering",
+        "description": "Dynamically refreshing the shapes",
+        "source": "Samples/MapNavigation/DynamicRendering"
       }
     ]
   },
@@ -399,16 +405,22 @@
     "title": "Markers and Popups",
     "children": [
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.Markers",
+        "title": "Markers",
+        "description": "Learn to add, edit, or remove markers on the map using the MarkerOverlay.",
+        "source": "Samples/MarkersandPopups/Markers"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.AnimatedMarker",
         "title": "Animated Marker",
         "description": "Learn to add an animated marker on the map using the custom icon.",
         "source": "Samples/MarkersandPopups/AnimatedMarker"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.Markers",
-        "title": "Markers",
-        "description": "Learn to add, edit, or remove markers on the map using the MarkerOverlay.",
-        "source": "Samples/MarkersandPopups/Markers"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.TextMarker",
+        "title": "Text Marker",
+        "description": "Display a draggable text using marker",
+        "source": "Samples/MarkersandPopups/AnimatedMarker"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.Popups",
