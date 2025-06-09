@@ -92,8 +92,11 @@
     <None Remove="Resources\East.png" />
     <None Remove="Resources\Edit.gif" />
     <None Remove="Resources\Ellipse.png" />
+    <None Remove="Resources\empire_state_building.png" />
     <None Remove="Resources\generic-logo.png" />
     <None Remove="Resources\hotel_icon.png" />
+    <None Remove="Resources\icon_globe_black.png" />
+    <None Remove="Resources\icon_north_arrow.png" />
     <None Remove="Resources\Line.png" />
     <None Remove="Resources\LinkButtonIconContactUs.png" />
     <None Remove="Resources\LinkButtonIconDiscussionForums.png" />
@@ -133,8 +136,17 @@
     <Resource Include="Resources\coyote_paw.png" />
     <Resource Include="Resources\drugs_icon.png" />
     <Resource Include="Resources\East.gif" />
+    <Resource Include="Resources\empire_state_building.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\generic-logo.png" />
     <Resource Include="Resources\hotel_icon.png" />
+    <Content Include="Resources\icon_globe_black.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon_north_arrow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Resources\loading.gif" />
     <Resource Include="Resources\logo.ico" />
     <Resource Include="Resources\logo.png" />

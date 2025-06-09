@@ -1,11 +1,18 @@
 ﻿using System;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.IO;
 using System.Windows.Forms;
+using System.Windows.Media.Imaging;
 using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public class NavigationMap : UserControl
     {
+        private ThinkGeoCloudRasterMapsOverlay _backgroundOverlay;
+        private PointShape _empireStateBuildingPosition;
+
         public NavigationMap()
         {
             InitializeComponent();
@@ -17,115 +24,180 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            _backgroundOverlay = new ThinkGeoCloudRasterMapsOverlay
             {
                 ClientId = SampleKeys.ClientId,
                 ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light
+                MapType = ThinkGeoCloudRasterMapsMapType.Light_V2_X2,
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_raster_light")
             };
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            mapView.Overlays.Add(_backgroundOverlay);
 
-            // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
-            txtCurrentAngle.DataBindings.Add("Text", rotateAngle, "Value");
+            // Create the marker overlay to hold UI elements like labels
+            var markerOverlay = new SimpleMarkerOverlay();
+            mapView.Overlays.Add(markerOverlay);
+
+            // Convert Lat/Lon (EPSG:4326) to Spherical Mercator (EPSG:3857)
+            _empireStateBuildingPosition = ProjectionConverter.Convert(4326, 3857, new PointShape(-73.9856654, 40.74843661));
+
+            // Create a marker with both label and image content
+            var marker = new Marker(_empireStateBuildingPosition)
+            {
+                //Content = markerContent,
+                ImageSource = new BitmapImage(new Uri("/Resources/empire_state_building.png", UriKind.RelativeOrAbsolute)),
+                Width = 32,
+                Height = 64,
+                YOffset = -32
+            };
+
+            // Add the marker to the overlay
+            markerOverlay.Markers.Add(marker);
+
+            // set up the map extent and refresh
+            mapView.RotationAngle = -30;
+            mapView.CurrentScale = 100000;
+            mapView.CenterPoint = _empireStateBuildingPosition;
+
+            mapView.CurrentExtentChanged += MapView_CurrentExtentChanged;
+            MapView_CurrentExtentChanged(null, null);
+
+            rotationTimer.Interval = 100; // Check every 100ms
+            rotationTimer.Tick += RotationTimer_Tick;
+            rotationTimer.Start();
+
+            themeCheckBox.CheckedChanged += ThemeCheckBox_CheckedChanged;
+            compassButton.Click += CompassButton_Click;
+            defaultExtentButton.Click += DefaultExtentButton_Click;
 
             _ = mapView.RefreshAsync();
         }
 
-        private void zoomIn_Click(object sender, EventArgs e)
+        private void CompassButton_Click(object sender, EventArgs e)
         {
-            _ = mapView.ZoomInAsync();
+            _ = mapView.ZoomToAsync(mapView.CenterPoint, mapView.CurrentScale, 0);
         }
 
-        private void zoomOut_Click(object sender, EventArgs e)
+        private void DefaultExtentButton_Click(object sender, EventArgs e)
         {
-            _ = mapView.ZoomOutAsync();
+            _ = mapView.ZoomToAsync(_empireStateBuildingPosition, 100000, -30);
         }
 
-        private void panNorth_Click(object sender, EventArgs e)
+        private async void ThemeCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            _ = mapView.PanByDirectionAndScreenDistanceAsync(PanDirection.Up, 200);
+            _backgroundOverlay.MapType = themeCheckBox.Checked == true
+              ? ThinkGeoCloudRasterMapsMapType.Dark_V2_X2
+              : ThinkGeoCloudRasterMapsMapType.Light_V2_X2;
+
+            // You may need to reset the tile cache ID to avoid mixing dark/light tiles:
+            _backgroundOverlay.TileCache = new FileRasterTileCache(@".\cache",
+                themeCheckBox.Checked == true ? "thinkgeo_raster_dark" : "thinkgeo_raster_light");
+
+           await mapView.RefreshAsync(); // Cancel the ongoing rendering
+           await _backgroundOverlay.RefreshAsync();
         }
 
-        private void panWest_Click(object sender, EventArgs e)
+        public static Image RotateImage(Image image, float angle)
         {
-            _ = mapView.PanByDirectionAndScreenDistanceAsync(PanDirection.Left, 200);
+            if (image == null) return null;
+
+            // Create a new empty bitmap to hold rotated image
+            Bitmap rotatedImage = new Bitmap(image.Width, image.Height);
+            rotatedImage.MakeTransparent();
+            rotatedImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (Graphics g = Graphics.FromImage(rotatedImage))
+            {
+                // Set the rotation point to the center of the image
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+                g.Clear(Color.Transparent);
+                g.TranslateTransform(image.Width / 2f, image.Height / 2f);
+                g.RotateTransform(angle);
+                g.TranslateTransform(-image.Width / 2f, -image.Height / 2f);
+
+                // Draw the original image onto the rotated graphics object
+                g.DrawImage(image, new Point(0, 0));
+            }
+
+            return rotatedImage;
         }
 
-        private void panEast_Click(object sender, EventArgs e)
+        private void UpdateCompassImage(float angle)
         {
-            _ = mapView.PanByDirectionAndScreenDistanceAsync(PanDirection.Right, 200);
+            compassButton.Image?.Dispose();
+
+            string imagePath = Path.Combine(Application.StartupPath, "Resources", "icon_north_arrow.png");
+
+            if (File.Exists(imagePath))
+            {
+                using (var originalImage = Image.FromFile(imagePath))
+                {
+                    // Clone it first because we can't rotate a disposed image
+                    var cloneImage = (Image)originalImage.Clone();
+                    compassButton.Image = RotateImage(cloneImage, angle);
+                }
+            }
         }
 
-        private void panSouth_Click(object sender, EventArgs e)
+        private void RotationTimer_Tick(object sender, EventArgs e)
         {
-            _ = mapView.PanByDirectionAndScreenDistanceAsync(PanDirection.Down, 200);
+            double currentRotation = mapView.RotationAngle;
+
+            if (Math.Abs(currentRotation - lastRotationAngle) > 0.1) // Change threshold
+            {
+                lastRotationAngle = currentRotation;
+                label2.Text = $"Rotation: {currentRotation:N0}";
+                UpdateCompassImage((float)currentRotation);
+            }
         }
 
-
-        private void rotateAngle_ValueChanged(object sender, EventArgs e)
+        private void MapView_CurrentExtentChanged(object sender, CurrentExtentChangedMapViewEventArgs e)
         {
-            var value = rotateAngle.Value;
-            _ = mapView.ZoomToAsync(mapView.CenterPoint, mapView.CurrentScale, rotateAngle.Value);
+            var center = mapView.CurrentExtent.GetCenterPoint();
+            var centerInDecimalDegrees = ProjectionConverter.Convert(3857, 4326, center);
+            float angle = (float)mapView.RotationAngle;
+
+            label1.Text = $"Center Point: (Lat: {centerInDecimalDegrees.Y:N4}, Lon: {centerInDecimalDegrees.X:N4})";
+
+            label2.Text = $"Rotation: {angle:N0}";
+            label3.Text = $"Zoom: {mapView.GetSnappedZoomLevelIndex(mapView.CurrentScale):N0}";
+            label4.Text = $"Scale: {mapView.CurrentScale:N0}";
+
+            compassButton.Image?.Dispose(); // Dispose previous if needed
+            string imagePath = Path.Combine(Application.StartupPath, "Resources", "icon_north_arrow.png");
+            using (Image originalImage = Image.FromFile(imagePath))
+            {
+                compassButton.Image = RotateImage((Image)originalImage.Clone(), angle);
+            }
         }
-
-
 
         #region Component Designer generated code
-        private Panel panel1;
         private Label label1;
-        private TextBox txtCurrentAngle;
+        private Label label2;
+        private Label label3; 
         private Label label4;
-        private Button zoomOut;
-        private Button zoomIn;
-        private TrackBar rotateAngle;
-        private Label label3;
-        private Button panWest;
-        private Button panSouth;
-        private Button panEast;
-        private Button panNorth;
-
-
+        private FlowLayoutPanel flowPanel;
+        private double lastRotationAngle = -1;
+        private Timer rotationTimer;
+        private Panel themePanel;
+        private CheckBox themeCheckBox;
+        private PictureBox compassButton;
+        private PictureBox defaultExtentButton;
         private MapView mapView;
 
         private void InitializeComponent()
         {
             mapView = new ThinkGeo.UI.WinForms.MapView();
-            panel1 = new Panel();
-            txtCurrentAngle = new TextBox();
-            label4 = new Label();
-            zoomOut = new Button();
-            zoomIn = new Button();
-            rotateAngle = new TrackBar();
-            label3 = new Label();
-            panWest = new Button();
-            panSouth = new Button();
-            panEast = new Button();
-            panNorth = new Button();
             label1 = new Label();
-            panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)rotateAngle).BeginInit();
+            label2 = new Label();
+            label3 = new Label();
+            label4 = new Label();
+            flowPanel = new FlowLayoutPanel();
+            rotationTimer = new Timer();
+            themePanel = new Panel();
+            themeCheckBox = new CheckBox();
+            compassButton = new PictureBox();
+            defaultExtentButton = new PictureBox();
             SuspendLayout();
-            // 
-            // panel1
-            // 
-            panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            panel1.BackColor = System.Drawing.Color.Gray;
-            panel1.Controls.Add(txtCurrentAngle);
-            panel1.Controls.Add(label4);
-            panel1.Controls.Add(zoomOut);
-            panel1.Controls.Add(zoomIn);
-            panel1.Controls.Add(rotateAngle);
-            panel1.Controls.Add(label3);
-            panel1.Controls.Add(panWest);
-            panel1.Controls.Add(panSouth);
-            panel1.Controls.Add(panEast);
-            panel1.Controls.Add(panNorth);
-            panel1.Controls.Add(label1);
-            panel1.Location = new System.Drawing.Point(894, 0);
-            panel1.Name = "panel1";
-            panel1.Size = new System.Drawing.Size(300, 560);
-            panel1.TabIndex = 1;  
             // 
             // mapView
             // 
@@ -141,131 +213,143 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.RotationAngle = 0F;
             this.mapView.TabIndex = 0;
             // 
-            // txtCurrentAngle
+            // flowPanel1
             // 
-            txtCurrentAngle.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            txtCurrentAngle.Location = new System.Drawing.Point(250, 371);
-            txtCurrentAngle.Name = "txtCurrentAngle";
-            txtCurrentAngle.ReadOnly = true;
-            txtCurrentAngle.Size = new System.Drawing.Size(46, 31);
-            txtCurrentAngle.TabIndex = 14;
-            txtCurrentAngle.Text = "0";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            label4.ForeColor = System.Drawing.Color.White;
-            label4.Location = new System.Drawing.Point(18, 96);
-            label4.Name = "label4";
-            label4.Size = new System.Drawing.Size(107, 29);
-            label4.TabIndex = 12;
-            label4.Text = "Panning:";
-            // 
-            // zoomOut
-            // 
-            zoomOut.Image = Properties.Resources.ZoomOut;
-            zoomOut.Location = new System.Drawing.Point(150, 57);
-            zoomOut.Name = "zoomOut";
-            zoomOut.Size = new System.Drawing.Size(147, 36);
-            zoomOut.TabIndex = 11;
-            zoomOut.UseVisualStyleBackColor = true;
-            zoomOut.Click += zoomOut_Click;
-            // 
-            // zoomIn
-            // 
-            zoomIn.Image = Properties.Resources.ZoomIn;
-            zoomIn.Location = new System.Drawing.Point(3, 57);
-            zoomIn.Name = "zoomIn";
-            zoomIn.Size = new System.Drawing.Size(141, 36);
-            zoomIn.TabIndex = 10;
-            zoomIn.UseVisualStyleBackColor = true;
-            zoomIn.Click += zoomIn_Click;
-            // 
-            // rotateAngle
-            // 
-            rotateAngle.LargeChange = 15;
-            rotateAngle.Location = new System.Drawing.Point(0, 371);
-            rotateAngle.Maximum = 360;
-            rotateAngle.Name = "rotateAngle";
-            rotateAngle.Size = new System.Drawing.Size(248, 69);
-            rotateAngle.TabIndex = 8;
-            rotateAngle.TickStyle = TickStyle.None;
-            rotateAngle.ValueChanged += rotateAngle_ValueChanged;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            label3.ForeColor = System.Drawing.Color.White;
-            label3.Location = new System.Drawing.Point(5, 343);
-            label3.Name = "label3";
-            label3.Size = new System.Drawing.Size(139, 25);
-            label3.TabIndex = 7;
-            label3.Text = "Current Angle:";
-            // 
-            // panWest
-            // 
-            panWest.Image = Properties.Resources.West;
-            panWest.Location = new System.Drawing.Point(76, 178);
-            panWest.Name = "panWest";
-            panWest.Size = new System.Drawing.Size(42, 34);
-            panWest.TabIndex = 4;
-            panWest.UseVisualStyleBackColor = true;
-            panWest.Click += panWest_Click;
-            // 
-            // panSouth
-            // 
-            panSouth.Image = Properties.Resources.South;
-            panSouth.Location = new System.Drawing.Point(124, 214);
-            panSouth.Name = "panSouth";
-            panSouth.Size = new System.Drawing.Size(42, 34);
-            panSouth.TabIndex = 3;
-            panSouth.UseVisualStyleBackColor = true;
-            panSouth.Click += panSouth_Click;
-            // 
-            // panEast
-            // 
-            panEast.Image = Properties.Resources.East;
-            panEast.Location = new System.Drawing.Point(172, 178);
-            panEast.Name = "panEast";
-            panEast.Size = new System.Drawing.Size(42, 34);
-            panEast.TabIndex = 2;
-            panEast.UseVisualStyleBackColor = true;
-            panEast.Click += panEast_Click;
-            // 
-            // panNorth
-            // 
-            panNorth.Image = Properties.Resources.North;
-            panNorth.Location = new System.Drawing.Point(124, 141);
-            panNorth.Name = "panNorth";
-            panNorth.Size = new System.Drawing.Size(42, 34);
-            panNorth.TabIndex = 1;
-            panNorth.UseVisualStyleBackColor = true;
-            panNorth.Click += panNorth_Click;
+            flowPanel.FlowDirection = FlowDirection.LeftToRight;
+            flowPanel.WrapContents = false;
+            flowPanel.AutoSize = false;
+            flowPanel.Size = new System.Drawing.Size(450, 25);
+            int x = mapView.Width - flowPanel.Width;
+            int y = mapView.Height - flowPanel.Height - 65;
+            flowPanel.Location = new System.Drawing.Point(x,y);
+            flowPanel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            flowPanel.Padding = Padding.Empty;
+            flowPanel.Controls.Add(label2);
+            flowPanel.Controls.Add(label3);
+            flowPanel.Controls.Add(label4);
+            this.Controls.Add(flowPanel);
             // 
             // label1
             // 
-            label1.AutoSize = true;
+            label1.AutoSize = false;
             label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            label1.ForeColor = System.Drawing.Color.White;
-            label1.Location = new System.Drawing.Point(18, 20);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(114, 29);
+            label1.BackColor = System.Drawing.Color.LightGray;
+            label1.ForeColor = System.Drawing.Color.Black;
+            label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            label1.Location = new System.Drawing.Point(x+50,y+135);
+            label1.Name = "lblCoordinates";
+            label1.Size = new System.Drawing.Size(340,25);
             label1.TabIndex = 0;
-            label1.Text = "Zooming:";
+            label1.Text = "";
+            this.Controls.Add(label1);
+            // 
+            // label2
+            // 
+            label2.AutoSize = false;
+            label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            label2.BackColor = System.Drawing.Color.LightGray;
+            label2.ForeColor = System.Drawing.Color.Black;
+            label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            label2.Name = "lblRotationAngle";
+            label2.Size = new System.Drawing.Size(150, 25);
+            label2.TabIndex = 0;
+            label2.Text = "Rotation Angle";
+            label2.Margin = Padding.Empty;
+            // 
+            // label3
+            // 
+            label3.AutoSize = false;
+            label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            label3.BackColor = System.Drawing.Color.LightGray;
+            label3.ForeColor = System.Drawing.Color.Black;
+            label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            label3.Name = "lblCurrentZoom";
+            label3.Size = new System.Drawing.Size(150, 25);
+            label3.TabIndex = 7;
+            label3.Text = "Current Zoom:";
+            label3.Margin = Padding.Empty;
+            // 
+            // label4
+            // 
+            label4.AutoSize = false;
+            label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            label4.BackColor = System.Drawing.Color.LightGray;
+            label4.ForeColor = System.Drawing.Color.Black;
+            label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            label4.Name = "lblCurrentScale";
+            label4.Size = new System.Drawing.Size(150, 25);
+            label4.TabIndex = 12;
+            label4.Text = "Current Scale";
+            label4.Margin = Padding.Empty;
+            // 
+            // themePanel 
+            // 
+            themePanel.BackColor = System.Drawing.Color.LightGray;
+            themePanel.Size = new System.Drawing.Size(150, 25);
+            themePanel.Location = new System.Drawing.Point(10, y); 
+            themePanel.Anchor = AnchorStyles.Left | AnchorStyles.Bottom;
+            themePanel.Controls.Add(themeCheckBox);
+            this.Controls.Add(themePanel);
+            // 
+            // themeCheckBox 
+            // 
+            themeCheckBox.AutoSize = false;
+            themeCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            themeCheckBox.BackColor = System.Drawing.Color.LightGray;
+            themeCheckBox.ForeColor = System.Drawing.Color.Black;
+            themeCheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            themeCheckBox.Name = "chbTheme";
+            themeCheckBox.Size = new System.Drawing.Size(150, 25);
+            themeCheckBox.TabIndex = 0;
+            themeCheckBox.Text = "Dark Theme";
+            themeCheckBox.Margin = Padding.Empty;
+            themeCheckBox.BackColor = System.Drawing.Color.LightGray;
+            themeCheckBox.Location = new System.Drawing.Point(5, 5); // small padding
+            // 
+            // compassButton 
+            // 
+            compassButton.Name = "compassButton";
+            compassButton.Size = new Size(40, 40);
+            compassButton.BackColor = Color.Transparent;
+            compassButton.SizeMode = PictureBoxSizeMode.StretchImage;
+            string imagePathOfCompassButton = Path.Combine(Application.StartupPath, "Resources", "icon_north_arrow.png");
+            Image originalImageOfCompassButton = Image.FromFile(imagePathOfCompassButton);
+            compassButton.Image = RotateImage(originalImageOfCompassButton, 0);
+            System.Drawing.Drawing2D.GraphicsPath pathOfCompassButton = new System.Drawing.Drawing2D.GraphicsPath();
+            pathOfCompassButton.AddEllipse(0, 0, compassButton.Width, compassButton.Height);
+            compassButton.Region = new Region(pathOfCompassButton);
+            compassButton.Location = new Point(1140, 10);
+            compassButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            this.Controls.Add(compassButton);
+            // 
+            // defaultExtentButton 
+            // 
+            defaultExtentButton.Name = "defaultExtentButton";
+            defaultExtentButton.Size = new Size(40, 40);
+            defaultExtentButton.BackColor = Color.Transparent;
+            defaultExtentButton.SizeMode = PictureBoxSizeMode.StretchImage;
+            string imagePathOfDefaultExtentButton = Path.Combine(Application.StartupPath, "Resources", "icon_globe_black.png");
+            Image originalImageOfDefaultExtentButton = Image.FromFile(imagePathOfDefaultExtentButton);
+            defaultExtentButton.Image = RotateImage(originalImageOfDefaultExtentButton, 0);
+            System.Drawing.Drawing2D.GraphicsPath pathOfDefaultExtentButton = new System.Drawing.Drawing2D.GraphicsPath();
+            pathOfDefaultExtentButton.AddEllipse(0, 0, defaultExtentButton.Width, defaultExtentButton.Height);
+            defaultExtentButton.Region = new Region(pathOfDefaultExtentButton);
+            defaultExtentButton.Location = new Point(1140, 60);
+            defaultExtentButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            this.Controls.Add(defaultExtentButton);
             // 
             // NavigationMap
             // 
-            Controls.Add(panel1);
             this.Controls.Add(this.mapView);
             Name = "NavigationMap";
             Size = new System.Drawing.Size(1194, 560);
             Load += Form_Load;
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)rotateAngle).EndInit();
             ResumeLayout(false);
+            label1.BringToFront();
+            flowPanel.BringToFront();
+            themePanel.BringToFront();
+            compassButton.BringToFront();
+            defaultExtentButton.BringToFront();
         }
 
         #endregion Component Designer generated code
