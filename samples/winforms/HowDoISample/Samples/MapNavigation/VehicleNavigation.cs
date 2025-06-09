@@ -7,9 +7,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using ThinkGeo.Core;
+using Point = System.Windows.Point;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
+    /// <summary>
+    /// Learn how to programmatically zoom, pan, and rotate the map control.
+    /// </summary>
     public partial class VehicleNavigation : UserControl
     {
         private Collection<Vertex> _gpsPoints;
@@ -21,6 +25,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private CancellationTokenSource _cancellationTokenSource;
         private ThinkGeoCloudRasterMapsOverlay _backgroundOverlay;
+
         private LayerOverlay _routesOverlay;
         private SimpleMarkerOverlay _markerOverlay;
         private InMemoryFeatureLayer _routeLayer;
@@ -34,28 +39,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.Load += Form_Load;
         }
 
-        protected override void OnHandleCreated(EventArgs e)
-        {
-            base.OnHandleCreated(e);
-
-            // Get the parent form
-            Form parentForm = this.FindForm();
-            if (parentForm != null)
-            {
-                parentForm.FormClosing += ParentForm_FormClosing;
-            }
-        }
-
-        private void ParentForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            this._disposed = true;
-        }
-
         private void Form_Load(object sender, EventArgs e)
         {
-            mapView.MapUnit = GeographyUnit.Meter;
+            //mapView.MapUnit = GeographyUnit.Meter;
             _cancellationTokenSource = new CancellationTokenSource();
-
+            
             // Add Cloud Maps as a background overlay
             _backgroundOverlay = new ThinkGeoCloudRasterMapsOverlay
             {
@@ -66,8 +54,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             };
             mapView.Overlays.Add(_backgroundOverlay);
 
+            mapView.DefaultAnimationSettings = new MapAnimationSettings
+            {
+                Type = MapAnimationType.DrawWithAnimation,
+                Duration = 1500,
+                Easing = null
+            };
+
             _gpsPoints = CollectGpsData();
 
+            // Create the Layer for the Route
             _routeLayer = InitRouteLayerFromGpsPoints(_gpsPoints);
             _visitedRoutesLayer = new InMemoryFeatureLayer();
             _visitedRoutesLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle =
@@ -81,8 +77,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Marker Overlay
             _markerOverlay = new SimpleMarkerOverlay();
-            _vehicleMarker = new Marker(new PointShape(_gpsPoints[0].X, _gpsPoints[0].Y))
+            _vehicleMarker = new Marker()
             {
+                Position = new Point(_gpsPoints[0].X, _gpsPoints[0].Y),
                 ImageSource = new BitmapImage(new Uri("/Resources/vehicle_location.png", UriKind.RelativeOrAbsolute)),
                 Width = 24,
                 Height = 24
@@ -90,88 +87,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             _markerOverlay.Markers.Add(_vehicleMarker);
             mapView.Overlays.Add(_markerOverlay);
 
-            //mapView.CurrentExtentChanged += MapView_CurrentExtentChanged;
+            //mapView.CurrentExtentChangedInAnimation += MapViewOnCurrentExtentChangedInAnimation;
 
             mapView.CenterPoint = new PointShape(_gpsPoints[0]);
             mapView.CurrentScale = DefaultScale;
 
-            // Defer animation trigger until control is fully loaded
-            this.BeginInvoke(new Action(() =>
-            {
-                _routeLayer.Open(); 
-                var fromExtent = mapView.CurrentExtent;
-                var toExtent = _routeLayer.GetBoundingBox();
-                _routeLayer.Close(); 
-                AnimateTo(fromExtent, toExtent);
-            }));
-
             _ = ZoomToGpsPointsAsync(_gpsPoints);
-
-            mapView.CurrentExtentChanged += (s, args) =>
-            {
-                if (_vehicleMarker != null)
-                {
-                    angleLabel.Text = $"Angle: {_vehicleMarker.RotateAngle:N2}°";
-                }
-            };
-        }
-
-        private void AnimateTo(RectangleShape fromExtent, RectangleShape toExtent, int durationMs = 1000)
-        {
-            int steps = 20;
-            int currentStep = 0;
-            var timer = new System.Windows.Forms.Timer();
-            timer.Interval = durationMs / steps;
-
-            double fromResolution = GetResolution(fromExtent);
-            double toResolution = GetResolution(toExtent);
-
-            var fromCenter = fromExtent.GetCenterPoint();
-            var toCenter = toExtent.GetCenterPoint();
-
-            timer.Tick += async (s, e) =>
-            {
-                currentStep++;
-                double progress = (double)currentStep / steps;
-
-                // Interpolate center
-                var currentCenter = new PointShape(
-                    fromCenter.X + (toCenter.X - fromCenter.X) * progress,
-                    fromCenter.Y + (toCenter.Y - fromCenter.Y) * progress);
-                
-                // Interpolate resolution
-                double currentResolution = fromResolution + (toResolution - fromResolution) * progress;
-                var currentExtent = GetExtentFromCenterAndResolution(currentCenter, currentResolution);
-
-                mapView.CurrentExtent = currentExtent;
-                await mapView.RefreshAsync();
-
-                // Call your method like WPF does
-                UpdateRoutesAndMarker(progress);
-
-                if (currentStep >= steps)
-                {
-                    timer.Stop();
-                    timer.Dispose();
-                }
-            };
-
-            timer.Start();
-        }
-
-        private double GetResolution(RectangleShape extent)
-        {
-            return extent.Width / mapView.Width;
-        }
-
-        private RectangleShape GetExtentFromCenterAndResolution(PointShape center, double resolution)
-        {
-            double width = resolution * mapView.Width;
-            double height = resolution * mapView.Height;
-
-            return new RectangleShape(
-                center.X - width / 2, center.Y + height / 2,
-                center.X + width / 2, center.Y - height / 2);
         }
 
         private async Task ZoomToGpsPointsAsync(Collection<Vertex> gpsPoints)
@@ -195,7 +116,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
         }
 
-        private async void UpdateRoutesAndMarker(double progress, double angle = 0)
+        private void UpdateRoutesAndMarker(double progress, double angle = 0)
         {
             if (_currentGpsPointIndex == 0)
                 return;
@@ -209,32 +130,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var x = (toPoint.X - fromPoint.X) * progress + fromPoint.X;
             var y = (toPoint.Y - fromPoint.Y) * progress + fromPoint.Y;
 
-            //if (_visitedVertices.Count > 0 && !MapUtil.IsSamePoint(_visitedVertices[_visitedVertices.Count - 1], _gpsPoints[_currentGpsPointIndex - 1]))
-            //{
-            //    _visitedVertices.RemoveAt(_visitedVertices.Count - 1);
-            //}
+            if (_visitedVertices.Count > 0 && !MapUtil.IsSamePoint(_visitedVertices[_visitedVertices.Count - 1], _gpsPoints[_currentGpsPointIndex - 1]))
+            {
+                _visitedVertices.RemoveAt(_visitedVertices.Count - 1);
+            }
 
             UpdateVisitedRoutes(new Vertex(x, y));
 
-            // Remove old marker if needed
-            _markerOverlay.Markers.Clear();
-
-            // Re-create the marker
-            _vehicleMarker = new Marker(new PointShape(x, y))
-            {
-                ImageSource = new BitmapImage(new Uri("/Resources/vehicle_location.png", UriKind.RelativeOrAbsolute)),
-                RotateAngle = angle,
-                Width = 24,
-                Height = 24
-            };
-
-            // Add it back
-            _markerOverlay.Markers.Add(_vehicleMarker);
-
-            await _markerOverlay.RefreshAsync();
-            await _routesOverlay.RefreshAsync();
-            Application.DoEvents(); 
-            await Task.Delay(500);   
+            _vehicleMarker.RotateAngle = angle;
+            _vehicleMarker.Position = new Point(x, y);
+            _ = _markerOverlay.RefreshAsync();
         }
 
         private void UpdateVisitedRoutes(Vertex newVertex)
@@ -258,13 +163,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             if (_showOverview)
             {
-                var totalTime = 2000.0; // Set a 1-second animation
+                var totalTime = 1000.0; // Set a 1-second animation
                 var currentTime = DateTime.Now;
 
                 while (true)
                 {
                     if (cancellationToken.IsCancellationRequested)
-                        await Task.Delay(1000);
+                        await Task.Delay(500);
                     double duration = (DateTime.Now - currentTime).TotalMilliseconds;
                     var process = duration / totalTime;
 
@@ -274,7 +179,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                     UpdateRoutesAndMarker(process, angle);
 
                     await _routesOverlay.RefreshAsync();
-                    await Task.Delay(100);
+                    await Task.Delay(1);
                 }
             }
             else
@@ -282,25 +187,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 var currentLocation = gpsPoints[gpsPointIndex];
                 var centerPoint = new PointShape(currentLocation);
                 // Recenter the map to display the GPS location 200 pixels towards the bottom for improved visibility.
-                centerPoint = MapUtil.OffsetPointWithScreenOffset(centerPoint, 0, 100, angle, DefaultScale, mapView.MapUnit);
+                centerPoint = MapUtil.OffsetPointWithScreenOffset(centerPoint, 0, 200, angle, DefaultScale, mapView.MapUnit);
 
-                UpdateRoutesAndMarker(0);
+                //UpdateRoutesAndMarker(0, angle);
                 await mapView.ZoomToAsync(centerPoint, DefaultScale, angle, cancellationToken);
             }
-        }
-
-        private static InMemoryFeatureLayer InitRouteLayerFromGpsPoints(Collection<Vertex> gpsPoints)
-        {
-            var lineShape = new LineShape();
-            foreach (var point in gpsPoints)
-                lineShape.Vertices.Add(point);
-
-            var layer = new InMemoryFeatureLayer();
-            layer.InternalFeatures.Add(new Feature(lineShape));
-            layer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.Yellow, 6, true);
-            layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-
-            return layer;
         }
 
         private static Collection<Vertex> CollectGpsData()
@@ -323,13 +214,51 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             return gpsPoints;
         }
 
+        private static InMemoryFeatureLayer InitRouteLayerFromGpsPoints(Collection<Vertex> gpsPoints)
+        {
+            var lineShape = new LineShape();
+            foreach (var point in gpsPoints)
+                lineShape.Vertices.Add(point);
+
+            var routeLayer = new InMemoryFeatureLayer();
+            routeLayer.InternalFeatures.Add(new Feature(lineShape));
+            routeLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.Yellow, 6, true);
+            routeLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
+            return routeLayer;
+        }
+
         private static double GetRotationAngle(int currentIndex, IReadOnlyList<Vertex> gpsPoints)
         {
-            Vertex current = gpsPoints[currentIndex < gpsPoints.Count - 1 ? currentIndex : currentIndex - 1];
-            Vertex next = gpsPoints[currentIndex < gpsPoints.Count - 1 ? currentIndex + 1 : currentIndex];
+            Vertex currentLocation;
+            Vertex nextLocation;
 
-            double angle = Math.Atan2(next.X - current.X, next.Y - current.Y) * 180 / Math.PI;
-            return -angle;
+            if (currentIndex < gpsPoints.Count - 1)
+            {
+                currentLocation = gpsPoints[currentIndex];
+                nextLocation = gpsPoints[currentIndex + 1];
+            }
+            else
+            {
+                currentLocation = gpsPoints[currentIndex - 1];
+                nextLocation = gpsPoints[currentIndex];
+            }
+
+            double angle;
+            if (nextLocation.X - currentLocation.X != 0)
+            {
+                var dx = nextLocation.X - currentLocation.X;
+                var dy = nextLocation.Y - currentLocation.Y;
+
+                angle = Math.Atan2(dx, dy) / Math.PI * 180; // get the angle in degrees 
+                angle = -angle;
+            }
+            else
+            {
+                angle = nextLocation.Y - currentLocation.Y >= 0 ? 0 : 180;
+            }
+
+            return angle;
         }
 
 
@@ -374,16 +303,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             OverviewButton.Size = new System.Drawing.Size(147, 36);
             OverviewButton.TabIndex = 11;
             OverviewButton.UseVisualStyleBackColor = true;
-            //this.zoomToBlackHoleButton.Click += ZoomToBlackHoleButton_Click;
             // 
             // aerialBackgroundCheckBox
             // 
             aerialBackgroundCheckBox.Name = "AerialBackgroundCheckBox";
             aerialBackgroundCheckBox.Text = "Aerial Background";
             aerialBackgroundCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            aerialBackgroundCheckBox.ForeColor = System.Drawing.Color.White;
+            aerialBackgroundCheckBox.ForeColor = System.Drawing.Color.Black;
+            aerialBackgroundCheckBox.BackColor = System.Drawing.Color.LightGray;
             aerialBackgroundCheckBox.Size = new System.Drawing.Size(147, 36);
-            aerialBackgroundCheckBox.Location = new System.Drawing.Point(20, 20);
+            aerialBackgroundCheckBox.Location = new System.Drawing.Point(20, 670);
             aerialBackgroundCheckBox.UseVisualStyleBackColor = true;
             aerialBackgroundCheckBox.CheckedChanged += AerialBackgroundCheckBox_CheckedChanged; 
             // 
