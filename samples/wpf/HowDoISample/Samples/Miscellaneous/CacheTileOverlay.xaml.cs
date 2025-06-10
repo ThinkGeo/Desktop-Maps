@@ -37,6 +37,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.Overlays.Add(_layerOverlay);
 
             string cachePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cache");
+            CacheFolderTextBox.Text = cachePath;
+
             if (!Directory.Exists(cachePath))
                 Directory.CreateDirectory(cachePath);
 
@@ -45,6 +47,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             streetsLayer.Open();
             _bbox = streetsLayer.GetBoundingBox();
+
+            MinXTextBox.Text = _bbox.UpperLeftPoint.X.ToString();  // minX
+            MaxYTextBox.Text = _bbox.UpperLeftPoint.Y.ToString();  // maxY
+            MaxXTextBox.Text = _bbox.LowerRightPoint.X.ToString(); // maxX
+            MinYTextBox.Text = _bbox.LowerRightPoint.Y.ToString(); // minY
+
             MapView.CurrentExtent = _bbox;
 
             _layerOverlay.TileMatrixSet = TileMatrixSet.CreateTileMatrixSet(512, _bbox, GeographyUnit.Meter);
@@ -65,6 +73,54 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             });
         }
 
+        private void SelectAreaCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            // Enable rectangle drawing mode
+            MapView.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
+            MapView.TrackOverlay.TrackMode = TrackMode.Rectangle;
+            MapView.TrackOverlay.TrackEnded += TrackOverlay_TrackEnded;
+        }
+
+        private void SelectAreaCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            // Disable drawing mode and clear any drawn shapes
+            MapView.TrackOverlay.TrackMode = TrackMode.None;
+            MapView.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
+            MapView.TrackOverlay.TrackEnded -= TrackOverlay_TrackEnded;
+        }
+
+        private void TrackOverlay_TrackEnded(object sender, TrackEndedTrackInteractiveOverlayEventArgs e)
+        {
+            // Retrieve the drawn rectangle
+            var rectangle = e.TrackShape as RectangleShape;
+
+            if (rectangle != null)
+                _bbox = rectangle;
+
+            // Reset the TrackMode to None to stop further drawing
+            MapView.TrackOverlay.TrackMode = TrackMode.None;
+
+            MinXTextBox.Text = _bbox.UpperLeftPoint.X.ToString();  // minX
+            MaxYTextBox.Text = _bbox.UpperLeftPoint.Y.ToString();  // maxY
+            MaxXTextBox.Text = _bbox.LowerRightPoint.X.ToString(); // maxX
+            MinYTextBox.Text = _bbox.LowerRightPoint.Y.ToString(); // minY
+        }
+
+        private void BrowseCacheFolder_OnClick(object sender, RoutedEventArgs e)
+        {
+            using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
+            {
+                dialog.Description = "Select Cache Folder";
+                dialog.SelectedPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cache");
+
+                System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+
+                if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(dialog.SelectedPath))
+                {
+                    CacheFolderTextBox.Text = dialog.SelectedPath;
+                }
+            }
+        }
 
         private void ckbCacheOnly_OnChecked(object sender, RoutedEventArgs e)
         {
@@ -78,7 +134,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _ = MapView.RefreshAsync();
         }
 
-
         private async void BtnGenerateCache_OnClick(object sender, RoutedEventArgs e)
         {
             try
@@ -89,16 +144,44 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 LblStatus.Content = "";
                 _finishedTileCount = 0;
 
+                // Override cache folder before generating
+                string cacheFolder = CacheFolderTextBox.Text.Trim();
+                if (!Directory.Exists(cacheFolder))
+                {
+                    Directory.CreateDirectory(cacheFolder);
+                }
+
+                // Reassign TileCache with custom path
+                _layerOverlay.TileCache = new FileRasterTileCache(cacheFolder, "overlayCacheTest");
+
+                // Optional: clear old cache files before regenerating
+                _layerOverlay.TileCache.ClearCache();
+
                 // get the ScaleFactor
                 var dpiInfo = VisualTreeHelper.GetDpi(this);
                 var scaleFactor = (float)dpiInfo.DpiScaleX;
 
-                // generate the cache for the current and next 2 zooms. 
-                var zoom = _layerOverlay.TileMatrixSet.GetSnappedZoomIndex(MapView.CurrentScale);
-                await _layerOverlay.GenerateTileCacheAsync(_bbox, zoom, zoom + 3, scaleFactor);
+                // generate the cache from minZoomLevel to maxZoomLevel. 
+                int minZoomLevel = int.Parse(MinZoomTextBox.Text.Trim());
+                int maxZoomLevel = int.Parse(MaxZoomTextBox.Text.Trim());
+
+                double minX = double.Parse(MinXTextBox.Text);
+                double maxY = double.Parse(MaxYTextBox.Text);
+                double maxX = double.Parse(MaxXTextBox.Text);
+                double minY = double.Parse(MinYTextBox.Text);
+                
+                _bbox = new RectangleShape(minX, maxY, maxX, minY);
+
+                await _layerOverlay.GenerateTileCacheAsync(_bbox, minZoomLevel, maxZoomLevel, scaleFactor);
 
                 MyProgressBar.Visibility = Visibility.Hidden;
                 LblStatus.Visibility = Visibility.Hidden;
+
+                int targetZoomLevel = minZoomLevel;
+                double newScale = _layerOverlay.TileMatrixSet.GetScales()[targetZoomLevel];
+
+                MapView.CurrentScale = newScale;
+                MapView.CenterPoint = _bbox.GetCenterPoint();
 
                 await MapView.RefreshAsync();
             }
@@ -141,13 +224,23 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 _layerOverlay.TileMatrixSet = TileMatrixSet.CreateTileMatrixSet(512, _bbox, GeographyUnit.Meter, 10);
                 MapView.ZoomScales = _layerOverlay.TileMatrixSet.GetScales();
 
+                var zoom = _layerOverlay.TileMatrixSet.GetSnappedZoomIndex(MapView.CurrentScale);
+                MinZoomTextBox.Text = zoom.ToString();
+                MaxZoomTextBox.Text = (int.Parse(zoom.ToString()) + 3).ToString();
+                NoteTextBlock.Text = "Note: Min Zoom should be < Max Zoom. Valid range: 0–9.";
             }
             else
             {
                 button.Content = "Switch to Local Tile Matrix";
                 _layerOverlay.TileMatrixSet = TileMatrixSet.CreateTileMatrixSet(512, MaxExtents.SphericalMercator, GeographyUnit.Meter);
                 MapView.ZoomScales = _layerOverlay.TileMatrixSet.GetScales();
+
+                var zoom = _layerOverlay.TileMatrixSet.GetSnappedZoomIndex(MapView.CurrentScale);
+                MinZoomTextBox.Text = zoom.ToString();
+                MaxZoomTextBox.Text = (int.Parse(zoom.ToString())+3).ToString();
+                NoteTextBlock.Text = $"Note: Current Zoom Level is {zoom}, Min Zoom should be < Max Zoom. Valid range: 0–19.";
             }
+
             _ = MapView.RefreshAsync();
         }
 

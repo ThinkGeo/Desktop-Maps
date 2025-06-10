@@ -39,7 +39,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             streetsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
             parksLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
-            MapStyleLoader loader = new MapStyleLoader();
+            StyleJsonLoader loader = new StyleJsonLoader();
             loader.LoadAsync(@"./Data/Json/styleJsonDemo.json");
             loader.ApplyStyle("Parks.shp", parksLayer.ZoomLevelSet);
             loader.ApplyStyle("Streets.shp", streetsLayer.ZoomLevelSet);

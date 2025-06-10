@@ -64,6 +64,9 @@
     <Compile Update="Samples\MapNavigation\ZoomToBlackHole.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Samples\MapNavigation\DynamicRendering.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Samples\MapOfflineData\Raster\DisplayCommonRasterFile.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -606,6 +609,9 @@
     <None Update="Data\GridFile\Mosquitos.grd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Data\historical_state_population_by_year.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Data\Jp2\m_3309650_sw_14_1_20160911_20161121.jp2">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -1026,6 +1032,21 @@
     <None Update="Data\Shapefile\Subdivisions.shx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Data\Shapefile\USStates_3857.dbf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Shapefile\USStates_3857.ids">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Shapefile\USStates_3857.idx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Shapefile\USStates_3857.shp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Shapefile\USStates_3857.shx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Data\Shapefile\WorldCapitals.dbf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -1151,7 +1172,7 @@
     <Compile Update="Samples\MapOnlineData\GoogleMap.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\MapOnlineData\BingMap.xaml.cs">
+    <Compile Update="Samples\MapOnlineData\AzureMap.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\MapOnlineData\ThinkGeoVectorMap.xaml.cs">
@@ -1283,7 +1304,7 @@
     <Page Update="Samples\MapOnlineData\GoogleMap.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\MapOnlineData\BingMap.xaml">
+    <Page Update="Samples\MapOnlineData\AzureMap.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\MapOnlineData\ThinkGeoVectorMap.xaml">
@@ -1396,7 +1417,7 @@
     <Page Update="Samples\UsingOverlays\DisplayCloudMapsVectorOverlaySample.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\UsingOverlays\DisplayBingMapsOverlaySample.xaml">
+    <Page Update="Samples\UsingOverlays\DisplayAzureMapsOverlaySample.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\UsingOverlays\DisplayGoogleMapsOverlaySample.xaml">

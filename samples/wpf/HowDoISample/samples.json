@@ -31,6 +31,12 @@
         "title": "Resize the Map",
         "description": "Learn to resize the map while preserving the world extent with various map resize modes.",
         "source": "Samples/MapNavigation/ResizeTheMap"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DynamicRendering",
+        "title": "Dynamic Rendering",
+        "description": "Dynamically refreshing the shapes",
+        "source": "Samples/MapNavigation/DynamicRendering"
       }
     ]
   },
@@ -56,10 +62,10 @@
         "source": "Samples/MapOnlineData/ThinkGeoVectorMap"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.BingMap",
-        "title": "Bing Map",
-        "description": "This sample shows how to display a Bing Maps layer.",
-        "source": "Samples/MapOnlineData/BingMap"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.AzureMap",
+        "title": "Azure Map",
+        "description": "This sample shows how to display an Azure Maps layer.",
+        "source": "Samples/MapOnlineData/AzureMap"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.GoogleMap",
@@ -399,16 +405,22 @@
     "title": "Markers and Popups",
     "children": [
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.Markers",
+        "title": "Markers",
+        "description": "Learn to add, edit, or remove markers on the map using the MarkerOverlay.",
+        "source": "Samples/MarkersandPopups/Markers"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.AnimatedMarker",
         "title": "Animated Marker",
         "description": "Learn to add an animated marker on the map using the custom icon.",
         "source": "Samples/MarkersandPopups/AnimatedMarker"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.Markers",
-        "title": "Markers",
-        "description": "Learn to add, edit, or remove markers on the map using the MarkerOverlay.",
-        "source": "Samples/MarkersandPopups/Markers"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.TextMarker",
+        "title": "Text Marker",
+        "description": "Display a draggable text using marker",
+        "source": "Samples/MarkersandPopups/AnimatedMarker"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.Popups",
@@ -884,10 +896,10 @@
   //  "title": "Using Overlays",
   //  "children": [
   //    {
-  //      "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayBingMapsOverlaySample",
-  //      "title": "Display Bing Maps Overlay",
-  //      "description": "Learn to render Bing Maps using the BingMapsOverlay. A valid Bing Maps ApplicationID is required. Visit the Bing Maps Dev Portal to sign up for a key (https://www.bingmapsportal.com/).",
-  //      "source": "Samples/UsingOverlays/DisplayBingMapsOverlaySample"
+  //      "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayAzureMapsOverlaySample",
+  //      "title": "Display Azure Maps Overlay",
+  //      "description": "Learn to render Azure Maps using the AzureMapsRasterOverlay. A valid Azure Maps ApplicationID is required. Visit the Azure Maps Dev Portal to sign up for a key (https://portal.azure.com/#browse/Microsoft.Maps%2Faccounts).",
+  //      "source": "Samples/UsingOverlays/DisplayAzureMapsOverlaySample"
   //    },
   //    {
   //      "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayCloudMapsRasterOverlaySample",

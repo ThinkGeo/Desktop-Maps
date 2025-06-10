@@ -30,6 +30,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var stadiumLayer = new InMemoryFeatureLayer();
             var shortestLineLayer = new InMemoryFeatureLayer();
             var layerOverlay = new LayerOverlay();
+            layerOverlay.TileType = TileType.SingleTile;
 
             // Project friscoParks layer to Spherical Mercator to match the map projection
             friscoParks.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);

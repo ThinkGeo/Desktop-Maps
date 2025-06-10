@@ -46,6 +46,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Add housingUnitsLayer to a LayerOverlay
             var layerOverlay = new LayerOverlay();
+            layerOverlay.TileType = TileType.SingleTile;
             layerOverlay.Layers.Add(housingUnitsLayer);
 
             // Add layerOverlay to the mapView

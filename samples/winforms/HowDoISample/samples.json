@@ -32,10 +32,10 @@
         "source": "Samples/MapOnlineData/ThinkGeoVectorMap"
       },
       {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.BingMap",
-        "title": "Bing Map",
-        "description": "This sample shows how to display a Bing Maps layer.",
-        "source": "Samples/MapOnlineData/BingMap"
+        "id": "ThinkGeo.UI.WinForms.HowDoI.AzureMap",
+        "title": "Azure Map",
+        "description": "This sample shows how to display an Azure Maps layer.",
+        "source": "Samples/MapOnlineData/AzureMap"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.GoogleMap",
@@ -764,10 +764,10 @@
   //  "title": "Using Overlays",
   //  "children": [
   //    {
-  //      "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayBingMapsOverlaySample",
-  //      "title": "Display Bing Maps Overlay",
-  //      "description": "Learn to render Bing Maps using the BingMapsOverlay. A valid Bing Maps ApplicationID is required. Visit the Bing Maps Dev Portal to sign up for a key (https://www.bingmapsportal.com/).",
-  //      "source": "Samples/UsingOverlays/DisplayBingMapsOverlaySample"
+  //      "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayAzureMapsOverlaySample",
+  //      "title": "Display Azure Maps Overlay",
+  //      "description": "Learn to render Azure Maps using the AzureMapsRasterOverlay. A valid Azure Maps ApplicationID is required. Visit the Azure Maps Dev Portal to sign up for a key (https://portal.azure.com/#browse/Microsoft.Maps%2Faccounts).",
+  //      "source": "Samples/UsingOverlays/DisplayAzureMapsOverlaySample"
   //    },
   //    {
   //      "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayCloudMapsRasterOverlaySample",
