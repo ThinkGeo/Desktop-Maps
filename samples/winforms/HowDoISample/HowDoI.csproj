@@ -94,6 +94,7 @@
     <None Remove="Resources\Ellipse.png" />
     <None Remove="Resources\generic-logo.png" />
     <None Remove="Resources\hotel_icon.png" />
+    <None Remove="Resources\icon_north_arrow.png" />
     <None Remove="Resources\Line.png" />
     <None Remove="Resources\LinkButtonIconContactUs.png" />
     <None Remove="Resources\LinkButtonIconDiscussionForums.png" />
@@ -127,6 +128,11 @@
     <None Remove="Resources\West.png" />
     <None Remove="Resources\ZoomIn.png" />
     <None Remove="Resources\ZoomOut.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\icon_north_arrow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\AQUA.png" />

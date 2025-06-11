@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -184,6 +186,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                         break;
 
                     UpdateRoutesAndMarker(process, angle);
+                    UpdateCompassImage((float)angle);
 
                     await _routesOverlay.RefreshAsync();
                     await Task.Delay(1);
@@ -293,7 +296,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             _showOverview = !_showOverview;
             if (_showOverview)
             {
-                OverviewButton.Text = "Tracking Mode";
+                overviewButton.Text = "Tracking Mode";
 
                 RefreshCancellationTokenAsync();
 
@@ -307,24 +310,66 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
             else
             {
-                OverviewButton.Text = "Overview Mode";
+                overviewButton.Text = "Overview Mode";
+            }
+        }
+
+        public static Image RotateImage(Image image, float angle)
+        {
+            if (image == null) return null;
+
+            // Create a new empty bitmap to hold rotated image
+            Bitmap rotatedImage = new Bitmap(image.Width, image.Height);
+            rotatedImage.MakeTransparent();
+            rotatedImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (Graphics g = Graphics.FromImage(rotatedImage))
+            {
+                // Set the rotation point to the center of the image
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+                g.Clear(Color.Transparent);
+                g.TranslateTransform(image.Width / 2f, image.Height / 2f);
+                g.RotateTransform(angle);
+                g.TranslateTransform(-image.Width / 2f, -image.Height / 2f);
+
+                // Draw the original image onto the rotated graphics object
+                g.DrawImage(image, new System.Drawing.PointF(0, 0));
+            }
+
+            return rotatedImage;
+        }
+
+        private void UpdateCompassImage(float angle)
+        {
+            compassButton.Image?.Dispose();
+
+            string imagePath = Path.Combine(Application.StartupPath, "Resources", "icon_north_arrow.png");
+
+            if (File.Exists(imagePath))
+            {
+                using (var originalImage = Image.FromFile(imagePath))
+                {
+                    // Clone it first because we can't rotate a disposed image
+                    var cloneImage = (Image)originalImage.Clone();
+                    compassButton.Image = RotateImage(cloneImage, angle);
+                }
             }
         }
 
         #region Component Designer generated code
 
-        private Button OverviewButton;
-        private MapView mapView;
-        private PictureBox northArrowPictureBox;
-        private CheckBox aerialBackgroundCheckBox;
         private Button overviewButton;
-        //private Timer rotationTimer;
+        private MapView mapView;
+        private PictureBox compassButton;
+        private CheckBox aerialBackgroundCheckBox;
+        private System.Windows.Forms.Timer rotationTimer;
 
         private void InitializeComponent()
         {
             mapView = new ThinkGeo.UI.WinForms.MapView();
-            OverviewButton = new Button();
+            overviewButton = new Button();
             aerialBackgroundCheckBox = new CheckBox();
+            compassButton = new PictureBox();
             SuspendLayout();
             // 
             // mapView
@@ -340,17 +385,17 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.RestrictExtent = null;
             this.mapView.RotationAngle = 0F;
             this.mapView.TabIndex = 0;
-            this.mapView.Controls.Add(this.OverviewButton);
+            this.mapView.Controls.Add(this.overviewButton);
             this.Controls.Add(this.aerialBackgroundCheckBox);
             // 
             // OverviewButton
             // 
-            OverviewButton.Text = "Overview Mode";
-            OverviewButton.Location = new System.Drawing.Point(1080, 670);
-            OverviewButton.Size = new System.Drawing.Size(147, 36);
-            OverviewButton.TabIndex = 11;
-            OverviewButton.UseVisualStyleBackColor = true;
-            OverviewButton.Click += OverviewButton_Click;
+            overviewButton.Text = "Overview Mode";
+            overviewButton.Location = new System.Drawing.Point(1080, 670);
+            overviewButton.Size = new System.Drawing.Size(147, 36);
+            overviewButton.TabIndex = 11;
+            overviewButton.UseVisualStyleBackColor = true;
+            overviewButton.Click += OverviewButton_Click;
             // 
             // aerialBackgroundCheckBox
             // 
@@ -362,12 +407,28 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             aerialBackgroundCheckBox.Size = new System.Drawing.Size(147, 36);
             aerialBackgroundCheckBox.Location = new System.Drawing.Point(20, 670);
             aerialBackgroundCheckBox.UseVisualStyleBackColor = true;
-            aerialBackgroundCheckBox.CheckedChanged += AerialBackgroundCheckBox_CheckedChanged; 
+            aerialBackgroundCheckBox.CheckedChanged += AerialBackgroundCheckBox_CheckedChanged;
+            // 
+            // compassButton 
+            // 
+            compassButton.Name = "compassButton";
+            compassButton.Size = new Size(40, 40);
+            compassButton.BackColor = Color.Transparent;
+            compassButton.SizeMode = PictureBoxSizeMode.StretchImage;
+            string imagePathOfCompassButton = Path.Combine(Application.StartupPath, "Resources", "icon_north_arrow.png");
+            Image originalImageOfCompassButton = Image.FromFile(imagePathOfCompassButton);
+            compassButton.Image = RotateImage(originalImageOfCompassButton, 0);
+            System.Drawing.Drawing2D.GraphicsPath pathOfCompassButton = new System.Drawing.Drawing2D.GraphicsPath();
+            pathOfCompassButton.AddEllipse(0, 0, compassButton.Width, compassButton.Height);
+            compassButton.Region = new Region(pathOfCompassButton);
+            compassButton.Location = new System.Drawing.Point(1140, 10);
+            compassButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            this.Controls.Add(compassButton);
             // 
             // NavigationMap
             // 
             this.Controls.Add(this.mapView);
-            this.Controls.Add(OverviewButton);
+            this.Controls.Add(overviewButton);
             Name = "ZoomToBlackHole";
             Size = new System.Drawing.Size(1194, 560);
             Load += Form_Load;
@@ -375,8 +436,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             //
             // Make sure the controls are on top of the mapView
             //
-            OverviewButton.BringToFront();
+            overviewButton.BringToFront();
             aerialBackgroundCheckBox.BringToFront();
+            compassButton.BringToFront();
         }
 
         #endregion Component Designer generated code
