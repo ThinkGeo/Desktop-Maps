@@ -26,7 +26,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private CancellationTokenSource _cancellationTokenSource;
         private ThinkGeoCloudRasterMapsOverlay _backgroundOverlay;
 
-        private LayerOverlay _routesOverlay;
+        private FeatureLayerWpfDrawingOverlay _routesOverlay;
         private SimpleMarkerOverlay _markerOverlay;
         private InMemoryFeatureLayer _routeLayer;
         private InMemoryFeatureLayer _visitedRoutesLayer;
@@ -36,7 +36,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         public VehicleNavigation()
         {
             InitializeComponent();
-            this.Load += Form_Load;
+            this.HandleDestroyed += VehicleNavigation_HandleDestroyed;
+        }
+
+        private void VehicleNavigation_HandleDestroyed(object sender, EventArgs e)
+        {
+            this._disposed = true;
         }
 
         private void Form_Load(object sender, EventArgs e)
@@ -70,13 +75,15 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 LineStyle.CreateSimpleLineStyle(GeoColors.Green, 6, true);
             _visitedRoutesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            _routesOverlay = new LayerOverlay();
-            _routesOverlay.Layers.Add("route", _routeLayer);
-            _routesOverlay.Layers.Add("visited", _visitedRoutesLayer);
+            _routesOverlay = new FeatureLayerWpfDrawingOverlay();
+            _routesOverlay.UpdateDataWhileTransforming = true;
+            _routesOverlay.FeatureLayers.Add(_routeLayer);
+            _routesOverlay.FeatureLayers.Add(_visitedRoutesLayer);
             mapView.Overlays.Add(_routesOverlay);
 
-            // Marker Overlay
+            // Create a marker overlay to show where the vehicle is
             _markerOverlay = new SimpleMarkerOverlay();
+            // Create the marker of the vehicle
             _vehicleMarker = new Marker()
             {
                 Position = new Point(_gpsPoints[0].X, _gpsPoints[0].Y),
@@ -199,8 +206,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var gpsPoints = new Collection<Vertex>();
             var lines = File.ReadAllLines(@"./Data/Csv/vehicle-route.csv");
 
+            // Convert GPS Points from Lat/Lon (srid:4326) to Spherical Mercator (Srid:3857), which is the projection of the base map
             var converter = new ProjectionConverter(4326, 3857);
             converter.Open();
+
             foreach (var location in lines)
             {
                 var posItems = location.Split(',');
@@ -209,8 +218,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 var vertexInSphericalMercator = converter.ConvertToExternalProjection(lon, lat);
                 gpsPoints.Add(vertexInSphericalMercator);
             }
-            converter.Close();
 
+            converter.Close();
             return gpsPoints;
         }
 
@@ -220,6 +229,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             foreach (var point in gpsPoints)
                 lineShape.Vertices.Add(point);
 
+            // create the layers for the routes.
             var routeLayer = new InMemoryFeatureLayer();
             routeLayer.InternalFeatures.Add(new Feature(lineShape));
             routeLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.Yellow, 6, true);
@@ -261,11 +271,49 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             return angle;
         }
 
+        private void RefreshCancellationTokenAsync()
+        {
+            _cancellationTokenSource.Cancel();
+            _cancellationTokenSource.Dispose();
+            _cancellationTokenSource = new CancellationTokenSource();
+        }
+
+        private void AerialBackgroundCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            RefreshCancellationTokenAsync();
+
+            _backgroundOverlay.MapType = aerialBackgroundCheckBox.Checked
+                ? ThinkGeoCloudRasterMapsMapType.Aerial_V2_X2
+                : ThinkGeoCloudRasterMapsMapType.Light_V2_X2;
+            _ = _backgroundOverlay.RefreshAsync();
+        }
+
+        private void OverviewButton_Click(object sender, EventArgs e)
+        {
+            _showOverview = !_showOverview;
+            if (_showOverview)
+            {
+                OverviewButton.Text = "Tracking Mode";
+
+                RefreshCancellationTokenAsync();
+
+                var boundingBox = _routeLayer.GetBoundingBox();
+                var center = boundingBox.GetCenterPoint();
+
+                // Multiply the current scale by 1.5 to zoom out 50%.
+                var scale = MapUtil.GetScale(mapView.MapUnit, boundingBox, mapView.MapWidth, mapView.MapHeight) * 1.5;
+
+                _ = mapView.ZoomToAsync(center, scale, 0);
+            }
+            else
+            {
+                OverviewButton.Text = "Overview Mode";
+            }
+        }
 
         #region Component Designer generated code
 
         private Button OverviewButton;
-        private Label angleLabel;
         private MapView mapView;
         private PictureBox northArrowPictureBox;
         private CheckBox aerialBackgroundCheckBox;
@@ -277,7 +325,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView = new ThinkGeo.UI.WinForms.MapView();
             OverviewButton = new Button();
             aerialBackgroundCheckBox = new CheckBox();
-            angleLabel = new Label();
             SuspendLayout();
             // 
             // mapView
@@ -303,6 +350,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             OverviewButton.Size = new System.Drawing.Size(147, 36);
             OverviewButton.TabIndex = 11;
             OverviewButton.UseVisualStyleBackColor = true;
+            OverviewButton.Click += OverviewButton_Click;
             // 
             // aerialBackgroundCheckBox
             // 
@@ -316,37 +364,19 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             aerialBackgroundCheckBox.UseVisualStyleBackColor = true;
             aerialBackgroundCheckBox.CheckedChanged += AerialBackgroundCheckBox_CheckedChanged; 
             // 
-            // scaleLabel
-            // 
-            angleLabel.ForeColor = System.Drawing.Color.Blue;
-            angleLabel.Font = new System.Drawing.Font("Segoe UI", 12);
-            angleLabel.AutoSize = true;
-            angleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            angleLabel.Anchor = AnchorStyles.Top;
-            angleLabel.Location = new System.Drawing.Point(550, 20);
-            angleLabel.Visible = true;
-            angleLabel.Text = "Scale: 0.00";
-            // 
             // NavigationMap
             // 
             this.Controls.Add(this.mapView);
             this.Controls.Add(OverviewButton);
-            this.Controls.Add(angleLabel);
             Name = "ZoomToBlackHole";
             Size = new System.Drawing.Size(1194, 560);
-            //Load += Form_Load;
+            Load += Form_Load;
             ResumeLayout(false);
             //
             // Make sure the controls are on top of the mapView
             //
             OverviewButton.BringToFront();
-            angleLabel.BringToFront();
             aerialBackgroundCheckBox.BringToFront();
-        }
-
-        private void AerialBackgroundCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
         }
 
         #endregion Component Designer generated code
