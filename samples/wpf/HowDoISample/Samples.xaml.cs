@@ -23,7 +23,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     {
         // A list of all the menu models
         private List<MenuModel> _menus;
-        private readonly DispatcherTimer _changeTimer;
 
         public Samples()
         {
@@ -33,18 +32,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             DataContext = mainWindowVm;
 
             InitializeComponent();
-
-            _changeTimer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromMilliseconds(500)
-            };
-            _changeTimer.Tick += ChangeTimer_Tick;
-        }
-
-        private void ChangeTimer_Tick(object sender, EventArgs e)
-        {
-            _changeTimer.Stop();
-            UpdateUserControl();
         }
 
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
@@ -99,11 +86,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // If we select a new item then we need to load the new item
             if (e.PropertyName == nameof(MainWindowViewModel.SelectedMenu))
             {
-                if (_changeTimer.IsEnabled)
-                {
-                    _changeTimer.Stop();
-                }
-                _changeTimer.Start();
+                UpdateUserControl();
             }
             else if (e.PropertyName == nameof(MainWindowViewModel.CodeViewer))
             {

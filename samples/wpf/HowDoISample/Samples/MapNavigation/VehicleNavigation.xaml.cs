@@ -152,6 +152,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             _vehicleMarker.RotateAngle = angle;
             _vehicleMarker.Position = new Point(x, y);
+
+            _ = _routesOverlay.RefreshAsync();
             _ = _markerOverlay.RefreshAsync();
         }
 
