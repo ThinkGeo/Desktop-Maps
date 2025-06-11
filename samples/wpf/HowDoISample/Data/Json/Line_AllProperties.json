@@ -22,27 +22,30 @@
       "type": "line",
       "source": "local-shp",
       "source-layer": "Streets.shp",
-      "paint": {
-        "line-color": "#003344",
-        "line-width": 2
-      }
-    },
-    {
-      "id": "poi-points",
-      "type": "symbol",
-      "source": "local-shp",
-      "source-layer": "hotelsLayer.shp",
+      "minzoom": 0,
+      "maxzoom": 24,
       "layout": {
-        "text-field": "{name}",
-        "text-font": [ "Noto Sans Regular" ],
-        "text-size": 12,
-        "text-offset": [ 0, 0.6 ],
-        "text-anchor": "top"
+        "visibility": "visible",
+        "line-sort-key": 50,
+        "line-cap": "round",
+        "line-join": "round",
+        "line-miter-limit": 10,
+        "line-offset": 0,
+        "line-round-limit": 2,
+        "line-translate": [ 5, 10 ],
+        "line-translate-anchor": "map",
+        "line-z-offset": 10,
+        "line-cross-slope": 0
       },
       "paint": {
-        "text-color": "#FF3333",
-        "text-halo-color": "#ffffff",
-        "text-halo-width": 1
+        "line-color": "#003344",
+        "line-width": 2,
+        "line-opacity": 0.8,
+        "line-blur": 1,
+        "line-dasharray": [ 4, 2 ],
+        "line-gap-width": 0,
+        "line-pattern": "dashed-line",
+        "line-lighting-effect": "highlight"
       }
     }
   ]
