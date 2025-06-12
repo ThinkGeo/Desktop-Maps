@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using ThinkGeo.Core;
 using Point = System.Windows.Point;
+using Timer = System.Windows.Forms.Timer;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
@@ -18,6 +19,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
     /// </summary>
     public partial class VehicleNavigation : UserControl
     {
+        private double _currentCompassAngle = 0f;
+        private double _targetCompassAngle = 0f;
+        private Timer _compassAnimationTimer;
+        private const float CompassRotationSpeed = 40f;
+
         private Collection<Vertex> _gpsPoints;
         private readonly List<Vertex> _visitedVertices = new List<Vertex>();
         private int _currentGpsPointIndex;
@@ -38,6 +44,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         public VehicleNavigation()
         {
             InitializeComponent();
+            InitializeCompassRotation();
             this.HandleDestroyed += VehicleNavigation_HandleDestroyed;
         }
 
@@ -96,7 +103,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             _markerOverlay.Markers.Add(_vehicleMarker);
             mapView.Overlays.Add(_markerOverlay);
 
-            //mapView.CurrentExtentChangedInAnimation += MapViewOnCurrentExtentChangedInAnimation;
+            mapView.CurrentExtentChangedInAnimation += MapView_CurrentExtentChangedInAnimation;
 
             mapView.CenterPoint = new PointShape(_gpsPoints[0]);
             mapView.CurrentScale = DefaultScale;
@@ -113,16 +120,25 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 try
                 {
                     await ZoomToGpsPointAsync(gpsPoints, _currentGpsPointIndex, _cancellationTokenSource.Token);
-                    await Task.Delay(1000);
                 }
                 catch (TaskCanceledException)
                 {
-                    await Task.Delay(1000);
+                    await Task.Delay(500);
                 }
 
                 if (_disposed)
                     break;
             }
+        }
+
+        private void MapView_CurrentExtentChangedInAnimation(object sender, 
+            CurrentExtentChangedInAnimationMapViewEventArgs e)
+        {
+            if (!MapUtil.IsSameDouble(e.FromResolution, e.ToResolution))
+                return;
+
+            UpdateRoutesAndMarker(e.Progress);
+            UpdateCompassImageSmooth((float)mapView.RotationAngle);
         }
 
         private void UpdateRoutesAndMarker(double progress, double angle = 0)
@@ -148,6 +164,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             _vehicleMarker.RotateAngle = angle;
             _vehicleMarker.Position = new Point(x, y);
+
+            _ = _routesOverlay.RefreshAsync();
             _ = _markerOverlay.RefreshAsync();
         }
 
@@ -186,7 +204,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                         break;
 
                     UpdateRoutesAndMarker(process, angle);
-                    UpdateCompassImage((float)angle);
 
                     await _routesOverlay.RefreshAsync();
                     await Task.Delay(1);
@@ -199,7 +216,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 // Recenter the map to display the GPS location 200 pixels towards the bottom for improved visibility.
                 centerPoint = MapUtil.OffsetPointWithScreenOffset(centerPoint, 0, 200, angle, DefaultScale, mapView.MapUnit);
 
-                //UpdateRoutesAndMarker(0, angle);
                 await mapView.ZoomToAsync(centerPoint, DefaultScale, angle, cancellationToken);
             }
         }
@@ -307,11 +323,47 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 var scale = MapUtil.GetScale(mapView.MapUnit, boundingBox, mapView.MapWidth, mapView.MapHeight) * 1.5;
 
                 _ = mapView.ZoomToAsync(center, scale, 0);
+                UpdateCompassImageSmooth(0);
             }
             else
             {
                 overviewButton.Text = "Overview Mode";
             }
+        }
+
+        private void InitializeCompassRotation()
+        {
+            _compassAnimationTimer = new Timer();
+            _compassAnimationTimer.Interval = 16; // ~60 FPS
+            _compassAnimationTimer.Tick += CompassAnimationTimer_Tick;
+            _compassAnimationTimer.Start();
+        }
+
+        private void CompassAnimationTimer_Tick(object sender, EventArgs e)
+        {
+            double delta = _targetCompassAngle - _currentCompassAngle;
+
+            // Normalize shortest rotation direction
+            if (delta > 180) delta -= 360;
+            if (delta < -180) delta += 360;
+
+            if (Math.Abs(delta) < 0.1)
+            {
+                _currentCompassAngle = _targetCompassAngle;
+            }
+            else
+            {
+                _currentCompassAngle += Math.Sign(delta) * Math.Min(Math.Abs(delta), CompassRotationSpeed);
+            }
+
+            // Call your existing method to update compass image
+            UpdateCompassImage((float)_currentCompassAngle);
+        }
+
+        private void UpdateCompassImageSmooth(float newAngle)
+        {
+            // Normalize angle to [0, 360)
+            _targetCompassAngle = (newAngle % 360 + 360) % 360;
         }
 
         public static Image RotateImage(Image image, float angle)
@@ -342,7 +394,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private void UpdateCompassImage(float angle)
         {
             compassButton.Image?.Dispose();
-
             string imagePath = Path.Combine(Application.StartupPath, "Resources", "icon_north_arrow.png");
 
             if (File.Exists(imagePath))
@@ -356,20 +407,33 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
         }
 
-        #region Component Designer generated code
+        protected override void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    mapView?.Dispose(); // Dispose managed resources here
+                }
+                _disposed = true;  // Dispose unmanaged resources here (if any)
+            }
+            base.Dispose(disposing);
+        }
 
-        private Button overviewButton;
+
+        #region Component Designer generated code
+       
         private MapView mapView;
+        private Button overviewButton;
         private PictureBox compassButton;
         private CheckBox aerialBackgroundCheckBox;
-        private System.Windows.Forms.Timer rotationTimer;
 
         private void InitializeComponent()
         {
             mapView = new ThinkGeo.UI.WinForms.MapView();
             overviewButton = new Button();
-            aerialBackgroundCheckBox = new CheckBox();
             compassButton = new PictureBox();
+            aerialBackgroundCheckBox = new CheckBox();
             SuspendLayout();
             // 
             // mapView
@@ -388,26 +452,15 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.Controls.Add(this.overviewButton);
             this.Controls.Add(this.aerialBackgroundCheckBox);
             // 
-            // OverviewButton
+            // overviewButton
             // 
             overviewButton.Text = "Overview Mode";
+            overviewButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             overviewButton.Location = new System.Drawing.Point(1080, 670);
             overviewButton.Size = new System.Drawing.Size(147, 36);
             overviewButton.TabIndex = 11;
             overviewButton.UseVisualStyleBackColor = true;
             overviewButton.Click += OverviewButton_Click;
-            // 
-            // aerialBackgroundCheckBox
-            // 
-            aerialBackgroundCheckBox.Name = "AerialBackgroundCheckBox";
-            aerialBackgroundCheckBox.Text = "Aerial Background";
-            aerialBackgroundCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            aerialBackgroundCheckBox.ForeColor = System.Drawing.Color.Black;
-            aerialBackgroundCheckBox.BackColor = System.Drawing.Color.LightGray;
-            aerialBackgroundCheckBox.Size = new System.Drawing.Size(147, 36);
-            aerialBackgroundCheckBox.Location = new System.Drawing.Point(20, 670);
-            aerialBackgroundCheckBox.UseVisualStyleBackColor = true;
-            aerialBackgroundCheckBox.CheckedChanged += AerialBackgroundCheckBox_CheckedChanged;
             // 
             // compassButton 
             // 
@@ -425,11 +478,23 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             compassButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             this.Controls.Add(compassButton);
             // 
+            // aerialBackgroundCheckBox
+            // 
+            aerialBackgroundCheckBox.Name = "AerialBackgroundCheckBox";
+            aerialBackgroundCheckBox.Text = "Aerial Background";
+            aerialBackgroundCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            aerialBackgroundCheckBox.ForeColor = System.Drawing.Color.Black;
+            aerialBackgroundCheckBox.BackColor = System.Drawing.Color.LightGray;
+            aerialBackgroundCheckBox.Size = new System.Drawing.Size(147, 36);
+            aerialBackgroundCheckBox.Location = new System.Drawing.Point(20, 670);
+            aerialBackgroundCheckBox.UseVisualStyleBackColor = true;
+            aerialBackgroundCheckBox.CheckedChanged += AerialBackgroundCheckBox_CheckedChanged;
+            // 
             // NavigationMap
             // 
             this.Controls.Add(this.mapView);
             this.Controls.Add(overviewButton);
-            Name = "ZoomToBlackHole";
+            Name = "VehicleNavigation";
             Size = new System.Drawing.Size(1194, 560);
             Load += Form_Load;
             ResumeLayout(false);
@@ -437,8 +502,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Make sure the controls are on top of the mapView
             //
             overviewButton.BringToFront();
-            aerialBackgroundCheckBox.BringToFront();
             compassButton.BringToFront();
+            aerialBackgroundCheckBox.BringToFront();
         }
 
         #endregion Component Designer generated code
