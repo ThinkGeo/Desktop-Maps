@@ -8,6 +8,9 @@ using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
+    /// <summary>
+    /// Learn how to programmatically zoom, pan, and rotate the map control.
+    /// </summary>
     public partial class ZoomToBlackHole : UserControl
     {
         private List<(PointShape centerPoint, double scale)> _zoomingExtents;
@@ -17,12 +20,17 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         public ZoomToBlackHole()
         {
             InitializeComponent();
-            _cancellationTokenSource = new CancellationTokenSource();
         }
 
+        /// <summary>
+        /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map
+        /// </summary>
         private void Form_Load(object sender, EventArgs e)
         {
             _cancellationTokenSource = new CancellationTokenSource();
+
+            mapView.DefaultAnimationSettings.Duration = 2000;
+            mapView.DefaultAnimationSettings.Type = MapAnimationType.DrawWithAnimation;
 
             mapView.MapUnit = GeographyUnit.Meter;
 
@@ -39,6 +47,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             AddGeoImageOverlay("ImageOverlay9", "Data/Jpg/m87_9.jpg", new PointShape(1000.698, 3151.046), 0.7, 0.03, 0, 0);
 
             _zoomingExtents = GetZoomingExtents();
+
             mapView.CurrentScaleChanged += MapView_CurrentScaleChanged;
             mapView.ZoomScales = GetDefaultZoomLevelSet();
 
@@ -64,31 +73,27 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             _ = mapView.RefreshAsync();
         }
 
-        private async void MapView_CurrentScaleChanged(object sender, CurrentScaleChangedMapViewEventArgs e)
+        private void MapView_CurrentScaleChanged(object sender, CurrentScaleChangedMapViewEventArgs e)
         {
             foreach (var overlay in mapView.Overlays)
             {
                 if (!(overlay is LayerOverlay layerOverlay))
                     continue;
-                if (layerOverlay.Layers.Count == 0)
-                    continue;
                 if (!(layerOverlay.Layers[0] is GeoImageLayer geoImageLayer))
                     continue;
-
-                double currentScale = mapView.CurrentScale;
-                if (currentScale < geoImageLayer.LowerScale)
+                if (mapView.CurrentScale < geoImageLayer.LowerScale)
                 {
                     layerOverlay.Opacity = 0;
                     continue;
                 }
-                if (currentScale > geoImageLayer.UpperScale)
+                if (mapView.CurrentScale > geoImageLayer.UpperScale)
                 {
                     layerOverlay.Opacity = 0;
                     continue;
                 }
 
-                double upperRatio = 1 - currentScale / geoImageLayer.UpperScale;
-                double lowerRatio = currentScale / geoImageLayer.LowerScale;
+                var upperRatio = 1 - mapView.CurrentScale / geoImageLayer.UpperScale;
+                var lowerRatio = mapView.CurrentScale / geoImageLayer.LowerScale;
 
                 if (upperRatio < 0.4)
                     layerOverlay.Opacity = upperRatio * 2.5;
@@ -97,11 +102,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 else
                     layerOverlay.Opacity = 1;
             }
-
-            await mapView.RefreshAsync();
-
-            System.Diagnostics.Debug.WriteLine($"Current Scale: {mapView.CurrentScale}");
-
         }
 
         // Updated AddGeoImageOverlay to return LayerOverlay
@@ -226,25 +226,28 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.RestrictExtent = null;
             this.mapView.RotationAngle = 0F;
             this.mapView.TabIndex = 0;
-            this.mapView.Controls.Add(this.zoomToBlackHoleButton);
             // 
             // zoomToBlackHoleButton
             // 
             zoomToBlackHoleButton.Text = "Zoom To M87 Black Hole";
-            zoomToBlackHoleButton.Location = new System.Drawing.Point(550, 670);
-            zoomToBlackHoleButton.Size = new System.Drawing.Size(147, 36);
+            zoomToBlackHoleButton.Location = new System.Drawing.Point(500, 670);
+            zoomToBlackHoleButton.Size = new System.Drawing.Size(230, 36);
             zoomToBlackHoleButton.TabIndex = 11;
+            zoomToBlackHoleButton.Font = new System.Drawing.Font("Segoe UI", 14);
+            zoomToBlackHoleButton.BackColor = System.Drawing.Color.DarkGray;
             zoomToBlackHoleButton.UseVisualStyleBackColor = true;
             this.zoomToBlackHoleButton.Click += ZoomToBlackHoleButton_Click;
             // 
             // scaleLabel
             // 
-            scaleLabel.ForeColor = System.Drawing.Color.Blue;
-            scaleLabel.Font = new System.Drawing.Font("Segoe UI", 12); 
+            scaleLabel.Parent = mapView;
+            scaleLabel.ForeColor = System.Drawing.Color.White;
+            scaleLabel.BackColor = System.Drawing.Color.Black;
+            scaleLabel.Font = new System.Drawing.Font("Segoe UI", 15, System.Drawing.FontStyle.Bold); 
             scaleLabel.AutoSize = true;
             scaleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             scaleLabel.Anchor = AnchorStyles.Top;
-            scaleLabel.Location = new System.Drawing.Point(550, 20);
+            scaleLabel.Location = new System.Drawing.Point(480, 20);
             scaleLabel.Visible = true;
             scaleLabel.Text = "Scale: 0.00";
             // 
