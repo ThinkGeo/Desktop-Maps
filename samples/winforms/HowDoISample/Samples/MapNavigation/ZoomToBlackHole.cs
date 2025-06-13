@@ -81,7 +81,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             defaultExtentButton.Click += (s, args) => 
             {
                 StopCurrentAnimation();
-                AddBlackBackgroundOverlay();
+
+                // Add the background overlay only if it's not already added
+                if (!mapView.Overlays.Contains(_backgroundOverlay))
+                {
+                    AddBlackBackgroundOverlay();
+                }
+
                 _ = mapView.ZoomToAsync(_zoomingExtents[0].centerPoint, _zoomingExtents[0].scale, 0, _cancellationTokenSource.Token);
             };
 
