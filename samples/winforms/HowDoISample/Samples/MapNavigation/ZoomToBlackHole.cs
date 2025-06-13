@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 using ThinkGeo.Core;
+using System.Drawing.Drawing2D;
+using System.Linq;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
@@ -16,6 +20,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private List<(PointShape centerPoint, double scale)> _zoomingExtents;
         private int _currentPointIndex;
         private CancellationTokenSource _cancellationTokenSource;
+        private BackgroundLayer _blackBackgroundLayer;
+        private LayerOverlay _backgroundOverlay;
 
         public ZoomToBlackHole()
         {
@@ -33,6 +39,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.DefaultAnimationSettings.Type = MapAnimationType.DrawWithAnimation;
 
             mapView.MapUnit = GeographyUnit.Meter;
+
+            AddBlackBackgroundOverlay();
 
             // Helper method to create overlays from image layers
             var firstImageOverlay = AddGeoImageOverlay("ImageOverlay0", "Data/Jpg/m87_0.jpg", new PointShape(0, 0), 200000, 50000, 6000, 1.0f);
@@ -70,7 +78,24 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 scaleLabel.Text = $"Scale: {mapView.CurrentScale:N2}";
             };
 
+            defaultExtentButton.Click += (s, args) => 
+            {
+                StopCurrentAnimation();
+                AddBlackBackgroundOverlay();
+                _ = mapView.ZoomToAsync(_zoomingExtents[0].centerPoint, _zoomingExtents[0].scale, 0, _cancellationTokenSource.Token);
+            };
+
             _ = mapView.RefreshAsync();
+        }
+
+        private void AddBlackBackgroundOverlay()
+        {
+            _blackBackgroundLayer = new BackgroundLayer(new GeoSolidBrush(GeoColors.Black));
+            _backgroundOverlay = new LayerOverlay();
+            _backgroundOverlay.Layers.Add("BlackBackground", _blackBackgroundLayer);
+
+            // Make it the bottom-most overlay
+            mapView.Overlays.Insert(0, _backgroundOverlay);
         }
 
         private void MapView_CurrentScaleChanged(object sender, CurrentScaleChangedMapViewEventArgs e)
@@ -140,9 +165,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async Task ZoomToBlackHoleAsync(CancellationToken cancellationToken)
         {
-            for (_currentPointIndex = 1; _currentPointIndex < _zoomingExtents.Count; _currentPointIndex++)
+            for (_currentPointIndex = 2; _currentPointIndex < _zoomingExtents.Count; _currentPointIndex++)
             {
                 var (centerPoint, scale) = _zoomingExtents[_currentPointIndex];
+
+                if (_currentPointIndex >= 10)
+                {
+                    mapView.Overlays.Remove(_backgroundOverlay);
+                }
 
                 try
                 {
@@ -159,7 +189,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             var zoomingExtents = new List<(PointShape CenterPoint, double Scale)>();
 
-            var firstLayer = (GeoImageLayer)((LayerOverlay)mapView.Overlays[0]).Layers[0];
+            var firstLayer = (GeoImageLayer)((LayerOverlay)mapView.Overlays[1]).Layers[0];
             zoomingExtents.Add((firstLayer.CenterPoint, firstLayer.Scale));
 
             for (var i = 1; i < mapView.Overlays.Count; i++)
@@ -200,10 +230,36 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             _cancellationTokenSource = new CancellationTokenSource();
         }
 
+        public static Image RotateImage(Image image, float angle)
+        {
+            if (image == null) return null;
+
+            // Create a new empty bitmap to hold rotated image
+            Bitmap rotatedImage = new Bitmap(image.Width, image.Height);
+            rotatedImage.MakeTransparent();
+            rotatedImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (Graphics g = Graphics.FromImage(rotatedImage))
+            {
+                // Set the rotation point to the center of the image
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+                g.Clear(Color.Transparent);
+                g.TranslateTransform(image.Width / 2f, image.Height / 2f);
+                g.RotateTransform(angle);
+                g.TranslateTransform(-image.Width / 2f, -image.Height / 2f);
+
+                // Draw the original image onto the rotated graphics object
+                g.DrawImage(image, new Point(0, 0));
+            }
+
+            return rotatedImage;
+        }
+
         #region Component Designer generated code
 
         private Button zoomToBlackHoleButton;
         private Label scaleLabel;
+        private PictureBox defaultExtentButton;
         private MapView mapView;
 
         private void InitializeComponent()
@@ -211,6 +267,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView = new ThinkGeo.UI.WinForms.MapView();
             zoomToBlackHoleButton = new Button();
             scaleLabel = new Label();
+            defaultExtentButton = new PictureBox();
             SuspendLayout();
             // 
             // mapView
@@ -251,6 +308,22 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             scaleLabel.Visible = true;
             scaleLabel.Text = "Scale: 0.00";
             // 
+            // defaultExtentButton 
+            // 
+            defaultExtentButton.Name = "defaultExtentButton";
+            defaultExtentButton.Size = new Size(40, 40);
+            defaultExtentButton.BackColor = Color.Transparent;
+            defaultExtentButton.SizeMode = PictureBoxSizeMode.StretchImage;
+            string imagePathOfDefaultExtentButton = Path.Combine(Application.StartupPath, "Resources", "icon_globe_black.png");
+            Image originalImageOfDefaultExtentButton = Image.FromFile(imagePathOfDefaultExtentButton);
+            defaultExtentButton.Image = RotateImage(originalImageOfDefaultExtentButton, 0);
+            System.Drawing.Drawing2D.GraphicsPath pathOfDefaultExtentButton = new System.Drawing.Drawing2D.GraphicsPath();
+            pathOfDefaultExtentButton.AddEllipse(0, 0, defaultExtentButton.Width, defaultExtentButton.Height);
+            defaultExtentButton.Region = new Region(pathOfDefaultExtentButton);
+            defaultExtentButton.Location = new Point(1140, 10);
+            defaultExtentButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            this.Controls.Add(defaultExtentButton);
+            // 
             // NavigationMap
             // 
             this.Controls.Add(this.mapView);
@@ -265,6 +338,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             //
             zoomToBlackHoleButton.BringToFront();
             scaleLabel.BringToFront();
+            defaultExtentButton.BringToFront();
         }
 
         #endregion Component Designer generated code
