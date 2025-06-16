@@ -72,6 +72,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 }
             }
 
+            ((Control)mapView).SizeChanged += ZoomToBlackHole_SizeChanged;
+            ZoomToBlackHole_SizeChanged(this, EventArgs.Empty);
+
             scaleLabel.Text = $"Scale: {mapView.CurrentScale:N2}";
             mapView.CurrentScaleChanged += (s, args) =>
             {
@@ -92,6 +95,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             };
 
             _ = mapView.RefreshAsync();
+        }
+
+        private void ZoomToBlackHole_SizeChanged(object sender, EventArgs e)
+        {
+            var x = mapView.Width / 2;
+            var y = mapView.Height;
+
+            zoomToBlackHoleButton.Location = new Point(x - 100, y - 65);
         }
 
         private void AddBlackBackgroundOverlay()
@@ -293,7 +304,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // zoomToBlackHoleButton
             // 
             zoomToBlackHoleButton.Text = "Zoom To M87 Black Hole";
-            zoomToBlackHoleButton.Location = new System.Drawing.Point(500, 670);
             zoomToBlackHoleButton.Size = new System.Drawing.Size(230, 36);
             zoomToBlackHoleButton.TabIndex = 11;
             zoomToBlackHoleButton.Font = new System.Drawing.Font("Segoe UI", 14);
