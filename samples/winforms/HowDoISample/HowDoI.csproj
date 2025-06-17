@@ -69,16 +69,16 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="9.0.4" />
 
-    <PackageReference Include="ThinkGeo.Cad" Version="14.3.1" />
-    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.3.1" />
-    <PackageReference Include="ThinkGeo.Gdal" Version="14.3.1" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.3.1" />
+    <PackageReference Include="ThinkGeo.Cad" Version="14.4.0-beta028" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.4.0-beta028" />
+    <PackageReference Include="ThinkGeo.Gdal" Version="14.4.0-beta028" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.4.0-beta028" />
 
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.3.1" />
-    <PackageReference Include="ThinkGeo.Printers" Version="14.3.1" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="14.3.1" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.4.0-beta028" />
+    <PackageReference Include="ThinkGeo.Printers" Version="14.4.0-beta029" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="14.4.0-beta028" />
 
-    <PackageReference Include="ThinkGeo.UI.WinForms" Version="14.3.1" />
+    <PackageReference Include="ThinkGeo.UI.WinForms" Version="14.4.0-beta029" />
 
   </ItemGroup>
   <ItemGroup>
@@ -123,12 +123,21 @@
     <None Remove="Resources\TabButtonOn.png" />
     <None Remove="Resources\ThinkGeoLogo.png" />
     <None Remove="Resources\vandalism_icon.png" />
+    <None Remove="Resources\vehicle_location.png" />
     <None Remove="Resources\VirtualEarthResult.png" />
     <None Remove="Resources\weapon_icon.png" />
     <None Remove="Resources\West.gif" />
     <None Remove="Resources\West.png" />
     <None Remove="Resources\ZoomIn.png" />
     <None Remove="Resources\ZoomOut.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\icon_globe_black.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\icon_north_arrow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\AQUA.png" />
@@ -154,6 +163,9 @@
     <Resource Include="Resources\South.gif" />
     <Resource Include="Resources\ThinkGeoLogo.png" />
     <Resource Include="Resources\vandalism_icon.png" />
+    <Resource Include="Resources\vehicle_location.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\weapon_icon.png" />
     <Resource Include="Resources\West.gif" />
     <Resource Include="Resources\ZoomIn.png" />
@@ -439,6 +451,39 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\Jp2\m_3309650_sw_14_1_20160911_20161121.jp2">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Jpg\m87_0.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Jpg\m87_1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Jpg\m87_2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Jpg\m87_3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Jpg\m87_4.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Jpg\m87_5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Jpg\m87_6.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Jpg\m87_7.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Jpg\m87_8.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Jpg\m87_9.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Jpg\m87_image_credits.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\Jpg\m_3309650_sw_14_1_20160911_20161121.jgw">

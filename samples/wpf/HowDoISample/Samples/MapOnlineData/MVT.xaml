@@ -28,7 +28,6 @@
             <ComboBoxItem Content="https://demotiles.maplibre.org/style.json"/>
             <ComboBoxItem Content="https://demotiles.maplibre.org/styles/osm-bright-gl-style/style.json"/>
             <ComboBoxItem Content="https://demotiles.maplibre.org/styles/osm-bright-gl-terrain/style.json"/>
-            <ComboBoxItem Content="https://demotiles.maplibre.org/debug-tiles/style.json"/>
             <ComboBoxItem Content="https://tiles.preludemaps.com/styles/TG_Savannah_Light/style.json"/>
         </ComboBox>
 
