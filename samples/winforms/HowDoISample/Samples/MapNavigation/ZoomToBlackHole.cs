@@ -5,10 +5,7 @@ using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
 using ThinkGeo.Core;
-using System.Drawing.Drawing2D;
-using System.Linq;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
@@ -72,9 +69,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 }
             }
 
-            ((Control)mapView).SizeChanged += ZoomToBlackHole_SizeChanged;
-            ZoomToBlackHole_SizeChanged(this, EventArgs.Empty);
-
             scaleLabel.Text = $"Scale: {mapView.CurrentScale:N2}";
             mapView.CurrentScaleChanged += (s, args) =>
             {
@@ -95,14 +89,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             };
 
             _ = mapView.RefreshAsync();
-        }
-
-        private void ZoomToBlackHole_SizeChanged(object sender, EventArgs e)
-        {
-            var x = mapView.Width / 2;
-            var y = mapView.Height;
-
-            zoomToBlackHoleButton.Location = new Point(x - 100, y - 65);
         }
 
         private void AddBlackBackgroundOverlay()
@@ -172,7 +158,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             return overlay;
         }
-
 
         private void ZoomToBlackHoleButton_Click(object sender, EventArgs e)
         {
@@ -247,30 +232,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             _cancellationTokenSource = new CancellationTokenSource();
         }
 
-        public static Image RotateImage(Image image, float angle)
-        {
-            if (image == null) return null;
-
-            // Create a new empty bitmap to hold rotated image
-            Bitmap rotatedImage = new Bitmap(image.Width, image.Height);
-            rotatedImage.MakeTransparent();
-            rotatedImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
-
-            using (Graphics g = Graphics.FromImage(rotatedImage))
-            {
-                // Set the rotation point to the center of the image
-                g.SmoothingMode = SmoothingMode.AntiAlias;
-                g.Clear(Color.Transparent);
-                g.TranslateTransform(image.Width / 2f, image.Height / 2f);
-                g.RotateTransform(angle);
-                g.TranslateTransform(-image.Width / 2f, -image.Height / 2f);
-
-                // Draw the original image onto the rotated graphics object
-                g.DrawImage(image, new Point(0, 0));
-            }
-
-            return rotatedImage;
-        }
 
         #region Component Designer generated code
 
@@ -285,6 +246,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             zoomToBlackHoleButton = new Button();
             scaleLabel = new Label();
             defaultExtentButton = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)defaultExtentButton).BeginInit();
             SuspendLayout();
             // 
             // mapView
@@ -303,52 +265,58 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // zoomToBlackHoleButton
             // 
+            zoomToBlackHoleButton.BackColor = Color.DarkGray;
+            zoomToBlackHoleButton.Font = new Font("Segoe UI", 14F);
+            zoomToBlackHoleButton.Location = new Point(470, 500);
+            zoomToBlackHoleButton.Name = "zoomToBlackHoleButton";
+            zoomToBlackHoleButton.Size = new Size(230, 35);
             zoomToBlackHoleButton.Text = "Zoom To M87 Black Hole";
-            zoomToBlackHoleButton.Size = new System.Drawing.Size(230, 36);
-            zoomToBlackHoleButton.TabIndex = 11;
-            zoomToBlackHoleButton.Font = new System.Drawing.Font("Segoe UI", 14);
-            zoomToBlackHoleButton.BackColor = System.Drawing.Color.DarkGray;
             zoomToBlackHoleButton.UseVisualStyleBackColor = true;
-            this.zoomToBlackHoleButton.Click += ZoomToBlackHoleButton_Click;
+            zoomToBlackHoleButton.Click += ZoomToBlackHoleButton_Click;
+            zoomToBlackHoleButton.Anchor = AnchorStyles.Bottom;
+            zoomToBlackHoleButton.Left = mapView.Width / 2 + 70;
+            zoomToBlackHoleButton.TabIndex = 0;
             // 
             // scaleLabel
             // 
-            scaleLabel.Parent = mapView;
-            scaleLabel.ForeColor = System.Drawing.Color.White;
-            scaleLabel.BackColor = System.Drawing.Color.Black;
-            scaleLabel.Font = new System.Drawing.Font("Segoe UI", 15, System.Drawing.FontStyle.Bold); 
-            scaleLabel.AutoSize = true;
-            scaleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             scaleLabel.Anchor = AnchorStyles.Top;
-            scaleLabel.Location = new System.Drawing.Point(480, 20);
-            scaleLabel.Visible = true;
+            scaleLabel.AutoSize = true;
+            scaleLabel.BackColor = Color.Black;
+            scaleLabel.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
+            scaleLabel.ForeColor = Color.White;
+            scaleLabel.Location = new Point(490, 20);
+            scaleLabel.Name = "scaleLabel";
+            scaleLabel.Size = new Size(115, 30);
             scaleLabel.Text = "Scale: 0.00";
+            scaleLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // defaultExtentButton 
+            // defaultExtentButton
             // 
+            defaultExtentButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            defaultExtentButton.BackColor = Color.Transparent;
+            defaultExtentButton.Image = Properties.Resources.icon_globe_black;
+            defaultExtentButton.Location = new Point(1140, 10);
             defaultExtentButton.Name = "defaultExtentButton";
             defaultExtentButton.Size = new Size(40, 40);
-            defaultExtentButton.BackColor = Color.Transparent;
             defaultExtentButton.SizeMode = PictureBoxSizeMode.StretchImage;
-            string imagePathOfDefaultExtentButton = Path.Combine(Application.StartupPath, "Resources", "icon_globe_black.png");
-            Image originalImageOfDefaultExtentButton = Image.FromFile(imagePathOfDefaultExtentButton);
-            defaultExtentButton.Image = RotateImage(originalImageOfDefaultExtentButton, 0);
+            defaultExtentButton.TabStop = false;
             System.Drawing.Drawing2D.GraphicsPath pathOfDefaultExtentButton = new System.Drawing.Drawing2D.GraphicsPath();
             pathOfDefaultExtentButton.AddEllipse(0, 0, defaultExtentButton.Width, defaultExtentButton.Height);
             defaultExtentButton.Region = new Region(pathOfDefaultExtentButton);
-            defaultExtentButton.Location = new Point(1140, 10);
-            defaultExtentButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            this.Controls.Add(defaultExtentButton);
+            defaultExtentButton.TabIndex = 1;
             // 
-            // NavigationMap
+            // ZoomToBlackHole
             // 
-            this.Controls.Add(this.mapView);
-            this.Controls.Add(zoomToBlackHoleButton);
-            this.Controls.Add(scaleLabel);
+            Controls.Add(mapView);
+            Controls.Add(defaultExtentButton);
+            Controls.Add(zoomToBlackHoleButton);
+            Controls.Add(scaleLabel);
             Name = "ZoomToBlackHole";
-            Size = new System.Drawing.Size(1194, 560);
+            Size = new Size(1194, 560);
             Load += Form_Load;
+            ((System.ComponentModel.ISupportInitialize)defaultExtentButton).EndInit();
             ResumeLayout(false);
+            PerformLayout();
             //
             // Make sure the controls are on top of the mapView
             //
