@@ -70,7 +70,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var firstTreeNode = (TreeViewItem)TreeView.Items[7];
             if (firstTreeNode == null) return;
             firstTreeNode.IsExpanded = true;
-            var firstSubTreeNode = (TreeViewItem)firstTreeNode.Items[0];
+            var firstSubTreeNode = (TreeViewItem)firstTreeNode.Items[1];
             if (firstSubTreeNode != null) firstSubTreeNode.IsSelected = true;
         }
 

@@ -9,19 +9,19 @@ using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
-    public partial class StyleJsonfill : IDisposable
+    public partial class StyleJsonline : IDisposable
     {
-        private StyleJsonLoader _loader = new StyleJsonLoader();
+        private MapStyleLoader _loader = new MapStyleLoader();
         private LayerOverlay _layerOverlay = new LayerOverlay();
         private ShapeFileFeatureLayer parksLayer;
         private ShapeFileFeatureLayer streetsLayer;
         private ShapeFileFeatureLayer hotelsLayer;
-        private string _allPropertiesh = "./Data/Json/Fill_AllProperties.json";
-        private string _supported = "./Data/Json/Fill_Supported.json";
-        private string _unsupported = "./Data/Json/Fill_Unsupported.json";
+        private string _allPropertiesh = "./Data/Json/Line_AllProperties.json";
+        private string _supported = "./Data/Json/Line_Supported.json";
+        private string _unsupported = "./Data/Json/Line_Unsupported.json";
         private bool _isUnsupportedMode = false;
 
-        public StyleJsonfill()
+        public StyleJsonline()
         {
             InitializeComponent();
         }

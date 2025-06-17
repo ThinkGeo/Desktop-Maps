@@ -440,6 +440,12 @@
         "source": "Samples/VectorDataStyling/StyleJsonfill"
       },
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.StyleJsonline",
+        "title": "line",
+        "description": "",
+        "source": "Samples/VectorDataStyling/StyleJsonline"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.MVTtest",
         "title": "MVTtest",
         "description": "",
