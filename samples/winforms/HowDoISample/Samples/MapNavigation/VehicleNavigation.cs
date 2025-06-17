@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,13 +16,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
     /// <summary>
     /// Learn how to programmatically zoom, pan, and rotate the map control.
     /// </summary>
-    public partial class VehicleNavigation : UserControl
+    public partial class VehicleNavigation : System.Windows.Forms.UserControl
     {
-        private double _currentCompassAngle = 0f;
-        private double _targetCompassAngle = 0f;
-        private Timer _compassAnimationTimer;
-        private const float CompassRotationSpeed = 40f;
-
         private Collection<Vertex> _gpsPoints;
         private readonly List<Vertex> _visitedVertices = new List<Vertex>();
         private int _currentGpsPointIndex;
@@ -54,7 +48,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void Form_Load(object sender, EventArgs e)
         {
-            //mapView.MapUnit = GeographyUnit.Meter;
             _cancellationTokenSource = new CancellationTokenSource();
             
             // Add Cloud Maps as a background overlay
@@ -103,8 +96,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(_markerOverlay);
 
             mapView.CurrentExtentChangedInAnimation += MapView_CurrentExtentChangedInAnimation;
-            ((Control)mapView).SizeChanged += VehicleNavigation_SizeChanged;
-            VehicleNavigation_SizeChanged(this, EventArgs.Empty);
             mapView.RotationAngleChanging += MapView_RotationAngleChanging;
 
             mapView.CenterPoint = new PointShape(_gpsPoints[0]);
@@ -333,62 +324,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void MapView_RotationAngleChanging(object sender, RotationAngleChangingMapViewEventArgs e)
         {
-            double currentRotation = mapView.RotationAngle;
+            double currentRotation = e.NewRotationAngle;
 
             if (Math.Abs(currentRotation - lastRotationAngle) > 0.1) // Change threshold
             {
                 lastRotationAngle = currentRotation;
-                UpdateCompassImage((float)currentRotation);
-            }
-        }
-
-        private void VehicleNavigation_SizeChanged(object sender, EventArgs e)
-        {
-            var x = mapView.Width;
-            var y = mapView.Height;
-
-            overviewButton.Location = new System.Drawing.Point(x - 170, y - 60);
-            aerialBackgroundCheckBox.Location = new System.Drawing.Point(20, y - 60);
-        }
-
-        public static Image RotateImage(Image image, float angle)
-        {
-            if (image == null) return null;
-
-            // Create a new empty bitmap to hold rotated image
-            Bitmap rotatedImage = new Bitmap(image.Width, image.Height);
-            rotatedImage.MakeTransparent();
-            rotatedImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
-
-            using (Graphics g = Graphics.FromImage(rotatedImage))
-            {
-                // Set the rotation point to the center of the image
-                g.SmoothingMode = SmoothingMode.AntiAlias;
-                g.Clear(Color.Transparent);
-                g.TranslateTransform(image.Width / 2f, image.Height / 2f);
-                g.RotateTransform(angle);
-                g.TranslateTransform(-image.Width / 2f, -image.Height / 2f);
-
-                // Draw the original image onto the rotated graphics object
-                g.DrawImage(image, new System.Drawing.PointF(0, 0));
-            }
-
-            return rotatedImage;
-        }
-
-        private void UpdateCompassImage(float angle)
-        {
-            compassButton.Image?.Dispose();
-            string imagePath = Path.Combine(Application.StartupPath, "Resources", "icon_north_arrow.png");
-
-            if (File.Exists(imagePath))
-            {
-                using (var originalImage = Image.FromFile(imagePath))
-                {
-                    // Clone it first because we can't rotate a disposed image
-                    var cloneImage = (Image)originalImage.Clone();
-                    compassButton.Image = RotateImage(cloneImage, angle);
-                }
+                ImageHelper.UpdateImage(compassButton, "icon_north_arrow.png", (float)currentRotation);
             }
         }
 
@@ -408,17 +349,18 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         #region Component Designer generated code
        
         private MapView mapView;
-        private Button overviewButton;
+        private System.Windows.Forms.Button overviewButton;
         private PictureBox compassButton;
-        private CheckBox aerialBackgroundCheckBox;
+        private System.Windows.Forms.CheckBox aerialBackgroundCheckBox;
         private double lastRotationAngle = 0;
 
         private void InitializeComponent()
         {
             mapView = new ThinkGeo.UI.WinForms.MapView();
-            overviewButton = new Button();
+            overviewButton = new System.Windows.Forms.Button();
             compassButton = new PictureBox();
-            aerialBackgroundCheckBox = new CheckBox();
+            aerialBackgroundCheckBox = new System.Windows.Forms.CheckBox();
+            ((System.ComponentModel.ISupportInitialize)compassButton).BeginInit();
             SuspendLayout();
             // 
             // mapView
@@ -433,57 +375,60 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotationAngle = 0F;
-            this.mapView.TabIndex = 0;
-            this.mapView.Controls.Add(this.overviewButton);
-            this.Controls.Add(this.aerialBackgroundCheckBox);
+            mapView.Controls.Add(overviewButton);
             // 
             // overviewButton
             // 
+            overviewButton.Font = new Font("Microsoft Sans Serif", 10F);
+            overviewButton.Location = new System.Drawing.Point(1020, 500);
+            overviewButton.Name = "overviewButton";
+            overviewButton.Size = new Size(150, 35);
             overviewButton.Text = "Overview Mode";
-            overviewButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            overviewButton.Size = new System.Drawing.Size(147, 36);
-            overviewButton.TabIndex = 11;
             overviewButton.UseVisualStyleBackColor = true;
             overviewButton.Click += OverviewButton_Click;
+            overviewButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            overviewButton.TabIndex = 1;
             // 
-            // compassButton 
+            // compassButton
             // 
+            compassButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            compassButton.BackColor = Color.Transparent;
+            compassButton.Image = Properties.Resources.icon_north_arrow;
+            compassButton.Location = new System.Drawing.Point(1140, 10);
             compassButton.Name = "compassButton";
             compassButton.Size = new Size(40, 40);
-            compassButton.BackColor = Color.Transparent;
             compassButton.SizeMode = PictureBoxSizeMode.StretchImage;
-            string imagePathOfCompassButton = Path.Combine(Application.StartupPath, "Resources", "icon_north_arrow.png");
-            Image originalImageOfCompassButton = Image.FromFile(imagePathOfCompassButton);
-            compassButton.Image = RotateImage(originalImageOfCompassButton, 0);
+            compassButton.TabStop = false;
             System.Drawing.Drawing2D.GraphicsPath pathOfCompassButton = new System.Drawing.Drawing2D.GraphicsPath();
             pathOfCompassButton.AddEllipse(0, 0, compassButton.Width, compassButton.Height);
             compassButton.Region = new Region(pathOfCompassButton);
-            compassButton.Location = new System.Drawing.Point(1140, 10);
-            compassButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            this.Controls.Add(compassButton);
             // 
             // aerialBackgroundCheckBox
             // 
-            aerialBackgroundCheckBox.Name = "AerialBackgroundCheckBox";
+            aerialBackgroundCheckBox.BackColor = Color.LightGray;
+            aerialBackgroundCheckBox.Font = new Font("Microsoft Sans Serif", 10F);
+            aerialBackgroundCheckBox.ForeColor = Color.Black;
+            aerialBackgroundCheckBox.Location = new System.Drawing.Point(20, 500);
+            aerialBackgroundCheckBox.Name = "aerialBackgroundCheckBox";
+            aerialBackgroundCheckBox.Size = new Size(150, 35);
             aerialBackgroundCheckBox.Text = "Aerial Background";
-            aerialBackgroundCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            aerialBackgroundCheckBox.ForeColor = System.Drawing.Color.Black;
-            aerialBackgroundCheckBox.BackColor = System.Drawing.Color.LightGray;
-            aerialBackgroundCheckBox.Size = new System.Drawing.Size(147, 36);
             aerialBackgroundCheckBox.UseVisualStyleBackColor = true;
             aerialBackgroundCheckBox.CheckedChanged += AerialBackgroundCheckBox_CheckedChanged;
+            aerialBackgroundCheckBox.Anchor = AnchorStyles.Left | AnchorStyles.Bottom;
+            aerialBackgroundCheckBox.TabIndex = 0;
             // 
-            // NavigationMap
+            // VehicleNavigation
             // 
-            this.Controls.Add(this.mapView);
-            this.Controls.Add(overviewButton);
+            Controls.Add(mapView);
+            Controls.Add(aerialBackgroundCheckBox);
+            Controls.Add(overviewButton);
+            Controls.Add(compassButton);
             Name = "VehicleNavigation";
-            Size = new System.Drawing.Size(1194, 560);
+            Size = new Size(1194, 560);
             Load += Form_Load;
+            ((System.ComponentModel.ISupportInitialize)compassButton).EndInit();
             ResumeLayout(false);
-            //
-            // Make sure the controls are on top of the mapView
-            //
+
             overviewButton.BringToFront();
             compassButton.BringToFront();
             aerialBackgroundCheckBox.BringToFront();

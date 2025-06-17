@@ -256,7 +256,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // labelCenterPoint
             // 
-            labelCenterPoint.Anchor = AnchorStyles.Bottom;
             labelCenterPoint.BackColor = Color.LightGray;
             labelCenterPoint.Font = new Font("Microsoft Sans Serif", 12F);
             labelCenterPoint.ForeColor = Color.Black;
