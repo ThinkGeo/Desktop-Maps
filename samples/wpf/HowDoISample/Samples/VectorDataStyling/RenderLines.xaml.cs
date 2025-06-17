@@ -86,7 +86,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 innerPen: new GeoPen(GeoColors.White, 6)
                 {
                     DashStyle = LineDashStyle.Custom,
-                    DashPattern = { 3f, 3f },
+                    DashPattern = { 18f, 18f },
                     StartCap = DrawingLineCap.Flat,
                     EndCap = DrawingLineCap.Flat
                 }
