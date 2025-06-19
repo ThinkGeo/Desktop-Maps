@@ -25,6 +25,12 @@
         "title": "Vehicle Navigation",
         "description": "Learn how to navigate to the Empire State Building using GPS points.",
         "source": "Samples/MapNavigation/VehicleNavigation"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.ResizeTheMap",
+        "title": "Resize The Map",
+        "description": "Learn how to resize the map while preserving the world extent with various map resize modes.",
+        "source": "Samples/MapNavigation/ResizeTheMap"
       }
     ]
   },
@@ -721,13 +727,7 @@
         "title": "Handle Exceptions",
         "description": "Learn how to throw an overlay exception, or draw the exception on the map.",
         "source": "Samples/Miscellaneous/HandleExceptions"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.ResizeTheMap",
-        "title": "Resize The Map",
-        "description": "Learn how to resize the map while keeping the width of the world extent the same.",
-        "source": "Samples/Miscellaneous/ResizeTheMap"
-      },
+      },      
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.WrapTheDateLine",
         "title": "Wrap The DateLine",
