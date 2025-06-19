@@ -224,7 +224,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             zoomLabel.Left = mapView.Width /2 + 200;
             zoomLabel.Top = mapView.Height;
             // 
-            // labelScale
+            // scaleLabel
             // 
             scaleLabel.BackColor = Color.LightGray;
             scaleLabel.Font = new Font("Microsoft Sans Serif", 12F);
@@ -239,7 +239,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             scaleLabel.Left = mapView.Width / 2 + 350;
             scaleLabel.Top = mapView.Height;
             // 
-            // labelRotation
+            // rotationLabel
             // 
             rotationLabel.BackColor = Color.LightGray;
             rotationLabel.Font = new Font("Microsoft Sans Serif", 12F);
@@ -254,7 +254,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             rotationLabel.Left = mapView.Width / 2 + 50;
             rotationLabel.Top = mapView.Height;
             // 
-            // labelCenterPoint
+            // centerPointLabel
             // 
             centerPointLabel.BackColor = Color.LightGray;
             centerPointLabel.Font = new Font("Microsoft Sans Serif", 12F);

@@ -1,34 +1,45 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
+    /// <summary>
+    /// Learn how to set the map extent using a variety of different methods.
+    /// </summary>
     public class ZoomToExtents : UserControl
     {
-        private ShapeFileFeatureLayer friscoCityBoundary;
+        private ShapeFileFeatureLayer _friscoCityBoundary;
 
         public ZoomToExtents()
         {
             InitializeComponent();
         }
 
-        private async void Form_Load(object sender, EventArgs e)
+        /// <summary>
+        /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map and a shapefile with simple data to work with
+        /// </summary>
+        private void Form_Load(object sender, EventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
+            mapView.CurrentExtentChanged += MapView_CurrentExtentChanged;
+            MapView_CurrentExtentChanged(null, null);
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
                 ClientId = SampleKeys.ClientId,
                 ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Load the Frisco data to a layer
-            friscoCityBoundary = new ShapeFileFeatureLayer(@"./Data/Shapefile/City_ETJ.shp")
+            _friscoCityBoundary = new ShapeFileFeatureLayer(@"./Data/Shapefile/City_ETJ.shp")
             {
                 FeatureSource =
                 {
@@ -38,357 +49,410 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             };
 
             // Style the data so that we can see it on the map
-            friscoCityBoundary.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(16, GeoColors.Blue), GeoColors.DimGray, 2);
-            friscoCityBoundary.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            _friscoCityBoundary.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(16, GeoColors.Blue), GeoColors.DimGray, 2);
+            _friscoCityBoundary.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Add Frisco data to a LayerOverlay and add it to the map
             var layerOverlay = new LayerOverlay();
             layerOverlay.TileType = TileType.SingleTile;
-            layerOverlay.Layers.Add(friscoCityBoundary);
+            layerOverlay.Layers.Add(_friscoCityBoundary);
             mapView.Overlays.Add(layerOverlay);
 
             // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
+            mapView.CenterPoint = new PointShape(-10778000, 3912000);
+            mapView.CurrentScale = 180000;
 
-            // Populate Controls
-            friscoCityBoundary.Open();
-            featureIds.DataSource = friscoCityBoundary.FeatureSource.GetFeatureIds();
-            friscoCityBoundary.Close();
-            featureIds.SelectedIndex = 0;
+            mapView.RotationAngleChanging += MapView_RotationAngleChanging;
 
-            await mapView.RefreshAsync();
+            _ = mapView.RefreshAsync();
         }
 
+        /// <summary>
+        /// Zoom in on the map
+        /// The same effect can be achieved by using the ZoomPanBar bar on the upper left of the map, double left-clicking on the map, or by using the scroll wheel.
+        /// </summary>
+        private void ZoomIn_Click(object sender, EventArgs e)
+        {
+            _ = mapView.ZoomInAsync();
+        }
+
+        /// <summary>
+        /// Zoom out on the map
+        /// The same effect can be achieved by using the ZoomPanBar bar on the upper left of the map, double right-clicking on the map, or by using the scroll wheel.
+        /// </summary>
+        private void zoomOut_Click(object sender, EventArgs e)
+        {
+            _ = mapView.ZoomOutAsync();
+        }
+
+        /// <summary>
+        /// Zoom to a scale programmatically. Note that the scales are bound by a ZoomLevelSet.
+        /// </summary>
         private async void ZoomToScale_Click(object sender, EventArgs e)
         {
-            await mapView.ZoomToAsync(Convert.ToDouble(zoomScale.Text));
+            await mapView.ZoomToAsync(Convert.ToDouble(zoomScaleTextBox.Text));
         }
 
-        private async void latlonZoom_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Set the map extent to fix a layer's bounding box
+        /// </summary>
+        private void layerBoundingBox_Click(object sender, EventArgs e)
         {
-            // Create a PointShape from the lat-lon
-            var latlonPoint = new PointShape(Convert.ToDouble(latitude.Text), Convert.ToDouble(longitude.Text));
-
-            // Convert the lat-lon projection to match the map
-            var projectionConverter = new ProjectionConverter(4326, 3857);
-            projectionConverter.Open();
-            var convertedPoint = (PointShape)projectionConverter.ConvertToExternalProjection(latlonPoint);
-            projectionConverter.Close();
-
-            // Zoom to the converted lat-lon at the desired scale
-            await mapView.ZoomToAsync(convertedPoint, Convert.ToDouble(latlonScale.Text));
+            var friscoCityBoundaryBBox = _friscoCityBoundary.GetBoundingBox();
+            mapView.CenterPoint = friscoCityBoundaryBBox.GetCenterPoint();
+            mapView.CurrentScale = MapUtil.GetScale(mapView.MapUnit, friscoCityBoundaryBBox, mapView.MapWidth, mapView.MapHeight);
+            _ = mapView.RefreshAsync();
         }
 
-        private async void layerBoundingBox_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Set the map extent to center at a point
+        /// </summary>
+        private void CenterAt_Click(object sender, EventArgs e)
         {
-            mapView.CurrentExtent = friscoCityBoundary.GetBoundingBox();
-            await mapView.RefreshAsync();
+            var pointInMercator = ProjectionConverter.Convert(4326, 3857, new PointShape(-96.82, 33.15));
+            _ = mapView.CenterAtAsync(pointInMercator);
         }
 
-        private async void featureBoundingBox_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Update the center point (latitude, longitude), rotation angle, zoom level, and scale when the extent changes.
+        /// </summary>
+        private void MapView_CurrentExtentChanged(object sender, CurrentExtentChangedMapViewEventArgs e)
         {
-            var feature = friscoCityBoundary.FeatureSource.GetFeatureById(featureIds.SelectedItem.ToString(), ReturningColumnsType.NoColumns);
-            mapView.CurrentExtent = feature.GetBoundingBox();
-            await mapView.RefreshAsync();
+            var center = mapView.CurrentExtent.GetCenterPoint();
+            var centerInDecimalDegrees = ProjectionConverter.Convert(3857, 4326, center);
+            float angle = (float)mapView.RotationAngle;
+
+            centerPointLabel.Text = $"Center Point: (Lat: {centerInDecimalDegrees.Y:N4}, Lon: {centerInDecimalDegrees.X:N4})";
+            rotationLabel.Text = $"Rotation: {angle:N0}";
+            zoomLabel.Text = $"Zoom: {mapView.GetSnappedZoomLevelIndex(mapView.CurrentScale):N0}";
+            scaleLabel.Text = $"Scale: {mapView.CurrentScale:N0}";
+        }
+
+        /// <summary>
+        /// Update the rotation angle while the map is rotating.
+        /// </summary>
+        private void MapView_RotationAngleChanging(object sender, RotationAngleChangingMapViewEventArgs e)
+        {
+            double currentRotation = e.NewRotationAngle;
+
+            if (Math.Abs(currentRotation - lastRotationAngle) > 0.1) // Change threshold
+            {
+                lastRotationAngle = currentRotation;
+                rotationLabel.Text = $"Rotation: {currentRotation:N0}";
+            }
+        }
+
+        /// <summary>
+        /// Rotate the map and update the rotateAngleTextBox value when sliding the track bar.
+        /// </summary>
+        private void RotateAngleTrackBar_ValueChanged(object sender, EventArgs e)
+        {
+            int angle = ((TrackBar)sender).Value;
+            rotateAngleTextBox.Text = angle.ToString();
+            _ = mapView.ZoomToAsync(mapView.CenterPoint, mapView.CurrentScale, angle);
         }
 
         #region Component Designer generated code
-        private Panel panel1;
-        private TextBox latlonScale;
-        private TextBox longitude;
-        private TextBox latitude;
-        private Button latlonZoom;
-        private Label label9;
-        private Label label8;
-        private Label label7;
-        private Label label6;
-        private Button featureBoundingBox;
-        private ComboBox featureIds;
-        private Label label5;
-        private Label label4;
-        private Button layerBoundingBox;
-        private Label label3;
-        private Button ZoomToScale;
-        private Label label2;
-        private TextBox zoomScale;
-        private Label label1;
-
 
         private MapView mapView;
+        private Panel consolePanel;
+        private Label zoomingLabel;
+        private Label layerBoundingBoxLabel;
+        private Label centerAtLabel;
+        private Label rotatingLabel;
+        private Label centerPointLabel;
+        private Label rotationLabel;
+        private Label zoomLabel;
+        private Label scaleLabel;
+        private Button zoomInButton;
+        private Button zoomOutButton;
+        private Button ZoomToScaleButton;
+        private Button layerBoundingBoxButton;
+        private Button centerAtButton;
+        private TextBox zoomScaleTextBox;
+        private TextBox rotateAngleTextBox;
+        private TrackBar rotateAngleTrackBar;
+        private double lastRotationAngle = 0;
 
         private void InitializeComponent()
         {
-            this.mapView = new ThinkGeo.UI.WinForms.MapView();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.latlonScale = new System.Windows.Forms.TextBox();
-            this.longitude = new System.Windows.Forms.TextBox();
-            this.latitude = new System.Windows.Forms.TextBox();
-            this.latlonZoom = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.featureBoundingBox = new System.Windows.Forms.Button();
-            this.featureIds = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.layerBoundingBox = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.ZoomToScale = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.zoomScale = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.panel1.SuspendLayout();
-            this.SuspendLayout();
+            mapView = new ThinkGeo.UI.WinForms.MapView();
+            consolePanel = new Panel();
+            zoomingLabel = new Label();
+            layerBoundingBoxLabel = new Label();
+            centerAtLabel = new Label();
+            rotatingLabel = new Label();
+            centerPointLabel = new Label();
+            rotationLabel = new Label();
+            zoomLabel = new Label();
+            scaleLabel = new Label();
+            zoomInButton = new Button();
+            zoomOutButton = new Button();
+            ZoomToScaleButton = new Button();
+            layerBoundingBoxButton = new Button();
+            centerAtButton = new Button();
+            zoomScaleTextBox = new TextBox();
+            rotateAngleTextBox = new TextBox();
+            rotateAngleTrackBar = new TrackBar();
+            consolePanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)rotateAngleTrackBar).BeginInit();
+            SuspendLayout();
             // 
             // mapView
             // 
-            this.mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            mapView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.mapView.BackColor = System.Drawing.Color.White;
-            this.mapView.CurrentScale = 0D;
-            this.mapView.Location = new System.Drawing.Point(4, 0);
-            this.mapView.MapResizeMode = MapResizeMode.PreserveScale;
-            this.mapView.Margin = new System.Windows.Forms.Padding(0);
-            this.mapView.MaximumScale = 1.7976931348623157E+308D;
-            this.mapView.MinimumScale = 200D;
-            this.mapView.Name = "mapView";
-            this.mapView.RestrictExtent = null;
-            this.mapView.RotationAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(946, 634);
-            this.mapView.TabIndex = 0;
+            mapView.BackColor = System.Drawing.Color.White;
+            mapView.CurrentScale = 0D;
+            mapView.Location = new System.Drawing.Point(4, 0);
+            mapView.MapResizeMode = MapResizeMode.PreserveScale;
+            mapView.Margin = new System.Windows.Forms.Padding(0);
+            mapView.MaximumScale = 1.7976931348623157E+308D;
+            mapView.MinimumScale = 200D;
+            mapView.Name = "mapView";
+            mapView.RestrictExtent = null;
+            mapView.RotationAngle = 0F;
+            mapView.Size = new System.Drawing.Size(946, 634);
+            mapView.TabIndex = 0;
             // 
-            // panel1
+            // consolePanel
             // 
-            this.panel1.BackColor = System.Drawing.Color.Gray;
-            this.panel1.Controls.Add(this.latlonScale);
-            this.panel1.Controls.Add(this.longitude);
-            this.panel1.Controls.Add(this.latitude);
-            this.panel1.Controls.Add(this.latlonZoom);
-            this.panel1.Controls.Add(this.label9);
-            this.panel1.Controls.Add(this.label8);
-            this.panel1.Controls.Add(this.label7);
-            this.panel1.Controls.Add(this.label6);
-            this.panel1.Controls.Add(this.featureBoundingBox);
-            this.panel1.Controls.Add(this.featureIds);
-            this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.layerBoundingBox);
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.ZoomToScale);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.zoomScale);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(953, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(302, 634);
-            this.panel1.TabIndex = 1;
+            consolePanel.BackColor = Color.Gray;
+            consolePanel.Controls.Add(zoomInButton);
+            consolePanel.Controls.Add(zoomOutButton);
+            consolePanel.Controls.Add(rotateAngleTextBox);
+            consolePanel.Controls.Add(rotateAngleTrackBar);
+            consolePanel.Controls.Add(rotatingLabel);
+            consolePanel.Controls.Add(centerAtButton);
+            consolePanel.Controls.Add(centerAtLabel);
+            consolePanel.Controls.Add(layerBoundingBoxButton);
+            consolePanel.Controls.Add(layerBoundingBoxLabel);
+            consolePanel.Controls.Add(ZoomToScaleButton);
+            consolePanel.Controls.Add(zoomScaleTextBox);
+            consolePanel.Controls.Add(zoomingLabel);
+            consolePanel.Dock = DockStyle.Right;
+            consolePanel.Location = new Point(953, 0);
+            consolePanel.Name = "consolePanel";
+            consolePanel.Size = new Size(302, 634);
+            consolePanel.TabIndex = 1;
             // 
-            // latlonScale
+            // zoomingLabel
             // 
-            this.latlonScale.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.latlonScale.Location = new System.Drawing.Point(180, 482);
-            this.latlonScale.Name = "latlonScale";
-            this.latlonScale.Size = new System.Drawing.Size(100, 23);
-            this.latlonScale.TabIndex = 18;
-            this.latlonScale.Text = "200000";
+            zoomingLabel.AutoSize = true;
+            zoomingLabel.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            zoomingLabel.ForeColor = Color.White;
+            zoomingLabel.Location = new Point(14, 17);
+            zoomingLabel.Name = "zoomingLabel";
+            zoomingLabel.Size = new Size(83, 20);
+            zoomingLabel.Text = "Zooming:";
             // 
-            // longitude
+            // layerBoundingBoxLabel
             // 
-            this.longitude.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.longitude.Location = new System.Drawing.Point(180, 448);
-            this.longitude.Name = "longitude";
-            this.longitude.Size = new System.Drawing.Size(100, 23);
-            this.longitude.TabIndex = 17;
-            this.longitude.Text = "33.15";
+            layerBoundingBoxLabel.AutoSize = true;
+            layerBoundingBoxLabel.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            layerBoundingBoxLabel.ForeColor = Color.White;
+            layerBoundingBoxLabel.Location = new Point(17, 140);
+            layerBoundingBoxLabel.Name = "layerBoundingBoxLabel";
+            layerBoundingBoxLabel.Size = new Size(174, 20);
+            layerBoundingBoxLabel.Text = "Layer Bounding Box:";
             // 
-            // latitude
+            // centerAtLabel
             // 
-            this.latitude.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.latitude.Location = new System.Drawing.Point(180, 417);
-            this.latitude.Name = "latitude";
-            this.latitude.Size = new System.Drawing.Size(100, 23);
-            this.latitude.TabIndex = 16;
-            this.latitude.Text = "-96.82";
+            centerAtLabel.AutoSize = true;
+            centerAtLabel.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            centerAtLabel.ForeColor = Color.White;
+            centerAtLabel.Location = new Point(17, 225);
+            centerAtLabel.Name = "centerAtLabel";
+            centerAtLabel.Size = new Size(91, 20);
+            centerAtLabel.Text = "Center At:";
             // 
-            // latlonZoom
+            // rotatingLabel
             // 
-            this.latlonZoom.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.latlonZoom.Location = new System.Drawing.Point(3, 525);
-            this.latlonZoom.Name = "latlonZoom";
-            this.latlonZoom.Size = new System.Drawing.Size(296, 34);
-            this.latlonZoom.TabIndex = 15;
-            this.latlonZoom.Text = "Zoom to Lat/Lon";
-            this.latlonZoom.UseVisualStyleBackColor = true;
-            this.latlonZoom.Click += new System.EventHandler(this.latlonZoom_Click);
+            rotatingLabel.AutoSize = true;
+            rotatingLabel.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            rotatingLabel.ForeColor = Color.White;
+            rotatingLabel.Location = new Point(17, 315);
+            rotatingLabel.Name = "rotatingLabel";
+            rotatingLabel.Size = new Size(83, 20);
+            rotatingLabel.Text = "Rotating:";
             // 
-            // label9
+            // centerPointLabel
             // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.ForeColor = System.Drawing.Color.White;
-            this.label9.Location = new System.Drawing.Point(17, 482);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(47, 17);
-            this.label9.TabIndex = 13;
-            this.label9.Text = "Scale:";
+            centerPointLabel.Anchor = AnchorStyles.Bottom;
+            centerPointLabel.BackColor = Color.DarkGray;
+            centerPointLabel.Font = new Font("Microsoft Sans Serif", 12F,FontStyle.Bold);
+            centerPointLabel.ForeColor = Color.White;
+            centerPointLabel.Location = new Point(300, 540);
+            centerPointLabel.Name = "centerPointLabel";
+            centerPointLabel.Size = new Size(360, 25);
+            centerPointLabel.TextAlign = ContentAlignment.MiddleCenter;
+            centerPointLabel.Anchor = AnchorStyles.Bottom;
+            centerPointLabel.Left = mapView.Width / 2 - 170;
+            centerPointLabel.Top = mapView.Height - 90;
             // 
-            // label8
+            // rotationLabel
             // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.ForeColor = System.Drawing.Color.White;
-            this.label8.Location = new System.Drawing.Point(17, 448);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(75, 17);
-            this.label8.TabIndex = 12;
-            this.label8.Text = "Longitude:";
+            rotationLabel.Anchor = AnchorStyles.Bottom;
+            rotationLabel.BackColor = Color.DarkGray;
+            rotationLabel.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
+            rotationLabel.ForeColor = Color.White;
+            rotationLabel.Location = new Point(250, 575);
+            rotationLabel.Margin = new Padding(0);
+            rotationLabel.Name = "rotationLabel";
+            rotationLabel.Size = new Size(150, 25);
+            rotationLabel.Text = "Rotation Angle";
+            rotationLabel.TextAlign = ContentAlignment.MiddleCenter;
+            rotationLabel.Anchor = AnchorStyles.Bottom;
+            rotationLabel.Left = mapView.Width / 2 - 220;
+            rotationLabel.Top = mapView.Height - 55;
             // 
-            // label7
+            // zoomLabel
             // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(17, 417);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(59, 17);
-            this.label7.TabIndex = 11;
-            this.label7.Text = "Latitude";
+            zoomLabel.Anchor = AnchorStyles.Bottom;
+            zoomLabel.BackColor = Color.DarkGray;
+            zoomLabel.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
+            zoomLabel.ForeColor = Color.White;
+            zoomLabel.Location = new Point(400, 575);
+            zoomLabel.Margin = new Padding(0);
+            zoomLabel.Name = "zoomLabel";
+            zoomLabel.Size = new Size(150, 25);
+            zoomLabel.Text = "Current Zoom:";
+            zoomLabel.TextAlign = ContentAlignment.MiddleCenter;
+            zoomLabel.Anchor = AnchorStyles.Bottom;
+            zoomLabel.Left = mapView.Width / 2 - 70;
+            zoomLabel.Top = mapView.Height - 55;
             // 
-            // label6
+            // scaleLabel
             // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Location = new System.Drawing.Point(17, 378);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(76, 20);
-            this.label6.TabIndex = 10;
-            this.label6.Text = "Lat/Long:";
+            scaleLabel.Anchor = AnchorStyles.Bottom;
+            scaleLabel.BackColor = Color.DarkGray;
+            scaleLabel.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
+            scaleLabel.ForeColor = Color.White;
+            scaleLabel.Location = new Point(550, 575);
+            scaleLabel.Margin = new Padding(0);
+            scaleLabel.Name = "scaleLabel";
+            scaleLabel.Size = new Size(150, 25);
+            scaleLabel.Text = "Current Scale";
+            scaleLabel.TextAlign = ContentAlignment.MiddleCenter;
+            scaleLabel.Anchor = AnchorStyles.Bottom;
+            scaleLabel.Left = mapView.Width / 2 + 80;
+            scaleLabel.Top = mapView.Height - 55;
             // 
-            // featureBoundingBox
+            // zoomInButton
             // 
-            this.featureBoundingBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.featureBoundingBox.Location = new System.Drawing.Point(3, 320);
-            this.featureBoundingBox.Name = "featureBoundingBox";
-            this.featureBoundingBox.Size = new System.Drawing.Size(296, 33);
-            this.featureBoundingBox.TabIndex = 9;
-            this.featureBoundingBox.Text = "Set Extent to Feature BBox";
-            this.featureBoundingBox.UseVisualStyleBackColor = true;
-            this.featureBoundingBox.Click += new System.EventHandler(this.featureBoundingBox_Click);
+            zoomInButton.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            zoomInButton.Location = new Point(14, 58);
+            zoomInButton.Name = "zoomInButton";
+            zoomInButton.Size = new Size(130, 30);
+            zoomInButton.Text = "Zoom In";
+            zoomInButton.UseVisualStyleBackColor = true;
+            zoomInButton.Click += ZoomIn_Click;
+            zoomInButton.TabIndex = 2;
             // 
-            // featureIds
+            // zoomOutButton
             // 
-            this.featureIds.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.featureIds.FormattingEnabled = true;
-            this.featureIds.Location = new System.Drawing.Point(130, 271);
-            this.featureIds.Name = "featureIds";
-            this.featureIds.Size = new System.Drawing.Size(150, 25);
-            this.featureIds.TabIndex = 8;
+            zoomOutButton.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            zoomOutButton.Location = new Point(145, 58);
+            zoomOutButton.Name = "zoomOutButton";
+            zoomOutButton.Size = new Size(130, 30);
+            zoomOutButton.Text = "Zoom Out";
+            zoomOutButton.UseVisualStyleBackColor = true;
+            zoomOutButton.Click += zoomOut_Click;
+            zoomOutButton.TabIndex = 3;
             // 
-            // label5
+            // ZoomToScaleButton
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(20, 271);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(74, 17);
-            this.label5.TabIndex = 7;
-            this.label5.Text = "FeatureID:";
+            ZoomToScaleButton.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ZoomToScaleButton.Location = new Point(14, 90);
+            ZoomToScaleButton.Name = "ZoomToScaleButton";
+            ZoomToScaleButton.Size = new Size(130, 30);
+            ZoomToScaleButton.Text = "Zoom To Scale";
+            ZoomToScaleButton.UseVisualStyleBackColor = true;
+            ZoomToScaleButton.Click += ZoomToScale_Click;
+            ZoomToScaleButton.TabIndex = 4;
             // 
-            // label4
+            // layerBoundingBoxButton
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(17, 230);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(172, 20);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "Feature Bounding Box:";
+            layerBoundingBoxButton.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            layerBoundingBoxButton.Location = new Point(17, 172);
+            layerBoundingBoxButton.Name = "layerBoundingBoxButton";
+            layerBoundingBoxButton.Size = new Size(260, 30);
+            layerBoundingBoxButton.Text = "Set Extent to Layer BBox";
+            layerBoundingBoxButton.UseVisualStyleBackColor = true;
+            layerBoundingBoxButton.Click += layerBoundingBox_Click;
+            layerBoundingBoxButton.TabIndex = 6;
             // 
-            // layerBoundingBox
+            // centerAtButton
             // 
-            this.layerBoundingBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.layerBoundingBox.Location = new System.Drawing.Point(3, 172);
-            this.layerBoundingBox.Name = "layerBoundingBox";
-            this.layerBoundingBox.Size = new System.Drawing.Size(296, 32);
-            this.layerBoundingBox.TabIndex = 5;
-            this.layerBoundingBox.Text = "Set Extent to Layer BBox";
-            this.layerBoundingBox.UseVisualStyleBackColor = true;
-            this.layerBoundingBox.Click += new System.EventHandler(this.layerBoundingBox_Click);
+            centerAtButton.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            centerAtButton.Location = new Point(17, 260);
+            centerAtButton.Name = "featureBoundingBoxButton";
+            centerAtButton.Size = new Size(260, 30);
+            centerAtButton.Text = "Center At (33.15,-96.82)";
+            centerAtButton.UseVisualStyleBackColor = true;
+            centerAtButton.Click += CenterAt_Click;
+            centerAtButton.TabIndex = 7;
             // 
-            // label3
+            // zoomScaleTextBox
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(17, 140);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(155, 20);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Layer Bounding Box:";
+            zoomScaleTextBox.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            zoomScaleTextBox.Location = new Point(145, 90);
+            zoomScaleTextBox.Multiline = true;
+            zoomScaleTextBox.Name = "zoomScaleTextBox";
+            zoomScaleTextBox.Size = new Size(130, 30);
+            zoomScaleTextBox.Text = "10000";
+            zoomScaleTextBox.TabIndex = 5;
             // 
-            // ZoomToScale
+            // rotateAngleTextBox
             // 
-            this.ZoomToScale.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ZoomToScale.Location = new System.Drawing.Point(3, 94);
-            this.ZoomToScale.Name = "ZoomToScale";
-            this.ZoomToScale.Size = new System.Drawing.Size(296, 30);
-            this.ZoomToScale.TabIndex = 3;
-            this.ZoomToScale.Text = "Zoom To Scale";
-            this.ZoomToScale.UseVisualStyleBackColor = true;
-            this.ZoomToScale.Click += new System.EventHandler(this.ZoomToScale_Click);
+            rotateAngleTextBox.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            rotateAngleTextBox.Location = new Point(232, 350);
+            rotateAngleTextBox.Multiline = true;
+            rotateAngleTextBox.Name = "rotateAngleTextBox";
+            rotateAngleTextBox.Text = "0";
+            rotateAngleTextBox.Size = new Size(45, 30);
+            rotateAngleTextBox.TabIndex = 9;
             // 
-            // label2
+            // rotateAngleTrackBar
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(14, 61);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(47, 17);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Scale:";
-            // 
-            // zoomScale
-            // 
-            this.zoomScale.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.zoomScale.Location = new System.Drawing.Point(130, 61);
-            this.zoomScale.Name = "zoomScale";
-            this.zoomScale.Size = new System.Drawing.Size(150, 23);
-            this.zoomScale.TabIndex = 1;
-            this.zoomScale.Text = "1000";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(14, 17);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(120, 20);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Zoom To Scale:";
+            rotateAngleTrackBar.Name = "rotateAngleTrackBar";
+            rotateAngleTrackBar.Location = new Point(17, 350);
+            rotateAngleTrackBar.Minimum = 0;
+            rotateAngleTrackBar.Maximum = 360;
+            rotateAngleTrackBar.Value = 0;
+            rotateAngleTrackBar.TickFrequency = 15;
+            rotateAngleTrackBar.SmallChange = 1;
+            rotateAngleTrackBar.LargeChange = 15;
+            rotateAngleTrackBar.Size = new Size(220, 45);
+            rotateAngleTrackBar.ValueChanged += RotateAngleTrackBar_ValueChanged;
+            rotateAngleTrackBar.TabIndex = 8;
             // 
             // ZoomToExtents
             // 
-            this.AutoSize = true;
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.mapView);
-            this.Name = "ZoomToExtents";
-            this.Size = new System.Drawing.Size(1255, 634);
-            this.Load += new System.EventHandler(this.Form_Load);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.ResumeLayout(false);
+            AutoSize = true;
+            Controls.Add(mapView);
+            Controls.Add(rotationLabel);
+            Controls.Add(zoomLabel);
+            Controls.Add(scaleLabel);
+            Controls.Add(centerPointLabel);
+            Controls.Add(consolePanel);
+            Name = "ZoomToExtents";
+            Size = new Size(1255, 634);
+            Load += Form_Load;
+            consolePanel.ResumeLayout(false);
+            consolePanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)rotateAngleTrackBar).EndInit();
+            ResumeLayout(false);
 
+            centerPointLabel.BringToFront();
+            rotationLabel.BringToFront();
+            zoomLabel.BringToFront();
+            scaleLabel.BringToFront();
         }
 
         #endregion Component Designer generated code
+
 
     }
 }
