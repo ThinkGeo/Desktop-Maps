@@ -31,6 +31,12 @@
         "title": "Resize The Map",
         "description": "Learn how to resize the map while preserving the world extent with various map resize modes.",
         "source": "Samples/MapNavigation/ResizeTheMap"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.DynamicRendering",
+        "title": "Dynamic Rendering",
+        "description": "Learn how to dynamically refresh the shapes.",
+        "source": "Samples/MapNavigation/DynamicRendering"
       }
     ]
   },

@@ -209,7 +209,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             defaultExtentButton.Region = new Region(pathOfDefaultExtentButton);
             defaultExtentButton.TabIndex = 2;
             // 
-            // labelZoom
+            // zoomLabel
             // 
             zoomLabel.BackColor = Color.LightGray;
             zoomLabel.Font = new Font("Microsoft Sans Serif", 12F);
