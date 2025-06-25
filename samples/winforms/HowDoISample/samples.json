@@ -50,6 +50,12 @@
         "source": "Samples/MapOnlineData/ThinkGeoRasterMap"
       },
       {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.RasterXYZServer",
+        "title": "Raster Map from XYZ Server",
+        "description": "This sample shows how to display raster map from XYZ server.",
+        "source": "Samples/MapOnlineData/RasterXYZServer"
+      },
+      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.ThinkGeoVectorMap",
         "title": "ThinkGeo Vector Map",
         "description": "This sample shows how to display ThinkGeo cloud vector background maps.",
