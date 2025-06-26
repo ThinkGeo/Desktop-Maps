@@ -133,6 +133,12 @@
         "source": "Samples/MapOfflineData/Vector/DisplayGeoPackageFile"
       },
       {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayRasterMBTilesFile",
+        "title": "Display Raster from MBTiles",
+        "description": "This sample shows how to display a raster MBTiles file. This sample data covers from zoom0 to zoom5",
+        "source": "Samples/MapOfflineData/Raster/DisplayRasterMBTilesFile"
+      },
+      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayMBTilesFile",
         "title": "Display a MBTiles File",
         "description": "This sample shows how to display a Standard MBTiles File (v1.3).",
