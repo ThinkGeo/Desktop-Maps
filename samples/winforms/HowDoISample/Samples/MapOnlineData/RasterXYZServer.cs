@@ -6,6 +6,9 @@ using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
+    /// <summary>
+    /// Logic for RasterXYZServer WinForms sample
+    /// </summary>
     public partial class RasterXYZServer : UserControl
     {
         private ThinkGeoRasterMapsAsyncLayer _thinkGeoRasterMapsAsyncLayer;
@@ -242,8 +245,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             projectionLabel.Location = new Point(14, 17);
             projectionLabel.Name = "projectionLabel";
             projectionLabel.Size = new Size(89, 20);
-            projectionLabel.TabIndex = 0;
             projectionLabel.Text = "Projection";
+            projectionLabel.TabIndex = 2;
             // 
             // epsg3857RadioButton
             // 
@@ -253,13 +256,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             epsg3857RadioButton.Location = new Point(30, 49);
             epsg3857RadioButton.Name = "epsg3857RadioButton";
             epsg3857RadioButton.Size = new Size(94, 19);
-            epsg3857RadioButton.TabIndex = 1;
             epsg3857RadioButton.TabStop = true;
             epsg3857RadioButton.Text = "EPSG 3857";
             epsg3857RadioButton.UseVisualStyleBackColor = true;
             epsg3857RadioButton.Checked = true;
             epsg3857RadioButton.Tag = "3857";
             epsg3857RadioButton.CheckedChanged += Projection_CheckedChanged;
+            epsg3857RadioButton.TabIndex = 3;
             // 
             // epsg4326RadioButton
             // 
@@ -269,12 +272,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             epsg4326RadioButton.Location = new Point(30, 74);
             epsg4326RadioButton.Name = "epsg4326RadioButton";
             epsg4326RadioButton.Size = new Size(94, 19);
-            epsg4326RadioButton.TabIndex = 2;
             epsg4326RadioButton.TabStop = true;
             epsg4326RadioButton.Text = "EPSG 4326";
             epsg4326RadioButton.UseVisualStyleBackColor = true;
             epsg4326RadioButton.Tag = "4326";
             epsg4326RadioButton.CheckedChanged += Projection_CheckedChanged;
+            epsg4326RadioButton.TabIndex = 4;
             // 
             // showDebugInfoCheckBox
             // 
@@ -284,11 +287,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             showDebugInfoCheckBox.Location = new Point(25, 105);
             showDebugInfoCheckBox.Name = "showDebugInfoCheckBox";
             showDebugInfoCheckBox.Size = new Size(83, 19);
-            showDebugInfoCheckBox.TabIndex = 3;
             showDebugInfoCheckBox.Text = "Show Debug Info";
             showDebugInfoCheckBox.UseVisualStyleBackColor = true;
             showDebugInfoCheckBox.Checked = true;
             showDebugInfoCheckBox.CheckedChanged += DisplayTileIdCheckBox_CheckedChanged;
+            showDebugInfoCheckBox.TabIndex = 5;
             // 
             // renderBeyondMaxZoomCheckBox
             // 
@@ -298,10 +301,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             renderBeyondMaxZoomCheckBox.Location = new Point(25, 130);
             renderBeyondMaxZoomCheckBox.Name = "renderBeyondMaxZoomCheckBox";
             renderBeyondMaxZoomCheckBox.Size = new Size(83, 19);
-            renderBeyondMaxZoomCheckBox.TabIndex = 4;
             renderBeyondMaxZoomCheckBox.Text = "Render Beyond Max Zoom";
             renderBeyondMaxZoomCheckBox.UseVisualStyleBackColor = true;
             renderBeyondMaxZoomCheckBox.CheckedChanged += RenderBeyondMaxZoomCheckBox_CheckedChanged;
+            renderBeyondMaxZoomCheckBox.TabIndex = 6;
             // 
             // logMessagesListBox
             // 
@@ -310,8 +313,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             logMessagesListBox.Location = new Point(3, 159);
             logMessagesListBox.Name = "logMessagesListBox";
             logMessagesListBox.Size = new Size(296, 469);
-            logMessagesListBox.TabIndex = 5;
             logMessagesListBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            logMessagesListBox.TabIndex = 7;
             // 
             // RasterXYZServer
             // 
