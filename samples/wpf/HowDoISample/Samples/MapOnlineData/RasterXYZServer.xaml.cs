@@ -14,6 +14,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public ObservableCollection<string> LogMessages { get; } = new ObservableCollection<string>();
         private ThinkGeoRasterMapsAsyncLayer _thinkGeoRasterMapsAsyncLayer;
         private int _logIndex;
+        private bool _initialized;
 
         public RasterXyzServer()
         {
@@ -23,6 +24,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
+            ThinkGeoDebugger.DisplayTileId = true;
+
             var layerOverlay = new LayerOverlay();
             layerOverlay.TileType = TileType.SingleTile;
             MapView.Overlays.Add(layerOverlay);
@@ -53,6 +56,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.CenterPoint = MaxExtents.ThinkGeoMaps.GetCenterPoint();
             MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, MaxExtents.ThinkGeoMaps, MapView.MapWidth, MapView.MapHeight);
 
+            _initialized = true;
             _ = MapView.RefreshAsync();
         }
 
@@ -130,6 +134,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private void DisplayTileIdCheckBox_Checked(object sender, RoutedEventArgs e)
         {
+            if (!_initialized)
+                return;
+
             if (!(sender is CheckBox checkBox))
                 return;
 

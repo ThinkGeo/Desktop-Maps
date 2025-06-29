@@ -411,6 +411,14 @@
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
+    <PackageReference Include="ThinkGeo.Cad" Version="14.4.0-beta030" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.4.0-beta030" />
+    <PackageReference Include="ThinkGeo.Gdal" Version="14.4.0-beta030" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.4.0-beta030" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.4.0-beta030" />
+    <PackageReference Include="ThinkGeo.Printers" Version="14.4.0-beta031" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="14.4.0-beta030" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="14.4.0-beta030" />
     <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
   </ItemGroup>
   <ItemGroup>
@@ -1475,16 +1483,5 @@
   <ItemGroup>
     <Folder Include="Data\Csv\" />
     <Folder Include="Data\CAD\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\thinkgeosdk\ThinkGeo.Core\Core\ThinkGeo.Core.csproj" />
-    <ProjectReference Include="..\..\..\..\thinkgeosdk\ThinkGeo.Core\Extensions\Cad\ThinkGeo.Cad.csproj" />
-    <ProjectReference Include="..\..\..\..\thinkgeosdk\ThinkGeo.Core\Extensions\FileGeoDatabase\ThinkGeo.FileGeoDatabase.csproj" />
-    <ProjectReference Include="..\..\..\..\thinkgeosdk\ThinkGeo.Core\Extensions\Gdal\ThinkGeo.Gdal.csproj" />
-    <ProjectReference Include="..\..\..\..\thinkgeosdk\ThinkGeo.Core\Extensions\NauticalCharts\ThinkGeo.NauticalCharts.csproj" />
-    <ProjectReference Include="..\..\..\..\thinkgeosdk\ThinkGeo.Core\Extensions\PostgreSql\ThinkGeo.PostgreSql.csproj" />
-    <ProjectReference Include="..\..\..\..\thinkgeosdk\ThinkGeo.Core\Extensions\Printers\ThinkGeo.Printers.csproj" />
-    <ProjectReference Include="..\..\..\..\thinkgeosdk\ThinkGeo.Core\Extensions\SqlServer\ThinkGeo.SqlServer.csproj" />
-    <ProjectReference Include="..\..\..\..\thinkgeosdk\ThinkGeo.UI\Desktop\ThinkGeo.UI.Wpf\ThinkGeo.UI.Wpf.csproj" />
   </ItemGroup>
 </Project>

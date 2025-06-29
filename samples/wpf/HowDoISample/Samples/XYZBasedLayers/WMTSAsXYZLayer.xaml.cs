@@ -15,11 +15,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public ObservableCollection<string> LogMessages { get; } = new ObservableCollection<string>();
         private WmtsAsyncLayer wmtsAsyncLayer;
         private int _logIndex = 0;
+        private bool _initialized;
 
         public WMTSAsXYZLayer()
         {
             InitializeComponent();
-
             DataContext = this;
         }
 
@@ -64,6 +64,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var wmtsAsyncLayerBBox = wmtsAsyncLayer.GetBoundingBox();
                 MapView.CenterPoint = wmtsAsyncLayerBBox.GetCenterPoint();
                 MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, wmtsAsyncLayerBBox, MapView.MapWidth, MapView.MapHeight);
+
+                _initialized = true;
                 await MapView.RefreshAsync();
             }
             catch
@@ -161,6 +163,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private void DisplayTileIdCheckBox_Checked(object sender, RoutedEventArgs e)
         {
+            if (!_initialized)
+                return;
+
             if (!(sender is CheckBox checkBox))
                 return;
 

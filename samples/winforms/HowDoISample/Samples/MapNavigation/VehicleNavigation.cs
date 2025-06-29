@@ -38,12 +38,15 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         public VehicleNavigation()
         {
             InitializeComponent();
-            this.HandleDestroyed += VehicleNavigation_HandleDestroyed;
-        }
 
-        private void VehicleNavigation_HandleDestroyed(object sender, EventArgs e)
-        {
-            this._disposed = true;
+            // Attach event handler for visibility change
+            this.VisibleChanged += (s, e) =>
+            {
+                if (!this.Visible)
+                {
+                    CleanUpResources();
+                }
+            };
         }
 
         private void Form_Load(object sender, EventArgs e)
@@ -333,18 +336,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
         }
 
-        protected override void Dispose(bool disposing)
+        private void CleanUpResources()
         {
-            if (!_disposed)
-            {
-                if (disposing)
-                {
-                    mapView?.Dispose(); // Dispose managed resources here
-                }
-                _disposed = true;  // Dispose unmanaged resources here (if any)
-            }
-            base.Dispose(disposing);
+            this._disposed = true;
         }
+
 
         #region Component Designer generated code
        

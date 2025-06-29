@@ -25,6 +25,18 @@
         "title": "Vehicle Navigation",
         "description": "Learn how to navigate to the Empire State Building using GPS points.",
         "source": "Samples/MapNavigation/VehicleNavigation"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.ResizeTheMap",
+        "title": "Resize The Map",
+        "description": "Learn how to resize the map while preserving the world extent with various map resize modes.",
+        "source": "Samples/MapNavigation/ResizeTheMap"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.DynamicRendering",
+        "title": "Dynamic Rendering",
+        "description": "Learn how to dynamically refresh the shapes.",
+        "source": "Samples/MapNavigation/DynamicRendering"
       }
     ]
   },
@@ -36,6 +48,12 @@
         "title": "ThinkGeo Raster Map",
         "description": "This sample shows how to display ThinkGeo cloud raster background images.",
         "source": "Samples/MapOnlineData/ThinkGeoRasterMap"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.RasterXYZServer",
+        "title": "Raster Map from XYZ Server",
+        "description": "This sample shows how to display raster map from XYZ server.",
+        "source": "Samples/MapOnlineData/RasterXYZServer"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.ThinkGeoVectorMap",
@@ -113,6 +131,12 @@
         "title": "Display a GeoPackage File",
         "description": "This sample shows how to display a GeoPackage layer.",
         "source": "Samples/MapOfflineData/Vector/DisplayGeoPackageFile"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayRasterMBTilesFile",
+        "title": "Display Raster from MBTiles",
+        "description": "This sample shows how to display a raster MBTiles file. This sample data covers from zoom0 to zoom5",
+        "source": "Samples/MapOfflineData/Raster/DisplayRasterMBTilesFile"
       },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayMBTilesFile",
@@ -721,13 +745,7 @@
         "title": "Handle Exceptions",
         "description": "Learn how to throw an overlay exception, or draw the exception on the map.",
         "source": "Samples/Miscellaneous/HandleExceptions"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.ResizeTheMap",
-        "title": "Resize The Map",
-        "description": "Learn how to resize the map while keeping the width of the world extent the same.",
-        "source": "Samples/Miscellaneous/ResizeTheMap"
-      },
+      },      
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.WrapTheDateLine",
         "title": "Wrap The DateLine",

@@ -17,7 +17,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public RenderLabels()
         {
             InitializeComponent();
-            ThinkGeoDebugger.DisplayLabelBox = true;
         }
 
         /// <summary>
