@@ -291,6 +291,35 @@
     ]
   },
   {
+    "title": "XYZ Based Layers",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayRasterMBTilesFile",
+        "title": "Display Raster from MBTiles",
+        "description": "Learn how to display a raster MBTiles file. The demo file has 6 zooms (zoom 0~5)",
+        "source": "Samples/MapOfflineData/Raster/DisplayRasterMBTilesFile"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.RasterXYZServer",
+        "title": "Display Raster from XYZ Server",
+        "description": "Learn how to display the tiles from a raster XYZ server.  This demo server has 20 zooms (zoom 0~19)",
+        "source": "Samples/MapOnlineData/RasterXYZServer"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayMBTilesFile",
+        "title": "Display Vector from MBTiles",
+        "description": "Learn how to display a MBTiles file. The demo mbtile/json come from https://github.com/maplibre/demotiles?tab=readme-ov-file",
+        "source": "Samples/MapOfflineData/Vector/DisplayMBTilesFile"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.CacheXyzTiles",
+        "title": "Pre-Generate Cache for XYZ Layers",
+        "description": "Learn how to generate cache for XYZ layers.",
+        "source": "Samples/XYZBasedLayers/CacheXyzTiles"
+      }
+    ]
+  },
+  {
     "title": "Map Projection",
     "children": [
       {
