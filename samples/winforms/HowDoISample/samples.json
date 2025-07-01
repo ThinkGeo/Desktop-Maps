@@ -306,6 +306,12 @@
         "source": "Samples/MapOnlineData/RasterXYZServer"
       },
       {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.WMTSAsXYZLayer",
+        "title": "Display Raster from WMTS Server",
+        "description": "Learn how to display the tiles from a WMTS server.  This demo server has 27 zooms (zoom 0~26).",
+        "source": "Samples/XYZBasedLayers/WMTSAsXYZLayer"
+      },
+      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayMBTilesFile",
         "title": "Display Vector from MBTiles",
         "description": "Learn how to display a MBTiles file. The demo mbtile/json come from https://github.com/maplibre/demotiles?tab=readme-ov-file",
