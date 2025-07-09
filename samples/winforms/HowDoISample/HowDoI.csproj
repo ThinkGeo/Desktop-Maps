@@ -522,6 +522,9 @@
     <None Update="Data\MrSid\World.sid">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Data\OSM_Tiles_z0-z5_Created_By_QGIS.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Data\Png\m_3309650_sw_14_1_20160911_20161121.pgw">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
