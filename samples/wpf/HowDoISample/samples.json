@@ -420,7 +420,7 @@
         "id": "ThinkGeo.UI.Wpf.HowDoI.TextMarker",
         "title": "Text Marker",
         "description": "Display a draggable text using marker",
-        "source": "Samples/MarkersandPopups/AnimatedMarker"
+        "source": "Samples/MarkersandPopups/TextMarker"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.Popups",
