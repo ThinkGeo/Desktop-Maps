@@ -788,6 +788,12 @@
     "title": "Miscellaneous",
     "children": [
       {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.CacheTileOverlay",
+        "title": "Pre-Generate Cache for Tile Overlay",
+        "description": "Learn how to generate cache for Tile Overlay.",
+        "source": "Samples/Miscellaneous/CacheTileOverlay"
+      },
+      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.PrintTheMap",
         "title": "Print the Map",
         "description": "Learn to print maps using the PrintOverlay.",
@@ -798,7 +804,7 @@
         "title": "Handle Exceptions",
         "description": "Learn how to throw an overlay exception, or draw the exception on the map.",
         "source": "Samples/Miscellaneous/HandleExceptions"
-      },      
+      },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.WrapTheDateLine",
         "title": "Wrap The DateLine",
