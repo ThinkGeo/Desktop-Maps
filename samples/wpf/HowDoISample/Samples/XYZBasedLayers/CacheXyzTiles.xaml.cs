@@ -107,13 +107,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void btnOpenCacheFolder_OnClick(object sender, RoutedEventArgs e)
         {
             var fileRasterTileCache = _openStreetMapAsyncLayer.TileCache as FileRasterTileCache;
-
             if (fileRasterTileCache == null)
                 return;
 
             var cacheFolder = Path.Combine(fileRasterTileCache.CacheDirectory, fileRasterTileCache.CacheId);
             if (Directory.Exists(cacheFolder))
                 Process.Start("explorer.exe", cacheFolder);
+            else
+                MessageBox.Show("Cache Tiles have not been generated");
         }
         public void Dispose()
         {
