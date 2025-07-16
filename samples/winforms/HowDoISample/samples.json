@@ -405,12 +405,6 @@
         "source": "Samples/MarkersandPopups/Markers"
       },
       {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.TextMarker",
-        "title": "Text Marker",
-        "description": "Display a draggable text using marker",
-        "source": "Samples/MarkersandPopups/TextMarker"
-      },
-      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.Popups",
         "title": "Popups",
         "description": "Learn to add, edit, or remove popups on the map using the PopupOverlay.",
