@@ -63,7 +63,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         #region Component Designer generated code
 
         private MapView mapView;
-        private Panel consolePanel;
+        private FlowLayoutPanel consolePanel;
         private Label mapResizeModeLabel;
         private RadioButton preserveScaleRadioButton;
         private RadioButton preserveScaleAndCenterRadioButton;
@@ -72,7 +72,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private void InitializeComponent()
         {
             mapView = new ThinkGeo.UI.WinForms.MapView();
-            consolePanel = new Panel();
+            consolePanel = new FlowLayoutPanel();
             mapResizeModeLabel = new Label();
             preserveScaleRadioButton = new RadioButton();
             preserveScaleAndCenterRadioButton = new RadioButton();
@@ -96,30 +96,31 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // consolePanel
             // 
+            consolePanel.AutoSize = true;
+            consolePanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             consolePanel.BackColor = SystemColors.ControlDark;
-            consolePanel.Controls.Add(preserveExtentRadioButton);
-            consolePanel.Controls.Add(preserveScaleAndCenterRadioButton);
-            consolePanel.Controls.Add(preserveScaleRadioButton);
-            consolePanel.Controls.Add(mapResizeModeLabel);
-            consolePanel.Location = new Point(17, 540);
             consolePanel.Name = "consolePanel";
-            consolePanel.Size = new Size(222, 105);
+            consolePanel.FlowDirection = FlowDirection.TopDown;
+            consolePanel.Controls.Add(mapResizeModeLabel);
+            consolePanel.Controls.Add(preserveScaleRadioButton);
+            consolePanel.Controls.Add(preserveScaleAndCenterRadioButton);
+            consolePanel.Controls.Add(preserveExtentRadioButton);// 
             consolePanel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            consolePanel.Left = 20;
             consolePanel.Top = mapView.Height - 60;
-            // 
             // mapResizeModeLabel
             // 
+            mapResizeModeLabel.AutoSize = true;
             mapResizeModeLabel.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             mapResizeModeLabel.Location = new Point(14, 13);
             mapResizeModeLabel.Name = "mapResizeModeLabel";
-            mapResizeModeLabel.Size = new Size(199, 32);
             mapResizeModeLabel.Text = "Map Resize Mode:";
             // 
             // preserveScaleRadioButton
             // 
+            preserveScaleRadioButton.AutoSize = true;
             preserveScaleRadioButton.Location = new Point(14, 38);
             preserveScaleRadioButton.Name = "preserveScaleRadioButton";
-            preserveScaleRadioButton.Size = new Size(159, 24);
             preserveScaleRadioButton.TabStop = true;
             preserveScaleRadioButton.Text = "PreserveScale";
             preserveScaleRadioButton.UseVisualStyleBackColor = true;
@@ -129,9 +130,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // preserveScaleAndCenterRadioButton
             // 
+            preserveScaleAndCenterRadioButton.AutoSize = true;
             preserveScaleAndCenterRadioButton.Location = new Point(14, 59);
             preserveScaleAndCenterRadioButton.Name = "preserveScaleAndCenterRadioButton";
-            preserveScaleAndCenterRadioButton.Size = new Size(159, 24);
             preserveScaleAndCenterRadioButton.TabStop = true;
             preserveScaleAndCenterRadioButton.Text = "PreserveScaleAndCenter";
             preserveScaleAndCenterRadioButton.UseVisualStyleBackColor = true;
@@ -140,9 +141,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // preserveExtentRadioButton
             // 
+            preserveExtentRadioButton.AutoSize = true;
             preserveExtentRadioButton.Location = new Point(14, 81);
             preserveExtentRadioButton.Name = "preserveExtentRadioButton";
-            preserveExtentRadioButton.Size = new Size(159, 24);
             preserveExtentRadioButton.TabStop = true;
             preserveExtentRadioButton.Text = "PreserveExtent";
             preserveExtentRadioButton.UseVisualStyleBackColor = true;

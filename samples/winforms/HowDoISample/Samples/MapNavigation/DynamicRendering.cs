@@ -133,25 +133,27 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // titileLabel
             // 
-            titileLabel.Location = new Point(450, 25);
             titileLabel.Font = new Font("Microsoft Sans Serif", 20F);
             titileLabel.Name = "titileLabel";
             titileLabel.Size = new Size(500, 50);
             titileLabel.TabIndex = 0;
             titileLabel.Text = "titileLabel";
             titileLabel.Anchor = AnchorStyles.Top;
-            titileLabel.Left = mapView.Width / 2 + 100;
+            titileLabel.Top = 30;
+            titileLabel.Left = mapView.Width / 2 + 60;
             // 
             // playButton
             // 
-            playButton.Location = new Point(700, 645);
+            int dpiScale = DpiHelper.GetDpiScalePercentage(mapView);
+            int verticalOffset = dpiScale >= 150 ? 17 : 9;
+            playButton.AutoSize = true;
             playButton.Name = "playButton";
-            playButton.Size = new Size(50, 30);
             playButton.TabIndex = 2;
             playButton.Text = "Play";
             playButton.UseVisualStyleBackColor = true;
             playButton.Anchor = AnchorStyles.Bottom;
-            playButton.Left = mapView.Width / 2 + 300;
+            playButton.Left = mapView.Width / 2 + 310;
+            playButton.Top = mapView.Bottom + verticalOffset;
             playButton.Click += PlayAnimation_Click;
             // 
             // playSlider
@@ -167,12 +169,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // sliderHost
             // 
-            sliderHost.Location = new Point(500, 650);
             sliderHost.Size = new Size(200, 30);
             sliderHost.Child = playSlider;
             sliderHost.BackColorTransparent = true;
             sliderHost.Anchor = AnchorStyles.Bottom;
             sliderHost.Left = mapView.Width / 2 + 100;
+            sliderHost.Top = mapView.Bottom + 10;
             // 
             // DynamicRendering
             // 

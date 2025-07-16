@@ -167,11 +167,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async Task ZoomToBlackHoleAsync(CancellationToken cancellationToken)
         {
+            int threshold = DpiHelper.GetOverlayRemovalThreshold(this);
+
             for (_currentPointIndex = 2; _currentPointIndex < _zoomingExtents.Count; _currentPointIndex++)
             {
                 var (centerPoint, scale) = _zoomingExtents[_currentPointIndex];
 
-                if (_currentPointIndex >= 10)
+                if (_currentPointIndex >= threshold)
                 {
                     mapView.Overlays.Remove(_backgroundOverlay);
                 }
@@ -265,11 +267,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // zoomToBlackHoleButton
             // 
+            zoomToBlackHoleButton.AutoSize = true;
             zoomToBlackHoleButton.BackColor = Color.DarkGray;
             zoomToBlackHoleButton.Font = new Font("Segoe UI", 14F);
-            zoomToBlackHoleButton.Location = new Point(470, 500);
+            zoomToBlackHoleButton.Location = new Point(mapView.Width / 2 + 70, mapView.Height - 100);
             zoomToBlackHoleButton.Name = "zoomToBlackHoleButton";
-            zoomToBlackHoleButton.Size = new Size(230, 35);
             zoomToBlackHoleButton.Text = "Zoom To M87 Black Hole";
             zoomToBlackHoleButton.UseVisualStyleBackColor = true;
             zoomToBlackHoleButton.Click += ZoomToBlackHoleButton_Click;
@@ -279,15 +281,15 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // scaleLabel
             // 
-            scaleLabel.Anchor = AnchorStyles.Top;
             scaleLabel.AutoSize = true;
             scaleLabel.BackColor = Color.Black;
             scaleLabel.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
             scaleLabel.ForeColor = Color.White;
-            scaleLabel.Location = new Point(490, 20);
+            scaleLabel.Location = new Point(mapView.Width / 2 + 70, 20);
             scaleLabel.Name = "scaleLabel";
-            scaleLabel.Size = new Size(115, 30);
             scaleLabel.Text = "Scale: 0.00";
+            scaleLabel.Anchor = AnchorStyles.Top;
+            scaleLabel.Left = mapView.Width / 2 + 70;
             scaleLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // defaultExtentButton
@@ -326,5 +328,29 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         }
 
         #endregion Component Designer generated code
+    }
+
+    public static class DpiHelper
+    {
+        public static int GetDpiScalePercentage(Control control)
+        {
+            using (Graphics g = control.CreateGraphics())
+            {
+                float dpiX = g.DpiX;
+
+                // 96 DPI is the standard 100%
+                float scale = dpiX / 96f;
+                return (int)(scale * 100);
+            }
+        }
+
+        // Returns the correct threshold based on DPI
+        public static int GetOverlayRemovalThreshold(Control control)
+        {
+            int dpiScale = GetDpiScalePercentage(control);
+
+            // You can tweak this logic further if needed
+            return dpiScale >= 150 ? 9 : 10;
+        }
     }
 }

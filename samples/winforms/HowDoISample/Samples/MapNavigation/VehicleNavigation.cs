@@ -375,10 +375,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // overviewButton
             // 
+            overviewButton.AutoSize = true;
             overviewButton.Font = new Font("Microsoft Sans Serif", 10F);
             overviewButton.Location = new System.Drawing.Point(1020, 500);
             overviewButton.Name = "overviewButton";
-            overviewButton.Size = new Size(150, 35);
             overviewButton.Text = "Overview Mode";
             overviewButton.UseVisualStyleBackColor = true;
             overviewButton.Click += OverviewButton_Click;
@@ -401,12 +401,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // aerialBackgroundCheckBox
             // 
+            aerialBackgroundCheckBox.AutoSize = true;
             aerialBackgroundCheckBox.BackColor = Color.LightGray;
             aerialBackgroundCheckBox.Font = new Font("Microsoft Sans Serif", 10F);
             aerialBackgroundCheckBox.ForeColor = Color.Black;
             aerialBackgroundCheckBox.Location = new System.Drawing.Point(20, 500);
             aerialBackgroundCheckBox.Name = "aerialBackgroundCheckBox";
-            aerialBackgroundCheckBox.Size = new Size(150, 35);
             aerialBackgroundCheckBox.Text = "Aerial Background";
             aerialBackgroundCheckBox.UseVisualStyleBackColor = true;
             aerialBackgroundCheckBox.CheckedChanged += AerialBackgroundCheckBox_CheckedChanged;
