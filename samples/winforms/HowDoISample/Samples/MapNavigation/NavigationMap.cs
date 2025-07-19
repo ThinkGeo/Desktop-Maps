@@ -33,6 +33,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
 
+            // Set the map's resize mode as PreserveScaleAndCenter
+            mapView.MapResizeMode = MapResizeMode.PreserveScaleAndCenter;
+
             // Add Cloud Maps as a background overlay
             _backgroundOverlay = new ThinkGeoCloudRasterMapsOverlay
             {
