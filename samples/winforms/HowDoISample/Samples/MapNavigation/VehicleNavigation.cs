@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 using ThinkGeo.Core;
 using Point = System.Windows.Point;
 using Timer = System.Windows.Forms.Timer;
+//using Point = System.Drawing.Point;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
@@ -332,6 +333,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             if (Math.Abs(currentRotation - lastRotationAngle) > 0.1) // Change threshold
             {
                 lastRotationAngle = currentRotation;
+                currentRotationLabel.Text = $"Current Rotation Angle: {currentRotation:N0}";
                 ImageHelper.UpdateImage(compassButton, "icon_north_arrow.png", (float)currentRotation);
             }
         }
@@ -349,6 +351,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private PictureBox compassButton;
         private System.Windows.Forms.CheckBox aerialBackgroundCheckBox;
         private double lastRotationAngle = 0;
+        private Label currentRotationLabel;
 
         private void InitializeComponent()
         {
@@ -356,6 +359,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             overviewButton = new System.Windows.Forms.Button();
             compassButton = new PictureBox();
             aerialBackgroundCheckBox = new System.Windows.Forms.CheckBox();
+            currentRotationLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)compassButton).BeginInit();
             SuspendLayout();
             // 
@@ -372,6 +376,18 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.RestrictExtent = null;
             this.mapView.RotationAngle = 0F;
             mapView.Controls.Add(overviewButton);
+            // 
+            // statusLabel
+            // 
+            currentRotationLabel.Anchor = AnchorStyles.Bottom;
+            currentRotationLabel.AutoSize = true;
+            currentRotationLabel.BackColor = Color.LightGray;
+            currentRotationLabel.Font = new Font("Microsoft Sans Serif", 12F);
+            currentRotationLabel.ForeColor = Color.Black;
+            currentRotationLabel.Location = new System.Drawing.Point(mapView.Width / 2 + 100, mapView.Height-100);
+            currentRotationLabel.Name = "currentRotationLabel";
+            currentRotationLabel.TextAlign = ContentAlignment.MiddleCenter;
+            currentRotationLabel.TabIndex = 3;
             // 
             // overviewButton
             // 
@@ -419,6 +435,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             Controls.Add(aerialBackgroundCheckBox);
             Controls.Add(overviewButton);
             Controls.Add(compassButton);
+            Controls.Add(currentRotationLabel);
             Name = "VehicleNavigation";
             Size = new Size(1194, 560);
             Load += Form_Load;
@@ -428,6 +445,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             overviewButton.BringToFront();
             compassButton.BringToFront();
             aerialBackgroundCheckBox.BringToFront();
+            currentRotationLabel.BringToFront();
         }
 
         #endregion Component Designer generated code
