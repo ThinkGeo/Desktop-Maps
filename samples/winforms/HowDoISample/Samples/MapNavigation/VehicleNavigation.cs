@@ -10,7 +10,6 @@ using System.Windows.Media.Imaging;
 using ThinkGeo.Core;
 using Point = System.Windows.Point;
 using Timer = System.Windows.Forms.Timer;
-//using Point = System.Drawing.Point;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
