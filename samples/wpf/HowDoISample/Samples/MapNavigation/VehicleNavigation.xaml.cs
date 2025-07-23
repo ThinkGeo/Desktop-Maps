@@ -22,6 +22,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private Marker _vehicleMarker;
         private bool _disposed;
         private bool _showOverview;
+        private bool _holdAnimation = false;
 
         private CancellationTokenSource _cancellationTokenSource;
         private ThinkGeoCloudRasterMapsOverlay _backgroundOverlay;
@@ -56,6 +57,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_raster_light")
             };
             MapView.Overlays.Add(_backgroundOverlay);
+            _backgroundOverlay.TileViewInMemoryCache = new XyzLruCache<TileView>();
 
             MapView.DefaultAnimationSettings = new MapAnimationSettings
             {
@@ -80,6 +82,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Create a marker overlay to show where the vehicle is
             _markerOverlay = new SimpleMarkerOverlay();
+            MapView.Overlays.Add(_markerOverlay);
+
+            MapView.CurrentExtentChangedInAnimation += MapViewOnCurrentExtentChangedInAnimation;
+
+            MapView.CenterPoint = new PointShape(_gpsPoints[0]);
+            MapView.CurrentScale = DefaultScale;
+
             // Create the marker of the vehicle
             _vehicleMarker = new Marker()
             {
@@ -89,12 +98,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 Height = 24
             };
             _markerOverlay.Markers.Add(_vehicleMarker);
-            MapView.Overlays.Add(_markerOverlay);
-
-            MapView.CurrentExtentChangedInAnimation += MapViewOnCurrentExtentChangedInAnimation;
-
-            MapView.CenterPoint = new PointShape(_gpsPoints[0]);
-            MapView.CurrentScale = DefaultScale;
 
             _ = ZoomToGpsPointsAsync(_gpsPoints);
         }
@@ -107,6 +110,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             {
                 try
                 {
+                    while (_holdAnimation)
+                        await Task.Delay(500);
+
                     await ZoomToGpsPointAsync(gpsPoints, _currentGpsPointIndex, _cancellationTokenSource.Token);
                 }
                 catch (TaskCanceledException)
@@ -192,7 +198,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     UpdateRoutesAndMarker(process, angle);
 
                     await _routesOverlay.RefreshAsync();
-                    await Task.Delay(1);
+                    await Task.Delay(10); // update every 10 ms
                 }
             }
             else
@@ -285,16 +291,34 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private void AerialBackgroundCheckBox_CheckedChanged(object sender, RoutedEventArgs e)
         {
-            RefreshCancellationTokenAsync();
+            _ = UpdateBackground();
+        }
 
+        private async Task UpdateBackground()
+        {
+            if (AerialBackgroundCheckBox.IsChecked == null)
+                return;
+
+            _holdAnimation = true;
+
+            RefreshCancellationTokenAsync();
             _backgroundOverlay.MapType = AerialBackgroundCheckBox.IsChecked.Value
                 ? ThinkGeoCloudRasterMapsMapType.Aerial_V2_X2
                 : ThinkGeoCloudRasterMapsMapType.Light_V2_X2;
-            _ = _backgroundOverlay.RefreshAsync();
+            await _backgroundOverlay.RefreshAsync(MapView.CancellationTokenSource.Token);
+
+            _holdAnimation = false;
         }
 
         private void OverviewButton_OnClick(object sender, RoutedEventArgs e)
         {
+            _ = SwitchView();
+        }
+
+        private async Task SwitchView()
+        {
+            _holdAnimation = true;
+
             _showOverview = !_showOverview;
             if (_showOverview)
             {
@@ -308,12 +332,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Multiply the current scale by 1.5 to zoom out 50%.
                 var scale = MapUtil.GetScale(MapView.MapUnit, boundingBox, MapView.MapWidth, MapView.MapHeight) * 1.5;
 
-                _ = MapView.ZoomToAsync(center, scale, 0);
+                await MapView.ZoomToAsync(center, scale, 0);
             }
             else
             {
                 OverviewButton.Content = "Overview Mode";
             }
+
+            _holdAnimation = false;
         }
 
         public void Dispose()
