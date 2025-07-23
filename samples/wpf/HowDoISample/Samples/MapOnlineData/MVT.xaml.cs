@@ -90,8 +90,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             layerOverlay.TileHeight = tileSize;
 
             var mvtLayer = new MvtTilesAsyncLayer(mvtServer);
-            mvtLayer.TileWidth = tileSize;
-            mvtLayer.TileHeight = tileSize;
+            mvtLayer.TileMatrixSet = TileMatrixSet.CreateTileMatrixSet(tileSize, MaxExtents.SphericalMercator, GeographyUnit.Meter);
             layerOverlay.Layers.Add(mvtLayer);
 
             MapView.Overlays.Add(layerOverlay);

@@ -39,7 +39,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 await layerOverlay.OpenAsync();
 
                 // Apply the wmts matrices to the MapView. 
-                var scales = layerOverlay.TileMatrixSet.Matrices.Select(m => m.Scale);
+                var scales = layerOverlay.TileMatrixSet.GetScales();
                 MapView.ZoomScales = new Collection<double>(scales.ToList());
                 
                 var layerOverlayBBox = layerOverlay.GetBoundingBox();

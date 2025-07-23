@@ -32,6 +32,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
+            var markerOverlay = new SimpleMarkerOverlay();
+            MapView.Overlays.Add(markerOverlay);
+
+            // Set the map extent
+            MapView.CurrentExtent = MaxExtents.SphericalMercator;
+
             var marker = new Marker(0, 0)
             {
                 Width = 100,    // give enough room for your text
@@ -49,13 +55,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
 
             // Add the marker to the overlay
-            var markerOverlay = new SimpleMarkerOverlay();
             markerOverlay.Markers.Add(marker);
             markerOverlay.DragMode = MarkerDragMode.Drag;
-            MapView.Overlays.Add(markerOverlay);
-
-            // Set the map extent
-            MapView.CurrentExtent = MaxExtents.SphericalMercator;
 
             _ = MapView.RefreshAsync();
         }

@@ -74,7 +74,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _visitedRoutesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             _routesOverlay = new FeatureLayerWpfDrawingOverlay();
-            _routesOverlay.UpdateDataWhileTransforming = true;
             _routesOverlay.FeatureLayers.Add(_routeLayer);
             _routesOverlay.FeatureLayers.Add(_visitedRoutesLayer);
             MapView.Overlays.Add(_routesOverlay);
@@ -150,11 +149,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             UpdateVisitedRoutes(new Vertex(x, y));
 
-            _vehicleMarker.RotateAngle = angle;
+            _vehicleMarker.RotationAngle = -angle;
             _vehicleMarker.Position = new Point(x, y);
 
             _ = _routesOverlay.RefreshAsync();
-            _ = _markerOverlay.RefreshAsync();
         }
 
         private void UpdateVisitedRoutes(Vertex newVertex)
@@ -268,8 +266,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var dx = nextLocation.X - currentLocation.X;
                 var dy = nextLocation.Y - currentLocation.Y;
 
-                angle = Math.Atan2(dx, dy) / Math.PI * 180; // get the angle in degrees 
-                angle = -angle;
+                angle = -Math.Atan2(dx, dy) / Math.PI * 180; // get the angle in degrees 
             }
             else
             {
