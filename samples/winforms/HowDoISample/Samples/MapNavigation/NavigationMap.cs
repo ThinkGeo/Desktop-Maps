@@ -30,6 +30,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// </summary>
         private void Form_Load(object sender, EventArgs e)
         {
+
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
 
@@ -50,6 +51,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Convert Lat/Lon (EPSG:4326) to Spherical Mercator (EPSG:3857)
             _empireStateBuildingPosition = ProjectionConverter.Convert(4326, 3857, new PointShape(-73.9856654, 40.74843661));
 
+            // set up the map extent and refresh
+            mapView.RotationAngle = -30;
+            mapView.CurrentScale = 100000;
+            mapView.CenterPoint = _empireStateBuildingPosition;
+
             // Create a marker with both label and image content
             var marker = new Marker(_empireStateBuildingPosition)
             {
@@ -59,15 +65,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 Height = 64,
                 YOffset = -32
             };
-
-            // Add the marker to the overlay
             markerOverlay.Markers.Add(marker);
-
-            // set up the map extent and refresh
-            mapView.RotationAngle = -30;
-            mapView.CurrentScale = 100000;
-            mapView.CenterPoint = _empireStateBuildingPosition;
-
+            
             mapView.CurrentExtentChanged += MapView_CurrentExtentChanged;
             MapView_CurrentExtentChanged(null, null);
 

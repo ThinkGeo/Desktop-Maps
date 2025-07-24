@@ -31,15 +31,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
+            var simpleMarkerOverlay = new SimpleMarkerOverlay();
+            MapView.Overlays.Add(simpleMarkerOverlay);
+
             // set the map extent to Frisco, TX
             MapView.CenterPoint = new PointShape(-10779270, 3911750);
             MapView.CurrentScale = 288900;
 
             // Add a marker in the center of the map. 
-            var simpleMarkerOverlay = new SimpleMarkerOverlay();
             var marker = new Marker(MapView.CenterPoint);
             simpleMarkerOverlay.Markers.Add(marker);
-            MapView.Overlays.Add(simpleMarkerOverlay);
 
             _ = MapView.RefreshAsync();
         }
