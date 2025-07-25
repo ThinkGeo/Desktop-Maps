@@ -46,7 +46,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             MapView.CenterPoint = new PointShape(5.92651, 14.58364);
             MapView.CurrentScale = 147648000;
-            RdoPolar.IsChecked = true;
 
             _initialized = true;
             _ = MapView.RefreshAsync();

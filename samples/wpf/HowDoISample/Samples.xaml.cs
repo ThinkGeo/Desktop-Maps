@@ -110,7 +110,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 SampleContent.Children.Remove(oldControl);
                 SampleContent.DataContext = null;
                 oldControl.DataContext = null;
-                oldControl = null;
                 GC.Collect();
             }
 
