@@ -56,20 +56,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
         }
 
-        private ZoomLevelSet GetZoomLevelSetFromWmtsServer(WmtsOverlay wmtsOverlay)
-        {
-            var scales = wmtsOverlay.GetTileMatrixSets()[wmtsOverlay.TileMatrixSetName].TileMatrices
-                .Select((matrix, i) => matrix.Scale);
-            var zoomLevels = scales.Select((d, i) => new ZoomLevel(d));
-            var zoomLevelSet = new ZoomLevelSet();
-            foreach (var zoomLevel in zoomLevels)
-            {
-                zoomLevelSet.CustomZoomLevels.Add(zoomLevel);
-            }
-
-            return zoomLevelSet;
-        }
-
         public void Dispose()
         {
             ThinkGeoDebugger.DisplayTileId = false;

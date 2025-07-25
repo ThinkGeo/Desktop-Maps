@@ -163,7 +163,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             UpdateVisitedRoutes(new Vertex(x, y));
 
-            _vehicleMarker.RotateAngle = angle;
+            _vehicleMarker.RotationAngle = - angle;
             _vehicleMarker.Position = new Point(x, y);
 
             _ = _routesOverlay.RefreshAsync();

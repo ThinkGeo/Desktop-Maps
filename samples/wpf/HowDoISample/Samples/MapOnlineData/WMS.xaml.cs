@@ -10,6 +10,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class WMS : IDisposable
     {
+        private bool _initialized;
+
         public WMS()
         {
             InitializeComponent();
@@ -58,11 +60,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             layerOverlay2.TileType = TileType.SingleTile;
             layerOverlay2.Layers.Add(wms);
             MapView.Overlays.Add(layerOverlay2);
+
+            _initialized = true;
             _ = MapView.RefreshAsync();
         }
 
         private async void Projection_Checked(object sender, RoutedEventArgs e)
         {
+            if (!_initialized)
+                return;
+
             try
             {
                 if (wms == null) return;

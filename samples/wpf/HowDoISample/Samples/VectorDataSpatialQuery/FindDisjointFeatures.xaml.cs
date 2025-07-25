@@ -86,6 +86,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapView.CenterPoint = sampleShapeBBox.GetCenterPoint();
                 var MapScale = MapUtil.GetScale(MapView.MapUnit, sampleShapeBBox, MapView.MapWidth, MapView.MapHeight);
                 MapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
+                MapView.TrackOverlay.TrackMode = TrackMode.Polygon;
 
                 await MapView.RefreshAsync();
             }
@@ -132,7 +133,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 $"Number of features disjoint from the drawn shape: {queriedFeatures.Count}";
 
             // Disable map drawing and clear the drawn shape
-            MapView.TrackOverlay.TrackMode = TrackMode.None;
             MapView.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
             await MapView.TrackOverlay.RefreshAsync();
         }
@@ -143,18 +143,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void OnPolygonDrawn(object sender, TrackEndedTrackInteractiveOverlayEventArgs e)
         {
             _ = GetFeaturesDisjointAsync((PolygonShape)e.TrackShape);
-        }
-
-        /// <summary>
-        /// Set the map to 'Polygon Drawing Mode' when the user clicks on the map without panning
-        /// </summary>
-        private void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
-        {
-            if (MapView.TrackOverlay.TrackMode != TrackMode.Polygon)
-            {
-                // Set the drawing mode to 'Polygon'
-                MapView.TrackOverlay.TrackMode = TrackMode.Polygon;
-            }
         }
 
         public void Dispose()

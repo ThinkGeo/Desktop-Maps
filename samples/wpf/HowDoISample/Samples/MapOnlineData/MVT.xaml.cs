@@ -18,12 +18,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private string _selectedType = string.Empty;
         private string _selectedWvtServer = string.Empty;
-        private bool _mapLoaded = false;
+        bool _initialized;
 
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             MapView.MapUnit = GeographyUnit.Meter;
-            _mapLoaded = true;
 
             _selectedWvtServer = "https://demotiles.maplibre.org/style.json";
             _selectedType = "512 * 512";
@@ -39,12 +38,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.CurrentExtent = mvtLayer.GetBoundingBox();
             MapView.Overlays.Add(layerOverlay);
 
+            _initialized = true;
             await MapView.RefreshAsync();
         }
 
         private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!_mapLoaded)
+            if (!_initialized)
                 return;
 
             _selectedWvtServer = ((ComboBoxItem)e.AddedItems[0])?.Content.ToString();
@@ -53,7 +53,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private void ShowTileID_OnCheckedChanged(object sender, RoutedEventArgs e)
         {
-            if (!_mapLoaded)
+            if (!_initialized)
                 return;
 
             ThinkGeoDebugger.DisplayTileId = (sender as CheckBox).IsChecked == true;
@@ -62,7 +62,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private void SwitchTileSize_OnCheckedChanged(object sender, RoutedEventArgs e)
         {
-            if (!_mapLoaded)
+            if (!_initialized)
                 return;
 
             _selectedType = ((RadioButton)sender).Content?.ToString();
