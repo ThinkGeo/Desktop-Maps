@@ -11,6 +11,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class MouseCoordinates : IDisposable
     {
+        private bool _initialized;
+
         public MouseCoordinates()
         {
             InitializeComponent();
@@ -35,6 +37,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
+            MapView.MapTools.MouseCoordinate.MouseCoordinateType = MouseCoordinateType.LatitudeLongitude;
+            MapView.MapTools.MouseCoordinate.IsEnabled = true;
+
             //Add a mouse move event handler to the map so that we can refresh the textboxes (off the map)
             MapView.MouseMove += MapView_MouseMove;
 
@@ -42,6 +47,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.CenterPoint = new PointShape(-10778000, 3912000);
             MapView.CurrentScale = 77000;
 
+            _initialized = true;
             _ = MapView.RefreshAsync();
         }
 
@@ -50,6 +56,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void DisplayMouseCoordinates_Checked(object sender, RoutedEventArgs e)
         {
+            if (!_initialized)
+                return;
+
             MapView.MapTools.MouseCoordinate.IsEnabled = true;
         }
 
@@ -66,6 +75,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void CoordinateType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (!_initialized)
+                return;
+
             switch (((ComboBoxItem)CoordinateType.SelectedItem).Content)
             {
                 case "(lat), (lon)":

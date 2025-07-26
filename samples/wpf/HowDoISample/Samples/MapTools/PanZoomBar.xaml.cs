@@ -9,6 +9,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class PanZoomBar : IDisposable
     {
+        private bool _initialized;
+
         public PanZoomBar()
         {
             InitializeComponent();
@@ -33,10 +35,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
+            MapView.MapTools.PanZoomBar.IsEnabled = true;
+
             // Set the map extent
             MapView.CenterPoint = new PointShape(-10778000, 3912000);
             MapView.CurrentScale = 77000;
 
+            _initialized = true;
             _ = MapView.RefreshAsync();
         }
 
@@ -45,6 +50,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void DisplayPanZoomBar_Checked(object sender, RoutedEventArgs e)
         {
+            if (!_initialized)
+                return;
+
             MapView.MapTools.PanZoomBar.IsEnabled = true;
         }
 
