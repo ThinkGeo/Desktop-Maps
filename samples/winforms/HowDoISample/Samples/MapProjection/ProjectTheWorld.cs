@@ -6,6 +6,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public class ProjectTheWorld : UserControl
     {
+        private bool _initialized;
+
         public ProjectTheWorld()
         {
             InitializeComponent();
@@ -39,11 +41,15 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             rdoPolar.Checked = true;
 
+            _initialized = true;
             await mapView.RefreshAsync();
         }
 
         private async void Radial_CheckChanged(object sender, EventArgs e)
         {
+            if (!_initialized)
+                return;
+
             var radioButton = (RadioButton)sender;
             if (radioButton == null)
                 return;

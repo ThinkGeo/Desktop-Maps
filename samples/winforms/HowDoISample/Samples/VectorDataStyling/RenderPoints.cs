@@ -6,6 +6,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public class RenderPoints : UserControl
     {
+        private bool _initialized;
+
         public RenderPoints()
         {
             InitializeComponent();
@@ -40,13 +42,27 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Add the overlay to the map
             mapView.Overlays.Add("hotels", layerOverlay);
 
+            // Create a point style
+            var pointStyle = new PointStyle(PointSymbolType.Circle, 12, GeoBrushes.Blue, new GeoPen(GeoBrushes.White, 2));
+
+            // Add the point style to the collection of custom styles for ZoomLevel 1.
+            hotelsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
+            hotelsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(pointStyle);
+
+            // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the point style on every zoom level on the map. 
+            hotelsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
             pointSymbol.Checked = true;
 
+            _initialized = true;
             await mapView.RefreshAsync();
         }
 
         private async void pointSymbol_CheckedChanged(object sender, EventArgs e)
         {
+            if (!_initialized)
+                return;
+
             if (mapView.Overlays.Count > 0)
             {
                 var layerOverlay = (LayerOverlay)mapView.Overlays["hotels"];

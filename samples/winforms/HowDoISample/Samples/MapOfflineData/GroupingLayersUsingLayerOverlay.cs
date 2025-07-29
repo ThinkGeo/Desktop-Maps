@@ -6,6 +6,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public class GroupingLayersUsingLayerOverlay : UserControl
     {
+        private bool _initialized;
+
         public GroupingLayersUsingLayerOverlay()
         {
             InitializeComponent();
@@ -103,11 +105,15 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             ShowPoi.Checked = true;
             ShowLandUse.Checked = true;
 
+            _initialized = true;
             await mapView.RefreshAsync();
         }
 
         private void ShowPoi_CheckedChanged(object sender, EventArgs e)
         {
+            if (!_initialized)
+                return;
+
             if (sender is CheckBox checkbox && checkbox.Checked)
             {
                 var poiOverlay = (LayerOverlay)mapView.Overlays["poiOverlay"];
@@ -122,6 +128,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void ShowLandUse_CheckedChanged(object sender, EventArgs e)
         {
+            if (!_initialized)
+                return;
+
             if (sender is CheckBox checkbox && checkbox.Checked)
             {
                 var landuseOverlay = (LayerOverlay)mapView.Overlays["landuseOverlay"];

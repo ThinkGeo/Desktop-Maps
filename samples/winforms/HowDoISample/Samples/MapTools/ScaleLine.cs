@@ -26,6 +26,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
+            mapView.MapTools.ScaleLine.IsEnabled = true;
+
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
 
@@ -98,6 +100,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.displayScaleLine.TabIndex = 1;
             this.displayScaleLine.Text = "Display ScaleBar";
             this.displayScaleLine.UseVisualStyleBackColor = true;
+            this.displayScaleLine.Checked = true;
             this.displayScaleLine.CheckedChanged += new System.EventHandler(this.DisplayScaleLine_CheckedChanged);
             // 
             // label1
