@@ -318,6 +318,12 @@
         "source": "Samples/MapOnlineData/RasterXyzServer"
       },
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ProjectOSMLayer",
+        "title": "Display Projected OSM Layer",
+        "description": "This sample shows how to apply projection to tiles from an OpenStreetMap XYZ layer. It demonstrates switching between coordinate systems using GdalProjectionConverter.",
+        "source": "Samples/XYZBasedLayers/ProjectOSMLayer"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.WMTSAsXYZLayer",
         "title": "Display Raster from WMTS Server",
         "description": "This sample shows how to display the tiles from a WMTS server. This demo server has 27 zoom levels (zoom 0~26).",
