@@ -11,6 +11,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     public partial class Elevation
     {
         private ElevationCloudClient _elevationCloudClient;
+        private bool _hasExtentBeenSet = false;
 
         public Elevation()
         {
@@ -59,7 +60,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.Overlays.Add("Elevation Features Overlay", elevationFeaturesOverlay);
 
             // Set the map extent to Frisco, TX
-            MapView.CenterPoint = new PointShape(-10778720,3915154);
+            MapView.CenterPoint = new PointShape(-10778720, 3915154);
             MapView.CurrentScale = 202090;
 
             // Add an event to trigger the elevation query when a new shape is drawn
@@ -163,15 +164,21 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 LoadingImage.Visibility = Visibility.Hidden;
 
                 // Set the map extent to the elevation query feature
-                drawnShapesLayer.Open();
-                var drawnShapesLayerBBox = drawnShapesLayer.GetBoundingBox();
-                MapView.CenterPoint = drawnShapesLayerBBox.GetCenterPoint();
-                MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, drawnShapesLayerBBox, MapView.MapWidth, MapView.MapHeight);
-                await MapView.ZoomToAsync(MapView.CurrentScale * 2);
-                drawnShapesLayer.Close();
+                if (!_hasExtentBeenSet)
+                {
+                    drawnShapesLayer.Open();
+                    var drawnShapesLayerBBox = drawnShapesLayer.GetBoundingBox();
+                    MapView.CenterPoint = drawnShapesLayerBBox.GetCenterPoint();
+                    MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, drawnShapesLayerBBox, MapView.MapWidth, MapView.MapHeight);
+                    await MapView.ZoomToAsync(MapView.CurrentScale * 2);
+                    drawnShapesLayer.Close();
+
+                    _hasExtentBeenSet = true;
+                }
+                
                 await MapView.RefreshAsync();
             }
-            catch 
+            catch
             {
                 // Because async void methods don't return a Task, unhandled exceptions cannot be awaited or caught from outside.
                 // Therefore, it's good practice to catch and handle (or log) all exceptions within these "fire-and-forget" methods.

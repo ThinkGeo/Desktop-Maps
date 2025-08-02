@@ -8,7 +8,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public class Elevation : UserControl
     {
-        private ElevationCloudClient elevationCloudClient;
+        private ElevationCloudClient _elevationCloudClient;
+        private bool _hasExtentBeenSet = false;
+        private bool _suppressMapUpdate = false;
 
         public Elevation()
         {
@@ -53,13 +55,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add("Elevation Features Overlay", elevationFeaturesOverlay);
 
             // Set the map extent to Frisco, TX
-            mapView.CurrentExtent = new RectangleShape(-10798419.605087, 3934270.12359632, -10759021.6785336, 3896039.57306867);
+            mapView.CenterPoint = new PointShape(-10778720, 3915154);
+            mapView.CurrentScale = 202090;
 
             // Add an event to trigger the elevation query when a new shape is drawn
             mapView.TrackOverlay.TrackEnded += OnShapeDrawn;
 
             // Initialize the ElevationCloudClient with our ThinkGeo Cloud credentials
-            elevationCloudClient = new ElevationCloudClient(SampleKeys.ClientId2, SampleKeys.ClientSecret2);
+            _elevationCloudClient = new ElevationCloudClient(SampleKeys.ClientId2, SampleKeys.ClientSecret2);
 
             // Create a sample line and get elevation along that line
             var sampleShape = new LineShape("LINESTRING(-10776298.0601626 3912306.29684573,-10776496.3187036 3912399.45447343,-10776675.4679876 3912478.28015841,-10776890.4471285 3912516.49867234,-10777189.0292686 3912509.33270098,-10777329.9600387 3912442.4503016,-10777664.3720356 3912174.92070409)");
@@ -89,16 +92,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var elevationPoints = new Collection<CloudElevationPointResult>();
             int projectionInSrid = 3857;
 
-            // Show a loading graphic to let users know the request is running
-            //loadingImage.Visibility = Visibility.Visible;
-
             // The point interval distance determines how many elevation points are retrieved for line and area queries
             int pointIntervalDistance = (int)intervalDistance.Value;
             switch (queryShape.GetWellKnownType())
             {
                 case WellKnownType.Point:
                     var drawnPoint = (PointShape)queryShape;
-                    double elevation = await elevationCloudClient.GetElevationOfPointAsync(drawnPoint.X, drawnPoint.Y, projectionInSrid);
+                    double elevation = await _elevationCloudClient.GetElevationOfPointAsync(drawnPoint.X, drawnPoint.Y, projectionInSrid);
 
                     // The API for getting the elevation of a single point returns a double, so we manually create a CloudElevationPointResult to use as a data source for the Elevations list
                     elevationPoints.Add(new CloudElevationPointResult(elevation, drawnPoint));
@@ -110,7 +110,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                     break;
                 case WellKnownType.Line:
                     var drawnLine = (LineShape)queryShape;
-                    var result = await elevationCloudClient.GetElevationOfLineAsync(drawnLine, projectionInSrid, pointIntervalDistance, DistanceUnit.Meter, DistanceUnit.Feet);
+                    var result = await _elevationCloudClient.GetElevationOfLineAsync(drawnLine, projectionInSrid, pointIntervalDistance, DistanceUnit.Meter, DistanceUnit.Feet);
                     elevationPoints = result.ElevationPoints;
 
                     // Update the UI with the average, highest, and lowest elevations
@@ -120,7 +120,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                     break;
                 case WellKnownType.Polygon:
                     var drawnPolygon = (PolygonShape)queryShape;
-                    result = await elevationCloudClient.GetElevationOfAreaAsync(drawnPolygon, projectionInSrid, pointIntervalDistance, DistanceUnit.Meter, DistanceUnit.Feet);
+                    result = await _elevationCloudClient.GetElevationOfAreaAsync(drawnPolygon, projectionInSrid, pointIntervalDistance, DistanceUnit.Meter, DistanceUnit.Feet);
                     elevationPoints = result.ElevationPoints;
 
                     // Update the UI with the average, highest, and lowest elevations
@@ -137,17 +137,25 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             {
                 elevationPointsLayer.InternalFeatures.Add(new Feature(elevationPoint.Point));
             }
-            lsbElevations.DataSource = elevationPoints;
 
+            _suppressMapUpdate = true;
+            lsbElevations.DataSource = elevationPoints;
+            _suppressMapUpdate = false;
             lsbElevations.DisplayMember = "Elevation";
-            // Hide the loading graphic
-            //loadingImage.Visibility = Visibility.Hidden;
 
             // Set the map extent to the elevation query feature
-            drawnShapesLayer.Open();
-            mapView.CurrentExtent = drawnShapesLayer.GetBoundingBox();
-            await mapView.ZoomToAsync(mapView.CurrentScale * 2);
-            drawnShapesLayer.Close();
+            if (!_hasExtentBeenSet)
+            {
+                drawnShapesLayer.Open();
+                var drawnShapesLayerBBox = drawnShapesLayer.GetBoundingBox();
+                mapView.CenterPoint = drawnShapesLayerBBox.GetCenterPoint();
+                mapView.CurrentScale = MapUtil.GetScale(mapView.MapUnit, drawnShapesLayerBBox, mapView.MapWidth, mapView.MapHeight);
+                await mapView.ZoomToAsync(mapView.CurrentScale * 2);
+                drawnShapesLayer.Close();
+
+                _hasExtentBeenSet = true;
+            }
+                
             await mapView.RefreshAsync();
         }
         private async void OnShapeDrawn(object sender, TrackEndedTrackInteractiveOverlayEventArgs e)
@@ -201,6 +209,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void lsbElevations_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (_suppressMapUpdate) return;
+
             if (lsbElevations.SelectedItem != null)
             {
                 // Set the map extent to the selected point
