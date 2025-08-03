@@ -47,10 +47,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 friscoLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
                 friscoLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(50, GeoColors.MediumPurple), GeoColors.MediumPurple, 2);
 
-                // Set the map extent to Frisco, TX
-                MapView.CenterPoint = new PointShape(-10777860, 3914200);
-                MapView.CurrentScale = 31300;
-
                 // Create a layer to hold the feature we will perform the spatial query against
                 var queryLayer = new InMemoryFeatureLayer();
                 queryLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(75, GeoColors.LightRed), GeoColors.LightRed);

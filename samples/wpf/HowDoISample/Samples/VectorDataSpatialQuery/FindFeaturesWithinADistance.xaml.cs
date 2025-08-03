@@ -71,15 +71,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var queryFeatureMarkerOverlay = new SimpleMarkerOverlay();
                 MapView.Overlays.Add("Query Feature Marker Overlay", queryFeatureMarkerOverlay);
 
-                // Add a sample point to the map for the initial query
-                var sampleShape = new PointShape(-10779425.2690712, 3914970.73561765);
-                await GetFeaturesWithinDistanceAsync(sampleShape);
-
                 // Set the map extent to the initial area
                 MapView.CenterPoint = new PointShape(-10779430,3914970);
                 MapView.CurrentScale = 18060;
 
                 await MapView.RefreshAsync();
+
+                // Add a sample point to the map for the initial query
+                var sampleShape = new PointShape(-10779425.2690712, 3914970.73561765);
+                await GetFeaturesWithinDistanceAsync(sampleShape);
             }
             catch 
             {

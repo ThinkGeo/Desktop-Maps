@@ -48,10 +48,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             zoningLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
             zoningLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(50, GeoColors.MediumPurple), GeoColors.MediumPurple, 2);
 
-            // Set the map extent to Frisco, TX
-            MapView.CenterPoint = new PointShape(-10777860, 3914200);
-            MapView.CurrentScale = 31300;
-
             // Create a layer to hold features found by the spatial query
             var highlightedFeaturesLayer = new InMemoryFeatureLayer();
             highlightedFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(90, GeoColors.MidnightBlue), GeoColors.MidnightBlue);
@@ -73,15 +69,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var queryFeatureMarkerOverlay = new SimpleMarkerOverlay();
             MapView.Overlays.Add("Query Feature Marker Overlay", queryFeatureMarkerOverlay);
 
-            // Add a sample point to the map for the initial query
-            var sampleShape = new PointShape(-10779425.2690712, 3914970.73561765);
-            GetFeaturesContaining(sampleShape);
-
             // Set the map extent to the sample shape
             MapView.CenterPoint = new PointShape(-10779430, 3914970);
             MapView.CurrentScale = 18060;
 
             _ = MapView.RefreshAsync();
+
+            // Add a sample point to the map for the initial query
+            var sampleShape = new PointShape(-10779425.2690712, 3914970.73561765);
+            GetFeaturesContaining(sampleShape);
         }
 
         /// <summary>
