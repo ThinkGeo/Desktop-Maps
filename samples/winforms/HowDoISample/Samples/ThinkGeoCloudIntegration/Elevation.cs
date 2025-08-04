@@ -9,8 +9,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
     public class Elevation : UserControl
     {
         private ElevationCloudClient _elevationCloudClient;
-        private bool _hasExtentBeenSet = false;
-        private bool _suppressMapUpdate = false;
+        private bool _isUpdatingElevationList = false;
 
         public Elevation()
         {
@@ -19,55 +18,64 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void Form_Load(object sender, EventArgs e)
         {
-            // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            try
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light
+                // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
+                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+                {
+                    ClientId = SampleKeys.ClientId,
+                    ClientSecret = SampleKeys.ClientSecret,
+                    MapType = ThinkGeoCloudVectorMapsMapType.Light
 
-            };
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                };
+                mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            // Set the map's unit of measurement to meters (Spherical Mercator)
-            mapView.MapUnit = GeographyUnit.Meter;
+                // Set the map's unit of measurement to meters (Spherical Mercator)
+                mapView.MapUnit = GeographyUnit.Meter;
 
-            // Create a new InMemoryFeatureLayer to hold the shape drawn for the elevation query
-            var drawnShapeLayer = new InMemoryFeatureLayer();
+                // Create a new InMemoryFeatureLayer to hold the shape drawn for the elevation query
+                var drawnShapeLayer = new InMemoryFeatureLayer();
 
-            // Create Point, Line, and Polygon styles to display the drawn shape, and apply them across all zoom levels
-            drawnShapeLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 20, GeoBrushes.Blue);
-            drawnShapeLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = new LineStyle(GeoPens.Blue);
-            drawnShapeLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = new AreaStyle(GeoPens.Blue, new GeoSolidBrush(new GeoColor(10, GeoColors.Blue)));
-            drawnShapeLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+                // Create Point, Line, and Polygon styles to display the drawn shape, and apply them across all zoom levels
+                drawnShapeLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 20, GeoBrushes.Blue);
+                drawnShapeLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = new LineStyle(GeoPens.Blue);
+                drawnShapeLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = new AreaStyle(GeoPens.Blue, new GeoSolidBrush(new GeoColor(10, GeoColors.Blue)));
+                drawnShapeLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            // Create a new InMemoryFeatureLayer to display the elevation points returned from the query
-            var elevationPointsLayer = new InMemoryFeatureLayer();
+                // Create a new InMemoryFeatureLayer to display the elevation points returned from the query
+                var elevationPointsLayer = new InMemoryFeatureLayer();
 
-            // Create a point style for the elevation points
-            elevationPointsLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 20, GeoBrushes.Blue);
-            elevationPointsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+                // Create a point style for the elevation points
+                elevationPointsLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 20, GeoBrushes.Blue);
+                elevationPointsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            // Add the feature layers to an overlay, and add the overlay to the map
-            var elevationFeaturesOverlay = new LayerOverlay();
-            elevationFeaturesOverlay.Layers.Add("Elevation Points Layer", elevationPointsLayer);
-            elevationFeaturesOverlay.Layers.Add("Drawn Shape Layer", drawnShapeLayer);
-            mapView.Overlays.Add("Elevation Features Overlay", elevationFeaturesOverlay);
+                // Add the feature layers to an overlay, and add the overlay to the map
+                var elevationFeaturesOverlay = new LayerOverlay();
+                elevationFeaturesOverlay.Layers.Add("Elevation Points Layer", elevationPointsLayer);
+                elevationFeaturesOverlay.Layers.Add("Drawn Shape Layer", drawnShapeLayer);
+                mapView.Overlays.Add("Elevation Features Overlay", elevationFeaturesOverlay);
 
-            // Set the map extent to Frisco, TX
-            mapView.CenterPoint = new PointShape(-10778720, 3915154);
-            mapView.CurrentScale = 202090;
+                // Add an event to trigger the elevation query when a new shape is drawn
+                mapView.TrackOverlay.TrackEnded += OnShapeDrawn;
 
-            // Add an event to trigger the elevation query when a new shape is drawn
-            mapView.TrackOverlay.TrackEnded += OnShapeDrawn;
+                // Initialize the ElevationCloudClient with our ThinkGeo Cloud credentials
+                _elevationCloudClient = new ElevationCloudClient(SampleKeys.ClientId2, SampleKeys.ClientSecret2);
 
-            // Initialize the ElevationCloudClient with our ThinkGeo Cloud credentials
-            _elevationCloudClient = new ElevationCloudClient(SampleKeys.ClientId2, SampleKeys.ClientSecret2);
+                // Set the map extent to Frisco, TX
+                mapView.CenterPoint = new PointShape(-10776981, 3912345);
+                mapView.CurrentScale = 6200;
 
-            // Create a sample line and get elevation along that line
-            var sampleShape = new LineShape("LINESTRING(-10776298.0601626 3912306.29684573,-10776496.3187036 3912399.45447343,-10776675.4679876 3912478.28015841,-10776890.4471285 3912516.49867234,-10777189.0292686 3912509.33270098,-10777329.9600387 3912442.4503016,-10777664.3720356 3912174.92070409)");
-            await PerformElevationQueryAsync(sampleShape);
-            txtSliderValue.DataBindings.Add("Text", intervalDistance, "Value");
+                await mapView.RefreshAsync();
+
+                // Create a sample line and get elevation along that line
+                var sampleShape = new LineShape("LINESTRING(-10776298 3912306,-10776496 3912399,-10776675 3912478,-10776890 3912516,-10777189 3912509,-10777329 3912442,-10777664 3912174)");
+                await PerformElevationQueryAsync(sampleShape);
+            }
+            catch
+            {
+                // Because async void methods don't return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it's good practice to catch and handle (or log) all exceptions within these "fire-and-forget" methods.
+            }
         }
 
         private async Task PerformElevationQueryAsync(BaseShape queryShape)
@@ -138,26 +146,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 elevationPointsLayer.InternalFeatures.Add(new Feature(elevationPoint.Point));
             }
 
-            _suppressMapUpdate = true;
+            _isUpdatingElevationList = true;
             lsbElevations.DataSource = elevationPoints;
-            _suppressMapUpdate = false;
             lsbElevations.DisplayMember = "Elevation";
+            _isUpdatingElevationList = false;
 
-            // Set the map extent to the elevation query feature
-            if (!_hasExtentBeenSet)
-            {
-                drawnShapesLayer.Open();
-                var drawnShapesLayerBBox = drawnShapesLayer.GetBoundingBox();
-                mapView.CenterPoint = drawnShapesLayerBBox.GetCenterPoint();
-                mapView.CurrentScale = MapUtil.GetScale(mapView.MapUnit, drawnShapesLayerBBox, mapView.MapWidth, mapView.MapHeight);
-                await mapView.ZoomToAsync(mapView.CurrentScale * 2);
-                drawnShapesLayer.Close();
-
-                _hasExtentBeenSet = true;
-            }
-                
-            await mapView.RefreshAsync();
+            await elevationPointsOverlay.RefreshAsync();
         }
+
         private async void OnShapeDrawn(object sender, TrackEndedTrackInteractiveOverlayEventArgs e)
         {
             // Disable drawing mode and clear the drawing layer
@@ -188,7 +184,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             await PerformElevationQueryAsync(e.TrackShape);
         }
 
-
         private void btnDrawANewPoint_Click(object sender, EventArgs e)
         {
             // Set the drawing mode to 'Point'
@@ -209,7 +204,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void lsbElevations_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (_suppressMapUpdate) return;
+            if (_isUpdatingElevationList) return;
 
             if (lsbElevations.SelectedItem != null)
             {
