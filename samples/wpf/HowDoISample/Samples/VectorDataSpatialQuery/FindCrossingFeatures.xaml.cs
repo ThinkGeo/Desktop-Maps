@@ -79,18 +79,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Add an event to handle new shapes that are drawn on the map
                 MapView.TrackOverlay.TrackEnded += OnLineDrawn;
 
+                // Set the map extent to the sample shapes
+                MapView.CenterPoint = new PointShape(-10776670, 3914800);
+                MapView.CurrentScale = 27870; 
+                
+                MapView.TrackOverlay.TrackMode = TrackMode.Line;
+                await MapView.RefreshAsync();
+
                 // Add a sample shape to the map for the initial query
                 var sampleShape = new LineShape("LINESTRING(-10774628.8455729 3914024.82710629,-10776902.8471517 3915582.23154895,-10778030.2933127 3914368.79373166,-10778708.6719349 3914445.23075952)");
                 await GetFeaturesCrossingAsync(sampleShape);
-
-                // Set the map extent to the sample shapes
-                var sampleShapeBBox = sampleShape.GetBoundingBox();
-                MapView.CenterPoint = sampleShapeBBox.GetCenterPoint();
-                var MapScale = MapUtil.GetScale(MapView.MapUnit, sampleShapeBBox, MapView.MapWidth, MapView.MapHeight);
-                MapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
-                MapView.TrackOverlay.TrackMode = TrackMode.Line;
-
-                await MapView.RefreshAsync();
             }
             catch 
             {
