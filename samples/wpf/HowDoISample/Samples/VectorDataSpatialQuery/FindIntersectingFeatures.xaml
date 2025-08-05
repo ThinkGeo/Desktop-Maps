@@ -9,7 +9,7 @@
     <Grid>
         <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded"></thinkGeoUi:MapView>
         <Grid Grid.Column="1" Grid.Row="0">
-            <Label Grid.Column="1" Grid.Row="0">
+            <Label Grid.Column="1" Grid.Row="0" Margin="-5,0,0,0">
                 <Label.Content>
                     <AccessText HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" TextWrapping="Wrap" Text="Perform an 'Intersects' Query"/>
                 </Label.Content>
@@ -18,12 +18,35 @@
             <TextBlock Grid.Column="1" Grid.Row="2" FontWeight="Bold">Double-Click On The Map To Finish Drawing</TextBlock>
             <TextBlock Grid.Column="1" Grid.Row="3" x:Name="TxtNumberOfFeaturesFound"></TextBlock>
 
+            <Label Grid.Column="1" Grid.Row="4">
+                <Label.Content>
+                    <AccessText HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" TextWrapping="Wrap" Text="Pan the Map"/>
+                </Label.Content>
+            </Label>
+            <TextBlock Grid.Column="1" Grid.Row="5" x:Name="TxtPanTheMap" TextWrapping="Wrap" Margin="5,-5,0,0">
+                       You can press and hold the middle mouse button (scroll wheel) to move the map, even while drawing a polygon. 
+                       This allows you to reposition the view before placing the next vertex.
+            </TextBlock>
+
+            <Label Grid.Column="1" Grid.Row="6">
+                <Label.Content>
+                    <AccessText HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" TextWrapping="Wrap" Text="Zoom In/Out"/>
+                </Label.Content>
+            </Label>
+            <TextBlock Grid.Column="1" Grid.Row="7" x:Name="TxtZoomInOut" TextWrapping="Wrap" Margin="5,-5,0,0">
+                       Scroll the mouse wheel forward to zoom in, and backward to zoom out.
+            </TextBlock>
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />
                 <ColumnDefinition Width="240" />
                 <ColumnDefinition Width="5" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>

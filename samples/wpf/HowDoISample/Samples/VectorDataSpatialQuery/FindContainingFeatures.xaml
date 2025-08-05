@@ -17,7 +17,7 @@
             <TextBlock Grid.Column="1" Grid.Row="1" FontWeight="Bold"
                        TextWrapping="Wrap" Margin="5,0,0,0">Click On The Map To Draw A New Point</TextBlock>
             <TextBlock Grid.Column="1" Grid.Row="2" x:Name="TxtNumberOfFeaturesFound"
-                       TextWrapping="Wrap" Margin="5,-5,0,0"></TextBlock>
+                       TextWrapping="Wrap" Margin="5,0,0,0"></TextBlock>
 
             <Label Grid.Column="1" Grid.Row="3">
                 <Label.Content>

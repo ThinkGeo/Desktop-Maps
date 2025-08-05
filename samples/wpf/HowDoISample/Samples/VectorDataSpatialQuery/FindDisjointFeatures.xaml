@@ -31,8 +31,8 @@
                 </Label.Content>
             </Label>
             <TextBlock Grid.Column="1" Grid.Row="5" x:Name="TxtPanTheMap" TextWrapping="Wrap" Margin="5,-5,0,0">
-                       You can press and hold the middle mouse button (scroll wheel) to move the map, even while drawing a line. 
-                       This allows you to reposition the view before placing the next point.
+                       You can press and hold the middle mouse button (scroll wheel) to move the map, even while drawing a polygon. 
+                       This allows you to reposition the view before placing the next vertex.
             </TextBlock>
 
             <Label Grid.Column="1" Grid.Row="6">
