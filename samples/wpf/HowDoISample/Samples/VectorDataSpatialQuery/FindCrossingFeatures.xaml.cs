@@ -87,7 +87,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 await MapView.RefreshAsync();
 
                 // Add a sample shape to the map for the initial query
-                var sampleShape = new LineShape("LINESTRING(-10774628.8455729 3914024.82710629,-10776902.8471517 3915582.23154895,-10778030.2933127 3914368.79373166,-10778708.6719349 3914445.23075952)");
+                var sampleShape = new LineShape("LINESTRING(-10774628 3914024,-10776902 3915582,-10778030 3914368,-10778708 3914445)");
                 await GetFeaturesCrossingAsync(sampleShape);
             }
             catch 

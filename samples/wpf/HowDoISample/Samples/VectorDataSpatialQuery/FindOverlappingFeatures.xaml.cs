@@ -79,18 +79,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Add an event to handle new shapes that are drawn on the map
                 MapView.TrackOverlay.TrackEnded += OnPolygonDrawn;
 
-                // Add a sample shape to the map for the initial query
-                var sampleShape = new PolygonShape("POLYGON((-10779549.4792414 3915352.92061116,-10777495.2341177 3915859.31592073,-10776214.913901 3914827.41589883,-10776081.1491022 3913384.66699796,-10777906.0831424 3912553.41431997,-10779702.3532971 3914110.81876263,-10779549.4792414 3915352.92061116))");
-                await GetFeaturesOverlapsAsync(sampleShape);
-
                 // Set the map extent to the sample shapes
-                var sampleShapeBBox = sampleShape.GetBoundingBox();
-                MapView.CenterPoint = sampleShapeBBox.GetCenterPoint();
-                var MapScale = MapUtil.GetScale(MapView.MapUnit, sampleShapeBBox, MapView.MapWidth, MapView.MapHeight);
-                MapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
-                MapView.TrackOverlay.TrackMode = TrackMode.Polygon;
+                MapView.CenterPoint = new PointShape(-10777891, 3914206);
+                MapView.CurrentScale = 26200;
 
+                MapView.TrackOverlay.TrackMode = TrackMode.Polygon;
                 await MapView.RefreshAsync();
+
+                // Add a sample shape to the map for the initial query
+                var sampleShape = new PolygonShape("POLYGON((-10779549 3915352,-10777495 3915859,-10776214 3914827,-10776081 3913384,-10777906 3912553,-10779702 3914110,-10779549 3915352))");
+                await GetFeaturesOverlapsAsync(sampleShape);
             }
             catch 
             {

@@ -79,18 +79,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Add an event to handle new shapes that are drawn on the map
                 MapView.TrackOverlay.TrackEnded += OnPolygonDrawn;
 
-                // Add a sample shape to the map for the initial query
-                var sampleShape = new PolygonShape("POLYGON((-10778718.2265634 3914865.63441276,-10778746.8904489 3913709.52436636,-10777103.4943499 3913766.85213726,-10777179.9313777 3914942.07158641,-10778718.2265634 3914865.63441276))");
-                await GetFeaturesIntersectsAsync(sampleShape);
-
                 // Set the map extent to the sample shapes
-                var sampleShapeBBox = sampleShape.GetBoundingBox();
-                MapView.CenterPoint = sampleShapeBBox.GetCenterPoint();
-                var MapScale = MapUtil.GetScale(MapView.MapUnit, sampleShapeBBox, MapView.MapWidth, MapView.MapHeight);
-                MapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
+                MapView.CenterPoint = new PointShape(-10777924, 3914325);
+                MapView.CurrentScale = 11220;
+                
                 MapView.TrackOverlay.TrackMode = TrackMode.Polygon;
-
                 await MapView.RefreshAsync();
+
+                // Add a sample shape to the map for the initial query
+                var sampleShape = new PolygonShape("POLYGON((-10778718 3914865,-10778746 3913709,-10777103 3913766,-10777179 3914942,-10778718 3914865))");
+                await GetFeaturesIntersectsAsync(sampleShape);
             }
             catch 
             {
