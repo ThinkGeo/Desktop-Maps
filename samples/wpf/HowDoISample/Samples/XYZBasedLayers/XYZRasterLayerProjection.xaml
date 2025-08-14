@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.ProjectOSMLayer"
+﻿<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.XYZRasterLayerProjection"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -36,10 +36,21 @@
                      Margin="10,5"
                      Content="EPSG 3857"/>
 
+                <RadioButton Tag="4326" Checked="Projection_Checked"
+                     Foreground="White"
+                     Margin="10, 5" Content="EPSG 4326"/>
+                
                 <RadioButton Tag="25832" Checked="Projection_Checked"
                      Foreground="White"
                      Margin="10, 5" Content="EPSG 25832"/>
 
+                <RadioButton Tag="Polar" Checked="Projection_Checked"
+                     Foreground="White"
+                     Margin="10, 5" Content="Polar Stereographic"/>
+
+                <RadioButton Tag="Albers" Checked="Projection_Checked"
+                     Foreground="White"
+                     Margin="10, 5" Content="Albers Equal Area Conic"/>
 
                 <CheckBox FontSize="14" FontWeight="Bold" Foreground="White" IsChecked="True"
                           Checked="DisplayTileIdCheckBox_Checked"
