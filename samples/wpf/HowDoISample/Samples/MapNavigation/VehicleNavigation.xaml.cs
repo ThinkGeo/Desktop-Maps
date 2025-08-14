@@ -74,7 +74,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _visitedRoutesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             _routesOverlay = new FeatureLayerWpfDrawingOverlay();
-            _routesOverlay.UpdateDataWhileTransforming = true;
             _routesOverlay.FeatureLayers.Add(_routeLayer);
             _routesOverlay.FeatureLayers.Add(_visitedRoutesLayer);
             MapView.Overlays.Add(_routesOverlay);

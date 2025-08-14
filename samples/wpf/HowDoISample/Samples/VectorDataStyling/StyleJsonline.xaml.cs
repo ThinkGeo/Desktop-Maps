@@ -11,7 +11,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 {
     public partial class StyleJsonline : IDisposable
     {
-        private MapStyleLoader _loader = new MapStyleLoader();
+        private StyleJsonLoader _loader = new StyleJsonLoader();
         private LayerOverlay _layerOverlay = new LayerOverlay();
         private ShapeFileFeatureLayer parksLayer;
         private ShapeFileFeatureLayer streetsLayer;
