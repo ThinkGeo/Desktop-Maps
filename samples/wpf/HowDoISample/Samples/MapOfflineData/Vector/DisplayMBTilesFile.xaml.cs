@@ -39,12 +39,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             await MapView.RefreshAsync();
         }
 
-
         private void MvtLayerLoadingSkiaSkTypeface(object sender, LoadingSkiaSKTypefaceEventArgs e)
         {
             e.SkTypeFace = FontMatcher.GetSkTypeface(e.Text, e.Font);
         }
-
 
         private void SwitchTileSize_OnCheckedChanged(object sender, RoutedEventArgs e)
         {
@@ -142,12 +140,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (In(cp, 0x1780, 0x17FF)) return "km";  // Khmer
                 if (In(cp, 0x0E80, 0x0EFF)) return "lo";  // Lao
                 if (In(cp, 0x0900, 0x097F)) return "hi";  // Devanagari
+                if (In(cp, 0x0980, 0x09FF)) return "bn";  // Bengali
+                if (In(cp, 0x0B80, 0x0BFF)) return "ta";  // Tamil
+                if (In(cp, 0x0D80, 0x0DFF)) return "si"; // Sinhala
                 if (In(cp, 0x0370, 0x03FF)) return "el";  // Greek
                 if (In(cp, 0x0400, 0x04FF)) return "ru";  // Cyrillic
             }
 
             return "en";
-
 
         }
         static bool In(int v, int a, int b) => v >= a && v <= b;
@@ -182,6 +182,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 case "km": family = "NotoSansKhmer"; break;
                 case "lo": family = "NotoSansLao"; break;
                 case "hi": family = "NotoSansDevanagari"; break;
+                case "bn": family = "NotoSansBengali"; break;
+                case "ta": family = "NotoSansTamil"; break;
+                case "si": family = "NotoSansSinhala"; break;
                 case "el": family = "NotoSans"; break;
                 case "ru": family = "NotoSans"; break;
                 default: family = "NotoSans"; break;
