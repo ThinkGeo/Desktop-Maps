@@ -4,6 +4,9 @@ using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
+    /// <summary>
+    /// Demonstrates how to cluster points using a ClusterPointStyle.
+    /// </summary>
     public class DisplayClusterPoints : UserControl
     {
         private readonly ShapeFileFeatureLayer coyoteSightings = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Coyote_Sightings.shp");
@@ -13,52 +16,58 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private async void Form_Load(object sender, EventArgs e)
+        /// <summary>
+        /// Initializes the map and overlays when the Form is loaded.
+        /// </summary>
+        private void Form_Load(object sender, EventArgs e)
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
 
-            // Add Cloud Maps as a background overlay
+            // Add ThinkGeo Cloud Vector Maps as the background overlay.
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
                 ClientId = SampleKeys.ClientId,
                 ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
+            // Load coyote sightings shapefile (projected to match the map projection).
             var coyoteSightings = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Coyote_Sightings.shp")
             {
                 FeatureSource =
                     {
-                        // Project the layer's data to match the projection of the map
                         ProjectionConverter = new ProjectionConverter(2276, 3857)
                     }
             };
 
-            // Add the layer to a layer overlay
-            var layerOverlay = new LayerOverlay();
+            var layerOverlay = new LayerOverlay { TileType = TileType.SingleTile };
             layerOverlay.Layers.Add(coyoteSightings);
-
-            // Add the overlay to the map
             mapView.Overlays.Add(layerOverlay);
 
-            // Apply HeatStyle
+            // Apply Cluster Point Style
             AddClusterPointStyle(coyoteSightings);
 
             // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(-10812042.5236828, 3942445.36497713, -10748599.7905585, 3887792.89005685);
+            mapView.CenterPoint = new PointShape(-10780320, 3915120);
+            mapView.CurrentScale = 288900;
 
-            await mapView.RefreshAsync();
+            _ = mapView.RefreshAsync();
         }
 
         /// <summary>
-        /// Create and add a cluster style to the coyote layer
+        /// Creates and applies a cluster style to the given layer.
         /// </summary>
         private void AddClusterPointStyle(ShapeFileFeatureLayer layer)
         {
-            // Create the point style that will serve as the basis of the cluster style
-            var pointStyle = new PointStyle(new GeoImage(@"../../../Resources/coyote_paw.png"))
+            // Setup the un-clustered point style 
+            var unclusteredPointStyle = PointStyle.CreateSimplePointStyle(PointSymbolType.Circle, GeoColors.Orange, 10);
+
+            // Setup the clustered point style (paw icon).
+            var clusteredPointStyle = new PointStyle(new GeoImage(@"../../../Resources/coyote_paw.png"))
             {
                 ImageScale = .25,
                 Mask = new AreaStyle(GeoPens.Black, GeoBrushes.White),
@@ -72,16 +81,15 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 YOffsetInPixel = 20
             };
 
-            // Create the cluster point style
-            var clusterPointStyle = new ClusterPointStyle(pointStyle, textStyle)
+            // Cluster style definition.
+            var clusterPointStyle = new ClusterPointStyle(unclusteredPointStyle, textStyle)
             {
-                MinimumFeaturesPerCellToCluster = 2
+                MinimumFeaturesPerCellToCluster = 2,
+                ClusteredPointStyle = clusteredPointStyle
             };
 
-            // Add the point style to the collection of custom styles for ZoomLevel 1.
+            // Apply cluster style across all zoom levels.
             layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(clusterPointStyle);
-
-            // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the point style on every zoom level on the map.
             layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
         }
 
