@@ -16,12 +16,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private LayerOverlay _layerOverlay;
         private RectangleShape _bbox;
         private int _finishedTileCount = 0;
+        private string _cachePath;
 
         public CacheTileOverlay()
         {
             InitializeComponent();
             ThinkGeoDebugger.DisplayTileId = true;
-            DataContext = this;
+            DataContext = this; 
         }
 
         private void MapView_Loaded(object sender, RoutedEventArgs e)
@@ -36,18 +37,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _layerOverlay.Layers.Add(streetsLayer);
             MapView.Overlays.Add(_layerOverlay);
 
-            string cachePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cache");
-            if (!Directory.Exists(cachePath))
-                Directory.CreateDirectory(cachePath);
+            _cachePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cache");
 
-            _layerOverlay.TileCache = new FileRasterTileCache(cachePath, "overlayCacheTest");
+            if (!Directory.Exists(_cachePath))
+                Directory.CreateDirectory(_cachePath);
+
+            _layerOverlay.TileCache = new FileRasterTileCache(_cachePath, "overlayCacheTest");
             _layerOverlay.IsCacheOnly = true; // so it will not render but only get the tiles from the cache.
 
             streetsLayer.Open();
             _bbox = streetsLayer.GetBoundingBox();
             MapView.CurrentExtent = _bbox;
 
-            _layerOverlay.TileMatrixSet = TileMatrixSet.CreateTileMatrixSet(512, _bbox, GeographyUnit.Meter);
+            _layerOverlay.TileMatrixSet = TileMatrixSet.CreateTileMatrixSet(512, _bbox, GeographyUnit.Meter, 10);
             MapView.ZoomScales = _layerOverlay.TileMatrixSet.GetScales();
             _layerOverlay.TileCacheGenerated += _layerOverlay_TileCacheGenerated;
 
@@ -65,7 +67,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             });
         }
 
-
         private void ckbCacheOnly_OnChecked(object sender, RoutedEventArgs e)
         {
             if (_layerOverlay == null)
@@ -78,7 +79,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _ = MapView.RefreshAsync();
         }
 
-
         private async void BtnGenerateCache_OnClick(object sender, RoutedEventArgs e)
         {
             try
@@ -89,16 +89,38 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 LblStatus.Content = "";
                 _finishedTileCount = 0;
 
+                // Optional: clear old cache files before regenerating
+                _layerOverlay.TileCache.ClearCache();
+
                 // get the ScaleFactor
                 var dpiInfo = VisualTreeHelper.GetDpi(this);
                 var scaleFactor = (float)dpiInfo.DpiScaleX;
 
-                // generate the cache for the current and next 2 zooms. 
-                var zoom = _layerOverlay.TileMatrixSet.GetSnappedZoomIndex(MapView.CurrentScale);
-                await _layerOverlay.GenerateTileCacheAsync(_bbox, zoom, zoom + 3, scaleFactor);
+                // generate the cache from minZoomLevel to maxZoomLevel. 
+                int minZoomLevel = int.Parse(MinZoomTextBox.Text.Trim());
+                int maxZoomLevel = int.Parse(MaxZoomTextBox.Text.Trim());
+
+                await Layer.GenerateTileCacheAsync(_layerOverlay.Layers, (FileRasterTileCache)_layerOverlay.TileCache, _layerOverlay.TileMatrixSet,
+                    _bbox, GeographyUnit.Meter, minZoomLevel, maxZoomLevel,
+                    (e1) =>
+                    {
+                        Dispatcher.Invoke(() =>
+                        {
+                            _finishedTileCount++;
+                            MyProgressBar.Maximum = e1.TotalTileCount;
+                            MyProgressBar.Value = e1.TilesCompleted;
+                            LblStatus.Content = $"{e1.TilesCompleted} / {e1.TotalTileCount}";
+                        });
+                    }, scaleFactor, OverwriteMode.Overwrite);
 
                 MyProgressBar.Visibility = Visibility.Hidden;
                 LblStatus.Visibility = Visibility.Hidden;
+
+                int targetZoomLevel = minZoomLevel;
+                double newScale = _layerOverlay.TileMatrixSet.GetScales()[targetZoomLevel];
+
+                MapView.CurrentScale = newScale;
+                MapView.CenterPoint = _bbox.GetCenterPoint();
 
                 await MapView.RefreshAsync();
             }
@@ -141,13 +163,23 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 _layerOverlay.TileMatrixSet = TileMatrixSet.CreateTileMatrixSet(512, _bbox, GeographyUnit.Meter, 10);
                 MapView.ZoomScales = _layerOverlay.TileMatrixSet.GetScales();
 
+                var zoom = _layerOverlay.TileMatrixSet.GetSnappedZoomIndex(MapView.CurrentScale);
+                MinZoomTextBox.Text = zoom.ToString();
+                MaxZoomTextBox.Text = (int.Parse(zoom.ToString()) + 3).ToString();
+                ZoomRangeGroup.Header = "Valid Range: 0–9";
             }
             else
             {
                 button.Content = "Switch to Local Tile Matrix";
                 _layerOverlay.TileMatrixSet = TileMatrixSet.CreateTileMatrixSet(512, MaxExtents.SphericalMercator, GeographyUnit.Meter);
                 MapView.ZoomScales = _layerOverlay.TileMatrixSet.GetScales();
+
+                var zoom = _layerOverlay.TileMatrixSet.GetSnappedZoomIndex(MapView.CurrentScale);
+                MinZoomTextBox.Text = zoom.ToString();
+                MaxZoomTextBox.Text = (int.Parse(zoom.ToString()) + 3).ToString();
+                ZoomRangeGroup.Header = "Valid Range: 0–19";
             }
+
             _ = MapView.RefreshAsync();
         }
 

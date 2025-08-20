@@ -11,6 +11,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class ThinkGeoVectorMap : IDisposable
     {
+        private bool _initialized;
+
         public ThinkGeoVectorMap()
         {
             InitializeComponent();
@@ -60,6 +62,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.CenterPoint = new PointShape(-10779700, 3912000);
             MapView.CurrentScale = 18100;
 
+            _initialized = true;
             _ = MapView.RefreshAsync();
         }
 
@@ -71,6 +74,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private void rbMapType_Checked(object sender, RoutedEventArgs e)
         {
+            if (!_initialized)
+                return;
+
             var button = (RadioButton)sender;
             if (!MapView.Overlays.Contains("Cloud Overlay")) return;
             var cloudOverlay = (ThinkGeoCloudVectorMapsOverlay)MapView.Overlays["Cloud Overlay"];

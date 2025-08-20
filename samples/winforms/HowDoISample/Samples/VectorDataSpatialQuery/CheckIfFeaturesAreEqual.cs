@@ -17,81 +17,90 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void Form_Load(object sender, EventArgs e)
         {
-            // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            try
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light
-            };
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
+                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+                {
+                    ClientId = SampleKeys.ClientId,
+                    ClientSecret = SampleKeys.ClientSecret,
+                    MapType = ThinkGeoCloudVectorMapsMapType.Light
+                };
+                mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            // Set the Map Unit to meters (used in Spherical Mercator)
-            mapView.MapUnit = GeographyUnit.Meter;
+                // Set the Map Unit to meters (used in Spherical Mercator)
+                mapView.MapUnit = GeographyUnit.Meter;
 
-            // Create a feature layer to hold and display the zoning data
-            var zoningLayer = new InMemoryFeatureLayer();
+                // Create a feature layer to hold and display the zoning data
+                var zoningLayer = new InMemoryFeatureLayer();
 
-            // Add a style to use to draw the Frisco zoning polygons
-            zoningLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-            zoningLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(50, GeoColors.MediumPurple), GeoColors.MediumPurple, 2);
+                // Add a style to use to draw the Frisco zoning polygons
+                zoningLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+                zoningLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(50, GeoColors.MediumPurple), GeoColors.MediumPurple, 2);
 
-            // Import the features from the Frisco zoning data shapefile
-            var zoningDataFeatureSource = new ShapeFileFeatureSource(@"./Data/Shapefile/Zoning.shp");
+                // Import the features from the Frisco zoning data shapefile
+                var zoningDataFeatureSource = new ShapeFileFeatureSource(@"./Data/Shapefile/Zoning.shp");
 
-            // Create a ProjectionConverter to convert the shapefile data from North Central Texas (2276) to Spherical Mercator (3857)
-            var projectionConverter = new ProjectionConverter(3857, 2276);
+                // Create a ProjectionConverter to convert the shapefile data from North Central Texas (2276) to Spherical Mercator (3857)
+                var projectionConverter = new ProjectionConverter(3857, 2276);
 
-            // For this sample, we have to reproject the features before adding them to the feature layer
-            // This is because the topological equality query often does not work when used on a feature layer with a ProjectionConverter, due to rounding issues between projections
-            zoningDataFeatureSource.Open();
-            projectionConverter.Open();
-            foreach (var zoningFeature in zoningDataFeatureSource.GetAllFeatures(ReturningColumnsType.AllColumns))
-            {
-                var reprojectedFeature = projectionConverter.ConvertToInternalProjection(zoningFeature);
-                zoningLayer.InternalFeatures.Add(reprojectedFeature);
+                // For this sample, we have to reproject the features before adding them to the feature layer
+                // This is because the topological equality query often does not work when used on a feature layer with a ProjectionConverter, due to rounding issues between projections
+                zoningDataFeatureSource.Open();
+                projectionConverter.Open();
+                foreach (var zoningFeature in zoningDataFeatureSource.GetAllFeatures(ReturningColumnsType.AllColumns))
+                {
+                    var reprojectedFeature = projectionConverter.ConvertToInternalProjection(zoningFeature);
+                    zoningLayer.InternalFeatures.Add(reprojectedFeature);
+                }
+                zoningDataFeatureSource.Close();
+                projectionConverter.Close();
+
+                // Create a layer to hold the feature we will perform the spatial query against
+                var queryFeatureLayer = new InMemoryFeatureLayer();
+                queryFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(75, GeoColors.LightRed), GeoColors.LightRed);
+                queryFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
+                // Create a layer to hold features found by the spatial query
+                var highlightedFeaturesLayer = new InMemoryFeatureLayer();
+                highlightedFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(90, GeoColors.MidnightBlue), GeoColors.MidnightBlue);
+                highlightedFeaturesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
+                // Add each feature layer to its own overlay
+                // We do this, so we can control and refresh/redraw each layer individually
+                var zoningOverlay = new LayerOverlay();
+                zoningOverlay.TileType = TileType.SingleTile;
+                zoningOverlay.Layers.Add("Frisco Zoning", zoningLayer);
+                mapView.Overlays.Add("Frisco Zoning Overlay", zoningOverlay);
+
+                var queryFeaturesOverlay = new LayerOverlay();
+                queryFeaturesOverlay.TileType = TileType.SingleTile;
+                queryFeaturesOverlay.Layers.Add("Query Feature", queryFeatureLayer);
+                mapView.Overlays.Add("Query Features Overlay", queryFeaturesOverlay);
+
+                var highlightedFeaturesOverlay = new LayerOverlay();
+                highlightedFeaturesOverlay.TileType = TileType.SingleTile;
+                highlightedFeaturesOverlay.Layers.Add("Highlighted Features", highlightedFeaturesLayer);
+                mapView.Overlays.Add("Highlighted Features Overlay", highlightedFeaturesOverlay);
+
+                // Add a sample shape to the map for the initial query
+                // To ensure topological equality for this sample, we create a new shape using the same geometry as an existing feature
+                zoningLayer.Open();
+                var sampleShape = zoningLayer.FeatureSource.GetAllFeatures(ReturningColumnsType.NoColumns).First().GetShape();
+                zoningLayer.Close();
+                await GetFeaturesEqualAsync(sampleShape);
+
+                // Set the map extent to the sample shape
+                mapView.CenterPoint = new PointShape(-10776520, 3919250);
+                mapView.CurrentScale = 18060;
+
+                await mapView.RefreshAsync();
             }
-            zoningDataFeatureSource.Close();
-            projectionConverter.Close();
-
-            // Set the map extent to Frisco, TX
-            mapView.CurrentExtent = new RectangleShape(-10779646.71, 3920258.95, -10774442.97, 3915699.48);
-
-            // Create a layer to hold the feature we will perform the spatial query against
-            var queryFeatureLayer = new InMemoryFeatureLayer();
-            queryFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(75, GeoColors.LightRed), GeoColors.LightRed);
-            queryFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-
-            // Create a layer to hold features found by the spatial query
-            var highlightedFeaturesLayer = new InMemoryFeatureLayer();
-            highlightedFeaturesLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(90, GeoColors.MidnightBlue), GeoColors.MidnightBlue);
-            highlightedFeaturesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-
-            // Add each feature layer to its own overlay
-            // We do this, so we can control and refresh/redraw each layer individually
-            var zoningOverlay = new LayerOverlay();
-            zoningOverlay.Layers.Add("Frisco Zoning", zoningLayer);
-            mapView.Overlays.Add("Frisco Zoning Overlay", zoningOverlay);
-
-            var queryFeaturesOverlay = new LayerOverlay();
-            queryFeaturesOverlay.Layers.Add("Query Feature", queryFeatureLayer);
-            mapView.Overlays.Add("Query Features Overlay", queryFeaturesOverlay);
-
-            var highlightedFeaturesOverlay = new LayerOverlay();
-            highlightedFeaturesOverlay.Layers.Add("Highlighted Features", highlightedFeaturesLayer);
-            mapView.Overlays.Add("Highlighted Features Overlay", highlightedFeaturesOverlay);
-
-            // Add a sample shape to the map for the initial query
-            // To ensure topological equality for this sample, we create a new shape using the same geometry as an existing feature
-            zoningLayer.Open();
-            var sampleShape = zoningLayer.FeatureSource.GetAllFeatures(ReturningColumnsType.NoColumns).First().GetShape();
-            zoningLayer.Close();
-            await GetFeaturesEqualAsync(sampleShape);
-
-            // Set the map extent to the sample shape
-            mapView.CurrentExtent = new RectangleShape(-10778499.3056056, 3920954.39858245, -10774534.1347853, 3917538.61889993);
-
-            await mapView.RefreshAsync();
+            catch
+            {
+                // Because async void methods don't return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it's good practice to catch and handle (or log) all exceptions within these "fire-and-forget" methods.
+            }
         }
 
         private Collection<Feature> PerformSpatialQuery(BaseShape shape, FeatureLayer layer)
@@ -128,7 +137,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             await highlightedFeaturesOverlay.RefreshAsync();
 
             // Update the number of matching features found in the UI
-            txtNumberOfFeaturesFound.Text = $@"Number of features topologically equal to the drawn shape: {features.Count()}";
+            numberOfFeaturesFoundTextBox.Text = $@"Number of features topologically equal to the drawn shape: {features.Count()}";
         }
 
         /// <summary>
@@ -158,18 +167,26 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         #region Component Designer generated code
 
         private MapView mapView;
-        private Panel panel1;
-        private TextBox txtNumberOfFeaturesFound;
-        private Label label1;
+        private Panel consolePanel;
+        private Label queryLabel;
+        private Label panLabel;
+        private Label zoomLabel;
+        private TextBox numberOfFeaturesFoundTextBox;
+        private TextBox panTextBox;
+        private TextBox zoomTextBox;
 
         private void InitializeComponent()
         {
-            this.mapView = new ThinkGeo.UI.WinForms.MapView();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtNumberOfFeaturesFound = new System.Windows.Forms.TextBox();
-            this.panel1.SuspendLayout();
-            this.SuspendLayout();
+            mapView = new MapView();
+            consolePanel = new Panel();
+            queryLabel = new Label();
+            panLabel = new Label();
+            zoomLabel = new Label();
+            numberOfFeaturesFoundTextBox = new TextBox();
+            panTextBox = new TextBox();
+            zoomTextBox = new TextBox();
+            consolePanel.SuspendLayout();
+            SuspendLayout();
             // 
             // mapView
             // 
@@ -179,7 +196,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
             this.mapView.Location = new System.Drawing.Point(0, 0);
-            this.mapView.MapResizeMode = MapResizeMode.PreserveScale;
+            this.mapView.MapResizeMode = MapResizeMode.PreserveScaleAndCenter;
             this.mapView.MaximumScale = 1.7976931348623157E+308D;
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
@@ -188,52 +205,102 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.Size = new System.Drawing.Size(960, 622);
             this.mapView.TabIndex = 0;
             // 
-            // panel1
+            // consolePanel
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.BackColor = System.Drawing.Color.Gray;
-            this.panel1.Controls.Add(this.txtNumberOfFeaturesFound);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(960, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(300, 622);
-            this.panel1.TabIndex = 1;
+            consolePanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            consolePanel.BackColor = System.Drawing.Color.Gray;
+            consolePanel.Controls.Add(queryLabel);
+            consolePanel.Controls.Add(panLabel);
+            consolePanel.Controls.Add(zoomLabel);
+            consolePanel.Controls.Add(numberOfFeaturesFoundTextBox);
+            consolePanel.Controls.Add(panTextBox);
+            consolePanel.Controls.Add(zoomTextBox);
+            consolePanel.Location = new System.Drawing.Point(960, 0);
+            consolePanel.Name = "consolePanel";
+            consolePanel.Size = new System.Drawing.Size(300, 622);
+            consolePanel.TabIndex = 1;
             // 
-            // label1
+            // queryLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(18, 18);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(239, 25);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Perform an \'Equals\' Query";
+            queryLabel.AutoSize = true;
+            queryLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            queryLabel.ForeColor = System.Drawing.Color.White;
+            queryLabel.Location = new System.Drawing.Point(20, 18);
+            queryLabel.Name = "queryLabel";
+            queryLabel.Size = new System.Drawing.Size(192, 20);
+            queryLabel.Text = "Perform an 'Equals' Query";
+            queryLabel.TabIndex = 2;
             // 
-            // txtNumberOfFeaturesFound
+            // numberOfFeaturesFoundTextBox
             // 
-            this.txtNumberOfFeaturesFound.BackColor = System.Drawing.Color.Gray;
-            this.txtNumberOfFeaturesFound.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtNumberOfFeaturesFound.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.txtNumberOfFeaturesFound.ForeColor = System.Drawing.Color.White;
-            this.txtNumberOfFeaturesFound.Location = new System.Drawing.Point(21, 55);
-            this.txtNumberOfFeaturesFound.Multiline = true;
-            this.txtNumberOfFeaturesFound.Name = "txtNumberOfFeaturesFound";
-            this.txtNumberOfFeaturesFound.Size = new System.Drawing.Size(260, 279);
-            this.txtNumberOfFeaturesFound.TabIndex = 1;
+            numberOfFeaturesFoundTextBox.BackColor = System.Drawing.Color.Gray;
+            numberOfFeaturesFoundTextBox.BorderStyle = BorderStyle.None;
+            numberOfFeaturesFoundTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            numberOfFeaturesFoundTextBox.ForeColor = System.Drawing.Color.White;
+            numberOfFeaturesFoundTextBox.Location = new System.Drawing.Point(25, 41);
+            numberOfFeaturesFoundTextBox.Multiline = true;
+            numberOfFeaturesFoundTextBox.Name = "numberOfFeaturesFoundTextBox";
+            numberOfFeaturesFoundTextBox.Size = new System.Drawing.Size(260, 48);
+            numberOfFeaturesFoundTextBox.TabIndex = 3;
+            // 
+            // panLabel
+            // 
+            panLabel.AutoSize = true;
+            panLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            panLabel.ForeColor = System.Drawing.Color.White;
+            panLabel.Location = new System.Drawing.Point(20, 92);
+            panLabel.Name = "panLabel";
+            panLabel.Size = new System.Drawing.Size(192, 20);
+            panLabel.Text = "Pan the Map";
+            panLabel.TabIndex = 4;
+            // 
+            // panTextBox
+            // 
+            panTextBox.BackColor = System.Drawing.Color.Gray;
+            panTextBox.BorderStyle = BorderStyle.None;
+            panTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            panTextBox.ForeColor = System.Drawing.Color.White;
+            panTextBox.Location = new System.Drawing.Point(25, 115);
+            panTextBox.Multiline = true;
+            panTextBox.Name = "textBox1";
+            panTextBox.Size = new System.Drawing.Size(260, 56);
+            panTextBox.Text = "Press and hold the middle mouse button (scroll wheel), then drag the mouse to move around the map.";
+            panTextBox.TabIndex = 5;
+            // 
+            // zoomLabel
+            // 
+            zoomLabel.AutoSize = true;
+            zoomLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            zoomLabel.ForeColor = System.Drawing.Color.White;
+            zoomLabel.Location = new System.Drawing.Point(20, 174);
+            zoomLabel.Name = "zoomLabel";
+            zoomLabel.Size = new System.Drawing.Size(192, 20);
+            zoomLabel.Text = "Zoom In/Out";
+            zoomLabel.TabIndex = 6;
+            // 
+            // zoomTextBox
+            // 
+            zoomTextBox.BackColor = System.Drawing.Color.Gray;
+            zoomTextBox.BorderStyle = BorderStyle.None;
+            zoomTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            zoomTextBox.ForeColor = System.Drawing.Color.White;
+            zoomTextBox.Location = new System.Drawing.Point(25, 197);
+            zoomTextBox.Multiline = true;
+            zoomTextBox.Name = "zoomTextBox";
+            zoomTextBox.Size = new System.Drawing.Size(260, 56);
+            zoomTextBox.Text = "Scroll the mouse wheel forward to zoom in, and backward to zoom out.";
+            zoomTextBox.TabIndex = 7;
             // 
             // CheckIfFeaturesAreEqual
             // 
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.mapView);
-            this.Name = "CheckIfFeaturesAreEqual";
-            this.Size = new System.Drawing.Size(1260, 622);
-            this.Load += new System.EventHandler(this.Form_Load);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.ResumeLayout(false);
-
+            Controls.Add(consolePanel);
+            Controls.Add(mapView);
+            Name = "CheckIfFeaturesAreEqual";
+            Size = new System.Drawing.Size(1260, 622);
+            Load += Form_Load;
+            consolePanel.ResumeLayout(false);
+            consolePanel.PerformLayout();
+            ResumeLayout(false);
         }
 
         #endregion Component Designer generated code

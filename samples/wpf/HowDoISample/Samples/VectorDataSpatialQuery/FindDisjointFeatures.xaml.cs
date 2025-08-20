@@ -47,10 +47,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 friscoLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
                 friscoLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(50, GeoColors.MediumPurple), GeoColors.MediumPurple, 2);
 
-                // Set the map extent to Frisco, TX
-                MapView.CenterPoint = new PointShape(-10777860, 3914200);
-                MapView.CurrentScale = 31300;
-
                 // Create a layer to hold the feature we will perform the spatial query against
                 var queryLayer = new InMemoryFeatureLayer();
                 queryLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(75, GeoColors.LightRed), GeoColors.LightRed);
@@ -77,22 +73,21 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Add an event to handle new shapes that are drawn on the map
                 MapView.TrackOverlay.TrackEnded += OnPolygonDrawn;
 
-                // Add a sample shape to the map for the initial query
-                var sampleShape = new PolygonShape("POLYGON((-10780418.9504333 3915973.97146252,-10780428.5050618 3913422.88551189,-10775737.1824769 3913413.33088341,-10775612.9723066 3915954.86220556,-10780418.9504333 3915973.97146252))");
-                await GetFeaturesDisjointAsync(sampleShape);
-
                 // Set the map extent to the sample shapes
-                var sampleShapeBBox = sampleShape.GetBoundingBox();
-                MapView.CenterPoint = sampleShapeBBox.GetCenterPoint();
-                var MapScale = MapUtil.GetScale(MapView.MapUnit, sampleShapeBBox, MapView.MapWidth, MapView.MapHeight);
-                MapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
-
+                MapView.CenterPoint = new PointShape(-10778020, 3914693);
+                MapView.CurrentScale = 32900; 
+                
+                MapView.TrackOverlay.TrackMode = TrackMode.Polygon;
                 await MapView.RefreshAsync();
+
+                // Add a sample shape to the map for the initial query
+                var sampleShape = new PolygonShape("POLYGON((-10780418 3915973,-10780428 3913422,-10775737 3913413,-10775612 3915954,-10780418 3915973))");
+                await GetFeaturesDisjointAsync(sampleShape);
             }
             catch 
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+                // Because async void methods don't return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it's good practice to catch and handle (or log) all exceptions within these "fire-and-forget" methods.
             }
         }
 
@@ -132,7 +127,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 $"Number of features disjoint from the drawn shape: {queriedFeatures.Count}";
 
             // Disable map drawing and clear the drawn shape
-            MapView.TrackOverlay.TrackMode = TrackMode.None;
             MapView.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
             await MapView.TrackOverlay.RefreshAsync();
         }
@@ -143,18 +137,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void OnPolygonDrawn(object sender, TrackEndedTrackInteractiveOverlayEventArgs e)
         {
             _ = GetFeaturesDisjointAsync((PolygonShape)e.TrackShape);
-        }
-
-        /// <summary>
-        /// Set the map to 'Polygon Drawing Mode' when the user clicks on the map without panning
-        /// </summary>
-        private void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
-        {
-            if (MapView.TrackOverlay.TrackMode != TrackMode.Polygon)
-            {
-                // Set the drawing mode to 'Polygon'
-                MapView.TrackOverlay.TrackMode = TrackMode.Polygon;
-            }
         }
 
         public void Dispose()

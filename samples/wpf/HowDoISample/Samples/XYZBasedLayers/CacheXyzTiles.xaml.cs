@@ -14,6 +14,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     {
         private OpenStreetMapAsyncLayer _openStreetMapAsyncLayer;
         private int _finishedTileCount;
+        private string _cachePath;
 
         public CacheXyzTiles()
         {
@@ -33,12 +34,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _openStreetMapAsyncLayer.IsCacheOnly = true;
             layerOverlay.Layers.Add(_openStreetMapAsyncLayer);
 
-            string cachePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cache");
+            _cachePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cache");
 
-            if (!Directory.Exists(cachePath))
-                Directory.CreateDirectory(cachePath);
+            if (!Directory.Exists(_cachePath))
+                Directory.CreateDirectory(_cachePath);
 
-            _openStreetMapAsyncLayer.TileCache = new FileRasterTileCache(cachePath, "xyzLayerCacheTest");
+            _openStreetMapAsyncLayer.TileCache = new FileRasterTileCache(_cachePath, "xyzLayerCacheTest");
             _openStreetMapAsyncLayer.TileCacheGenerated += OpenStreetMapAsyncLayerOnTileCacheGenerated;
 
             MapView.CurrentExtent = MaxExtents.OsmMaps;
@@ -57,8 +58,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             });
         }
 
+
         private async void BtnGenerateCache_OnClick(object sender, RoutedEventArgs e)
         {
+            _openStreetMapAsyncLayer.TileCache.ClearCache();
+
             try
             {
                 MyProgressBar.Visibility = Visibility.Visible;
@@ -67,8 +71,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 LblStatus.Content = "";
                 _finishedTileCount = 0;
 
+                int minZoom = int.Parse(MinZoomTextBox.Text);
+                int maxZoom = int.Parse(MaxZoomTextBox.Text);
+
                 var northAmericaExtent = new RectangleShape(-20030000, 20030000, 0, 0);
-                await _openStreetMapAsyncLayer.GenerateTileCacheAsync(northAmericaExtent, 0, 4);
+                await _openStreetMapAsyncLayer.GenerateTileCacheAsync(northAmericaExtent, minZoom, maxZoom);
 
                 MyProgressBar.Visibility = Visibility.Hidden;
                 LblStatus.Visibility = Visibility.Hidden;
@@ -100,13 +107,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void btnOpenCacheFolder_OnClick(object sender, RoutedEventArgs e)
         {
             var fileRasterTileCache = _openStreetMapAsyncLayer.TileCache as FileRasterTileCache;
-
             if (fileRasterTileCache == null)
                 return;
 
             var cacheFolder = Path.Combine(fileRasterTileCache.CacheDirectory, fileRasterTileCache.CacheId);
             if (Directory.Exists(cacheFolder))
                 Process.Start("explorer.exe", cacheFolder);
+            else
+                MessageBox.Show("Cache Tiles have not been generated");
         }
         public void Dispose()
         {

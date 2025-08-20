@@ -11,6 +11,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class CalculateCenterPoint : IDisposable
     {
+        private bool _initialized;
+
         public CalculateCenterPoint()
         {
             InitializeComponent();
@@ -76,6 +78,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Add LayerOverlay to Map          
             CentroidCenter.IsChecked = true;
 
+            _initialized = true;
             _ = MapView.RefreshAsync();
         }
 
@@ -132,6 +135,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
+            if (!_initialized)
+                return;
+
             var centerPointOverlay = (LayerOverlay)MapView.Overlays["CenterPointOverlay"];
             var centerPointLayer = (InMemoryFeatureLayer)centerPointOverlay.Layers["CenterPointLayer"];
 

@@ -9,6 +9,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class ScaleLine : IDisposable
     {
+        private bool _initialized;
+
         public ScaleLine()
         {
             InitializeComponent();
@@ -33,10 +35,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
+            MapView.MapTools.ScaleLine.IsEnabled = true;
+
             // Set the map extent
             MapView.CenterPoint = new PointShape(-10778000, 3912000);
             MapView.CurrentScale = 77000;
 
+            _initialized = true;
             _ = MapView.RefreshAsync();
         }
 
@@ -45,6 +50,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void DisplayScaleLine_Checked(object sender, RoutedEventArgs e)
         {
+            if (!_initialized)
+                return;
+
             MapView.MapTools.ScaleLine.IsEnabled = true;
         }
 

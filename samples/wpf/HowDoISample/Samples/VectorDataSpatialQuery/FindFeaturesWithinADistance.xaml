@@ -29,12 +29,28 @@
                 </Grid.ColumnDefinitions>
             </Grid>
             <TextBlock Grid.Column="1" Grid.Row="5" x:Name="TxtNumberOfFeaturesFound" TextWrapping="Wrap" Foreground="WhiteSmoke"></TextBlock>
-            
+
+            <Label Grid.Column="1" Grid.Row="6">
+                <Label.Content>
+                    <AccessText HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" TextWrapping="Wrap" Text="Pan the Map"/>
+                </Label.Content>
+            </Label>
+            <TextBlock Grid.Column="1" Grid.Row="7" x:Name="TxtPanTheMap" TextWrapping="Wrap" Margin="5,-5,0,0">
+                       Press and hold the middle mouse button (scroll wheel), then drag the mouse to move around the map.
+            </TextBlock>
+
+            <Label Grid.Column="1" Grid.Row="8">
+                <Label.Content>
+                    <AccessText HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" TextWrapping="Wrap" Text="Zoom In/Out"/>
+                </Label.Content>
+            </Label>
+            <TextBlock Grid.Column="1" Grid.Row="9" x:Name="TxtZoomInOut" TextWrapping="Wrap" Margin="5,-5,0,0">
+                       Scroll the mouse wheel forward to zoom in, and backward to zoom out.
+            </TextBlock>
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />
                 <ColumnDefinition Width="240" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="5" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -42,23 +58,18 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition />
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
         </Grid>
 
-
-        <!-- Grid Layout -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
     </Grid>
     <UserControl.Resources>
         <Style TargetType="Label">
@@ -83,6 +94,10 @@
         </Style>
         <Style TargetType="CheckBox">
             <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="WhiteSmoke" />
+            <Setter Property="FontSize" Value="14" />
         </Style>
     </UserControl.Resources>
 </UserControl>

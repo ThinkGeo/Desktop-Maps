@@ -10,6 +10,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class HandleExceptions : IDisposable
     {
+        private bool _initialized;
+
         public HandleExceptions()
         {
             InitializeComponent();
@@ -48,15 +50,21 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _wmsAsync.TimeoutInSeconds = 1; // 1s basically for sure will Timeout 
             _overlay.Layers.Add("wmsImageLayer", _wmsAsync);
 
+            _wmsAsync.DrawCustomException = false;
+            _overlay.ThrowingExceptionMode = ThrowingExceptionMode.SuppressException;
+
             MapView.CenterPoint = new PointShape(234655, 1247759);
             MapView.CurrentScale = 295830000;
 
-            // Refresh the map.
+            _initialized = true;
             _ = MapView.RefreshAsync();
         }
 
         private void DrawingExceptionMode_Checked(object sender, RoutedEventArgs e)
         {
+            if (!_initialized)
+                return;
+
             var button = (RadioButton)sender;
             if (button.Content == null) return;
             TxtException.Text = "";

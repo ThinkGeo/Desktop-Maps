@@ -23,8 +23,23 @@
             <CheckBox Content="Only Get Tiles from Cache" Foreground="White" IsChecked="True" Margin="5"
                       Checked="ckbCacheOnly_OnChecked"
                       Unchecked="ckbCacheOnly_OnChecked"/>
-            <Button Height="40" Click = "BtnGenerateCache_OnClick" Margin="5">
-                <TextBlock Text="Generate Cache &#x0a;For North America, Zoom 0 - 4"
+            <!-- Zoom Level Inputs -->
+            <GroupBox Header="Zoom Ranges" Margin="10" Padding="0" Foreground="White">
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,2">
+                        <TextBlock Text="Min:" Foreground="White" Margin="0,5,0,6"/>
+                        <TextBox x:Name="MinZoomTextBox" Width="40" Margin="10,0,10,5" Text="0"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,2">
+                        <TextBlock Text="Max:" Foreground="White" Margin="0,5,0,6"/>
+                        <TextBox x:Name="MaxZoomTextBox" Width="40" Margin="10,0,0,5" Text="4"/>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+          
+     
+            <Button Height="40" Click = "BtnGenerateCache_OnClick" Margin="5,0,5,5">
+                <TextBlock Text="Generate Cache"
                            TextWrapping="Wrap"
                            TextAlignment="Center"/>
             </Button>

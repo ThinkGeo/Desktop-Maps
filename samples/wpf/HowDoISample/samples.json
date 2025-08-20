@@ -31,6 +31,12 @@
         "title": "Resize the Map",
         "description": "Learn to resize the map while preserving the world extent with various map resize modes.",
         "source": "Samples/MapNavigation/ResizeTheMap"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DynamicRendering",
+        "title": "Dynamic Rendering",
+        "description": "Dynamically refreshing the shapes",
+        "source": "Samples/MapNavigation/DynamicRendering"
       }
     ]
   },
@@ -46,7 +52,7 @@
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.RasterXyzServer",
         "title": "Raster Map from XYZ Server",
-        "description": "This sample shows how to display raster map from XYZ server.",
+        "description": "This sample shows how to display the tiles from a raster XYZ server. This demo server has 20 zoom levels (zoom 0~19)",
         "source": "Samples/MapOnlineData/RasterXyzServer"
       },
       {
@@ -56,10 +62,10 @@
         "source": "Samples/MapOnlineData/ThinkGeoVectorMap"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.BingMap",
-        "title": "Bing Map",
-        "description": "This sample shows how to display a Bing Maps layer.",
-        "source": "Samples/MapOnlineData/BingMap"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.AzureMap",
+        "title": "Azure Map",
+        "description": "This sample shows how to display an Azure Maps layer.",
+        "source": "Samples/MapOnlineData/AzureMap"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.GoogleMap",
@@ -129,19 +135,19 @@
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayRasterMbTilesFile",
         "title": "Display Raster from MBTiles",
-        "description": "Display a raster MBTiles file. This sample data covers from zoom0 to zoom5",
+        "description": "This sample shows how to display a raster MBTiles file. The demo file has 6 zoom levels (zoom 0–5)",
         "source": "Samples/MapOfflineData/Raster/DisplayRasterMbTilesFile"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayRasterFileTiles",
         "title": "Display Raster from File Tiles",
-        "description": "Display the raster tiles created by QGIS. The demo tiles cover from zoom0 to zoom5",
+        "description": "This sample shows how to display the raster tiles created by QGIS. The demo tiles have 6 zoom levels (zoom 0~5)",
         "source": "Samples/MapOfflineData/Raster/DisplayRasterFileTiles"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMbTilesFile",
         "title": "Display Vector from MBTiles",
-        "description": "Show how to display a MBTiles file. The demo mbtile/json come from https://github.com/maplibre/demotiles?tab=readme-ov-file",
+        "description": "This sample shows how to display an MBTiles file. The demo mbtile/json come from https://github.com/maplibre/demotiles?tab=readme-ov-file",
         "source": "Samples/MapOfflineData/Vector/DisplayMbTilesFile"
       },
       {
@@ -296,31 +302,37 @@
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayRasterMbTilesFile",
         "title": "Display Raster from MBTiles",
-        "description": "This sample shows how to display a raster MBTiles file. The demo file has 6 zooms (zoom 0~5)",
+        "description": "This sample shows how to display a raster MBTiles file. The demo file has 6 zoom levels (zoom 0–5)",
         "source": "Samples/MapOfflineData/Raster/DisplayRasterMbTilesFile"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayRasterFileTiles",
         "title": "Display Raster from File Tiles",
-        "description": "This sample shows how to display the raster tiles created by QGIS. The demo tiles has 6 zooms (zoom 0~5)",
+        "description": "This sample shows how to display the raster tiles created by QGIS. The demo tiles have 6 zoom levels (zoom 0~5)",
         "source": "Samples/MapOfflineData/Raster/DisplayRasterFileTiles"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.RasterXyzServer",
         "title": "Display Raster from XYZ Server",
-        "description": "This sample shows how to display the tiles from a raster XYZ server.  This demo server has 20 zooms (zoom 0~19)",
+        "description": "This sample shows how to display the tiles from a raster XYZ server. This demo server has 20 zoom levels (zoom 0~19)",
         "source": "Samples/MapOnlineData/RasterXyzServer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ProjectOSMLayer",
+        "title": "Display Projected OSM Layer",
+        "description": "This sample shows how to apply projection to tiles from an OpenStreetMap XYZ layer. It demonstrates switching between coordinate systems using GdalProjectionConverter.",
+        "source": "Samples/XYZBasedLayers/ProjectOSMLayer"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.WMTSAsXYZLayer",
         "title": "Display Raster from WMTS Server",
-        "description": "This sample shows how to display the tiles from a WMTS server.  This demo server has 27 zooms (zoom 0~26).",
+        "description": "This sample shows how to display the tiles from a WMTS server. This demo server has 27 zoom levels (zoom 0~26).",
         "source": "Samples/XYZBasedLayers/WMTSAsXYZLayer"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMbTilesFile",
         "title": "Display Vector from MBTiles",
-        "description": "This sample shows how to display a MBTiles file. The demo mbtile/json come from https://github.com/maplibre/demotiles?tab=readme-ov-file",
+        "description": "This sample shows how to display an MBTiles file. The demo mbtile/json come from https://github.com/maplibre/demotiles?tab=readme-ov-file",
         "source": "Samples/MapOfflineData/Vector/DisplayMbTilesFile"
       },
       {
@@ -399,16 +411,22 @@
     "title": "Markers and Popups",
     "children": [
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.Markers",
+        "title": "Markers",
+        "description": "Learn to add, edit, or remove markers on the map using the MarkerOverlay.",
+        "source": "Samples/MarkersandPopups/Markers"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.AnimatedMarker",
         "title": "Animated Marker",
         "description": "Learn to add an animated marker on the map using the custom icon.",
         "source": "Samples/MarkersandPopups/AnimatedMarker"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.Markers",
-        "title": "Markers",
-        "description": "Learn to add, edit, or remove markers on the map using the MarkerOverlay.",
-        "source": "Samples/MarkersandPopups/Markers"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.TextMarker",
+        "title": "Text Marker",
+        "description": "Display a draggable text using marker",
+        "source": "Samples/MarkersandPopups/TextMarker"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.Popups",
@@ -866,10 +884,10 @@
   //  "title": "Using Overlays",
   //  "children": [
   //    {
-  //      "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayBingMapsOverlaySample",
-  //      "title": "Display Bing Maps Overlay",
-  //      "description": "Learn to render Bing Maps using the BingMapsOverlay. A valid Bing Maps ApplicationID is required. Visit the Bing Maps Dev Portal to sign up for a key (https://www.bingmapsportal.com/).",
-  //      "source": "Samples/UsingOverlays/DisplayBingMapsOverlaySample"
+  //      "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayAzureMapsOverlaySample",
+  //      "title": "Display Azure Maps Overlay",
+  //      "description": "Learn to render Azure Maps using the AzureMapsRasterOverlay. A valid Azure Maps ApplicationID is required. Visit the Azure Maps Dev Portal to sign up for a key (https://portal.azure.com/#browse/Microsoft.Maps%2Faccounts).",
+  //      "source": "Samples/UsingOverlays/DisplayAzureMapsOverlaySample"
   //    },
   //    {
   //      "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayCloudMapsRasterOverlaySample",

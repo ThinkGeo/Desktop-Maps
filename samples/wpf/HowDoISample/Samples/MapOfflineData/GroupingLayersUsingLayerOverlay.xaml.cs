@@ -9,6 +9,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class GroupingLayersUsingLayerOverlay : IDisposable
     {
+        private bool _initialized;
+
         public GroupingLayersUsingLayerOverlay()
         {
             InitializeComponent();
@@ -113,6 +115,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             ShowPoi.IsChecked = true;
             ShowLandUse.IsChecked = true;
 
+            _initialized = true;
             _ = MapView.RefreshAsync();
         }
 
@@ -121,6 +124,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void ShowLanduseGroup_Checked(object sender, RoutedEventArgs e)
         {
+            if (!_initialized)
+                return;
+
             var landuseOverlay = (LayerOverlay)MapView.Overlays["landuseOverlay"];
             landuseOverlay.IsVisible = true;
         }
@@ -139,6 +145,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void ShowPoiGroup_Checked(object sender, RoutedEventArgs e)
         {
+            if (!_initialized)
+                return;
+
             var poiOverlay = (LayerOverlay)MapView.Overlays["poiOverlay"];
             poiOverlay.IsVisible = true;
         }

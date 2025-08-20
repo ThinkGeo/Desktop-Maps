@@ -9,6 +9,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class RenderPoints : IDisposable
     {
+        private bool _initialized;
+
         public RenderPoints()
         {
             InitializeComponent();
@@ -49,8 +51,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Add the overlay to the map
             MapView.Overlays.Add("hotels", layerOverlay);
 
+            // Create a point style
+            var pointStyle = new PointStyle(PointSymbolType.Circle, 12, GeoBrushes.Blue, new GeoPen(GeoBrushes.White, 2));
+
+            // Add the point style to the collection of custom styles for ZoomLevel 1.
+            hotelsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
+            hotelsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(pointStyle);
+
+            // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the point style on every zoom level on the map. 
+            hotelsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
             PointSymbol.IsChecked = true;
 
+            _initialized = true;
             _ = MapView.RefreshAsync();
         }
 
@@ -59,6 +72,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void PointSymbol_OnChecked(object sender, RoutedEventArgs e)
         {
+            if (!_initialized)
+                return;
+
             if (MapView.Overlays.Count <= 0) return;
             var layerOverlay = (LayerOverlay)MapView.Overlays["hotels"];
             var hotelsLayer = (ShapeFileFeatureLayer)layerOverlay.Layers["hotels"];

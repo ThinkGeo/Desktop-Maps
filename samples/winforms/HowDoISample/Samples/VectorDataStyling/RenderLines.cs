@@ -6,6 +6,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public class RenderLines : UserControl
     {
+        private bool _initialized;
+
         public RenderLines()
         {
             InitializeComponent();
@@ -41,13 +43,27 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Add the overlay to the map
             mapView.Overlays.Add("overlay", layerOverlay);
 
+            // Create a line style
+            var lineStyle = new LineStyle(new GeoPen(GeoBrushes.DimGray, 10), new GeoPen(GeoBrushes.WhiteSmoke, 6));
+
+            // Add the line style to the collection of custom styles for ZoomLevel 1.
+            friscoRailroad.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
+            friscoRailroad.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(lineStyle);
+
+            // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the line style on every zoom level on the map. 
+            friscoRailroad.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
             rbLineStyle.Checked = true;
 
+            _initialized = true;
             await mapView.RefreshAsync();
         }
 
         private async void rbLineStyle_CheckedChanged(object sender, EventArgs e)
         {
+            if (!_initialized)
+                return;
+
             if (mapView.Overlays.Count > 0)
             {
                 var layerOverlay = (LayerOverlay)mapView.Overlays["overlay"];

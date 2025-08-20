@@ -13,6 +13,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private LayerOverlay rasterOverlay;
         private SkiaRasterLayer skiaRasterLayer;
         private WpfRasterLayer wpfRasterLayer;
+        private bool _initialized;
 
         public DisplayCommonRasterFile()
         {
@@ -57,11 +58,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.CenterPoint = new PointShape(-10780600, 3914700);
             MapView.CurrentScale = 27250;
 
+            _initialized = true;
             _ = MapView.RefreshAsync();
         }
 
         private void SwitchRasterLayer_OnCheckedChanged(object sender, RoutedEventArgs e)
         {
+            if (!_initialized)
+                return;
+
             if (rasterOverlay == null) return;
             var selectedRadioButton = sender as RadioButton;
 

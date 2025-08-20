@@ -35,6 +35,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _icon = new CustomIcon();
             _icon.AnimationStarted = true;
 
+            var markerOverlay = new SimpleMarkerOverlay();
+            MapView.Overlays.Add(markerOverlay);
+            
+            // Set the map extent
+            MapView.CenterPoint = new PointShape(-10778000, 3912000);
+            MapView.CurrentScale = 77000;
+
             var marker = new Marker(-10777932, 3912260)
             {
                 Content = _icon,
@@ -42,14 +49,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 HorizontalContentAlignment = HorizontalAlignment.Left,
                 VerticalContentAlignment = VerticalAlignment.Top
             };
-
-            var markerOverlay = new SimpleMarkerOverlay();
             markerOverlay.Markers.Add(marker);
-            MapView.Overlays.Add(markerOverlay);
-
-            // Set the map extent
-            MapView.CenterPoint = new PointShape(-10778000, 3912000);
-            MapView.CurrentScale = 77000;
 
             _ = MapView.RefreshAsync();
         }

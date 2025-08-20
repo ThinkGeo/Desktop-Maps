@@ -12,6 +12,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class WMTS : IDisposable
     {
+        private bool _initialized;
 
         public WMTS()
         {
@@ -38,33 +39,21 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 await layerOverlay.OpenAsync();
 
                 // Apply the wmts matrices to the MapView. 
-                var scales = layerOverlay.TileMatrixSet.Matrices.Select(m => m.Scale);
+                var scales = layerOverlay.TileMatrixSet.GetScales();
                 MapView.ZoomScales = new Collection<double>(scales.ToList());
                 
                 var layerOverlayBBox = layerOverlay.GetBoundingBox();
                 MapView.CenterPoint = layerOverlayBBox.GetCenterPoint();
                 MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit,layerOverlayBBox, MapView.MapWidth, MapView.MapHeight);
+                
+                _initialized = true;
                 await MapView.RefreshAsync();
             }
             catch
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+                // Because async void methods don't return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it's good practice to catch and handle (or log) all exceptions within these "fire-and-forget" methods.
             }
-        }
-
-        private ZoomLevelSet GetZoomLevelSetFromWmtsServer(WmtsOverlay wmtsOverlay)
-        {
-            var scales = wmtsOverlay.GetTileMatrixSets()[wmtsOverlay.TileMatrixSetName].TileMatrices
-                .Select((matrix, i) => matrix.Scale);
-            var zoomLevels = scales.Select((d, i) => new ZoomLevel(d));
-            var zoomLevelSet = new ZoomLevelSet();
-            foreach (var zoomLevel in zoomLevels)
-            {
-                zoomLevelSet.CustomZoomLevels.Add(zoomLevel);
-            }
-
-            return zoomLevelSet;
         }
 
         public void Dispose()
@@ -76,6 +65,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private void DisplayTileIdCheckBox_Checked(object sender, RoutedEventArgs e)
         {
+            if (!_initialized) 
+                return;
+
             if (!(sender is CheckBox checkBox))
                 return;
 

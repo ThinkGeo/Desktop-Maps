@@ -19,16 +19,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public ObservableCollection<string> LogMessages { get; } = new ObservableCollection<string>();
         private XyzFileTilesAsyncLayer fileTilesAsyncLayer;
         private int _logIndex = 0;
+        private bool _initialized;
 
         public DisplayRasterFileTiles()
         {
             InitializeComponent();
-
             DataContext = this;
         }
 
         private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
+            ThinkGeoDebugger.DisplayTileId = true;
+
             if (!Directory.Exists(@".\Data\OSM_Tiles_z0-z5_Created_By_QGIS"))
                 ZipFile.ExtractToDirectory(@".\Data\OSM_Tiles_z0-z5_Created_By_QGIS.zip", @".\Data\OSM_Tiles_z0-z5_Created_By_QGIS");
 
@@ -56,6 +58,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             //layerOverlay.Drawn += LayerOverlayOnDrawn;
             MapView.CenterPoint = MaxExtents.ThinkGeoMaps.GetCenterPoint();
             MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit,MaxExtents.ThinkGeoMaps, MapView.MapWidth, MapView.MapHeight);
+            
+            _initialized = true;
             _ = MapView.RefreshAsync();
         }
 
@@ -79,7 +83,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 AppendLog(message);
             });
         }
-
 
         private async void Projection_Checked(object sender, RoutedEventArgs e)
         {
@@ -115,8 +118,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
             catch
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+                // Because async void methods don't return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it's good practice to catch and handle (or log) all exceptions within these "fire-and-forget" methods.
             }
         }
 
@@ -133,6 +136,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private void DisplayTileIdCheckBox_Checked(object sender, RoutedEventArgs e)
         {
+            if (!_initialized)
+                return;
+
             if (!(sender is CheckBox checkBox))
                 return;
 

@@ -11,6 +11,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class DisplayMbTilesFile : IDisposable
     {
+        private bool _initialized;
+
         public DisplayMbTilesFile()
         {
             InitializeComponent();
@@ -31,11 +33,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             await mvtLayer.OpenAsync();
             MapView.CurrentExtent = mvtLayer.GetBoundingBox();
 
+            _initialized = true;
             await MapView.RefreshAsync();
         }
 
         private void SwitchTileSize_OnCheckedChanged(object sender, RoutedEventArgs e)
         {
+            if (!_initialized)
+                return;
+
             var selectedType = ((RadioButton)sender).Content?.ToString();
 
             if (selectedType == null)

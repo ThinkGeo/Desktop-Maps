@@ -23,7 +23,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     {
         // A list of all the menu models
         private List<MenuModel> _menus;
-        private readonly DispatcherTimer _changeTimer;
 
         public Samples()
         {
@@ -33,18 +32,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             DataContext = mainWindowVm;
 
             InitializeComponent();
-
-            _changeTimer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromMilliseconds(500)
-            };
-            _changeTimer.Tick += ChangeTimer_Tick;
-        }
-
-        private void ChangeTimer_Tick(object sender, EventArgs e)
-        {
-            _changeTimer.Stop();
-            UpdateUserControl();
         }
 
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
@@ -99,11 +86,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // If we select a new item then we need to load the new item
             if (e.PropertyName == nameof(MainWindowViewModel.SelectedMenu))
             {
-                if (_changeTimer.IsEnabled)
-                {
-                    _changeTimer.Stop();
-                }
-                _changeTimer.Start();
+                UpdateUserControl();
             }
             else if (e.PropertyName == nameof(MainWindowViewModel.CodeViewer))
             {
@@ -127,7 +110,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 SampleContent.Children.Remove(oldControl);
                 SampleContent.DataContext = null;
                 oldControl.DataContext = null;
-                oldControl = null;
                 GC.Collect();
             }
 
@@ -140,7 +122,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Update the CS & XAML code windows
             UpdateCodeViewerLayout(vm?.CodeViewer);
             CsharpCodeViewer.Text = GetFileContent($"../../../{vm?.SelectedMenu.Source}.xaml.cs");
-            XamlCodeViewer.Text = ToXaml(sample);
+            XamlCodeViewer.Text = GetFileContent($"../../../{vm?.SelectedMenu.Source}.xaml");
         }
 
         private void UpdateCodeViewerLayout(CodeViewerViewModel codeViewer)
@@ -187,27 +169,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 Grid.SetColumn(SidebarToggle, 0);
                 Grid.SetColumnSpan(Container, 3);
             }
-        }
-
-        private static string ToXaml(object userControl)
-        {
-            // Reads the XAML from the user control to display in the XAML tab
-            var contentBuilder = new StringBuilder();
-            var settings = new XmlWriterSettings
-            {
-                Indent = true,
-                OmitXmlDeclaration = true,
-                NewLineOnAttributes = true,
-                NamespaceHandling = NamespaceHandling.OmitDuplicates
-            };
-
-            var dsm = new XamlDesignerSerializationManager(XmlWriter.Create(contentBuilder, settings))
-            {
-                XamlWriterMode = XamlWriterMode.Expression
-            };
-
-            XamlWriter.Save(userControl, dsm);
-            return contentBuilder.ToString();
         }
 
         private void treeView_Selected(object sender, RoutedEventArgs e)
