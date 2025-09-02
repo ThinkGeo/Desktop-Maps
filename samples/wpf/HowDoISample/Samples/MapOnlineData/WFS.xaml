@@ -7,6 +7,20 @@
         mc:Ignorable="d"
         d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="150" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
         <wpf:MapView x:Name="MapView" Loaded="MapView_Loaded"/>
+
+        <StackPanel Grid.Row="0" Grid.Column="1" Margin="5,0,5,0" Background="LightGray">
+            <TextBlock Text="Overlay Type" FontSize="16" FontWeight="Bold" Margin="5,5,0,0"/>
+            <RadioButton  Margin="0, 5" Checked="OverlayType_OnCheckedChanged" Content="WfsV2Overlay"/>
+            <RadioButton  Margin="0, 5" Checked="OverlayType_OnCheckedChanged" Content="LayerOverlay" IsChecked="True"/>
+        </StackPanel>
     </Grid>
 </UserControl>
