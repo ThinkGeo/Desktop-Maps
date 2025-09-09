@@ -91,8 +91,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                         MapView.Overlays["LayerOverlay"].IsVisible = true;
                         break;
                 }
-
-                _ = MapView.RefreshAsync();
             }
         }
 
