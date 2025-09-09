@@ -69,16 +69,16 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="9.0.4" />
 
-    <PackageReference Include="ThinkGeo.Cad" Version="14.4.0-beta083" />
-    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.4.0-beta083" />
-    <PackageReference Include="ThinkGeo.Gdal" Version="14.4.0-beta083" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.4.0-beta083" />
+    <PackageReference Include="ThinkGeo.Cad" Version="14.4.0-beta087" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.4.0-beta087" />
+    <PackageReference Include="ThinkGeo.Gdal" Version="14.4.0-beta087" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.4.0-beta087" />
 
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.4.0-beta083" />
-    <PackageReference Include="ThinkGeo.Printers" Version="14.4.0-beta084" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="14.4.0-beta083" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.4.0-beta087" />
+    <PackageReference Include="ThinkGeo.Printers" Version="14.4.0-beta088" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="14.4.0-beta087" />
 
-    <PackageReference Include="ThinkGeo.UI.WinForms" Version="14.4.0-beta085" />
+    <PackageReference Include="ThinkGeo.UI.WinForms" Version="14.4.0-beta089" />
 
   </ItemGroup>
   <ItemGroup>

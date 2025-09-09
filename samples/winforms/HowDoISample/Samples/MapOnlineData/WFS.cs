@@ -28,11 +28,19 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            var helsinkiParcelsLayer = CreateHelsinkiParcelsLayer();
+            // Create WFS v2 overlay
+            var wfsOverlay = new WfsV2Overlay
+            {
+                DrawingBulkCount = 500,
+                FeatureLayer = CreateHelsinkiParcelsLayer(),
+                IsVisible = false // start hidden
+            };
+            mapView.Overlays.Add("WfsOverlay", wfsOverlay);
 
-            var layerOverlay = new LayerOverlay { TileType = TileType.SingleTile };
-            layerOverlay.Layers.Add(helsinkiParcelsLayer);
-            mapView.Overlays.Add(layerOverlay);
+            // Create LayerOverlay
+            var layerOverlay = new LayerOverlay { TileType = TileType.SingleTile, IsVisible = true };
+            layerOverlay.Layers.Add(CreateHelsinkiParcelsLayer());
+            mapView.Overlays.Add("LayerOverlay", layerOverlay);
 
             mapView.CenterPoint = new PointShape(2777730, 8435220);
             mapView.CurrentScale = 20520;
@@ -68,78 +76,23 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             if (!(sender is RadioButton radio) || radio.Checked == false)
                 return;
 
-            // Keep background overlays
-            var backgroundOverlays = mapView.Overlays
-                                            .Where(o => o.Name != "WfsOverlay" && o.Name != "LayerOverlay")
-                                            .ToList();
-            mapView.Overlays.Clear();
-            foreach (var overlay in backgroundOverlays)
-                mapView.Overlays.Add(overlay);
-
-            switch (radio.Text.ToString())
+            if (mapView.Overlays.Contains("WfsOverlay") &&
+                mapView.Overlays.Contains("LayerOverlay"))
             {
-                case "WfsV2Overlay":
-                    AddWfsV2Overlay();
-                    break;
-
-                case "LayerOverlay":
-                    AddLayerOverlay();
-                    break;
-            }
-
-            _ = mapView.RefreshAsync();
-        }
-
-        private void AddLayerOverlay()
-        {
-            // Try to get an existing overlay with the key
-            LayerOverlay overlay;
-            if (mapView.Overlays.Contains("LayerOverlay"))
-            {
-                overlay = mapView.Overlays["LayerOverlay"] as LayerOverlay;
-                overlay.Layers.Clear(); // clear existing layers
-            }
-            else
-            {
-                overlay = new LayerOverlay { TileType = TileType.SingleTile };
-            }
-
-            // Add the WFS layer
-            var helsinkiParcelsLayer = CreateHelsinkiParcelsLayer();
-            overlay.Layers.Add(helsinkiParcelsLayer);
-
-            // If it’s a new overlay, add to MapView
-            if (!mapView.Overlays.Contains("LayerOverlay"))
-            {
-                mapView.Overlays.Add("LayerOverlay", overlay);
-            }
-        }
-
-        private void AddWfsV2Overlay()
-        {
-            // Try to get an existing overlay with the key
-            WfsV2Overlay overlay;
-            if (mapView.Overlays.Contains("WfsOverlay"))
-            {
-                overlay = mapView.Overlays["WfsOverlay"] as WfsV2Overlay;
-                overlay.FeatureLayer = null; // clear existing layer
-            }
-            else
-            {
-                overlay = new WfsV2Overlay()
+                switch (radio.Text.ToString())
                 {
-                    DrawingBulkCount = 500
-                };
-            }
+                    case "WfsV2Overlay":
+                        mapView.Overlays["WfsOverlay"].IsVisible = true;
+                        mapView.Overlays["LayerOverlay"].IsVisible = false;
+                        break;
 
-            // Add the WFS layer
-            var helsinkiParcelsLayer = CreateHelsinkiParcelsLayer();
-            overlay.FeatureLayer = helsinkiParcelsLayer;
+                    case "LayerOverlay":
+                        mapView.Overlays["WfsOverlay"].IsVisible = false;
+                        mapView.Overlays["LayerOverlay"].IsVisible = true;
+                        break;
+                }
 
-            // If it’s a new overlay, add to MapView
-            if (!mapView.Overlays.Contains("WfsOverlay"))
-            {
-                mapView.Overlays.Add("WfsOverlay", overlay);
+                _ = mapView.RefreshAsync();
             }
         }
 
