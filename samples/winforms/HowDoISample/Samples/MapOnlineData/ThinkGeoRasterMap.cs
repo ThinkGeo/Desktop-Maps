@@ -27,7 +27,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             {
                 ClientId = SampleKeys.ClientId,
                 ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1
+                MapType = ThinkGeoCloudRasterMapsMapType.Hybrid2_V2_X1
             };
             mapView.Overlays.Add("Cloud Overlay", cloudOverlay);
 
@@ -59,10 +59,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                         cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Dark_V2_X1;
                         break;
                     case "Aerial":
-                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1;
+                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Aerial2_V2_X1;
                         break;
                     case "Hybrid":
-                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1;
+                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid2_V2_X1;
                         break;
                 }
                 await mapView.RefreshAsync();
@@ -85,10 +85,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                         cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Dark_V2_X1;
                         break;
                     case "Aerial":
-                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1;
+                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Aerial2_V2_X1;
                         break;
                     case "Hybrid":
-                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1;
+                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid2_V2_X1;
                         break;
                 }
                 await mapView.RefreshAsync();
@@ -111,10 +111,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                         cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Dark_V2_X1;
                         break;
                     case "Aerial":
-                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1;
+                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Aerial2_V2_X1;
                         break;
                     case "Hybrid":
-                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1;
+                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid2_V2_X1;
                         break;
                 }
                 await mapView.RefreshAsync();
@@ -137,7 +137,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                         cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Dark_V2_X1;
                         break;
                     case "Aerial":
-                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1;
+                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Aerial2_V2_X1;
                         break;
                     case "Hybrid":
                         cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1;

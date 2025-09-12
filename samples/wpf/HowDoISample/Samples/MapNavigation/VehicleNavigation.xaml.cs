@@ -303,7 +303,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             RefreshCancellationTokenAsync();
             _backgroundOverlay.MapType = AerialBackgroundCheckBox.IsChecked.Value
-                ? ThinkGeoCloudRasterMapsMapType.Aerial_V2_X2
+                ? ThinkGeoCloudRasterMapsMapType.Aerial2_V2_X2
                 : ThinkGeoCloudRasterMapsMapType.Light_V2_X2;
             await _backgroundOverlay.RefreshAsync(MapView.CancellationTokenSource.Token);
 

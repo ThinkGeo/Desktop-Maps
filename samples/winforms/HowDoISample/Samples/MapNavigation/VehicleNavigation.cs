@@ -311,7 +311,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             RefreshCancellationTokenAsync();
             _backgroundOverlay.MapType = aerialBackgroundCheckBox.Checked
-                ? ThinkGeoCloudRasterMapsMapType.Aerial_V2_X2
+                ? ThinkGeoCloudRasterMapsMapType.Aerial2_V2_X2
                 : ThinkGeoCloudRasterMapsMapType.Light_V2_X2;
             await _backgroundOverlay.RefreshAsync(CancellationToken.None);
 
