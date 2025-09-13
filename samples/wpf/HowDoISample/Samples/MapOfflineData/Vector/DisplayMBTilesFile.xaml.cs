@@ -3,9 +3,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
@@ -23,7 +21,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             MapView.MapUnit = GeographyUnit.Meter;
-            var _selectedMvtServer = @"https://tiles.preludemaps.com/styles/TG_Savannah_Light/style.json";
+            var _selectedMvtServer = @"https://tiles.preludemaps.com/styles/Savannah_Light_v4/style.json";
             var mvtLayer = new MvtTilesAsyncLayer(_selectedMvtServer);
             mvtLayer.LoadingSkiaSKTypeface += MvtLayerLoadingSkiaSkTypeface;
 
@@ -93,7 +91,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public static SKTypeface GetSkTypeface(string text, GeoFont font)
         {
             var lang = DetectLanguageTag(text);           // e.g., "zh" / "ja" / "ko" / "en"
-            var path = GetNotoFilePath(lang, font, @"D:\test\fonts");       // absolute file path
+            var path = GetNotoFilePath(lang, font, @"D:\test2\fonts");       // absolute file path
 
             // Cache and lazy-load the typeface; fall back to defaults if file missing.
             return _typefaces.GetOrAdd(path, p =>
@@ -123,17 +121,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (cp <= 0x007F) continue; // ASCII → keep scanning
 
                 // Order matters: detect distinctive blocks first
+                //if (In(cp, 0x0F00, 0x0FFF)) return "bo";  // Tibetan
+                if (In(cp, 0x0F00, 0x0FFF) || In(cp, 0x11400, 0x1147F)) return "bo"; // Tibetan
                 if (In(cp, 0x4E00, 0x9FFF) || In(cp, 0x3400, 0x4DBF)) return "zh"; // CJK & Ext-A
                 if (In(cp, 0x3040, 0x30FF) || In(cp, 0x31F0, 0x31FF)) return "ja"; // Hiragana/Katakana
                 if (In(cp, 0xAC00, 0xD7AF) || In(cp, 0x1100, 0x11FF)) return "ko"; // Hangul syllables/jamo
-
                 if (In(cp, 0x0600, 0x06FF) || In(cp, 0x0750, 0x077F) || In(cp, 0x08A0, 0x08FF) ||
                     In(cp, 0xFB50, 0xFDFF) || In(cp, 0xFE70, 0xFEFF)) return "ar"; // Arabic
-
                 if (In(cp, 0x0590, 0x05FF)) return "he";  // Hebrew
                 if (In(cp, 0x0E00, 0x0E7F)) return "th";  // Thai
                 if (In(cp, 0x1000, 0x109F)) return "my";  // Myanmar
-                if (In(cp, 0x0F00, 0x0FFF)) return "bo";  // Tibetan
                 if (In(cp, 0x0530, 0x058F)) return "hy";  // Armenian
                 if (In(cp, 0x10A0, 0x10FF)) return "ka";  // Georgian
                 if (In(cp, 0x1200, 0x137F)) return "am";  // Ethiopic
@@ -145,6 +142,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (In(cp, 0x0D80, 0x0DFF)) return "si"; // Sinhala
                 if (In(cp, 0x0370, 0x03FF)) return "el";  // Greek
                 if (In(cp, 0x0400, 0x04FF)) return "ru";  // Cyrillic
+                if (In(cp, 0x1800, 0x18AF)) return "mn"; // Mongolian
+                if (In(cp, 0x2D30, 0x2D7F) || In(cp, 0x10E60, 0x10E7F) || In(cp, 0x2D80, 0x2DDF) || In(cp, 0x10E80, 0x10EBF)) return "ber"; //Tifinagh
             }
 
             return "en";
@@ -168,6 +167,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             string family;
             switch (lang)
             {
+                case "bo": family = "NotoSansTibetan"; break;
                 case "zh": family = "NotoSansSC"; break;
                 case "ja": family = "NotoSansJP"; break;
                 case "ko": family = "NotoSansKR"; break;
@@ -175,7 +175,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 case "he": family = "NotoSansHebrew"; break;
                 case "th": family = "NotoSansThai"; break;
                 case "my": family = "NotoSansMyanmar"; break;
-                case "bo": family = "NotoSansTibetan"; break;
                 case "hy": family = "NotoSansArmenian"; break;
                 case "ka": family = "NotoSansGeorgian"; break;
                 case "am": family = "NotoSansEthiopic"; break;
@@ -185,6 +184,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 case "bn": family = "NotoSansBengali"; break;
                 case "ta": family = "NotoSansTamil"; break;
                 case "si": family = "NotoSansSinhala"; break;
+                case "mn": family = "NotoSansMongolian"; break;
+                case "ber": family = "NotoSansTifinagh"; break;
                 case "el": family = "NotoSans"; break;
                 case "ru": family = "NotoSans"; break;
                 default: family = "NotoSans"; break;
@@ -203,20 +204,61 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             string filename;
             if (hasItalic)
             {
-                if (wantBold && wantItalic) filename = $"{family}-BoldItalic.ttf";
-                else if (wantBold) filename = $"{family}-Bold.ttf";
-                else if (wantItalic) filename = $"{family}-Italic.ttf";
-                else filename = $"{family}-Regular.ttf";
+                if (wantBold && wantItalic)
+                {
+                    // No BoldItalic available → downgrade to Regular.
+                    var boldItalicFilename = $"{family}-BoldItalic.ttf";
+                    filename = FontExists(fontsFolder, boldItalicFilename)
+                        ? boldItalicFilename
+                        : $"{family}-Regular.ttf";
+                }
+                else if (wantBold)
+                {
+                    // No Bold available → downgrade to Regular.
+                    var boldFilename = $"{family}-Bold.ttf";
+                    filename = FontExists(fontsFolder, boldFilename)
+                        ? boldFilename
+                        : $"{family}-Regular.ttf";
+                }
+                else if (wantItalic)
+                {
+                    // No Italic available → downgrade to Regular.
+                    var italicFilename = $"{family}-Italic.ttf";
+                    filename = FontExists(fontsFolder, italicFilename)
+                        ? italicFilename
+                        : $"{family}-Regular.ttf";
+                }
+                else
+                {
+                    filename = $"{family}-Regular.ttf";
+                }
             }
             else
             {
-                // No italic available → downgrade to Regular/Bold.
-                filename = wantBold ? $"{family}-Bold.ttf" : $"{family}-Regular.ttf";
+                // No Bold available → downgrade to Regular.
+                if (wantBold)
+                {
+                    var boldFilename = $"{family}-Bold.ttf";
+                    filename = FontExists(fontsFolder, boldFilename)
+                        ? boldFilename
+                        : $"{family}-Regular.ttf";
+                }
+                else
+                {
+                    filename = $"{family}-Regular.ttf";
+                }
                 // If your local CJK package is .otf, change the extension here.
                 // filename = Path.ChangeExtension(filename, ".otf");
             }
 
             return Path.Combine(fontsFolder, filename);
+        }
+
+        private static bool FontExists(string fontsFolder, string filename)
+        {
+            return !string.IsNullOrEmpty(fontsFolder) &&
+                   !string.IsNullOrEmpty(filename) &&
+                   File.Exists(Path.Combine(fontsFolder, filename));
         }
 
         // ----------------------- Helpers -----------------------
