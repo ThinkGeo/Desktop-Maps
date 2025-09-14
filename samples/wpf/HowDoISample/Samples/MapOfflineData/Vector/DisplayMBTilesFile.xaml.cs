@@ -3,6 +3,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using ThinkGeo.Core;
 
@@ -20,6 +21,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
+            //ThinkGeoDebugger.DisplayTileId = true;
             MapView.MapUnit = GeographyUnit.Meter;
             var _selectedMvtServer = @"https://tiles.preludemaps.com/styles/Savannah_Light_v4/style.json";
             var mvtLayer = new MvtTilesAsyncLayer(_selectedMvtServer);
@@ -115,38 +117,39 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private static string DetectLanguageTag(string text)
         {
             if (string.IsNullOrEmpty(text)) return "en";
-
+            var scripts = new HashSet<string>();
             foreach (var cp in EnumerateCodePoints(text))
             {
                 if (cp <= 0x007F) continue; // ASCII → keep scanning
 
                 // Order matters: detect distinctive blocks first
-                //if (In(cp, 0x0F00, 0x0FFF)) return "bo";  // Tibetan
-                if (In(cp, 0x0F00, 0x0FFF) || In(cp, 0x11400, 0x1147F)) return "bo"; // Tibetan
-                if (In(cp, 0x4E00, 0x9FFF) || In(cp, 0x3400, 0x4DBF)) return "zh"; // CJK & Ext-A
-                if (In(cp, 0x3040, 0x30FF) || In(cp, 0x31F0, 0x31FF)) return "ja"; // Hiragana/Katakana
-                if (In(cp, 0xAC00, 0xD7AF) || In(cp, 0x1100, 0x11FF)) return "ko"; // Hangul syllables/jamo
-                if (In(cp, 0x0600, 0x06FF) || In(cp, 0x0750, 0x077F) || In(cp, 0x08A0, 0x08FF) ||
-                    In(cp, 0xFB50, 0xFDFF) || In(cp, 0xFE70, 0xFEFF)) return "ar"; // Arabic
-                if (In(cp, 0x0590, 0x05FF)) return "he";  // Hebrew
-                if (In(cp, 0x0E00, 0x0E7F)) return "th";  // Thai
-                if (In(cp, 0x1000, 0x109F)) return "my";  // Myanmar
-                if (In(cp, 0x0530, 0x058F)) return "hy";  // Armenian
-                if (In(cp, 0x10A0, 0x10FF)) return "ka";  // Georgian
-                if (In(cp, 0x1200, 0x137F)) return "am";  // Ethiopic
-                if (In(cp, 0x1780, 0x17FF)) return "km";  // Khmer
-                if (In(cp, 0x0E80, 0x0EFF)) return "lo";  // Lao
-                if (In(cp, 0x0900, 0x097F)) return "hi";  // Devanagari
-                if (In(cp, 0x0980, 0x09FF)) return "bn";  // Bengali
-                if (In(cp, 0x0B80, 0x0BFF)) return "ta";  // Tamil
-                if (In(cp, 0x0D80, 0x0DFF)) return "si"; // Sinhala
-                if (In(cp, 0x0370, 0x03FF)) return "el";  // Greek
-                if (In(cp, 0x0400, 0x04FF)) return "ru";  // Cyrillic
-                if (In(cp, 0x1800, 0x18AF)) return "mn"; // Mongolian
-                if (In(cp, 0x2D30, 0x2D7F) || In(cp, 0x10E60, 0x10E7F) || In(cp, 0x2D80, 0x2DDF) || In(cp, 0x10E80, 0x10EBF)) return "ber"; //Tifinagh
+                //if (In(cp, 0x0F00, 0x0FFF)) scripts.Add( "bo");  // Tibetan
+                if (In(cp, 0x0F00, 0x0FFF) || In(cp, 0x11400, 0x1147F)) scripts.Add("bo");  // Tibetan
+                else if (In(cp, 0x4E00, 0x9FFF) || In(cp, 0x3400, 0x4DBF)) scripts.Add("zh"); // CJK & Ext-A
+                else if (In(cp, 0x3040, 0x30FF) || In(cp, 0x31F0, 0x31FF)) scripts.Add("ja"); // Hiragana/Katakana
+                else if (In(cp, 0xAC00, 0xD7AF) || In(cp, 0x1100, 0x11FF)) scripts.Add("ko"); // Hangul syllables/jamo
+                else if (In(cp, 0x0600, 0x06FF) || In(cp, 0x0750, 0x077F) || In(cp, 0x08A0, 0x08FF) ||
+                    In(cp, 0xFB50, 0xFDFF) || In(cp, 0xFE70, 0xFEFF)) scripts.Add("ar"); // Arabic
+                else if (In(cp, 0x0590, 0x05FF)) scripts.Add("he");  // Hebrew
+                else if (In(cp, 0x0E00, 0x0E7F)) scripts.Add("th");  // Thai
+                else if (In(cp, 0x1000, 0x109F)) scripts.Add("my");  // Myanmar
+                else if (In(cp, 0x0530, 0x058F)) scripts.Add("hy");  // Armenian
+                else if (In(cp, 0x10A0, 0x10FF)) scripts.Add("ka");  // Georgian
+                else if (In(cp, 0x1200, 0x137F)) scripts.Add("am");  // Ethiopic
+                else if (In(cp, 0x1780, 0x17FF)) scripts.Add("km");  // Khmer
+                else if (In(cp, 0x0E80, 0x0EFF)) scripts.Add("lo");  // Lao
+                else if (In(cp, 0x0900, 0x097F)) scripts.Add("hi");  // Devanagari
+                else if (In(cp, 0x0980, 0x09FF)) scripts.Add("bn");  // Bengali
+                else if (In(cp, 0x0B80, 0x0BFF)) scripts.Add("ta");  // Tamil
+                else if (In(cp, 0x0D80, 0x0DFF)) scripts.Add("si"); // Sinhala
+                else if (In(cp, 0x0370, 0x03FF)) scripts.Add("el");  // Greek
+                else if (In(cp, 0x0400, 0x04FF)) scripts.Add("ru");  // Cyrillic
+                else if (In(cp, 0x1800, 0x18AF)) scripts.Add("mn"); // Mongolian
+                else if (In(cp, 0x2D30, 0x2D7F) || In(cp, 0x10E60, 0x10E7F) || In(cp, 0x2D80, 0x2DDF) || In(cp, 0x10E80, 0x10EBF)) scripts.Add("ber"); //Tifinagh
             }
-
-            return "en";
+            //return "en";
+            return scripts.Count > 1 ? "multi" :
+           scripts.Count == 1 ? scripts.First() : "en";
 
         }
         static bool In(int v, int a, int b) => v >= a && v <= b;
@@ -167,7 +170,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             string family;
             switch (lang)
             {
-                case "bo": family = "NotoSansTibetan"; break;
+                case "bo": family = "NotoSerifTibetan"; break;
                 case "zh": family = "NotoSansSC"; break;
                 case "ja": family = "NotoSansJP"; break;
                 case "ko": family = "NotoSansKR"; break;
@@ -189,6 +192,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 case "el": family = "NotoSans"; break;
                 case "ru": family = "NotoSans"; break;
                 default: family = "NotoSans"; break;
+                case "multi":
+                    family = "GoNotoCurrent"; // 也可以改为 "GoNotoAfricaMiddleEast"
+                    break;
             }
 
 
