@@ -41,7 +41,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private void MvtLayerLoadingSkiaSkTypeface(object sender, LoadingSkiaSKTypefaceEventArgs e)
         {
-            e.SkTypeFace = FontMatcher.GetSkTypeface(e.Text, e.Font);
+            e.SkTypeFace = NotoSansFontMatcher.GetSkTypeface(e.Text, e.Font);
         }
 
         private void SwitchTileSize_OnCheckedChanged(object sender, RoutedEventArgs e)
@@ -74,7 +74,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
     }
 
-    public static class FontMatcher
+    public static class NotoSansFontMatcher
     {
         /// <summary>Typeface cache keyed by absolute font file path.</summary>
         private static readonly ConcurrentDictionary<string, SKTypeface> _typefaces
@@ -93,7 +93,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public static SKTypeface GetSkTypeface(string text, GeoFont font)
         {
             var lang = DetectLanguageTag(text);           // e.g., "zh" / "ja" / "ko" / "en"
-            var path = GetNotoFilePath(lang, font, @"D:\test2\fonts");       // absolute file path
+            var path = GetNotoFilePath(lang, font, @"D:\DisplayMbTilesFile_fonts\NotoSansFonts");       // absolute file path
 
             // Cache and lazy-load the typeface; fall back to defaults if file missing.
             return _typefaces.GetOrAdd(path, p =>
@@ -123,9 +123,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 if (cp <= 0x007F) continue; // ASCII → keep scanning
 
                 // Order matters: detect distinctive blocks first
-                //if (In(cp, 0x0F00, 0x0FFF)) scripts.Add( "bo");  // Tibetan
-                if (In(cp, 0x0F00, 0x0FFF) || In(cp, 0x11400, 0x1147F)) scripts.Add("bo");  // Tibetan
-                else if (In(cp, 0x4E00, 0x9FFF) || In(cp, 0x3400, 0x4DBF)) scripts.Add("zh"); // CJK & Ext-A
+                if (In(cp, 0x4E00, 0x9FFF) || In(cp, 0x3400, 0x4DBF)) scripts.Add("zh"); // CJK & Ext-A
                 else if (In(cp, 0x3040, 0x30FF) || In(cp, 0x31F0, 0x31FF)) scripts.Add("ja"); // Hiragana/Katakana
                 else if (In(cp, 0xAC00, 0xD7AF) || In(cp, 0x1100, 0x11FF)) scripts.Add("ko"); // Hangul syllables/jamo
                 else if (In(cp, 0x0600, 0x06FF) || In(cp, 0x0750, 0x077F) || In(cp, 0x08A0, 0x08FF) ||
@@ -134,7 +132,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 else if (In(cp, 0x0E00, 0x0E7F)) scripts.Add("th");  // Thai
                 else if (In(cp, 0x1000, 0x109F)) scripts.Add("my");  // Myanmar
                 else if (In(cp, 0x0530, 0x058F)) scripts.Add("hy");  // Armenian
-                else if (In(cp, 0x10A0, 0x10FF)) scripts.Add("ka");  // Georgian
+                else if (In(cp, 0x10A0, 0x10FF) || In(cp, 0x2D00, 0x2D2F)) scripts.Add("ka");  // Georgian
                 else if (In(cp, 0x1200, 0x137F)) scripts.Add("am");  // Ethiopic
                 else if (In(cp, 0x1780, 0x17FF)) scripts.Add("km");  // Khmer
                 else if (In(cp, 0x0E80, 0x0EFF)) scripts.Add("lo");  // Lao
@@ -142,14 +140,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 else if (In(cp, 0x0980, 0x09FF)) scripts.Add("bn");  // Bengali
                 else if (In(cp, 0x0B80, 0x0BFF)) scripts.Add("ta");  // Tamil
                 else if (In(cp, 0x0D80, 0x0DFF)) scripts.Add("si"); // Sinhala
+                else if (In(cp, 0x1800, 0x18AF)) scripts.Add("mn"); // Mongolian
+                else if (In(cp, 0x2D30, 0x2D7F) || In(cp, 0x10E60, 0x10E7F) || In(cp, 0x2D80, 0x2DDF) || In(cp, 0x10E80, 0x10EBF)) scripts.Add("ber"); // Tifinagh
+                else if (In(cp, 0x0F00, 0x0FFF) || In(cp, 0x11400, 0x1147F)) scripts.Add("bo");  // Tibetan
+                else if ((cp >= 0xA000 && cp <= 0xA48F) || (cp >= 0xA490 && cp <= 0xA4CF)) scripts.Add("yi"); // yi
                 else if (In(cp, 0x0370, 0x03FF)) scripts.Add("el");  // Greek
                 else if (In(cp, 0x0400, 0x04FF)) scripts.Add("ru");  // Cyrillic
-                else if (In(cp, 0x1800, 0x18AF)) scripts.Add("mn"); // Mongolian
-                else if (In(cp, 0x2D30, 0x2D7F) || In(cp, 0x10E60, 0x10E7F) || In(cp, 0x2D80, 0x2DDF) || In(cp, 0x10E80, 0x10EBF)) scripts.Add("ber"); //Tifinagh
             }
-            //return "en";
-            return scripts.Count > 1 ? "multi" :
-           scripts.Count == 1 ? scripts.First() : "en";
+            return "en";
 
         }
         static bool In(int v, int a, int b) => v >= a && v <= b;
@@ -170,7 +168,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             string family;
             switch (lang)
             {
-                case "bo": family = "NotoSerifTibetan"; break;
                 case "zh": family = "NotoSansSC"; break;
                 case "ja": family = "NotoSansJP"; break;
                 case "ko": family = "NotoSansKR"; break;
@@ -189,14 +186,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 case "si": family = "NotoSansSinhala"; break;
                 case "mn": family = "NotoSansMongolian"; break;
                 case "ber": family = "NotoSansTifinagh"; break;
+                case "bo": family = "NotoSerifTibetan"; break;
+                case "yi": family = "NotoSansYi"; break;
                 case "el": family = "NotoSans"; break;
                 case "ru": family = "NotoSans"; break;
-                default: family = "NotoSans"; break;
-                case "multi":
-                    family = "GoNotoCurrent"; // 也可以改为 "GoNotoAfricaMiddleEast"
-                    break;
+                default: family = "GoNotoCurrent"; break;
             }
-
 
             // Effective style from GeoFont (name hints included; case-insensitive)
             var name = font?.FontName ?? string.Empty;
@@ -271,6 +266,157 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         /// <summary>
         /// Enumerate Unicode code points (handles surrogate pairs).
+        /// </summary>
+        private static IEnumerable<int> EnumerateCodePoints(string s)
+        {
+            if (string.IsNullOrEmpty(s)) yield break;
+
+            int i = 0;
+            while (i < s.Length)
+            {
+                char c = s[i];
+                if (char.IsHighSurrogate(c) && i + 1 < s.Length && char.IsLowSurrogate(s[i + 1]))
+                {
+                    yield return char.ConvertToUtf32(c, s[i + 1]);
+                    i += 2;
+                }
+                else
+                {
+                    yield return c;
+                    i += 1;
+                }
+            }
+        }
+    }
+
+    public static class GoNotoFontMatcher
+    {
+        // Cache of loaded typefaces, keyed by absolute file path, to avoid reopening files repeatedly
+        private static readonly ConcurrentDictionary<string, SKTypeface> _typefaces =
+            new ConcurrentDictionary<string, SKTypeface>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Returns the appropriate SKTypeface based on the text content and GeoFont style.
+        /// Uses the Go Noto Universal font bundles, distinguishing only between bold and regular weights.
+        /// </summary>
+        public static SKTypeface GetSkTypeface(string text, GeoFont font)
+        {
+            var group = DetectGoNotoGroup(text);
+            const string fontsFolder = @"D:\DisplayMbTilesFile_fonts\GoNotoFonts";
+            bool wantBold =
+                (font?.IsBold ?? false) ||
+                ((font?.FontName?.IndexOf("bold", StringComparison.OrdinalIgnoreCase) ?? -1) >= 0);
+
+            var typeface = TryLoadGoNotoTypeface(group, wantBold, fontsFolder);
+            return typeface ?? (SKTypeface.FromFamilyName("Arial") ?? SKTypeface.Default);
+        }
+
+        /// <summary>
+        /// Determines which Go Noto font bundle to use based on the text's character ranges.
+        /// If the text spans multiple script regions, returns GoNotoCurrent.
+        /// </summary>
+        private static string DetectGoNotoGroup(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return "GoNotoCurrent";
+
+            var groups = new HashSet<string>();
+            foreach (int cp in EnumerateCodePoints(text))
+            {
+                if (cp <= 0x007F) continue; // Skip ASCII
+
+                if (IsEastAsia(cp)) groups.Add("GoNotoEastAsia");
+                else if (IsSouthEastAsia(cp)) groups.Add("GoNotoSouthEastAsia");
+                else if (IsAfricaMiddleEast(cp)) groups.Add("GoNotoAfricaMiddleEast");
+                else if (IsCjkCore(cp)) groups.Add("GoNotoCJKCore");
+                else if (IsEuropeAmericas(cp)) groups.Add("GoNotoEuropeAmericas");
+                // Additional script ranges can be added here as needed
+            }
+
+            return groups.Count == 1 ? groups.First() : "GoNotoCurrent";
+        }
+
+        /// <summary>
+        /// Attempts to load the specified Go Noto font; tries the bold version first, then regular, and finally without a suffix.
+        /// </summary>
+        private static SKTypeface TryLoadGoNotoTypeface(string family, bool wantBold, string fontsFolder)
+        {
+            var candidates = new List<string>();
+            if (wantBold) candidates.Add($"{family}-Bold.ttf");
+            candidates.Add($"{family}-Regular.ttf");
+            candidates.Add($"{family}.ttf");
+
+            foreach (var filename in candidates)
+            {
+                var path = Path.Combine(fontsFolder, filename);
+                if (File.Exists(path))
+                {
+                    return _typefaces.GetOrAdd(path, p =>
+                    {
+                        var tf = SKTypeface.FromFile(p);
+                        return tf ?? SKTypeface.Default;
+                    });
+                }
+            }
+
+            return null;
+        }
+
+        // Helper functions for determining script regions:
+        private static bool IsEastAsia(int cp)
+        {
+            // Mongolian, Tibetan, Yi, New Tai Lue, Yi extensions, Miao, Tangut, Bopomofo, Japanese Hiragana/Katakana, etc.
+            return (In(cp, 0x0F00, 0x0FFF) ||     // Tibetan
+                    In(cp, 0x1800, 0x18AF) ||     // Mongolian
+                    In(cp, 0xA000, 0xA4CF) ||     // Yi Syllables & Radicals
+                    In(cp, 0x1980, 0x19DF) ||     // New Tai Lue
+                    In(cp, 0x16F00, 0x16F9F) ||   // Miao
+                    In(cp, 0x17000, 0x187FF) ||   // Tangut
+                    In(cp, 0x3100, 0x312F) ||     // Bopomofo
+                    In(cp, 0x3040, 0x30FF) || In(cp, 0x31F0, 0x31FF)); // Hiragana/Katakana
+        }
+
+        private static bool IsSouthEastAsia(int cp)
+        {
+            // Lao, Myanmar
+            return (
+                    In(cp, 0x0E80, 0x0EFF) ||// Lao
+                    In(cp, 0x1000, 0x109F));  // Myanmar
+        }
+
+        private static bool IsAfricaMiddleEast(int cp)
+        {
+            // Arabic, Hebrew, Ethiopic, Tifinagh, etc.
+            return (In(cp, 0x0600, 0x06FF) || In(cp, 0x0750, 0x077F) ||
+                    In(cp, 0x08A0, 0x08FF) || In(cp, 0xFB50, 0xFDFF) ||
+                    In(cp, 0xFE70, 0xFEFF)) ||       // Arabic ranges
+                   In(cp, 0x0590, 0x05FF) ||       // Hebrew
+                   In(cp, 0x1200, 0x137F) ||       // Ethiopic
+                   In(cp, 0x2D30, 0x2D7F) || In(cp, 0x10E60, 0x10E7F) ||
+                   In(cp, 0x2D80, 0x2DDF) || In(cp, 0x10E80, 0x10EBF); // Tifinagh & extensions
+        }
+
+        private static bool IsCjkCore(int cp)
+        {
+            // Han characters (including Extension A) and Hangul
+            return (In(cp, 0x3400, 0x4DBF) || In(cp, 0x4E00, 0x9FFF) ||
+                    In(cp, 0x1100, 0x11FF) || In(cp, 0xAC00, 0xD7AF));
+        }
+
+        private static bool IsEuropeAmericas(int cp)
+        {
+            // Greek, Slavic (Cyrillic), Armenian, Georgian, etc.
+            return (In(cp, 0x0370, 0x03FF) ||     // Greek
+                    In(cp, 0x0400, 0x04FF) ||     // Cyrillic
+                    In(cp, 0x0530, 0x058F) ||     // Armenian
+                    In(cp, 0x10A0, 0x10FF) ||     // Georgian
+                    In(cp, 0x2D00, 0x2D2F));      // Georgian Supplement
+        }
+
+        private static bool In(int v, int a, int b) => v >= a && v <= b;
+
+        /// <summary>
+        /// Enumerates the Unicode code points in a string, correctly handling surrogate pairs.
         /// </summary>
         private static IEnumerable<int> EnumerateCodePoints(string s)
         {
