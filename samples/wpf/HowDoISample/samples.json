@@ -545,6 +545,12 @@
         "title": "Edit Features",
         "description": "Draw, edit, or delete shapes.",
         "source": "Samples/VectorDataEditing/EditFeatures"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.EditWithSnapping",
+        "title": "Edit Features with Snapping",
+        "description": "Drag a vertex into a circle, and it will snap to its center.",
+        "source": "Samples/VectorDataEditing/EditWithSnapping"
       }
     ]
   },
