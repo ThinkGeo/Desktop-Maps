@@ -9,6 +9,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class RenderLines : IDisposable
     {
+        private bool _initialized;
+
         public RenderLines()
         {
             InitializeComponent();
@@ -27,7 +29,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             {
                 ClientId = SampleKeys.ClientId,
                 ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1,
+                MapType = ThinkGeoCloudRasterMapsMapType.Aerial2_V2_X1,
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
@@ -50,13 +52,27 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Add the overlay to the map
             MapView.Overlays.Add("overlay", layerOverlay);
 
+            // Create a line style
+            var lineStyle = new LineStyle(new GeoPen(GeoBrushes.DimGray, 10), new GeoPen(GeoBrushes.WhiteSmoke, 6));
+
+            // Add the line style to the collection of custom styles for ZoomLevel 1.
+            friscoRailroad.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
+            friscoRailroad.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(lineStyle);
+
+            // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the line style on every zoom level on the map. 
+            friscoRailroad.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
             RbLineStyle.IsChecked = true;
 
+            _initialized = true;
             _ = MapView.RefreshAsync();
         }
 
         private void RbLineStyle_OnChecked(object sender, RoutedEventArgs e)
         {
+            if (!_initialized)
+                return;
+
             if (MapView.Overlays.Count <= 0) return;
             var layerOverlay = (LayerOverlay)MapView.Overlays["overlay"];
             var friscoRailroad = (ShapeFileFeatureLayer)layerOverlay.Layers["Railroad"];

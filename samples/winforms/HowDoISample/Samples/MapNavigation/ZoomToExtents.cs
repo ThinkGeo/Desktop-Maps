@@ -11,6 +11,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
     public class ZoomToExtents : UserControl
     {
         private ShapeFileFeatureLayer _friscoCityBoundary;
+        private float _currentRotationAngle = 0;
+        private int _currentZoomLevel = 0;
+        private double _currentScale = 0;
+        private double _lastRotationAngle = 0;
 
         public ZoomToExtents()
         {
@@ -120,12 +124,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             var center = mapView.CurrentExtent.GetCenterPoint();
             var centerInDecimalDegrees = ProjectionConverter.Convert(3857, 4326, center);
-            float angle = (float)mapView.RotationAngle;
+            _currentRotationAngle = (float)mapView.RotationAngle;
+            _currentZoomLevel = mapView.GetSnappedZoomLevelIndex(mapView.CurrentScale);
+            _currentScale = mapView.CurrentScale;
 
             centerPointLabel.Text = $"Center Point: (Lat: {centerInDecimalDegrees.Y:N4}, Lon: {centerInDecimalDegrees.X:N4})";
-            rotationLabel.Text = $"Rotation: {angle:N0}";
-            zoomLabel.Text = $"Zoom: {mapView.GetSnappedZoomLevelIndex(mapView.CurrentScale):N0}";
-            scaleLabel.Text = $"Scale: {mapView.CurrentScale:N0}";
+            UpdateStatusLabel();
         }
 
         /// <summary>
@@ -135,10 +139,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             double currentRotation = e.NewRotationAngle;
 
-            if (Math.Abs(currentRotation - lastRotationAngle) > 0.1) // Change threshold
+            if (Math.Abs(currentRotation - _lastRotationAngle) > 0.1) // Change threshold
             {
-                lastRotationAngle = currentRotation;
-                rotationLabel.Text = $"Rotation: {currentRotation:N0}";
+                _lastRotationAngle = currentRotation;
+                _currentRotationAngle = (float)currentRotation;
+                UpdateStatusLabel();
             }
         }
 
@@ -152,6 +157,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             _ = mapView.ZoomToAsync(mapView.CenterPoint, mapView.CurrentScale, angle);
         }
 
+        private void UpdateStatusLabel()
+        {
+            statusLabel.Text = $"Rotation: {_currentRotationAngle:N0}" + new string(' ', 3) +
+                               $"Zoom: {_currentZoomLevel}" + new string(' ', 3) +
+                               $"Scale: {_currentScale:N0}";
+        }
+
+
         #region Component Designer generated code
 
         private MapView mapView;
@@ -161,9 +174,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private Label centerAtLabel;
         private Label rotatingLabel;
         private Label centerPointLabel;
-        private Label rotationLabel;
-        private Label zoomLabel;
-        private Label scaleLabel;
+        private Label statusLabel;
         private Button zoomInButton;
         private Button zoomOutButton;
         private Button ZoomToScaleButton;
@@ -172,7 +183,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private TextBox zoomScaleTextBox;
         private TextBox rotateAngleTextBox;
         private TrackBar rotateAngleTrackBar;
-        private double lastRotationAngle = 0;
 
         private void InitializeComponent()
         {
@@ -183,9 +193,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             centerAtLabel = new Label();
             rotatingLabel = new Label();
             centerPointLabel = new Label();
-            rotationLabel = new Label();
-            zoomLabel = new Label();
-            scaleLabel = new Label();
+            statusLabel = new Label();
             zoomInButton = new Button();
             zoomOutButton = new Button();
             ZoomToScaleButton = new Button();
@@ -279,65 +287,32 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // centerPointLabel
             // 
+            centerPointLabel.AutoSize = true;
             centerPointLabel.Anchor = AnchorStyles.Bottom;
             centerPointLabel.BackColor = Color.DarkGray;
             centerPointLabel.Font = new Font("Microsoft Sans Serif", 12F,FontStyle.Bold);
             centerPointLabel.ForeColor = Color.White;
-            centerPointLabel.Location = new Point(300, 540);
+            centerPointLabel.Location = new Point(250, 540);
             centerPointLabel.Name = "centerPointLabel";
-            centerPointLabel.Size = new Size(360, 25);
             centerPointLabel.TextAlign = ContentAlignment.MiddleCenter;
             centerPointLabel.Anchor = AnchorStyles.Bottom;
-            centerPointLabel.Left = mapView.Width / 2 - 170;
+            centerPointLabel.Left = mapView.Width / 2 - 220;
             centerPointLabel.Top = mapView.Height - 90;
             // 
-            // rotationLabel
+            // statusLabel
             // 
-            rotationLabel.Anchor = AnchorStyles.Bottom;
-            rotationLabel.BackColor = Color.DarkGray;
-            rotationLabel.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
-            rotationLabel.ForeColor = Color.White;
-            rotationLabel.Location = new Point(250, 575);
-            rotationLabel.Margin = new Padding(0);
-            rotationLabel.Name = "rotationLabel";
-            rotationLabel.Size = new Size(150, 25);
-            rotationLabel.Text = "Rotation Angle";
-            rotationLabel.TextAlign = ContentAlignment.MiddleCenter;
-            rotationLabel.Anchor = AnchorStyles.Bottom;
-            rotationLabel.Left = mapView.Width / 2 - 220;
-            rotationLabel.Top = mapView.Height - 55;
-            // 
-            // zoomLabel
-            // 
-            zoomLabel.Anchor = AnchorStyles.Bottom;
-            zoomLabel.BackColor = Color.DarkGray;
-            zoomLabel.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
-            zoomLabel.ForeColor = Color.White;
-            zoomLabel.Location = new Point(400, 575);
-            zoomLabel.Margin = new Padding(0);
-            zoomLabel.Name = "zoomLabel";
-            zoomLabel.Size = new Size(150, 25);
-            zoomLabel.Text = "Current Zoom:";
-            zoomLabel.TextAlign = ContentAlignment.MiddleCenter;
-            zoomLabel.Anchor = AnchorStyles.Bottom;
-            zoomLabel.Left = mapView.Width / 2 - 70;
-            zoomLabel.Top = mapView.Height - 55;
-            // 
-            // scaleLabel
-            // 
-            scaleLabel.Anchor = AnchorStyles.Bottom;
-            scaleLabel.BackColor = Color.DarkGray;
-            scaleLabel.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
-            scaleLabel.ForeColor = Color.White;
-            scaleLabel.Location = new Point(550, 575);
-            scaleLabel.Margin = new Padding(0);
-            scaleLabel.Name = "scaleLabel";
-            scaleLabel.Size = new Size(150, 25);
-            scaleLabel.Text = "Current Scale";
-            scaleLabel.TextAlign = ContentAlignment.MiddleCenter;
-            scaleLabel.Anchor = AnchorStyles.Bottom;
-            scaleLabel.Left = mapView.Width / 2 + 80;
-            scaleLabel.Top = mapView.Height - 55;
+            statusLabel.AutoSize = true;
+            statusLabel.Anchor = AnchorStyles.Bottom;
+            statusLabel.BackColor = Color.DarkGray;
+            statusLabel.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
+            statusLabel.ForeColor = Color.White;
+            statusLabel.Location = new Point(250, 575);
+            statusLabel.Margin = new Padding(0);
+            statusLabel.Name = "statusLabel";
+            statusLabel.TextAlign = ContentAlignment.MiddleCenter;
+            statusLabel.Anchor = AnchorStyles.Bottom;
+            statusLabel.Left = mapView.Width / 2 - 220;
+            statusLabel.Top = mapView.Height - 55;
             // 
             // zoomInButton
             // 
@@ -432,9 +407,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             AutoSize = true;
             Controls.Add(mapView);
-            Controls.Add(rotationLabel);
-            Controls.Add(zoomLabel);
-            Controls.Add(scaleLabel);
+            Controls.Add(statusLabel);
             Controls.Add(centerPointLabel);
             Controls.Add(consolePanel);
             Name = "ZoomToExtents";
@@ -446,9 +419,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             ResumeLayout(false);
 
             centerPointLabel.BringToFront();
-            rotationLabel.BringToFront();
-            zoomLabel.BringToFront();
-            scaleLabel.BringToFront();
+            statusLabel.BringToFront();
         }
 
         #endregion Component Designer generated code

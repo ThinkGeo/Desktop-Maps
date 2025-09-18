@@ -52,7 +52,7 @@
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.RasterXyzServer",
         "title": "Raster Map from XYZ Server",
-        "description": "This sample shows how to display raster map from XYZ server.",
+        "description": "This sample shows how to display the tiles from a raster XYZ server. This demo server has 20 zoom levels (zoom 0~19)",
         "source": "Samples/MapOnlineData/RasterXyzServer"
       },
       {
@@ -135,19 +135,19 @@
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayRasterMbTilesFile",
         "title": "Display Raster from MBTiles",
-        "description": "Display a raster MBTiles file. This sample data covers from zoom0 to zoom5",
+        "description": "This sample shows how to display a raster MBTiles file. The demo file has 6 zoom levels (zoom 0–5)",
         "source": "Samples/MapOfflineData/Raster/DisplayRasterMbTilesFile"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayRasterFileTiles",
         "title": "Display Raster from File Tiles",
-        "description": "Display the raster tiles created by QGIS. The demo tiles cover from zoom0 to zoom5",
+        "description": "This sample shows how to display the raster tiles created by QGIS. The demo tiles have 6 zoom levels (zoom 0~5)",
         "source": "Samples/MapOfflineData/Raster/DisplayRasterFileTiles"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMbTilesFile",
         "title": "Display Vector from MBTiles",
-        "description": "Show how to display a MBTiles file. The demo mbtile/json come from https://github.com/maplibre/demotiles?tab=readme-ov-file",
+        "description": "This sample shows how to display an MBTiles file. The demo mbtile/json come from https://github.com/maplibre/demotiles?tab=readme-ov-file",
         "source": "Samples/MapOfflineData/Vector/DisplayMbTilesFile"
       },
       {
@@ -302,31 +302,37 @@
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayRasterMbTilesFile",
         "title": "Display Raster from MBTiles",
-        "description": "This sample shows how to display a raster MBTiles file. The demo file has 6 zooms (zoom 0~5)",
+        "description": "This sample shows how to display a raster MBTiles file. The demo file has 6 zoom levels (zoom 0–5)",
         "source": "Samples/MapOfflineData/Raster/DisplayRasterMbTilesFile"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayRasterFileTiles",
         "title": "Display Raster from File Tiles",
-        "description": "This sample shows how to display the raster tiles created by QGIS. The demo tiles has 6 zooms (zoom 0~5)",
+        "description": "This sample shows how to display the raster tiles created by QGIS. The demo tiles have 6 zoom levels (zoom 0~5)",
         "source": "Samples/MapOfflineData/Raster/DisplayRasterFileTiles"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.RasterXyzServer",
         "title": "Display Raster from XYZ Server",
-        "description": "This sample shows how to display the tiles from a raster XYZ server.  This demo server has 20 zooms (zoom 0~19)",
+        "description": "This sample shows how to display the tiles from a raster XYZ server. This demo server has 20 zoom levels (zoom 0~19)",
         "source": "Samples/MapOnlineData/RasterXyzServer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ProjectOSMLayer",
+        "title": "Display Projected OSM Layer",
+        "description": "This sample shows how to apply projection to tiles from an OpenStreetMap XYZ layer. It demonstrates switching between coordinate systems using GdalProjectionConverter.",
+        "source": "Samples/XYZBasedLayers/ProjectOSMLayer"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.WMTSAsXYZLayer",
         "title": "Display Raster from WMTS Server",
-        "description": "This sample shows how to display the tiles from a WMTS server.  This demo server has 27 zooms (zoom 0~26).",
+        "description": "This sample shows how to display the tiles from a WMTS server. This demo server has 27 zoom levels (zoom 0~26).",
         "source": "Samples/XYZBasedLayers/WMTSAsXYZLayer"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMbTilesFile",
         "title": "Display Vector from MBTiles",
-        "description": "This sample shows how to display a MBTiles file. The demo mbtile/json come from https://github.com/maplibre/demotiles?tab=readme-ov-file",
+        "description": "This sample shows how to display an MBTiles file. The demo mbtile/json come from https://github.com/maplibre/demotiles?tab=readme-ov-file",
         "source": "Samples/MapOfflineData/Vector/DisplayMbTilesFile"
       },
       {
@@ -426,7 +432,7 @@
         "id": "ThinkGeo.UI.Wpf.HowDoI.TextMarker",
         "title": "Text Marker",
         "description": "Display a draggable text using marker",
-        "source": "Samples/MarkersandPopups/AnimatedMarker"
+        "source": "Samples/MarkersandPopups/TextMarker"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.Popups",
@@ -439,30 +445,6 @@
   {
     "title": "Vector Data Styling",
     "children": [
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.StyleJsonfill",
-        "title": "fill",
-        "description": "",
-        "source": "Samples/VectorDataStyling/StyleJsonfill"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.StyleJsonline",
-        "title": "line",
-        "description": "",
-        "source": "Samples/VectorDataStyling/StyleJsonline"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.MVTtest",
-        "title": "MVTtest",
-        "description": "",
-        "source": "Samples/VectorDataStyling/MVTtest"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.RenderStyleJson",
-        "title": "Render StyleJson",
-        "description": "Render shapes using styleJson.",
-        "source": "Samples/VectorDataStyling/RenderStyleJson"
-      },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.RenderPoints",
         "title": "Render Points",
@@ -569,6 +551,12 @@
         "title": "Edit Features",
         "description": "Draw, edit, or delete shapes.",
         "source": "Samples/VectorDataEditing/EditFeatures"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.EditWithSnapping",
+        "title": "Edit Features with Snapping",
+        "description": "Drag a vertex into a circle, and it will snap to its center.",
+        "source": "Samples/VectorDataEditing/EditWithSnapping"
       }
     ]
   },

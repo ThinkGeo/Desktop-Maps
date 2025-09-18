@@ -49,10 +49,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 zoningLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
                 zoningLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(50, GeoColors.MediumPurple), GeoColors.MediumPurple, 2);
 
-                // Set the map extent to Frisco, TX
-                MapView.CenterPoint = new PointShape(-10777860, 3914200);
-                MapView.CurrentScale = 31300;
-
                 // Create a layer to hold the feature we will perform the spatial query against
                 var queryFeatureLayer = new InMemoryFeatureLayer();
                 queryFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.Red, 6, false);
@@ -83,22 +79,21 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Add an event to handle new shapes that are drawn on the map
                 MapView.TrackOverlay.TrackEnded += OnLineDrawn;
 
-                // Add a sample shape to the map for the initial query
-                var sampleShape = new LineShape("LINESTRING(-10774628.8455729 3914024.82710629,-10776902.8471517 3915582.23154895,-10778030.2933127 3914368.79373166,-10778708.6719349 3914445.23075952)");
-                await GetFeaturesCrossingAsync(sampleShape);
-
                 // Set the map extent to the sample shapes
-                var sampleShapeBBox = sampleShape.GetBoundingBox();
-                MapView.CenterPoint = sampleShapeBBox.GetCenterPoint();
-                var MapScale = MapUtil.GetScale(MapView.MapUnit, sampleShapeBBox, MapView.MapWidth, MapView.MapHeight);
-                MapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
-
+                MapView.CenterPoint = new PointShape(-10776670, 3914800);
+                MapView.CurrentScale = 27870; 
+                
+                MapView.TrackOverlay.TrackMode = TrackMode.Line;
                 await MapView.RefreshAsync();
+
+                // Add a sample shape to the map for the initial query
+                var sampleShape = new LineShape("LINESTRING(-10774628 3914024,-10776902 3915582,-10778030 3914368,-10778708 3914445)");
+                await GetFeaturesCrossingAsync(sampleShape);
             }
             catch 
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+                // Because async void methods don't return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it's good practice to catch and handle (or log) all exceptions within these "fire-and-forget" methods.
             }
         }
 
@@ -162,8 +157,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var queriedFeatures = PerformSpatialQuery(shape, zoningLayer);
             await HighlightQueriedFeaturesAsync(queriedFeatures);
 
-            // Disable map drawing and clear the drawn shape
-            MapView.TrackOverlay.TrackMode = TrackMode.None;
+            // Clear the drawn shape
             MapView.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
         }
 
@@ -173,18 +167,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void OnLineDrawn(object sender, TrackEndedTrackInteractiveOverlayEventArgs e)
         {
             _ = GetFeaturesCrossingAsync(e.TrackShape);
-        }
-
-        /// <summary>
-        /// Set the map to 'Line Drawing Mode' when the user clicks on the map without panning
-        /// </summary>
-        private void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
-        {
-            if (MapView.TrackOverlay.TrackMode != TrackMode.Line)
-            {
-                // Set the drawing mode to 'Line'
-                MapView.TrackOverlay.TrackMode = TrackMode.Line;
-            }
         }
 
         public void Dispose()

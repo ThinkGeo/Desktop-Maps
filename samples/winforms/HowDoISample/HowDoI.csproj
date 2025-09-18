@@ -69,16 +69,18 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="9.0.4" />
 
-    <PackageReference Include="ThinkGeo.Cad" Version="14.4.0-beta028" />
-    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.4.0-beta028" />
-    <PackageReference Include="ThinkGeo.Gdal" Version="14.4.0-beta028" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.4.0-beta028" />
+    <PackageReference Include="ThinkGeo.Cad" Version="14.4.0-beta094" />
 
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.4.0-beta028" />
-    <PackageReference Include="ThinkGeo.Printers" Version="14.4.0-beta029" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="14.4.0-beta028" />
+    <PackageReference Include="ThinkGeo.Core" Version="14.4.0-beta094" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.4.0-beta094" />
+    <PackageReference Include="ThinkGeo.Gdal" Version="14.4.0-beta094" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.4.0-beta094" />
 
-    <PackageReference Include="ThinkGeo.UI.WinForms" Version="14.4.0-beta029" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.4.0-beta094" />
+    <PackageReference Include="ThinkGeo.Printers" Version="14.4.0-beta095" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="14.4.0-beta094" />
+
+    <PackageReference Include="ThinkGeo.UI.WinForms" Version="14.4.0-beta096" />
 
   </ItemGroup>
   <ItemGroup>
@@ -520,6 +522,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\MrSid\World.sid">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\OSM_Tiles_z0-z5_Created_By_QGIS.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\Png\m_3309650_sw_14_1_20160911_20161121.pgw">

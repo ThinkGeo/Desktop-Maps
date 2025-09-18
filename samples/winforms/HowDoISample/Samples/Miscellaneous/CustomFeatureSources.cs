@@ -23,18 +23,24 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             {
                 ClientId = SampleKeys.ClientId,
                 ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light
-
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            // See the implementation of the new layer and feature source below.
-            var csvLayer = new SimpleCsvFeatureLayer(@"./Data/Csv/vehicle-route.csv");
-
-            // Set the points image to a car icon and then apply it to all zoom levels
-            var vehiclePointStyle = new PointStyle(new GeoImage(@"../../../Resources/vehicle-location.png"))
+            // Load CSV data in EPSG:4326 and convert to EPSG:3857 for the map
+            var csvLayer = new SimpleCsvFeatureLayer(@"./Data/Csv/vehicle-route.csv")
             {
-                YOffsetInPixel = -12
+                FeatureSource = { ProjectionConverter = new ProjectionConverter(4326, 3857) }
+            };
+
+            var vehiclePointStyle = new PointStyle
+            {
+                SymbolType = PointSymbolType.Circle,
+                SymbolSize = 10, // adjust size as needed
+                FillBrush = new GeoSolidBrush(GeoColors.Blue),
+                OutlinePen = new GeoPen(GeoColors.White, 2)
             };
 
             csvLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = vehiclePointStyle;
@@ -48,7 +54,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(layerOverlay);
 
             csvLayer.Open();
-            mapView.CurrentExtent = csvLayer.GetBoundingBox();
+            var csvLayerBBox = csvLayer.GetBoundingBox();
+            mapView.CenterPoint = csvLayerBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(mapView.MapUnit, csvLayerBBox, mapView.MapWidth, mapView.MapHeight);
+            mapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
 
             await mapView.RefreshAsync();
         }
@@ -122,7 +131,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
                 foreach (var location in locations)
                 {
-                    features.Add(new Feature(double.Parse(location.Split(',')[0]), double.Parse(location.Split(',')[1])));
+                    features.Add(new Feature(double.Parse(location.Split(',')[1]), double.Parse(location.Split(',')[0])));
                 }
 
                 return features;

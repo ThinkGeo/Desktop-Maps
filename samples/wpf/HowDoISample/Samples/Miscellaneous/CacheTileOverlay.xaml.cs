@@ -99,8 +99,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // generate the cache from minZoomLevel to maxZoomLevel. 
                 int minZoomLevel = int.Parse(MinZoomTextBox.Text.Trim());
                 int maxZoomLevel = int.Parse(MaxZoomTextBox.Text.Trim());
-                
-                await _layerOverlay.GenerateTileCacheAsync(_bbox, minZoomLevel, maxZoomLevel, scaleFactor);
+
+                await Layer.GenerateTileCacheAsync(_layerOverlay.Layers, (FileRasterTileCache)_layerOverlay.TileCache, _layerOverlay.TileMatrixSet,
+                    _bbox, GeographyUnit.Meter, minZoomLevel, maxZoomLevel,
+                    (e1) =>
+                    {
+                        Dispatcher.Invoke(() =>
+                        {
+                            _finishedTileCount++;
+                            MyProgressBar.Maximum = e1.TotalTileCount;
+                            MyProgressBar.Value = e1.TilesCompleted;
+                            LblStatus.Content = $"{e1.TilesCompleted} / {e1.TotalTileCount}";
+                        });
+                    }, scaleFactor, OverwriteMode.Overwrite);
 
                 MyProgressBar.Visibility = Visibility.Hidden;
                 LblStatus.Visibility = Visibility.Hidden;

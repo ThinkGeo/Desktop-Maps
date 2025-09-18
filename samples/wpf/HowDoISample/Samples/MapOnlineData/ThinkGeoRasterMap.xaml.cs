@@ -11,6 +11,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class ThinkGeoRasterMap : IDisposable
     {
+        private bool _initialized;
+
         public ThinkGeoRasterMap()
         {
             InitializeComponent();
@@ -29,7 +31,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             {
                 ClientId = SampleKeys.ClientId,
                 ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1
+                MapType = ThinkGeoCloudRasterMapsMapType.Hybrid2_V2_X1
             };
             MapView.Overlays.Add("Cloud Overlay", cloudOverlay);
 
@@ -37,6 +39,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.CenterPoint = new PointShape(-10779700, 3912000);
             MapView.CurrentScale = 18100;
 
+            _initialized = true;
             _ = MapView.RefreshAsync();
         }
 
@@ -48,6 +51,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private void rbMapType_Checked(object sender, RoutedEventArgs e)
         {
+            if (!_initialized)
+                return;
+
             var button = (RadioButton)sender;
             if (!MapView.Overlays.Contains("Cloud Overlay")) return;
             var cloudOverlay = (ThinkGeoCloudRasterMapsOverlay)MapView.Overlays["Cloud Overlay"];
@@ -61,10 +67,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Dark_V2_X1;
                     break;
                 case "Aerial":
-                    cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1;
+                    cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Aerial2_V2_X1;
                     break;
                 case "Hybrid":
-                    cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1;
+                    cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid2_V2_X1;
                     break;
             }
             _ = MapView.RefreshAsync();

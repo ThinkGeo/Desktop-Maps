@@ -10,6 +10,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class Logo : IDisposable
     {
+        private bool _initialized;
+
         public Logo()
         {
             InitializeComponent();
@@ -33,11 +35,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            
+            MapView.MapTools.Logo.Source = new BitmapImage(new Uri(@"..\..\..\Resources\ThinkGeoLogo.png", UriKind.RelativeOrAbsolute));
 
             // Set the map extent
             MapView.CenterPoint = new PointShape(-10778000, 3912000);
             MapView.CurrentScale = 77000;
 
+            _initialized = true;
             _ = MapView.RefreshAsync();
         }
 
@@ -46,6 +51,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void ThinkGeoLogo_Checked(object sender, RoutedEventArgs e)
         {
+            if (!_initialized)
+                return;
+
             MapView.MapTools.Logo.Source = new BitmapImage(new Uri(@"..\..\..\Resources\ThinkGeoLogo.png", UriKind.RelativeOrAbsolute));
         }
 

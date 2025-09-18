@@ -15,6 +15,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
     {
         private ThinkGeoCloudRasterMapsOverlay _backgroundOverlay;
         private PointShape _empireStateBuildingPosition;
+        private float _currentRotationAngle = 0;
+        private int _currentZoomLevel = 0;
+        private double _currentScale = 0;
+        private double _lastRotationAngle = 0;
 
         public NavigationMap()
         {
@@ -26,6 +30,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// </summary>
         private void Form_Load(object sender, EventArgs e)
         {
+
             // Set the map's unit of measurement to meters(Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
 
@@ -46,6 +51,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Convert Lat/Lon (EPSG:4326) to Spherical Mercator (EPSG:3857)
             _empireStateBuildingPosition = ProjectionConverter.Convert(4326, 3857, new PointShape(-73.9856654, 40.74843661));
 
+            // set up the map extent and refresh
+            mapView.RotationAngle = -30;
+            mapView.CurrentScale = 100000;
+            mapView.CenterPoint = _empireStateBuildingPosition;
+
             // Create a marker with both label and image content
             var marker = new Marker(_empireStateBuildingPosition)
             {
@@ -55,15 +65,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 Height = 64,
                 YOffset = -32
             };
-
-            // Add the marker to the overlay
             markerOverlay.Markers.Add(marker);
-
-            // set up the map extent and refresh
-            mapView.RotationAngle = -30;
-            mapView.CurrentScale = 100000;
-            mapView.CenterPoint = _empireStateBuildingPosition;
-
+            
             mapView.CurrentExtentChanged += MapView_CurrentExtentChanged;
             MapView_CurrentExtentChanged(null, null);
 
@@ -79,24 +82,24 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             var center = mapView.CurrentExtent.GetCenterPoint();
             var centerInDecimalDegrees = ProjectionConverter.Convert(3857, 4326, center);
-            float angle = (float)mapView.RotationAngle;
+            _currentRotationAngle = (float)mapView.RotationAngle;
+            _currentZoomLevel = mapView.GetSnappedZoomLevelIndex(mapView.CurrentScale);
+            _currentScale = mapView.CurrentScale;
 
             centerPointLabel.Text = $"Center Point: (Lat: {centerInDecimalDegrees.Y:N4}, Lon: {centerInDecimalDegrees.X:N4})";
-            rotationLabel.Text = $"Rotation: {angle:N0}";
-            zoomLabel.Text = $"Zoom: {mapView.GetSnappedZoomLevelIndex(mapView.CurrentScale):N0}";
-            scaleLabel.Text = $"Scale: {mapView.CurrentScale:N0}";
-
-            ImageHelper.UpdateImage(compassButton, "icon_north_arrow.png", angle);
+            UpdateStatusLabel();
+            ImageHelper.UpdateImage(compassButton, "icon_north_arrow.png", _currentRotationAngle);
         }
 
         private void MapView_RotationAngleChanging(object sender, RotationAngleChangingMapViewEventArgs e)
         {
             double currentRotation = e.NewRotationAngle;
 
-            if (Math.Abs(currentRotation - lastRotationAngle) > 0.1) // Change threshold
+            if (Math.Abs(currentRotation - _lastRotationAngle) > 0.1) // Change threshold
             {
-                lastRotationAngle = currentRotation;
-                rotationLabel.Text = $"Rotation: {currentRotation:N0}";
+                _lastRotationAngle = currentRotation;
+                _currentRotationAngle = (float)currentRotation;
+                UpdateStatusLabel();
                 ImageHelper.UpdateImage(compassButton, "icon_north_arrow.png", (float)currentRotation);
             }
         }
@@ -125,15 +128,18 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             _ = mapView.ZoomToAsync(_empireStateBuildingPosition, 100000, -30);
         }
 
+        private void UpdateStatusLabel()
+        {
+            statusLabel.Text = $"Rotation: {_currentRotationAngle:N0}" + new string(' ', 3) +
+                               $"Zoom: {_currentZoomLevel}" + new string(' ', 3) +
+                               $"Scale: {_currentScale:N0}";
+        }
 
         #region Component Designer generated code
 
         private MapView mapView;
         private Label centerPointLabel;
-        private Label rotationLabel;
-        private Label zoomLabel;
-        private Label scaleLabel;
-        private double lastRotationAngle = 0;
+        private Label statusLabel;
         private CheckBox themeCheckBox;
         private PictureBox compassButton;
         private PictureBox defaultExtentButton;
@@ -142,9 +148,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             mapView = new ThinkGeo.UI.WinForms.MapView();
             centerPointLabel = new Label();
-            rotationLabel = new Label();
-            zoomLabel = new Label();
-            scaleLabel = new Label();
+            statusLabel = new Label();
             themeCheckBox = new CheckBox();
             compassButton = new PictureBox();
             defaultExtentButton = new PictureBox();
@@ -158,28 +162,53 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
             this.mapView.Location = new System.Drawing.Point(0, 0);
-            this.mapView.MapResizeMode = MapResizeMode.PreserveScale;
             this.mapView.MaximumScale = 1.7976931348623157E+308D;
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotationAngle = 0F;
+            this.mapView.TabIndex = 0;
+            // 
+            // centerPointLabel
+            // 
+            centerPointLabel.Anchor = AnchorStyles.Bottom;
+            centerPointLabel.AutoSize = true;
+            centerPointLabel.BackColor = Color.LightGray;
+            centerPointLabel.Font = new Font("Microsoft Sans Serif", 12F);
+            centerPointLabel.ForeColor = Color.Black;
+            centerPointLabel.Location = new Point(mapView.Width / 2, mapView.Height - 40);
+            centerPointLabel.Name = "centerPointLabel";
+            centerPointLabel.TextAlign = ContentAlignment.MiddleCenter;
+            centerPointLabel.Top = mapView.Height - 40;
+            centerPointLabel.TabIndex = 2;
+            // 
+            // statusLabel
+            // 
+            statusLabel.Anchor = AnchorStyles.Bottom;
+            statusLabel.AutoSize = true;
+            statusLabel.BackColor = Color.LightGray;
+            statusLabel.Font = new Font("Microsoft Sans Serif", 12F);
+            statusLabel.ForeColor = Color.Black;
+            statusLabel.Location = new Point(mapView.Width / 2, mapView.Height);
+            statusLabel.Name = "statusLabel";
+            statusLabel.TextAlign = ContentAlignment.MiddleCenter;
+            statusLabel.Top = mapView.Height;
+            statusLabel.TabIndex = 3;
             // 
             // themeCheckBox
             // 
+            themeCheckBox.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            themeCheckBox.AutoSize = true;
             themeCheckBox.BackColor = Color.LightGray;
             themeCheckBox.Font = new Font("Microsoft Sans Serif", 12F);
             themeCheckBox.ForeColor = Color.Black;
             themeCheckBox.Location = new Point(20, 600);
             themeCheckBox.Name = "themeCheckBox";
-            themeCheckBox.Size = new Size(150, 25);
             themeCheckBox.Text = "Dark Theme";
             themeCheckBox.TextAlign = ContentAlignment.MiddleCenter;
-            themeCheckBox.UseVisualStyleBackColor = false;
-            themeCheckBox.Anchor = AnchorStyles.Left | AnchorStyles.Bottom;
-            themeCheckBox.Left = 20;
             themeCheckBox.Top = mapView.Height;
-            themeCheckBox.TabIndex = 0;
+            themeCheckBox.UseVisualStyleBackColor = false;
+            themeCheckBox.TabIndex = 1;
             // 
             // compassButton
             // 
@@ -193,7 +222,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             System.Drawing.Drawing2D.GraphicsPath pathOfCompassButton = new System.Drawing.Drawing2D.GraphicsPath();
             pathOfCompassButton.AddEllipse(0, 0, compassButton.Width, compassButton.Height);
             compassButton.Region = new Region(pathOfCompassButton);
-            compassButton.TabIndex = 1;
+            compassButton.TabIndex = 4;
             // 
             // defaultExtentButton
             // 
@@ -207,90 +236,29 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             System.Drawing.Drawing2D.GraphicsPath pathOfDefaultExtentButton = new System.Drawing.Drawing2D.GraphicsPath();
             pathOfDefaultExtentButton.AddEllipse(0, 0, defaultExtentButton.Width, defaultExtentButton.Height);
             defaultExtentButton.Region = new Region(pathOfDefaultExtentButton);
-            defaultExtentButton.TabIndex = 2;
-            // 
-            // zoomLabel
-            // 
-            zoomLabel.BackColor = Color.LightGray;
-            zoomLabel.Font = new Font("Microsoft Sans Serif", 12F);
-            zoomLabel.ForeColor = Color.Black;
-            zoomLabel.Location = new Point(600, 600);
-            zoomLabel.Margin = new Padding(0);
-            zoomLabel.Name = "labelZoom";
-            zoomLabel.Size = new Size(150, 25);
-            zoomLabel.Text = "Current Zoom:";
-            zoomLabel.TextAlign = ContentAlignment.MiddleCenter;
-            zoomLabel.Anchor = AnchorStyles.Bottom;
-            zoomLabel.Left = mapView.Width /2 + 200;
-            zoomLabel.Top = mapView.Height;
-            // 
-            // scaleLabel
-            // 
-            scaleLabel.BackColor = Color.LightGray;
-            scaleLabel.Font = new Font("Microsoft Sans Serif", 12F);
-            scaleLabel.ForeColor = Color.Black;
-            scaleLabel.Location = new Point(750, 600);
-            scaleLabel.Margin = new Padding(0);
-            scaleLabel.Name = "labelScale";
-            scaleLabel.Size = new Size(150, 25);
-            scaleLabel.Text = "Current Scale";
-            scaleLabel.TextAlign = ContentAlignment.MiddleCenter;
-            scaleLabel.Anchor = AnchorStyles.Bottom;
-            scaleLabel.Left = mapView.Width / 2 + 350;
-            scaleLabel.Top = mapView.Height;
-            // 
-            // rotationLabel
-            // 
-            rotationLabel.BackColor = Color.LightGray;
-            rotationLabel.Font = new Font("Microsoft Sans Serif", 12F);
-            rotationLabel.ForeColor = Color.Black;
-            rotationLabel.Location = new Point(450, 600);
-            rotationLabel.Margin = new Padding(0);
-            rotationLabel.Name = "labelRotation";
-            rotationLabel.Size = new Size(150, 25);
-            rotationLabel.Text = "Rotation Angle";
-            rotationLabel.TextAlign = ContentAlignment.MiddleCenter;
-            rotationLabel.Anchor = AnchorStyles.Bottom;
-            rotationLabel.Left = mapView.Width / 2 + 50;
-            rotationLabel.Top = mapView.Height;
-            // 
-            // centerPointLabel
-            // 
-            centerPointLabel.BackColor = Color.LightGray;
-            centerPointLabel.Font = new Font("Microsoft Sans Serif", 12F);
-            centerPointLabel.ForeColor = Color.Black;
-            centerPointLabel.Location = new Point(500, 560);
-            centerPointLabel.Name = "labelCenterPoint";
-            centerPointLabel.Size = new Size(340, 25);
-            centerPointLabel.TextAlign = ContentAlignment.MiddleCenter;
-            centerPointLabel.Anchor = AnchorStyles.Bottom;
-            centerPointLabel.Left = mapView.Width / 2 + 100;
-            centerPointLabel.Top = mapView.Height - 40;
+            defaultExtentButton.TabIndex = 5;
             // 
             // NavigationMap
             // 
             Controls.Add(mapView);
             Controls.Add(centerPointLabel);
-            Controls.Add(rotationLabel);
-            Controls.Add(zoomLabel);
-            Controls.Add(scaleLabel);
-            Controls.Add(themeCheckBox);
             Controls.Add(compassButton);
             Controls.Add(defaultExtentButton);
+            Controls.Add(themeCheckBox);
+            Controls.Add(statusLabel);
             Name = "NavigationMap";
             Size = new Size(1257, 669);
             Load += Form_Load;
             ((System.ComponentModel.ISupportInitialize)compassButton).EndInit();
             ((System.ComponentModel.ISupportInitialize)defaultExtentButton).EndInit();
             ResumeLayout(false);
+            PerformLayout();
 
             centerPointLabel.BringToFront();
-            rotationLabel.BringToFront();
-            zoomLabel.BringToFront();
-            scaleLabel.BringToFront();
-            themeCheckBox.BringToFront();
             compassButton.BringToFront();
             defaultExtentButton.BringToFront();
+            themeCheckBox.BringToFront();
+            statusLabel.BringToFront();
         }
 
         #endregion Component Designer generated code

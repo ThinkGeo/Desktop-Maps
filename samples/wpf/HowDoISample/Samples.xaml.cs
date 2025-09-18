@@ -54,10 +54,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
 
             // Expand the first node and select the first sample
-            var firstTreeNode = (TreeViewItem)TreeView.Items[7];
+            var firstTreeNode = (TreeViewItem)TreeView.Items[0];
             if (firstTreeNode == null) return;
             firstTreeNode.IsExpanded = true;
-            var firstSubTreeNode = (TreeViewItem)firstTreeNode.Items[1];
+            var firstSubTreeNode = (TreeViewItem)firstTreeNode.Items[0];
             if (firstSubTreeNode != null) firstSubTreeNode.IsSelected = true;
         }
 
@@ -110,7 +110,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 SampleContent.Children.Remove(oldControl);
                 SampleContent.DataContext = null;
                 oldControl.DataContext = null;
-                oldControl = null;
                 GC.Collect();
             }
 
@@ -123,7 +122,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Update the CS & XAML code windows
             UpdateCodeViewerLayout(vm?.CodeViewer);
             CsharpCodeViewer.Text = GetFileContent($"../../../{vm?.SelectedMenu.Source}.xaml.cs");
-            XamlCodeViewer.Text = ToXaml(sample);
+            XamlCodeViewer.Text = GetFileContent($"../../../{vm?.SelectedMenu.Source}.xaml");
         }
 
         private void UpdateCodeViewerLayout(CodeViewerViewModel codeViewer)
@@ -170,27 +169,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 Grid.SetColumn(SidebarToggle, 0);
                 Grid.SetColumnSpan(Container, 3);
             }
-        }
-
-        private static string ToXaml(object userControl)
-        {
-            // Reads the XAML from the user control to display in the XAML tab
-            var contentBuilder = new StringBuilder();
-            var settings = new XmlWriterSettings
-            {
-                Indent = true,
-                OmitXmlDeclaration = true,
-                NewLineOnAttributes = true,
-                NamespaceHandling = NamespaceHandling.OmitDuplicates
-            };
-
-            var dsm = new XamlDesignerSerializationManager(XmlWriter.Create(contentBuilder, settings))
-            {
-                XamlWriterMode = XamlWriterMode.Expression
-            };
-
-            XamlWriter.Save(userControl, dsm);
-            return contentBuilder.ToString();
         }
 
         private void treeView_Selected(object sender, RoutedEventArgs e)

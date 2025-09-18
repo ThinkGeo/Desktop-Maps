@@ -39,8 +39,5 @@
             <RadioButton  Margin="0, 5" Checked="SwitchTileSize_OnCheckedChanged" Content="Single Tile"/>
         </StackPanel>
 
-        <CheckBox Grid.Row="0" Grid.Column="1"  VerticalAlignment="Bottom" Margin="10" 
-                  Content="Dynamic Labeling" Checked="ToggleButton_OnChecked" Unchecked="ToggleButton_OnChecked"/>
-
     </Grid>
 </UserControl>

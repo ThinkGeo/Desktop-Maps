@@ -14,7 +14,27 @@
                     <AccessText HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" TextWrapping="Wrap" Text="Perform a 'Touches' Query"/>
                 </Label.Content>
             </Label>
-            <TextBlock Grid.Column="1" Grid.Row="3" x:Name="TxtNumberOfFeaturesFound"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="1" x:Name="TxtNumberOfFeaturesFound"
+                       TextWrapping="Wrap" Margin="5,-5,0,0">
+            </TextBlock>
+
+            <Label Grid.Column="1" Grid.Row="2">
+                <Label.Content>
+                    <AccessText HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" TextWrapping="Wrap" Text="Pan the Map"/>
+                </Label.Content>
+            </Label>
+            <TextBlock Grid.Column="1" Grid.Row="3" x:Name="TxtPanTheMap" TextWrapping="Wrap" Margin="5,-5,0,0">
+            Press and hold the middle mouse button (scroll wheel), then drag the mouse to move around the map.
+            </TextBlock>
+
+            <Label Grid.Column="1" Grid.Row="4">
+                <Label.Content>
+                    <AccessText HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" TextWrapping="Wrap" Text="Zoom In/Out"/>
+                </Label.Content>
+            </Label>
+            <TextBlock Grid.Column="1" Grid.Row="5" x:Name="TxtZoomInOut" TextWrapping="Wrap" Margin="5,-5,0,0">
+            Scroll the mouse wheel forward to zoom in, and backward to zoom out.
+            </TextBlock>
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />
@@ -22,6 +42,8 @@
                 <ColumnDefinition Width="5" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>

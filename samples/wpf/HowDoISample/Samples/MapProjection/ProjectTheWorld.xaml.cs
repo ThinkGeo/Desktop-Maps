@@ -10,6 +10,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class ProjectTheWorld : IDisposable
     {
+        private bool _initialized;
+
         public ProjectTheWorld()
         {
             InitializeComponent();
@@ -28,6 +30,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Create a new overlay that will hold our new layer and add it to the map.
             var layerOverlay = new LayerOverlay();
+            layerOverlay.TileType = TileType.SingleTile;
             MapView.Overlays.Add("world overlay", layerOverlay);
 
             // Create the world layer, it will be decimal degrees at first, but we will be able to change it
@@ -43,13 +46,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             MapView.CenterPoint = new PointShape(5.92651, 14.58364);
             MapView.CurrentScale = 147648000;
-            RdoPolar.IsChecked = true;
 
+            _initialized = true;
             _ = MapView.RefreshAsync();
         }
 
         private void Radial_Checked(object sender, RoutedEventArgs e)
         {
+            if (!_initialized)
+                return;
+
             var radioButton = (RadioButton)sender;
             var layer = MapView.FindFeatureLayer("world layer");
 

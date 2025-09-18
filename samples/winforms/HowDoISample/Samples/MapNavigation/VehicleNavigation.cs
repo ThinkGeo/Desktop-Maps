@@ -24,6 +24,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private Marker _vehicleMarker;
         private bool _disposed;
         private bool _showOverview;
+        private bool _holdAnimation = false;
 
         private CancellationTokenSource _cancellationTokenSource;
         private ThinkGeoCloudRasterMapsOverlay _backgroundOverlay;
@@ -52,7 +53,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private void Form_Load(object sender, EventArgs e)
         {
             _cancellationTokenSource = new CancellationTokenSource();
-            
+
             // Add Cloud Maps as a background overlay
             _backgroundOverlay = new ThinkGeoCloudRasterMapsOverlay
             {
@@ -62,6 +63,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_raster_light")
             };
             mapView.Overlays.Add(_backgroundOverlay);
+            _backgroundOverlay.TileViewInMemoryCache = new XyzLruCache<TileView>();
 
             mapView.DefaultAnimationSettings = new MapAnimationSettings
             {
@@ -80,13 +82,20 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             _visitedRoutesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             _routesOverlay = new FeatureLayerWpfDrawingOverlay();
-            _routesOverlay.UpdateDataWhileTransforming = true;
             _routesOverlay.FeatureLayers.Add(_routeLayer);
             _routesOverlay.FeatureLayers.Add(_visitedRoutesLayer);
             mapView.Overlays.Add(_routesOverlay);
 
             // Create a marker overlay to show where the vehicle is
             _markerOverlay = new SimpleMarkerOverlay();
+            mapView.Overlays.Add(_markerOverlay);
+
+            mapView.CurrentExtentChangedInAnimation += MapView_CurrentExtentChangedInAnimation;
+            mapView.RotationAngleChanging += MapView_RotationAngleChanging;
+
+            mapView.CenterPoint = new PointShape(_gpsPoints[0]);
+            mapView.CurrentScale = DefaultScale;
+
             // Create the marker of the vehicle
             _vehicleMarker = new Marker()
             {
@@ -96,13 +105,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 Height = 24
             };
             _markerOverlay.Markers.Add(_vehicleMarker);
-            mapView.Overlays.Add(_markerOverlay);
-
-            mapView.CurrentExtentChangedInAnimation += MapView_CurrentExtentChangedInAnimation;
-            mapView.RotationAngleChanging += MapView_RotationAngleChanging;
-
-            mapView.CenterPoint = new PointShape(_gpsPoints[0]);
-            mapView.CurrentScale = DefaultScale;
 
             _ = ZoomToGpsPointsAsync(_gpsPoints);
         }
@@ -115,6 +117,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             {
                 try
                 {
+                    while (_holdAnimation)
+                        await Task.Delay(500);
+
                     await ZoomToGpsPointAsync(gpsPoints, _currentGpsPointIndex, _cancellationTokenSource.Token);
                 }
                 catch (TaskCanceledException)
@@ -127,7 +132,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
         }
 
-        private void MapView_CurrentExtentChangedInAnimation(object sender, 
+        private void MapView_CurrentExtentChangedInAnimation(object sender,
             CurrentExtentChangedInAnimationMapViewEventArgs e)
         {
             if (!MapUtil.IsSameDouble(e.FromResolution, e.ToResolution))
@@ -157,7 +162,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             UpdateVisitedRoutes(new Vertex(x, y));
 
-            _vehicleMarker.RotateAngle = angle;
+            _vehicleMarker.RotationAngle = - angle;
             _vehicleMarker.Position = new Point(x, y);
 
             _ = _routesOverlay.RefreshAsync();
@@ -201,7 +206,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                     UpdateRoutesAndMarker(process, angle);
 
                     await _routesOverlay.RefreshAsync();
-                    await Task.Delay(1);
+                    await Task.Delay(10); // update every 10 ms
                 }
             }
             else
@@ -294,16 +299,34 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void AerialBackgroundCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            RefreshCancellationTokenAsync();
+            _ = UpdateBackground();
+        }
 
+        private async Task UpdateBackground()
+        {
+            //if (!aerialBackgroundCheckBox.Checked)
+            //    return;
+
+            _holdAnimation = true;
+
+            RefreshCancellationTokenAsync();
             _backgroundOverlay.MapType = aerialBackgroundCheckBox.Checked
-                ? ThinkGeoCloudRasterMapsMapType.Aerial_V2_X2
+                ? ThinkGeoCloudRasterMapsMapType.Aerial2_V2_X2
                 : ThinkGeoCloudRasterMapsMapType.Light_V2_X2;
-            _ = _backgroundOverlay.RefreshAsync();
+            await _backgroundOverlay.RefreshAsync(CancellationToken.None);
+
+            _holdAnimation = false;
         }
 
         private void OverviewButton_Click(object sender, EventArgs e)
         {
+            _ = SwitchView();
+        }
+
+        private async Task SwitchView()
+        {
+            _holdAnimation = true;
+
             _showOverview = !_showOverview;
             if (_showOverview)
             {
@@ -317,12 +340,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 // Multiply the current scale by 1.5 to zoom out 50%.
                 var scale = MapUtil.GetScale(mapView.MapUnit, boundingBox, mapView.MapWidth, mapView.MapHeight) * 1.5;
 
-                _ = mapView.ZoomToAsync(center, scale, 0);
+                await mapView.ZoomToAsync(center, scale, 0);
             }
             else
             {
                 overviewButton.Text = "Overview Mode";
             }
+
+            _holdAnimation = false;
         }
 
         private void MapView_RotationAngleChanging(object sender, RotationAngleChangingMapViewEventArgs e)
@@ -332,6 +357,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             if (Math.Abs(currentRotation - lastRotationAngle) > 0.1) // Change threshold
             {
                 lastRotationAngle = currentRotation;
+                currentRotationLabel.Text = $"Current Rotation Angle: {currentRotation:N0}";
                 ImageHelper.UpdateImage(compassButton, "icon_north_arrow.png", (float)currentRotation);
             }
         }
@@ -343,12 +369,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
 
         #region Component Designer generated code
-       
+
         private MapView mapView;
         private System.Windows.Forms.Button overviewButton;
         private PictureBox compassButton;
         private System.Windows.Forms.CheckBox aerialBackgroundCheckBox;
         private double lastRotationAngle = 0;
+        private Label currentRotationLabel;
 
         private void InitializeComponent()
         {
@@ -356,6 +383,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             overviewButton = new System.Windows.Forms.Button();
             compassButton = new PictureBox();
             aerialBackgroundCheckBox = new System.Windows.Forms.CheckBox();
+            currentRotationLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)compassButton).BeginInit();
             SuspendLayout();
             // 
@@ -373,12 +401,24 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.RotationAngle = 0F;
             mapView.Controls.Add(overviewButton);
             // 
+            // statusLabel
+            // 
+            currentRotationLabel.Anchor = AnchorStyles.Bottom;
+            currentRotationLabel.AutoSize = true;
+            currentRotationLabel.BackColor = Color.LightGray;
+            currentRotationLabel.Font = new Font("Microsoft Sans Serif", 12F);
+            currentRotationLabel.ForeColor = Color.Black;
+            currentRotationLabel.Location = new System.Drawing.Point(mapView.Width / 2 + 100, mapView.Height - 100);
+            currentRotationLabel.Name = "currentRotationLabel";
+            currentRotationLabel.TextAlign = ContentAlignment.MiddleCenter;
+            currentRotationLabel.TabIndex = 3;
+            // 
             // overviewButton
             // 
+            overviewButton.AutoSize = true;
             overviewButton.Font = new Font("Microsoft Sans Serif", 10F);
             overviewButton.Location = new System.Drawing.Point(1020, 500);
             overviewButton.Name = "overviewButton";
-            overviewButton.Size = new Size(150, 35);
             overviewButton.Text = "Overview Mode";
             overviewButton.UseVisualStyleBackColor = true;
             overviewButton.Click += OverviewButton_Click;
@@ -401,12 +441,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // aerialBackgroundCheckBox
             // 
+            aerialBackgroundCheckBox.AutoSize = true;
             aerialBackgroundCheckBox.BackColor = Color.LightGray;
             aerialBackgroundCheckBox.Font = new Font("Microsoft Sans Serif", 10F);
             aerialBackgroundCheckBox.ForeColor = Color.Black;
             aerialBackgroundCheckBox.Location = new System.Drawing.Point(20, 500);
             aerialBackgroundCheckBox.Name = "aerialBackgroundCheckBox";
-            aerialBackgroundCheckBox.Size = new Size(150, 35);
             aerialBackgroundCheckBox.Text = "Aerial Background";
             aerialBackgroundCheckBox.UseVisualStyleBackColor = true;
             aerialBackgroundCheckBox.CheckedChanged += AerialBackgroundCheckBox_CheckedChanged;
@@ -419,6 +459,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             Controls.Add(aerialBackgroundCheckBox);
             Controls.Add(overviewButton);
             Controls.Add(compassButton);
+            Controls.Add(currentRotationLabel);
             Name = "VehicleNavigation";
             Size = new Size(1194, 560);
             Load += Form_Load;
@@ -428,6 +469,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             overviewButton.BringToFront();
             compassButton.BringToFront();
             aerialBackgroundCheckBox.BringToFront();
+            currentRotationLabel.BringToFront();
         }
 
         #endregion Component Designer generated code

@@ -10,6 +10,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     public partial class DisplayCADFile : IDisposable
     {
         private CadFeatureLayer _cadLayer;
+        private bool _initialized;
 
         public DisplayCADFile()
         {
@@ -57,11 +58,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var MapScale = MapUtil.GetScale(MapView.MapUnit, cadLayerBBox, MapView.MapWidth, MapView.MapHeight);
             MapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
 
+            _initialized = true;
             _ = MapView.RefreshAsync();
         }
 
         private void EmbeddedStyling_Checked(object sender, RoutedEventArgs e)
         {
+            if (!_initialized)
+                return;
+
             if (_cadLayer == null) return;
             // Create an Area style on zoom level 1 and then apply it to all zoom levels up to 20.
             _cadLayer.StylingType = CadStylingType.EmbeddedStyling;
@@ -71,6 +76,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private void ProgrammaticStyling_Checked(object sender, RoutedEventArgs e)
         {
+            if (!_initialized)
+                return;
+
             if (_cadLayer == null) return;
             // Create an Area style on zoom level 1 and then apply it to all zoom levels up to 20.
             _cadLayer.StylingType = CadStylingType.StandardStyling;

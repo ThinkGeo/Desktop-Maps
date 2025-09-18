@@ -52,7 +52,7 @@
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.RasterXYZServer",
         "title": "Raster Map from XYZ Server",
-        "description": "This sample shows how to display raster map from XYZ server.",
+        "description": "This sample shows how to display the tiles from a raster XYZ server. This demo server has 20 zoom levels (zoom 0~19)",
         "source": "Samples/MapOnlineData/RasterXYZServer"
       },
       {
@@ -135,13 +135,19 @@
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayRasterMBTilesFile",
         "title": "Display Raster from MBTiles",
-        "description": "This sample shows how to display a raster MBTiles file. This sample data covers from zoom0 to zoom5",
+        "description": "This sample shows how to display a raster MBTiles file. The demo file has 6 zoom levels (zoom 0–5)",
         "source": "Samples/MapOfflineData/Raster/DisplayRasterMBTilesFile"
       },
       {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayRasterFileTiles",
+        "title": "Display Raster from File Tiles",
+        "description": "This sample shows how to display the raster tiles created by QGIS. The demo tiles have 6 zoom levels (zoom 0~5)",
+        "source": "Samples/MapOfflineData/Raster/DisplayRasterFileTiles"
+      },
+      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayMBTilesFile",
-        "title": "Display a MBTiles File",
-        "description": "This sample shows how to display a Standard MBTiles File (v1.3).",
+        "title": "Display Vector from MBTiles",
+        "description": "This sample shows how to display an MBTiles file. The demo mbtile/json come from https://github.com/maplibre/demotiles?tab=readme-ov-file",
         "source": "Samples/MapOfflineData/Vector/DisplayMBTilesFile"
       },
       {
@@ -287,6 +293,47 @@
         "title": "Grouping Layers Using LayerOverlay",
         "description": "Learn to group layers into logical groups using LayerOverlays.",
         "source": "Samples/MapOfflineData/GroupingLayersUsingLayerOverlay"
+      }
+    ]
+  },
+  {
+    "title": "XYZ Based Layers",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayRasterMBTilesFile",
+        "title": "Display Raster from MBTiles",
+        "description": "This sample shows how to display a raster MBTiles file. The demo file has 6 zoom levels (zoom 0–5)",
+        "source": "Samples/MapOfflineData/Raster/DisplayRasterMBTilesFile"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayRasterFileTiles",
+        "title": "Display Raster from File Tiles",
+        "description": "This sample shows how to display the raster tiles created by QGIS. The demo tiles have 6 zoom levels (zoom 0~5)",
+        "source": "Samples/MapOfflineData/Raster/DisplayRasterFileTiles"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.RasterXYZServer",
+        "title": "Display Raster from XYZ Server",
+        "description": "This sample shows how to display the tiles from a raster XYZ server. This demo server has 20 zoom levels (zoom 0~19)",
+        "source": "Samples/MapOnlineData/RasterXYZServer"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.WMTSAsXYZLayer",
+        "title": "Display Raster from WMTS Server",
+        "description": "This sample shows how to display the tiles from a WMTS server.  This demo server has 27 zoom levels (zoom 0~26).",
+        "source": "Samples/XYZBasedLayers/WMTSAsXYZLayer"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayMBTilesFile",
+        "title": "Display Vector from MBTiles",
+        "description": "This sample shows how to display an MBTiles file. The demo mbtile/json come from https://github.com/maplibre/demotiles?tab=readme-ov-file",
+        "source": "Samples/MapOfflineData/Vector/DisplayMBTilesFile"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.CacheXyzTiles",
+        "title": "Pre-Generate Cache for XYZ Layers",
+        "description": "This sample shows how to generate cache for XYZ layers.",
+        "source": "Samples/XYZBasedLayers/CacheXyzTiles"
       }
     ]
   },
@@ -474,6 +521,12 @@
         "title": "Edit Features",
         "description": "Draw, edit, or delete shapes.",
         "source": "Samples/VectorDataEditing/EditFeatures"
+      },
+      {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.EditWithSnapping",
+        "title": "Edit Features with Snapping",
+        "description": "Drag a vertex into a circle, and it will snap to its center.",
+        "source": "Samples/VectorDataEditing/EditWithSnapping"
       }
     ]
   },
@@ -735,6 +788,12 @@
     "title": "Miscellaneous",
     "children": [
       {
+        "id": "ThinkGeo.UI.WinForms.HowDoI.CacheTileOverlay",
+        "title": "Pre-Generate Cache for Tile Overlay",
+        "description": "Learn how to generate cache for Tile Overlay.",
+        "source": "Samples/Miscellaneous/CacheTileOverlay"
+      },
+      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.PrintTheMap",
         "title": "Print the Map",
         "description": "Learn to print maps using the PrintOverlay.",
@@ -745,7 +804,7 @@
         "title": "Handle Exceptions",
         "description": "Learn how to throw an overlay exception, or draw the exception on the map.",
         "source": "Samples/Miscellaneous/HandleExceptions"
-      },      
+      },
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.WrapTheDateLine",
         "title": "Wrap The DateLine",

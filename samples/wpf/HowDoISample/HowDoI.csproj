@@ -407,18 +407,18 @@
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-    <PackageReference Include="Jint" Version="4.2.2" />
+    <PackageReference Include="Jint" Version="4.4.1" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
-    <PackageReference Include="ThinkGeo.Cad" Version="14.4.0-beta030" />
-    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.4.0-beta030" />
-    <PackageReference Include="ThinkGeo.Gdal" Version="14.4.0-beta030" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.4.0-beta030" />
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.4.0-beta030" />
-    <PackageReference Include="ThinkGeo.Printers" Version="14.4.0-beta031" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="14.4.0-beta030" />
-    <PackageReference Include="ThinkGeo.UI.Wpf" Version="14.4.0-beta030" />
+    <PackageReference Include="ThinkGeo.Cad" Version="14.4.0-beta096" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.4.0-beta096" />
+    <PackageReference Include="ThinkGeo.Gdal" Version="14.4.0-beta096" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.4.0-beta096" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.4.0-beta096" />
+    <PackageReference Include="ThinkGeo.Printers" Version="14.4.0-beta097" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="14.4.0-beta096" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="14.4.0-beta097" />
     <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
   </ItemGroup>
   <ItemGroup>
@@ -631,27 +631,6 @@
     </None>
     <None Update="Data\Jpg\m_3309650_sw_14_1_20160911_20161121.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\Json\Fill_Unsupported.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\Json\Line_Unsupported.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\Json\Line_Supported.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\Json\Line_AllProperties.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\Json\styleJsonDemo.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\Json\Fill_Supported.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\Json\Fill_AllProperties.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Data\Json\thinkgeo-world-streets-dark.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

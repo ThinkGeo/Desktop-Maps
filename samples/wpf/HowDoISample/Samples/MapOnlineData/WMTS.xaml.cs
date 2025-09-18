@@ -39,7 +39,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 await layerOverlay.OpenAsync();
 
                 // Apply the wmts matrices to the MapView. 
-                var scales = layerOverlay.TileMatrixSet.Matrices.Select(m => m.Scale);
+                var scales = layerOverlay.TileMatrixSet.GetScales();
                 MapView.ZoomScales = new Collection<double>(scales.ToList());
                 
                 var layerOverlayBBox = layerOverlay.GetBoundingBox();
@@ -51,23 +51,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
             catch
             {
-                // Because async void methods don’t return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it’s good practice to catch and handle (or log) all exceptions within these “fire-and-forget” methods.
+                // Because async void methods don't return a Task, unhandled exceptions cannot be awaited or caught from outside.
+                // Therefore, it's good practice to catch and handle (or log) all exceptions within these "fire-and-forget" methods.
             }
-        }
-
-        private ZoomLevelSet GetZoomLevelSetFromWmtsServer(WmtsOverlay wmtsOverlay)
-        {
-            var scales = wmtsOverlay.GetTileMatrixSets()[wmtsOverlay.TileMatrixSetName].TileMatrices
-                .Select((matrix, i) => matrix.Scale);
-            var zoomLevels = scales.Select((d, i) => new ZoomLevel(d));
-            var zoomLevelSet = new ZoomLevelSet();
-            foreach (var zoomLevel in zoomLevels)
-            {
-                zoomLevelSet.CustomZoomLevels.Add(zoomLevel);
-            }
-
-            return zoomLevelSet;
         }
 
         public void Dispose()

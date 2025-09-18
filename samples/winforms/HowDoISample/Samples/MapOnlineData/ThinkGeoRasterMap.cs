@@ -27,7 +27,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             {
                 ClientId = SampleKeys.ClientId,
                 ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1
+                MapType = ThinkGeoCloudRasterMapsMapType.Hybrid2_V2_X1
             };
             mapView.Overlays.Add("Cloud Overlay", cloudOverlay);
 
@@ -59,10 +59,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                         cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Dark_V2_X1;
                         break;
                     case "Aerial":
-                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1;
+                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Aerial2_V2_X1;
                         break;
                     case "Hybrid":
-                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1;
+                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid2_V2_X1;
                         break;
                 }
                 await mapView.RefreshAsync();
@@ -85,10 +85,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                         cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Dark_V2_X1;
                         break;
                     case "Aerial":
-                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1;
+                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Aerial2_V2_X1;
                         break;
                     case "Hybrid":
-                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1;
+                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid2_V2_X1;
                         break;
                 }
                 await mapView.RefreshAsync();
@@ -111,10 +111,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                         cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Dark_V2_X1;
                         break;
                     case "Aerial":
-                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1;
+                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Aerial2_V2_X1;
                         break;
                     case "Hybrid":
-                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1;
+                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid2_V2_X1;
                         break;
                 }
                 await mapView.RefreshAsync();
@@ -137,7 +137,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                         cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Dark_V2_X1;
                         break;
                     case "Aerial":
-                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1;
+                        cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Aerial2_V2_X1;
                         break;
                     case "Hybrid":
                         cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1;
@@ -148,7 +148,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         }
 
         #region Component Designer generated code
+
         private Panel panel1;
+        private FlowLayoutPanel radioGroupPanel;
         private RadioButton radioButton4;
         private RadioButton radioButton3;
         private RadioButton radioButton2;
@@ -156,20 +158,20 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private LinkLabel lblCloudMapsLink;
         private Label label2;
         private Label label1;
-
         private MapView mapView;
 
         private void InitializeComponent()
         {
             this.mapView = new ThinkGeo.UI.WinForms.MapView();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.radioButton4 = new System.Windows.Forms.RadioButton();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.lblCloudMapsLink = new System.Windows.Forms.LinkLabel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.panel1 = new Panel();
+            this.radioGroupPanel = new FlowLayoutPanel();
+            this.radioButton4 = new RadioButton();
+            this.radioButton3 = new RadioButton();
+            this.radioButton2 = new RadioButton();
+            this.radioButton1 = new RadioButton();
+            this.lblCloudMapsLink = new LinkLabel();
+            this.label2 = new Label();
+            this.label1 = new Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -195,10 +197,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom
             | AnchorStyles.Right;
             panel1.BackColor = System.Drawing.Color.Gray;
-            panel1.Controls.Add(radioButton4);
-            panel1.Controls.Add(radioButton3);
-            panel1.Controls.Add(radioButton2);
-            panel1.Controls.Add(radioButton1);
+            panel1.Controls.Add(radioGroupPanel);
             panel1.Controls.Add(lblCloudMapsLink);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(label1);
@@ -207,13 +206,28 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             panel1.Size = new System.Drawing.Size(301, 630);
             panel1.TabIndex = 1;
             // 
+            // radioGroupPanel
+            // 
+            this.radioGroupPanel.AutoSize = true;
+            this.radioGroupPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            this.radioGroupPanel.FlowDirection = FlowDirection.TopDown;
+            this.radioGroupPanel.WrapContents = false;
+            this.radioGroupPanel.Location = new System.Drawing.Point(18, 130);
+            this.radioGroupPanel.Size = new System.Drawing.Size(200, 120);
+            this.radioGroupPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            this.radioGroupPanel.BackColor = System.Drawing.Color.Transparent;
+            this.radioGroupPanel.Controls.Add(this.radioButton1);
+            this.radioGroupPanel.Controls.Add(this.radioButton2);
+            this.radioGroupPanel.Controls.Add(this.radioButton3);
+            this.radioGroupPanel.Controls.Add(this.radioButton4);
+            // 
             // radioButton4
             // 
             radioButton4.AutoSize = true;
             radioButton4.Checked = true;
             radioButton4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             radioButton4.ForeColor = System.Drawing.Color.White;
-            radioButton4.Location = new System.Drawing.Point(23, 190);
+            radioButton4.Margin = new Padding(0, 0, 0, 6);
             radioButton4.Name = "radioButton4";
             radioButton4.Size = new System.Drawing.Size(79, 24);
             radioButton4.TabIndex = 4;
@@ -227,7 +241,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             radioButton3.AutoSize = true;
             radioButton3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             radioButton3.ForeColor = System.Drawing.Color.White;
-            radioButton3.Location = new System.Drawing.Point(23, 170);
+            radioButton3.Margin = new Padding(0, 0, 0, 6);
             radioButton3.Name = "radioButton3";
             radioButton3.Size = new System.Drawing.Size(73, 24);
             radioButton3.TabIndex = 3;
@@ -240,7 +254,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             radioButton2.AutoSize = true;
             radioButton2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             radioButton2.ForeColor = System.Drawing.Color.White;
-            radioButton2.Location = new System.Drawing.Point(23, 150);
+            radioButton2.Margin = new Padding(0, 0, 0, 6);
             radioButton2.Name = "radioButton2";
             radioButton2.Size = new System.Drawing.Size(66, 24);
             radioButton2.TabIndex = 2;
@@ -253,7 +267,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             radioButton1.AutoSize = true;
             radioButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             radioButton1.ForeColor = System.Drawing.Color.White;
-            radioButton1.Location = new System.Drawing.Point(23, 130);
+            radioButton1.Margin = new Padding(0, 0, 0, 6);
             radioButton1.Name = "radioButton1";
             radioButton1.Size = new System.Drawing.Size(67, 24);
             radioButton1.TabIndex = 1;
@@ -284,7 +298,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.lblCloudMapsLink.TabIndex = 1;
             this.lblCloudMapsLink.TabStop = true;
             this.lblCloudMapsLink.Text = "Sign up for a Cloud Maps account";
-            this.lblCloudMapsLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblCloudMapsLink_LinkClicked);
+            this.lblCloudMapsLink.LinkClicked += new LinkLabelLinkClickedEventHandler(this.lblCloudMapsLink_LinkClicked);
             // 
             // label1
             // 
@@ -299,6 +313,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // ThinkGeoRasterMap
             // 
+            this.AutoScaleMode = AutoScaleMode.Dpi;
             Controls.Add(panel1);
             Controls.Add(mapView);
             Name = "ThinkGeoRasterMap";
@@ -308,6 +323,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             panel1.PerformLayout();
             ResumeLayout(false);
         }
+
         #endregion Component Designer generated code
 
     }
