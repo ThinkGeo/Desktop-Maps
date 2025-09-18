@@ -336,6 +336,12 @@
         "source": "Samples/MapOnlineData/MVT"
       },
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.MVTWithLocalFonts",
+        "title": "Display Vector from MVT Server using Local Fonts",
+        "description": "This sample shows how to display a vector map from an MVT server.",
+        "source": "Samples/MapOnlineData/MVTWithLocalFonts"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.CacheXyzTiles",
         "title": "Pre-Generate Cache for XYZ Layers",
         "description": "This sample shows how to generate cache for XYZ layers.",
