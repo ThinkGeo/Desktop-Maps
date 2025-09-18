@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -225,8 +226,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             foreach (var location in lines)
             {
                 var posItems = location.Split(',');
-                var lat = double.Parse(posItems[0]);
-                var lon = double.Parse(posItems[1]);
+                var lat = double.Parse(posItems[0], CultureInfo.InvariantCulture);
+                var lon = double.Parse(posItems[1], CultureInfo.InvariantCulture);
                 var vertexInSphericalMercator = converter.ConvertToExternalProjection(lon, lat);
                 gpsPoints.Add(vertexInSphericalMercator);
             }

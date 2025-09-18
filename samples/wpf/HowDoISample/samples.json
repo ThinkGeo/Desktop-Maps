@@ -223,10 +223,10 @@
         "source": "Samples/MapOfflineData/Vector/DisplayGPXFile"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayGraticuleFile",
-        "title": "Display a Graticule File",
-        "description": "This sample shows how to display a graticule line layer.",
-        "source": "Samples/MapOfflineData/Vector/DisplayGraticuleFile"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayGraticule",
+        "title": "Display Graticule Lines",
+        "description": "This sample shows how to display graticule lines.",
+        "source": "Samples/MapOfflineData/Vector/DisplayGraticule"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayInMemoryFile",
@@ -340,6 +340,12 @@
         "title": "Display Vector from MVT Server",
         "description": "This sample shows how to display a vector map from an MVT server.",
         "source": "Samples/MapOnlineData/MVT"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.MVTWithLocalFonts",
+        "title": "Display Vector from MVT Server using Local Fonts",
+        "description": "This sample shows how to display a vector map from an MVT server.",
+        "source": "Samples/MapOnlineData/MVTWithLocalFonts"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.CacheXyzTiles",

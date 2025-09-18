@@ -132,7 +132,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 _layerOverlay.IsVisible = !checkBox.IsChecked.GetValueOrDefault();
                 _featureLayerWpfDrawingOverlay.IsVisible = checkBox.IsChecked.GetValueOrDefault();
 
-                _ = MapView.RefreshAsync();
+                //_ = MapView.RefreshAsync();
             }
         }
 

@@ -7,9 +7,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to display a Graticule Layer on the map
     /// </summary>
-    public partial class DisplayGraticuleFile : IDisposable
+    public partial class DisplayGraticule : IDisposable
     {
-        public DisplayGraticuleFile()
+        public DisplayGraticule()
         {
             InitializeComponent();
         }
@@ -34,23 +34,23 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a new overlay that will hold our new layer and add it to the map.
-            var layerOverlay = new LayerOverlay();
+            var layerOverlay = new FeatureLayerWpfDrawingOverlay();
             MapView.Overlays.Add(layerOverlay);
 
             // Create the new layer and set the projection as the data is in srid 4326 and our background is srid 3857 (spherical mercator).
             var graticuleFeatureLayer = new GraticuleFeatureLayer
             {
+                
                 FeatureSource =
                 {
                     ProjectionConverter = new ProjectionConverter(4326, 3857)
                 }
             };
-
             // We set the pen color to the graticule layer.
             graticuleFeatureLayer.GraticuleLineStyle.OuterPen.Color = GeoColor.FromArgb(125, GeoColors.Navy);
 
             // Add the layer to the overlay we created earlier.
-            layerOverlay.Layers.Add("graticule", graticuleFeatureLayer);
+            layerOverlay.FeatureLayers.Add("graticule", graticuleFeatureLayer);
 
             // Set the current extent of the map to start in Frisco TX
             MapView.CenterPoint = new PointShape(-10777200, 3911500);

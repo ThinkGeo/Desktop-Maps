@@ -407,18 +407,18 @@
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-    <PackageReference Include="Jint" Version="4.2.2" />
+    <PackageReference Include="Jint" Version="4.4.1" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
-    <PackageReference Include="ThinkGeo.Cad" Version="14.4.0-beta094" />
-    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.4.0-beta094" />
-    <PackageReference Include="ThinkGeo.Gdal" Version="14.4.0-beta094" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.4.0-beta094" />
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.4.0-beta094" />
-    <PackageReference Include="ThinkGeo.Printers" Version="14.4.0-beta095" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="14.4.0-beta094" />
-    <PackageReference Include="ThinkGeo.UI.Wpf" Version="14.4.0-beta095" />
+    <PackageReference Include="ThinkGeo.Cad" Version="14.4.0-beta096" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.4.0-beta096" />
+    <PackageReference Include="ThinkGeo.Gdal" Version="14.4.0-beta096" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.4.0-beta096" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.4.0-beta096" />
+    <PackageReference Include="ThinkGeo.Printers" Version="14.4.0-beta097" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="14.4.0-beta096" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="14.4.0-beta097" />
     <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
   </ItemGroup>
   <ItemGroup>
