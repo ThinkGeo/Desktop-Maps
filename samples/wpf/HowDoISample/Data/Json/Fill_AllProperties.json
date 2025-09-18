@@ -1,0 +1,35 @@
+{
+  "version": 8,
+  "name": "LocalShapefileFillAllProperties",
+  "sources": {
+    "local-shp": {
+      "type": "custom"
+    }
+  },
+  "layers": [
+    {
+      "id": "area-layer",
+      "type": "fill",
+      "source": "local-shp",
+      "source-layer": "Parks.shp",
+      "minzoom": 0, 
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "none",
+        "fill-sort-key": 50
+      },
+      "paint": {
+        "fill-antialias": true,
+        "fill-color": "#47F801",
+        "fill-emissive-strength": 12,
+        "fill-opacity": 0.5,
+        "fill-outline-color": "rgba(248, 1, 5, 1)",
+        "fill-pattern": "grass-pattern",
+        "fill-pattern-cross-fade": 0.7,
+        "fill-translate": [ 5, 10 ],
+        "fill-translate-anchor": "viewport",
+        "fill-z-offset": 50
+      }
+    }
+  ]
+}

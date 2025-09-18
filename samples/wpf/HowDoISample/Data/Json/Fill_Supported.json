@@ -1,0 +1,26 @@
+{
+  "version": 8,
+  "name": "LocalShapefileFillSupportedProperties",
+  "sources": {
+    "local-shp": {
+      "type": "custom"
+    }
+  },
+  "layers": [
+    {
+      "id": "area-layer",
+      "type": "fill",
+      "source": "local-shp",
+      "source-layer": "Parks.shp",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "paint": {
+        "fill-color": "#020EF4",
+        "fill-opacity": 0.5,
+        "fill-outline-color": "rgba(248, 147, 1, 1)",
+        "fill-translate": [ 5, 10 ],
+        "fill-translate-anchor": "viewport"
+      }
+    }
+  ]
+}

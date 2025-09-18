@@ -1,0 +1,30 @@
+{
+  "version": 8,
+  "name": "LocalShapefileFillUnsupportedProperties",
+  "sources": {
+    "local-shp": {
+      "type": "custom"
+    }
+  },
+  "layers": [
+    {
+      "id": "area-layer",
+      "type": "fill",
+      "source": "local-shp",
+      "source-layer": "Parks.shp",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "layout": {
+        "visibility": "visible",
+        "fill-sort-key": 50
+      },
+      "paint": {
+        "fill-antialias": true,
+        "fill-emissive-strength": 12,
+        "fill-pattern": "grass-pattern",
+        "fill-pattern-cross-fade": 0.7,
+        "fill-z-offset": 50
+      }
+    }
+  ]
+}
