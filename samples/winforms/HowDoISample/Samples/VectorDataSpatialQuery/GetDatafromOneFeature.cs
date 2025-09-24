@@ -41,6 +41,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Add the feature layer to an overlay, and add the overlay to the map
             var parksOverlay = new LayerOverlay();
+            parksOverlay.TileType = TileType.SingleTile;
             parksOverlay.Layers.Add("Frisco Parks", parksLayer);
             mapView.Overlays.Add(parksOverlay);
 
@@ -50,7 +51,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Set the map extent to the bounding box of the parks
             parksLayer.Open();
-            mapView.CurrentExtent = parksLayer.GetBoundingBox();
+            var parksLayerBBox = parksLayer.GetBoundingBox();
+            mapView.CenterPoint = parksLayerBBox.GetCenterPoint();
+            mapView.CurrentScale = MapUtil.GetScale(mapView.MapUnit, parksLayerBBox, mapView.MapWidth, mapView.MapHeight);
             await mapView.ZoomInAsync();
             parksLayer.Close();
 
