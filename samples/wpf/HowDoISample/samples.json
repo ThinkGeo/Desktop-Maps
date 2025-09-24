@@ -343,8 +343,8 @@
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.MVTWithLocalFonts",
-        "title": "Display Vector from MVT Server using Local Fonts",
-        "description": "This sample shows how to display a vector map from an MVT server.",
+        "title": "Display Vector from MVT with Local Fonts",
+        "description": "This sample shows how to display a vector map from an MVT server, using local ttf fonts file",
         "source": "Samples/MapOnlineData/MVTWithLocalFonts"
       },
       {

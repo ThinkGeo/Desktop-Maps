@@ -9,30 +9,50 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="250" />
         </Grid.ColumnDefinitions>
 
-        <thinkGeoUi:MapView x:Name="MapView" Grid.Column="0" Loaded="MapView_Loaded" />
-        <TextBlock Grid.Column="0" Background="gray" VerticalAlignment="Bottom" HorizontalAlignment="Center"
-                   Width="200" Height="40" FontSize="30"
-                   Text="{Binding ElementName=MapView, Path=CurrentZoom, StringFormat={}Zoom: {0:N2}}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+
+        <thinkGeoUi:MapView Grid.Row="0" Grid.RowSpan="2" x:Name="MapView" Grid.Column="0" Loaded="MapView_Loaded" />
+        <TextBlock Grid.Row="1"  Grid.Column="0" Background="gray" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                                Width="200" Height="40" FontSize="30"
+                                Text="{Binding ElementName=MapView, Path=CurrentZoom, StringFormat={}Zoom: {0:N2}}"/>
 
         <StackPanel Grid.Row="0" Grid.Column="1" Margin="5" Background="LightGray">
-            <RadioButton  Margin="0, 5" Checked="SwitchTileSize_OnCheckedChanged" Content="Multi Tile" IsChecked="True"/>
-            <RadioButton  Margin="0, 5" Checked="SwitchTileSize_OnCheckedChanged" Content="Single Tile"/>
-            <RadioButton Margin="0,5"
-                         Checked="SwitchTileSize_OnCheckedChanged">
-                <TextBlock Text="Multi Tile + Dynamic Labeling"
+            <StackPanel>
+                <Label Content="Tile Mode" Margin="5"
+                   FontSize="16" FontWeight="Bold"  />
+
+                <RadioButton Margin="5" Checked="SwitchTileSize_OnCheckedChanged" Content="Multi Tile" IsChecked="True"/>
+                <RadioButton Margin="5" Checked="SwitchTileSize_OnCheckedChanged" Content="Single Tile"/>
+                <RadioButton Margin="5" Checked="SwitchTileSize_OnCheckedChanged">
+                    <TextBlock Text="Multi Tile + Dynamic Labeling"
                            TextWrapping="Wrap"
                            Width="100"/>
-            </RadioButton>
+                </RadioButton>
+            </StackPanel>
+
+            <StackPanel VerticalAlignment="Bottom" Background="LightGray">
+                <Label Content="Font Mode" Margin="5"
+                   FontSize="16" FontWeight="Bold"  />
+
+                <TextBlock x:Name="FontStatus" Margin="6,6,6,2" TextWrapping="Wrap" FontSize="12" Visibility="Collapsed" />
+                <RadioButton  Margin="5" Checked="SystemFonts_OnCheckedChanged" Content="System Fonts" IsChecked="True"/>
+                <RadioButton  Margin="5" Checked="CustomFonts_OnCheckedChanged" Content="Custom Fonts" />
+            </StackPanel>
         </StackPanel>
 
-        <StackPanel Grid.Row="0" Grid.Column="1"  VerticalAlignment="Bottom"
-                    Margin="5" Background="LightGray">
-            <TextBlock x:Name="FontStatus" Margin="6,6,6,2" TextWrapping="Wrap" FontSize="12" Visibility="Collapsed" />
-            <RadioButton  Margin="0, 5" Checked="CustomFont_OnCheckedChanged" Content="Custom Font" />
-            <RadioButton  Margin="0, 5" Checked="FallbackFont_OnCheckedChanged" Content="System Fallback Font" IsChecked="True"/>
-        </StackPanel>
+        <ListBox Grid.Column="1" Grid.Row="1"  Margin="5"  x:Name="LogListBox"
+                  ItemsSource="{Binding Path =LogMessages}"
+                  VirtualizingStackPanel.IsVirtualizing="True"
+                  VirtualizingStackPanel.VirtualizationMode="Recycling" />
+
+        <Button Grid.Column="1" Grid.Row ="2" Content="Open Cache Folder" Margin="8" Click="ButtonBase_OnClick"/>
+
     </Grid>
 </UserControl>
