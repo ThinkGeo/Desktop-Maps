@@ -45,6 +45,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _useCustomFont = true;
             _ = MapView.RefreshAsync();
         }
+
         private void FallbackFont_OnCheckedChanged(object sender, RoutedEventArgs e)
         {
             if (!_mapLoaded)
@@ -120,6 +121,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         public static class NotoSansFontMatcher
         {
+
             /// <summary>Typeface cache keyed by absolute font file path.</summary>
             private static readonly ConcurrentDictionary<string, SKTypeface> _typefaces
                 = new ConcurrentDictionary<string, SKTypeface>(StringComparer.OrdinalIgnoreCase);
@@ -166,35 +168,126 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 {
                     if (cp <= 0x007F) continue; // ASCII → keep scanning
 
-                    // Order matters: detect distinctive blocks first
-                    if (In(cp, 0x4E00, 0x9FFF) || In(cp, 0x3400, 0x4DBF)) scripts.Add("zh"); // CJK & Ext-A
-                    else if (In(cp, 0x3040, 0x30FF) || In(cp, 0x31F0, 0x31FF)) scripts.Add("ja"); // Hiragana/Katakana
-                    else if (In(cp, 0xAC00, 0xD7AF) || In(cp, 0x1100, 0x11FF)) scripts.Add("ko"); // Hangul syllables/jamo
-                    else if (In(cp, 0x0600, 0x06FF) || In(cp, 0x0750, 0x077F) || In(cp, 0x08A0, 0x08FF) ||
-                        In(cp, 0xFB50, 0xFDFF) || In(cp, 0xFE70, 0xFEFF)) scripts.Add("ar"); // Arabic
-                    else if (In(cp, 0x0590, 0x05FF)) scripts.Add("he");  // Hebrew
-                    else if (In(cp, 0x0E00, 0x0E7F)) scripts.Add("th");  // Thai
-                    else if (In(cp, 0x1000, 0x109F)) scripts.Add("my");  // Myanmar
-                    else if (In(cp, 0x0530, 0x058F)) scripts.Add("hy");  // Armenian
-                    else if (In(cp, 0x10A0, 0x10FF) || In(cp, 0x2D00, 0x2D2F)) scripts.Add("ka");  // Georgian
-                    else if (In(cp, 0x1200, 0x137F)) scripts.Add("am");  // Ethiopic
-                    else if (In(cp, 0x1780, 0x17FF)) scripts.Add("km");  // Khmer
-                    else if (In(cp, 0x0E80, 0x0EFF)) scripts.Add("lo");  // Lao
-                    else if (In(cp, 0x0900, 0x097F)) scripts.Add("hi");  // Devanagari
-                    else if (In(cp, 0x0980, 0x09FF)) scripts.Add("bn");  // Bengali
-                    else if (In(cp, 0x0B80, 0x0BFF)) scripts.Add("ta");  // Tamil
-                    else if (In(cp, 0x0D80, 0x0DFF)) scripts.Add("si"); // Sinhala
-                    else if (In(cp, 0x1800, 0x18AF)) scripts.Add("mn"); // Mongolian
-                    else if (In(cp, 0x2D30, 0x2D7F) || In(cp, 0x10E60, 0x10E7F) || In(cp, 0x2D80, 0x2DDF) || In(cp, 0x10E80, 0x10EBF)) scripts.Add("ber"); // Tifinagh
-                    else if (In(cp, 0x0F00, 0x0FFF) || In(cp, 0x11400, 0x1147F)) scripts.Add("bo");  // Tibetan
-                    else if ((cp >= 0xA000 && cp <= 0xA48F) || (cp >= 0xA490 && cp <= 0xA4CF)) scripts.Add("yi"); // yi
-                    else if (In(cp, 0x0370, 0x03FF)) scripts.Add("el");  // Greek
-                    else if (In(cp, 0x0400, 0x04FF)) scripts.Add("ru");  // Cyrillic
-                }
-                return "en";
+                    // CJK：Basic Han + Extensions A–G + Compatibility Ideographs & Compatibility Ideographs Supplement
+                    else if (In(cp, 0x4E00, 0x9FFF)   // CJK Unified Ideographs
+                          || In(cp, 0x3400, 0x4DBF)   // CJK Ext-A
+                          || In(cp, 0x20000, 0x2A6DF) // CJK Ext-B
+                          || In(cp, 0x2A700, 0x2B73F) // CJK Ext-C
+                          || In(cp, 0x2B740, 0x2B81F) // CJK Ext-D
+                          || In(cp, 0x2B820, 0x2CEAF) // CJK Ext-E
+                          || In(cp, 0x2CEB0, 0x2EBEF) // CJK Ext-F
+                          || In(cp, 0x30000, 0x3134F) // CJK Ext-G
+                          || In(cp, 0xF900, 0xFAFF)   // CJK Compatibility Ideographs
+                          || In(cp, 0x2F800, 0x2FA1F))// CJK Compatibility Ideographs Supplement
+                    {
+                        scripts.Add("zh");
+                    }
+                    // Japanese：Hiragana/Katakana + extensions + Kana Supplement + Kana Extended-A + Small Kana Extension + Halfwidth Katakana
+                    else if (In(cp, 0x3040, 0x309F)   // Hiragana
+                          || In(cp, 0x30A0, 0x30FF)   // Katakana
+                          || In(cp, 0x31F0, 0x31FF)   // Katakana Phonetic Extensions
+                          || In(cp, 0x1B000, 0x1B0FF) // Kana Supplement
+                          || In(cp, 0x1B100, 0x1B12F) // Kana Extended-A
+                          || In(cp, 0x1B130, 0x1B16F) // Small Kana Extension
+                          || In(cp, 0xFF66, 0xFF9D))  // Halfwidth Katakana
+                    {
+                        scripts.Add("ja");
+                    }
+                    // Korean：Hangul syllables + Jamo (Basic/Extended-A/Extended-B) + Halfwidth Hangul
+                    else if (In(cp, 0xAC00, 0xD7AF)   // Hangul Syllables
+                          || In(cp, 0x1100, 0x11FF)   // Hangul Jamo
+                          || In(cp, 0xA960, 0xA97F)   // Hangul Jamo Extended-A
+                          || In(cp, 0xD7B0, 0xD7FF)   // Hangul Jamo Extended-B
+                          || In(cp, 0xFFA0, 0xFFDC))  // Halfwidth Hangul
+                    {
+                        scripts.Add("ko");
+                    }
+                    // Arabic：Includes Extended-B & Extended-A, and Presentation Forms A/B
+                    else if (In(cp, 0x0600, 0x06FF) || In(cp, 0x0750, 0x077F)
+                          || In(cp, 0x0870, 0x089F) || In(cp, 0x08A0, 0x08FF) // Ext-B / Ext-A
+                          || In(cp, 0xFB50, 0xFDFF) || In(cp, 0xFE70, 0xFEFF))
+                    {
+                        scripts.Add("ar");
+                    }
+                    // Hebrew
+                    else if (In(cp, 0x0590, 0x05FF)) scripts.Add("he");
 
+                    // Thai
+                    else if (In(cp, 0x0E00, 0x0E7F)) scripts.Add("th");
+
+                    // Myanmar：Basic + Extended-A/B
+                    else if (In(cp, 0x1000, 0x109F) || In(cp, 0xAA60, 0xAA7F) || In(cp, 0xA9E0, 0xA9FF))
+                    {
+                        scripts.Add("my");
+                    }
+
+                    // Armenian
+                    else if (In(cp, 0x0530, 0x058F)) scripts.Add("hy");
+
+                    // Georgian：Includes Nuskhuri & Mtavruli
+                    else if (In(cp, 0x10A0, 0x10FF) || In(cp, 0x2D00, 0x2D2F) || In(cp, 0x1C90, 0x1CBF))
+                    {
+                        scripts.Add("ka");
+                    }
+
+                    // Ethiopic: Basic + Supplement + Extended + Extended-A
+                    else if (In(cp, 0x1200, 0x137F) || In(cp, 0x1380, 0x139F)
+                          || In(cp, 0x2D80, 0x2DDF) || In(cp, 0xAB00, 0xAB2F))
+                    {
+                        scripts.Add("am");
+                    }
+
+                    // Khmer + Khmer Symbols
+                    else if (In(cp, 0x1780, 0x17FF) || In(cp, 0x19E0, 0x19FF)) scripts.Add("km");
+
+                    // Lao
+                    else if (In(cp, 0x0E80, 0x0EFF)) scripts.Add("lo");
+
+                    // Devanagari + Extended
+                    else if (In(cp, 0x0900, 0x097F) || In(cp, 0xA8E0, 0xA8FF)) scripts.Add("hi");
+
+                    // Bengali
+                    else if (In(cp, 0x0980, 0x09FF)) scripts.Add("bn");
+
+                    // Tamil
+                    else if (In(cp, 0x0B80, 0x0BFF)) scripts.Add("ta");
+
+                    // Sinhala
+                    else if (In(cp, 0x0D80, 0x0DFF)) scripts.Add("si");
+
+                    // Mongolian
+                    else if (In(cp, 0x1800, 0x18AF)) scripts.Add("mn");
+
+                    // Tifinagh
+                    else if (In(cp, 0x2D30, 0x2D7F)) scripts.Add("ber");
+
+                    // Tibetan
+                    else if (In(cp, 0x0F00, 0x0FFF)) scripts.Add("bo");
+
+                    // Yi
+                    else if (In(cp, 0xA000, 0xA48F) || In(cp, 0xA490, 0xA4CF)) scripts.Add("yi");
+
+                    // New Tai Lue
+                    else if (In(cp, 0x1980, 0x19DF)) scripts.Add("talu");
+
+                    // Thaana (Dhivehi/Maldivian)
+                    else if (In(cp, 0x0780, 0x07BF)) scripts.Add("thaa");
+
+                    // Greek（Includes  Greek Extended）
+                    else if (In(cp, 0x0370, 0x03FF) || In(cp, 0x1F00, 0x1FFF)) scripts.Add("el");
+
+                    // Cyrillic（Includes  Supplement / Extended-A/B）
+                    else if (In(cp, 0x0400, 0x04FF) || In(cp, 0x0500, 0x052F)
+                          || In(cp, 0x2DE0, 0x2DFF) || In(cp, 0xA640, 0xA69F))
+                    {
+                        scripts.Add("ru");
+                    }
+                }
+                return scripts.Count > 1 ? "multi" : scripts.Count == 1 ? scripts.First() : "en";
             }
+
             static bool In(int v, int a, int b) => v >= a && v <= b;
+
             // ----------------------- Language + style → file path -----------------------
 
             /// <summary>
@@ -210,6 +303,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 // Map language → Noto family suffix (tweak as needed)
                 string family;
+                //Debug.WriteLine(lang);
                 switch (lang)
                 {
                     case "zh": family = "NotoSansSC"; break;
@@ -218,7 +312,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     case "ar": family = "NotoSansArabic"; break;
                     case "he": family = "NotoSansHebrew"; break;
                     case "th": family = "NotoSansThai"; break;
-                    case "my": family = "NotoSansMyanmar"; break;
+                    case "my": family = "GoNotoKurrent"; break;
                     case "hy": family = "NotoSansArmenian"; break;
                     case "ka": family = "NotoSansGeorgian"; break;
                     case "am": family = "NotoSansEthiopic"; break;
@@ -232,9 +326,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     case "ber": family = "NotoSansTifinagh"; break;
                     case "bo": family = "NotoSerifTibetan"; break;
                     case "yi": family = "NotoSansYi"; break;
+                    case "talu": family = "NotoSansNewTaiLue"; break;
+                    case "thaa": family = "NotoSansThaana"; break;
                     case "el": family = "NotoSans"; break;
                     case "ru": family = "NotoSans"; break;
-                    default: family = "GoNotoCurrent"; break;
+                    case "multi": family = "GoNotoKurrent"; break;
+                    default: family = "NotoSans"; break;
                 }
 
                 // Effective style from GeoFont (name hints included; case-insensitive)
@@ -333,164 +430,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
         }
 
-        public static class GoNotoFontMatcher
-        {
-            // Cache of loaded typefaces, keyed by absolute file path, to avoid reopening files repeatedly
-            private static readonly ConcurrentDictionary<string, SKTypeface> _typefaces =
-                new ConcurrentDictionary<string, SKTypeface>(StringComparer.OrdinalIgnoreCase);
-
-            /// <summary>
-            /// Returns the appropriate SKTypeface based on the text content and GeoFont style.
-            /// Uses the Go Noto Universal font bundles, distinguishing only between bold and regular weights.
-            /// </summary>
-            public static SKTypeface GetSkTypeface(string text, GeoFont font)
-            {
-                var group = DetectGoNotoGroup(text);
-                const string fontsFolder = @"D:\DisplayMbTilesFile_fonts\GoNotoFonts";
-                bool wantBold =
-                    (font?.IsBold ?? false) ||
-                    ((font?.FontName?.IndexOf("bold", StringComparison.OrdinalIgnoreCase) ?? -1) >= 0);
-
-                var typeface = TryLoadGoNotoTypeface(group, wantBold, fontsFolder);
-                return typeface ?? (SKTypeface.FromFamilyName("Arial") ?? SKTypeface.Default);
-            }
-
-            /// <summary>
-            /// Determines which Go Noto font bundle to use based on the text's character ranges.
-            /// If the text spans multiple script regions, returns GoNotoCurrent.
-            /// </summary>
-            private static string DetectGoNotoGroup(string text)
-            {
-                if (string.IsNullOrEmpty(text))
-                    return "GoNotoCurrent";
-
-                var groups = new HashSet<string>();
-                foreach (int cp in EnumerateCodePoints(text))
-                {
-                    if (cp <= 0x007F) continue; // Skip ASCII
-
-                    if (IsEastAsia(cp)) groups.Add("GoNotoEastAsia");
-                    else if (IsSouthEastAsia(cp)) groups.Add("GoNotoSouthEastAsia");
-                    else if (IsAfricaMiddleEast(cp)) groups.Add("GoNotoAfricaMiddleEast");
-                    else if (IsCjkCore(cp)) groups.Add("GoNotoCJKCore");
-                    else if (IsEuropeAmericas(cp)) groups.Add("GoNotoEuropeAmericas");
-                    // Additional script ranges can be added here as needed
-                }
-
-                return groups.Count == 1 ? groups.First() : "GoNotoCurrent";
-            }
-
-            /// <summary>
-            /// Attempts to load the specified Go Noto font; tries the bold version first, then regular, and finally without a suffix.
-            /// </summary>
-            private static SKTypeface TryLoadGoNotoTypeface(string family, bool wantBold, string fontsFolder)
-            {
-                var candidates = new List<string>();
-                if (wantBold) candidates.Add($"{family}-Bold.ttf");
-                candidates.Add($"{family}-Regular.ttf");
-                candidates.Add($"{family}.ttf");
-
-                foreach (var filename in candidates)
-                {
-                    var path = Path.Combine(fontsFolder, filename);
-                    if (File.Exists(path))
-                    {
-                        return _typefaces.GetOrAdd(path, p =>
-                        {
-                            var tf = SKTypeface.FromFile(p);
-                            return tf ?? SKTypeface.Default;
-                        });
-                    }
-                }
-
-                return null;
-            }
-
-            // Helper functions for determining script regions:
-            private static bool IsEastAsia(int cp)
-            {
-                // Mongolian, Tibetan, Yi, New Tai Lue, Yi extensions, Miao, Tangut, Bopomofo, Japanese Hiragana/Katakana, etc.
-                return (In(cp, 0x0F00, 0x0FFF) ||     // Tibetan
-                        In(cp, 0x1800, 0x18AF) ||     // Mongolian
-                        In(cp, 0xA000, 0xA4CF) ||     // Yi Syllables & Radicals
-                        In(cp, 0x1980, 0x19DF) ||     // New Tai Lue
-                        In(cp, 0x16F00, 0x16F9F) ||   // Miao
-                        In(cp, 0x17000, 0x187FF) ||   // Tangut
-                        In(cp, 0x3100, 0x312F) ||     // Bopomofo
-                        In(cp, 0x3040, 0x30FF) || In(cp, 0x31F0, 0x31FF)); // Hiragana/Katakana
-            }
-
-            private static bool IsSouthEastAsia(int cp)
-            {
-                // Lao, Myanmar
-                return (
-                        In(cp, 0x0E80, 0x0EFF) ||// Lao
-                        In(cp, 0x1000, 0x109F));  // Myanmar
-            }
-
-            private static bool IsAfricaMiddleEast(int cp)
-            {
-                // Arabic, Hebrew, Ethiopic, Tifinagh, etc.
-                return (In(cp, 0x0600, 0x06FF) || In(cp, 0x0750, 0x077F) ||
-                        In(cp, 0x08A0, 0x08FF) || In(cp, 0xFB50, 0xFDFF) ||
-                        In(cp, 0xFE70, 0xFEFF)) ||       // Arabic ranges
-                       In(cp, 0x0590, 0x05FF) ||       // Hebrew
-                       In(cp, 0x1200, 0x137F) ||       // Ethiopic
-                       In(cp, 0x2D30, 0x2D7F) || In(cp, 0x10E60, 0x10E7F) ||
-                       In(cp, 0x2D80, 0x2DDF) || In(cp, 0x10E80, 0x10EBF); // Tifinagh & extensions
-            }
-
-            private static bool IsCjkCore(int cp)
-            {
-                // Han characters (including Extension A) and Hangul
-                return (In(cp, 0x3400, 0x4DBF) || In(cp, 0x4E00, 0x9FFF) ||
-                        In(cp, 0x1100, 0x11FF) || In(cp, 0xAC00, 0xD7AF));
-            }
-
-            private static bool IsEuropeAmericas(int cp)
-            {
-                // Greek, Slavic (Cyrillic), Armenian, Georgian, etc.
-                return (In(cp, 0x0370, 0x03FF) ||     // Greek
-                        In(cp, 0x0400, 0x04FF) ||     // Cyrillic
-                        In(cp, 0x0530, 0x058F) ||     // Armenian
-                        In(cp, 0x10A0, 0x10FF) ||     // Georgian
-                        In(cp, 0x2D00, 0x2D2F));      // Georgian Supplement
-            }
-
-            private static bool In(int v, int a, int b) => v >= a && v <= b;
-
-            /// <summary>
-            /// Enumerates the Unicode code points in a string, correctly handling surrogate pairs.
-            /// </summary>
-            private static IEnumerable<int> EnumerateCodePoints(string s)
-            {
-                if (string.IsNullOrEmpty(s)) yield break;
-
-                int i = 0;
-                while (i < s.Length)
-                {
-                    char c = s[i];
-                    if (char.IsHighSurrogate(c) && i + 1 < s.Length && char.IsLowSurrogate(s[i + 1]))
-                    {
-                        yield return char.ConvertToUtf32(c, s[i + 1]);
-                        i += 2;
-                    }
-                    else
-                    {
-                        yield return c;
-                        i += 1;
-                    }
-                }
-            }
-        }
-
         public void Dispose()
         {
             ThinkGeoDebugger.DisplayTileId = false;
             MapView.Dispose();
             GC.SuppressFinalize(this);
         }
-
-
     }
 }
