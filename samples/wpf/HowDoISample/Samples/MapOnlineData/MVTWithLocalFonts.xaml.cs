@@ -25,6 +25,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private bool _mapLoaded = false;
         private bool _useCustomFont = false;
 
+        private const string FontsFolderPath = @"D:\DisplayMbTilesFile_fonts\NotoSansFonts";
+
+        private static readonly string[] RequiredFamilies = new[]
+        {
+            "GoNotoKurrent-Bold", "GoNotoKurrent-Regular", "NotoSansArabic-Bold", "NotoSansArabic-Regular", "NotoSansArmenian-Bold",
+            "NotoSansArmenian-Regular", "NotoSansBengali-Bold", "NotoSansBengali-Regular", "NotoSans-Bold", "NotoSans-Regular",
+            "NotoSansEthiopic-Bold", "NotoSansEthiopic-Regular", "NotoSansGeorgian-Bold", "NotoSansGeorgian-Regular", "NotoSansHebrew-Bold",
+            "NotoSansHebrew-Regular", "NotoSansJP-Bold", "NotoSansJP-Regular", "NotoSansKhmer-Bold", "NotoSansKhmer-Regular",
+            "NotoSansKR-Bold","NotoSansKR-Regular", "NotoSansLao-Bold", "NotoSansLao-Regular", "NotoSansMongolian-Regular",
+            "NotoSansSC-Bold", "NotoSansSC-Regular","NotoSansThaana-Bold","NotoSansThaana-Regular", "NotoSansThai-Bold",
+            "NotoSansThai-Regular", "NotoSansTifinagh-Regular", "NotoSerifTibetan-Bold", "NotoSerifTibetan-Regular"
+        };
+
         private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
             MapView.MapUnit = GeographyUnit.Meter;
@@ -43,6 +56,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 return;
 
             _useCustomFont = true;
+
+            UpdateFontStatusUi();
+
             _ = MapView.RefreshAsync();
         }
 
@@ -52,6 +68,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 return;
 
             _useCustomFont = false;
+
+            HideFontStatusUi();
+
             _ = MapView.RefreshAsync();
         }
 
@@ -117,6 +136,74 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             if (_useCustomFont)
                 e.SkTypeFace = NotoSansFontMatcher.GetSkTypeface(e.Text, e.Font);
+        }
+
+        private void UpdateFontStatusUi()
+        {
+            if (FontStatus == null) return;
+
+            List<string> missing;
+            var allOk = AreRequiredFontsAvailable(FontsFolderPath, out missing);
+
+            FontStatus.Visibility = Visibility.Visible;
+            if (allOk)
+            {
+                FontStatus.Text = "All required fonts have been downloaded";
+                FontStatus.Foreground = System.Windows.Media.Brushes.Green;
+            }
+            else
+            {
+                var miss = string.Join(", ", missing.Take(4));
+                if (missing.Count > 4) miss += " ...";
+                FontStatus.Text = "Fonts are not downloaded; labels in some regions may not render completely (missing: " + miss + ")";
+                FontStatus.Foreground = System.Windows.Media.Brushes.Red;
+            }
+        }
+
+        private void HideFontStatusUi()
+        {
+            if (FontStatus == null) return;
+            FontStatus.Visibility = Visibility.Collapsed;
+        }
+
+        private static bool AreRequiredFontsAvailable(string folder, out List<string> missingItems)
+        {
+            missingItems = new List<string>();
+
+            if (string.IsNullOrEmpty(folder) || !Directory.Exists(folder))
+            {
+                missingItems.AddRange(RequiredFamilies);
+                return false;
+            }
+
+            for (int i = 0; i < RequiredFamilies.Length; i++)
+            {
+                var stem = RequiredFamilies[i];
+                var path = Path.Combine(folder, stem + ".ttf");
+
+                if (!File.Exists(path))
+                {
+                    missingItems.Add(stem);
+                    continue;
+                }
+
+                try
+                {
+                    using (var tf = SKTypeface.FromFile(path))
+                    {
+                        if (tf == null)
+                        {
+                            missingItems.Add(stem);
+                        }
+                    }
+                }
+                catch
+                {
+                    missingItems.Add(stem);
+                }
+            }
+
+            return missingItems.Count == 0;
         }
 
         public static class NotoSansFontMatcher
@@ -303,7 +390,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 // Map language → Noto family suffix (tweak as needed)
                 string family;
-                //Debug.WriteLine(lang);
+
                 switch (lang)
                 {
                     case "zh": family = "NotoSansSC"; break;
@@ -318,18 +405,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     case "am": family = "NotoSansEthiopic"; break;
                     case "km": family = "NotoSansKhmer"; break;
                     case "lo": family = "NotoSansLao"; break;
-                    case "hi": family = "NotoSansDevanagari"; break;
                     case "bn": family = "NotoSansBengali"; break;
-                    case "ta": family = "NotoSansTamil"; break;
-                    case "si": family = "NotoSansSinhala"; break;
                     case "mn": family = "NotoSansMongolian"; break;
                     case "ber": family = "NotoSansTifinagh"; break;
                     case "bo": family = "NotoSerifTibetan"; break;
-                    case "yi": family = "NotoSansYi"; break;
-                    case "talu": family = "NotoSansNewTaiLue"; break;
                     case "thaa": family = "NotoSansThaana"; break;
                     case "el": family = "NotoSans"; break;
                     case "ru": family = "NotoSans"; break;
+                    //case "hi": family = "NotoSansDevanagari"; break;
+                    //case "ta": family = "NotoSansTamil"; break;
+                    //case "si": family = "NotoSansSinhala"; break;
+                    //case "yi": family = "NotoSansYi"; break;
+                    //case "talu": family = "NotoSansNewTaiLue"; break;
                     case "multi": family = "GoNotoKurrent"; break;
                     default: family = "NotoSans"; break;
                 }

@@ -30,6 +30,7 @@
 
         <StackPanel Grid.Row="0" Grid.Column="1"  VerticalAlignment="Bottom"
                     Margin="5" Background="LightGray">
+            <TextBlock x:Name="FontStatus" Margin="6,6,6,2" TextWrapping="Wrap" FontSize="12" Visibility="Collapsed" />
             <RadioButton  Margin="0, 5" Checked="CustomFont_OnCheckedChanged" Content="Custom Font" />
             <RadioButton  Margin="0, 5" Checked="FallbackFont_OnCheckedChanged" Content="System Fallback Font" IsChecked="True"/>
         </StackPanel>
