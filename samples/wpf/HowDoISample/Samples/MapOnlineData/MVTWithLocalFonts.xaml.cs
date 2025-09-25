@@ -140,10 +140,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 return;
             }
 
-            var lang = fontsLoader.DetectLanguageTag(e.Text);           // e.g., "zh" / "ja" / "ko" / "en"
+            var lang = fontsLoader.DetectLanguageTag(e.Text);  // e.g., "en", "ko"  return "multi" if multi languages detected
             if (_typefaceCache.TryGetValue(lang, out var typeface))
             {
-                e.SkTypeFace = typeface;
+                e.SkTypeFaces = new Collection<SKTypeface>() { typeface };
                 return;
             }
 
@@ -161,8 +161,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (tf != null)
             {
                 _typefaceCache.AddOrUpdate(lang, tf, (s, t) => tf);
-                e.SkTypeFace = tf;
-                AppendLog($"Loaded: {fontName}");
+                e.SkTypeFaces = new Collection<SKTypeface>() { tf };
+
+                AppendLog($"Loaded: {lang} - {fontName}");
             }
             else
             {
