@@ -30,11 +30,7 @@
 
                 <RadioButton Margin="5" Checked="SwitchTileSize_OnCheckedChanged" Content="Multi Tile" IsChecked="True"/>
                 <RadioButton Margin="5" Checked="SwitchTileSize_OnCheckedChanged" Content="Single Tile"/>
-                <RadioButton Margin="5" Checked="SwitchTileSize_OnCheckedChanged">
-                    <TextBlock Text="Multi Tile + Dynamic Labeling"
-                           TextWrapping="Wrap"
-                           Width="100"/>
-                </RadioButton>
+                <RadioButton Margin="5" Checked="SwitchTileSize_OnCheckedChanged" Content="Multi Tile + Dynamic Labeling"/>
             </StackPanel>
 
             <StackPanel VerticalAlignment="Bottom" Background="LightGray">
