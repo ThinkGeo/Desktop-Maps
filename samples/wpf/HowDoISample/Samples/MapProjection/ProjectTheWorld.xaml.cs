@@ -71,8 +71,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     _worldLayer.ProjectionConverter = new ProjectionConverter(3857, SampleKeys.ProjString1);
                     _worldLayer.ProjectionConverter.Open();
                     MapView.MapUnit = GeographyUnit.Meter;
-                    MapView.CenterPoint = new PointShape(-362950, 6710320);
-                    MapView.CurrentScale = 36912000;
+                    MapView.CenterPoint = new PointShape(-945060, 7010600);
+                    MapView.CurrentScale = 18489350;
                     break;
                 case "Equal Area - Albers Conic":
                     _worldLayer.ProjectionConverter = new ProjectionConverter(3857, SampleKeys.ProjString2);
