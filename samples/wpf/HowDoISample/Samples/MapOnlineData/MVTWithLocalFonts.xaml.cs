@@ -98,7 +98,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var layerOverlay = new LayerOverlay();
             layerOverlay.TileType = TileType.SingleTile;
             var mvtLayer = new MvtTilesAsyncLayer(wvtServerUri);
-            layerOverlay.LoadingSkiaSKTypeface += MvtLayerLoadingSkiaSkTypeface;
+            layerOverlay.CreatingSKTypefacesForText += MvtLayerCreatingSkTypefacesForText;
             layerOverlay.Layers.Add(mvtLayer);
             MapView.Overlays.Add(layerOverlay);
         }
@@ -107,7 +107,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             var layerOverlay = new LayerOverlay();
             var mvtLayer = new MvtTilesAsyncLayer(wvtServerUri);
-            layerOverlay.LoadingSkiaSKTypeface += MvtLayerLoadingSkiaSkTypeface;
+            layerOverlay.CreatingSKTypefacesForText += MvtLayerCreatingSkTypefacesForText;
             layerOverlay.Layers.Add(mvtLayer);
             MapView.Overlays.Add(layerOverlay);
         }
@@ -128,7 +128,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.Overlays.Add(drawingOverlay);
         }
 
-        private void MvtLayerLoadingSkiaSkTypeface(object sender, LoadingSkiaSKTypefaceEventArgs e)
+        private void MvtLayerCreatingSkTypefacesForText(object sender, CreatingSKTypefacesForTextEventArgs e)
         {
             if (!_useCustomFont)
             {
