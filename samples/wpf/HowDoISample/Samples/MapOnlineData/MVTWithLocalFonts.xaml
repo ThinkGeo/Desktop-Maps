@@ -15,11 +15,11 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="40" />
+            <RowDefinition Height="60" />
         </Grid.RowDefinitions>
 
-        <thinkGeoUi:MapView Grid.Row="0" Grid.RowSpan="2" x:Name="MapView" Grid.Column="0" Loaded="MapView_Loaded" />
-        <TextBlock Grid.Row="1"  Grid.Column="0" Background="gray" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+        <thinkGeoUi:MapView Grid.Row="0" Grid.RowSpan="3" x:Name="MapView" Grid.Column="0" Loaded="MapView_Loaded" />
+        <TextBlock Grid.Row="2"  Grid.Column="0" Background="gray" HorizontalAlignment="Center"
                                 Width="200" Height="40" FontSize="30"
                                 Text="{Binding ElementName=MapView, Path=CurrentZoom, StringFormat={}Zoom: {0:N2}}"/>
 
@@ -48,7 +48,13 @@
                   VirtualizingStackPanel.IsVirtualizing="True"
                   VirtualizingStackPanel.VirtualizationMode="Recycling" />
 
-        <Button Grid.Column="1" Grid.Row ="2" Content="Open Cache Folder" Margin="8" Click="ButtonBase_OnClick"/>
-
+        <StackPanel Grid.Column="1" Grid.Row ="2">
+            <TextBlock Margin="4">
+                <Hyperlink NavigateUri="https://cdn.thinkgeo.com/downloads/howdoi_fonts_09262025.zip" RequestNavigate="Hyperlink_RequestNavigate">
+                    Click here to download fonts 
+                </Hyperlink>
+            </TextBlock>
+            <Button Content="Open Fonts Folder" ToolTip="Put the download ttf files to this folder"  Margin="4" Click="ButtonBase_OnClick"/>
+        </StackPanel>
     </Grid>
 </UserControl>

@@ -141,26 +141,28 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
 
             var lang = fontsLoader.DetectLanguageTag(e.Text);  // e.g., "en", "ko"  return "multi" if multi languages detected
-            if (_typefaceCache.TryGetValue(lang, out var typeface))
+            var path = fontsLoader.GetNotoFilePath(lang, e.Font);
+            var fontName = Path.GetFileName(path);
+
+            if (_typefaceCache.TryGetValue(fontName, out var typeface))
             {
                 e.SkTypeFaces = new Collection<SKTypeface>() { typeface };
                 return;
             }
 
-            var path = fontsLoader.GetNotoFilePath(lang, e.Font);
-            var fontName = Path.GetFileName(path);
+ 
             SKTypeface tf = null;
             if (!File.Exists(path))
             {
                 AppendLog($"Fail to load: {fontName}");
-                _typefaceCache.AddOrUpdate(lang, tf, (s, t) => tf);
+                _typefaceCache.AddOrUpdate(fontName, tf, (s, t) => tf);
                 return;
             }
 
             tf = SKTypeface.FromFile(path);
             if (tf != null)
             {
-                _typefaceCache.AddOrUpdate(lang, tf, (s, t) => tf);
+                _typefaceCache.AddOrUpdate(fontName, tf, (s, t) => tf);
                 e.SkTypeFaces = new Collection<SKTypeface>() { tf };
 
                 AppendLog($"Loaded: {lang} - {fontName}");
@@ -198,6 +200,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             ThinkGeoDebugger.DisplayTileId = false;
             MapView.Dispose();
             GC.SuppressFinalize(this);
+        }
+
+        private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        {
+            Process.Start(new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = e.Uri.AbsoluteUri,
+                UseShellExecute = true
+            });
+            e.Handled = true;
         }
     }
 
