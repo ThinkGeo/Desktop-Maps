@@ -1,0 +1,27 @@
+﻿<Window x:Class="MBTilesExtractor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Wpf="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+        mc:Ignorable="d"
+        Title="ThinkGeo MBTiles Extractor" Height="768" Width="1024" Loaded="Window_Loaded">
+    <Grid>
+        <TextBlock Name="Instruction" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30"> Drag and Drop a .mbtiles file here</TextBlock>
+        <Wpf:MapView Name="MapView"
+                     AllowDrop="True"
+                     Drop="MapView_Drop"
+                     DragOver="MapView_DragOver" />
+       <CheckBox x:Name="chkExtractingData"
+                  Checked="ChkExtractingData_Checked"  
+                  Unchecked="ChkExtractingData_Checked" 
+                  IsChecked="False"  
+                  Content="Extract Vector Tiles"  
+                  VerticalAlignment="Bottom"
+                  HorizontalAlignment="Center"
+                  Margin="10"
+                  FontSize="20"
+                  VerticalContentAlignment="Stretch"/>
+        <ProgressBar Name="pbExtractProgress" Height="20"  VerticalAlignment="Center" HorizontalAlignment="Center" Width="200" IsIndeterminate="True" Visibility="Hidden"/>
+    </Grid>
+</Window>
