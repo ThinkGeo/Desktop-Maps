@@ -33,7 +33,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             layerOverlay.TileType = TileType.SingleTile;
             MapView.Overlays.Add("world overlay", layerOverlay);
 
-            var wvtServerUri = "https://tiles.preludemaps.com/styles/Savannah_Light_v4/style.json";
+            var wvtServerUri = "https://tiles.preludemaps.com/styles/WorldStreets_Light/style.json";
             _worldLayer = new MvtTilesAsyncLayer(wvtServerUri);
             _worldLayer.ProjectionConverter = new ProjectionConverter(3857, 4326);
 

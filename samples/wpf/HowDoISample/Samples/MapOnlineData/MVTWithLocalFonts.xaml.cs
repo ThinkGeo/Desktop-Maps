@@ -42,7 +42,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
             _mapLoaded = true;
 
-            wvtServerUri = "https://tiles.preludemaps.com/styles/Savannah_Light_v4/style.json";
+            wvtServerUri = "https://tiles.preludemaps.com/styles/WorldStreets_Light/style.json";
             ThinkGeoDebugger.DisplayTileId = true;
 
             MapView.CurrentExtent = MaxExtents.ThinkGeoMaps;

@@ -114,8 +114,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             _backgroundOverlay.TileCache = new FileRasterTileCache(@".\cache",
                 themeCheckBox.Checked == true ? "thinkgeo_raster_dark" : "thinkgeo_raster_light");
 
-            await mapView.RefreshAsync(); // Cancel the ongoing rendering
-            await _backgroundOverlay.RefreshAsync();
+            await mapView.RefreshAsync(); // It will cancel the ongoing rendering
         }
 
         private void CompassButton_Click(object sender, EventArgs e)
