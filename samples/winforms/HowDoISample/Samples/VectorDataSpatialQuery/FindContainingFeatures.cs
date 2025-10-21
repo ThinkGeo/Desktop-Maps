@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,6 +15,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         public FindContainingFeatures()
         {
             InitializeComponent();
+            MapViewHelper.InitializeDefaultZoomScales(mapView);
         }
 
         private async void Form_Load(object sender, EventArgs e)
@@ -163,6 +165,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private MapView mapView;
         private Panel consolePanel;
+        private FlowLayoutPanel controlsGroupPanel;
         private Label queryLabel;
         private Label clickLabel;
         private Label panLabel;
@@ -175,6 +178,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             mapView = new MapView();
             consolePanel = new Panel();
+            controlsGroupPanel = new FlowLayoutPanel();
             queryLabel = new Label();
             clickLabel = new Label();
             panLabel = new Label();
@@ -205,24 +209,37 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             consolePanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             consolePanel.BackColor = System.Drawing.Color.Gray;
-            consolePanel.Controls.Add(zoomTextBox);
-            consolePanel.Controls.Add(zoomLabel);
-            consolePanel.Controls.Add(panTextBox);
-            consolePanel.Controls.Add(panLabel);
-            consolePanel.Controls.Add(numberOfFeaturesFoundTextBox);
-            consolePanel.Controls.Add(clickLabel);
-            consolePanel.Controls.Add(queryLabel);
+            consolePanel.Controls.Add(controlsGroupPanel);
             consolePanel.Location = new System.Drawing.Point(858, 0);
             consolePanel.Name = "consolePanel";
             consolePanel.Size = new System.Drawing.Size(289, 622);
             consolePanel.TabIndex = 1;
             // 
+            // controlsGroupPanel
+            // 
+            controlsGroupPanel.AutoSize = true;
+            controlsGroupPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            controlsGroupPanel.FlowDirection = FlowDirection.TopDown;
+            controlsGroupPanel.WrapContents = false;
+            controlsGroupPanel.Location = new System.Drawing.Point(18, 20);
+            controlsGroupPanel.Size = new System.Drawing.Size(260, 120);
+            controlsGroupPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            controlsGroupPanel.BackColor = System.Drawing.Color.Transparent;
+            controlsGroupPanel.Controls.Add(this.queryLabel);
+            controlsGroupPanel.Controls.Add(this.clickLabel);
+            controlsGroupPanel.Controls.Add(this.numberOfFeaturesFoundTextBox);
+            controlsGroupPanel.Controls.Add(this.panLabel);
+            controlsGroupPanel.Controls.Add(this.panTextBox);
+            controlsGroupPanel.Controls.Add(this.zoomLabel);
+            controlsGroupPanel.Controls.Add(this.zoomTextBox);
+            // 
             // queryLabel
             // 
             queryLabel.AutoSize = true;
+            queryLabel.MaximumSize = new Size(0, 0);
             queryLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             queryLabel.ForeColor = System.Drawing.Color.White;
-            queryLabel.Location = new System.Drawing.Point(20, 18);
+            queryLabel.Margin = new Padding(0, 0, 0, 6);
             queryLabel.Name = "queryLabel";
             queryLabel.Size = new System.Drawing.Size(192, 20);
             queryLabel.TabIndex = 0;
@@ -231,13 +248,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // clickLabel
             // 
             clickLabel.AutoSize = true;
+            clickLabel.MaximumSize = new Size(0, 0);
             clickLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             clickLabel.ForeColor = System.Drawing.Color.White;
-            clickLabel.Location = new System.Drawing.Point(20, 45);
+            clickLabel.Margin = new Padding(0, 0, 0, 6);
             clickLabel.Name = "clickLabel";
             clickLabel.Size = new System.Drawing.Size(192, 20);
             clickLabel.TabIndex = 1;
-            clickLabel.Text = "Click On The Map To Draw A New\r\nPoint";
+            clickLabel.Text = "Click On The Map To Draw A New Point";
             // 
             // numberOfFeaturesFoundTextBox
             // 
@@ -245,7 +263,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             numberOfFeaturesFoundTextBox.BorderStyle = BorderStyle.None;
             numberOfFeaturesFoundTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             numberOfFeaturesFoundTextBox.ForeColor = System.Drawing.Color.White;
-            numberOfFeaturesFoundTextBox.Location = new System.Drawing.Point(25, 84);
+            numberOfFeaturesFoundTextBox.Margin = new Padding(0, 0, 0, 6);
             numberOfFeaturesFoundTextBox.Multiline = true;
             numberOfFeaturesFoundTextBox.Name = "numberOfFeaturesFoundTextBox";
             numberOfFeaturesFoundTextBox.Size = new System.Drawing.Size(260, 48);
@@ -256,7 +274,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             panLabel.AutoSize = true;
             panLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             panLabel.ForeColor = System.Drawing.Color.White;
-            panLabel.Location = new System.Drawing.Point(20, 135);
+            panLabel.Margin = new Padding(0, 0, 0, 6);
             panLabel.Name = "panLabel";
             panLabel.Size = new System.Drawing.Size(192, 20);
             panLabel.TabIndex = 3;
@@ -268,19 +286,20 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             panTextBox.BorderStyle = BorderStyle.None;
             panTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             panTextBox.ForeColor = System.Drawing.Color.White;
-            panTextBox.Location = new System.Drawing.Point(25, 160);
+            panTextBox.Margin = new Padding(0, 0, 0, 6);
             panTextBox.Multiline = true;
             panTextBox.Name = "panTextBox";
-            panTextBox.Size = new System.Drawing.Size(260, 48);
+            panTextBox.Width = 260;
             panTextBox.TabIndex = 4;
             panTextBox.Text = "Press and hold the middle mouse button (scroll wheel), then drag the mouse to move around the map.";
+            TextBoxHelper.AdjustTextBoxHeight(panTextBox);
             // 
             // zoomLabel
             // 
             zoomLabel.AutoSize = true;
             zoomLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             zoomLabel.ForeColor = System.Drawing.Color.White;
-            zoomLabel.Location = new System.Drawing.Point(20, 220);
+            zoomLabel.Margin = new Padding(0, 0, 0, 6);
             zoomLabel.Name = "zoomLabel";
             zoomLabel.Size = new System.Drawing.Size(192, 20);
             zoomLabel.TabIndex = 5;
@@ -292,15 +311,17 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             zoomTextBox.BorderStyle = BorderStyle.None;
             zoomTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             zoomTextBox.ForeColor = System.Drawing.Color.White;
-            zoomTextBox.Location = new System.Drawing.Point(25, 245);
+            zoomTextBox.Margin = new Padding(0, 0, 0, 6);
             zoomTextBox.Multiline = true;
             zoomTextBox.Name = "zoomTextBox";
-            zoomTextBox.Size = new System.Drawing.Size(260, 48);
+            zoomTextBox.Width = 260;
             zoomTextBox.TabIndex = 6;
             zoomTextBox.Text = "Scroll the mouse wheel forward to zoom in, and backward to zoom out.";
+            TextBoxHelper.AdjustTextBoxHeight(zoomTextBox);
             // 
             // FindContainingFeatures
             // 
+            this.AutoScaleMode = AutoScaleMode.Dpi;
             Controls.Add(consolePanel);
             Controls.Add(mapView);
             Name = "FindContainingFeatures";

@@ -16,8 +16,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.Meter;
-            // Set the current extent to the whole world.
-            mapView.CurrentExtent = new RectangleShape(-10000000, 10000000, 10000000, -10000000);
+
+            // Add a simple background overlay
+            mapView.BackgroundOverlay.BackgroundBrush = GeoBrushes.AliceBlue;
+
+            // Set the map extent
+            mapView.CenterPoint = new PointShape(-10778000, 3912000);
+            mapView.CurrentScale = 77000;
         }
 
         private void TxtPrivateKey_TextChanged(object sender, EventArgs e)
@@ -25,32 +30,23 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             btnActivate.Enabled = txtApiKey.Text.Length > 0;
         }
 
-        private async void btnActivate_Click(object sender, EventArgs e)
+        private void btnActivate_Click(object sender, EventArgs e)
         {
             if (txtApiKey.Text != null && !mapView.Overlays.Contains("WorldOverlay"))
             {
-                // Sets the map zoom level set to the Google maps zoom level set.
-                var zoomLevelSet = new GoogleMapsZoomLevelSet();
-                mapView.ZoomScales = zoomLevelSet.GetScales();
-
                 // Clear the current overlay
                 mapView.Overlays.Clear();
 
                 // Create a new overlay that will hold our new layer and add it to the map.
-                var worldOverlay = new LayerOverlay();
+                var worldOverlay = new GoogleMapsOverlay(txtApiKey.Text, string.Empty);
                 mapView.Overlays.Add("WorldOverlay", worldOverlay);
 
-                // Create the new layer.
-                var worldLayer = new Core.GoogleMapsAsyncLayer(txtApiKey.Text);
-
-                // Add the layer to the overlay we created earlier.
-                worldOverlay.Layers.Add("WorldLayer", worldLayer);
-
                 // Set the current extent to the whole world.
-                mapView.CurrentExtent = new RectangleShape(-10000000, 10000000, 10000000, -10000000);
+                mapView.CenterPoint = new PointShape(0, 0);
+                mapView.CurrentScale = 105721100;
 
                 // Refresh the map.
-                await mapView.RefreshAsync();
+                _ = mapView.RefreshAsync();
             }
         }
 

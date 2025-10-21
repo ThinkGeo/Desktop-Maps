@@ -115,6 +115,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         #region Component Designer generated code
 
         private Panel panel1;
+        private FlowLayoutPanel radioGroupPanel;
         private RadioButton radioButton3;
         private RadioButton radioButton2;
         private RadioButton radioButton1;
@@ -127,6 +128,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             this.mapView = new MapView();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.radioGroupPanel = new FlowLayoutPanel();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
@@ -158,9 +160,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom
                                              | AnchorStyles.Right;
             panel1.BackColor = System.Drawing.Color.Gray;
-            panel1.Controls.Add(radioButton3);
-            panel1.Controls.Add(radioButton2);
-            panel1.Controls.Add(radioButton1);
+            panel1.Controls.Add(radioGroupPanel);
+            //panel1.Controls.Add(radioButton3);
+            //panel1.Controls.Add(radioButton2);
+            //panel1.Controls.Add(radioButton1);
             panel1.Controls.Add(lblCloudMapsLink);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(label1);
@@ -169,12 +172,27 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             panel1.Size = new System.Drawing.Size(301, 630);
             panel1.TabIndex = 1;
             // 
+            // radioGroupPanel
+            // 
+            this.radioGroupPanel.AutoSize = true;
+            this.radioGroupPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            this.radioGroupPanel.FlowDirection = FlowDirection.TopDown;
+            this.radioGroupPanel.WrapContents = false;
+            this.radioGroupPanel.Location = new System.Drawing.Point(18, 130);
+            this.radioGroupPanel.Size = new System.Drawing.Size(200, 120);
+            this.radioGroupPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            this.radioGroupPanel.BackColor = System.Drawing.Color.Transparent;
+            this.radioGroupPanel.Controls.Add(this.radioButton1);
+            this.radioGroupPanel.Controls.Add(this.radioButton2);
+            this.radioGroupPanel.Controls.Add(this.radioButton3);
+            // 
             // radioButton3
             // 
             radioButton3.AutoSize = true;
             radioButton3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             radioButton3.ForeColor = System.Drawing.Color.White;
-            radioButton3.Location = new System.Drawing.Point(23, 170);
+            radioButton3.Margin = new Padding(0, 0, 0, 6);
+            //radioButton3.Location = new System.Drawing.Point(23, 170);
             radioButton3.Name = "radioButton3";
             radioButton3.Size = new System.Drawing.Size(73, 24);
             radioButton3.TabIndex = 3;
@@ -187,7 +205,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             radioButton2.AutoSize = true;
             radioButton2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             radioButton2.ForeColor = System.Drawing.Color.White;
-            radioButton2.Location = new System.Drawing.Point(23, 150);
+            radioButton2.Margin = new Padding(0, 0, 0, 6);
+            //radioButton2.Location = new System.Drawing.Point(23, 150);
             radioButton2.Name = "radioButton2";
             radioButton2.Size = new System.Drawing.Size(66, 24);
             radioButton2.TabIndex = 2;
@@ -201,7 +220,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             radioButton1.Checked = true;
             radioButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             radioButton1.ForeColor = System.Drawing.Color.White;
-            radioButton1.Location = new System.Drawing.Point(23, 130);
+            radioButton1.Margin = new Padding(0, 0, 0, 6);
+            //radioButton1.Location = new System.Drawing.Point(23, 130);
             radioButton1.Name = "radioButton1";
             radioButton1.Size = new System.Drawing.Size(67, 24);
             radioButton1.TabIndex = 1;
@@ -247,6 +267,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // ThinkGeoVectorMap
             // 
+            this.AutoScaleMode = AutoScaleMode.Dpi;
             Controls.Add(panel1);
             Controls.Add(mapView);
             Name = "ThinkGeoVectorMap";
@@ -255,7 +276,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
-
         }
 
         #endregion Component Designer generated code

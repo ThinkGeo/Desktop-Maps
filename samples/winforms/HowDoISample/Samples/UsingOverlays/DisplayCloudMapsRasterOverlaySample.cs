@@ -33,7 +33,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             if (mapView.Overlays.Count == 0)
             {
-                var thinkGeoCloudRasterMapsOverlay = new ThinkGeoCloudRasterMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1);
+                var thinkGeoCloudRasterMapsOverlay = new ThinkGeoCloudRasterMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudRasterMapsMapType.Hybrid2_V2_X1);
                 mapView.Overlays.Add(thinkGeoCloudRasterMapsOverlay);
                 await mapView.RefreshAsync();
             }

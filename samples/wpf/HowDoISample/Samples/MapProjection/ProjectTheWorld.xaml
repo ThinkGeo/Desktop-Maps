@@ -12,8 +12,8 @@
             <Label Content="Sample Projections:" FontSize="16" FontWeight="Bold" Grid.Column="1" Grid.Row="0"/>
             <RadioButton x:Name="RdoPolar" Content="Polar Stereographic" IsChecked="False" Checked="Radial_Checked" Grid.Column="1" Grid.Row="1"></RadioButton>
             <RadioButton x:Name="RdoMgaZone" Content="MGA Zone 55" IsChecked="False" Checked="Radial_Checked" Grid.Column="1" Grid.Row="2"></RadioButton>
-            <RadioButton x:Name="RdoAlbers" Content="Albers Equal Area Conic" Checked="Radial_Checked" IsChecked="False" Grid.Column="1" Grid.Row="3"></RadioButton>
-            <RadioButton x:Name="RdoCylindrical" Content="Equal Area Cylindrical" IsChecked="False" Checked="Radial_Checked" Grid.Column="1" Grid.Row="4"></RadioButton>
+            <RadioButton x:Name="RdoAlbers" Content="Equal Area - Albers Conic" Checked="Radial_Checked" IsChecked="False" Grid.Column="1" Grid.Row="3"></RadioButton>
+            <RadioButton x:Name="RdoCylindrical" Content="Equal Area - Cylindrical" IsChecked="False" Checked="Radial_Checked" Grid.Column="1" Grid.Row="4"></RadioButton>
             <RadioButton x:Name="RdoDecimalDegrees" Content="Decimal Degrees" IsChecked="True" Checked="Radial_Checked" Grid.Column="1" Grid.Row="5"></RadioButton>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />

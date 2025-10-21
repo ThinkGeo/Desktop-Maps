@@ -13,6 +13,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         public FindFeaturesWithinAFeature()
         {
             InitializeComponent();
+            MapViewHelper.InitializeDefaultZoomScales(mapView);
         }
 
         private async void Form_Load(object sender, EventArgs e)

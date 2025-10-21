@@ -78,15 +78,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private static string GetMeasureResult(BaseShape shape)
         {
+            // the background map is in SphericalMercator
+            var currentProjection = new Projection(Projection.GetSphericalMercatorProjString());
             var measureResult = string.Empty;
             switch (shape)
             {
                 case AreaBaseShape polygon:
-                    measureResult = polygon.GetArea(GeographyUnit.Meter, AreaUnit.SquareMiles).ToString("N2");
+                    // pass in the projection to get the accurate area
+                    measureResult = polygon.GetArea(currentProjection, AreaUnit.SquareMiles).ToString("N2");
                     measureResult += " square miles";
                     break;
                 case LineBaseShape line:
-                    measureResult = line.GetLength(GeographyUnit.Meter, DistanceUnit.Mile).ToString("N2");
+                    // pass in the projection to get the accurate length
+                    measureResult = line.GetLength(currentProjection, DistanceUnit.Mile).ToString("N2"); 
                     measureResult += " miles";
                     break;
             }

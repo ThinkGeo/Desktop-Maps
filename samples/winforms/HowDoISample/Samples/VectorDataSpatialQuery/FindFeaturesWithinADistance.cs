@@ -14,6 +14,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         public FindFeaturesWithinADistance()
         {
             InitializeComponent();
+            MapViewHelper.InitializeDefaultZoomScales(mapView);
         }
 
         private async void Form_Load(object sender, EventArgs e)

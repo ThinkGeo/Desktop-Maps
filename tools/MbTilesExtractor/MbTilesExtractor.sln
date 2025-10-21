@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29230.61
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MbTilesExtractor", "MbTilesExtractor\MbTilesExtractor.csproj", "{0FE76D89-35F8-46F8-B4CB-34B04AD619BC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug_License|Any CPU = Debug_License|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0FE76D89-35F8-46F8-B4CB-34B04AD619BC}.Debug_License|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FE76D89-35F8-46F8-B4CB-34B04AD619BC}.Debug_License|Any CPU.Build.0 = Debug|Any CPU
+		{0FE76D89-35F8-46F8-B4CB-34B04AD619BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FE76D89-35F8-46F8-B4CB-34B04AD619BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FE76D89-35F8-46F8-B4CB-34B04AD619BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FE76D89-35F8-46F8-B4CB-34B04AD619BC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EF684666-2DA1-4037-BCF7-B08C326E9C76}
+	EndGlobalSection
+EndGlobal

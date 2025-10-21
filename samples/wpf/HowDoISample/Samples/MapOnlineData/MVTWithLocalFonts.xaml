@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.MVTWithLocalFonts"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf" 
+             Background="White"
+             mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="250" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="60" />
+        </Grid.RowDefinitions>
+
+        <thinkGeoUi:MapView Grid.Row="0" Grid.RowSpan="3" x:Name="MapView" Grid.Column="0" Loaded="MapView_Loaded" />
+        <TextBlock Grid.Row="2"  Grid.Column="0" Background="gray" HorizontalAlignment="Center"
+                                Width="200" Height="40" FontSize="30"
+                                Text="{Binding ElementName=MapView, Path=CurrentZoom, StringFormat={}Zoom: {0:N2}}"/>
+
+        <StackPanel Grid.Row="0" Grid.Column="1" Margin="5" Background="LightGray">
+            <StackPanel>
+                <Label Content="Tile Mode" Margin="5"
+                   FontSize="16" FontWeight="Bold"  />
+
+                <RadioButton Margin="5" Checked="SwitchTileSize_OnCheckedChanged" Content="Multi Tile" IsChecked="True"/>
+                <RadioButton Margin="5" Checked="SwitchTileSize_OnCheckedChanged" Content="Single Tile"/>
+                <RadioButton Margin="5" Checked="SwitchTileSize_OnCheckedChanged" Content="Multi Tile + Dynamic Labeling"/>
+            </StackPanel>
+
+            <StackPanel VerticalAlignment="Bottom" Background="LightGray">
+                <Label Content="Font Mode" Margin="5"
+                   FontSize="16" FontWeight="Bold"  />
+
+                <TextBlock x:Name="FontStatus" Margin="6,6,6,2" TextWrapping="Wrap" FontSize="12" Visibility="Collapsed" />
+                <RadioButton  Margin="5" Checked="SystemFonts_OnCheckedChanged" Content="System Fonts" IsChecked="True"/>
+                <RadioButton  Margin="5" Checked="CustomFonts_OnCheckedChanged" Content="Custom Fonts" />
+            </StackPanel>
+        </StackPanel>
+
+        <ListBox Grid.Column="1" Grid.Row="1"  Margin="5"  x:Name="LogListBox"
+                  ItemsSource="{Binding Path =LogMessages}"
+                  VirtualizingStackPanel.IsVirtualizing="True"
+                  VirtualizingStackPanel.VirtualizationMode="Recycling" />
+
+        <StackPanel Grid.Column="1" Grid.Row ="2">
+            <TextBlock Margin="4">
+                <Hyperlink NavigateUri="https://cdn.thinkgeo.com/downloads/howdoi_fonts_09262025.zip" RequestNavigate="Hyperlink_RequestNavigate">
+                    Click here to download fonts 
+                </Hyperlink>
+            </TextBlock>
+            <Button Content="Open Fonts Folder" ToolTip="Put the download ttf files to this folder"  Margin="4" Click="ButtonBase_OnClick"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

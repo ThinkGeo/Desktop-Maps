@@ -40,7 +40,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             {
                 ClientId = SampleKeys.ClientId,
                 ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1,
+                MapType = ThinkGeoCloudRasterMapsMapType.Hybrid2_V2_X1,
             };
             MapView.Overlays.Add(thinkGeoCloudRasterMapsOverlay);
             _ = MapView.RefreshAsync();

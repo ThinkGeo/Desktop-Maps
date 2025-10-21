@@ -6,6 +6,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public class RenderLines : UserControl
     {
+        private ShapeFileFeatureLayer solidLineLayer;
+        private ShapeFileFeatureLayer dashedLineLayer;
         private bool _initialized;
 
         public RenderLines()
@@ -27,94 +29,76 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
+            // Create solidLineLayer
+            solidLineLayer = new ShapeFileFeatureLayer(@"./Data/Railroad/Railroad.shp");
+            solidLineLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+
+            // Apply solid line style to solidLineLayer
+            var solidStyle = new LineStyle(new GeoPen(GeoBrushes.DimGray, 10), new GeoPen(GeoBrushes.WhiteSmoke, 6));
+            solidLineLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(solidStyle);
+            solidLineLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            
+            mapView.Overlays.Add("SolidLineOverlay", new LayerOverlay { Layers = { solidLineLayer } });
+
+            // Create dashedLineLayer
+            dashedLineLayer = new ShapeFileFeatureLayer(@"./Data/Railroad/Railroad.shp");
+            dashedLineLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+
+            // Apply dashed line style to dashedLineLayer
+            var dashedStyle = new LineStyle(
+                new GeoPen(GeoColors.Black, 12),
+                new GeoPen(GeoColors.White, 6)
+                {
+                    DashStyle = LineDashStyle.Custom,
+                    DashPattern = { 3f, 3f },
+                    StartCap = DrawingLineCap.Flat,
+                    EndCap = DrawingLineCap.Flat
+                });
+            dashedLineLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(dashedStyle);
+            dashedLineLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
+            mapView.Overlays.Add("DashedLineOverlay", new LayerOverlay { Layers = { dashedLineLayer } });
+
             // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(-10779675.1746605, 3914631.77546835, -10779173.5566652, 3914204.80300804);
+            mapView.CenterPoint = new PointShape(-10779420, 3914420);
+            mapView.CurrentScale = 2260;
 
-            // Create a layer with line data
-            var friscoRailroad = new ShapeFileFeatureLayer(@"./Data/Railroad/Railroad.shp");
-            var layerOverlay = new LayerOverlay();
-
-            // Project the layer's data to match the projection of the map
-            friscoRailroad.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
-
-            // Add the layer to a layer overlay
-            layerOverlay.Layers.Add("Railroad", friscoRailroad);
-
-            // Add the overlay to the map
-            mapView.Overlays.Add("overlay", layerOverlay);
-
-            // Create a line style
-            var lineStyle = new LineStyle(new GeoPen(GeoBrushes.DimGray, 10), new GeoPen(GeoBrushes.WhiteSmoke, 6));
-
-            // Add the line style to the collection of custom styles for ZoomLevel 1.
-            friscoRailroad.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
-            friscoRailroad.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(lineStyle);
-
-            // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the line style on every zoom level on the map. 
-            friscoRailroad.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-
-            rbLineStyle.Checked = true;
+            dashedLineLayer.IsVisible = false;
 
             _initialized = true;
             await mapView.RefreshAsync();
         }
 
-        private async void rbLineStyle_CheckedChanged(object sender, EventArgs e)
+        private void rbLineStyle_CheckedChanged(object sender, EventArgs e)
         {
             if (!_initialized)
                 return;
 
-            if (mapView.Overlays.Count > 0)
+            if (rbLineStyle.Checked)
             {
-                var layerOverlay = (LayerOverlay)mapView.Overlays["overlay"];
-                var friscoRailroad = (ShapeFileFeatureLayer)layerOverlay.Layers["Railroad"];
-
-                // Create a line style
-                var lineStyle = new LineStyle(new GeoPen(GeoBrushes.DimGray, 10), new GeoPen(GeoBrushes.WhiteSmoke, 6));
-
-                // Add the line style to the collection of custom styles for ZoomLevel 1.
-                friscoRailroad.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
-                friscoRailroad.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(lineStyle);
-
-                // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the line style on every zoom level on the map. 
-                friscoRailroad.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-
-                // Refresh the layerOverlay to show the new style
-                await layerOverlay.RefreshAsync();
+                solidLineLayer.IsVisible = true;
+                dashedLineLayer.IsVisible = false;
             }
+
+            _ = mapView.RefreshAsync();
         }
 
-        private async void rbDashedLineStyle_CheckedChanged(object sender, EventArgs e)
+        private void rbDashedLineStyle_CheckedChanged(object sender, EventArgs e)
         {
-            if (mapView.Overlays.Count > 0)
+            if (!_initialized)
+                return;
+
+            if (rbDashedLineStyle.Checked)
             {
-                var layerOverlay = (LayerOverlay)mapView.Overlays["overlay"];
-                var friscoRailroad = (ShapeFileFeatureLayer)layerOverlay.Layers["Railroad"];
-
-                var lineStyle = new LineStyle(
-                    outerPen: new GeoPen(GeoColors.Black, 12),
-                    innerPen: new GeoPen(GeoColors.White, 6)
-                    {
-                        DashStyle = LineDashStyle.Custom,
-                        DashPattern = { 3f, 3f },
-                        StartCap = DrawingLineCap.Flat,
-                        EndCap = DrawingLineCap.Flat
-                    }
-                );
-
-                // Add the line style to the collection of custom styles for ZoomLevel 1.
-                friscoRailroad.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
-                friscoRailroad.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(lineStyle);
-
-                // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the line style on every zoom level on the map. 
-                friscoRailroad.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-
-                // Refresh the layerOverlay to show the new style
-                await layerOverlay.RefreshAsync();
+                solidLineLayer.IsVisible = false;
+                dashedLineLayer.IsVisible = true;
             }
+
+            _ = mapView.RefreshAsync();
         }
 
         #region Component Designer generated code
+
         private Panel panel1;
         private Label label1;
         private RadioButton rbDashedLineStyle;
@@ -153,6 +137,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.AutoSize = true;
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.rbDashedLineStyle);
             this.panel1.Controls.Add(this.label1);
@@ -162,44 +147,45 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Size = new System.Drawing.Size(299, 624);
             this.panel1.TabIndex = 1;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(13, 15);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(184, 25);
+            this.label1.Text = "Line Type";
+            this.label1.TabIndex = 2;
+            // 
             // rbLineStyle
             // 
             this.rbLineStyle.AutoSize = true;
             this.rbLineStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rbLineStyle.ForeColor = System.Drawing.Color.White;
-            this.rbLineStyle.Location = new System.Drawing.Point(45, 68);
+            this.rbLineStyle.Location = new System.Drawing.Point(17, 54);
             this.rbLineStyle.Name = "rbLineStyle";
             this.rbLineStyle.Size = new System.Drawing.Size(85, 20);
-            this.rbLineStyle.TabIndex = 0;
             this.rbLineStyle.TabStop = true;
             this.rbLineStyle.Text = "Solid Line";
             this.rbLineStyle.UseVisualStyleBackColor = true;
+            this.rbLineStyle.Checked = true;
             this.rbLineStyle.CheckedChanged += new System.EventHandler(this.rbLineStyle_CheckedChanged);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(41, 41);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(94, 24);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Line Type";
+            this.rbLineStyle.TabIndex = 3;
             // 
             // rbDashedLineStyle
             // 
             this.rbDashedLineStyle.AutoSize = true;
             this.rbDashedLineStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rbDashedLineStyle.ForeColor = System.Drawing.Color.White;
-            this.rbDashedLineStyle.Location = new System.Drawing.Point(45, 94);
+            this.rbDashedLineStyle.Location = new System.Drawing.Point(17, 81);
             this.rbDashedLineStyle.Name = "rbDashedLineStyle";
             this.rbDashedLineStyle.Size = new System.Drawing.Size(102, 20);
-            this.rbDashedLineStyle.TabIndex = 3;
             this.rbDashedLineStyle.TabStop = true;
             this.rbDashedLineStyle.Text = "Dashed Line";
             this.rbDashedLineStyle.UseVisualStyleBackColor = true;
             this.rbDashedLineStyle.CheckedChanged += new System.EventHandler(this.rbDashedLineStyle_CheckedChanged);
+            this.rbDashedLineStyle.TabIndex = 4;
             // 
             // RenderLines
             // 
@@ -211,6 +197,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
         }
 
         #endregion Component Designer generated code

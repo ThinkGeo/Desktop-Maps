@@ -22,7 +22,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             {
                 ClientId = SampleKeys.ClientId,
                 ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1
+                MapType = ThinkGeoCloudRasterMapsMapType.Aerial2_V2_X1
             };
             MapView.Overlays.Add(cloudOverlay);
 

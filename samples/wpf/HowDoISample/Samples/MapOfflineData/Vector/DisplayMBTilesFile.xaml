@@ -14,13 +14,35 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <thinkGeoUi:MapView x:Name="MapView" Grid.Column="0" Loaded="MapView_Loaded" />
+        <thinkGeoUi:MapView x:Name="MapView" Grid.Column="0" Loaded="MapView_Loaded" Grid.RowSpan="2" />
 
-        <StackPanel Grid.Row="0" Grid.Column="1" Margin="5">
-            <RadioButton  Margin="0, 5" Foreground="White"
-                          Checked="SwitchTileSize_OnCheckedChanged" Content="No Style"/>
-            <RadioButton  Margin="0, 5" IsChecked="True"   Foreground="White"
-                          Checked="SwitchTileSize_OnCheckedChanged" Content="Apply Style"/>
+        <!-- Top stack of controls -->
+        <StackPanel Grid.Column="1" Grid.Row="0" Margin="0">
+            <Label Content="Projection" Margin="5"
+                   FontSize="16" FontWeight="Bold" 
+                   Foreground="White" />
+
+            <RadioButton Tag="3857" 
+                         Checked="Projection_Checked" 
+                         IsChecked="True" 
+                         Foreground="White"
+                         Margin="10,5"
+                         Content="EPSG 3857"/>
+
+            <RadioButton Tag="4326" Checked="Projection_Checked"
+                         Foreground="White"
+                         Margin="10, 5" Content="EPSG 4326"/>
+            
+            <Label Content="Style" Margin="5"
+                   FontSize="16" FontWeight="Bold" 
+                   Foreground="White" />
+
+            <StackPanel Margin="5">
+                <RadioButton  Margin="0, 5" Foreground="White"
+                              Checked="SwitchStyleJson_OnCheckedChanged" Content="Without StyleJson"/>
+                <RadioButton  Margin="0, 5" IsChecked="True"   Foreground="White"
+                              Checked="SwitchStyleJson_OnCheckedChanged" Content="With StyleJson"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>
