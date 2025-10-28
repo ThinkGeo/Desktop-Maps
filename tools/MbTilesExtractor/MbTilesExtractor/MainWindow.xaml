@@ -12,16 +12,20 @@
                      AllowDrop="True"
                      Drop="MapView_Drop"
                      DragOver="MapView_DragOver" />
-       <CheckBox x:Name="chkExtractingData"
-                  Checked="ChkExtractingData_Checked"  
-                  Unchecked="ChkExtractingData_Checked" 
-                  IsChecked="False"  
-                  Content="Extract Vector Tiles"  
-                  VerticalAlignment="Bottom"
-                  HorizontalAlignment="Center"
-                  Margin="10"
-                  FontSize="20"
-                  VerticalContentAlignment="Stretch"/>
+        <StackPanel x:Name="spContainer" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center" IsEnabled="False">
+            <CheckBox x:Name="chkExtractingData"
+               FontSize="20"
+               Checked="ChkExtractingData_Checked"  
+               Unchecked="ChkExtractingData_Checked" 
+               IsChecked="False"  
+               Content="Extract Vector Tiles"  
+               Margin="10"
+               VerticalContentAlignment="Center"/>
+            <TextBlock FontSize="20" VerticalAlignment="Center" Margin="20 0 0 0">Start Detail:</TextBlock>
+            <ComboBox x:Name="cbbZoom" FontSize="20" Text="Zoom From" Height="30" Width="50" Margin="10" SelectedIndex="0" >
+                <ComboBoxItem>0</ComboBoxItem>
+            </ComboBox>
+        </StackPanel>
         <ProgressBar Name="pbExtractProgress" Height="20"  VerticalAlignment="Center" HorizontalAlignment="Center" Width="200" IsIndeterminate="True" Visibility="Hidden"/>
     </Grid>
 </Window>

@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using ThinkGeo.Core;
 using ThinkGeo.UI.Wpf;
@@ -89,8 +90,10 @@ namespace MBTilesExtractor
 
                 MapView.TrackOverlay.TrackMode = TrackMode.None;
 
+                var startDetail = (int)(cbbZoom.SelectedItem as ComboBoxItem).Content;
+
                 // Do the extraction with accurate progress
-                int total = await ExtractTilesAsync(polygon, targetFilePath);
+                int total = await ExtractTilesAsync(polygon, targetFilePath, startDetail);
 
                 MessageBox.Show($"Extraction complete.\nTiles processed: {total}", "Done",
                     MessageBoxButton.OK, MessageBoxImage.Information);
@@ -151,7 +154,7 @@ namespace MBTilesExtractor
         }
 
         // Async extractor with accurate progress
-        private async Task<int> ExtractTilesAsync(PolygonShape polygonShape, string targetFilePath)
+        private async Task<int> ExtractTilesAsync(PolygonShape polygonShape, string targetFilePath, int startDetail = 0)
         {
             var bbox = polygonShape.GetBoundingBox();
             var tileRanges = Enumerable.Range(0, _mvtLayer.MaxZoomOfData + 1)
@@ -195,7 +198,7 @@ namespace MBTilesExtractor
                     long totalToCopy = 0;
                     foreach (var range in tileRanges)
                     {
-                        string countSql = $"SELECT COUNT(*) FROM {sourceMap.TableName} WHERE {ToSqlWhere(range)}";
+                        string countSql = $"SELECT COUNT(*) FROM {sourceMap.TableName} WHERE {ToSqlWhere(range, startDetail)}";
                         //totalToCopy += sourceMap.ScalarCount(countSql); // assume TilesTable exposes a COUNT helper; if not, add one similar to Query()
 
                         totalToCopy += ExecuteScalarInt64(sourceConn, countSql);
@@ -228,7 +231,7 @@ namespace MBTilesExtractor
                         {
                             string querySql =
                                 $"SELECT {TilesTable.ZoomLevelColumnName}, {TilesTable.TileColColumnName}, {TilesTable.TileRowColumnName}, {TilesTable.TileDataColumnName} " +
-                                $"FROM {sourceMap.TableName} WHERE {ToSqlWhere(tileRange)} " +
+                                $"FROM {sourceMap.TableName} WHERE {ToSqlWhere(tileRange, startDetail)} " +
                                 $"ORDER BY {TilesTable.ZoomLevelColumnName}, {TilesTable.TileRowColumnName}, {TilesTable.TileColColumnName} " +
                                 $"LIMIT {recordLimit} OFFSET {offset}";
 
@@ -320,13 +323,21 @@ namespace MBTilesExtractor
         }
 
         // Convert tile range to SQL WHERE clause
-        private static string ToSqlWhere(VectorTileRange range)
+        private static string ToSqlWhere(VectorTileRange range, int startDetail)
         {
-            long rowCount = (long)Math.Pow(2, range.Zoom) - 1;
+            if (range.Zoom > startDetail)
+            {
+                long rowCount = (long)Math.Pow(2, range.Zoom) - 1;
 
-            return $"{TilesTable.ZoomLevelColumnName}={range.Zoom} " +
-                   $"AND {TilesTable.TileColColumnName} BETWEEN {range.MinColumn} AND {range.MaxColumn} " +
-                   $"AND {TilesTable.TileRowColumnName} BETWEEN {rowCount - range.MaxRow} AND {rowCount - range.MinRow}";
+                return $"{TilesTable.ZoomLevelColumnName}={range.Zoom} " +
+                       $"AND {TilesTable.TileColColumnName} BETWEEN {range.MinColumn} AND {range.MaxColumn} " +
+                       $"AND {TilesTable.TileRowColumnName} BETWEEN {rowCount - range.MaxRow} AND {rowCount - range.MinRow}";
+            }
+            else
+            {
+                return $"{TilesTable.ZoomLevelColumnName}={range.Zoom}";
+            }
+            
         }
 
         // Compute tile range covering extent at given zoom level
@@ -376,6 +387,13 @@ namespace MBTilesExtractor
             _mvtLayer = new VectorMbTilesAsyncLayer(filePath);
             await _mvtLayer.OpenAsync();
 
+            cbbZoom.Items.Clear();
+            for (int i = 0; i <= _mvtLayer.MaxZoomOfData; i++)
+            {
+                cbbZoom.Items.Add(new ComboBoxItem() { Content = i });
+            }
+            cbbZoom.SelectedIndex = 0;
+
             MapView.CurrentExtent = _mvtLayer.GetBoundingBox();
             MapView.Overlays.Clear();
 
@@ -384,6 +402,8 @@ namespace MBTilesExtractor
             MapView.Overlays.Add(overlay);
 
             await MapView.RefreshAsync();
+
+            spContainer.IsEnabled = true;
         }
 
         // Build a safe metadata set from source (if any) + your bbox/maxZoom.
