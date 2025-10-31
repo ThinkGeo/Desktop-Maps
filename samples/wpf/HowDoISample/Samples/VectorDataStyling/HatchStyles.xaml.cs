@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using ThinkGeo.Core;
-using ThinkGeo.UI.Wpf;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
@@ -13,8 +13,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     public partial class HatchStyles : UserControl
     {
         private LayerOverlay _layerOverlay = new LayerOverlay();
-        private FeatureLayerWpfDrawingOverlay _featureLayerWpfDrawingOverlay = new FeatureLayerWpfDrawingOverlay();
+        private FeatureLayerWpfDrawingOverlay _wpfDrawingOverlay = new FeatureLayerWpfDrawingOverlay();
         private GeoHatchStyle _currentHatchStyle = GeoHatchStyle.Cross;
+        private bool _initialized;
+        private ShapeFileFeatureLayer _parksLayer;
 
         public HatchStyles()
         {
@@ -40,59 +42,68 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Set the map background color
             MapView.Background = new SolidColorBrush(Color.FromRgb(234, 232, 226));
-       
-            var parksLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
+
+            _parksLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
 
             // Project the layer's data to match the projection of the map
-            parksLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
-
+            _parksLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
             // Add Styles to the layers
-            StyleParksLayer(parksLayer);
+            StyleParksLayer(_currentHatchStyle);
 
-            // Add layers to a layerOverlay
             _layerOverlay = new LayerOverlay();
-            _layerOverlay.Layers.Add(parksLayer);
+            _layerOverlay.Layers.Add(_parksLayer);
             _layerOverlay.TileType = TileType.SingleTile;
             MapView.Overlays.Add(_layerOverlay);
 
-            _featureLayerWpfDrawingOverlay = new FeatureLayerWpfDrawingOverlay();
-            _featureLayerWpfDrawingOverlay.Visibility = Visibility.Hidden;
-            _featureLayerWpfDrawingOverlay.FeatureLayers.Add(parksLayer);
-            MapView.Overlays.Add(_featureLayerWpfDrawingOverlay);
+            _wpfDrawingOverlay = new FeatureLayerWpfDrawingOverlay();
+            _wpfDrawingOverlay.Visibility = Visibility.Hidden;
+            _wpfDrawingOverlay.FeatureLayers.Add(_parksLayer);
+            MapView.Overlays.Add(_wpfDrawingOverlay);
 
             // Set the map extent
             MapView.CenterPoint = new PointShape(-10777610, 3909120);
             MapView.CurrentScale = 2260;
 
+            _initialized = true;
             _ = MapView.RefreshAsync();
         }
 
         private void CboHatchStyles_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (CboHatchStyles.SelectedItem is GeoHatchStyle selectedStyle)
-            {
-                _currentHatchStyle = selectedStyle;
+            if (!_initialized)
+                return;
 
-                if (_layerOverlay.Layers.Count > 0 &&
-                    _layerOverlay.Layers[0] is ShapeFileFeatureLayer parksLayer)
-                {
-                    StyleParksLayer(parksLayer);
-                    _ = _layerOverlay.RefreshAsync();
-                }
-            }
+            if (!(CboHatchStyles.SelectedItem is GeoHatchStyle selectedStyle)) return;
+            _currentHatchStyle = selectedStyle;
+
+            StyleParksLayer(_currentHatchStyle);
+            _ = _layerOverlay.RefreshAsync();
+            _ = _wpfDrawingOverlay.RefreshAsync();
+        }
+
+        private void ComboBoxItem_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (!(sender is ComboBoxItem item)) return;
+            if (!(item.Content is GeoHatchStyle selectedStyle)) return;
+            if (_currentHatchStyle == selectedStyle) return;
+            _currentHatchStyle = selectedStyle;
+
+            StyleParksLayer(_currentHatchStyle);
+            _ = _layerOverlay.RefreshAsync();
+            _ = _wpfDrawingOverlay.RefreshAsync();
         }
 
         /// <summary>
         /// Adds an AreaStyle and TextStyle to the Parks Layer
         /// </summary>
-        private void StyleParksLayer(FeatureLayer parksLayer)
+        private void StyleParksLayer(GeoHatchStyle hatchStyle)
         {
             var areaStyle = AreaStyle.CreateHatchStyle(
-                    _currentHatchStyle,
-                GeoColor.FromArgb(255, 0, 0, 0),
+                    hatchStyle,
+                GeoColors.Black,
                 GeoColors.Red,
-                GeoColors.Yellow,
-            3,
+                GeoColors.Blue,
+            5,
             LineDashStyle.Solid,
             0f,
             0f);
@@ -105,10 +116,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 AllowLineCarriage = true,
                 FittingPolygonInScreen = true
             };
-            parksLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(areaStyle);
-            parksLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(textStyle);
-
-            parksLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            _parksLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = areaStyle;
+            _parksLayer.ZoomLevelSet.ZoomLevel01.DefaultTextStyle = textStyle;
+            _parksLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
         }
 
         private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
@@ -116,7 +126,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (sender is CheckBox checkBox)
             {
                 _layerOverlay.IsVisible = !checkBox.IsChecked.GetValueOrDefault();
-                _featureLayerWpfDrawingOverlay.IsVisible = checkBox.IsChecked.GetValueOrDefault();
+                _wpfDrawingOverlay.IsVisible = checkBox.IsChecked.GetValueOrDefault();
             }
         }
 
