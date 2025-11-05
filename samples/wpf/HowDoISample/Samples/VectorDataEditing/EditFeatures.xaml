@@ -10,12 +10,17 @@
         <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded"/>
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1" Grid.Row="0" Content="Interactive Controls:" FontWeight="Bold" FontSize="16"/>
-            <RadioButton Grid.Column="1" Grid.Row="1" x:Name="NavMode" Content="Navigation Mode" IsChecked="True" Click="NavMode_Click"></RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="2" x:Name="DrawPoint" Content="Draw Point" Click="DrawPoint_Click"></RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="3" x:Name="DrawLine" Content="Draw Line" Click="DrawLine_Click"></RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="4" x:Name="DrawPolygon" Content="Draw Polygon" Click="DrawPolygon_Click"></RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="5" x:Name="EditShape" Content="Edit Shape" Click="EditShape_Click"></RadioButton>
-            <RadioButton Grid.Column="1" Grid.Row="6" x:Name="DeleteShape" Content="Delete Shape" Click="DeleteShape_Click"></RadioButton>
+
+            <RadioButton Grid.Column="1" Grid.Row="1" Content="Edit Shape" IsChecked="True" 
+                         Checked="EditShape_OnChecked" Unchecked="EditShape_OnUnchecked" />
+            <RadioButton Grid.Column="1" Grid.Row="2" Content="Draw Point" Click="DrawPoint_Click"/>
+            <RadioButton Grid.Column="1" Grid.Row="3" Content="Draw Line" Click="DrawLine_Click"/>
+            <RadioButton Grid.Column="1" Grid.Row="4" Content="Draw Polygon" Click="DrawPolygon_Click"/>
+            <RadioButton Grid.Column="1" Grid.Row="5" Content="Navigation Mode" 
+                         x:Name="NavModeRadio" Click="NavMode_Click"/>
+            <CheckBox Grid.Column="1" Grid.Row="6" x:Name="DeleteShape" 
+                      Content="Click on Shape to Delete " Margin="30,0,0,0"
+                      IsEnabled="{Binding IsChecked, ElementName=NavModeRadio}"/>
 
             <Label Grid.Column="1" Grid.Row="7" Content="Instructions:" FontWeight="Bold" FontSize="16"/>
             <TextBlock x:Name="Instructions" TextWrapping="Wrap" Grid.Column="1" Grid.Row="8"></TextBlock>
@@ -29,7 +34,6 @@
                 <ColumnDefinition Width="5" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>

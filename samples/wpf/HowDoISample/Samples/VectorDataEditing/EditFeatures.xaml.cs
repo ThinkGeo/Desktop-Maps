@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using System.Windows;
 using ThinkGeo.Core;
 
@@ -15,6 +14,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             InitializeComponent();
         }
+
+        private bool _initialized;
+        LayerOverlay _layerOverlay = null;
 
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map
@@ -40,6 +42,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.CurrentScale = 77000;
             MapView.MapClick += MapView_MapClick;
 
+            var demoPolygon = new Feature("POLYGON((-10778500 3915600,-10778500 3910000,-10774040 3910000,-10774040 3915600,-10778500 3915600))");
+            var demoPoint = new Feature("POINT(-10773220 3913230)");
+            var demoLine = new Feature("LINESTRING(-10780700 3916500, -10780700 3910040)");
+            MapView.EditOverlay.EditShapesLayer.InternalFeatures.Add(demoPolygon);
+            MapView.EditOverlay.EditShapesLayer.InternalFeatures.Add(demoPoint);
+            MapView.EditOverlay.EditShapesLayer.InternalFeatures.Add(demoLine);
+            MapView.EditOverlay.CalculateAllControlPoints();
+
             // Create the layer that will store the drawn shapes
             var featureLayer = new InMemoryFeatureLayer();
 
@@ -50,18 +60,20 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             featureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Add the layer to a LayerOverlay
-            var layerOverlay = new LayerOverlay();
-            layerOverlay.Layers.Add("featureLayer", featureLayer);
+            _layerOverlay = new LayerOverlay();
+            _layerOverlay.Layers.Add("featureLayer", featureLayer);
 
             // Add the LayerOverlay to the map
-            MapView.Overlays.Add("layerOverlay", layerOverlay);
+            MapView.Overlays.Add("layerOverlay", _layerOverlay);
             MapView.TrackOverlay.MouseMoved += TrackOverlay_MouseMoved;
             MapView.EditOverlay.VertexMoved += EditOverlay_VertexMoved;
 
             // Update instructions
-            Instructions.Text = "Navigation Mode - The default map state. Allows you to pan and zoom the map with mouse controls.";
+            Instructions.Text =
+                "Edit Shapes Mode — Use anchor handles to translate, rotate, or scale shapes. Drag an existing vertex to move it. Click on a segment to add a vertex. Double-click an existing vertex to remove it.";
 
             _ = MapView.RefreshAsync();
+            _initialized = true;
         }
 
         private void EditOverlay_VertexMoved(object sender, VertexMovedEditInteractiveOverlayEventArgs e)
@@ -90,7 +102,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     break;
                 case LineBaseShape line:
                     // pass in the projection to get the accurate length
-                    measureResult = line.GetLength(currentProjection, DistanceUnit.Mile).ToString("N2"); 
+                    measureResult = line.GetLength(currentProjection, DistanceUnit.Mile).ToString("N2");
                     measureResult += " miles";
                     break;
             }
@@ -98,46 +110,29 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Update the layer whenever the user switches modes
-        /// </summary>
-        private async Task UpdateLayerFeaturesAsync(InMemoryFeatureLayer featureLayer, LayerOverlay layerOverlay)
-        {
-            // If the user switched away from a Drawing Mode, add all the newly drawn shapes in the TrackOverlay into the featureLayer
-            foreach (var feature in MapView.TrackOverlay.TrackShapeLayer.InternalFeatures)
-            {
-                featureLayer.InternalFeatures.Add(feature.Id, feature);
-            }
-            // Clear out all the TrackOverlay's features
-            MapView.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
-
-            // If the user switched away from Edit Mode, add all the shapes that were in the EditOverlay back into the featureLayer
-            foreach (var feature in MapView.EditOverlay.EditShapesLayer.InternalFeatures)
-            {
-                featureLayer.InternalFeatures.Add(feature.Id, feature);
-            }
-            // Clear out all the EditOverlay's features
-            MapView.EditOverlay.EditShapesLayer.InternalFeatures.Clear();
-
-            // Refresh the overlays to show latest results
-            await MapView.RefreshAsync(new Overlay[] { MapView.TrackOverlay, MapView.EditOverlay, layerOverlay });
-        }
-
-        /// <summary>
         /// Set the mode to normal navigation. This is the default.
         /// </summary>
         private void NavMode_Click(object sender, RoutedEventArgs e)
         {
-            var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
-            var featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
+            var featureLayer = (InMemoryFeatureLayer)_layerOverlay.Layers["featureLayer"];
 
-            // Update the layer's features from any previous mode
-            _ = UpdateLayerFeaturesAsync(featureLayer, layerOverlay);
+            // Move all TrackOverlay features to LayerOverlay
+            foreach (var feature in MapView.TrackOverlay.TrackShapeLayer.InternalFeatures)
+                featureLayer.InternalFeatures.Add(feature.Id, feature);
+            MapView.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
+
+            // Move all EditOverlay features to LayerOverlay and clear EditOverlay
+            foreach (var feature in MapView.EditOverlay.EditShapesLayer.InternalFeatures)
+                featureLayer.InternalFeatures.Add(feature.Id, feature);
+            MapView.EditOverlay.EditShapesLayer.InternalFeatures.Clear();
 
             // Set TrackMode to None, so that the user will no longer draw shapes and will be able to navigate the map normally
             MapView.TrackOverlay.TrackMode = TrackMode.None;
 
             // Update instructions
-            Instructions.Text = "Navigation Mode - The default map state. Allows you to pan and zoom the map with mouse controls.";
+            Instructions.Text = "Navigation Mode — Default map state. Use mouse to pan and zoom the map.";
+
+            _ = MapView.RefreshAsync(new Overlay[] { MapView.TrackOverlay, MapView.EditOverlay, _layerOverlay });
         }
 
         /// <summary>
@@ -145,17 +140,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void DrawPoint_Click(object sender, RoutedEventArgs e)
         {
-            var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
-            var featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
-
-            // Update the layer's features from any previous mode
-            _ = UpdateLayerFeaturesAsync(featureLayer, layerOverlay);
-
             // Set TrackMode to Point, which draws a new point on the map on mouse click
             MapView.TrackOverlay.TrackMode = TrackMode.Point;
 
             // Update instructions
-            Instructions.Text = "Draw Point Mode - Creates a Point Shape where at the location of each left mouse click event on the map.";
+            Instructions.Text = "Draw Point Mode — Click anywhere on the map to create a point. Hold the middle mouse button to pan.";
         }
 
         /// <summary>
@@ -163,17 +152,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void DrawLine_Click(object sender, RoutedEventArgs e)
         {
-            var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
-            var featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
-
-            // Update the layer's features from any previous mode
-            _ = UpdateLayerFeaturesAsync(featureLayer, layerOverlay);
-
             // Set TrackMode to Line, which draws a new line on the map on mouse click. Double click to finish drawing the line.
             MapView.TrackOverlay.TrackMode = TrackMode.Line;
 
             // Update instructions
-            Instructions.Text = "Draw Line Mode - Begin creating a Line Shape by left clicking on the map. Each subsequent left click adds another vertex to the line. Double left click to finish creating the Shape. Middle mouse click and drag allows the user to pan the map while drawing the Shape.";
+            Instructions.Text = "Draw Line Mode — Click to add vertices; double-click to finish the line. Hold the middle mouse button to pan. Hold Shift to enable North–South / East–West snapping.";
         }
 
         /// <summary>
@@ -181,73 +164,55 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void DrawPolygon_Click(object sender, RoutedEventArgs e)
         {
-            var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
-            var featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
-
-            // Update the layer's features from any previous mode
-            _ = UpdateLayerFeaturesAsync(featureLayer, layerOverlay);
-
             // Set TrackMode to Polygon, which draws a new polygon on the map on mouse click. Double click to finish drawing the polygon.
             MapView.TrackOverlay.TrackMode = TrackMode.Polygon;
 
             // Update instructions
-            Instructions.Text = "Draw Polygon Mode - Begin creating a Polygon Shape by left clicking on the map. Each subsequent left click adds another vertex to the polygon. Double left click to finish creating the Shape. Middle mouse click and drag allows the user to pan the map while drawing the Shape.";
+            Instructions.Text =
+                "Draw Polygon Mode — Click to add vertices; double-click to finish the polygon. Hold the middle mouse button to pan. Hold Shift to enable North–South / East–West snapping.";
         }
 
-        /// <summary>
-        /// Set the mode to edit drawn shapes
-        /// </summary>
-        private async void EditShape_Click(object sender, RoutedEventArgs e)
+        private void EditShape_OnChecked(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
-                var featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
+            if (!_initialized)
+                return;
 
-                // Update the layer's features from any previous mode
-                await UpdateLayerFeaturesAsync(featureLayer, layerOverlay);
+            // Move all TrackOverlay features to EditOverlay
+            foreach (var feature in MapView.TrackOverlay.TrackShapeLayer.InternalFeatures)
+                MapView.EditOverlay.EditShapesLayer.InternalFeatures.Add(feature.Id, feature);
+            MapView.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
 
-                // Set TrackMode to None, so that the user will no longer draw shapes
-                MapView.TrackOverlay.TrackMode = TrackMode.None;
-
-                // Put all features in the featureLayer into the EditOverlay
-                foreach (var feature in featureLayer.InternalFeatures)
-                {
-                    MapView.EditOverlay.EditShapesLayer.InternalFeatures.Add(feature.Id, feature);
-                }
-                // Clear all the features in the featureLayer so that the editing features don't overlap with the original shapes
-                // In UpdateLayerFeatures, we will add them all back to the featureLayer once the user switches modes
-                featureLayer.InternalFeatures.Clear();
-
-                // This method draws all the handles and manipulation points on the map to edit. Essentially putting them all in edit mode.
-                MapView.EditOverlay.CalculateAllControlPoints();
-
-                // Refresh the map so that the features properly show that they are in edit mode
-                await MapView.RefreshAsync(new Overlay[] { MapView.EditOverlay, layerOverlay });
-
-                // Update instructions
-                Instructions.Text = "Edit Shapes Mode - Allows the user to modify Shapes. Translate, rotate, or scale a shape using the anchor controls around the shape. Line and Polygon Shapes can also be modified: move a vertex by left mouse click and dragging on an existing vertex, add a vertex by left mouse clicking on a line segment, and remove a vertex by double left mouse clicking on an existing vertex.";
-            }
-            catch 
-            {
-                // Because async void methods don't return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it's good practice to catch and handle (or log) all exceptions within these "fire-and-forget" methods.
-            }
-        }
-
-        private void DeleteShape_Click(object sender, RoutedEventArgs e)
-        {
-            var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
-            var featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
+            // Move all layerOverlay features to EditOverlay
+            var featureLayer = (InMemoryFeatureLayer)_layerOverlay.Layers["featureLayer"];
+            foreach (var feature in featureLayer.InternalFeatures)
+                MapView.EditOverlay.EditShapesLayer.InternalFeatures.Add(feature.Id, feature);
+            featureLayer.InternalFeatures.Clear();
 
             // Set TrackMode to None, so that the user will no longer draw shapes
             MapView.TrackOverlay.TrackMode = TrackMode.None;
 
-            // Update instructions
-            Instructions.Text = "Delete Shape Mode - Deletes a shape by left mouse clicking on the shape.";
+            // This method draws all the handles and manipulation points on the map to edit. Essentially putting them all in edit mode.
+            MapView.EditOverlay.CalculateAllControlPoints();
 
-            // Update the layer's features from any previous mode
-            _ = UpdateLayerFeaturesAsync(featureLayer, layerOverlay);
+            // Refresh the map so that the features properly show that they are in edit mode
+            _ = MapView.RefreshAsync(new Overlay[] { MapView.TrackOverlay, MapView.EditOverlay, _layerOverlay });
+
+            // Update instructions
+            Instructions.Text =
+                "Edit Shapes Mode — Use anchor handles to translate, rotate, or scale shapes. Drag an existing vertex to move it. Click on a segment to add a vertex. Double-click an existing vertex to remove it.";
+        }
+
+        private void EditShape_OnUnchecked(object sender, RoutedEventArgs e)
+        {
+            var featureLayer = (InMemoryFeatureLayer)_layerOverlay.Layers["featureLayer"];
+
+            // Move all EditOverlay features to LayerOverlay
+            foreach (var feature in MapView.EditOverlay.EditShapesLayer.InternalFeatures)
+                featureLayer.InternalFeatures.Add(feature.Id, feature);
+            MapView.EditOverlay.EditShapesLayer.InternalFeatures.Clear();
+
+            // Refresh the overlays to show latest results
+            _ = MapView.RefreshAsync(new Overlay[] { MapView.TrackOverlay, MapView.EditOverlay, _layerOverlay });
         }
 
         /// <summary>
@@ -257,8 +222,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             if (DeleteShape.IsChecked != null && !DeleteShape.IsChecked.Value)
                 return;
-            var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
-            var featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
+
+            var featureLayer = (InMemoryFeatureLayer)_layerOverlay.Layers["featureLayer"];
 
             // Query the layer for the closest feature within 100 meters
             var closestFeatures = featureLayer.QueryTools.GetFeaturesNearestTo(e.WorldLocation, GeographyUnit.Meter, 1, new Collection<string>(), 100, DistanceUnit.Meter);
@@ -268,7 +233,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             featureLayer.InternalFeatures.Remove(closestFeatures[0]);
 
             // Refresh the layerOverlay to show the results
-            _ = MapView.RefreshAsync(layerOverlay);
+            _ = MapView.RefreshAsync(_layerOverlay);
         }
 
         public void Dispose()
