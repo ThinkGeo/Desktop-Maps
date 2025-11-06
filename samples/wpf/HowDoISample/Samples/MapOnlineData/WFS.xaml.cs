@@ -32,13 +32,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var wfsOverlay = new WfsV2Overlay
             {
                 DrawingBulkCount = 500,
-                FeatureLayer = CreateHelsinkiParcelsLayer(),
+                AsyncLayer = CreateHelsinkiParcelsLayer(),
                 IsVisible = false // start hidden
             };
             MapView.Overlays.Add("WfsOverlay", wfsOverlay);
 
             // Create LayerOverlay
-            var layerOverlay = new LayerOverlay { TileType = TileType.SingleTile, IsVisible = true };
+            var layerOverlay = new LayerOverlay() ;
             layerOverlay.Layers.Add(CreateHelsinkiParcelsLayer());
             MapView.Overlays.Add("LayerOverlay", layerOverlay);
 
@@ -48,9 +48,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _ = MapView.RefreshAsync();
         }
 
-        private WfsV2FeatureLayer CreateHelsinkiParcelsLayer()
+        private WfsV2AsyncLayer CreateHelsinkiParcelsLayer()
         {
-            var layer = new WfsV2FeatureLayer(
+            var layer = new WfsV2AsyncLayer(
                 "https://inspire-wfs.maanmittauslaitos.fi/inspire-wfs/cp/ows",
                 "cp:CadastralParcel")
             {
@@ -60,13 +60,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             layer.ZoomLevelSet.ZoomLevel13.DefaultAreaStyle =
                 AreaStyle.CreateSimpleAreaStyle(GeoColors.Transparent, GeoColors.OrangeRed, 4);
             layer.ZoomLevelSet.ZoomLevel13.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-            layer.FeatureSource.ProjectionConverter = new ProjectionConverter(3067, 3857);
+            layer.ProjectionConverter = new ProjectionConverter(3067, 3857);
 
-            // Attach event handlers here so they’re always included
-            layer.SendingWebRequest += HelsinkiParcelsLayer_SendingWebRequest;
-
-            var featureSource = (WfsV2FeatureSource)layer.FeatureSource;
-            featureSource.RequestingData += WFS_RequestingData;
+            // For .NET Framework, add a reference to System.Net.Http for this to compile.
+            // You don't need to do this for .NET 8+.
+            //
+            //layer.SendingHttpRequest += (sender, e) =>
+            //    System.Diagnostics.Debug.WriteLine($"Sending Request: {e.HttpRequestMessage.RequestUri}");
 
             return layer;
         }
@@ -92,16 +92,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                         break;
                 }
             }
-        }
-
-        private void HelsinkiParcelsLayer_SendingWebRequest(object sender, SendingWebRequestEventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine($"[WFS v1] Request: {e.WebRequest.RequestUri}");
-        }
-
-        private void WFS_RequestingData(object sender, RequestingDataWfsFeatureSourceEventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine($"[WFS v2] Request: {e.ServiceUrl}");
         }
 
         public void Dispose()
