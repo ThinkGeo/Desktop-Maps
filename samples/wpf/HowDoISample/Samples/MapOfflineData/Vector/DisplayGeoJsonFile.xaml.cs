@@ -37,19 +37,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
             MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            // Create the Overlay and new InMemoryFeatureLayer and add our geojson features to it.
+            // Create the Overlay and new InMemoryFeatureLayer and set up a Projection Converter to convert from the json's Decimal Degree data to Spherical Mercator.
             var layerOverlay = new LayerOverlay();
             var pittsburghHistoricalDistrictsLayer = new InMemoryFeatureLayer();
+            pittsburghHistoricalDistrictsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 3857);
 
-            // Load all of our geojson features and project them to the same 3857 projection of the basemap.
+            // Load all of our geojson features.
             var jsonText = File.ReadAllText(@"./Data/GeoJson/pittsburghpacity-designated-historic-districts.geojson");
-            Collection<Feature> historicalDistrictFeatures = ReprojectMultipleFeatures(Feature.CreateFeaturesFromGeoJson(jsonText));
+            Collection<Feature> historicalDistrictFeatures = Feature.CreateFeaturesFromGeoJson(jsonText);
 
-            // Add each json feature to our layer.
-            pittsburghHistoricalDistrictsLayer.FeatureSource.Open();
-            pittsburghHistoricalDistrictsLayer.FeatureSource.BeginTransaction();
-            historicalDistrictFeatures.ToList().ForEach(f => pittsburghHistoricalDistrictsLayer.FeatureSource.AddFeature(f));
-            pittsburghHistoricalDistrictsLayer.FeatureSource.CommitTransaction();
+            // Add each json feature to our layer - use Internal Features since the json is in the unprojected 4326.  If you use FeatureSource.AddFeature(f), then you need to reproject the feature first.
+            historicalDistrictFeatures.ToList().ForEach(f => pittsburghHistoricalDistrictsLayer.InternalFeatures.Add(f));
+            pittsburghHistoricalDistrictsLayer.BuildIndex();
 
             // Add a simple area style and text style, and add the layer to the overlay.
             pittsburghHistoricalDistrictsLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(200, GeoColors.LightOrange), GeoColors.Red);
@@ -65,19 +64,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _ = MapView.RefreshAsync();
         }
 
-        private static Collection<Feature> ReprojectMultipleFeatures(IEnumerable<Feature> decimalDegreeFeatures)
-        {
-            // Create a new ProjectionConverter to convert between Decimal Degrees (4326) and Spherical Mercator (3857)
-            var projectionConverter = new ProjectionConverter(4326, 3857);
-
-            // Convert the feature to Spherical Mercator
-            projectionConverter.Open();
-            var sphericalMercatorFeatures = projectionConverter.ConvertToExternalProjection(decimalDegreeFeatures);
-            projectionConverter.Close();
-
-            // Return the reprojected features
-            return sphericalMercatorFeatures;
-        }
 
         public void Dispose()
         {
