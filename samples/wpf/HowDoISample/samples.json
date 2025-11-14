@@ -241,6 +241,12 @@
         "source": "Samples/MapOfflineData/Vector/DisplayKMLFile"
       },
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayGeoJsonFile",
+        "title": "Display a GeoJson File",
+        "description": "This sample shows how to display a simple GeoJson file of historical districts in Pittsburgh.",
+        "source": "Samples/MapOfflineData/Vector/DisplayGeoJsonFile"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayCloudMapsVectorLayerOffline",
         "title": "Display a Cloud Maps Vector Layer Off-line",
         "description": "This sample show how to use an off-line version of ThinkGeo Cloud Map Vector data.",
