@@ -385,31 +385,25 @@
     ]
   },
   {
-    "title": "Map Tools",
+    "title": "Map Tools and Adornments",
     "children": [
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.Logo",
-        "title": "Logo",
-        "description": "Learn to render a custom logo on the map.",
-        "source": "Samples/MapTools/Logo"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.MapToolControls",
+        "title": "Map Tool Controls",
+        "description": "Learn to manage several built-in map tools (logo, mouse coordinates, scaleLine, and the PanZoomBar) from a single sample.",
+        "source": "Samples/MapTools/MapToolControls"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.MouseCoordinates",
-        "title": "Mouse Coordinates",
-        "description": "Learn to render coordinate info based on the mouse cursor position on the map.",
-        "source": "Samples/MapTools/MouseCoordinates"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ScaleLineScaleBar",
+        "title": "ScaleLine and ScaleBar",
+        "description": "Render ScaleLine and ScaleBar",
+        "source": "Samples/MapTools/ScaleLineScaleBar"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.PanZoomBar",
-        "title": "Pan Zoom Bar",
-        "description": "Learn to render a PanZoomBar on the map.",
-        "source": "Samples/MapTools/PanZoomBar"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.ScaleLine",
-        "title": "Scale Line",
-        "description": "Learn to render a ScaleLine on the map in a variety of different of styles.",
-        "source": "Samples/MapTools/ScaleLine"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.MagneticNorth",
+        "title": "Magnetic North ",
+        "description": "Display Magnetic North / Grid North / True North.",
+        "source": "Samples/MapTools/MagneticNorth"
       }
     ]
   },

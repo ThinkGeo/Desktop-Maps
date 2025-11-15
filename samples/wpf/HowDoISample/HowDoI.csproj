@@ -8,7 +8,7 @@
     <UserSecretsId>1d8a5313-9352-402d-84fd-6b51ca25705e</UserSecretsId>
     <StartupObject>
     </StartupObject>
-    <Platforms>AnyCPU;x64</Platforms>
+    <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net472|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -407,18 +407,18 @@
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-    <PackageReference Include="Jint" Version="4.4.1" />
+    <PackageReference Include="Jint" Version="4.4.2" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
-    <PackageReference Include="ThinkGeo.Cad" Version="14.5.0-beta024" />
-    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.5.0-beta024" />
-    <PackageReference Include="ThinkGeo.Gdal" Version="14.5.0-beta024" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.5.0-beta024" />
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.5.0-beta024" />
-    <PackageReference Include="ThinkGeo.Printers" Version="14.5.0-beta024" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="14.5.0-beta024" />
-    <PackageReference Include="ThinkGeo.UI.Wpf" Version="14.5.0-beta024" />
+    <PackageReference Include="ThinkGeo.Cad" Version="14.5.0-beta033" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.5.0-beta033" />
+    <PackageReference Include="ThinkGeo.Gdal" Version="14.5.0-beta033" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.5.0-beta033" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.5.0-beta033" />
+    <PackageReference Include="ThinkGeo.Printers" Version="14.5.0-beta033" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="14.5.0-beta033" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="14.5.0-beta033" />
     <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
   </ItemGroup>
   <ItemGroup>
@@ -1386,22 +1386,13 @@
     <Page Update="Samples\MapTools\MagneticNorth.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\MapTools\PanZoomBar.xaml">
+    <Page Update="Samples\MapTools\MapToolControls.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\Miscellaneous\CustomBackground.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\Miscellaneous\PerfTestRefreshShapes.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\MapTools\MouseCoordinates.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\MapTools\ScaleLine.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\MapTools\Logo.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\Miscellaneous\PrintTheMap.xaml">

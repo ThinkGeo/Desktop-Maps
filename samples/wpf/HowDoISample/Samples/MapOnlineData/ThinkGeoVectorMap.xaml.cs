@@ -37,27 +37,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
             MapView.Overlays.Add("Cloud Overlay", cloudOverlay);
 
-            // Add Scale Line Adornment Layer
-            var scaleLineAdornmentLayer = new ScaleLineAdornmentLayer
-            {
-                XOffsetInPixel = 20,
-                YOffsetInPixel = -10,
-                Projection = new Projection(3857)
-            };
-
-            // Add ScaleBarAdornmentLayer
-            var scaleBarAdornmentLayer = new ScaleBarAdornmentLayer
-            {
-                XOffsetInPixel = 10,
-                YOffsetInPixel = -50,
-                Projection = new Projection(3857)
-            };
-
-            var adornmentOverlay = new AdornmentOverlay();
-            adornmentOverlay.Layers.Add(scaleLineAdornmentLayer);
-            adornmentOverlay.Layers.Add(scaleBarAdornmentLayer);
-            MapView.Overlays.Add("AdornmentOverlay", adornmentOverlay);
-
             // Set the current extent to a neighborhood in Frisco Texas.
             MapView.CenterPoint = new PointShape(-10779700, 3912000);
             MapView.CurrentScale = 18100;

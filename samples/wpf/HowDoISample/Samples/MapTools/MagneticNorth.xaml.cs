@@ -33,7 +33,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
             MapView.Overlays.Add("Cloud Overlay", cloudOverlay);
 
-            var magneticDeclinationAdornmentLayer = new MagneticDeclinationAdornmentLayer(AdornmentLocation.LowerLeft);
+            var magneticDeclinationAdornmentLayer = new MagneticDeclinationAdornmentLayer(AdornmentLocation.UpperRight);
             var proj4Projection = new Projection(3857);
             magneticDeclinationAdornmentLayer.Projection = proj4Projection;
             magneticDeclinationAdornmentLayer.TrueNorthPointStyle.SymbolSize = 25;
