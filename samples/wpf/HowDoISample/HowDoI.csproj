@@ -45,6 +45,9 @@
     <Page Update="Samples\MapOfflineData\Vector\DisplayKMLFile.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
+    <Page Update="Samples\MapOfflineData\Vector\DisplayGeoJsonFile.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Samples\MapOnlineData\OGCAPIFeatureServer.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
@@ -81,6 +84,9 @@
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
     <Compile Update="Samples\MapOfflineData\Raster\DisplayECWFile.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Samples\MapOfflineData\Vector\DisplayGeoJsonFile.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\MapOfflineData\Vector\GenerateESRIGridFile.xaml.cs">
@@ -585,6 +591,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\Gdal\FdoGdal.tif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\GeoJson\pittsburghpacity-designated-historic-districts.geojson">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\GeoPackage\mora_surficial_geology.gpkg">
