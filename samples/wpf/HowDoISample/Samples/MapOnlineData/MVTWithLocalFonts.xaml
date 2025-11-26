@@ -42,12 +42,7 @@
                 <RadioButton  Margin="5" Checked="CustomFonts_OnCheckedChanged" Content="Custom Fonts" />
             </StackPanel>
         </StackPanel>
-
-        <ListBox Grid.Column="1" Grid.Row="1"  Margin="5"  x:Name="LogListBox"
-                  ItemsSource="{Binding Path =LogMessages}"
-                  VirtualizingStackPanel.IsVirtualizing="True"
-                  VirtualizingStackPanel.VirtualizationMode="Recycling" />
-
+        <Label Grid.Column="1" Grid.Row="1"   x:Name="LabelWarning"/>
         <StackPanel Grid.Column="1" Grid.Row ="2">
             <TextBlock Margin="4">
                 <Hyperlink NavigateUri="https://cdn.thinkgeo.com/downloads/howdoi_fonts_09262025.zip" RequestNavigate="Hyperlink_RequestNavigate">
