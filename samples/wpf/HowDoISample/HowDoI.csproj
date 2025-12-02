@@ -314,17 +314,17 @@
     <None Remove="Resources\loading.gif" />
     <None Remove="Resources\loading.png" />
     <None Remove="Resources\ThinkGeoLogo.png" />
+    <None Remove="Resources\favicon.ico" />
+    <None Remove="Resources\logo.png" />
     <None Remove="Screenshot.gif" />
-    <None Remove="Theme\Images\favicon.ico" />
-    <None Remove="Theme\Images\logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Theme\Images\favicon.ico">
+    <Resource Include="Resources\favicon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Theme\Images\logo.png">
+    </Resource>
+    <Resource Include="Resources\logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\marker.png">
@@ -1118,7 +1118,7 @@
     <None Update="Resources\weapon_icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="samples.json">
+    <None Update="Samples\samples.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

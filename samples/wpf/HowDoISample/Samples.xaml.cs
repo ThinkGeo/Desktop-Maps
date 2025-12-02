@@ -6,7 +6,9 @@ using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Navigation;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
@@ -35,7 +37,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 		private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
 		{
 			// Dynamically read the samples to load into the tree view
-			var json = File.ReadAllText(@"./samples.json");
+			var json = File.ReadAllText(@"./Samples/samples.json");
 
 			_menus = JsonSerializer.Deserialize<List<MenuModel>>(json, JsonOptions) ?? new List<MenuModel>();
 
@@ -376,12 +378,47 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 		}
 	}
 
-	public class MenuModel
+	class MenuModel
 	{
 		public string Id { get; set; }
 		public string Title { get; set; }
 		public string Description { get; set; }
 		public string Source { get; set; }
 		public List<MenuModel> Children { get; set; }
+	}
+
+	class HyperlinkHelper
+	{
+		public static readonly DependencyProperty LaunchBrowserProperty =
+			DependencyProperty.RegisterAttached("LaunchBrowser", typeof(bool),
+				typeof(HyperlinkHelper), new PropertyMetadata(false,
+					HyperlinkHelper_LaunchBrowserChanged));
+
+		public static bool GetLaunchBrowser(DependencyObject d)
+		{
+			return (bool)d.GetValue(LaunchBrowserProperty);
+		}
+
+		public static void SetLaunchBrowser(DependencyObject d, bool value)
+		{
+			d.SetValue(LaunchBrowserProperty, value);
+		}
+
+		private static void HyperlinkHelper_LaunchBrowserChanged(object
+			sender, DependencyPropertyChangedEventArgs e)
+		{
+			var d = (UIElement)sender;
+			if ((bool)e.NewValue)
+				d.AddHandler(Hyperlink.RequestNavigateEvent, new RequestNavigateEventHandler(Hyperlink_RequestNavigateEvent));
+			else
+				d.RemoveHandler(Hyperlink.RequestNavigateEvent, new RequestNavigateEventHandler(Hyperlink_RequestNavigateEvent));
+		}
+
+		private static void Hyperlink_RequestNavigateEvent(object sender, RequestNavigateEventArgs e)
+		{
+			var process = new Process { StartInfo = { UseShellExecute = true, FileName = e.Uri.AbsoluteUri } };
+			process.Start();
+			e.Handled = true;
+		}
 	}
 }

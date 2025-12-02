@@ -10,7 +10,7 @@
         x:Name="Main"
         Loaded="MainWindow_OnLoaded"
         Title="WPF How Do I Samples" Height="960" Width="1440"
-        Icon="Theme/Images/favicon.ico">
+        Icon="Resources/favicon.ico">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <Style TargetType="{x:Type TreeViewItem}">
@@ -28,7 +28,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Image Source="Theme/Images/logo.png" HorizontalAlignment="Left"/>
+            <Image Source="Resources/logo.png" HorizontalAlignment="Left"/>
 
             <StackPanel Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <TextBlock Text="ThinkGeo UI Control Samples for Desktop" Style="{DynamicResource ApplicationTitle}"></TextBlock>
