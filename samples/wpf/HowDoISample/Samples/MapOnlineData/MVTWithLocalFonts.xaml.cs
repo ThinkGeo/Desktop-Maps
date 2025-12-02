@@ -33,7 +33,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
 
         public ObservableCollection<string> LogMessages { get; } = new ObservableCollection<string>();
-        private int _logIndex = 0;
 
         private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
