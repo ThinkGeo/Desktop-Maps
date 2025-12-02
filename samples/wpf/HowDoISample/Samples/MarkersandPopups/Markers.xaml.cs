@@ -61,7 +61,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Create a marker at the center point
             var marker = new Marker(MapView.CenterPoint)
             {
-                ImageSource = new BitmapImage(new Uri("/Resources/AQUA.png", UriKind.RelativeOrAbsolute)),
+                ImageSource = new BitmapImage(new Uri("/Resources/marker.png", UriKind.RelativeOrAbsolute)),
                 Width = 20,
                 Height = 34,
                 YOffset = -17
@@ -84,7 +84,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Create a marker at the position the mouse was clicked
             var marker = new Marker(e.WorldLocation)
             {
-                ImageSource = new BitmapImage(new Uri("/Resources/AQUA.png", UriKind.RelativeOrAbsolute)),
+                ImageSource = new BitmapImage(new Uri("/Resources/marker.png", UriKind.RelativeOrAbsolute)),
                 Width = 20,
                 Height = 34,
                 YOffset = -17

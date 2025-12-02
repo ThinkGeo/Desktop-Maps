@@ -4,16 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
-             xmlns:uc2="clr-namespace:ThinkGeo.UI.Wpf.HowDoI"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <thinkGeoUi:MapView x:Name="MapView" Loaded="MapView_Loaded"></thinkGeoUi:MapView>
-        <uc2:InstructionPanel Grid.Column="0" Width="200" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="8" Opacity="0.95">
-            <StackPanel>
-                <TextBlock x:Name="InstructionLabel" Margin="0,0,0,5" TextWrapping="Wrap">This is a test.</TextBlock>
-            </StackPanel>
-        </uc2:InstructionPanel>
         <!-- Sample Controls -->
         <Border Grid.Column="1">
             <Grid>

@@ -301,22 +301,20 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Remove=".gitignore" />
     <None Remove="HowDoI.csproj.DotSettings" />
-    <None Remove="Resources\AQUA.png" />
-    <None Remove="Resources\AQUABLANK.png" />
-    <None Remove="Resources\East.gif" />
+    <None Remove="HowDoI.sln.DotSettings" />
+    <None Remove="README.md" />
+    <None Remove="Resources\marker.png" />
     <None Remove="Resources\empire_state_building.png" />
     <None Remove="Resources\generic-logo.jpg" />
     <None Remove="Resources\generic-logo.png" />
     <None Remove="Resources\globe.png" />
     <None Remove="Resources\icon_globe_black.png" />
     <None Remove="Resources\loading.gif" />
-    <None Remove="Resources\North.gif" />
-    <None Remove="Resources\South.gif" />
+    <None Remove="Resources\loading.png" />
     <None Remove="Resources\ThinkGeoLogo.png" />
-    <None Remove="Resources\West.gif" />
-    <None Remove="Resources\ZoomIn.png" />
-    <None Remove="Resources\ZoomOut.png" />
+    <None Remove="Screenshot.gif" />
     <None Remove="Theme\Images\favicon.ico" />
     <None Remove="Theme\Images\logo.png" />
   </ItemGroup>
@@ -329,14 +327,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\AQUA.png">
+    <Resource Include="Resources\marker.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\AQUABLANK.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\East.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+
     </Resource>
     <Resource Include="Resources\empire_state_building.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -347,25 +340,7 @@
     <Resource Include="Resources\icon_globe_black.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\loading.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\North.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\South.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\ThinkGeoLogo.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\West.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\ZoomIn.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\ZoomOut.png">
+    <Resource Include="Resources\loading.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Page Remove="SampleTemplate.xaml" />
@@ -412,11 +387,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="Jint" Version="4.4.2" />
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
     <PackageReference Include="ThinkGeo.Cad" Version="14.5.0-beta039" />
     <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.5.0-beta039" />
     <PackageReference Include="ThinkGeo.Gdal" Version="14.5.0-beta039" />
@@ -425,7 +396,6 @@
     <PackageReference Include="ThinkGeo.Printers" Version="14.5.0-beta039" />
     <PackageReference Include="ThinkGeo.SqlServer" Version="14.5.0-beta039" />
     <PackageReference Include="ThinkGeo.UI.Wpf" Version="14.5.0-beta039" />
-    <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Data\Bmp\m_3309650_sw_14_1_20160911_20161121.bmp">
@@ -1143,9 +1113,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Resources\vehicle-location.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\vehicle.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Resources\weapon_icon.png">
