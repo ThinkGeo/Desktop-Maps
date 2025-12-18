@@ -129,24 +129,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 return;
             }
 
-            var fontName = e.Font.IsBold ? "GoNotoKurrent-Bold.ttf" : "GoNotoKurrent-Regular.ttf";
-            var file = Path.Combine(FontsFolder, fontName);
-
-            if (!_typefaceCache.TryGetValue(file, out var typeface))
-            {
-                typeface = SKTypeface.FromFile(file);
-                if (typeface != null)
-                {
-                    _typefaceCache.TryAdd(file, typeface);
-                    AppendLog($"loaded: {Path.GetFileName(file)}", Brushes.Green);
-                }
-                else
-                {
-                    AppendLog($"Cannot Load: {Path.GetFileName(file)}", Brushes.Red);
-                }
-            }
-
-            if (typeface != null && TypefaceSupportsChar(typeface, e.Character, e.Font))
+            var typeface = GetSupportedTypefaceForCharacter(e.Font, e.Character);
+            if (typeface != null)
             {
                 e.Typeface = typeface;
             }
@@ -206,6 +190,56 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 UseShellExecute = true
             });
             e.Handled = true;
+        }
+
+        private SKTypeface GetSupportedTypefaceForCharacter(GeoFont geoFont, char character)
+        {
+            var isBold = geoFont?.IsBold == true;
+
+            var candidates = isBold
+                ? new[]
+                {
+                    "GoNotoKurrent-Bold.ttf",
+                    "NotoSansCanadianAboriginal-Bold.ttf",
+                    "NotoSansSC-Bold.ttf"
+                }
+                : new[]
+                {
+                    "GoNotoKurrent-Regular.ttf",
+                    "NotoSansCanadianAboriginal-Regular.ttf",
+                    "NotoSansSC-Regular.ttf"
+                };
+
+            foreach (var fontName in candidates)
+            {
+                var typeface = LoadTypeface(fontName);
+                if (typeface != null && TypefaceSupportsChar(typeface, character, geoFont))
+                {
+                    return typeface;
+                }
+            }
+
+            return null;
+        }
+
+        private SKTypeface LoadTypeface(string fontName)
+        {
+            var file = Path.Combine(FontsFolder, fontName);
+            if (!_typefaceCache.TryGetValue(file, out var typeface))
+            {
+                typeface = SKTypeface.FromFile(file);
+                if (typeface != null)
+                {
+                    _typefaceCache.TryAdd(file, typeface);
+                    AppendLog($"loaded: {Path.GetFileName(file)}", Brushes.Green);
+                }
+                else
+                {
+                    AppendLog($"Cannot Load: {Path.GetFileName(file)}", Brushes.Red);
+                }
+            }
+
+            return typeface;
         }
     }
 }
