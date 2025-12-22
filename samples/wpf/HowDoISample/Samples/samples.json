@@ -888,6 +888,12 @@
         "title": "Navigate On TouchScreen",
         "description": "Learn how to enable the map for TouchScreen. See this: https://youtu.be/1LAROjqIrO8?si=O1zdrhpisj1vCIB8",
         "source": "Samples/Miscellaneous/NavigateOnTouchScreen"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.XYZRasterLayerProjection",
+        "title": "Display XYZ Raster Layer Projection",
+        "description": "This sample shows how to reproject XYZ tile layers using ThinkGeo background maps and GdalProjectionConverter, supporting multiple coordinate systems and projections.",
+        "source": "Samples/Miscellaneous/XYZRasterLayerProjection"
       }
       //,
       //{

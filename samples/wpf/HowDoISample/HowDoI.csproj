@@ -388,14 +388,14 @@
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
     <PackageReference Include="Jint" Version="4.4.2" />
-    <PackageReference Include="ThinkGeo.Cad" Version="14.5.0-beta041" />
-    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.5.0-beta041" />
-    <PackageReference Include="ThinkGeo.Gdal" Version="14.5.0-beta041" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.5.0-beta041" />
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.5.0-beta041" />
-    <PackageReference Include="ThinkGeo.Printers" Version="14.5.0-beta041" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="14.5.0-beta041" />
-    <PackageReference Include="ThinkGeo.UI.Wpf" Version="14.5.0-beta041" />
+    <PackageReference Include="ThinkGeo.Cad" Version="14.5.0-beta056" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.5.0-beta056" />
+    <PackageReference Include="ThinkGeo.Gdal" Version="14.5.0-beta056" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.5.0-beta056" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.5.0-beta056" />
+    <PackageReference Include="ThinkGeo.Printers" Version="14.5.0-beta056" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="14.5.0-beta056" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="14.5.0-beta056" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Data\Bmp\m_3309650_sw_14_1_20160911_20161121.bmp">
