@@ -37,6 +37,12 @@
         "title": "Dynamic Rendering",
         "description": "Dynamically refreshing the shapes",
         "source": "Samples/MapNavigation/DynamicRendering"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.OverviewMap",
+        "title": "Overview Map",
+        "description": "Overview map with rotating frame; drag to recenter the main map.",
+        "source": "Samples/MapNavigation/OverviewMap"
       }
     ]
   },
