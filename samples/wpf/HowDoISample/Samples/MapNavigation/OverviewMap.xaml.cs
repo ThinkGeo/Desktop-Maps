@@ -14,7 +14,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     public partial class OverviewMap : IDisposable
     {
         private const double MiniMapScaleRatio = 50.0;
-        private double initScale = 2311168;
+        private double initScale = 4622340;
         private bool _updatingOverlay;
         private bool _dragging;
         private Point _lastMouse;
@@ -31,6 +31,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.SizeChanged += OnViewportSizeChanged;
             MiniMapView.SizeChanged += OnViewportSizeChanged;
             SizeChanged += OnViewportSizeChanged;
+            
+            MiniMapView.CurrentExtentChanged += (_, __) => UpdateMiniHud();
 
             MiniHud.MouseLeftButtonDown += MiniHud_MouseLeftButtonDown;
             MiniHud.MouseMove += MiniHud_MouseMove;
@@ -45,14 +47,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            await InitializeMap(MapView, initScale, new PointShape(-9008435.44382651, 2973578.1226677005));
+            await InitializeMap(MapView, initScale, new PointShape(-9338030, 3300450));
         }
 
         private async void MiniMapView_Loaded(object sender, RoutedEventArgs e)
         {
-            await InitializeMap(MiniMapView, initScale * MiniMapScaleRatio, new PointShape(-10502932.186987586, 4330072.447083719));
-
-            UpdateMiniHud();
+            await InitializeMap(MiniMapView, initScale * MiniMapScaleRatio, new PointShape(-10502930, 4330070));
         }
 
         private void OnMainViewportChanged(object sender, EventArgs e)
