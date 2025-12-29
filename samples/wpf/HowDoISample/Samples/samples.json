@@ -59,7 +59,7 @@
         "id": "ThinkGeo.UI.Wpf.HowDoI.RasterXyzServer",
         "title": "Raster Map from XYZ Server",
         "description": "This sample shows how to display the tiles from a raster XYZ server. This demo server has 20 zoom levels (zoom 0~19)",
-        "source": "Samples/MapOnlineData/RasterXyzServer"
+        "source": "Samples/XYZBasedLayers/RasterXyzServer"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.ThinkGeoVectorMap",
@@ -107,7 +107,13 @@
         "id": "ThinkGeo.UI.Wpf.HowDoI.MVT",
         "title": "MVT",
         "description": "This sample shows how to display a MVT Feature Layer.",
-        "source": "Samples/MapOnlineData/MVT"
+        "source": "Samples/XYZBasedLayers/MVT"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.MVTWithLocalFonts",
+        "title": "MVT with Local Fonts",
+        "description": "This sample shows how to display a vector map from an MVT server, using local ttf fonts file",
+        "source": "Samples/XYZBasedLayers/MVTWithLocalFonts"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.WFS",
@@ -142,19 +148,19 @@
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayRasterMbTilesFile",
         "title": "Display Raster from MBTiles",
         "description": "This sample shows how to display a raster MBTiles file. The demo file has 6 zoom levels (zoom 0–5)",
-        "source": "Samples/MapOfflineData/Raster/DisplayRasterMbTilesFile"
+        "source": "Samples/XYZBasedLayers/DisplayRasterMbTilesFile"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayRasterFileTiles",
         "title": "Display Raster from File Tiles",
         "description": "This sample shows how to display the raster tiles created by QGIS. The demo tiles have 6 zoom levels (zoom 0~5)",
-        "source": "Samples/MapOfflineData/Raster/DisplayRasterFileTiles"
+        "source": "Samples/XYZBasedLayers/DisplayRasterFileTiles"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMbTilesFile",
         "title": "Display Vector from MBTiles",
         "description": "This sample shows how to display an MBTiles file. The demo mbtile/json come from https://github.com/maplibre/demotiles?tab=readme-ov-file",
-        "source": "Samples/MapOfflineData/Vector/DisplayMbTilesFile"
+        "source": "Samples/XYZBasedLayers/DisplayMbTilesFile"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplaySQLiteFile",
@@ -309,19 +315,19 @@
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayRasterMbTilesFile",
         "title": "Display Raster from MBTiles",
         "description": "This sample shows how to display a raster MBTiles file. The demo file has 6 zoom levels (zoom 0–5)",
-        "source": "Samples/MapOfflineData/Raster/DisplayRasterMbTilesFile"
+        "source": "Samples/XYZBasedLayers/DisplayRasterMbTilesFile"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayRasterFileTiles",
         "title": "Display Raster from File Tiles",
         "description": "This sample shows how to display the raster tiles created by QGIS. The demo tiles have 6 zoom levels (zoom 0~5)",
-        "source": "Samples/MapOfflineData/Raster/DisplayRasterFileTiles"
+        "source": "Samples/XYZBasedLayers/DisplayRasterFileTiles"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.RasterXyzServer",
         "title": "Display Raster from XYZ Server",
         "description": "This sample shows how to display the tiles from a raster XYZ server. This demo server has 20 zoom levels (zoom 0~19)",
-        "source": "Samples/MapOnlineData/RasterXyzServer"
+        "source": "Samples/XYZBasedLayers/RasterXyzServer"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.ProjectOSMLayer",
@@ -339,19 +345,19 @@
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayMbTilesFile",
         "title": "Display Vector from MBTiles",
         "description": "This sample shows how to display an MBTiles file. The demo mbtile/json come from https://github.com/maplibre/demotiles?tab=readme-ov-file",
-        "source": "Samples/MapOfflineData/Vector/DisplayMbTilesFile"
+        "source": "Samples/XYZBasedLayers/DisplayMbTilesFile"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.MVT",
         "title": "Display Vector from MVT Server",
         "description": "This sample shows how to display a vector map from an MVT server.",
-        "source": "Samples/MapOnlineData/MVT"
+        "source": "Samples/XYZBasedLayers/MVT"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.MVTWithLocalFonts",
         "title": "Display Vector from MVT with Local Fonts",
         "description": "This sample shows how to display a vector map from an MVT server, using local ttf fonts file",
-        "source": "Samples/MapOnlineData/MVTWithLocalFonts"
+        "source": "Samples/XYZBasedLayers/MVTWithLocalFonts"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.CacheXyzTiles",
