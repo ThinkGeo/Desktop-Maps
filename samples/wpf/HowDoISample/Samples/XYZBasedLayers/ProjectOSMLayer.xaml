@@ -41,7 +41,7 @@
                      Margin="10, 5" Content="EPSG 25832"/>
 
 
-                <CheckBox FontSize="14" FontWeight="Bold" Foreground="White" IsChecked="True"
+                <CheckBox FontSize="14" FontWeight="Bold" Foreground="White"
                           Checked="DisplayTileIdCheckBox_Checked"
                           Unchecked="DisplayTileIdCheckBox_Checked" 
                           Margin="4" Content="Show Debug Info"/>

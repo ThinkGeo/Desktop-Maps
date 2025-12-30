@@ -26,7 +26,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             try
             {
-                ThinkGeoDebugger.DisplayTileId = true;
                 // It is important to set the map unit first to either feet, meters or decimal degrees.
                 MapView.MapUnit = GeographyUnit.Meter;
                 var layerOverlay = new WmtsOverlay(new Uri("https://wmts.geo.admin.ch/1.0.0"));

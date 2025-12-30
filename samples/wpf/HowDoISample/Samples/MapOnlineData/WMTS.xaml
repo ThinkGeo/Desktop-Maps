@@ -9,7 +9,6 @@
     <Grid>
         <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded"></thinkGeoUi:MapView>
         <CheckBox FontSize="14" FontWeight="Bold" Foreground="Gray" 
-                  IsChecked="True"
                   VerticalAlignment="Bottom"
                   HorizontalAlignment="Center"
                   Checked="DisplayTileIdCheckBox_Checked"

@@ -24,8 +24,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private async void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            ThinkGeoDebugger.DisplayTileId = true;
-
             _osmLayer = new OpenStreetMapAsyncLayer();
             var layerOverlay = new LayerOverlay();
             layerOverlay.TileType = TileType.SingleTile;

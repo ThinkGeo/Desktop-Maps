@@ -24,8 +24,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            ThinkGeoDebugger.DisplayTileId = true;
-
             var layerOverlay = new LayerOverlay();
             layerOverlay.TileType = TileType.SingleTile;
             MapView.Overlays.Add(layerOverlay);

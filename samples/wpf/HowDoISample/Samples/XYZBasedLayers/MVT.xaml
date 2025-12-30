@@ -56,7 +56,7 @@
             <RadioButton  Margin="10, 5" Checked="SwitchTileSize_OnCheckedChanged" Content="Single Tile"/>
 
             <CheckBox Content="Show Tile ID" FontSize="16" FontWeight="Bold" Margin="0 5 0 5"  
-                      IsChecked="True" Checked="ShowTileID_OnCheckedChanged" Unchecked="ShowTileID_OnCheckedChanged" />
+                      Checked="ShowTileID_OnCheckedChanged" Unchecked="ShowTileID_OnCheckedChanged" />
         </StackPanel>
 
         <ListBox  Grid.Column="1" Grid.Row="1" Margin="5"  x:Name="LogListBox"

@@ -48,7 +48,7 @@
                      Foreground="White"
                      Margin="10, 5" Content="Albers Equal Area Conic"/>
 
-                <CheckBox FontSize="14" FontWeight="Bold" Foreground="White" IsChecked="True"
+                <CheckBox FontSize="14" FontWeight="Bold" Foreground="White"
                           Checked="DisplayTileIdCheckBox_Checked"
                           Unchecked="DisplayTileIdCheckBox_Checked" 
                           Margin="4" Content="Show Debug Info"/>

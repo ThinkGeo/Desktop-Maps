@@ -33,7 +33,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.MapUnit = GeographyUnit.Meter;
 
             _selectedType = "512 * 512";
-            ThinkGeoDebugger.DisplayTileId = true;
 
             _layerOverlay = new LayerOverlay();
             _layerOverlay.TileType = TileType.MultiTile;

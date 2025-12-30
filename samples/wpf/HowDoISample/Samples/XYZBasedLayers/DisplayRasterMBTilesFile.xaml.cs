@@ -38,8 +38,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 System.IO.Directory.CreateDirectory(cachePath);
             }
 
-            ThinkGeoDebugger.DisplayTileId = true;
-
             rasterMbTilesLayer.TileCache = new FileRasterTileCache(cachePath, "raw");
             rasterMbTilesLayer.ProjectedTileCache = new FileRasterTileCache(cachePath, "projected");
 

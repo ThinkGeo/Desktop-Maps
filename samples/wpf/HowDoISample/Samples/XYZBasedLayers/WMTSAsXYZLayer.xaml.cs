@@ -49,8 +49,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     System.IO.Directory.CreateDirectory(cachePath);
                 }
 
-                ThinkGeoDebugger.DisplayTileId = true;
-
                 wmtsAsyncLayer.TileCache = new FileRasterTileCache(cachePath, "raw");
                 wmtsAsyncLayer.ProjectedTileCache = new FileRasterTileCache(cachePath, "projected");
 

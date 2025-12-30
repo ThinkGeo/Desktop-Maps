@@ -29,8 +29,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private void MapView_Loaded(object sender, RoutedEventArgs e)
         {
-            ThinkGeoDebugger.DisplayTileId = true;
-
             if (!Directory.Exists(@".\Data\OSM_Tiles_z0-z5_Created_By_QGIS"))
                 ZipFile.ExtractToDirectory(@".\Data\OSM_Tiles_z0-z5_Created_By_QGIS.zip", @".\Data\OSM_Tiles_z0-z5_Created_By_QGIS");
 
