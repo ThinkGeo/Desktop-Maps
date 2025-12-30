@@ -389,10 +389,16 @@
         "source": "Samples/MapProjection/SettingTheProjectionOfALayer"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.ProjectTheWorld",
-        "title": "Project the World",
-        "description": "A small collection of some interesting projections.",
-        "source": "Samples/MapProjection/ProjectTheWorld"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ProjectTheWorldVector",
+        "title": "Project the World (Vector)",
+        "description": "Demonstrates projecting vector data into different world projections.",
+        "source": "Samples/MapProjection/ProjectTheWorldVector"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ProjectTheWorldRaster",
+        "title": "Project the World (Raster)",
+        "description": "Demonstrates reprojecting XYZ raster tile layers into different world projections using GDAL-based projection converters.",
+        "source": "Samples/MapProjection/ProjectTheWorldRaster"
       }
     ]
   },
@@ -894,13 +900,7 @@
         "title": "Navigate On TouchScreen",
         "description": "Learn how to enable the map for TouchScreen. See this: https://youtu.be/1LAROjqIrO8?si=O1zdrhpisj1vCIB8",
         "source": "Samples/Miscellaneous/NavigateOnTouchScreen"
-      },
-      {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.XYZRasterLayerProjection",
-        "title": "Display XYZ Raster Layer Projection",
-        "description": "This sample shows how to reproject XYZ tile layers using ThinkGeo background maps and GdalProjectionConverter, supporting multiple coordinate systems and projections.",
-        "source": "Samples/Miscellaneous/XYZRasterLayerProjection"
-      }
+      }      
       //,
       //{
       //  "id": "ThinkGeo.UI.Wpf.HowDoI.Placeholder",

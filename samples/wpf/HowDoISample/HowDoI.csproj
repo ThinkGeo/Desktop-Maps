@@ -162,7 +162,7 @@
     <Compile Update="Samples\MapProjection\ProjectARaster.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\MapProjection\ProjectTheWorld.xaml.cs">
+    <Compile Update="Samples\MapProjection\ProjectTheWorldVector.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Samples\ThinkGeoCloudIntegration\RoutingServiceArea.xaml.cs">
@@ -1292,7 +1292,7 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\MapProjection\ProjectTheWorld.xaml">
+    <Page Update="Samples\MapProjection\ProjectTheWorldVector.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

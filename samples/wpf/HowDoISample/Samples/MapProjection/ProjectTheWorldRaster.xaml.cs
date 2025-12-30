@@ -13,7 +13,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// a fixed CenterPoint and CurrentScale per projection
     /// to ensure stable and predictable demo behavior.
     /// </summary>
-    public partial class XYZRasterLayerProjection : UserControl
+    public partial class ProjectTheWorldRaster : UserControl
     {
         public ObservableCollection<string> LogMessages { get; } = new ObservableCollection<string>();
         private ThinkGeoRasterMapsAsyncLayer _thinkGeoRasterMapsAsyncLayer;
@@ -23,9 +23,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         // Original Web Mercator demo extent (EPSG:3857)
         private static readonly RectangleShape OriginalExtent3857 = new RectangleShape(166021, 9328006, 833978, 0);
 
-        /// <summary>
-        /// Holds a stable demo view configuration for a projection.
-        /// </summary>
+        // Holds a stable demo view configuration for a projection.
         private class ProjectionView
         {
             public GeographyUnit MapUnit { get; set; }
@@ -33,10 +31,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             public double Scale { get; set; }
         }
 
-        /// <summary>
-        /// Each projection has a fixed CenterPoint and Scale.
-        /// Adjust ONLY these values to fine-tune demo appearance.
-        /// </summary>
+        // Each projection has a fixed CenterPoint and Scale.
+        // Adjust ONLY these values to fine-tune demo appearance.
         private static readonly Dictionary<string, ProjectionView> ProjectionViews
             = new Dictionary<string, ProjectionView>
         {
@@ -92,7 +88,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             { "Albers", SampleKeys.ProjString2 }
         };
 
-        public XYZRasterLayerProjection()
+        public ProjectTheWorldRaster()
         {
             InitializeComponent();
             DataContext = this;
