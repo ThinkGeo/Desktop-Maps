@@ -900,7 +900,13 @@
         "title": "Navigate On TouchScreen",
         "description": "Learn how to enable the map for TouchScreen. See this: https://youtu.be/1LAROjqIrO8?si=O1zdrhpisj1vCIB8",
         "source": "Samples/Miscellaneous/NavigateOnTouchScreen"
-      }      
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.BasicMapEvents",
+        "title": "Basic Map Events",
+        "description": "Learn to recognize fundamental map events.",
+        "source": "Samples/Miscellaneous/BasicMapEvents"
+      }
       //,
       //{
       //  "id": "ThinkGeo.UI.Wpf.HowDoI.Placeholder",
