@@ -524,6 +524,12 @@
         "source": "Samples/VectorDataStyling/DisplayISOLine"
       },
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.HatchStyles",
+        "title": "Hatch Styles",
+        "description": "Display area features using hatch fill patterns.",
+        "source": "Samples/VectorDataStyling/HatchStyles"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.CustomStyles",
         "title": "Custom Styles",
         "description": "Render capitals using custom styles.",
