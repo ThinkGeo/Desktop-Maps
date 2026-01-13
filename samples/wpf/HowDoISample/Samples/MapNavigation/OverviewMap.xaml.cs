@@ -1,212 +1,159 @@
 ﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
-using System.Windows.Media;
 using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
-    /// <summary>
-    /// Interaction logic for OverviewMap.xaml
-    /// </summary>
-    public partial class OverviewMap : IDisposable
-    {
-        private const double MiniMapScaleRatio = 50.0;
-        private double initScale = 4622340;
-        private bool _updatingOverlay;
-        private bool _dragging;
-        private Point _lastMouse;
+	/// <summary>
+	/// Interaction logic for OverviewMap.xaml
+	/// </summary>
+	public partial class OverviewMap : IDisposable
+	{
+		public OverviewMap()
+		{
+			InitializeComponent();
 
-        public OverviewMap()
-        {
-            InitializeComponent();
+			MainMap.MapTools.PanZoomBar.Visibility = Visibility.Collapsed;
+			PreviewMap.MapTools.PanZoomBar.Visibility = Visibility.Collapsed;
 
-            MapView.MapTools.PanZoomBar.Visibility = Visibility.Collapsed;
-            MiniMapView.MapTools.PanZoomBar.Visibility = Visibility.Collapsed;
+			MainMap.CurrentExtentChanged += MainMapCurrentExtentChanged;
+			MainMap.RotationAngleChanging += MainMapRotationAngleChanging;
+			MainMap.SizeChanged += MainMapSizeChanged;
+		}
 
-            MapView.CurrentExtentChanged += OnMainViewportChanged;
-            MapView.RotationAngleChanging += OnRotationAngleChanging;
-            MapView.SizeChanged += OnViewportSizeChanged;
-            MiniMapView.SizeChanged += OnViewportSizeChanged;
-            SizeChanged += OnViewportSizeChanged;
-            
-            MiniMapView.CurrentExtentChanged += (_, __) => UpdateMiniHud();
+		private void OverviewMap_OnLoaded(object sender, RoutedEventArgs e)
+		{
+			InitPreviewMap();
+			double miniMapScaleRatio = 50.0;
+			InitializeMap(PreviewMap, 4622340 * miniMapScaleRatio, -10502930, 4330070);
 
-            MiniHud.MouseLeftButtonDown += MiniHud_MouseLeftButtonDown;
-            MiniHud.MouseMove += MiniHud_MouseMove;
-            MiniHud.MouseLeftButtonUp += MiniHud_MouseLeftButtonUp;
-            MiniHud.MouseLeave += MiniHud_MouseLeftButtonUp;
-        }
+			InitializeMap(MainMap, 4622340, -9338030, 3300450);
 
-        private async void CompassButton_Click(object sender, RoutedEventArgs e)
-        {
-            await MapView.ZoomToAsync(MapView.CenterPoint, MapView.CurrentScale, 0);
-        }
+			_ = MainMap.RefreshAsync();
+			_ = PreviewMap.RefreshAsync();
+		}
 
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
-        {
-            await InitializeMap(MapView, initScale, new PointShape(-9338030, 3300450));
-        }
+		private void InitPreviewMap()
+		{
+			PreviewMap.MapTools.Logo.IsEnabled = false;
+			PreviewMap.MapTools.PanZoomBar.IsEnabled = false;
 
-        private async void MiniMapView_Loaded(object sender, RoutedEventArgs e)
-        {
-            await InitializeMap(MiniMapView, initScale * MiniMapScaleRatio, new PointShape(-10502930, 4330070));
-        }
+			PreviewMap.ExtentOverlay.RotationMouseButton = MapMouseButton.None;
+			PreviewMap.ExtentOverlay.PanMode = MapPanMode.Disabled;
+			PreviewMap.ExtentOverlay.DoubleLeftClickMode = MapDoubleClickMode.Disabled;
+			PreviewMap.ExtentOverlay.MouseWheelMode = MapMouseWheelMode.Disabled;
 
-        private void OnMainViewportChanged(object sender, EventArgs e)
-        {
-            UpdateMiniHud();
-        }
+			PreviewMap.EditOverlay.CanAddVertex = false;
+			PreviewMap.EditOverlay.CanRemoveVertex = false;
+			PreviewMap.EditOverlay.CanReshape = false;
+			PreviewMap.EditOverlay.CanResize = false;
+			PreviewMap.EditOverlay.CanRotate = false;
 
-        private void OnRotationAngleChanging(object sender, RotationAngleChangingMapViewEventArgs e)
-        {
-            UpdateMiniHud(e.NewRotationAngle);
-        }
+			PreviewMap.ExtentOverlay.MapMouseDown += PreviewMap_MapMouseDown;
 
-        private void OnViewportSizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            UpdateMiniHud();
-        }
+			PreviewMap.EditOverlay.DragControlPointsLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle =
+				PointStyle.CreateSimpleStarStyle(GeoColors.Red, 10);
+			PreviewMap.EditOverlay.DragControlPointsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel =
+				ApplyUntilZoomLevel.Level20;
 
-        private async Task InitializeMap(MapView map, double scale, PointShape centerPoint)
-        {
-            map.MapUnit = GeographyUnit.Meter;
+			var boundingBoxStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(32, GeoColors.Red), GeoColors.Red);
+			PreviewMap.EditOverlay.EditShapesLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = boundingBoxStyle;
+			PreviewMap.EditOverlay.EditShapesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+			PreviewMap.EditOverlay.EditShapesLayer.Open();
+		}
 
-            var layerOverlay = new ThinkGeoCloudRasterMapsOverlay
-            {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudRasterMapsMapType.Light_V2_X2,
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-            };
+		private void UpdatePreviewMap(PointShape centerPoint, double rotationAngle)
+		{
+			var extentShape = GetExtentShape(centerPoint, rotationAngle);
+			PreviewMap.EditOverlay.EditShapesLayer.InternalFeatures.Clear();
+			PreviewMap.EditOverlay.EditShapesLayer.InternalFeatures.Add(new Feature(extentShape));
+			PreviewMap.EditOverlay.CalculateAllControlPoints();
+			_ = PreviewMap.EditOverlay.RefreshAsync();
+		}
 
-            map.Overlays.Add(layerOverlay);
-            map.CenterPoint = centerPoint;
-            map.CurrentScale = scale;
+		private void InitializeMap(MapView map, double scale, double x, double y)
+		{
+			map.MapUnit = GeographyUnit.Meter;
 
-            await map.RefreshAsync();
-        }
+			var layerOverlay = new ThinkGeoCloudVectorMapsOverlay()
+			{
+				ClientId = SampleKeys.ClientId,
+				ClientSecret = SampleKeys.ClientSecret,
+			};
 
-        private void UpdateMiniHud(double? rotationOverride = null)
-        {
-            if (_updatingOverlay || MiniMapView.ActualWidth < 1 || MiniMapView.ActualHeight < 1)
-                return;
+			map.Overlays.Add(layerOverlay);
+			map.CenterPoint = new PointShape(x, y);
+			map.CurrentScale = scale;
+		}
 
-            var center = MapView.CenterPoint;
-            var extent = MapView.CurrentExtent;
-            var miniExtent = MiniMapView.CurrentExtent;
-            if (center == null || extent == null || miniExtent == null)
-                return;
+		private void MainMapSizeChanged(object sender, SizeChangedEventArgs e)
+			=> UpdatePreviewMap(MainMap.CenterPoint, MainMap.RotationAngle);
 
-            _updatingOverlay = true;
+		private void MainMapCurrentExtentChanged(object sender, CurrentExtentChangedMapViewEventArgs e)
+			=> UpdatePreviewMap(MainMap.CenterPoint, MainMap.RotationAngle);
 
-            var rotation = rotationOverride ?? MapView.RotationAngle;
-            var corners = GetRotatedViewportCorners(extent, center, rotation);
+		private void MainMapRotationAngleChanging(object sender, RotationAngleChangingMapViewEventArgs e)
+			=> UpdatePreviewMap(MainMap.CenterPoint, e.NewRotationAngle);
 
-            var pts = corners
-                .Select(p => WorldToMiniPixel(p, miniExtent, MiniMapView.ActualWidth, MiniMapView.ActualHeight))
-                .ToArray();
+		private void CompassButton_Click(object sender, RoutedEventArgs e)
+			=> _ = MainMap.ZoomToAsync(MainMap.CenterPoint, MainMap.CurrentScale, 0);
 
-            var fig = new PathFigure { StartPoint = pts[0], IsClosed = true, IsFilled = false };
-            for (int i = 1; i < pts.Length; i++)
-                fig.Segments.Add(new LineSegment(pts[i], true));
-            var geo = new PathGeometry();
-            geo.Figures.Add(fig);
-            ViewportBox.Data = geo;
+		private void PreviewMap_MapMouseDown(object sender, MapMouseDownInteractiveOverlayEventArgs e)
+		{
+			var worldLocation = new PointShape(e.InteractionArguments.WorldX, e.InteractionArguments.WorldY);
+			var extentShape = GetExtentShape(worldLocation, MainMap.RotationAngle);
+			PreviewMap.EditOverlay.EditShapesLayer.Clear();
+			PreviewMap.EditOverlay.EditShapesLayer.InternalFeatures.Add(new Feature(extentShape));
+			PreviewMap.EditOverlay.CalculateAllControlPoints();
 
-            var starPt = WorldToMiniPixel(center, miniExtent, MiniMapView.ActualWidth, MiniMapView.ActualHeight);
-            StarTranslate.X = starPt.X - 5;
-            StarTranslate.Y = starPt.Y - 5;
-            StarRotate.Angle = rotation;
-           
-            _updatingOverlay = false;
-        }
+			_ = MainMap.ZoomToAsync(worldLocation, MainMap.CurrentScale, MainMap.RotationAngle,
+				new MapAnimationSettings { Duration = 10 });
+		}
 
-        private static PointShape[] GetRotatedViewportCorners(RectangleShape extent, PointShape center, double angleDeg)
-        {
-            var p1 = extent.UpperLeftPoint;
-            var p2 = extent.UpperRightPoint;
-            var p3 = extent.LowerRightPoint;
-            var p4 = extent.LowerLeftPoint;
+		private RingShape GetExtentShape(PointShape centerPoint, double rotationAngle)
+		{
+			var resolution = MapUtil.GetResolutionFromScale(MainMap.CurrentScale, MainMap.MapUnit);
+			var halfWidth = MainMap.ActualWidth / 2 * resolution;
+			var halfHeight = MainMap.ActualHeight / 2 * resolution;
 
-            if (Math.Abs(angleDeg) < 1e-6) return new[] { p1, p2, p3, p4 };
+			return GetRotatedExtent(centerPoint.X, centerPoint.Y, halfWidth, halfHeight, rotationAngle);
+		}
 
-            return new[]  {
-                RotatePoint(p1, center, angleDeg),
-                RotatePoint(p2, center, angleDeg),
-                RotatePoint(p3, center, angleDeg),
-                RotatePoint(p4, center, angleDeg)
-             };
-        }
+		private static RingShape GetRotatedExtent(double centerX, double centerY,
+			double halfWidth, double halfHeight,
+			double rotationDegrees)
+		{
+			double rad = rotationDegrees * Math.PI / 180.0;
+			double cos = Math.Cos(rad);
+			double sin = Math.Sin(rad);
 
-        private static PointShape RotatePoint(PointShape p, PointShape c, double angleDeg)
-        {
-            double rad = (-angleDeg) * Math.PI / 180.0;
-            double cos = Math.Cos(rad);
-            double sin = Math.Sin(rad);
-            double dx = p.X - c.X;
-            double dy = p.Y - c.Y;
-            return new PointShape(
-                c.X + dx * cos - dy * sin,
-                c.Y + dx * sin + dy * cos
-            );
-        }
+			// Define unrotated corners relative to center
+			var corners = new (double x, double y)[]
+			{
+				(-halfWidth,  halfHeight), // UL
+		        ( halfWidth,  halfHeight), // UR
+		        ( halfWidth, -halfHeight), // LR
+		        (-halfWidth, -halfHeight)  // LL
+	        };
 
-        private static Point WorldToMiniPixel(PointShape world, RectangleShape miniExtent, double w, double h)
-        {
-            var x = (world.X - miniExtent.LowerLeftPoint.X) / (miniExtent.Width);
-            var y = (miniExtent.UpperLeftPoint.Y - world.Y) / (miniExtent.Height);
-            return new Point(x * w, y * h);
-        }
+			var rotated = new Vertex[4];
+			for (int i = 0; i < corners.Length; i++)
+			{
+				double x = corners[i].x;
+				double y = corners[i].y;
+				double xr = x * cos - y * sin;
+				double yr = x * sin + y * cos;
+				rotated[i] = new Vertex(centerX + xr, centerY + yr);
+			}
 
-        private static PointShape MiniPixelToWorld(Point pixel, RectangleShape miniExtent, double w, double h)
-        {
-            var lon = miniExtent.LowerLeftPoint.X + (pixel.X / w) * miniExtent.Width;
-            var lat = miniExtent.UpperLeftPoint.Y - (pixel.Y / h) * miniExtent.Height;
-            return new PointShape(lon, lat);
-        }
+			return new RingShape(rotated);
+		}
 
-        private void MiniHud_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            _dragging = true;
-            _lastMouse = e.GetPosition(MiniHud);
-            MiniHud.CaptureMouse();
-
-            CenterMainMapToPixel(_lastMouse);
-        }
-
-        private void MiniHud_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (!_dragging) return;
-            var pos = e.GetPosition(MiniHud);
-            if ((pos - _lastMouse).Length < 1) return;
-            _lastMouse = pos;
-            CenterMainMapToPixel(pos);
-        }
-
-        private void MiniHud_MouseLeftButtonUp(object sender, MouseEventArgs e)
-        {
-            if (!_dragging) return;
-            _dragging = false;
-            MiniHud.ReleaseMouseCapture();
-        }
-
-        private void CenterMainMapToPixel(Point pixelOnMini)
-        {
-            var world = MiniPixelToWorld(pixelOnMini, MiniMapView.CurrentExtent, MiniMapView.ActualWidth, MiniMapView.ActualHeight);
-            MapView.CenterPoint = world;
-            _ = MapView.RefreshAsync();
-
-            UpdateMiniHud();
-        }
-
-        public void Dispose()
-        {
-            ThinkGeoDebugger.DisplayTileId = false;
-            MapView.Dispose();
-            GC.SuppressFinalize(this);
-        }
-    }
+		public void Dispose()
+		{
+			ThinkGeoDebugger.DisplayTileId = false;
+			MainMap.Dispose();
+			GC.SuppressFinalize(this);
+		}
+	}
 }
