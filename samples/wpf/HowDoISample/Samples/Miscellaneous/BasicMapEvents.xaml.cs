@@ -3,10 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using ThinkGeo.Core;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
@@ -15,10 +12,29 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class BasicMapEvents : IDisposable
     {
+        public class LogEntry
+        {
+            public string Category { get; set; }
+            public string Message { get; set; }
+        }
+
+        public class LogEntryView
+        {
+            public int Index { get; }
+            public string Category { get; }
+            public string Message { get; }
+
+            public LogEntryView(int index, LogEntry log)
+            {
+                Index = index;
+                Category = log.Category;
+                Message = log.Message;
+            }
+        }
+
         private ShapeFileFeatureLayer _friscoCityBoundary;
-        public ObservableCollection<string> LogMessages { get; } = new ObservableCollection<string>();
-        public ObservableCollection<string> FilteredLogMessages { get; } = new ObservableCollection<string>();
-        private int _logIndex = 0;
+        public ObservableCollection<LogEntry> LogMessages { get; } = new ObservableCollection<LogEntry>();
+        public ObservableCollection<LogEntryView> FilteredLogMessages { get; } = new ObservableCollection<LogEntryView>();
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)
@@ -84,7 +100,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 FilterLogMessages();
             }
         }
-
 
         public BasicMapEvents()
         {
@@ -411,78 +426,92 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         // FeatureLayer Events Triggered Methods
         private void _friscoCityBoundary_DrawingProgressChanged(object sender, DrawingProgressChangedEventArgs e)
         {
-            Dispatcher.Invoke(() => {
-                AppendLog("FeatureLayer", $"DrawingProgressChanged [Progress Percentage: {e.ProgressPercentage}%]");
-            });
+            AppendLog("FeatureLayer", $"DrawingProgressChanged [Progress Percentage: {e.ProgressPercentage}%]");
         }
 
         private void _friscoCityBoundary_DrawingFeatures(object sender, DrawingFeaturesEventArgs e)
         {
-            Dispatcher.Invoke(() => {
-                AppendLog("FeatureLayer", $"DrawingFeatures [Zoom Level Scale: {e.DrawingZoomLevel.Scale}]");
-            });
+            AppendLog("FeatureLayer", $"DrawingFeatures [Zoom Level Scale: {e.DrawingZoomLevel.Scale}]");
         }
 
         private void _friscoCityBoundary_DrawingException(object sender, DrawingExceptionLayerEventArgs e)
         {
-            Dispatcher.Invoke(() => {
-                AppendLog("FeatureLayer", $"DrawingException [Canvas: {e.Canvas}, Exception: {e.Exception.Message}]");
-            });
+            AppendLog("FeatureLayer", $"DrawingException [Canvas: {e.Canvas}, Exception: {e.Exception.Message}]");
         }
 
         private void _friscoCityBoundary_DrawnException(object sender, DrawnExceptionLayerEventArgs e)
         {
-            Dispatcher.Invoke(() => {
-                AppendLog("FeatureLayer", $"DrawnException [Canvas: {e.Canvas}, Exception: {e.Exception.Message}]");
-            });
+            AppendLog("FeatureLayer", $"DrawnException [Canvas: {e.Canvas}, Exception: {e.Exception.Message}]");
         }
 
         private void _friscoCityBoundary_StreamLoading(object sender, StreamLoadingEventArgs e)
         {
-            Dispatcher.Invoke(() => {
-                AppendLog("FeatureLayer", $"StreamLoading [Stream: {e.AlternateStreamName}, StreamType: {e.StreamType}%]");
-            });
+            AppendLog("FeatureLayer", $"StreamLoading [Stream: {e.AlternateStreamName}, StreamType: {e.StreamType}%]");
         }
 
         private void FilterLogMessages()
         {
             FilteredLogMessages.Clear();
 
-            foreach (var log in LogMessages)
-            {
-                // Example: Filter by category 
-                if (ShowMapViewLogs && log.Contains("MapView"))
-                {
-                    FilteredLogMessages.Add(log);
-                }
-                else if (ShowExtentOverlayLogs && log.Contains("ExtentOverlay"))
-                {
-                    // Filter ExtentOverlay Mouse Move events 
-                    if (ShowExtentOverlayMouseMoveLogs || !log.Contains("MapMouseMove"))
-                        FilteredLogMessages.Add(log);
-                }
-                else if (ShowLayerOverlayLogs && log.Contains("LayerOverlay"))
-                {
-                    if (!log.Contains("MapView"))
-                        FilteredLogMessages.Add(log);
-                }
-                else if (ShowShapeFileLogs && log.Contains("FeatureLayer"))
-                    FilteredLogMessages.Add(log);
-            }
+            var filtered = LogMessages.Where(log =>
+                (ShowMapViewLogs && log.Category == "MapView") ||
+                (ShowExtentOverlayLogs && log.Category == "ExtentOverlay" &&
+                (ShowExtentOverlayMouseMoveLogs || !log.Message.Contains("MapMouseMove"))) ||
+                (ShowLayerOverlayLogs && log.Category == "LayerOverlay") ||
+                (ShowShapeFileLogs && log.Category == "FeatureLayer"))
+                .ToList();
 
-            // Ensure the UI updates
-            OnPropertyChanged(nameof(FilteredLogMessages));
+            int idx = 1;
+            foreach (var log in filtered)
+            {
+                FilteredLogMessages.Add(new LogEntryView(idx++, log));
+            }
         }
 
         public void AppendLog(string category, string message)
         {
-            var logEntry = $"{_logIndex++}. {category} -> {message}";
-            LogMessages.Add(logEntry);
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.Invoke(() => AppendLog(category, message));
+                return;
+            }
 
-            FilterLogMessages();
+            var log = new LogEntry
+            {
+                Category = category,
+                Message = message
+            };
 
-            if (FilteredLogMessages?.Count > 0)
-                LogListBox.ScrollIntoView(FilteredLogMessages[FilteredLogMessages.Count - 1]);
+            LogMessages.Add(log);
+
+            if (IsLogVisible(log))
+            {
+                FilteredLogMessages.Add(
+                    new LogEntryView(FilteredLogMessages.Count + 1, log));
+
+                LogListBox.ScrollIntoView(
+                    FilteredLogMessages[FilteredLogMessages.Count - 1]);
+            }
+        }
+
+        private bool IsLogVisible(LogEntry log)
+        {
+            if (ShowMapViewLogs && log.Category == "MapView")
+                return true;
+            if (ShowExtentOverlayLogs && log.Category == "ExtentOverlay")
+                return ShowExtentOverlayMouseMoveLogs ||
+                       !log.Message.Contains("MapMouseMove");
+            if (ShowLayerOverlayLogs && log.Category == "LayerOverlay")
+                return true;
+            if (ShowShapeFileLogs && log.Category == "FeatureLayer")
+                return true;
+            return false;
+        }
+
+        private void ClearLogs_Click(object sender, RoutedEventArgs e)
+        {
+            LogMessages.Clear();
+            FilteredLogMessages.Clear();
         }
 
         public void Dispose()
@@ -493,5 +522,4 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             GC.SuppressFinalize(this);
         }
     }
-
 }
