@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
@@ -94,6 +95,31 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 _showEditOverlayMouseMoveLogs = value;
                 OnPropertyChanged(nameof(ShowEditOverlayMouseMoveLogs));
                 FilterLogMessages();
+            }
+        }
+
+        private bool _eventsExpanded;
+        private void ToggleEditEvents_Click(object sender, RoutedEventArgs e)
+        {
+            _eventsExpanded = !_eventsExpanded;
+
+            RightPanelColumn.Width = _eventsExpanded
+                ? new GridLength(500)
+                : new GridLength(300);
+
+            EventsColumn.Width = _eventsExpanded
+                ? new GridLength(200)
+                : new GridLength(0);
+
+            EditEventsPanel.Visibility =
+            LogListBox.Visibility =
+                _eventsExpanded ? Visibility.Visible : Visibility.Collapsed;
+
+            if (sender is Button btn)
+            {
+                btn.Content = _eventsExpanded
+                    ? "Hide Edit Events ◀"
+                    : "Show Edit Events ▶";
             }
         }
 
@@ -243,25 +269,25 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void TrackOverlay_MapMouseClick(object sender, MapMouseClickInteractiveOverlayEventArgs e)
         {
             var args = e.InteractionArguments;
-            AppendLog("TrackOverlay", $"MouseClick at world ({args.WorldX:0},{args.WorldY:0}), Button={args.MouseButton}");
+            AppendLog("TrackOverlay", $"MapMouseClick at world ({args.WorldX:0},{args.WorldY:0}), Button={args.MouseButton}");
         }
 
         private void TrackOverlay_MapMouseDoubleClick(object sender, MapMouseDoubleClickInteractiveOverlayEventArgs e)
         {
             var args = e.InteractionArguments;
-            AppendLog("TrackOverlay", $"MouseDoubleClick at world ({args.WorldX:0},{args.WorldY:0}), Button={args.MouseButton}");
+            AppendLog("TrackOverlay", $"MapMouseDoubleClick at world ({args.WorldX:0},{args.WorldY:0}), Button={args.MouseButton}");
         }
 
         private void TrackOverlay_MapMouseDown(object sender, MapMouseDownInteractiveOverlayEventArgs e)
         {
             var args = e.InteractionArguments;
-            AppendLog("TrackOverlay", $"MapMouseDown at world ({args.WorldX:0},{args.WorldY:0}), Button={args.MouseButton}");
+            AppendLog("TrackOverlay", $"MapMouseDown, Button={args.MouseButton}");
         }
 
         private void TrackOverlay_MapMouseEnter(object sender, MapMouseEnterInteractiveOverlayEventArgs e)
         {
             var args = e.InteractionArguments;
-            AppendLog("TrackOverlay", $"MapMouseEnter at world ({args.WorldX:0},{args.WorldY:0})");
+            AppendLog("TrackOverlay", $"MapMouseEnter");
         }
 
         private void TrackOverlay_MapMouseLeave(object sender, MapMouseLeaveInteractiveOverlayEventArgs e)
@@ -272,7 +298,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void TrackOverlay_MapMouseUp(object sender, MapMouseUpInteractiveOverlayEventArgs e)
         {
             var args = e.InteractionArguments;
-            AppendLog("TrackOverlay", $"MapMouseUp at world ({args.WorldX:0},{args.WorldY:0}), Button={args.MouseButton}");
+            AppendLog("TrackOverlay", $"MapMouseUp, Button={args.MouseButton}");
         }
 
         private void TrackOverlay_MapMouseMove(object sender, MapMouseMoveInteractiveOverlayEventArgs e)
@@ -445,13 +471,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void EditOverlay_MapMouseDown(object sender, MapMouseDownInteractiveOverlayEventArgs e)
         {
             var args = e.InteractionArguments;
-            AppendLog("EditOverlay", $"MapMouseDown at world ({args.WorldX:0},{args.WorldY:0}), Button={args.MouseButton}");
+            AppendLog("EditOverlay", $"MapMouseDown, Button={args.MouseButton}");
         }
 
         private void EditOverlay_MapMouseEnter(object sender, MapMouseEnterInteractiveOverlayEventArgs e)
         {
             var args = e.InteractionArguments;
-            AppendLog("EditOverlay", $"MapMouseEnter at world ({args.WorldX:0},{args.WorldY:0})");
+            AppendLog("EditOverlay", $"MapMouseEnter");
         }
 
         private void EditOverlay_MapMouseLeave(object sender, MapMouseLeaveInteractiveOverlayEventArgs e)
@@ -468,7 +494,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void EditOverlay_MapMouseUp(object sender, MapMouseUpInteractiveOverlayEventArgs e)
         {
             var args = e.InteractionArguments;
-            AppendLog("EditOverlay", $"MapMouseUp at world ({args.WorldX:0},{args.WorldY:0}), Button={args.MouseButton}");
+            AppendLog("EditOverlay", $"MapMouseUp, Button={args.MouseButton}");
         }
 
         private void EditOverlay_MapMouseWheel(object sender, MapMouseWheelInteractiveOverlayEventArgs e)
