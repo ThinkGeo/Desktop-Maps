@@ -43,6 +43,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             magneticDeclinationAdornmentLayer.MagneticNorthLineStyle.OuterPen.Width = 5f;
 
             MapView.AdornmentOverlay.Layers.Add(magneticDeclinationAdornmentLayer);
+            MapView.AdornmentOverlay.Layers.Add(new LogoAdornmentLayer(new GeoImage(@"..\..\..\Resources\generic-logo.png"))
+            {
+                Location = AdornmentLocation.LowerRight
+            });
 
             // Set the current extent to a neighborhood in Frisco Texas.
             MapView.CenterPoint = new PointShape(-10779700, 3912000);
@@ -50,11 +54,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Refresh the map.
             _ = MapView.RefreshAsync();
-        }
-
-        private void MapView_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            _ = MapView.AdornmentOverlay.RefreshAsync();
         }
 
         public void Dispose()

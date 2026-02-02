@@ -171,9 +171,6 @@
     <Compile Update="Samples\ThinkGeoCloudIntegration\RoutingTravelingSalesPerson.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Samples\MapTools\Compass.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Samples\MapTools\MagneticNorth.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -1345,9 +1342,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\ThinkGeoCloudIntegration\WorldMapsQuery.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Samples\MapTools\Compass.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\MapTools\MagneticNorth.xaml">
