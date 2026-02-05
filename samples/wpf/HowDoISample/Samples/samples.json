@@ -412,6 +412,12 @@
         "source": "Samples/MapTools/MapToolControls"
       },
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DragResizeAdornments",
+        "title": "Drag/Resize Adornments",
+        "description": "Toggle drag and resize behavior for multiple adornments.",
+        "source": "Samples/MapTools/DragResizeAdornments"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.ScaleLineScaleBar",
         "title": "ScaleLine and ScaleBar",
         "description": "Render ScaleLine and ScaleBar",
