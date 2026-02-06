@@ -581,6 +581,12 @@
         "title": "Edit Features with Snapping",
         "description": "Drag a vertex into a circle, and it will snap to its center.",
         "source": "Samples/VectorDataEditing/EditWithSnapping"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.EditMapEvents",
+        "title": "Edit Map Events",
+        "description": "Learn to recognize map editing events.",
+        "source": "Samples/VectorDataEditing/EditMapEvents"
       }
     ]
   },
