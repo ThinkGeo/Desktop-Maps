@@ -43,6 +43,12 @@
         "title": "Overview Map",
         "description": "Overview map with rotating frame; drag to recenter the main map.",
         "source": "Samples/MapNavigation/OverviewMap"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.RestrictMapExtent",
+        "title": "Restrict Map Extent",
+        "description": "Restrict the map's panning area and zoom range using RestrictExtent, MaximumScale, and MinimumScale.",
+        "source": "Samples/MapNavigation/RestrictMapExtent"
       }
     ]
   },
