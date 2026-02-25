@@ -1,5 +1,16 @@
 [
   {
+    "title": "Documentation",
+    "children": [
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.SampleFeatureIndexViewer",
+        "title": "HowDoI Sample Feature Index",
+        "description": "Generated catalog of all samples with focus, categories, source path, and key APIs.",
+        "source": "Samples/Documentation/SampleFeatureIndexViewer"
+      }
+    ]
+  },
+  {
     "title": "Map Navigation",
     "children": [
       {

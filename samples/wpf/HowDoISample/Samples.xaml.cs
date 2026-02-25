@@ -18,6 +18,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 	/// 
 	public partial class Samples
 	{
+		private const string DefaultSampleId = "ThinkGeo.UI.Wpf.HowDoI.SampleFeatureIndexViewer";
+
 		// A list of all the menu models
 		private List<MenuModel> _menus;
 		private static readonly JsonSerializerOptions JsonOptions = new JsonSerializerOptions
@@ -53,18 +55,61 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 				AddTreeItems(treeItem, item);
 			}
 
-			// Expand the first node and select the first sample
-			if (TreeView.Items.Count == 0) return;
-			var firstTreeNode = (TreeViewItem)TreeView.Items[0];
-			if (firstTreeNode == null) return;
-			firstTreeNode.IsExpanded = true;
-			var firstSubTreeNode = (TreeViewItem)firstTreeNode.Items[0];
-			if (firstSubTreeNode != null)
-				firstSubTreeNode.IsSelected = true;
-			else
-				firstTreeNode.IsSelected = true;
+			SelectDefaultSample();
 
 			UpdateCodeViewerVisibility();
+		}
+
+		private void SelectDefaultSample()
+		{
+			if (TreeView.Items.Count == 0) return;
+
+			if (TrySelectTreeItemBySampleId(DefaultSampleId)) return;
+
+			var firstRootNode = TreeView.Items[0] as TreeViewItem;
+			if (firstRootNode == null) return;
+
+			firstRootNode.IsExpanded = true;
+			var firstLeafNode = firstRootNode.Items.Count > 0 ? firstRootNode.Items[0] as TreeViewItem : null;
+			if (firstLeafNode != null)
+				firstLeafNode.IsSelected = true;
+			else
+				firstRootNode.IsSelected = true;
+		}
+
+		private bool TrySelectTreeItemBySampleId(string sampleId)
+		{
+			foreach (var item in TreeView.Items)
+			{
+				if (item is TreeViewItem treeItem && TrySelectTreeItemBySampleId(treeItem, sampleId))
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		private static bool TrySelectTreeItemBySampleId(TreeViewItem treeItem, string sampleId)
+		{
+			if (treeItem.Tag is MenuModel menuModel && string.Equals(menuModel.Id, sampleId, StringComparison.Ordinal))
+			{
+				ExpandParents(treeItem);
+				treeItem.IsExpanded = true;
+				treeItem.IsSelected = true;
+				return true;
+			}
+
+			foreach (var child in treeItem.Items)
+			{
+				if (child is TreeViewItem childTreeItem && TrySelectTreeItemBySampleId(childTreeItem, sampleId))
+				{
+					treeItem.IsExpanded = true;
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 		private static void AddTreeItems(TreeViewItem parentTreeviewItem, MenuModel menuModel)
@@ -191,6 +236,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 		{
 			_selectedMenu = FindMenuById(_menus, id);
 			UpdateSelectedSampleUi();
+		}
+
+		internal void NavigateToSample(string id)
+		{
+			if (string.IsNullOrWhiteSpace(id)) return;
+
+			TrySelectTreeItemBySampleId(id);
+			SelectMenu(id);
 		}
 
 		private void UpdateSelectedSampleUi()
