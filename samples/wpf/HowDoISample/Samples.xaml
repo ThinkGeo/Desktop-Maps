@@ -133,20 +133,23 @@
                                                    SyntaxHighlighting="C#"
                                                    IsReadOnly="True"
                                                    Style="{DynamicResource CodeViewer}"
-                                                   Background="WhiteSmoke"/>
+                                                   Background="WhiteSmoke"
+                                                   Visibility="Collapsed"/>
 
                                 <avalonedit:TextEditor x:Name="XamlCodeViewer" Grid.Column="0"
                                                    SyntaxHighlighting="XML"
                                                    Background="WhiteSmoke"
                                                    IsReadOnly="True"
-                                                   Style="{DynamicResource CodeViewer}"/>
+                                                   Style="{DynamicResource CodeViewer}"
+                                                   Visibility="Collapsed"/>
 
                                 <GridSplitter Grid.Column="1" 
                                               Margin="2,0,0,0" Width="2" 
-                                              ResizeBehavior="PreviousAndNext" ResizeDirection="Columns" x:Name="Splitter"/>
+                                              ResizeBehavior="PreviousAndNext" ResizeDirection="Columns" x:Name="Splitter"
+                                              Visibility="Collapsed"/>
 
                                 <!--<ContentControl Grid.Column="2" x:Name="SampleContent">-->
-                                <DockPanel x:Name="SampleContent" Grid.Column="2"></DockPanel>
+                                <DockPanel x:Name="SampleContent" Grid.Column="0" Grid.ColumnSpan="3"></DockPanel>
                                 <!--</ContentControl>-->
 
                             </Grid>

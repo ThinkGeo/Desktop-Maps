@@ -46,12 +46,18 @@ Reason: when a new zoom cancels the previous zoom, ThinkGeo bubbles the exceptio
 If you do not need that signal, catch and ignore it, or use fire-and-forget.
 
 ```csharp
-try{    await mapView.ZoomToAsync(extent);}
-catch (OperationCanceledException){    // Ignore canceled zoom.}
+try
+{
+    await mapView.ZoomToAsync(centerPoint, targetScale);
+}
+catch (OperationCanceledException)
+{
+    // Ignore canceled zoom.
+}
 ```
 
 ```csharp
-_ = mapView.ZoomToAsync(extent);
+_ = mapView.ZoomToAsync(centerPoint, targetScale);
 ```
 
 2. Methods that do not change map state, such as `RefreshAsync()`, do not throw the cancellation exception.

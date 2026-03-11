@@ -83,7 +83,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private void MapView_CurrentExtentChanged(object sender, CurrentExtentChangedMapViewEventArgs e)
         {
-            var center = MapView.CurrentExtent.GetCenterPoint();
+            var currentExtent = e.NewExtent ?? MapView.CurrentExtent;
+            if (currentExtent == null) return;
+
+            var center = currentExtent.GetCenterPoint();
             var centerInDecimalDegrees = ProjectionConverter.Convert(3857, 4326, center);
             TxtCoordinates = $"Center Point: (Lat: {centerInDecimalDegrees.Y:N4}, Lon: {centerInDecimalDegrees.X:N4})";
         }

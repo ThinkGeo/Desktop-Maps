@@ -203,12 +203,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         // MapView Events Triggered Methods
         private void MapView_CurrentExtentChanging(object sender, CurrentExtentChangingMapViewEventArgs e)
         {
+            if (e.NewExtent == null) return;
+
             var center = e.NewExtent.GetCenterPoint();
             AppendLog("MapView", $"CurrentExtentChanging to CenterPoint " + $"X: {center.X:0}, " + $"Y: {center.Y:0}");
         }
 
         private void MapView_CurrentExtentChanged(object sender, CurrentExtentChangedMapViewEventArgs e)
         {
+            if (e.NewExtent == null) return;
+
             var center = e.NewExtent.GetCenterPoint();
             AppendLog("MapView", $"CurrentExtentChanged to CenterPoint " + $"X: {center.X:0}, " + $"Y: {center.Y:0}");
         }

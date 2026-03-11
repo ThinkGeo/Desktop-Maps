@@ -68,8 +68,15 @@
             <!-- Rotating Controls -->
             <Label Grid.Column="0" Grid.Row="6" Content="Rotating:" FontSize="16" FontWeight="Bold"/>
             <Grid Grid.Column="0" Grid.Row="7">
-                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding ElementName=RotateAngle, Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="28" DockPanel.Dock="Right"></TextBox>
-                <Slider Grid.Column="0" Grid.Row="0" x:Name="RotateAngle" Maximum="360" Value="0" AutoToolTipPlacement="TopLeft" TickFrequency="15" IsSnapToTickEnabled="True" ValueChanged="RotateAngle_OnValueChanged"/>
+                <TextBox Grid.Column="1" Grid.Row="0"
+                         Text="{Binding ElementName=RotateAngle, Path=Value, StringFormat={}{0:F0}, UpdateSourceTrigger=PropertyChanged}"
+                         Width="40" DockPanel.Dock="Right"></TextBox>
+                <Slider Grid.Column="0" Grid.Row="0" x:Name="RotateAngle"
+                        Minimum="-180" Maximum="180"
+                        Value="0"
+                        ValueChanged="RotateAngle_OnValueChanged"
+                        AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0"
+                        TickFrequency="15" IsSnapToTickEnabled="True"/>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>

@@ -64,6 +64,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
 		private void UpdatePreviewMap(PointShape centerPoint, double rotationAngle)
 		{
+			if (centerPoint == null || MainMap.ActualWidth <= 0 || MainMap.ActualHeight <= 0)
+			{
+				return;
+			}
+
 			var extentShape = GetExtentShape(centerPoint, rotationAngle);
 			PreviewMap.EditOverlay.EditShapesLayer.InternalFeatures.Clear();
 			PreviewMap.EditOverlay.EditShapesLayer.InternalFeatures.Add(new Feature(extentShape));

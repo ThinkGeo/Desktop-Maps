@@ -11,6 +11,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     public partial class ZoomToExtents : IDisposable
     {
         private ShapeFileFeatureLayer _friscoCityBoundary;
+        private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+        private bool _isSyncingRotationAngle;
 
         public ZoomToExtents()
         {
@@ -25,6 +27,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Set the map's unit of measurement to meters(Spherical Mercator)
             MapView.MapUnit = GeographyUnit.Meter;
             MapView.CurrentExtentChanged += MapView_CurrentExtentChanged;
+            MapView.RotationAngleChanging += MapView_RotationAngleChanging;
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -130,25 +133,54 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private void MapView_CurrentExtentChanged(object sender, CurrentExtentChangedMapViewEventArgs e)
         {
-            var center = MapView.CurrentExtent.GetCenterPoint();
+            var currentExtent = e.NewExtent ?? MapView.CurrentExtent;
+            if (currentExtent == null) return;
+
+            var center = currentExtent.GetCenterPoint();
             var centerInDecimalDegrees = ProjectionConverter.Convert(3857, 4326, center);
             TxtCoordinates = $"Center Point: (Lat: {centerInDecimalDegrees.Y:N4}, Lon: {centerInDecimalDegrees.X:N4})";
         }
 
-        private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
-
-        private void RotateAngle_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void MapView_RotationAngleChanging(object sender, RotationAngleChangingMapViewEventArgs e)
         {
+            _isSyncingRotationAngle = true;
+            RotateAngle.Value = Math.Round(e.NewRotationAngle, MidpointRounding.AwayFromZero);
+            _isSyncingRotationAngle = false;
+        }
+
+        private async void RotateAngle_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (_isSyncingRotationAngle || !IsLoaded)
+            {
+                return;
+            }
+
+            var centerPoint = MapView.CurrentExtent?.GetCenterPoint() ?? MapView.CenterPoint;
+            if (centerPoint == null)
+            {
+                return;
+            }
+
             _cancellationTokenSource.Cancel();
+            _cancellationTokenSource.Dispose();
             _cancellationTokenSource = new CancellationTokenSource();
 
-            _ = MapView.ZoomToAsync(MapView.CurrentExtent.GetCenterPoint(), MapView.CurrentScale,
-                RotateAngle.Value, _cancellationTokenSource.Token);
+            try
+            {
+                await MapView.ZoomToAsync(centerPoint, MapView.CurrentScale, RotateAngle.Value, _cancellationTokenSource.Token);
+            }
+            catch (OperationCanceledException)
+            {
+            }
         }
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
+            MapView.CurrentExtentChanged -= MapView_CurrentExtentChanged;
+            MapView.RotationAngleChanging -= MapView_RotationAngleChanging;
+            _cancellationTokenSource.Cancel();
+            _cancellationTokenSource.Dispose();
             MapView.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
