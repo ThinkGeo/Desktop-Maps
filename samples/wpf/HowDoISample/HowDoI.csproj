@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFrameworks>net8.0-windows;net48</TargetFrameworks>
@@ -133,14 +133,14 @@
     <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
     <PackageReference Include="Jint" Version="4.5.0" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3800.47" />
-    <PackageReference Include="ThinkGeo.Cad" Version="14.5.0-beta104" />
-    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.5.0-beta105" />
-    <PackageReference Include="ThinkGeo.Gdal" Version="14.5.0-beta104" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.5.0-beta104" />
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.5.0-beta104" />
-    <PackageReference Include="ThinkGeo.Printers" Version="14.5.0-beta104" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="14.5.0-beta104" />
-    <PackageReference Include="ThinkGeo.UI.Wpf" Version="14.5.0-beta104" />
+    <PackageReference Include="ThinkGeo.Cad" Version="14.5.0-beta116" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.5.0-beta117" />
+    <PackageReference Include="ThinkGeo.Gdal" Version="14.5.0-beta116" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.5.0-beta116" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.5.0-beta116" />
+    <PackageReference Include="ThinkGeo.Printers" Version="14.5.0-beta116" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="14.5.0-beta116" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="14.5.0-beta116" />
   </ItemGroup>
 
   <ItemGroup>
