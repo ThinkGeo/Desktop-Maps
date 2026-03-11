@@ -7,6 +7,12 @@
         "title": "HowDoI Sample Feature Index",
         "description": "Generated catalog of all samples with focus, categories, source path, and key APIs.",
         "source": "Samples/Documentation/SampleFeatureIndexViewer"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.FaqViewer",
+        "title": "Frequently Asked Questions",
+        "description": "Common how-to questions and answers covering async cancellation, navigation, layers, styling, projection, and more.",
+        "source": "Samples/Documentation/FaqViewer"
       }
     ]
   },

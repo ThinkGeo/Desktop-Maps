@@ -1118,6 +1118,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Update="Samples\Documentation\FAQ.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Compile Update="Samples\VectorDataStyling\RenderPoints.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
