@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading;
 using System.Windows;
+using System.Windows.Input;
+using System.Windows.Controls;
 using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
@@ -171,6 +173,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
             catch (OperationCanceledException)
             {
+            }
+        }
+
+        private void RotationTextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                var binding = RotationTextBox.GetBindingExpression(TextBox.TextProperty);
+                binding?.UpdateSource();
             }
         }
 
