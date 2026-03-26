@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Windows.Forms;
 using ThinkGeo.Core;
 
@@ -32,7 +31,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var wfsOverlay = new WfsV2Overlay
             {
                 DrawingBulkCount = 500,
-                FeatureLayer = CreateHelsinkiParcelsLayer(),
+                AsyncLayer = CreateHelsinkiParcelsLayer(),
                 IsVisible = false // start hidden
             };
             mapView.Overlays.Add("WfsOverlay", wfsOverlay);
@@ -48,9 +47,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             _ = mapView.RefreshAsync();
         }
 
-        private WfsV2FeatureLayer CreateHelsinkiParcelsLayer()
+        private WfsV2AsyncLayer CreateHelsinkiParcelsLayer()
         {
-            var layer = new WfsV2FeatureLayer(
+            var layer = new WfsV2AsyncLayer(
                 "https://inspire-wfs.maanmittauslaitos.fi/inspire-wfs/cp/ows",
                 "cp:CadastralParcel")
             {
@@ -60,13 +59,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             layer.ZoomLevelSet.ZoomLevel13.DefaultAreaStyle =
                 AreaStyle.CreateSimpleAreaStyle(GeoColors.Transparent, GeoColors.OrangeRed, 4);
             layer.ZoomLevelSet.ZoomLevel13.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-            layer.FeatureSource.ProjectionConverter = new ProjectionConverter(3067, 3857);
-
-            // Attach event handlers here so they’re always included
-            layer.SendingWebRequest += HelsinkiParcelsLayer_SendingWebRequest;
-
-            var featureSource = (WfsV2FeatureSource)layer.FeatureSource;
-            featureSource.RequestingData += WFS_RequestingData;
+            layer.ProjectionConverter = new ProjectionConverter(3067, 3857);
 
             return layer;
         }
@@ -93,17 +86,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 }
             }
         }
-
-        private void HelsinkiParcelsLayer_SendingWebRequest(object sender, SendingWebRequestEventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine($"[WFS v1] Request: {e.WebRequest.RequestUri}");
-        }
-
-        private void WFS_RequestingData(object sender, RequestingDataWfsFeatureSourceEventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine($"[WFS v2] Request: {e.ServiceUrl}");
-        }
-
 
         #region Component Designer generated code
 
