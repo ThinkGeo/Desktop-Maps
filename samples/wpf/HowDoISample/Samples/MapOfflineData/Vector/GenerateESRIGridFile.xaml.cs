@@ -15,6 +15,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class GenerateESRIGridFile : IDisposable
     {
+
+        private bool _initialized;
         public GenerateESRIGridFile()
         {
             InitializeComponent();
@@ -23,8 +25,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the ESRI Grid layer to the map
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             MapView.MapUnit = GeographyUnit.Meter;
             MapView.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColors.Snow);
 

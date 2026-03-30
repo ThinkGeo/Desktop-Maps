@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf" 
-             mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800" Loaded="OverviewMap_OnLoaded">
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800">
 
 	<UserControl.Resources>
 		<Style x:Key="ImageButtonNoHoverStyle" TargetType="Button">

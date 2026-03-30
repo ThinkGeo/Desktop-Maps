@@ -14,6 +14,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class PrintTheMap : IDisposable
     {
+
+        private bool _initialized;
         public PrintTheMap()
         {
             InitializeComponent();
@@ -22,8 +24,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the mapView to display a print preview
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             SetupMapForPrinting();
             AddPageTitleLabel();
             AddMapLayers();

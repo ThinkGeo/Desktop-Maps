@@ -18,7 +18,7 @@
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
 
-        <thinkGeoUi:MapView x:Name="MapView" Grid.Column="0" Grid.RowSpan="3" Loaded="MapView_Loaded" />
+        <thinkGeoUi:MapView x:Name="MapView" Grid.Column="0" Grid.RowSpan="3" SizeChanged="MapView_SizeChanged" />
         <TextBox Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Center" Background="Gray"
                    Width="800" Height="30" FontSize="20" Text="https://demotiles.maplibre.org/style.json"/>
         <TextBlock Grid.Row="1" Grid.Column="0" Background="gray" VerticalAlignment="Bottom" HorizontalAlignment="Center"

@@ -15,6 +15,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private ShapeFileFeatureLayer _friscoCityBoundary;
         private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
         private bool _isSyncingRotationAngle;
+        private bool _initialized;
 
         public ZoomToExtents()
         {
@@ -24,8 +25,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map and a shapefile with simple data to work with
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             // Set the map's unit of measurement to meters(Spherical Mercator)
             MapView.MapUnit = GeographyUnit.Meter;
             MapView.CurrentExtentChanged += MapView_CurrentExtentChanged;
@@ -152,16 +156,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private async void RotateAngle_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (_isSyncingRotationAngle || !IsLoaded)
-            {
-                return;
-            }
+            if (_isSyncingRotationAngle || !IsLoaded) return;
 
             var centerPoint = MapView.CurrentExtent?.GetCenterPoint() ?? MapView.CenterPoint;
-            if (centerPoint == null)
-            {
-                return;
-            }
+            if (centerPoint == null) return;
 
             _cancellationTokenSource.Cancel();
             _cancellationTokenSource.Dispose();

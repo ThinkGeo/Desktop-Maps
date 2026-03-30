@@ -13,14 +13,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private readonly RectangleShape _restrictExtent = new RectangleShape(-10809000, 3900000, -10747000, 3840000);
         private const double MaxScale = 500000;
         private const double MinScale = 10000;
+        private bool _initialized;
 
         public RestrictMapExtent()
         {
             InitializeComponent();
         }
 
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             // Set the map's unit of measurement to meters (Spherical Mercator)
             MapView.MapUnit = GeographyUnit.Meter;
 

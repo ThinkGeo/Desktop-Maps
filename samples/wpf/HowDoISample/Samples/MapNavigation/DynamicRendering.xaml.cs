@@ -27,8 +27,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map and a shapefile with simple data to work with
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             MapView.MapUnit = GeographyUnit.Meter;
 
             MapView.Background = Brushes.White;
@@ -68,7 +71,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             MapView.CurrentScale = 37000000;
 
             _ = MapView.RefreshAsync();
-            _initialized = true;
         }
 
         private void PlayAnimation_Click(object sender, RoutedEventArgs e)

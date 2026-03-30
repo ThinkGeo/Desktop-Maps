@@ -9,6 +9,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 	/// </summary>
 	public partial class OverviewMap : IDisposable
 	{
+		private bool _initialized;
+
 		public OverviewMap()
 		{
 			InitializeComponent();
@@ -21,7 +23,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 			MainMap.SizeChanged += MainMapSizeChanged;
 		}
 
-		private void OverviewMap_OnLoaded(object sender, RoutedEventArgs e)
+		private void InitializeMaps()
 		{
 			InitPreviewMap();
 			double miniMapScaleRatio = 50.0;
@@ -92,13 +94,35 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 		}
 
 		private void MainMapSizeChanged(object sender, SizeChangedEventArgs e)
-			=> UpdatePreviewMap(MainMap.CenterPoint, MainMap.RotationAngle);
+		{
+			if (!_initialized)
+			{
+				if (e.NewSize.Width <= 0 || e.NewSize.Height <= 0 ||
+					PreviewMap.ActualWidth <= 0 || PreviewMap.ActualHeight <= 0)
+				{
+					return;
+				}
+
+				_initialized = true;
+				InitializeMaps();
+			}
+
+			UpdatePreviewMap(MainMap.CenterPoint, MainMap.RotationAngle);
+		}
 
 		private void MainMapCurrentExtentChanged(object sender, CurrentExtentChangedMapViewEventArgs e)
-			=> UpdatePreviewMap(MainMap.CenterPoint, MainMap.RotationAngle);
+		{
+			if (!_initialized) return;
+
+			UpdatePreviewMap(MainMap.CenterPoint, MainMap.RotationAngle);
+		}
 
 		private void MainMapRotationAngleChanging(object sender, RotationAngleChangingMapViewEventArgs e)
-			=> UpdatePreviewMap(MainMap.CenterPoint, e.NewRotationAngle);
+		{
+			if (!_initialized) return;
+
+			UpdatePreviewMap(MainMap.CenterPoint, e.NewRotationAngle);
+		}
 
 		private void CompassButton_Click(object sender, RoutedEventArgs e)
 			=> _ = MainMap.ZoomToAsync(MainMap.CenterPoint, MainMap.CurrentScale, 0);

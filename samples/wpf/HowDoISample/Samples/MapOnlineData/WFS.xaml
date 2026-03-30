@@ -15,7 +15,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <wpf:MapView x:Name="MapView" Loaded="MapView_Loaded"/>
+        <wpf:MapView x:Name="MapView" SizeChanged="MapView_SizeChanged"/>
 
         <StackPanel Grid.Row="0" Grid.Column="1" Margin="5,0,5,0" Background="LightGray">
             <TextBlock Text="Overlay Type" FontSize="16" FontWeight="Bold" Margin="5,5,0,0"/>

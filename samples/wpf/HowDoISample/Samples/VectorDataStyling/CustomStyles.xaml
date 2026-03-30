@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <thinkGeoUi:MapView x:Name="MapView" Loaded="MapView_Loaded"></thinkGeoUi:MapView>
+        <thinkGeoUi:MapView x:Name="MapView" SizeChanged="MapView_SizeChanged"></thinkGeoUi:MapView>
         <!-- Sample Controls -->
         <Border Grid.Column="1">
             <Grid>

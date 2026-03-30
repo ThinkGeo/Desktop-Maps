@@ -14,7 +14,7 @@
                         CurrentScale ="50000"
                         CenterPoint="POINT (0 0)"
                         DefaultOverlaysRenderSequenceType="Concurrent"
-                        Loaded="MapView_Loaded">
+                        SizeChanged="MapView_SizeChanged">
             <tgWpf:MapView.Overlays>
                 <tgWpf:LayerOverlay TileType="SingleTile">
                     <tgWpf:LayerOverlay.Layers>

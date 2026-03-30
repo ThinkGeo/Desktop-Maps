@@ -11,7 +11,7 @@
 
         <!-- mapView -->
         <thinkGeoUi:MapView x:Name="MapView"
-                            Loaded="MapView_Loaded"
+                            SizeChanged="MapView_SizeChanged"
                             Grid.Column="0" />
 
         <!-- sampleGrid Layout -->

@@ -32,6 +32,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private SimpleMarkerOverlay _markerOverlay;
         private InMemoryFeatureLayer _routeLayer;
         private InMemoryFeatureLayer _visitedRoutesLayer;
+        private bool _initialized;
 
         private const double DefaultScale = 5000;
 
@@ -46,8 +47,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             this._disposed = true;
         }
 
-        private void MapView_OnLoaded(object sender, RoutedEventArgs e)
+        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             _cancellationTokenSource = new CancellationTokenSource();
             // Add Cloud Maps as a background overlay
             _backgroundOverlay = new ThinkGeoCloudRasterMapsOverlay

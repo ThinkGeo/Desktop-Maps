@@ -22,7 +22,7 @@
     </UserControl.Resources>
     
     <Grid>
-        <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded"/>
+        <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" SizeChanged="MapView_SizeChanged"/>
 
         <!-- Compass Button -->
         <Button x:Name="CompassButton"

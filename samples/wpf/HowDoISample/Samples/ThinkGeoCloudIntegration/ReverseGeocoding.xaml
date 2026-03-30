@@ -13,7 +13,7 @@
         <thinkGeoUi:MapView Grid.Column="0"
                             Grid.Row="0"
                             x:Name="MapView"
-                            Loaded="MapView_Loaded"
+                            SizeChanged="MapView_SizeChanged"
                             MapClick="MapView_MapClick"></thinkGeoUi:MapView>
         <Image Grid.Column="0"
                x:Name="LoadingImage"

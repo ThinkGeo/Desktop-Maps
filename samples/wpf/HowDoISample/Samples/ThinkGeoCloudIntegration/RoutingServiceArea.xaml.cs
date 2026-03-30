@@ -14,6 +14,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class RoutingServiceArea : IDisposable
     {
+
+        private bool _initialized;
         private RoutingCloudClient _routingCloudClient;
         private Collection<TimeSpan> _serviceAreaIntervals;
 
@@ -25,8 +27,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay, as well as a feature layer to display the route
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {

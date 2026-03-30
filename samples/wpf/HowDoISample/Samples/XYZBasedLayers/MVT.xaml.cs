@@ -12,6 +12,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class MVT : IDisposable
     {
+
+        private bool _initialized;
         public MVT()
         {
             InitializeComponent();
@@ -20,7 +22,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private string _selectedType = string.Empty;
         private int _selectedProjection = 3857;
-        bool _initialized;
         private MvtTilesAsyncLayer _mvtLayer;
         private LayerOverlay _layerOverlay;
 
@@ -28,8 +29,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private int _logIndex = 0;
 
 
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             MapView.MapUnit = GeographyUnit.Meter;
 
             _selectedType = "512 * 512";

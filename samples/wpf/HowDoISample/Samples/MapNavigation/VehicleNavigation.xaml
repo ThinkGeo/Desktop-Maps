@@ -13,7 +13,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <thinkGeoUi:MapView Grid.Row="1" x:Name="MapView" MapUnit="Meter" Loaded="MapView_OnLoaded"/>
+        <thinkGeoUi:MapView Grid.Row="1" x:Name="MapView" MapUnit="Meter" SizeChanged="MapView_SizeChanged"/>
 
         <Image Source="/Resources/icon_north_arrow.png" Grid.Row="1" 
                    VerticalAlignment="Top" HorizontalAlignment="Right"

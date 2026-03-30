@@ -9,7 +9,7 @@
     <Grid>
 
         <!-- mapView -->
-        <thinkGeoUi:MapView x:Name="MapView" Loaded="MapView_Loaded" Grid.Column="0"/>
+        <thinkGeoUi:MapView x:Name="MapView" SizeChanged="MapView_SizeChanged" Grid.Column="0"/>
 
         <!-- sampleGrid Layout -->
         <Grid.ColumnDefinitions>

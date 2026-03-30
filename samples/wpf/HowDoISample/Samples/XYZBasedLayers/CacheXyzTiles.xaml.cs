@@ -12,6 +12,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class CacheXyzTiles : IDisposable
     {
+
+        private bool _initialized;
         private OpenStreetMapAsyncLayer _openStreetMapAsyncLayer;
         private int _finishedTileCount;
         private string _cachePath;
@@ -23,8 +25,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             DataContext = this;
         }
 
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             var layerOverlay = new LayerOverlay();
             layerOverlay.TileType = TileType.SingleTile;
             MapView.Overlays.Add(layerOverlay);

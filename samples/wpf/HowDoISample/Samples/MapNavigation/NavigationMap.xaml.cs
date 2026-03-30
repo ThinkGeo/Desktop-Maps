@@ -12,6 +12,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     {
         private ThinkGeoCloudRasterMapsOverlay _backgroundOverlay;
         private PointShape _empireStateBuildingPosition;
+        private bool _initialized;
 
         public NavigationMap()
         {
@@ -22,8 +23,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             MapView.CurrentExtentChanged += MapView_CurrentExtentChanged;
 
             // Set the map's unit of measurement to meters(Spherical Mercator)

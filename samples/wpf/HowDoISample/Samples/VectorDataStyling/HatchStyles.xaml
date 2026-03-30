@@ -13,7 +13,7 @@
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0">
-            <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded" />
+            <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" SizeChanged="MapView_SizeChanged" />
 
             <Border Grid.Column="0" Width="330" Background="Gray" VerticalAlignment="Bottom"
                      HorizontalAlignment="Center" Margin="0,0,0,20" CornerRadius="0" Padding="5">
