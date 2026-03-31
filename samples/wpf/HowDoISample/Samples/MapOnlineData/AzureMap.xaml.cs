@@ -17,17 +17,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InitializeComponent();
         }
 
-        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Set the current extent to the whole world.
-            MapView.CenterPoint = new PointShape(0, 0);
-            MapView.CurrentScale = 105721100;
+            Map.CenterPoint = new PointShape(0, 0);
+            Map.CurrentScale = 105721100;
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void BtnActivate_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(TxtApplicationId.Text) || MapView.Overlays.Contains("Azure Map")) return;
+            if (string.IsNullOrEmpty(TxtApplicationId.Text) || Map.Overlays.Contains("Azure Map")) return;
             BtnActivate.IsEnabled = false;
 
             // Create the Azure map layer and add it to the map.                
@@ -43,10 +43,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             {
                 TileCache = new FileRasterTileCache(@".\cache", "azureMapsImagery")
             };
-            MapView.Overlays.Add(azureMapsOverlay);
+            Map.Overlays.Add(azureMapsOverlay);
 
             // Refresh the map.
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
@@ -58,7 +58,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

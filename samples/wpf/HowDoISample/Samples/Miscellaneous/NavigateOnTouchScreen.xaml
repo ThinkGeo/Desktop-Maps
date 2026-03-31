@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <thinkGeoUi:MapView x:Name="MapView" SizeChanged="MapView_SizeChanged"/>
+        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
 
         <CheckBox VerticalAlignment="Bottom"
                   Content="Freehand Drawing"
@@ -17,7 +17,7 @@
         <TextBlock Background="Gray"
                    VerticalAlignment="Bottom" HorizontalAlignment="Center"
                    Width="170" Height="35" FontSize="30"
-                   Text="{Binding ElementName=MapView, Path=CurrentZoom, StringFormat={}Zoom: {0:N2}}"/>
+                   Text="{Binding ElementName=Map, Path=CurrentZoom, StringFormat={}Zoom: {0:N2}}"/>
 
         <Button Content="Watch Tutorial on YouTube"
                 Width="150"

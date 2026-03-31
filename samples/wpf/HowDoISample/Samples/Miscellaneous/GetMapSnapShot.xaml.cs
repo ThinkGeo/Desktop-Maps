@@ -20,7 +20,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map
         /// </summary>
-        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
@@ -34,24 +34,24 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapType = ThinkGeoCloudVectorMapsMapType.Light,
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             var simpleMarkerOverlay = new SimpleMarkerOverlay();
-            MapView.Overlays.Add(simpleMarkerOverlay);
+            Map.Overlays.Add(simpleMarkerOverlay);
 
             // set the map extent to Frisco, TX
-            MapView.CenterPoint = new PointShape(-10779270, 3911750);
-            MapView.CurrentScale = 288900;
+            Map.CenterPoint = new PointShape(-10779270, 3911750);
+            Map.CurrentScale = 288900;
 
             // Add a marker in the center of the map. 
-            var marker = new Marker(MapView.CenterPoint);
+            var marker = new Marker(Map.CenterPoint);
             simpleMarkerOverlay.Markers.Add(marker);
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
         private void btnGetSnapshot_Click(object sender, RoutedEventArgs e)
         {
-            var snapShot = MapView.GetSnapshot();
+            var snapShot = Map.GetSnapshot();
             snapShot.Save(@".\snapshot.png");
 
             var fullPath = Path.GetFullPath(@".\snapshot.png");
@@ -61,7 +61,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

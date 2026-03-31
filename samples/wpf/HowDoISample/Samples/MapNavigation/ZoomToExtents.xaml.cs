@@ -25,15 +25,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map and a shapefile with simple data to work with
         /// </summary>
-        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
-            MapView.CurrentExtentChanged += MapView_CurrentExtentChanged;
-            MapView.RotationAngleChanging += MapView_RotationAngleChanging;
+            Map.MapUnit = GeographyUnit.Meter;
+            Map.CurrentExtentChanged += Map_CurrentExtentChanged;
+            Map.RotationAngleChanging += Map_RotationAngleChanging;
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -44,7 +44,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Load the Frisco data to a layer
             _friscoCityBoundary = new ShapeFileFeatureLayer(@"./Data/Shapefile/City_ETJ.shp")
@@ -64,13 +64,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var layerOverlay = new LayerOverlay();
             layerOverlay.TileType = TileType.SingleTile;
             layerOverlay.Layers.Add(_friscoCityBoundary);
-            MapView.Overlays.Add(layerOverlay);
+            Map.Overlays.Add(layerOverlay);
 
             // Set the map extent
-            MapView.CenterPoint = new PointShape(-10778000, 3912000);
-            MapView.CurrentScale = 180000;
+            Map.CenterPoint = new PointShape(-10778000, 3912000);
+            Map.CurrentScale = 180000;
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void ZoomIn_Click(object sender, RoutedEventArgs e)
         {
-            _ = MapView.ZoomInAsync();
+            _ = Map.ZoomInAsync();
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void ZoomOut_Click(object sender, RoutedEventArgs e)
         {
-            _ = MapView.ZoomOutAsync();
+            _ = Map.ZoomOutAsync();
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void ZoomToScale_Click(object sender, RoutedEventArgs e)
         {
-            _ = MapView.ZoomToAsync(Convert.ToDouble(ZoomScale.Text));
+            _ = Map.ZoomToAsync(Convert.ToDouble(ZoomScale.Text));
         }
 
         /// <summary>
@@ -105,9 +105,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void LayerBoundingBox_Click(object sender, RoutedEventArgs e)
         {
             var friscoCityBoundaryBBox = _friscoCityBoundary.GetBoundingBox();
-            MapView.CenterPoint = friscoCityBoundaryBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit,friscoCityBoundaryBBox, MapView.MapWidth, MapView.MapHeight);
-            _ = MapView.RefreshAsync();
+            Map.CenterPoint = friscoCityBoundaryBBox.GetCenterPoint();
+            Map.CurrentScale = MapUtil.GetScale(Map.MapUnit,friscoCityBoundaryBBox, Map.MapWidth, Map.MapHeight);
+            _ = Map.RefreshAsync();
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void CenterAt_Click(object sender, RoutedEventArgs e)
         {
             var pointInMercator = ProjectionConverter.Convert(4326, 3857, new PointShape(-96.82, 33.15));
-            _ = MapView.CenterAtAsync(pointInMercator);
+            _ = Map.CenterAtAsync(pointInMercator);
         }
 
         // Register the dependency property.
@@ -137,9 +137,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             set => SetValue(TxtCoordinatesProperty, value);
         }
 
-        private void MapView_CurrentExtentChanged(object sender, CurrentExtentChangedMapViewEventArgs e)
+        private void Map_CurrentExtentChanged(object sender, CurrentExtentChangedMapViewEventArgs e)
         {
-            var currentExtent = e.NewExtent ?? MapView.CurrentExtent;
+            var currentExtent = e.NewExtent ?? Map.CurrentExtent;
             if (currentExtent == null) return;
 
             var center = currentExtent.GetCenterPoint();
@@ -147,7 +147,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             TxtCoordinates = $"Center Point: (Lat: {centerInDecimalDegrees.Y:N4}, Lon: {centerInDecimalDegrees.X:N4})";
         }
 
-        private void MapView_RotationAngleChanging(object sender, RotationAngleChangingMapViewEventArgs e)
+        private void Map_RotationAngleChanging(object sender, RotationAngleChangingMapViewEventArgs e)
         {
             _isSyncingRotationAngle = true;
             RotateAngle.Value = Math.Round(e.NewRotationAngle, MidpointRounding.AwayFromZero);
@@ -158,7 +158,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             if (_isSyncingRotationAngle || !IsLoaded) return;
 
-            var centerPoint = MapView.CurrentExtent?.GetCenterPoint() ?? MapView.CenterPoint;
+            var centerPoint = Map.CurrentExtent?.GetCenterPoint() ?? Map.CenterPoint;
             if (centerPoint == null) return;
 
             _cancellationTokenSource.Cancel();
@@ -167,7 +167,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             try
             {
-                await MapView.ZoomToAsync(centerPoint, MapView.CurrentScale, RotateAngle.Value, _cancellationTokenSource.Token);
+                await Map.ZoomToAsync(centerPoint, Map.CurrentScale, RotateAngle.Value, _cancellationTokenSource.Token);
             }
             catch (OperationCanceledException)
             {
@@ -186,13 +186,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.CurrentExtentChanged -= MapView_CurrentExtentChanged;
-            MapView.RotationAngleChanging -= MapView_RotationAngleChanging;
+            Map.CurrentExtentChanged -= Map_CurrentExtentChanged;
+            Map.RotationAngleChanging -= Map_RotationAngleChanging;
             _cancellationTokenSource.Cancel();
             _cancellationTokenSource.Dispose();
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
     }
 }
+

@@ -20,13 +20,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the shapefile layer to the map
         /// </summary>
-        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -35,11 +35,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 ClientSecret = SampleKeys.ClientSecret,
                 MapType = ThinkGeoCloudVectorMapsMapType.Light,
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a new overlay that will hold our new layer and add it to the map.
             var cadOverlay = new LayerOverlay();
-            MapView.Overlays.Add("CAD overlay", cadOverlay);
+            Map.Overlays.Add("CAD overlay", cadOverlay);
 
             // Create the new cad layer
             _cadLayer = new CadFeatureLayer(@"./Data/CAD/Zipcodes.DWG");
@@ -57,12 +57,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Set the current extent of the map to the extent of the CAD data
             _cadLayer.Open();
             var cadLayerBBox = _cadLayer.GetBoundingBox();
-            MapView.CenterPoint = cadLayerBBox.GetCenterPoint();
-            var MapScale = MapUtil.GetScale(MapView.MapUnit, cadLayerBBox, MapView.MapWidth, MapView.MapHeight);
-            MapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
+            Map.CenterPoint = cadLayerBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(Map.MapUnit, cadLayerBBox, Map.MapWidth, Map.MapHeight);
+            Map.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
 
             _initialized = true;
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private void EmbeddedStyling_Checked(object sender, RoutedEventArgs e)
@@ -74,7 +74,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Create an Area style on zoom level 1 and then apply it to all zoom levels up to 20.
             _cadLayer.StylingType = CadStylingType.EmbeddedStyling;
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private void ProgrammaticStyling_Checked(object sender, RoutedEventArgs e)
@@ -88,13 +88,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _cadLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = new LineStyle(new GeoPen(GeoColors.Blue, 2));
             _cadLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

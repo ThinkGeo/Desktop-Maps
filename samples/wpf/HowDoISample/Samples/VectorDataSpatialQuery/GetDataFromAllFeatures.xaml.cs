@@ -21,7 +21,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay and a feature layer containing Frisco hotels data
         /// </summary>
-        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
@@ -35,10 +35,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the Map Unit to meters (used in Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Create a feature layer to hold the Frisco hotels data
             var hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
@@ -59,7 +59,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var hotelsOverlay = new LayerOverlay();
             hotelsOverlay.Layers.Add("Frisco Hotels", hotelsLayer);
             hotelsOverlay.Layers.Add("Highlighted Hotel", highlightedHotelLayer);
-            MapView.Overlays.Add(hotelsOverlay);
+            Map.Overlays.Add(hotelsOverlay);
 
             // Open the hotels layer, so we can read the data from it
             hotelsLayer.Open();
@@ -87,11 +87,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Set the map extent to the extent of the hotel features
             var hotelsLayerBBox = hotelsLayer.GetBoundingBox();
-            MapView.CenterPoint = hotelsLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit,hotelsLayerBBox, MapView.MapWidth, MapView.MapHeight);
+            Map.CenterPoint = hotelsLayerBBox.GetCenterPoint();
+            Map.CurrentScale = MapUtil.GetScale(Map.MapUnit,hotelsLayerBBox, Map.MapWidth, Map.MapHeight);
             hotelsLayer.Close();
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             try
             {
-                var highlightedHotelLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Highlighted Hotel");
+                var highlightedHotelLayer = (InMemoryFeatureLayer)Map.FindFeatureLayer("Highlighted Hotel");
                 highlightedHotelLayer.Open();
                 highlightedHotelLayer.InternalFeatures.Clear();
 
@@ -112,11 +112,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                     // Center the map on the chosen location
                     var hotelLayerBBox = hotel.Location.GetBoundingBox();
-                    MapView.CenterPoint = hotelLayerBBox.GetCenterPoint();
-                    MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, hotelLayerBBox, MapView.MapWidth, MapView.MapHeight);
+                    Map.CenterPoint = hotelLayerBBox.GetCenterPoint();
+                    Map.CurrentScale = MapUtil.GetScale(Map.MapUnit, hotelLayerBBox, Map.MapWidth, Map.MapHeight);
                     var standardZoomLevelSet = new ZoomLevelSet();
-                    await MapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel18.Scale);
-                    await MapView.RefreshAsync();
+                    await Map.ZoomToAsync(standardZoomLevelSet.ZoomLevel18.Scale);
+                    await Map.RefreshAsync();
                 }
 
                 highlightedHotelLayer.Close();
@@ -150,7 +150,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

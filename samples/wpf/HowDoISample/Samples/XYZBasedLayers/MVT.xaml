@@ -18,12 +18,12 @@
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
 
-        <thinkGeoUi:MapView x:Name="MapView" Grid.Column="0" Grid.RowSpan="3" SizeChanged="MapView_SizeChanged" />
+        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" Grid.RowSpan="3" SizeChanged="Map_SizeChanged" />
         <TextBox Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Center" Background="Gray"
                    Width="800" Height="30" FontSize="20" Text="https://demotiles.maplibre.org/style.json"/>
         <TextBlock Grid.Row="1" Grid.Column="0" Background="gray" VerticalAlignment="Bottom" HorizontalAlignment="Center"
                    Width="200" Height="40" FontSize="30"
-                   Text="{Binding ElementName=MapView, Path=CurrentZoom, StringFormat={}Zoom: {0:N2}}"/>
+                   Text="{Binding ElementName=Map, Path=CurrentZoom, StringFormat={}Zoom: {0:N2}}"/>
 
         <ComboBox Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Center" Background="Gray"
                   Width="800" Height="30" FontSize="20" SelectedIndex="0" SelectionChanged="Selector_OnSelectionChanged">

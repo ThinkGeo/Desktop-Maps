@@ -21,13 +21,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay.
         /// </summary>
-        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Create the layer overlay with some additional settings and add to the map.
             var cloudOverlay = new ThinkGeoCloudRasterMapsOverlay
@@ -36,14 +36,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 ClientSecret = SampleKeys.ClientSecret,
                 MapType = ThinkGeoCloudRasterMapsMapType.Hybrid2_V2_X1
             };
-            MapView.Overlays.Add("Cloud Overlay", cloudOverlay);
+            Map.Overlays.Add("Cloud Overlay", cloudOverlay);
 
             // Set the current extent to a neighborhood in Frisco Texas.
-            MapView.CenterPoint = new PointShape(-10779700, 3912000);
-            MapView.CurrentScale = 18100;
+            Map.CenterPoint = new PointShape(-10779700, 3912000);
+            Map.CurrentScale = 18100;
 
             _initialized = true;
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
@@ -58,8 +58,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 return;
 
             var button = (RadioButton)sender;
-            if (!MapView.Overlays.Contains("Cloud Overlay")) return;
-            var cloudOverlay = (ThinkGeoCloudRasterMapsOverlay)MapView.Overlays["Cloud Overlay"];
+            if (!Map.Overlays.Contains("Cloud Overlay")) return;
+            var cloudOverlay = (ThinkGeoCloudRasterMapsOverlay)Map.Overlays["Cloud Overlay"];
 
             switch (button.Content.ToString())
             {
@@ -76,13 +76,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     cloudOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid2_V2_X1;
                     break;
             }
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

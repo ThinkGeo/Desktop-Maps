@@ -27,7 +27,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             DataContext = this;
         }
 
-        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
@@ -36,7 +36,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 ZipFile.ExtractToDirectory(@".\Data\OSM_Tiles_z0-z5_Created_By_QGIS.zip", @".\Data\OSM_Tiles_z0-z5_Created_By_QGIS");
 
             var layerOverlay = new LayerOverlay();
-            MapView.Overlays.Add(layerOverlay);
+            Map.Overlays.Add(layerOverlay);
             fileTilesAsyncLayer = new XyzFileTilesAsyncLayer(@".\Data\OSM_Tiles_z0-z5_Created_By_QGIS");
             fileTilesAsyncLayer.MaxZoomOfTheData = 5; // The MaxZoom with data
 
@@ -57,11 +57,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             fileTilesAsyncLayer.ProjectedTileCache.GottenTile += ProjectedTileCache_GottenCacheTile;
 
             //layerOverlay.Drawn += LayerOverlayOnDrawn;
-            MapView.CenterPoint = MaxExtents.ThinkGeoMaps.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit,MaxExtents.ThinkGeoMaps, MapView.MapWidth, MapView.MapHeight);
+            Map.CenterPoint = MaxExtents.ThinkGeoMaps.GetCenterPoint();
+            Map.CurrentScale = MapUtil.GetScale(Map.MapUnit,MaxExtents.ThinkGeoMaps, Map.MapWidth, Map.MapHeight);
             
             _initialized = true;
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private void ProjectedTileCache_GottenCacheTile(object sender, GottenTileTileCacheEventArgs e)
@@ -97,12 +97,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 switch (radioButton.Tag.ToString())
                 {
                     case "3857":
-                        MapView.MapUnit = GeographyUnit.Meter;
+                        Map.MapUnit = GeographyUnit.Meter;
                         fileTilesAsyncLayer.ProjectionConverter = null;
                         break;
 
                     case "4326":
-                        MapView.MapUnit = GeographyUnit.DecimalDegree;
+                        Map.MapUnit = GeographyUnit.DecimalDegree;
                         fileTilesAsyncLayer.ProjectionConverter = new GdalProjectionConverter(3857, 4326);
                         break;
 
@@ -113,9 +113,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 await fileTilesAsyncLayer.CloseAsync();
                 await fileTilesAsyncLayer.OpenAsync();
                 var fileTilesAsyncLayerBBox = fileTilesAsyncLayer.GetBoundingBox();
-                MapView.CenterPoint = fileTilesAsyncLayerBBox.GetCenterPoint();
-                MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, fileTilesAsyncLayerBBox, MapView.MapWidth, MapView.MapHeight);
-                await MapView.RefreshAsync();
+                Map.CenterPoint = fileTilesAsyncLayerBBox.GetCenterPoint();
+                Map.CurrentScale = MapUtil.GetScale(Map.MapUnit, fileTilesAsyncLayerBBox, Map.MapWidth, Map.MapHeight);
+                await Map.RefreshAsync();
             }
             catch
             {
@@ -132,7 +132,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (checkBox.IsChecked.HasValue)
                 fileTilesAsyncLayer.RenderBeyondMaxZoom = checkBox.IsChecked.Value;
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private void DisplayTileIdCheckBox_Checked(object sender, RoutedEventArgs e)
@@ -149,7 +149,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (ThinkGeoDebugger.DisplayTileId != checkBox.IsChecked.Value)
             {
                 ThinkGeoDebugger.DisplayTileId = checkBox.IsChecked.Value;
-                _ = MapView.RefreshAsync();
+                _ = Map.RefreshAsync();
             }
         }
 
@@ -163,7 +163,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             ThinkGeoDebugger.DisplayTileId = false;
-            MapView.Dispose();
+            Map.Dispose();
             GC.SuppressFinalize(this);
         }
     }

@@ -22,12 +22,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map
         /// </summary>
-        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
             // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
@@ -38,14 +38,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapType = ThinkGeoCloudVectorMapsMapType.Light,
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            MapView.CenterPoint = new PointShape(0, 0);
-            MapView.CurrentScale = 100000000;
+            Map.CenterPoint = new PointShape(0, 0);
+            Map.CurrentScale = 100000000;
 
-            MapView.IsManipulationEnabled = true;
+            Map.IsManipulationEnabled = true;
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private void CheckBox_Toggled(object sender, RoutedEventArgs e)
@@ -54,16 +54,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (checkBox?.IsChecked == null) return;
 
             if (checkBox.IsChecked.Value)
-                MapView.TrackOverlay.TrackMode = TrackMode.Freehand;
+                Map.TrackOverlay.TrackMode = TrackMode.Freehand;
             else
-                MapView.TrackOverlay.TrackMode = TrackMode.None;
+                Map.TrackOverlay.TrackMode = TrackMode.None;
 
         }
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

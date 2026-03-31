@@ -23,7 +23,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay and a feature layers for the shape to be queried and the returned elevation points
         /// </summary>
-        private async void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
@@ -39,10 +39,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                     TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
                 };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
                 // Set the map's unit of measurement to meters (Spherical Mercator)
-                MapView.MapUnit = GeographyUnit.Meter;
+                Map.MapUnit = GeographyUnit.Meter;
 
                 // Create a new InMemoryFeatureLayer to hold the shape drawn for the elevation query
                 var drawnShapeLayer = new InMemoryFeatureLayer();
@@ -64,10 +64,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var elevationFeaturesOverlay = new LayerOverlay();
                 elevationFeaturesOverlay.Layers.Add("Elevation Points Layer", elevationPointsLayer);
                 elevationFeaturesOverlay.Layers.Add("Drawn Shape Layer", drawnShapeLayer);
-                MapView.Overlays.Add("Elevation Features Overlay", elevationFeaturesOverlay);
+                Map.Overlays.Add("Elevation Features Overlay", elevationFeaturesOverlay);
 
                 // Add an event to trigger the elevation query when a new shape is drawn
-                MapView.TrackOverlay.TrackEnded += OnShapeDrawn;
+                Map.TrackOverlay.TrackEnded += OnShapeDrawn;
 
                 // Initialize the ElevationCloudClient with our ThinkGeo Cloud credentials
                 _elevationCloudClient = new ElevationCloudClient
@@ -76,10 +76,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     ClientSecret = SampleKeys.ClientSecret2,
                 };
 
-                MapView.CenterPoint = new PointShape(-10776981, 3912345);
-                MapView.CurrentScale = 6200;
+                Map.CenterPoint = new PointShape(-10776981, 3912345);
+                Map.CurrentScale = 6200;
 
-                await MapView.RefreshAsync();
+                await Map.RefreshAsync();
 
                 // Create a sample line and get elevation along that line
                 var sampleShape = new LineShape("LINESTRING(-10776298 3912306,-10776496 3912399,-10776675 3912478,-10776890 3912516,-10777189 3912509,-10777329 3912442,-10777664 3912174)");
@@ -97,8 +97,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async Task PerformElevationQueryAsync(BaseShape queryShape)
         {
-            // Get feature layers from the MapView
-            var elevationPointsOverlay = (LayerOverlay)MapView.Overlays["Elevation Features Overlay"];
+            // Get feature layers from the Map
+            var elevationPointsOverlay = (LayerOverlay)Map.Overlays["Elevation Features Overlay"];
             var drawnShapesLayer = (InMemoryFeatureLayer)elevationPointsOverlay.Layers["Drawn Shape Layer"];
             var elevationPointsLayer = (InMemoryFeatureLayer)elevationPointsOverlay.Layers["Elevation Points Layer"];
 
@@ -184,8 +184,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void OnShapeDrawn(object sender, TrackEndedTrackInteractiveOverlayEventArgs e)
         {
             // Disable drawing mode and clear the drawing layer
-            MapView.TrackOverlay.TrackMode = TrackMode.None;
-            MapView.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
+            Map.TrackOverlay.TrackMode = TrackMode.None;
+            Map.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
 
             // Validate shape size to avoid queries that are too large
             // Maximum length of a line is 10km
@@ -220,9 +220,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Set the map extent to the selected point
             var elevationPoint = (CloudElevationPointResult)LsbElevations.SelectedItem;
             var elevationPointLayerBBox = elevationPoint.Point.GetBoundingBox();
-            MapView.CenterPoint = elevationPointLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, elevationPointLayerBBox, MapView.MapWidth, MapView.MapHeight);
-            _ = MapView.RefreshAsync();
+            Map.CenterPoint = elevationPointLayerBBox.GetCenterPoint();
+            Map.CurrentScale = MapUtil.GetScale(Map.MapUnit, elevationPointLayerBBox, Map.MapWidth, Map.MapHeight);
+            _ = Map.RefreshAsync();
         }
 
         /// <summary>
@@ -231,7 +231,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void DrawPoint_Click(object sender, RoutedEventArgs e)
         {
             // Set the drawing mode to 'Point'
-            MapView.TrackOverlay.TrackMode = TrackMode.Point;
+            Map.TrackOverlay.TrackMode = TrackMode.Point;
         }
 
         /// <summary>
@@ -240,7 +240,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void DrawLine_Click(object sender, RoutedEventArgs e)
         {
             // Set the drawing mode to 'Line'
-            MapView.TrackOverlay.TrackMode = TrackMode.Line;
+            Map.TrackOverlay.TrackMode = TrackMode.Line;
         }
 
         /// <summary>
@@ -249,7 +249,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void DrawPolygon_Click(object sender, RoutedEventArgs e)
         {
             // Set the drawing mode to 'Polygon'
-            MapView.TrackOverlay.TrackMode = TrackMode.Polygon;
+            Map.TrackOverlay.TrackMode = TrackMode.Polygon;
         }
     }
 }

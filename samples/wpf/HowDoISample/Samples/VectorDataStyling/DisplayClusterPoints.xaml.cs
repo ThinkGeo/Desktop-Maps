@@ -17,15 +17,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Initializes the map and overlays when the MapView is loaded.
+        /// Initializes the map and overlays when the Map is loaded.
         /// </summary>
-        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Add ThinkGeo Cloud Vector Maps as the background overlay.
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -36,7 +36,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Load coyote sightings shapefile (projected to match the map projection).
             var coyoteSightings = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Coyote_Sightings.shp")
@@ -49,16 +49,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             var layerOverlay = new LayerOverlay {TileType = TileType.SingleTile};
             layerOverlay.Layers.Add(coyoteSightings);
-            MapView.Overlays.Add(layerOverlay);
+            Map.Overlays.Add(layerOverlay);
 
             // Apply Cluster Point Style
             AddClusterPointStyle(coyoteSightings);
 
             // Set the map extent
-            MapView.CenterPoint = new PointShape(-10780320, 3915120);
-            MapView.CurrentScale = 288900;
+            Map.CenterPoint = new PointShape(-10780320, 3915120);
+            Map.CurrentScale = 288900;
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

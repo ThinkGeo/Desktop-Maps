@@ -94,17 +94,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             DataContext = this;
         }
 
-        private async void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             var layerOverlay = new LayerOverlay();
             layerOverlay.TileType = TileType.SingleTile;
-            MapView.Overlays.Add(layerOverlay);
+            Map.Overlays.Add(layerOverlay);
 
             // Add Cloud Maps as a background overlay
             _thinkGeoRasterMapsAsyncLayer = new ThinkGeoRasterMapsAsyncLayer
@@ -130,11 +130,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             await _thinkGeoRasterMapsAsyncLayer.OpenAsync();
 
-            MapView.CenterPoint = OriginalExtent3857.GetCenterPoint();
-            MapView.CurrentScale = ProjectionViews["3857"].Scale;
+            Map.CenterPoint = OriginalExtent3857.GetCenterPoint();
+            Map.CurrentScale = ProjectionViews["3857"].Scale;
 
             _initialized = true;
-            await MapView.RefreshAsync();
+            await Map.RefreshAsync();
         }
 
         private async Task ApplyProjectionDynamicAsync(string projectionTag)
@@ -193,7 +193,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private async Task ApplyProjectionAsync(string projectionTag, GeographyUnit mapUnit, ProjectionConverter projectionConverter, PointShape fixedCenter, double fixedScale)
         {
-            MapView.MapUnit = mapUnit;
+            Map.MapUnit = mapUnit;
             _thinkGeoRasterMapsAsyncLayer.ProjectionConverter = projectionConverter;
 
             if (projectionConverter is GdalProjectionConverter gdal)
@@ -202,10 +202,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             await _thinkGeoRasterMapsAsyncLayer.CloseAsync();
             await _thinkGeoRasterMapsAsyncLayer.OpenAsync();
 
-            MapView.CenterPoint = fixedCenter;
-            MapView.CurrentScale = fixedScale;
+            Map.CenterPoint = fixedCenter;
+            Map.CurrentScale = fixedScale;
 
-            await MapView.RefreshAsync();
+            await Map.RefreshAsync();
         }
 
         private void SetTileCachesForProjection(string projectionTag)
@@ -251,7 +251,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (checkBox.IsChecked.HasValue)
                 _thinkGeoRasterMapsAsyncLayer.RenderBeyondMaxZoom = checkBox.IsChecked.Value;
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private void DisplayTileIdCheckBox_Checked(object sender, RoutedEventArgs e)
@@ -266,7 +266,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 return;
 
             ThinkGeoDebugger.DisplayTileId = checkBox.IsChecked ?? false;
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         public void AppendLog(string message)
@@ -279,7 +279,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             ThinkGeoDebugger.DisplayTileId = false;
-            MapView.Dispose();
+            Map.Dispose();
             GC.SuppressFinalize(this);
         }
     }

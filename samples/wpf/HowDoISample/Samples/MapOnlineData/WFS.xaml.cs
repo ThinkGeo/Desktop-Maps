@@ -14,13 +14,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InitializeComponent();
         }
 
-        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -31,7 +31,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create WFS v2 overlay
             var wfsOverlay = new WfsV2Overlay
@@ -40,17 +40,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 AsyncLayer = CreateHelsinkiParcelsLayer(),
                 IsVisible = false // start hidden
             };
-            MapView.Overlays.Add("WfsOverlay", wfsOverlay);
+            Map.Overlays.Add("WfsOverlay", wfsOverlay);
 
             // Create LayerOverlay
             var layerOverlay = new LayerOverlay() ;
             layerOverlay.Layers.Add(CreateHelsinkiParcelsLayer());
-            MapView.Overlays.Add("LayerOverlay", layerOverlay);
+            Map.Overlays.Add("LayerOverlay", layerOverlay);
 
-            MapView.CenterPoint = new PointShape(2777730, 8435220);
-            MapView.CurrentScale = 20520;
+            Map.CenterPoint = new PointShape(2777730, 8435220);
+            Map.CurrentScale = 20520;
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private WfsV2AsyncLayer CreateHelsinkiParcelsLayer()
@@ -81,19 +81,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (!(sender is RadioButton radio) || radio.IsChecked == false)
                 return;
 
-            if (MapView.Overlays.Contains("WfsOverlay") &&
-                MapView.Overlays.Contains("LayerOverlay"))
+            if (Map.Overlays.Contains("WfsOverlay") &&
+                Map.Overlays.Contains("LayerOverlay"))
             {
                 switch (radio.Content.ToString())
                 {
                     case "WfsV2Overlay":
-                        MapView.Overlays["WfsOverlay"].IsVisible = true;
-                        MapView.Overlays["LayerOverlay"].IsVisible = false;
+                        Map.Overlays["WfsOverlay"].IsVisible = true;
+                        Map.Overlays["LayerOverlay"].IsVisible = false;
                         break;
 
                     case "LayerOverlay":
-                        MapView.Overlays["WfsOverlay"].IsVisible = false;
-                        MapView.Overlays["LayerOverlay"].IsVisible = true;
+                        Map.Overlays["WfsOverlay"].IsVisible = false;
+                        Map.Overlays["LayerOverlay"].IsVisible = true;
                         break;
                 }
             }
@@ -102,7 +102,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

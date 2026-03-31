@@ -38,13 +38,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map
         /// </summary>
-        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -55,7 +55,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Add Scale Line Adornment Layer
             var selectedUnitSystem = CboUnitSystems.SelectedItem is ScaleLineUnitSystem unitSystem ? unitSystem : ScaleLineUnitSystem.ImperialAndMetric;
@@ -75,22 +75,22 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 BackgroundMask = AreaStyle.CreateSimpleAreaStyle(GeoColors.LightBlue, GeoColors.Red)
             };
 
-            MapView.AdornmentOverlay.Layers.Add(_scaleLineAdornmentLayer);
-            MapView.AdornmentOverlay.Layers.Add(_scaleBarAdornmentLayer);
+            Map.AdornmentOverlay.Layers.Add(_scaleLineAdornmentLayer);
+            Map.AdornmentOverlay.Layers.Add(_scaleBarAdornmentLayer);
 
             // Set the map extent
-            MapView.CenterPoint = new PointShape(-10778000, 3912000);
-            MapView.CurrentScale = 77000;
+            Map.CenterPoint = new PointShape(-10778000, 3912000);
+            Map.CurrentScale = 77000;
 
             _initialized = true;
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
@@ -104,7 +104,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _scaleBarAdornmentLayer.Location = adornmentLocation;
             _scaleLineAdornmentLayer.Location = adornmentLocation;
 
-            _ = MapView.AdornmentOverlay.RefreshAsync();
+            _ = Map.AdornmentOverlay.RefreshAsync();
         }
 
         private void CboUnitSystems_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -115,7 +115,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (!(CboUnitSystems.SelectedItem is ScaleLineUnitSystem unitSystem)) return;
 
             _scaleLineAdornmentLayer.UnitSystem = unitSystem;
-            _ = MapView.AdornmentOverlay.RefreshAsync();
+            _ = Map.AdornmentOverlay.RefreshAsync();
         }
 
         private void ChkCustomTextStyles_OnChecked(object sender, RoutedEventArgs e)
@@ -132,7 +132,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _scaleLineAdornmentLayer.BelowLabelTextStyle.TextPlacement = TextPlacement.Left;
             _scaleLineAdornmentLayer.BelowLabelTextStyle.YOffsetInPixel = 2;
 
-            _ = MapView.AdornmentOverlay.RefreshAsync();
+            _ = Map.AdornmentOverlay.RefreshAsync();
         }
 
         private void ChkCustomTextStyles_OnUnchecked(object sender, RoutedEventArgs e)
@@ -144,7 +144,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _scaleLineAdornmentLayer.AboveLabelTextStyle = null;
             _scaleLineAdornmentLayer.BelowLabelTextStyle = null;
 
-            _ = MapView.AdornmentOverlay.RefreshAsync();
+            _ = Map.AdornmentOverlay.RefreshAsync();
         }
     }
 }

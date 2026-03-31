@@ -16,7 +16,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InitializeComponent();
         }
 
-        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
@@ -30,15 +30,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 WrappingExtent = MaxExtents.ThinkGeoMaps
             };
 
-            MapView.MapUnit = GeographyUnit.Meter;
-            MapView.Overlays.Add(overlay);
+            Map.MapUnit = GeographyUnit.Meter;
+            Map.Overlays.Add(overlay);
        
-            MapView.CurrentScale = 300000000;
+            Map.CurrentScale = 300000000;
 
-            MapView.ZoomScales = new Collection<double>();
-            MapView.ZoomScales.Add(MapView.CurrentScale); // only set one scale in the collection. 
+            Map.ZoomScales = new Collection<double>();
+            Map.ZoomScales.Add(Map.CurrentScale); // only set one scale in the collection. 
 
-            MapView.MapTools.PanZoomBar.IsEnabled = false;
+            Map.MapTools.PanZoomBar.IsEnabled = false;
 
             var layer = new InMemoryFeatureLayer();
             layer.InternalFeatures.Add(GetExtent(-0.6, -0.4, 0.9, 0.99, "-0.6 ~ -0.4"));
@@ -64,9 +64,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
 
             layerOverlay.Layers.Add(layer);
-            MapView.Overlays.Add(layerOverlay);
+            Map.Overlays.Add(layerOverlay);
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private static Feature GetExtent(double minX, double maxX, double minY, double maxY, string content)

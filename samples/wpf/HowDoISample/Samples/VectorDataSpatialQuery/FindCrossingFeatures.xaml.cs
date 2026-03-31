@@ -22,7 +22,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay and a feature layer containing Frisco zoning data
         /// </summary>
-        private async void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
@@ -38,10 +38,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                     TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
                 };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
                 // Set the Map Unit to meters (used in Spherical Mercator)
-                MapView.MapUnit = GeographyUnit.Meter;
+                Map.MapUnit = GeographyUnit.Meter;
 
                 // Create a feature layer to hold the Frisco zoning data
                 var zoningLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Zoning.shp");
@@ -69,27 +69,27 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var zoningOverlay = new LayerOverlay();
                 zoningOverlay.TileType = TileType.SingleTile;
                 zoningOverlay.Layers.Add("Frisco Zoning", zoningLayer);
-                MapView.Overlays.Add("Frisco Zoning Overlay", zoningOverlay);
+                Map.Overlays.Add("Frisco Zoning Overlay", zoningOverlay);
 
                 var queryFeaturesOverlay = new LayerOverlay();
                 queryFeaturesOverlay.TileType = TileType.SingleTile;
                 queryFeaturesOverlay.Layers.Add("Query Feature", queryFeatureLayer);
-                MapView.Overlays.Add("Query Features Overlay", queryFeaturesOverlay);
+                Map.Overlays.Add("Query Features Overlay", queryFeaturesOverlay);
 
                 var highlightedFeaturesOverlay = new LayerOverlay();
                 highlightedFeaturesOverlay.TileType = TileType.SingleTile;
                 highlightedFeaturesOverlay.Layers.Add("Highlighted Features", highlightedFeaturesLayer);
-                MapView.Overlays.Add("Highlighted Features Overlay", highlightedFeaturesOverlay);
+                Map.Overlays.Add("Highlighted Features Overlay", highlightedFeaturesOverlay);
 
                 // Add an event to handle new shapes that are drawn on the map
-                MapView.TrackOverlay.TrackEnded += OnLineDrawn;
+                Map.TrackOverlay.TrackEnded += OnLineDrawn;
 
                 // Set the map extent to the sample shapes
-                MapView.CenterPoint = new PointShape(-10776670, 3914800);
-                MapView.CurrentScale = 27870; 
+                Map.CenterPoint = new PointShape(-10776670, 3914800);
+                Map.CurrentScale = 27870; 
                 
-                MapView.TrackOverlay.TrackMode = TrackMode.Line;
-                await MapView.RefreshAsync();
+                Map.TrackOverlay.TrackMode = TrackMode.Line;
+                await Map.RefreshAsync();
 
                 // Add a sample shape to the map for the initial query
                 var sampleShape = new LineShape("LINESTRING(-10774628 3914024,-10776902 3915582,-10778030 3914368,-10778708 3914445)");
@@ -120,8 +120,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async Task HighlightQueriedFeaturesAsync(IEnumerable<Feature> features)
         {
-            // Find the layers we will be modifying in the MapView dictionary
-            var highlightedFeaturesOverlay = (LayerOverlay)MapView.Overlays["Highlighted Features Overlay"];
+            // Find the layers we will be modifying in the Map dictionary
+            var highlightedFeaturesOverlay = (LayerOverlay)Map.Overlays["Highlighted Features Overlay"];
             var highlightedFeaturesLayer = (InMemoryFeatureLayer)highlightedFeaturesOverlay.Layers["Highlighted Features"];
 
             // Clear the currently highlighted features
@@ -148,10 +148,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async Task GetFeaturesCrossingAsync(BaseShape shape)
         {
-            // Find the layers we will be modifying in the MapView
-            var queryFeaturesOverlay = (LayerOverlay)MapView.Overlays["Query Features Overlay"];
+            // Find the layers we will be modifying in the Map
+            var queryFeaturesOverlay = (LayerOverlay)Map.Overlays["Query Features Overlay"];
             var queryFeatureLayer = (InMemoryFeatureLayer)queryFeaturesOverlay.Layers["Query Feature"];
-            var zoningLayer = (ShapeFileFeatureLayer)MapView.FindFeatureLayer("Frisco Zoning");
+            var zoningLayer = (ShapeFileFeatureLayer)Map.FindFeatureLayer("Frisco Zoning");
 
             // Clear the query shape layer and add the newly drawn shape
             queryFeatureLayer.InternalFeatures.Clear();
@@ -163,7 +163,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             await HighlightQueriedFeaturesAsync(queriedFeatures);
 
             // Clear the drawn shape
-            MapView.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
+            Map.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
         }
 
         /// <summary>
@@ -177,7 +177,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

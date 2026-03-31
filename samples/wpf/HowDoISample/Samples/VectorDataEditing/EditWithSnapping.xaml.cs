@@ -20,13 +20,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InitializeComponent();
         }
 
-        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
 
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -37,7 +37,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Load the Frisco data to a layer
             _parksLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Schools.shp");
@@ -49,22 +49,22 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             var inMemoryOverlay = new LayerOverlay();
             inMemoryOverlay.Layers.Add(_parksLayer);
-            MapView.Overlays.Add("Parks Overlay", inMemoryOverlay);
+            Map.Overlays.Add("Parks Overlay", inMemoryOverlay);
 
-            MapView.EditOverlay.VertexMoving += EditOverlay_VertexMoving;
+            Map.EditOverlay.VertexMoving += EditOverlay_VertexMoving;
 
             var lineShape = new LineShape();
             lineShape.Vertices.Add(new Vertex(-10783003, 3918370));
             lineShape.Vertices.Add(new Vertex(-10783070, 3917335));
             lineShape.Vertices.Add(new Vertex(-10781292, 3916438));
-            MapView.EditOverlay.EditShapesLayer.InternalFeatures.Add(new Feature(lineShape));
+            Map.EditOverlay.EditShapesLayer.InternalFeatures.Add(new Feature(lineShape));
 
-            MapView.EditOverlay.CalculateAllControlPoints();
+            Map.EditOverlay.CalculateAllControlPoints();
 
-            MapView.CenterPoint = new PointShape(-10782870, 3917470);
-            MapView.CurrentScale = 30000;
+            Map.CenterPoint = new PointShape(-10782870, 3917470);
+            Map.CurrentScale = 30000;
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private void EditOverlay_VertexMoving(object sender, VertexMovingEditInteractiveOverlayEventArgs e)
@@ -76,8 +76,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             var toSnapPointShape = toSnapInMemoryFeatures[0].GetShape() as PointShape;
             var screenDistance = MapUtil.GetScreenDistanceBetweenTwoWorldPoints(
-                MapView.CurrentExtent, toSnapPointShape, e.TargetVertex,
-                (float)MapView.ActualWidth, (float)MapView.ActualHeight);
+                Map.CurrentExtent, toSnapPointShape, e.TargetVertex,
+                (float)Map.ActualWidth, (float)Map.ActualHeight);
 
             if (screenDistance >= Tolerance) return;
             if (toSnapPointShape == null) return;

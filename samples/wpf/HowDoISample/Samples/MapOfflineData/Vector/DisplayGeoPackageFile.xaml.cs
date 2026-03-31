@@ -15,12 +15,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InitializeComponent();
         }
 
-        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Create the Cloud Aerial Overlay as the base overlay 
             var cloudOverlay = new ThinkGeoCloudRasterMapsOverlay
@@ -29,7 +29,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 ClientSecret = SampleKeys.ClientSecret,
                 MapType = ThinkGeoCloudRasterMapsMapType.Aerial2_V2_X1
             };
-            MapView.Overlays.Add(cloudOverlay);
+            Map.Overlays.Add(cloudOverlay);
 
             // Creat a new layerOverlay to hold the gdalFeatureLayers
             var layerOverlay = new LayerOverlay();
@@ -46,15 +46,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             gdalFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
             layerOverlay.Layers.Add(gdalFeatureLayer);
 
-            MapView.Overlays.Add(layerOverlay);
+            Map.Overlays.Add(layerOverlay);
 
             gdalFeatureLayer.Open();
             var gdalFeatureLayerBBox = gdalFeatureLayer.GetBoundingBox();
-            MapView.CenterPoint = gdalFeatureLayerBBox.GetCenterPoint();
-            var MapScale = MapUtil.GetScale(MapView.MapUnit, gdalFeatureLayerBBox, MapView.MapWidth, MapView.MapHeight);
-            MapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
+            Map.CenterPoint = gdalFeatureLayerBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(Map.MapUnit, gdalFeatureLayerBBox, Map.MapWidth, Map.MapHeight);
+            Map.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
 
             projectionConverter.Close();
             gdalFeatureLayer.Close();

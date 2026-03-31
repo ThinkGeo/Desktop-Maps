@@ -23,7 +23,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Add the WMS layer to the map
         /// </summary>
-        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
 
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
@@ -32,7 +32,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var a = MapUtil.GetScaleFromResolution(0.5, GeographyUnit.Meter);
 
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Create an overlay that we will add the layer to.
             _overlay = new LayerOverlay();
@@ -42,7 +42,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 TxtException.Text = arg.Exception?.Message;
                 arg.Handled = true;
             };
-            MapView.Overlays.Add(_overlay);
+            Map.Overlays.Add(_overlay);
 
             //_wms = new CustomWmsLayer(new Uri("http://not_exist.com/services/service"));
             _wmsAsync = new CustomWmsAsyncLayer(new Uri("http://geo.vliz.be/geoserver/Dataportal/ows?service=WMS&"));
@@ -56,11 +56,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _wmsAsync.DrawCustomException = false;
             _overlay.ThrowingExceptionMode = ThrowingExceptionMode.SuppressException;
 
-            MapView.CenterPoint = new PointShape(234655, 1247759);
-            MapView.CurrentScale = 295830000;
+            Map.CenterPoint = new PointShape(234655, 1247759);
+            Map.CurrentScale = 295830000;
 
             _initialized = true;
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private void DrawingExceptionMode_Checked(object sender, RoutedEventArgs e)
@@ -88,13 +88,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     _overlay.ThrowingExceptionMode = ThrowingExceptionMode.SuppressException;
                     break;
             }
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

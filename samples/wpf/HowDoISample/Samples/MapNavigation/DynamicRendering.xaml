@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" x:Name="ThisControl">
     <Grid>
-        <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" SizeChanged="MapView_SizeChanged" />
+        <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="Map" SizeChanged="Map_SizeChanged" />
 
         <TextBlock Text="{Binding ElementName=MySlider, Path=Value, StringFormat='State Population in {0:F0}'}"
                    FontSize="26" HorizontalAlignment="Center" Width="300" Height="40" VerticalAlignment="Top"

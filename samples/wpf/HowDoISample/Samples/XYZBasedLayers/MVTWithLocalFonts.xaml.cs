@@ -36,15 +36,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         public ObservableCollection<string> LogMessages { get; } = new ObservableCollection<string>();
 
-        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
             _mapLoaded = true;
 
-            MapView.CurrentExtent = MaxExtents.ThinkGeoMaps;
+            Map.CurrentExtent = MaxExtents.ThinkGeoMaps;
             _ = RefreshMvtAsync("Multi Tile");
         }
 
@@ -55,7 +55,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             _useCustomFont = true;
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private void SystemFonts_OnCheckedChanged(object sender, RoutedEventArgs e)
@@ -66,7 +66,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _useCustomFont = false;
             _typefaceCache.Clear();
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private void SwitchTileSize_OnCheckedChanged(object sender, RoutedEventArgs e)
@@ -80,7 +80,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private async Task RefreshMvtAsync(string selectedType)
         {
-            MapView.Overlays.Clear();
+            Map.Overlays.Clear();
 
             if (selectedType == "Multi Tile")
                 LoadMultiTile();
@@ -89,7 +89,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             else
                 LoadMultiBackgroundWithDynamicLabeling();
 
-            await MapView.RefreshAsync();
+            await Map.RefreshAsync();
         }
 
         private void LoadSingleTile()
@@ -99,7 +99,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var mvtLayer = new MvtTilesAsyncLayer(wvtServerUri);
             layerOverlay.CreatingSKTypefacesForCharacter += MvtLayerCreatingSkTypefacesForCharacter;
             layerOverlay.Layers.Add(mvtLayer);
-            MapView.Overlays.Add(layerOverlay);
+            Map.Overlays.Add(layerOverlay);
         }
 
         private void LoadMultiTile()
@@ -108,7 +108,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var mvtLayer = new MvtTilesAsyncLayer(wvtServerUri);
             layerOverlay.CreatingSKTypefacesForCharacter += MvtLayerCreatingSkTypefacesForCharacter;
             layerOverlay.Layers.Add(mvtLayer);
-            MapView.Overlays.Add(layerOverlay);
+            Map.Overlays.Add(layerOverlay);
         }
 
         private void LoadMultiBackgroundWithDynamicLabeling()
@@ -118,13 +118,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var mvtLayer1 = new MvtTilesAsyncLayer(wvtServerUri);
             mvtLayer1.LabelDisplayMode = LabelDisplayMode.ShapesOnly;
             layerOverlay.Layers.Add(mvtLayer1);
-            MapView.Overlays.Add(layerOverlay);
+            Map.Overlays.Add(layerOverlay);
 
             var drawingOverlay = new FeatureLayerWpfDrawingOverlay();
             var mvtLayer2 = new MvtTilesAsyncLayer(wvtServerUri);
             mvtLayer2.LabelDisplayMode = LabelDisplayMode.LabelsOnly;
             drawingOverlay.FeatureLayers.Add(mvtLayer2);
-            MapView.Overlays.Add(drawingOverlay);
+            Map.Overlays.Add(drawingOverlay);
         }
 
         private void MvtLayerCreatingSkTypefacesForCharacter(object sender, CreatingSKTypefaceForCharacterEventArgs e)
@@ -164,7 +164,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             ThinkGeoDebugger.DisplayTileId = false;
-            MapView.Dispose();
+            Map.Dispose();
             foreach (var kv in _typefaceCache)
             {
                 kv.Value?.Dispose();

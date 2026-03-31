@@ -9,9 +9,9 @@
              d:DesignWidth="800">
     <Grid>
 
-        <!-- mapView -->
-        <thinkGeoUi:MapView x:Name="MapView"
-                            SizeChanged="MapView_SizeChanged"
+        <!-- Map -->
+        <thinkGeoUi:MapView x:Name="Map"
+                            SizeChanged="Map_SizeChanged"
                             Grid.Column="0" />
 
         <!-- sampleGrid Layout -->

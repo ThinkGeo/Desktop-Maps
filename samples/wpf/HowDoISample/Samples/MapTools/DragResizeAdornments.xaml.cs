@@ -19,13 +19,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InitializeComponent();
         }
 
-        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
 
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
@@ -34,19 +34,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapType = ThinkGeoCloudVectorMapsMapType.Light,
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             var housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
             housingUnitsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
             var legend = CreateLegend();
-            MapView.AdornmentOverlay.Layers.Add(legend);
+            Map.AdornmentOverlay.Layers.Add(legend);
 
             AddClassBreakStyle(housingUnitsLayer, legend);
 
             var layerOverlay = new LayerOverlay { TileType = TileType.SingleTile };
             layerOverlay.Layers.Add(housingUnitsLayer);
-            MapView.Overlays.Add(layerOverlay);
+            Map.Overlays.Add(layerOverlay);
 
             var scaleLine = new ScaleLineAdornmentLayer
             {
@@ -75,10 +75,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             magneticNorth.MagneticNorthLineStyle.InnerPen.Width = 2f;
             magneticNorth.MagneticNorthLineStyle.OuterPen.Width = 5f;
 
-            MapView.AdornmentOverlay.Layers.Add(scaleLine);
-            MapView.AdornmentOverlay.Layers.Add(scaleBar);
-            MapView.AdornmentOverlay.Layers.Add(logo);
-            MapView.AdornmentOverlay.Layers.Add(magneticNorth);
+            Map.AdornmentOverlay.Layers.Add(scaleLine);
+            Map.AdornmentOverlay.Layers.Add(scaleBar);
+            Map.AdornmentOverlay.Layers.Add(logo);
+            Map.AdornmentOverlay.Layers.Add(magneticNorth);
 
             _adornments.AddRange(new AdornmentLayer[]
             {
@@ -91,14 +91,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             housingUnitsLayer.Open();
             var housingUnitsLayerBBox = housingUnitsLayer.GetBoundingBox();
-            MapView.CenterPoint = housingUnitsLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, housingUnitsLayerBBox, MapView.MapWidth, MapView.MapHeight) * 1.5;
+            Map.CenterPoint = housingUnitsLayerBBox.GetCenterPoint();
+            Map.CurrentScale = MapUtil.GetScale(Map.MapUnit, housingUnitsLayerBBox, Map.MapWidth, Map.MapHeight) * 1.5;
             housingUnitsLayer.Close();
 
             _initialized = true;
             ApplyAdornmentInteraction();
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private static LegendAdornmentLayer CreateLegend()
@@ -165,12 +165,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 adornment.ResizeMode = resizeMode;
             }
 
-            _ = MapView.AdornmentOverlay.RefreshAsync();
+            _ = Map.AdornmentOverlay.RefreshAsync();
         }
 
         public void Dispose()
         {
-            MapView.Dispose();
+            Map.Dispose();
             GC.SuppressFinalize(this);
         }
     }

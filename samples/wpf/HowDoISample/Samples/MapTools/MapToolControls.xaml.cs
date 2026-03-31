@@ -22,13 +22,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map.
         /// </summary>
-        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
 
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
@@ -37,46 +37,46 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapType = ThinkGeoCloudVectorMapsMapType.Light,
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            MapView.MapTools.Logo.Source = new BitmapImage(new Uri(@"..\..\..\Resources\generic-logo.png", UriKind.RelativeOrAbsolute));
-            MapView.MapTools.Logo.IsEnabled = true;
-            MapView.MapTools.Logo.Margin = new Thickness(0, 0, 0, 40);
+            Map.MapTools.Logo.Source = new BitmapImage(new Uri(@"..\..\..\Resources\generic-logo.png", UriKind.RelativeOrAbsolute));
+            Map.MapTools.Logo.IsEnabled = true;
+            Map.MapTools.Logo.Margin = new Thickness(0, 0, 0, 40);
 
-            MapView.MapTools.MouseCoordinate.IsEnabled = true;
-            MapView.MapTools.MouseCoordinate.FontSize = 20;
-            MapView.MapTools.MouseCoordinate.Projection = new Projection(Projection.GetSphericalMercatorProjString());
+            Map.MapTools.MouseCoordinate.IsEnabled = true;
+            Map.MapTools.MouseCoordinate.FontSize = 20;
+            Map.MapTools.MouseCoordinate.Projection = new Projection(Projection.GetSphericalMercatorProjString());
 
-            MapView.MapTools.PanZoomBar.IsEnabled = true;
+            Map.MapTools.PanZoomBar.IsEnabled = true;
 
-            MapView.MapTools.ScaleLine.IsEnabled = true;
+            Map.MapTools.ScaleLine.IsEnabled = true;
 
-            MapView.CenterPoint = new PointShape(-10778000, 3912000);
-            MapView.CurrentScale = 77000;
+            Map.CenterPoint = new PointShape(-10778000, 3912000);
+            Map.CurrentScale = 77000;
 
             _initialized = true;
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private void CoordinateType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!_initialized) return;
 
-            MapView.MapTools.MouseCoordinate.CustomFormatted -= MouseCoordinate_CustomMouseCoordinateFormat;
+            Map.MapTools.MouseCoordinate.CustomFormatted -= MouseCoordinate_CustomMouseCoordinateFormat;
 
             var selectedValue = ((ComboBoxItem)CoordinateType.SelectedItem).Content.ToString();
             switch (selectedValue)
             {
                 case "DMS":
-                    MapView.MapTools.MouseCoordinate.MouseCoordinateType = MouseCoordinateType.DegreesMinutesSeconds;
+                    Map.MapTools.MouseCoordinate.MouseCoordinateType = MouseCoordinateType.DegreesMinutesSeconds;
                     break;
                 case "Lat, Lon":
-                    MapView.MapTools.MouseCoordinate.MouseCoordinateType = MouseCoordinateType.LongitudeLatitude;
+                    Map.MapTools.MouseCoordinate.MouseCoordinateType = MouseCoordinateType.LongitudeLatitude;
                     break;
                 default:
-                    MapView.MapTools.MouseCoordinate.MouseCoordinateType = MouseCoordinateType.Custom;
-                    MapView.MapTools.MouseCoordinate.CustomFormatted += MouseCoordinate_CustomMouseCoordinateFormat;
+                    Map.MapTools.MouseCoordinate.MouseCoordinateType = MouseCoordinateType.Custom;
+                    Map.MapTools.MouseCoordinate.CustomFormatted += MouseCoordinate_CustomMouseCoordinateFormat;
                     break;
             }
         }
@@ -92,9 +92,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         public void Dispose()
         {
-            MapView.MapTools.MouseCoordinate.CustomFormatted -= MouseCoordinate_CustomMouseCoordinateFormat;
+            Map.MapTools.MouseCoordinate.CustomFormatted -= MouseCoordinate_CustomMouseCoordinateFormat;
 
-            MapView.Dispose();
+            Map.Dispose();
             GC.SuppressFinalize(this);
         }
     }

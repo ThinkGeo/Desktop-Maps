@@ -18,27 +18,27 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InitializeComponent();
         }
 
-        private async void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
             _mvtLayer = new VectorMbTilesAsyncLayer(@".\Data\Mbtiles\maplibre.mbtiles");
             _mvtLayer.StyleJsonUri = @".\Data\Mbtiles\style.json";
        
             var layerOverlay = new LayerOverlay();
             layerOverlay.Layers.Add(_mvtLayer);
 
-            MapView.Overlays.Clear();
+            Map.Overlays.Clear();
             layerOverlay.TileType = TileType.SingleTile;
-            MapView.Overlays.Add(layerOverlay);
+            Map.Overlays.Add(layerOverlay);
 
             await _mvtLayer.OpenAsync();
-            MapView.CurrentExtent = _mvtLayer.GetBoundingBox();
+            Map.CurrentExtent = _mvtLayer.GetBoundingBox();
 
             _initialized = true;
-            await MapView.RefreshAsync();
+            await Map.RefreshAsync();
         }
     
         private async void SwitchStyleJson_OnCheckedChanged(object sender, RoutedEventArgs e)
@@ -53,7 +53,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             await _mvtLayer.CloseAsync();
             await _mvtLayer.OpenAsync();
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private async void Projection_Checked(object sender, RoutedEventArgs e)
@@ -68,18 +68,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var radioButton = sender as RadioButton;
                 if (radioButton?.Tag == null) return;
 
-                var centerPoint = MapView.CenterPoint;
+                var centerPoint = Map.CenterPoint;
 
                 switch (radioButton.Tag.ToString())
                 {
                     case "3857":
-                        MapView.MapUnit = GeographyUnit.Meter;
+                        Map.MapUnit = GeographyUnit.Meter;
                         _mvtLayer.ProjectionConverter = null;
                         centerPoint = ProjectionConverter.Convert(4326, 3857, centerPoint);
                         break;
 
                     case "4326":
-                        MapView.MapUnit = GeographyUnit.DecimalDegree;
+                        Map.MapUnit = GeographyUnit.DecimalDegree;
                         _mvtLayer.ProjectionConverter = new GdalProjectionConverter(3857, 4326);
                         centerPoint = ProjectionConverter.Convert(3857, 4326, centerPoint);
                         break;
@@ -91,8 +91,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 await _mvtLayer.CloseAsync();
                 await _mvtLayer.OpenAsync();
 
-                MapView.CenterPoint = centerPoint;
-                await MapView.RefreshAsync();
+                Map.CenterPoint = centerPoint;
+                await Map.RefreshAsync();
             }
             catch
             {
@@ -105,7 +105,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             ThinkGeoDebugger.DisplayTileId = false;
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

@@ -20,15 +20,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, project and add styles to the Hotels, Streets, and Parks layer.
         /// </summary>
-        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.DecimalDegree;
+            Map.MapUnit = GeographyUnit.DecimalDegree;
 
-            MapView.Background = Brushes.DodgerBlue;
+            Map.Background = Brushes.DodgerBlue;
 
             // Create a layer with polygon data
             var countries02Layer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Countries02.shp");
@@ -50,19 +50,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             layerOverlay.Layers.Add(countries02Layer);
 
             // Add overlay to map
-            MapView.Overlays.Add(layerOverlay);
+            Map.Overlays.Add(layerOverlay);
 
             // Set the map extent
-            MapView.CenterPoint = new PointShape(15.05, 46.85);
-            MapView.CurrentScale = 18496580;
+            Map.CenterPoint = new PointShape(15.05, 46.85);
+            Map.CurrentScale = 18496580;
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

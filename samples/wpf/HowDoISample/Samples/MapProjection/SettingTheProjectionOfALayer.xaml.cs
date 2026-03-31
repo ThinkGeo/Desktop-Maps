@@ -20,7 +20,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map
         /// </summary>
-        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
@@ -34,15 +34,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the Map Unit to meters (Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
-            // Create an overlay that we can add feature layers to, and add it to the MapView
+            // Create an overlay that we can add feature layers to, and add it to the Map
             var subdivisionsOverlay = new LayerOverlay();
             subdivisionsOverlay.TileType = TileType.SingleTile;
-            MapView.Overlays.Add("Frisco Subdivisions Overlay", subdivisionsOverlay);
+            Map.Overlays.Add("Frisco Subdivisions Overlay", subdivisionsOverlay);
 
             // Reproject a shapefile and set the extent
             _ = ReprojectFeaturesFromShapefileAsync();
@@ -66,26 +66,26 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Apply the styles across all zoom levels
             subdivisionsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            // Get the overlay we prepared from the MapView, and add the subdivisions ShapeFileFeatureLayer to it
-            var subdivisionsOverlay = (LayerOverlay)MapView.Overlays["Frisco Subdivisions Overlay"];
+            // Get the overlay we prepared from the Map, and add the subdivisions ShapeFileFeatureLayer to it
+            var subdivisionsOverlay = (LayerOverlay)Map.Overlays["Frisco Subdivisions Overlay"];
             subdivisionsOverlay.Layers.Clear();
             subdivisionsOverlay.Layers.Add("Frisco Subdivisions", subdivisionsLayer);
 
             // Set the map to the extent of the subdivisions features and refresh the map
             subdivisionsLayer.Open();
             var subdivisionsLayerBBox = subdivisionsLayer.GetBoundingBox();
-            MapView.CenterPoint = subdivisionsLayerBBox.GetCenterPoint();
-            var MapScale = MapUtil.GetScale(MapView.MapUnit, subdivisionsLayerBBox, MapView.MapWidth, MapView.MapHeight);
-            MapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
+            Map.CenterPoint = subdivisionsLayerBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(Map.MapUnit, subdivisionsLayerBBox, Map.MapWidth, Map.MapHeight);
+            Map.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
             subdivisionsLayer.Close();
 
-            await MapView.RefreshAsync();
+            await Map.RefreshAsync();
         }
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

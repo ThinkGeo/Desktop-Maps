@@ -38,16 +38,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 		/// <summary>
 		/// Set up the map with the ThinkGeo Cloud Maps overlay. Also, project and add styles to the Hotels, Streets, and Parks layer.
 		/// </summary>
-		private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+		private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
 			if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
 			_initialized = true;
 			// Set the map's unit of measurement to meters(Spherical Mercator)
-			MapView.MapUnit = GeographyUnit.Meter;
+			Map.MapUnit = GeographyUnit.Meter;
 
 			// Set the map background color
-			MapView.Background = new SolidColorBrush(Color.FromRgb(234, 232, 226));
+			Map.Background = new SolidColorBrush(Color.FromRgb(234, 232, 226));
 
 			_parksLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
 
@@ -59,19 +59,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 			_layerOverlay = new LayerOverlay();
 			_layerOverlay.Layers.Add(_parksLayer);
 			_layerOverlay.TileType = TileType.SingleTile;
-			MapView.Overlays.Add(_layerOverlay);
+			Map.Overlays.Add(_layerOverlay);
 
 			_wpfDrawingOverlay = new FeatureLayerWpfDrawingOverlay();
 			_wpfDrawingOverlay.Visibility = Visibility.Hidden;
 			_wpfDrawingOverlay.FeatureLayers.Add(_parksLayer);
-			MapView.Overlays.Add(_wpfDrawingOverlay);
+			Map.Overlays.Add(_wpfDrawingOverlay);
 
 			// Set the map extent
-			MapView.CenterPoint = new PointShape(-10777610, 3909120);
-			MapView.CurrentScale = 2260;
+			Map.CenterPoint = new PointShape(-10777610, 3909120);
+			Map.CurrentScale = 2260;
 
 			_initialized = true;
-			_ = MapView.RefreshAsync();
+			_ = Map.RefreshAsync();
 		}
 
 		private void CboHatchStyles_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -139,7 +139,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 		public void Dispose()
 		{
 			// Dispose of unmanaged resources.
-			MapView.Dispose();
+			Map.Dispose();
 			// Suppress finalization.
 			GC.SuppressFinalize(this);
 		}

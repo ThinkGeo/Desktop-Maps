@@ -23,13 +23,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             DataContext = this;
         }
 
-        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
             var layerOverlay = new LayerOverlay();
-            MapView.Overlays.Add(layerOverlay);
+            Map.Overlays.Add(layerOverlay);
             rasterMbTilesLayer = new RasterMbTilesAsyncLayer(@".\Data\Mbtiles\test.mbtiles");
             layerOverlay.TileType = TileType.SingleTile;
             layerOverlay.Layers.Add(rasterMbTilesLayer);
@@ -48,11 +48,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             rasterMbTilesLayer.ProjectedTileCache.GottenTile += ProjectedTileCache_GottenCacheTile;
 
             //layerOverlay.Drawn += LayerOverlayOnDrawn;
-            MapView.CenterPoint = MaxExtents.ThinkGeoMaps.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, MaxExtents.ThinkGeoMaps, MapView.MapWidth, MapView.MapHeight);
+            Map.CenterPoint = MaxExtents.ThinkGeoMaps.GetCenterPoint();
+            Map.CurrentScale = MapUtil.GetScale(Map.MapUnit, MaxExtents.ThinkGeoMaps, Map.MapWidth, Map.MapHeight);
             
             _initialized = true;
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private void ProjectedTileCache_GottenCacheTile(object sender, GottenTileTileCacheEventArgs e)
@@ -90,12 +90,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 switch (radioButton.Tag.ToString())
                 {
                     case "3857":
-                        MapView.MapUnit = GeographyUnit.Meter;
+                        Map.MapUnit = GeographyUnit.Meter;
                         rasterMbTilesLayer.ProjectionConverter = null;
                         break;
 
                     case "4326":
-                        MapView.MapUnit = GeographyUnit.DecimalDegree;
+                        Map.MapUnit = GeographyUnit.DecimalDegree;
                         rasterMbTilesLayer.ProjectionConverter = new GdalProjectionConverter(3857, 4326);
                         break;
 
@@ -106,9 +106,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 await rasterMbTilesLayer.CloseAsync();
                 await rasterMbTilesLayer.OpenAsync();
                 var rasterMbTilesLayerBBox = rasterMbTilesLayer.GetBoundingBox();
-                MapView.CenterPoint = rasterMbTilesLayerBBox.GetCenterPoint();
-                MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, rasterMbTilesLayerBBox, MapView.MapWidth, MapView.MapHeight);
-                await MapView.RefreshAsync();
+                Map.CenterPoint = rasterMbTilesLayerBBox.GetCenterPoint();
+                Map.CurrentScale = MapUtil.GetScale(Map.MapUnit, rasterMbTilesLayerBBox, Map.MapWidth, Map.MapHeight);
+                await Map.RefreshAsync();
             }
             catch
             {
@@ -125,7 +125,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (checkBox.IsChecked.HasValue)
                 rasterMbTilesLayer.RenderBeyondMaxZoom = checkBox.IsChecked.Value;
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private void DisplayTileIdCheckBox_Checked(object sender, RoutedEventArgs e)
@@ -142,7 +142,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (ThinkGeoDebugger.DisplayTileId != checkBox.IsChecked.Value)
             {
                 ThinkGeoDebugger.DisplayTileId = checkBox.IsChecked.Value;
-                _ = MapView.RefreshAsync();
+                _ = Map.RefreshAsync();
             }
         }
 
@@ -156,7 +156,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             ThinkGeoDebugger.DisplayTileId = false;
-            MapView.Dispose();
+            Map.Dispose();
             GC.SuppressFinalize(this);
         }
     }

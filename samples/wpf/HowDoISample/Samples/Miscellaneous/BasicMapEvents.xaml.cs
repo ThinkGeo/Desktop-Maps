@@ -44,13 +44,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private bool _showMapViewLogs = true;
-        public bool ShowMapViewLogs
+        private bool _showMapLogs = true;
+        public bool ShowMapLogs
         {
-            get => _showMapViewLogs;
+            get => _showMapLogs;
             set
             {
-                _showMapViewLogs = value;
+                _showMapLogs = value;
                 FilterLogMessages();
             }
         }
@@ -109,48 +109,48 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             DataContext = this;
         }
 
-        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // ============================================================
-            // [1] MapView Event Bindings
+            // [1] Map Event Bindings
             // ============================================================
 
-            MapView.CurrentExtentChanging += MapView_CurrentExtentChanging;
-            MapView.CurrentExtentChanged += MapView_CurrentExtentChanged;
-            MapView.CurrentExtentChangedInAnimation += MapView_CurrentExtentChangedInAnimation;
-            MapView.CurrentScaleChanging += MapView_CurrentScaleChanging;
-            MapView.CurrentScaleChanged += MapView_CurrentScaleChanged;
-            MapView.MapClick += MapView_MapClick;
-            MapView.MapDoubleClick += MapView_MapDoubleClick;
-            MapView.OverlayDrawing += MapView_OverlayDrawing;
-            MapView.OverlayDrawn += MapView_OverlayDrawn;
-            MapView.OverlaysDrawing += MapView_OverlaysDrawing;
-            MapView.OverlaysDrawn += MapView_OverlaysDrawn;
-            MapView.PropertyChanged += MapView_PropertyChanged;
-            MapView.RotationAngleChanging += MapView_RotationAngleChanging;
+            Map.CurrentExtentChanging += Map_CurrentExtentChanging;
+            Map.CurrentExtentChanged += Map_CurrentExtentChanged;
+            Map.CurrentExtentChangedInAnimation += Map_CurrentExtentChangedInAnimation;
+            Map.CurrentScaleChanging += Map_CurrentScaleChanging;
+            Map.CurrentScaleChanged += Map_CurrentScaleChanged;
+            Map.MapClick += Map_MapClick;
+            Map.MapDoubleClick += Map_MapDoubleClick;
+            Map.OverlayDrawing += Map_OverlayDrawing;
+            Map.OverlayDrawn += Map_OverlayDrawn;
+            Map.OverlaysDrawing += Map_OverlaysDrawing;
+            Map.OverlaysDrawn += Map_OverlaysDrawn;
+            Map.PropertyChanged += Map_PropertyChanged;
+            Map.RotationAngleChanging += Map_RotationAngleChanging;
 
             // ============================================================
             // [2] ExtentOverlay Event Bindings
             // ============================================================
 
-            MapView.ExtentOverlay.Drawing += ExtentOverlay_Drawing;
-            MapView.ExtentOverlay.Drawn += ExtentOverlay_Drawn;
-            MapView.ExtentOverlay.MapKeyDown += ExtentOverlay_MapKeyDown;
-            MapView.ExtentOverlay.MapKeyUp += ExtentOverlay_MapKeyUp;
-            MapView.ExtentOverlay.MapMouseClick += ExtentOverlay_MapMouseClick;
-            MapView.ExtentOverlay.MapMouseDoubleClick += ExtentOverlay_MapMouseDoubleClick;
-            MapView.ExtentOverlay.MapMouseDown += ExtentOverlay_MapMouseDown;
-            MapView.ExtentOverlay.MapMouseEnter += ExtentOverlay_MapMouseEnter;
-            MapView.ExtentOverlay.MapMouseLeave += ExtentOverlay_MapMouseLeave;
-            MapView.ExtentOverlay.MapMouseMove += ExtentOverlay_MapMouseMove;
-            MapView.ExtentOverlay.MapMouseUp += ExtentOverlay_MapMouseUp;
-            MapView.ExtentOverlay.MapMouseWheel += ExtentOverlay_MapMouseWheel;
-            MapView.ExtentOverlay.ThrowingException += ExtentOverlay_ThrowingException;
+            Map.ExtentOverlay.Drawing += ExtentOverlay_Drawing;
+            Map.ExtentOverlay.Drawn += ExtentOverlay_Drawn;
+            Map.ExtentOverlay.MapKeyDown += ExtentOverlay_MapKeyDown;
+            Map.ExtentOverlay.MapKeyUp += ExtentOverlay_MapKeyUp;
+            Map.ExtentOverlay.MapMouseClick += ExtentOverlay_MapMouseClick;
+            Map.ExtentOverlay.MapMouseDoubleClick += ExtentOverlay_MapMouseDoubleClick;
+            Map.ExtentOverlay.MapMouseDown += ExtentOverlay_MapMouseDown;
+            Map.ExtentOverlay.MapMouseEnter += ExtentOverlay_MapMouseEnter;
+            Map.ExtentOverlay.MapMouseLeave += ExtentOverlay_MapMouseLeave;
+            Map.ExtentOverlay.MapMouseMove += ExtentOverlay_MapMouseMove;
+            Map.ExtentOverlay.MapMouseUp += ExtentOverlay_MapMouseUp;
+            Map.ExtentOverlay.MapMouseWheel += ExtentOverlay_MapMouseWheel;
+            Map.ExtentOverlay.ThrowingException += ExtentOverlay_ThrowingException;
 
             // ============================================================
             // [3] Data & Layer Initialization (Non-event code)
@@ -185,13 +185,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             layerOverlay.TileTypeChanging += LayerOverlay_TileTypeChanging;
 
             layerOverlay.Layers.Add(_friscoCityBoundary);
-            MapView.Overlays.Add(layerOverlay);
+            Map.Overlays.Add(layerOverlay);
 
             // Set the map extent
-            MapView.CenterPoint = new PointShape(-10778500, 3916460);
-            MapView.CurrentScale = 144450;
+            Map.CenterPoint = new PointShape(-10778500, 3916460);
+            Map.CurrentScale = 144450;
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
 
             // ============================================================
             // [5] ShapeFileFeatureLayer Event Bindings
@@ -205,24 +205,24 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
 
-        // MapView Events Triggered Methods
-        private void MapView_CurrentExtentChanging(object sender, CurrentExtentChangingMapViewEventArgs e)
+        // Map Events Triggered Methods
+        private void Map_CurrentExtentChanging(object sender, CurrentExtentChangingMapViewEventArgs e)
         {
             if (e.NewExtent == null) return;
 
             var center = e.NewExtent.GetCenterPoint();
-            AppendLog("MapView", $"CurrentExtentChanging to CenterPoint " + $"X: {center.X:0}, " + $"Y: {center.Y:0}");
+            AppendLog("Map", $"CurrentExtentChanging to CenterPoint " + $"X: {center.X:0}, " + $"Y: {center.Y:0}");
         }
 
-        private void MapView_CurrentExtentChanged(object sender, CurrentExtentChangedMapViewEventArgs e)
+        private void Map_CurrentExtentChanged(object sender, CurrentExtentChangedMapViewEventArgs e)
         {
             if (e.NewExtent == null) return;
 
             var center = e.NewExtent.GetCenterPoint();
-            AppendLog("MapView", $"CurrentExtentChanged to CenterPoint " + $"X: {center.X:0}, " + $"Y: {center.Y:0}");
+            AppendLog("Map", $"CurrentExtentChanged to CenterPoint " + $"X: {center.X:0}, " + $"Y: {center.Y:0}");
         }
 
-        private void MapView_CurrentExtentChangedInAnimation(object sender, CurrentExtentChangedInAnimationMapViewEventArgs e)
+        private void Map_CurrentExtentChangedInAnimation(object sender, CurrentExtentChangedInAnimationMapViewEventArgs e)
         {
             var progressPercent = e.Progress * 100;
             var from = e.FromCenterPoint;
@@ -238,59 +238,59 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 $"Center ({from.X:0},{from.Y:0} → {to.X:0},{to.Y:0}) | " +
                 $"{zoomIntent}";
 
-            AppendLog("MapView", message);
+            AppendLog("Map", message);
         }
 
-        private void MapView_CurrentScaleChanging(object sender, CurrentScaleChangingMapViewEventArgs e)
+        private void Map_CurrentScaleChanging(object sender, CurrentScaleChangingMapViewEventArgs e)
         {
-            AppendLog("MapView", $"CurrentScaleChanging to: {(int)e.NewScale::0}");
+            AppendLog("Map", $"CurrentScaleChanging to: {(int)e.NewScale::0}");
         }
 
-        private void MapView_CurrentScaleChanged(object sender, CurrentScaleChangedMapViewEventArgs e)
+        private void Map_CurrentScaleChanged(object sender, CurrentScaleChangedMapViewEventArgs e)
         {
-            AppendLog("MapView", $"CurrentScaleChanged to: {(int)e.NewScale:0}");
+            AppendLog("Map", $"CurrentScaleChanged to: {(int)e.NewScale:0}");
         }
 
-        private void MapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        private void Map_MapClick(object sender, MapClickMapViewEventArgs e)
         {
-            AppendLog("MapView", $"MapClick: Button={e.MouseButton}, Location=({e.WorldLocation.X:0},{e.WorldLocation.Y:0})");
+            AppendLog("Map", $"MapClick: Button={e.MouseButton}, Location=({e.WorldLocation.X:0},{e.WorldLocation.Y:0})");
         }
 
-        private void MapView_MapDoubleClick(object sender, MapClickMapViewEventArgs e)
+        private void Map_MapDoubleClick(object sender, MapClickMapViewEventArgs e)
         {
-            AppendLog("MapView", $"MapDoubleClick: Button={e.MouseButton}, Location=({e.WorldLocation.X:0},{e.WorldLocation.Y:0})");
+            AppendLog("Map", $"MapDoubleClick: Button={e.MouseButton}, Location=({e.WorldLocation.X:0},{e.WorldLocation.Y:0})");
         }
 
-        private void MapView_OverlayDrawing(object sender, OverlayDrawingMapViewEventArgs e)
+        private void Map_OverlayDrawing(object sender, OverlayDrawingMapViewEventArgs e)
         {
-            AppendLog("MapView", $"OverlayDrawing: {(e.Overlay == null ? "null" : e.Overlay.GetType().Name)}");
+            AppendLog("Map", $"OverlayDrawing: {(e.Overlay == null ? "null" : e.Overlay.GetType().Name)}");
         }
 
-        private void MapView_OverlayDrawn(object sender, OverlayDrawnMapViewEventArgs e)
+        private void Map_OverlayDrawn(object sender, OverlayDrawnMapViewEventArgs e)
         {
-            AppendLog("MapView", $"OverlayDrawn: {(e.Overlay == null ? "null" : e.Overlay.GetType().Name)}");
+            AppendLog("Map", $"OverlayDrawn: {(e.Overlay == null ? "null" : e.Overlay.GetType().Name)}");
         }
 
-        private void MapView_OverlaysDrawing(object sender, OverlaysDrawingMapViewEventArgs e)
-        {
-            var names = string.Join(", ", e.Overlays.Select(o => o?.GetType().Name ?? "null"));
-            AppendLog("MapView", $"OverlaysDrawing: {names}");
-        }
-
-        private void MapView_OverlaysDrawn(object sender, OverlaysDrawnMapViewEventArgs e)
+        private void Map_OverlaysDrawing(object sender, OverlaysDrawingMapViewEventArgs e)
         {
             var names = string.Join(", ", e.Overlays.Select(o => o?.GetType().Name ?? "null"));
-            AppendLog("MapView", $"OverlaysDrawn: {names}");
+            AppendLog("Map", $"OverlaysDrawing: {names}");
         }
 
-        private void MapView_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void Map_OverlaysDrawn(object sender, OverlaysDrawnMapViewEventArgs e)
         {
-            AppendLog("MapView", "PropertyChanged");
+            var names = string.Join(", ", e.Overlays.Select(o => o?.GetType().Name ?? "null"));
+            AppendLog("Map", $"OverlaysDrawn: {names}");
         }
 
-        private void MapView_RotationAngleChanging(object sender, RotationAngleChangingMapViewEventArgs e)
+        private void Map_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            AppendLog("MapView", $"RotationAngleChanging: Angle={e.NewRotationAngle:0.0}°");
+            AppendLog("Map", "PropertyChanged");
+        }
+
+        private void Map_RotationAngleChanging(object sender, RotationAngleChangingMapViewEventArgs e)
+        {
+            AppendLog("Map", $"RotationAngleChanging: Angle={e.NewRotationAngle:0.0}°");
         }
 
 
@@ -463,7 +463,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             FilteredLogMessages.Clear();
 
             var filtered = LogMessages.Where(log =>
-                (ShowMapViewLogs && log.Category == "MapView") ||
+                (ShowMapLogs && log.Category == "Map") ||
                 (ShowExtentOverlayLogs && log.Category == "ExtentOverlay" &&
                 (ShowExtentOverlayMouseMoveLogs || !log.Message.Contains("MapMouseMove"))) ||
                 (ShowLayerOverlayLogs && log.Category == "LayerOverlay") ||
@@ -505,7 +505,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private bool IsLogVisible(LogEntry log)
         {
-            if (ShowMapViewLogs && log.Category == "MapView")
+            if (ShowMapLogs && log.Category == "Map")
                 return true;
             if (ShowExtentOverlayLogs && log.Category == "ExtentOverlay")
                 return ShowExtentOverlayMouseMoveLogs ||
@@ -526,9 +526,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
     }
 }
+

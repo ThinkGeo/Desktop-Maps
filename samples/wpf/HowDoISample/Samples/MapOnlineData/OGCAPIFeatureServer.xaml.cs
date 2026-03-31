@@ -12,13 +12,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InitializeComponent();
         }
 
-        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -29,7 +29,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             var ignLayer = new OgcApiFeatureLayer("https://api-features.ign.es", "namedplace")
             {
@@ -60,11 +60,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 DrawingBulkCount = 100
             };
 
-            MapView.CenterPoint = new PointShape(235690, 5057360);
-            MapView.CurrentScale = 36200;
-            MapView.Overlays.Add("LayerOverlay", overlay);
+            Map.CenterPoint = new PointShape(235690, 5057360);
+            Map.CurrentScale = 36200;
+            Map.Overlays.Add("LayerOverlay", overlay);
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
     }
 }

@@ -23,13 +23,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Add an In-Memory Feature Layer with GeoJSON features to the map
         /// </summary>
-        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -40,7 +40,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create the Overlay and new InMemoryFeatureLayer and set up a Projection Converter to convert from the json's Decimal Degree data to Spherical Mercator.
             var layerOverlay = new LayerOverlay();
@@ -60,20 +60,20 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             pittsburghHistoricalDistrictsLayer.ZoomLevelSet.ZoomLevel01.DefaultTextStyle = TextStyle.CreateSimpleTextStyle("historic_name", "Segoe UI", 12, DrawingFontStyles.Bold, GeoColors.Black, GeoColors.White, 2);
             pittsburghHistoricalDistrictsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
             layerOverlay.Layers.Add(pittsburghHistoricalDistrictsLayer);
-            MapView.Overlays.Add(layerOverlay);
+            Map.Overlays.Add(layerOverlay);
 
             // Manually set the map's center point and scale.
-            MapView.CenterPoint = new PointShape(-8906301, 4931861);
-            MapView.CurrentScale = 22000;
+            Map.CenterPoint = new PointShape(-8906301, 4931861);
+            Map.CurrentScale = 22000;
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

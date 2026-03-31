@@ -21,20 +21,20 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with a background overlay and set the map's extent to Frisco, Tx.
         /// </summary>
-        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Add a simple background overlay
-            MapView.BackgroundOverlay.BackgroundBrush = GeoBrushes.AliceBlue;
+            Map.BackgroundOverlay.BackgroundBrush = GeoBrushes.AliceBlue;
 
             // Set the map extent
-            MapView.CenterPoint = new PointShape(-10778000, 3912000);
-            MapView.CurrentScale = 77000;
+            Map.CenterPoint = new PointShape(-10778000, 3912000);
+            Map.CurrentScale = 77000;
         }
 
         /// <summary>
@@ -43,8 +43,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void DisplayAzureMaps_Click(object sender, RoutedEventArgs e)
         {
             var AzureMapsOverlay = new AzureMapsRasterOverlay(AzureApplicationId.Text, AzureMapsRasterTileSet.Imagery);
-            MapView.Overlays.Add(AzureMapsOverlay);
-            _ = MapView.RefreshAsync();
+            Map.Overlays.Add(AzureMapsOverlay);
+            _ = Map.RefreshAsync();
         }
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
@@ -56,7 +56,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

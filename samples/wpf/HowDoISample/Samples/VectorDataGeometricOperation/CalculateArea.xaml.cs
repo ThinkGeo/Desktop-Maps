@@ -21,13 +21,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the friscoParks and selectedAreaLayer layers
         /// into a grouped LayerOverlay and display it on the map.
         /// </summary>
-        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -38,7 +38,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a feature layer to hold the Frisco Parks data
             // Project friscoParks layer to Spherical Mercator to match the map projection
@@ -56,7 +56,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             var friscoParkOverlay = new LayerOverlay();
             friscoParkOverlay.Layers.Add("FriscoParksLayer", friscoParksLayer);
-            MapView.Overlays.Add("FriscoParksOverlay", friscoParkOverlay);
+            Map.Overlays.Add("FriscoParksOverlay", friscoParkOverlay);
 
             // Style selectedAreaLayer
             var selectedAreaLayer = new InMemoryFeatureLayer();
@@ -66,24 +66,24 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var selectedAreaOverlay = new LayerOverlay();
             selectedAreaOverlay.TileType = TileType.SingleTile;
             selectedAreaOverlay.Layers.Add("SelectedAreaLayer", selectedAreaLayer);
-            MapView.Overlays.Add("SelectedAreaOverlay", selectedAreaOverlay);
+            Map.Overlays.Add("SelectedAreaOverlay", selectedAreaOverlay);
 
             // Set the map extent
-            MapView.CenterPoint = new PointShape(-10778340, 3915490);
-            MapView.CurrentScale = 36110;
+            Map.CenterPoint = new PointShape(-10778340, 3915490);
+            Map.CurrentScale = 36110;
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         /// <summary>
         /// Calculates the area of a feature selected on the map and displays it in the areaResult TextBox
         /// </summary>
-        private void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
+        private void Map_MapClick(object sender, MapClickMapViewEventArgs e)
         {
-            var friscoParkOverlay = (LayerOverlay)MapView.Overlays["FriscoParksOverlay"];
+            var friscoParkOverlay = (LayerOverlay)Map.Overlays["FriscoParksOverlay"];
             var friscoParksLayer = (ShapeFileFeatureLayer)friscoParkOverlay.Layers["FriscoParksLayer"];
 
-            var selectedAreaOverlay = (LayerOverlay)MapView.Overlays["SelectedAreaOverlay"];
+            var selectedAreaOverlay = (LayerOverlay)Map.Overlays["SelectedAreaOverlay"];
             var selectedAreaLayer = (InMemoryFeatureLayer)selectedAreaOverlay.Layers["SelectedAreaLayer"];
 
             // Query the friscoParks layer to get the first feature closest to the map click event
@@ -105,7 +105,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

@@ -23,7 +23,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay and a feature layer for the reprojected features
         /// </summary>
-        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
@@ -37,10 +37,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map's unit of measurement to meters (Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Create a new feature layer to display the shapes we will be reprojecting
             var reprojectedFeaturesLayer = new InMemoryFeatureLayer();
@@ -58,11 +58,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             reprojectedFeaturesOverlay.Layers.Add("Reprojected Features Layer", reprojectedFeaturesLayer);
 
             // Add the overlay to the map
-            MapView.Overlays.Add("Reprojected Features Overlay", reprojectedFeaturesOverlay);
+            Map.Overlays.Add("Reprojected Features Overlay", reprojectedFeaturesOverlay);
 
             // Set the map extent
-            MapView.CenterPoint = new PointShape(-10778720, 3915154);
-            MapView.CurrentScale = 202090;
+            Map.CenterPoint = new PointShape(-10778720, 3915154);
+            Map.CurrentScale = 202090;
 
             // Initialize the ProjectionCloudClient with our ThinkGeo Cloud credentials
             _projectionCloudClient = new ProjectionCloudClient
@@ -71,7 +71,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 ClientSecret = SampleKeys.ClientSecret2,
             };
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         /// <summary>
@@ -117,8 +117,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async Task ClearMapAndAddFeaturesAsync(Collection<Feature> features)
         {
-            // Get the layer we prepared from the MapView
-            var reprojectedFeatureLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Reprojected Features Layer");
+            // Get the layer we prepared from the Map
+            var reprojectedFeatureLayer = (InMemoryFeatureLayer)Map.FindFeatureLayer("Reprojected Features Layer");
 
             // Clear old features from the feature layer and add the newly reprojected features
             reprojectedFeatureLayer.InternalFeatures.Clear();
@@ -131,14 +131,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Set the map extent to zoom into the feature and refresh the map
             reprojectedFeatureLayer.Open();
             var reprojectedFeatureLayerBBox = reprojectedFeatureLayer.GetBoundingBox();
-            MapView.CenterPoint = reprojectedFeatureLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, reprojectedFeatureLayerBBox, MapView.MapWidth, MapView.MapHeight);
+            Map.CenterPoint = reprojectedFeatureLayerBBox.GetCenterPoint();
+            Map.CurrentScale = MapUtil.GetScale(Map.MapUnit, reprojectedFeatureLayerBBox, Map.MapWidth, Map.MapHeight);
 
             var standardZoomLevelSet = new ZoomLevelSet();
-            await MapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel18.Scale);
+            await Map.ZoomToAsync(standardZoomLevelSet.ZoomLevel18.Scale);
 
             reprojectedFeatureLayer.Close();
-            await MapView.RefreshAsync();
+            await Map.RefreshAsync();
         }
 
         /// <summary>
@@ -203,7 +203,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

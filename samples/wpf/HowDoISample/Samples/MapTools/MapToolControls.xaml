@@ -7,7 +7,7 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" SizeChanged="MapView_SizeChanged" />
+        <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="Map" SizeChanged="Map_SizeChanged" />
 
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1" Grid.Row="0" Content="Map Tool Controls" FontSize="16" FontWeight="Bold" />
@@ -17,17 +17,17 @@
                 <StackPanel Margin="0,0,4,0">
 
                     <CheckBox Content="Display Pan Zoom Bar"
-                              IsChecked="{Binding ElementName=MapView, Path=MapTools.PanZoomBar.IsEnabled, Mode=TwoWay}" />
+                              IsChecked="{Binding ElementName=Map, Path=MapTools.PanZoomBar.IsEnabled, Mode=TwoWay}" />
 
                     <CheckBox Content="Display Logo"
-                              IsChecked="{Binding ElementName=MapView, Path=MapTools.Logo.IsEnabled, Mode=TwoWay}" />
+                              IsChecked="{Binding ElementName=Map, Path=MapTools.Logo.IsEnabled, Mode=TwoWay}" />
 
                     <CheckBox Content="Display Scale Line"
-                              IsChecked="{Binding ElementName=MapView, Path=MapTools.ScaleLine.IsEnabled, Mode=TwoWay}" />
+                              IsChecked="{Binding ElementName=Map, Path=MapTools.ScaleLine.IsEnabled, Mode=TwoWay}" />
 
                     <StackPanel>
                         <CheckBox Content="Display Mouse Coordinate"
-                                  IsChecked="{Binding ElementName=MapView, Path=MapTools.MouseCoordinate.IsEnabled, Mode=TwoWay}" />
+                                  IsChecked="{Binding ElementName=Map, Path=MapTools.MouseCoordinate.IsEnabled, Mode=TwoWay}" />
                         <ComboBox x:Name="CoordinateType" SelectionChanged="CoordinateType_SelectionChanged" Margin="20,0,0,0">
                             <ComboBoxItem Content="Lat, Lon" IsSelected="True"/>
                             <ComboBoxItem Content="DMS"/>

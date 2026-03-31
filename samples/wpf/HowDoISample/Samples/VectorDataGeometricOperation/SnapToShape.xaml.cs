@@ -17,13 +17,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InitializeComponent();
         }
 
-        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -34,7 +34,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             var friscoParks = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
             var snapLayer = new InMemoryFeatureLayer();
@@ -59,11 +59,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             layerOverlay.Layers.Add("snapLayer", snapLayer);
 
             // Set the map extent
-            MapView.CenterPoint = new PointShape(-10778340, 3915490);
-            MapView.CurrentScale = 36110;
+            Map.CenterPoint = new PointShape(-10778340, 3915490);
+            Map.CurrentScale = 36110;
 
             // Add LayerOverlay to Map
-            MapView.Overlays.Add("layerOverlay", layerOverlay);
+            Map.Overlays.Add("layerOverlay", layerOverlay);
 
             // Add Toyota Stadium feature to stadiumLayer
             var stadium = new Feature(new PointShape(-10779651.500992451, 3915933.0023557912));
@@ -75,7 +75,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void SnapToShape_Click(object sender, RoutedEventArgs e)
         {
-            var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
+            var layerOverlay = (LayerOverlay)Map.Overlays["layerOverlay"];
 
             var friscoParks = (ShapeFileFeatureLayer)layerOverlay.Layers["friscoParks"];
             var snapLayer = (InMemoryFeatureLayer)layerOverlay.Layers["snapLayer"];
@@ -84,7 +84,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

@@ -17,9 +17,9 @@
             <RowDefinition Height="60" />
         </Grid.RowDefinitions>
 
-        <thinkGeoUi:MapView Grid.Row="0" Grid.RowSpan="3" x:Name="MapView" Grid.Column="0" SizeChanged="MapView_SizeChanged" />
+        <thinkGeoUi:MapView Grid.Row="0" Grid.RowSpan="3" x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged" />
         <TextBlock Grid.Row="2" Grid.Column="0" Background="gray" HorizontalAlignment="Center" Width="200" Height="40" FontSize="30" 
-                   Text="{Binding ElementName=MapView, Path=CurrentZoom, StringFormat={}Zoom: {0:N2}}" />
+                   Text="{Binding ElementName=Map, Path=CurrentZoom, StringFormat={}Zoom: {0:N2}}" />
 
         <StackPanel Grid.Row="0" Grid.Column="1" Margin="5" Background="LightGray">
             <StackPanel>

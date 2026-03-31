@@ -29,12 +29,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private int _logIndex = 0;
 
 
-        private async void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             _selectedType = "512 * 512";
 
@@ -48,11 +48,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _layerOverlay.Layers.Add(_mvtLayer);
 
             await _mvtLayer.OpenAsync();
-            MapView.CurrentExtent = _mvtLayer.GetBoundingBox();
-            MapView.Overlays.Add(_layerOverlay);
+            Map.CurrentExtent = _mvtLayer.GetBoundingBox();
+            Map.Overlays.Add(_layerOverlay);
 
             _initialized = true;
-            await MapView.RefreshAsync();
+            await Map.RefreshAsync();
         }
 
         private void VectorTileCache_SavedTile(object sender, SavedTileTileCacheEventArgs e)
@@ -82,7 +82,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             await _mvtLayer.CloseAsync();
             await _mvtLayer.OpenAsync();
-            await MapView.RefreshAsync();
+            await Map.RefreshAsync();
         }
 
         private void ShowTileID_OnCheckedChanged(object sender, RoutedEventArgs e)
@@ -91,7 +91,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 return;
 
             ThinkGeoDebugger.DisplayTileId = (sender as CheckBox).IsChecked == true;
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private void SwitchTileSize_OnCheckedChanged(object sender, RoutedEventArgs e)
@@ -129,7 +129,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             ThinkGeoDebugger.DisplayTileId = false;
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
@@ -153,7 +153,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             {
                 if (_mvtLayer == null) return;
 
-                var centerPoint = MapView.CenterPoint;
+                var centerPoint = Map.CenterPoint;
 
                 var tileSize = 512;
                 if (_selectedType == "256 * 256")
@@ -162,14 +162,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 switch (_selectedProjection)
                 {
                     case 3857:
-                        MapView.MapUnit = GeographyUnit.Meter;
+                        Map.MapUnit = GeographyUnit.Meter;
                         _mvtLayer.ProjectionConverter = null;
                         centerPoint = ProjectionConverter.Convert(4326, 3857, centerPoint);
                         _layerOverlay.TileMatrixSet = TileMatrixSet.CreateTileMatrixSet(tileSize, MaxExtents.SphericalMercator, GeographyUnit.Meter);
                         break;
 
                     case 4326:
-                        MapView.MapUnit = GeographyUnit.DecimalDegree;
+                        Map.MapUnit = GeographyUnit.DecimalDegree;
                         _mvtLayer.ProjectionConverter = new ProjectionConverter(3857, 4326);
                         centerPoint = ProjectionConverter.Convert(3857, 4326, centerPoint);
                         _layerOverlay.TileMatrixSet = TileMatrixSet.CreateTileMatrixSet(tileSize, MaxExtents.DecimalDegree, GeographyUnit.DecimalDegree);
@@ -183,7 +183,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 await _mvtLayer.CloseAsync();
                 await _mvtLayer.OpenAsync();
 
-                MapView.CenterPoint = centerPoint;
+                Map.CenterPoint = centerPoint;
                 await _layerOverlay.RefreshAsync();
             }
             catch

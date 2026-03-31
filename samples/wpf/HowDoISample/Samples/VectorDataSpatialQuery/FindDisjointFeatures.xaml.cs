@@ -20,7 +20,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay and a feature layer containing Frisco zoning data
         /// </summary>
-        private async void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
@@ -28,7 +28,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             try
             {
                 // Set the Map Unit to meters (used in Spherical Mercator)
-                MapView.MapUnit = GeographyUnit.Meter;
+                Map.MapUnit = GeographyUnit.Meter;
 
                 // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
                 var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -39,7 +39,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                     TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
                 };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
                 // Create a feature layer to hold the Frisco zoning data
                 var friscoLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Zoning.shp");
@@ -67,23 +67,23 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var friscoOverlay = new LayerOverlay();
                 friscoOverlay.TileType = TileType.SingleTile;
                 friscoOverlay.Layers.Add("FriscoLayer", friscoLayer);
-                MapView.Overlays.Add("FriscoOverlay", friscoOverlay);
+                Map.Overlays.Add("FriscoOverlay", friscoOverlay);
 
                 var highlightOverlay = new LayerOverlay();
                 highlightOverlay.TileType = TileType.SingleTile;
-                MapView.Overlays.Add("HighlightOverlay", highlightOverlay);
+                Map.Overlays.Add("HighlightOverlay", highlightOverlay);
                 highlightOverlay.Layers.Add("HighlightLayer", highlightLayer);
                 highlightOverlay.Layers.Add("QueryLayer", queryLayer);
 
                 // Add an event to handle new shapes that are drawn on the map
-                MapView.TrackOverlay.TrackEnded += OnPolygonDrawn;
+                Map.TrackOverlay.TrackEnded += OnPolygonDrawn;
 
                 // Set the map extent to the sample shapes
-                MapView.CenterPoint = new PointShape(-10778020, 3914693);
-                MapView.CurrentScale = 32900; 
+                Map.CenterPoint = new PointShape(-10778020, 3914693);
+                Map.CurrentScale = 32900; 
                 
-                MapView.TrackOverlay.TrackMode = TrackMode.Polygon;
-                await MapView.RefreshAsync();
+                Map.TrackOverlay.TrackMode = TrackMode.Polygon;
+                await Map.RefreshAsync();
 
                 // Add a sample shape to the map for the initial query
                 var sampleShape = new PolygonShape("POLYGON((-10780418 3915973,-10780428 3913422,-10775737 3913413,-10775612 3915954,-10780418 3915973))");
@@ -101,12 +101,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async Task GetFeaturesDisjointAsync(BaseShape polygon)
         {
-            // Find the layers we will be modifying in the MapView
-            var highlightOverlay = (LayerOverlay)MapView.Overlays["HighlightOverlay"];
+            // Find the layers we will be modifying in the Map
+            var highlightOverlay = (LayerOverlay)Map.Overlays["HighlightOverlay"];
             var highlightLayer = (InMemoryFeatureLayer)highlightOverlay.Layers["HighlightLayer"];
             var queryLayer = (InMemoryFeatureLayer)highlightOverlay.Layers["QueryLayer"];
 
-            var friscoOverlay = (LayerOverlay)MapView.Overlays["FriscoOverlay"];
+            var friscoOverlay = (LayerOverlay)Map.Overlays["FriscoOverlay"];
             var friscoLayer = (FeatureLayer)friscoOverlay.Layers["FriscoLayer"];
 
             // Clear the query shape layer and add the newly drawn shape
@@ -132,8 +132,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 $"Number of features disjoint from the drawn shape: {queriedFeatures.Count}";
 
             // Disable map drawing and clear the drawn shape
-            MapView.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
-            await MapView.TrackOverlay.RefreshAsync();
+            Map.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
+            await Map.TrackOverlay.RefreshAsync();
         }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

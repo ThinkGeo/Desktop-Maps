@@ -25,13 +25,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map
         /// </summary>
-        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -42,29 +42,29 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
-            MapView.CenterPoint = new PointShape(-10777290, 3908740);
-            MapView.CurrentScale = 9030;
+            Map.CenterPoint = new PointShape(-10777290, 3908740);
+            Map.CurrentScale = 9030;
 
             var simpleMarkerOverlay = new SimpleMarkerOverlay();
             simpleMarkerOverlay.MarkerDragged += SimpleMarkerOverlayOnMarkerDragged;
             simpleMarkerOverlay.MarkerDragging += SimpleMarkerOverlay_MarkerDragging;
-            MapView.Overlays.Add("simpleMarkerOverlay", simpleMarkerOverlay);
+            Map.Overlays.Add("simpleMarkerOverlay", simpleMarkerOverlay);
 
             // create a point at the center point
             InMemoryFeatureLayer layer = new InMemoryFeatureLayer();
-            layer.InternalFeatures.Add(new Feature(MapView.CenterPoint)); 
+            layer.InternalFeatures.Add(new Feature(Map.CenterPoint)); 
             layer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Red, 10);
             layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             var overlay = new LayerOverlay();
             overlay.Layers.Add(layer);
-            MapView.Overlays.Add(overlay);
+            Map.Overlays.Add(overlay);
 
             // Create a marker at the center point
-            var marker = new Marker(MapView.CenterPoint)
+            var marker = new Marker(Map.CenterPoint)
             {
                 ImageSource = new BitmapImage(new Uri("/Resources/marker.png", UriKind.RelativeOrAbsolute)),
                 Width = 20,
@@ -76,15 +76,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Add the marker to the simpleMarkerOverlay and refresh the map
             simpleMarkerOverlay.Markers.Add(marker);
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         /// <summary>
         /// Adds a marker to the simpleMarkerOverlay where the map click event occurred.
         /// </summary>
-        private void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
+        private void Map_MapClick(object sender, MapClickMapViewEventArgs e)
         {
-            var simpleMarkerOverlay = (SimpleMarkerOverlay)MapView.Overlays["simpleMarkerOverlay"];
+            var simpleMarkerOverlay = (SimpleMarkerOverlay)Map.Overlays["simpleMarkerOverlay"];
 
             // Create a marker at the position the mouse was clicked
             var marker = new Marker(e.WorldLocation)
@@ -122,7 +122,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void StaticMode_OnClick(object sender, RoutedEventArgs e)
         {
-            var simpleMarkerOverlay = (SimpleMarkerOverlay)MapView.Overlays["simpleMarkerOverlay"];
+            var simpleMarkerOverlay = (SimpleMarkerOverlay)Map.Overlays["simpleMarkerOverlay"];
             simpleMarkerOverlay.DragMode = MarkerDragMode.None;
         }
 
@@ -131,7 +131,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void DragMode_OnClick(object sender, RoutedEventArgs e)
         {
-            var simpleMarkerOverlay = (SimpleMarkerOverlay)MapView.Overlays["simpleMarkerOverlay"];
+            var simpleMarkerOverlay = (SimpleMarkerOverlay)Map.Overlays["simpleMarkerOverlay"];
             simpleMarkerOverlay.DragMode = MarkerDragMode.Drag;
         }
 
@@ -146,7 +146,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

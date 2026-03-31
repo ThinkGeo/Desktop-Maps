@@ -27,12 +27,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             DataContext = this; 
         }
 
-        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             var streetsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Streets.shp");
             streetsLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.Black, 2, true);
@@ -40,7 +40,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             _layerOverlay = new LayerOverlay();
             _layerOverlay.Layers.Add(streetsLayer);
-            MapView.Overlays.Add(_layerOverlay);
+            Map.Overlays.Add(_layerOverlay);
 
             _cachePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cache");
 
@@ -52,13 +52,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             streetsLayer.Open();
             _bbox = streetsLayer.GetBoundingBox();
-            MapView.CurrentExtent = _bbox;
+            Map.CurrentExtent = _bbox;
 
             _layerOverlay.TileMatrixSet = TileMatrixSet.CreateTileMatrixSet(512, _bbox, GeographyUnit.Meter, 10);
-            MapView.ZoomScales = _layerOverlay.TileMatrixSet.GetScales();
+            Map.ZoomScales = _layerOverlay.TileMatrixSet.GetScales();
             _layerOverlay.TileCacheGenerated += _layerOverlay_TileCacheGenerated;
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private void _layerOverlay_TileCacheGenerated(object sender, TileCacheGeneratedLayerOverlayEventArgs e)
@@ -81,7 +81,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (checkBox.IsChecked != null)
                 _layerOverlay.IsCacheOnly = checkBox.IsChecked.Value;
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private async void BtnGenerateCache_OnClick(object sender, RoutedEventArgs e)
@@ -124,10 +124,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 int targetZoomLevel = minZoomLevel;
                 double newScale = _layerOverlay.TileMatrixSet.GetScales()[targetZoomLevel];
 
-                MapView.CurrentScale = newScale;
-                MapView.CenterPoint = _bbox.GetCenterPoint();
+                Map.CurrentScale = newScale;
+                Map.CenterPoint = _bbox.GetCenterPoint();
 
-                await MapView.RefreshAsync();
+                await Map.RefreshAsync();
             }
             catch
             {
@@ -138,7 +138,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void BtnClearCache_OnClick(object sender, RoutedEventArgs e)
         {
             _layerOverlay.TileCache.ClearCache();
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private void btnOpenCacheFolder_OnClick(object sender, RoutedEventArgs e)
@@ -166,9 +166,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             {
                 button.Content = "Switch to Global Tile Matrix";
                 _layerOverlay.TileMatrixSet = TileMatrixSet.CreateTileMatrixSet(512, _bbox, GeographyUnit.Meter, 10);
-                MapView.ZoomScales = _layerOverlay.TileMatrixSet.GetScales();
+                Map.ZoomScales = _layerOverlay.TileMatrixSet.GetScales();
 
-                var zoom = _layerOverlay.TileMatrixSet.GetSnappedZoomIndex(MapView.CurrentScale);
+                var zoom = _layerOverlay.TileMatrixSet.GetSnappedZoomIndex(Map.CurrentScale);
                 MinZoomTextBox.Text = zoom.ToString();
                 MaxZoomTextBox.Text = (int.Parse(zoom.ToString()) + 3).ToString();
                 ZoomRangeGroup.Header = "Valid Range: 0–9";
@@ -177,21 +177,21 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             {
                 button.Content = "Switch to Local Tile Matrix";
                 _layerOverlay.TileMatrixSet = TileMatrixSet.CreateTileMatrixSet(512, MaxExtents.SphericalMercator, GeographyUnit.Meter);
-                MapView.ZoomScales = _layerOverlay.TileMatrixSet.GetScales();
+                Map.ZoomScales = _layerOverlay.TileMatrixSet.GetScales();
 
-                var zoom = _layerOverlay.TileMatrixSet.GetSnappedZoomIndex(MapView.CurrentScale);
+                var zoom = _layerOverlay.TileMatrixSet.GetSnappedZoomIndex(Map.CurrentScale);
                 MinZoomTextBox.Text = zoom.ToString();
                 MaxZoomTextBox.Text = (int.Parse(zoom.ToString()) + 3).ToString();
                 ZoomRangeGroup.Header = "Valid Range: 0–19";
             }
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         public void Dispose()
         {
             ThinkGeoDebugger.DisplayTileId = false;
-            MapView.Dispose();
+            Map.Dispose();
             GC.SuppressFinalize(this);
         }
     }

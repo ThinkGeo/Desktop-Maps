@@ -12,9 +12,9 @@
     <Grid>
         <thinkGeoUi:MapView Grid.Column="0"
                             Grid.Row="0"
-                            x:Name="MapView"
-                            SizeChanged="MapView_SizeChanged"
-                            MapClick="MapView_MapClick"></thinkGeoUi:MapView>
+                            x:Name="Map"
+                            SizeChanged="Map_SizeChanged"
+                            MapClick="Map_MapClick"></thinkGeoUi:MapView>
         <Image Grid.Column="0"
                x:Name="LoadingImage"
                Height="64"

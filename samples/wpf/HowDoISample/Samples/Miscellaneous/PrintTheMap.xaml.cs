@@ -22,9 +22,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Set up the mapView to display a print preview
+        /// Set up the map to display a print preview
         /// </summary>
-        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
@@ -34,7 +34,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             AddMapLayers();
             AddMosquitoDataGrid();
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void PrintMap_OnClick(object sender, RoutedEventArgs e)
         {
-            var printerOverlay = (PrinterInteractiveOverlay)MapView.InteractiveOverlays["printerOverlay"];
+            var printerOverlay = (PrinterInteractiveOverlay)Map.InteractiveOverlays["printerOverlay"];
             var pageLayer = (PagePrinterLayer)printerOverlay.PrinterLayers["pageLayer"];
 
             // Create a printDocument that matches the size of our pageLayer
@@ -62,7 +62,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
 
             // Start drawing on the printDocument
-            printerGeoCanvas.BeginDrawing(printDocument, pageLayer.GetBoundingBox(), MapView.MapUnit);
+            printerGeoCanvas.BeginDrawing(printDocument, pageLayer.GetBoundingBox(), Map.MapUnit);
 
             // Draw each layer in collection order (same order as preview rendering).
             foreach (var printerLayer in printerOverlay.PrinterLayers)
@@ -82,17 +82,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Set up the mapView for a print preview and add a printerOverlay to hold various print layers
+        /// Set up the map for a print preview and add a printerOverlay to hold various print layers
         /// </summary>
         private void SetupMapForPrinting()
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Set the map's ZoomLevelSet to a set of common printer zoom settings
-            MapView.ZoomScales =
+            Map.ZoomScales =
                 new PrinterZoomLevelSet(GeographyUnit.Meter, PrinterHelper.GetPointsPerGeographyUnit(GeographyUnit.Meter)).GetScales();
-            MapView.MinimumScale = MapView.ZoomScales[MapView.ZoomScales.Count - 1];
+            Map.MinimumScale = Map.ZoomScales[Map.ZoomScales.Count - 1];
 
             var printerOverlay = new PrinterInteractiveOverlay();
             printerOverlay.IsEditable = true;
@@ -106,12 +106,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Add the pageLayer to the printerOverlay
             printerOverlay.PrinterLayers.Add("pageLayer", pageLayer);
             // Add the printerOverlay to the map
-            MapView.InteractiveOverlays.Add("printerOverlay", printerOverlay);
+            Map.InteractiveOverlays.Add("printerOverlay", printerOverlay);
 
             // Set the map extent
             var pageLayerBBox = pageLayer.GetPosition().GetBoundingBox();
-            MapView.CenterPoint = pageLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, pageLayerBBox, MapView.MapWidth, MapView.MapHeight);
+            Map.CenterPoint = pageLayerBBox.GetCenterPoint();
+            Map.CurrentScale = MapUtil.GetScale(Map.MapUnit, pageLayerBBox, Map.MapWidth, Map.MapHeight);
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void AddPageTitleLabel()
         {
-            var printerOverlay = (PrinterInteractiveOverlay)MapView.InteractiveOverlays["printerOverlay"];
+            var printerOverlay = (PrinterInteractiveOverlay)Map.InteractiveOverlays["printerOverlay"];
 
             var titleLabel = new LabelPrinterLayer("Frisco Mosquito Report - 5/5/2020", new GeoFont("Verdana", 8), GeoBrushes.Black)
             {
@@ -136,7 +136,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void AddMapLayers()
         {
-            var printerOverlay = (PrinterInteractiveOverlay)MapView.InteractiveOverlays["printerOverlay"];
+            var printerOverlay = (PrinterInteractiveOverlay)Map.InteractiveOverlays["printerOverlay"];
             var pageLayer = (PagePrinterLayer)printerOverlay.PrinterLayers["pageLayer"];
 
             /***************************
@@ -291,7 +291,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void AddMosquitoDataGrid()
         {
-            var printerOverlay = (PrinterInteractiveOverlay)MapView.InteractiveOverlays["printerOverlay"];
+            var printerOverlay = (PrinterInteractiveOverlay)Map.InteractiveOverlays["printerOverlay"];
             var pageLayer = (PagePrinterLayer)printerOverlay.PrinterLayers["pageLayer"];
 
             // Create a table with columns
@@ -330,7 +330,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

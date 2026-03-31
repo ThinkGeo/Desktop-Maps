@@ -8,7 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <!-- MapView Control -->
-        <thinkGeoUi:MapView x:Name="MapView" SizeChanged="MapView_SizeChanged" Grid.Column="0"/>
+        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged" Grid.Column="0"/>
 
         <!-- Sample Controls -->
         <Border Grid.Column="1">
