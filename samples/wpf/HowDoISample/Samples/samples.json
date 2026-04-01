@@ -505,10 +505,10 @@
         "source": "Samples/VectorDataStyling/RenderAreas"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.RenderLabels",
+        "id": "ThinkGeo.UI.Wpf.HowDoI.RenderTheLabels",
         "title": "Render Labels",
         "description": "Render labels using a TextStyle.",
-        "source": "Samples/VectorDataStyling/RenderLabels"
+        "source": "Samples/VectorDataStyling/RenderTheLabels"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.RenderBasedOnFilters",

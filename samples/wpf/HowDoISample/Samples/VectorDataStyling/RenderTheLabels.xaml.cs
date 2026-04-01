@@ -9,14 +9,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Render labels using a TextStyle.
     /// </summary>
-    public partial class RenderLabels : IDisposable
+    public partial class RenderTheLabels : IDisposable
     {
 
         private bool _initialized;
         private LayerOverlay _layerOverlay = new LayerOverlay();
         private FeatureLayerWpfDrawingOverlay _featureLayerWpfDrawingOverlay = new FeatureLayerWpfDrawingOverlay();
 
-        public RenderLabels()
+        public RenderTheLabels()
         {
             InitializeComponent();
         }
