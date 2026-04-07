@@ -143,6 +143,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             {
                 _lastRotationAngle = currentRotation;
                 _currentRotationAngle = (float)currentRotation;
+                rotateAngleTextBox.Text = currentRotation.ToString("F0");
                 UpdateStatusLabel();
             }
         }
@@ -155,6 +156,22 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             int angle = ((TrackBar)sender).Value;
             rotateAngleTextBox.Text = angle.ToString();
             _ = mapView.ZoomToAsync(mapView.CenterPoint, mapView.CurrentScale, angle);
+        }
+
+        private void RotateAngleTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (double.TryParse(rotateAngleTextBox.Text, out double angle))
+                {
+                    angle = Math.Max(-180, Math.Min(180, angle));
+                    int intAngle = (int)Math.Round(angle, MidpointRounding.AwayFromZero);
+
+                    rotateAngleTrackBar.Value = intAngle;
+                    rotateAngleTextBox.Text = intAngle.ToString();
+                    _ = mapView.ZoomToAsync(mapView.CenterPoint, mapView.CurrentScale, angle);
+                }
+            }
         }
 
         private void UpdateStatusLabel()
@@ -387,6 +404,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             rotateAngleTextBox.Name = "rotateAngleTextBox";
             rotateAngleTextBox.Text = "0";
             rotateAngleTextBox.Size = new Size(45, 30);
+            rotateAngleTextBox.KeyDown += RotateAngleTextBox_KeyDown;
             rotateAngleTextBox.TabIndex = 9;
             // 
             // rotateAngleTrackBar
@@ -423,7 +441,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         }
 
         #endregion Component Designer generated code
-
 
     }
 }
