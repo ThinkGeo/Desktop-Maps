@@ -47,7 +47,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             countriesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Set the map view current extent to a bounding box that shows just a few sightings.  
-            mapView.CurrentExtent = new RectangleShape(-14910723.898808584, 6701313.058217316, -7200979.520684462, 2773061.32240915);
+            mapView.CenterPoint = new PointShape(-11055850, 4737190);
+            mapView.CurrentScale = 26980800;
 
             // Refresh the map.
             await mapView.RefreshAsync();

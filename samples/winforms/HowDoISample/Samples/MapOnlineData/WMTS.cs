@@ -20,7 +20,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// </summary>
         private async void Form_Load(object sender, EventArgs e)
         {
-            ThinkGeoDebugger.DisplayTileId = true;
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.Meter;
             var layerOverlay = new WmtsOverlay(new Uri("https://wmts.geo.admin.ch/1.0.0"));
@@ -65,6 +64,17 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 await mapView.RefreshAsync();
             }
         }
+
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            base.OnVisibleChanged(e);
+
+            if (!this.Visible)
+            {
+                ThinkGeoDebugger.DisplayTileId = false;
+            }
+        }
+
 
         #region Component Designer generated code
 
@@ -111,7 +121,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // checkBox1
             // 
             checkBox1.AutoSize = true;
-            checkBox1.Checked = true;
             checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             checkBox1.ForeColor = System.Drawing.Color.White;
             checkBox1.Location = new System.Drawing.Point(15, 10);

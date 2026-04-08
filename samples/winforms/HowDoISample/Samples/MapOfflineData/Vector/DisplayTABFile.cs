@@ -52,7 +52,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Open the layer and set the map view current extent to the bounding box of the layer.  
             cityBoundaryLayer.Open();
-            mapView.CurrentExtent = cityBoundaryLayer.GetBoundingBox();
+            var cityBoundaryLayerBBox = cityBoundaryLayer.GetBoundingBox();
+            mapView.CenterPoint = cityBoundaryLayerBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(mapView.MapUnit, cityBoundaryLayerBBox, mapView.MapWidth, mapView.MapHeight);
+            mapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
 
             // Refresh the map.
             await mapView.RefreshAsync();

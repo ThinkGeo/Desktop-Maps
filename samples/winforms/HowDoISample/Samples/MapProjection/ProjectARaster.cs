@@ -47,7 +47,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Set the map to the extent of the raster layer and refresh the map
             worldRasterLayer.Open();
-            mapView.CurrentExtent = worldRasterLayer.GetBoundingBox();
+            var worldRasterLayerBBox = worldRasterLayer.GetBoundingBox();
+            mapView.CenterPoint = worldRasterLayerBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(mapView.MapUnit, worldRasterLayerBBox, mapView.MapWidth, mapView.MapHeight);
+            mapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
             worldRasterLayer.Close();
             await mapView.RefreshAsync();
         }

@@ -22,8 +22,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void Form_Load(object sender, EventArgs e)
         {
-            ThinkGeoDebugger.DisplayTileId = true;
-
             if (!Directory.Exists(@".\Data\OSM_Tiles_z0-z5_Created_By_QGIS"))
                 ZipFile.ExtractToDirectory(@".\Data\OSM_Tiles_z0-z5_Created_By_QGIS.zip", @".\Data\OSM_Tiles_z0-z5_Created_By_QGIS");
 
@@ -263,7 +261,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             showDebugInfoCheckBox.Size = new Size(83, 19);
             showDebugInfoCheckBox.Text = "Show Debug Info";
             showDebugInfoCheckBox.UseVisualStyleBackColor = true;
-            showDebugInfoCheckBox.Checked = true;
             showDebugInfoCheckBox.CheckedChanged += DisplayTileIdCheckBox_CheckedChanged;
             showDebugInfoCheckBox.TabIndex = 5;
             // 

@@ -14,7 +14,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private async void Form_Load(object sender, EventArgs e)
+        private void Form_Load(object sender, EventArgs e)
         {
             mapView.MapUnit = GeographyUnit.Meter;
 
@@ -45,9 +45,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(layerOverlay);
 
             gdalFeatureLayer.Open();
-            mapView.CurrentExtent = gdalFeatureLayer.GetBoundingBox();
+            var gdalFeatureLayerBBox = gdalFeatureLayer.GetBoundingBox();
+            mapView.CenterPoint = gdalFeatureLayerBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(mapView.MapUnit, gdalFeatureLayerBBox, mapView.MapWidth, mapView.MapHeight);
+            mapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
 
-            await mapView.RefreshAsync();
+            _ = mapView.RefreshAsync();
 
             projectionConverter.Close();
             gdalFeatureLayer.Close();

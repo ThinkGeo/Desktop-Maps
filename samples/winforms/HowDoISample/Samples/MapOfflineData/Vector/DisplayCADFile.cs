@@ -52,7 +52,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Set the current extent of the map to the extent of the CAD data
             _cadLayer.Open();
-            mapView.CurrentExtent = _cadLayer.GetBoundingBox();
+            var cadLayerBBox = _cadLayer.GetBoundingBox();
+            mapView.CenterPoint = cadLayerBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(mapView.MapUnit, cadLayerBBox, mapView.MapWidth, mapView.MapHeight);
+            mapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
 
             await mapView.RefreshAsync();
         }

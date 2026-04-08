@@ -44,8 +44,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 System.IO.Directory.CreateDirectory(cachePath);
             }
 
-            ThinkGeoDebugger.DisplayTileId = true;
-
             rasterMbTilesLayer.TileCache = new FileRasterTileCache(cachePath, "raw");
             rasterMbTilesLayer.ProjectedTileCache = new FileRasterTileCache(cachePath, "projected");
 
@@ -280,7 +278,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             showDebugInfoCheckBox.Size = new Size(83, 19);
             showDebugInfoCheckBox.Text = "Show Debug Info";
             showDebugInfoCheckBox.UseVisualStyleBackColor = true;
-            showDebugInfoCheckBox.Checked = true;
             showDebugInfoCheckBox.CheckedChanged += DisplayTileIdCheckBox_CheckedChanged;
             showDebugInfoCheckBox.TabIndex = 5;
             // 
