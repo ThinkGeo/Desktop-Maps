@@ -51,7 +51,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             timeZoneCloudClient = new TimeZoneCloudClient(SampleKeys.ClientId2, SampleKeys.ClientSecret2);
 
             // Set the Map Extent
-            mapView.CurrentExtent = new RectangleShape(-14269933.09, 6354969.40, -6966221.89, 2759371.58);
+            mapView.CenterPoint = new PointShape(-10618080, 4557170);
+            mapView.CurrentScale = 33258550;
 
             // Get Timezone info for Frisco, TX
             await GetTimeZoneInfoAsync(-10779572.80, 3915268.68);

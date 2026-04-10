@@ -39,7 +39,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             worldOverlay.Layers.Add("WorldCapitals", worldCapitalsLayer);
             mapView.Overlays.Add("Overlay", worldOverlay);
 
-            mapView.CurrentExtent = new RectangleShape(-15360785.1188513, 14752615.1010077, 16260907.558937, -12603279.9259404);
+            mapView.CenterPoint = new PointShape(450060, 1074670);
+            mapView.CurrentScale = 147914800;
 
             await mapView.RefreshAsync();
         }

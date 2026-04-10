@@ -49,7 +49,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Set the map extent to the railway layer bounding box
             railway.Open();
-            mapView.CurrentExtent = railway.GetBoundingBox();
+            var railwayLayerBBox = railway.GetBoundingBox();
+            mapView.CenterPoint = railwayLayerBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(mapView.MapUnit, railwayLayerBBox, mapView.MapWidth, mapView.MapHeight);
+            mapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
             railway.Close();
 
             // Add LayerOverlay to Map

@@ -28,7 +28,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
+            mapView.CenterPoint = new PointShape(-10778000, 3912000);
+            mapView.CurrentScale = 77000;
 
             // Create the layer that will store the drawn shapes
             var featureLayer = new InMemoryFeatureLayer();

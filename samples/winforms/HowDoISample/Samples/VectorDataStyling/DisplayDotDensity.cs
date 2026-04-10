@@ -22,7 +22,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             {
                 ClientId = SampleKeys.ClientId,
                 ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
@@ -52,7 +53,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Set the map extent
             housingUnitsLayer.Open();
-            mapView.CurrentExtent = housingUnitsLayer.GetBoundingBox();
+            var housingUnitsLayerBBox = housingUnitsLayer.GetBoundingBox();
+            mapView.CenterPoint = housingUnitsLayerBBox.GetCenterPoint();
+            mapView.CurrentScale = MapUtil.GetScale(mapView.MapUnit, housingUnitsLayerBBox, mapView.MapWidth, mapView.MapHeight);
             housingUnitsLayer.Close();
 
             await mapView.RefreshAsync();

@@ -50,7 +50,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Set the map extent to the cityLimits layer bounding box
             cityLimits.Open();
-            mapView.CurrentExtent = cityLimits.GetBoundingBox();
+            var cityLimitsBBox = cityLimits.GetBoundingBox();
+            mapView.CenterPoint = cityLimitsBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(mapView.MapUnit, cityLimitsBBox, mapView.MapWidth, mapView.MapHeight);
+            mapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
             cityLimits.Close();
 
             // Add LayerOverlay to Map

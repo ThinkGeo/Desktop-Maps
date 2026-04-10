@@ -7,6 +7,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public class GetDataFromAllFeatures : UserControl
     {
+        private bool _isLoaded = false;
+
         public GetDataFromAllFeatures()
         {
             InitializeComponent();
@@ -68,7 +70,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 hotels.Add(new Hotel(name, address, rooms, location));
             }
 
-            mapView.CurrentExtent = hotelsLayer.GetBoundingBox();
+            // Set the map extent to the extent of the hotel features
+            var hotelsLayerBBox = hotelsLayer.GetBoundingBox();
+            mapView.CenterPoint = hotelsLayerBBox.GetCenterPoint();
+            mapView.CurrentScale = MapUtil.GetScale(mapView.MapUnit, hotelsLayerBBox, mapView.MapWidth, mapView.MapHeight);
             hotelsLayer.Close();
 
             // Set the hotel collection as the data source of the list box
@@ -78,10 +83,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Refresh and redraw the map
             _ = mapView.RefreshAsync();
+
+            _isLoaded = true;
         }
 
         private void lsbHotels_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (!_isLoaded) return;
+
             var highlightedHotelLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Highlighted Hotel");
             highlightedHotelLayer.Open();
             highlightedHotelLayer.InternalFeatures.Clear();

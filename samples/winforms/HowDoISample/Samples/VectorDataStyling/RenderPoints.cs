@@ -28,7 +28,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(-10778329.017082, 3909598.36751101, -10776250.8853871, 3907890.47766975);
+            mapView.CenterPoint = new PointShape(-10777290, 3908740);
+            mapView.CurrentScale = 9400;
 
             var hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
             var layerOverlay = new LayerOverlay();
