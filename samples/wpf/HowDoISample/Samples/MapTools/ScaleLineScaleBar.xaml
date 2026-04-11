@@ -10,20 +10,9 @@
         <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="Map" SizeChanged="Map_SizeChanged"/>
 
         <Grid Grid.Column="1" Grid.Row="0">
-            <Label Grid.Column="1" Grid.Row="0" Content="Location" Margin="0,10,0,0"/>
-            <ComboBox Grid.Column="1" Grid.Row="1" x:Name="CboLocations" VerticalAlignment="Top" HorizontalAlignment="Center"
-                      Background="Gray" Width="200" Height="30" FontSize="18" SelectedIndex="0"
-                      SelectionChanged="CboLocations_OnSelectionChanged"  Margin="0,10,0,0">
-                <ComboBox.ItemContainerStyle>
-                    <Style TargetType="ComboBoxItem">
-                        <Setter Property="Width" Value="190"/>
-                        <Setter Property="IsHitTestVisible" Value="True"/>
-                    </Style>
-                </ComboBox.ItemContainerStyle>
-            </ComboBox>
-
-            <Label Grid.Column="1" Grid.Row="3" Content="Scale Line Unit System" Margin="0,10,0,0"/>
-            <ComboBox Grid.Column="1" Grid.Row="4" x:Name="CboUnitSystems" VerticalAlignment="Top" HorizontalAlignment="Center"
+            <Label Grid.Column="1" Grid.Row="0" Content="Scale Line Unit System" Margin="15,10,0,0"
+                   FontSize="16" FontWeight="Bold"/>
+            <ComboBox Grid.Column="1" Grid.Row="1" x:Name="CboUnitSystems" VerticalAlignment="Top" HorizontalAlignment="Center"
                       Background="Gray" Width="200" Height="30" FontSize="18" SelectedIndex="0"
                       SelectionChanged="CboUnitSystems_OnSelectionChanged"  Margin="0,10,0,0">
                 <ComboBox.ItemContainerStyle>
@@ -34,7 +23,7 @@
                 </ComboBox.ItemContainerStyle>
             </ComboBox>
 
-            <CheckBox Grid.Column="1" Grid.Row="11" x:Name="ChkCustomTextStyles" Content="Custom text styles for ScaleLine" Margin="10,10"
+            <CheckBox Grid.Column="1" Grid.Row="2" x:Name="ChkCustomTextStyles" Content="Custom text styles for ScaleLine" Margin="15,10"
                       Checked="ChkCustomTextStyles_OnChecked" Unchecked="ChkCustomTextStyles_OnUnchecked"/>
 
             <!-- Controls Grid Layout -->
@@ -44,16 +33,6 @@
                 <ColumnDefinition Width="5" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>

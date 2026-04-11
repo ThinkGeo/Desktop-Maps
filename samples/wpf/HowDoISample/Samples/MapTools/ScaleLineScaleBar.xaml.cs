@@ -18,16 +18,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             InitializeComponent();
 
-            // Fill ComboBox from the GeoHatchStyle enum
-            foreach (AdornmentLocation style in Enum.GetValues(typeof(AdornmentLocation)))
-            {
-                CboLocations.Items.Add(style);
-            }
-
-            // Select a default value
-            CboLocations.SelectedItem = AdornmentLocation.LowerRight;
-
-
             foreach (ScaleLineUnitSystem unitSystem in Enum.GetValues(typeof(ScaleLineUnitSystem)))
             {
                 CboUnitSystems.Items.Add(unitSystem);
@@ -86,25 +76,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _ = Map.RefreshAsync();
         }
 
-
         public void Dispose()
         {
             // Dispose of unmanaged resources.
             Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
-        }
-
-        private void CboLocations_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (!_initialized)
-                return;
-
-            if (!(CboLocations.SelectedItem is AdornmentLocation adornmentLocation)) return;
-            _scaleBarAdornmentLayer.Location = adornmentLocation;
-            _scaleLineAdornmentLayer.Location = adornmentLocation;
-
-            _ = Map.AdornmentOverlay.RefreshAsync();
         }
 
         private void CboUnitSystems_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
