@@ -30,6 +30,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
 
             mapView.MapTools.Logo.Source = new BitmapImage(new Uri(@"..\..\..\Resources\ThinkGeoLogo.png", UriKind.RelativeOrAbsolute));
+            mapView.MapTools.Logo.IsEnabled = true;
 
             await mapView.RefreshAsync();
         }
@@ -49,8 +50,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private RadioButton genericLogo;
         private RadioButton thinkGeoLogo;
         private Label label1;
-
-
         private MapView mapView;
 
         private void InitializeComponent()
