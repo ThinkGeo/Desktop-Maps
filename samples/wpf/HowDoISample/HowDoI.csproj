@@ -8,7 +8,9 @@
     <UserSecretsId>1d8a5313-9352-402d-84fd-6b51ca25705e</UserSecretsId>
     <StartupObject>
     </StartupObject>
-    <Platforms>AnyCPU</Platforms>
+<!-- x64 required by ThinkGeo.FileGeoDatabase (Esri.FileGDBAPI.dll is AMD64-only).
+         Other ThinkGeo components support AnyCPU/x86. -->
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 
   <Target Name="RemoveDuplicateAnalyzers" BeforeTargets="CoreCompile">
