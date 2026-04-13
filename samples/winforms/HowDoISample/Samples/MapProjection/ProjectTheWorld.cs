@@ -144,7 +144,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.rdoCylindrical);
@@ -153,9 +153,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Controls.Add(this.rdoMGAZone);
             this.panel1.Controls.Add(this.rdoDecimalDegrees);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(952, 0);
+            this.panel1.Location = new System.Drawing.Point(942, 10);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(302, 667);
+            this.panel1.Size = new System.Drawing.Size(302, 193);
             this.panel1.TabIndex = 2;
             // 
             // rdoCylindrical

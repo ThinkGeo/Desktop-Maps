@@ -201,18 +201,19 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Name = "mapView";
             mapView.RestrictExtent = null;
             mapView.RotationAngle = 0D;
-            mapView.Size = new System.Drawing.Size(858, 622);
+            mapView.Size = new System.Drawing.Size(1147, 621);
             mapView.MapClick += new System.EventHandler<MapClickMapViewEventArgs>(this.mapView_MapClick);
             mapView.TabIndex = 0;
             // 
             // consolePanel
             // 
-            consolePanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            consolePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top
+            | System.Windows.Forms.AnchorStyles.Right)));
             consolePanel.BackColor = System.Drawing.Color.Gray;
             consolePanel.Controls.Add(controlsGroupPanel);
-            consolePanel.Location = new System.Drawing.Point(858, 0);
+            consolePanel.Location = new System.Drawing.Point(848, 10);
             consolePanel.Name = "consolePanel";
-            consolePanel.Size = new System.Drawing.Size(289, 622);
+            consolePanel.Size = new System.Drawing.Size(289, 280);
             consolePanel.TabIndex = 1;
             // 
             // controlsGroupPanel

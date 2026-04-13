@@ -123,13 +123,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Name = "mapView";
             mapView.RestrictExtent = null;
             mapView.RotationAngle = 0F;
-            mapView.Size = new System.Drawing.Size(1000, 611);
+            mapView.Size = new System.Drawing.Size(1250, 611);
             mapView.TabIndex = 0;
             // 
             // panel1
             // 
-            panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom
-            | AnchorStyles.Right;
+            panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top
+            | System.Windows.Forms.AnchorStyles.Right)));
             panel1.BackColor = System.Drawing.Color.Gray;
             panel1.Controls.Add(radioButton3);
             panel1.Controls.Add(radioButton2);
@@ -137,9 +137,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             panel1.Controls.Add(label1);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(txtException);
-            panel1.Location = new System.Drawing.Point(1000, 0);
+            panel1.Location = new System.Drawing.Point(955, 10);
             panel1.Name = "panel1";
-            panel1.Size = new System.Drawing.Size(285, 611);
+            panel1.Size = new System.Drawing.Size(285, 290);
             panel1.TabIndex = 1;
             // 
             // radioButton1

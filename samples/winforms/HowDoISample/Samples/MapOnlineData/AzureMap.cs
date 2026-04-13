@@ -91,12 +91,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Name = "mapView";
             mapView.RestrictExtent = null;
             mapView.RotationAngle = 0F;
-            mapView.Size = new System.Drawing.Size(990, 599);
+            mapView.Size = new System.Drawing.Size(1296, 599);
             mapView.TabIndex = 0;
             // 
             // panel1
             // 
-            panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom
+            panel1.Anchor = AnchorStyles.Top
             | AnchorStyles.Right;
             panel1.BackColor = System.Drawing.Color.Gray;
             panel1.Controls.Add(linkLabel1);
@@ -104,9 +104,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             panel1.Controls.Add(txtApplicationID);
             panel1.Controls.Add(label3);
             panel1.Controls.Add(label1);
-            panel1.Location = new System.Drawing.Point(993, 0);
+            panel1.Location = new System.Drawing.Point(983, 10);
             panel1.Name = "panel1";
-            panel1.Size = new System.Drawing.Size(303, 599);
+            panel1.Size = new System.Drawing.Size(303, 188);
             panel1.TabIndex = 1;
             // 
             // linkLabel1

@@ -104,18 +104,18 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Name = "mapView";
             mapView.RestrictExtent = null;
             mapView.RotationAngle = 0F;
-            mapView.Size = new System.Drawing.Size(1050, 611);
+            mapView.Size = new System.Drawing.Size(1250, 611);
             mapView.TabIndex = 0;
             // 
             // panel1
             // 
-            panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom
+            panel1.Anchor = AnchorStyles.Top
             | AnchorStyles.Right;
             panel1.BackColor = System.Drawing.Color.Gray;
             panel1.Controls.Add(checkBox1);
-            panel1.Location = new System.Drawing.Point(1050, 0);
+            panel1.Location = new System.Drawing.Point(955, 10);
             panel1.Name = "panel1";
-            panel1.Size = new System.Drawing.Size(285, 611);
+            panel1.Size = new System.Drawing.Size(285, 47);
             panel1.TabIndex = 1;
             // 
             // checkBox1
