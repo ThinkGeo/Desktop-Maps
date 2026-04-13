@@ -143,6 +143,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             {
                 _lastRotationAngle = currentRotation;
                 _currentRotationAngle = (float)currentRotation;
+                rotateAngleTextBox.Text = currentRotation.ToString("F0");
                 UpdateStatusLabel();
             }
         }
@@ -155,6 +156,22 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             int angle = ((TrackBar)sender).Value;
             rotateAngleTextBox.Text = angle.ToString();
             _ = mapView.ZoomToAsync(mapView.CenterPoint, mapView.CurrentScale, angle);
+        }
+
+        private void RotateAngleTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (double.TryParse(rotateAngleTextBox.Text, out double angle))
+                {
+                    angle = Math.Max(-180, Math.Min(180, angle));
+                    int intAngle = (int)Math.Round(angle, MidpointRounding.AwayFromZero);
+
+                    rotateAngleTrackBar.Value = intAngle;
+                    rotateAngleTextBox.Text = intAngle.ToString();
+                    _ = mapView.ZoomToAsync(mapView.CenterPoint, mapView.CurrentScale, angle);
+                }
+            }
         }
 
         private void UpdateStatusLabel()
@@ -221,7 +238,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Name = "mapView";
             mapView.RestrictExtent = null;
             mapView.RotationAngle = 0F;
-            mapView.Size = new System.Drawing.Size(946, 634);
+            mapView.Size = new System.Drawing.Size(1255, 634);
             mapView.TabIndex = 0;
             // 
             // consolePanel
@@ -239,10 +256,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             consolePanel.Controls.Add(ZoomToScaleButton);
             consolePanel.Controls.Add(zoomScaleTextBox);
             consolePanel.Controls.Add(zoomingLabel);
-            consolePanel.Dock = DockStyle.Right;
-            consolePanel.Location = new Point(953, 0);
+            consolePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top
+            | System.Windows.Forms.AnchorStyles.Right)));
+            consolePanel.Location = new Point(943, 10);
             consolePanel.Name = "consolePanel";
-            consolePanel.Size = new Size(302, 634);
+            consolePanel.Size = new Size(302, 410);
             consolePanel.TabIndex = 1;
             // 
             // zoomingLabel
@@ -387,6 +405,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             rotateAngleTextBox.Name = "rotateAngleTextBox";
             rotateAngleTextBox.Text = "0";
             rotateAngleTextBox.Size = new Size(45, 30);
+            rotateAngleTextBox.KeyDown += RotateAngleTextBox_KeyDown;
             rotateAngleTextBox.TabIndex = 9;
             // 
             // rotateAngleTrackBar
@@ -405,7 +424,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // ZoomToExtents
             // 
-            AutoSize = true;
             Controls.Add(mapView);
             Controls.Add(statusLabel);
             Controls.Add(centerPointLabel);
@@ -423,7 +441,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         }
 
         #endregion Component Designer generated code
-
 
     }
 }

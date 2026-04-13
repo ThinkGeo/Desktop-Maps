@@ -10,6 +10,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class CalculateLength : IDisposable
     {
+
+        private bool _initialized;
         public CalculateLength()
         {
             InitializeComponent();
@@ -19,10 +21,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the friscoTrails and selectedLineLayer layers
         /// into a grouped LayerOverlay and display it on the map.
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -33,7 +38,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             var friscoTrails = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hike_Bike.shp");
             var selectedLineLayer = new InMemoryFeatureLayer();
@@ -58,21 +63,21 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             layerOverlay.Layers.Add("selectedLineLayer", selectedLineLayer);
 
             // Set the map extent
-            MapView.CenterPoint = new PointShape(-10778340, 3915490);
-            MapView.CurrentScale = 36110;
+            Map.CenterPoint = new PointShape(-10778340, 3915490);
+            Map.CurrentScale = 36110;
 
             // Add LayerOverlay to Map
-            MapView.Overlays.Add("layerOverlay", layerOverlay);
+            Map.Overlays.Add("layerOverlay", layerOverlay);
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         /// <summary>
         /// Calculates the length of a line selected on the map and displays it in the lengthResult TextBox
         /// </summary>
-        private void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
+        private void Map_MapClick(object sender, MapClickMapViewEventArgs e)
         {
-            var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
+            var layerOverlay = (LayerOverlay)Map.Overlays["layerOverlay"];
 
             var friscoTrails = (ShapeFileFeatureLayer)layerOverlay.Layers["friscoTrails"];
             var selectedLineLayer = (InMemoryFeatureLayer)layerOverlay.Layers["selectedLineLayer"];
@@ -96,7 +101,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

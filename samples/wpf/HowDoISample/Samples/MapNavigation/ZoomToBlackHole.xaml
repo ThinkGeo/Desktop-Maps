@@ -8,13 +8,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <tgWpf:MapView x:Name="MapView"
+        <tgWpf:MapView x:Name="Map"
                         Background="Black"
                         MinimumScale="0"
                         CurrentScale ="50000"
                         CenterPoint="POINT (0 0)"
                         DefaultOverlaysRenderSequenceType="Concurrent"
-                        Loaded="MapView_Loaded">
+                        SizeChanged="Map_SizeChanged">
             <tgWpf:MapView.Overlays>
                 <tgWpf:LayerOverlay TileType="SingleTile">
                     <tgWpf:LayerOverlay.Layers>
@@ -107,6 +107,6 @@
                    VerticalAlignment="Top"
                    Foreground="White"
                    FontSize="20"
-                   Text="{Binding ElementName=MapView, Path=CurrentScale, StringFormat='Scale: {0:N2}'}"/>
+                   Text="{Binding ElementName=Map, Path=CurrentScale, StringFormat='Scale: {0:N2}'}"/>
     </Grid>
 </UserControl>

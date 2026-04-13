@@ -10,6 +10,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class Popups : IDisposable
     {
+
+        private bool _initialized;
         public Popups()
         {
             InitializeComponent();
@@ -18,10 +20,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -32,11 +37,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
-            MapView.CenterPoint = new PointShape(-10777290, 3908740);
-            MapView.CurrentScale = 9030;
+            Map.CenterPoint = new PointShape(-10777290, 3908740);
+            Map.CurrentScale = 9030;
 
             _ = AddHotelPopupsAsync();
         }
@@ -79,15 +84,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             hotelsLayer.Close();
 
             // Add the popupOverlay to the map and refresh
-            MapView.Overlays.Add(popupOverlay);
+            Map.Overlays.Add(popupOverlay);
 
-            await MapView.RefreshAsync();
+            await Map.RefreshAsync();
         }
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

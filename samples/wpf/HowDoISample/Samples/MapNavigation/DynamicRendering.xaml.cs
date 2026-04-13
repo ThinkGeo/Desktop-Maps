@@ -27,11 +27,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map and a shapefile with simple data to work with
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            MapView.MapUnit = GeographyUnit.Meter;
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
-            MapView.Background = Brushes.White;
+            _initialized = true;
+            Map.MapUnit = GeographyUnit.Meter;
+
+            Map.Background = Brushes.White;
             var usStates = new ShapeFileFeatureLayer(@"./Data/Shapefile/USStates_3857.shp");
             usStates.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle.OutlinePen = GeoPens.Black;
             usStates.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
@@ -39,7 +42,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var layerOverlay = new LayerOverlay();
             layerOverlay.TileType = TileType.SingleTile;
             layerOverlay.Layers.Add(usStates);
-            MapView.Overlays.Add(layerOverlay);
+            Map.Overlays.Add(layerOverlay);
 
             usStates.Open();
             var allFeatures = usStates.QueryTools.GetAllFeatures(ReturningColumnsType.AllColumns);
@@ -61,14 +64,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             _dynamicOverlay = new FeatureLayerWpfDrawingOverlay();
             _dynamicOverlay.FeatureLayers.Add(statePopulationFeatureLayer);
-            MapView.Overlays.Add(_dynamicOverlay);
+            Map.Overlays.Add(_dynamicOverlay);
 
             // Set the map extent
-            MapView.CenterPoint = new PointShape(-10650000, 4770000);
-            MapView.CurrentScale = 37000000;
+            Map.CenterPoint = new PointShape(-10650000, 4770000);
+            Map.CurrentScale = 37000000;
 
-            _ = MapView.RefreshAsync();
-            _initialized = true;
+            _ = Map.RefreshAsync();
         }
 
         private void PlayAnimation_Click(object sender, RoutedEventArgs e)
@@ -95,7 +97,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

@@ -23,10 +23,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the common raster layer to the map
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -37,11 +40,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create an overlay for the raster layers
             rasterOverlay = new LayerOverlay { TileType = TileType.SingleTile };
-            MapView.Overlays.Add(rasterOverlay);
+            Map.Overlays.Add(rasterOverlay);
 
             // Path to the raster file
             string skiaRasterFilePath = "./Data/Jpg/m_3309650_sw_14_1_20160911_20161121.jpg";
@@ -55,11 +58,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             rasterOverlay.Layers.Add(skiaRasterLayer);
 
             // Set the map view current extent to a slightly zoomed in area of the image.
-            MapView.CenterPoint = new PointShape(-10780600, 3914700);
-            MapView.CurrentScale = 27250;
+            Map.CenterPoint = new PointShape(-10780600, 3914700);
+            Map.CurrentScale = 27250;
 
             _initialized = true;
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private void SwitchRasterLayer_OnCheckedChanged(object sender, RoutedEventArgs e)
@@ -85,13 +88,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 }
             }
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

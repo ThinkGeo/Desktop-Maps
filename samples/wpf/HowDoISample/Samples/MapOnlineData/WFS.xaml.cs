@@ -7,15 +7,20 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 {
     public partial class WFS : IDisposable
     {
+
+        private bool _initialized;
         public WFS()
         {
             InitializeComponent();
         }
 
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -26,31 +31,31 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create WFS v2 overlay
             var wfsOverlay = new WfsV2Overlay
             {
                 DrawingBulkCount = 500,
-                FeatureLayer = CreateHelsinkiParcelsLayer(),
+                AsyncLayer = CreateHelsinkiParcelsLayer(),
                 IsVisible = false // start hidden
             };
-            MapView.Overlays.Add("WfsOverlay", wfsOverlay);
+            Map.Overlays.Add("WfsOverlay", wfsOverlay);
 
             // Create LayerOverlay
-            var layerOverlay = new LayerOverlay { TileType = TileType.SingleTile, IsVisible = true };
+            var layerOverlay = new LayerOverlay() ;
             layerOverlay.Layers.Add(CreateHelsinkiParcelsLayer());
-            MapView.Overlays.Add("LayerOverlay", layerOverlay);
+            Map.Overlays.Add("LayerOverlay", layerOverlay);
 
-            MapView.CenterPoint = new PointShape(2777730, 8435220);
-            MapView.CurrentScale = 20520;
+            Map.CenterPoint = new PointShape(2777730, 8435220);
+            Map.CurrentScale = 20520;
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
-        private WfsV2FeatureLayer CreateHelsinkiParcelsLayer()
+        private WfsV2AsyncLayer CreateHelsinkiParcelsLayer()
         {
-            var layer = new WfsV2FeatureLayer(
+            var layer = new WfsV2AsyncLayer(
                 "https://inspire-wfs.maanmittauslaitos.fi/inspire-wfs/cp/ows",
                 "cp:CadastralParcel")
             {
@@ -60,13 +65,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             layer.ZoomLevelSet.ZoomLevel13.DefaultAreaStyle =
                 AreaStyle.CreateSimpleAreaStyle(GeoColors.Transparent, GeoColors.OrangeRed, 4);
             layer.ZoomLevelSet.ZoomLevel13.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-            layer.FeatureSource.ProjectionConverter = new ProjectionConverter(3067, 3857);
+            layer.ProjectionConverter = new ProjectionConverter(3067, 3857);
 
-            // Attach event handlers here so they’re always included
-            layer.SendingWebRequest += HelsinkiParcelsLayer_SendingWebRequest;
-
-            var featureSource = (WfsV2FeatureSource)layer.FeatureSource;
-            featureSource.RequestingData += WFS_RequestingData;
+            // For .NET Framework, add a reference to System.Net.Http for this to compile.
+            // You don't need to do this for .NET 8+.
+            //
+            //layer.SendingHttpRequest += (sender, e) =>
+            //    System.Diagnostics.Debug.WriteLine($"Sending Request: {e.HttpRequestMessage.RequestUri}");
 
             return layer;
         }
@@ -76,38 +81,28 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (!(sender is RadioButton radio) || radio.IsChecked == false)
                 return;
 
-            if (MapView.Overlays.Contains("WfsOverlay") &&
-                MapView.Overlays.Contains("LayerOverlay"))
+            if (Map.Overlays.Contains("WfsOverlay") &&
+                Map.Overlays.Contains("LayerOverlay"))
             {
                 switch (radio.Content.ToString())
                 {
                     case "WfsV2Overlay":
-                        MapView.Overlays["WfsOverlay"].IsVisible = true;
-                        MapView.Overlays["LayerOverlay"].IsVisible = false;
+                        Map.Overlays["WfsOverlay"].IsVisible = true;
+                        Map.Overlays["LayerOverlay"].IsVisible = false;
                         break;
 
                     case "LayerOverlay":
-                        MapView.Overlays["WfsOverlay"].IsVisible = false;
-                        MapView.Overlays["LayerOverlay"].IsVisible = true;
+                        Map.Overlays["WfsOverlay"].IsVisible = false;
+                        Map.Overlays["LayerOverlay"].IsVisible = true;
                         break;
                 }
             }
         }
 
-        private void HelsinkiParcelsLayer_SendingWebRequest(object sender, SendingWebRequestEventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine($"[WFS v1] Request: {e.WebRequest.RequestUri}");
-        }
-
-        private void WFS_RequestingData(object sender, RequestingDataWfsFeatureSourceEventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine($"[WFS v2] Request: {e.ServiceUrl}");
-        }
-
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

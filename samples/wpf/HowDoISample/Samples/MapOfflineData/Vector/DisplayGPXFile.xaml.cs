@@ -9,6 +9,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class DisplayGPXFile : IDisposable
     {
+
+        private bool _initialized;
         public DisplayGPXFile()
         {
             InitializeComponent();
@@ -17,10 +19,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the GPX layer to the map
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -31,11 +36,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a new overlay that will hold our new layer and add it to the map.
             var gpxOverlay = new LayerOverlay();
-            MapView.Overlays.Add(gpxOverlay);
+            Map.Overlays.Add(gpxOverlay);
 
             // Create the new layer and set the projection as the data is in srid 4326 and our background is srid 3857 (spherical mercator).
             var gpxLayer = new GpxFeatureLayer(@"./Data/Gpx/Hike_Bike.gpx")
@@ -56,16 +61,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Open the layer and set the map view current extent to the bounding box of the layer.  
             gpxLayer.Open();
             var gpxLayerBBox = gpxLayer.GetBoundingBox();
-            MapView.CenterPoint = gpxLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit,gpxLayerBBox, MapView.MapWidth, MapView.MapHeight);
+            Map.CenterPoint = gpxLayerBBox.GetCenterPoint();
+            Map.CurrentScale = MapUtil.GetScale(Map.MapUnit,gpxLayerBBox, Map.MapWidth, Map.MapHeight);
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

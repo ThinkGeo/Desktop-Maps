@@ -39,7 +39,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             worldOverlay.Layers.Add("WorldCapitals", worldCapitalsLayer);
             mapView.Overlays.Add("Overlay", worldOverlay);
 
-            mapView.CurrentExtent = new RectangleShape(-15360785.1188513, 14752615.1010077, 16260907.558937, -12603279.9259404);
+            mapView.CenterPoint = new PointShape(450060, 1074670);
+            mapView.CurrentScale = 147914800;
 
             await mapView.RefreshAsync();
         }
@@ -80,7 +81,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.CurrentScale = 0D;
             this.mapView.ForeColor = System.Drawing.Color.Black;
             this.mapView.Location = new System.Drawing.Point(0, 0);
-            this.mapView.MapFocusMode = MapFocusMode.Default;
+            this.mapView.MapFocusMode = MapFocusMode.MouseEnterFocused;
             this.mapView.MapResizeMode = MapResizeMode.PreserveScale;
             this.mapView.MaximumScale = 1.7976931348623157E+308D;
             this.mapView.MinimumScale = 200D;
@@ -89,19 +90,19 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.RotationAngle = 0F;
             this.mapView.Size = new System.Drawing.Size(1296, 599);
             this.mapView.TabIndex = 0;
-            // 
+            //
             // panel1
-            // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            //
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.SizedBasedPointStyle);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.TimeBasedPointStyle);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(993, 0);
+            this.panel1.Location = new System.Drawing.Point(986, 10);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(303, 599);
+            this.panel1.Size = new System.Drawing.Size(300, 190);
             this.panel1.TabIndex = 1;
             // 
             // SizedBasedPointStyle

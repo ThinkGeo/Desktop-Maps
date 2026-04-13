@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using ThinkGeo.Core;
@@ -17,13 +18,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InitializeComponent();
         }
 
-        private void MapImage_Loaded(object sender, RoutedEventArgs e)
+        private async void MapImage_Loaded(object sender, RoutedEventArgs e)
         {
-            var layersToDraw = new Collection<Layer>();
+            var layersToDraw = new Collection<LayerBase>();
 
-            // Create the background world maps using vector tiles stored locally in our MBTiles file and also set the styling though a json file
-            var mbTilesLayer = new ThinkGeoMBTilesLayer(@"./Data/Mbtiles/Frisco.mbtiles", new Uri(@"./Data/Json/thinkgeo-world-streets-light.json", UriKind.Relative));
-            mbTilesLayer.Open();
+			var mbTilesLayer = new ThinkGeoRasterMapsAsyncLayer(SampleKeys.ClientId,
+				SampleKeys.ClientSecret);
+            await mbTilesLayer.OpenAsync();
             layersToDraw.Add(mbTilesLayer);
 
             // Create the new layer and set the projection as the data is in srid 2276 and our background is srid 3857 (spherical mercator).
@@ -45,19 +46,26 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var canvas = GeoCanvas.CreateDefaultGeoCanvas();
 
             // Create a GeoImage as the image to draw on
-            var geoImage = new GeoImage(800, 600);
+            var geoImage = new GeoImage(800, 800);
 
             // Start the drawing by specifying the image, extent and map units
-            canvas.BeginDrawing(geoImage, MapUtil.GetDrawingExtent(zoningLayer.GetBoundingBox(), 800, 600), GeographyUnit.Meter);
+            var bbox = zoningLayer.GetBoundingBox();
+            var b1 = MapUtil.GetDrawingExtent(bbox, 800, 800);
 
+			canvas.ScaleFactor = 2;
+
+			canvas.BeginDrawing(geoImage, MapUtil.GetDrawingExtent(b1, 800, 800), GeographyUnit.Meter);
             // This collection is used during drawing to pass labels in between layers, so we can track collisions
             var labels = new Collection<SimpleCandidate>();
 
             // Loop through all the layers and draw them to the GeoCanvas
             // The flush is to compact styles that use different drawing levels
-            foreach (var layer in layersToDraw)
+            foreach (var baseLayer in layersToDraw)
             {
-                layer.Draw(canvas, labels);
+                if (baseLayer is AsyncLayer asyncLayer)
+					await asyncLayer.DrawAsync(canvas, labels);
+                else if (baseLayer is Layer layer)
+                    layer.Draw(canvas, labels);
                 canvas.Flush();
             }
 

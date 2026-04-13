@@ -10,22 +10,27 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class GoogleMap : IDisposable
     {
+
+        private bool _initialized;
         public GoogleMap()
         {
             InitializeComponent();
         }
 
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Add a simple background overlay
-            MapView.BackgroundOverlay.BackgroundBrush = GeoBrushes.AliceBlue;
+            Map.BackgroundOverlay.BackgroundBrush = GeoBrushes.AliceBlue;
 
             // Set the map extent
-            MapView.CenterPoint = new PointShape(-10778000, 3912000);
-            MapView.CurrentScale = 77000;
+            Map.CenterPoint = new PointShape(-10778000, 3912000);
+            Map.CurrentScale = 77000;
         }
 
         /// <summary>
@@ -34,17 +39,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void BtnActivate_Click(object sender, RoutedEventArgs e)
         {
             // Clear the current overlay
-            MapView.Overlays.Clear();
+            Map.Overlays.Clear();
 
             // Create a new overlay that will hold our new layer and add it to the map.
             var worldOverlay = new GoogleMapsOverlay(TxtApiKey.Text, string.Empty);
-            MapView.Overlays.Add("WorldOverlay", worldOverlay);
+            Map.Overlays.Add("WorldOverlay", worldOverlay);
 
             // Set the current extent to the whole world.
-            MapView.CenterPoint = new PointShape(0, 0);
-            MapView.CurrentScale = 105721100;
+            Map.CenterPoint = new PointShape(0, 0);
+            Map.CurrentScale = 105721100;
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
@@ -56,7 +61,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

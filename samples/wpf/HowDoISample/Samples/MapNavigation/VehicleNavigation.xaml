@@ -13,14 +13,14 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <thinkGeoUi:MapView Grid.Row="1" x:Name="MapView" MapUnit="Meter" Loaded="MapView_OnLoaded"/>
+        <thinkGeoUi:MapView Grid.Row="1" x:Name="Map" MapUnit="Meter" SizeChanged="Map_SizeChanged"/>
 
         <Image Source="/Resources/icon_north_arrow.png" Grid.Row="1" 
                    VerticalAlignment="Top" HorizontalAlignment="Right"
                    Width="40" Height="40" Margin="5"
                    RenderTransformOrigin="0.5,0.5">
             <Image.RenderTransform>
-                <RotateTransform Angle="{Binding ElementName=MapView, Path=RotationAngle}"/>
+                <RotateTransform Angle="{Binding ElementName=Map, Path=RotationAngle}"/>
             </Image.RenderTransform>
         </Image>
 

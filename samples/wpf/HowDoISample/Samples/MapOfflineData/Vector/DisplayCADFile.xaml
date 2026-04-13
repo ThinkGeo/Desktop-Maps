@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <thinkGeoUi:MapView x:Name="MapView" Loaded="MapView_Loaded" MapUnit="Meter"></thinkGeoUi:MapView>
+        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged" MapUnit="Meter"></thinkGeoUi:MapView>
         <RadioButton x:Name="EmbeddedStyling" Content="DWG-Embedded Styling" HorizontalAlignment="Left" Margin="87,10,0,0" VerticalAlignment="Top" IsChecked="True" GroupName="grpStyling" Checked="EmbeddedStyling_Checked"/>
         <RadioButton x:Name="ProgrammaticStyling" Content="Standard Programmatic Styling" HorizontalAlignment="Left" Margin="87,30,0,0" VerticalAlignment="Top" GroupName="grpStyling" Checked="ProgrammaticStyling_Checked"/>
     </Grid>

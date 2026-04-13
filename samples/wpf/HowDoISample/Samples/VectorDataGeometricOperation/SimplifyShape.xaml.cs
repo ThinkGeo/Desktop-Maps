@@ -9,6 +9,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class SimplifyShape : IDisposable
     {
+
+        private bool _initialized;
         public SimplifyShape()
         {
             InitializeComponent();
@@ -17,10 +19,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the cityLimits and simplifyLayer layers into a grouped LayerOverlay and display them on the map.
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -31,7 +36,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             var cityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimits.shp");
             var simplifyLayer = new InMemoryFeatureLayer();
@@ -58,15 +63,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Set the map extent to the cityLimits layer bounding box
             cityLimits.Open();
             var cityLimitsBBox = cityLimits.GetBoundingBox();
-            MapView.CenterPoint = cityLimitsBBox.GetCenterPoint();
-            var MapScale = MapUtil.GetScale(MapView.MapUnit, cityLimitsBBox, MapView.MapWidth, MapView.MapHeight);
-            MapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
+            Map.CenterPoint = cityLimitsBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(Map.MapUnit, cityLimitsBBox, Map.MapWidth, Map.MapHeight);
+            Map.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
             cityLimits.Close();
 
             // Add LayerOverlay to Map
-            MapView.Overlays.Add("layerOverlay", layerOverlay);
+            Map.Overlays.Add("layerOverlay", layerOverlay);
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         /// <summary>
@@ -74,7 +79,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void SimplifyShape_OnClick(object sender, RoutedEventArgs e)
         {
-            var layerOverlay = (LayerOverlay)MapView.Overlays["layerOverlay"];
+            var layerOverlay = (LayerOverlay)Map.Overlays["layerOverlay"];
 
             var cityLimits = (ShapeFileFeatureLayer)layerOverlay.Layers["cityLimits"];
             var simplifyLayer = (InMemoryFeatureLayer)layerOverlay.Layers["simplifyLayer"];
@@ -99,7 +104,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

@@ -1,0 +1,27 @@
+<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.MarkdownDocumentViewer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+    Background="#FF10141B">
+    <Grid Margin="10">
+        <Grid>
+            <wv2:WebView2 x:Name="MarkdownWebView"
+                          Visibility="Collapsed" />
+
+            <TextBox x:Name="MarkdownTextBox"
+                     FontFamily="Consolas"
+                     FontSize="13"
+                     Background="#FF0D1117"
+                     Foreground="#FFDCE3EC"
+                     BorderBrush="#FF2A3442"
+                     CaretBrush="#FFDCE3EC"
+                     IsReadOnly="True"
+                     TextWrapping="NoWrap"
+                     VerticalScrollBarVisibility="Auto"
+                     HorizontalScrollBarVisibility="Auto"
+                     AcceptsReturn="True"
+                     AcceptsTab="True"
+                     Visibility="Collapsed" />
+        </Grid>
+    </Grid>
+</UserControl>

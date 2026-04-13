@@ -5,15 +5,20 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 {
     public partial class OGCAPIFeatureServer
     {
+
+        private bool _initialized;
         public OGCAPIFeatureServer()
         {
             InitializeComponent();
         }
 
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -24,13 +29,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+
+            var projectionConverter = new ProjectionConverter(4326, 3857);
+            projectionConverter.Open();
 
             var ignLayer = new OgcApiFeatureLayer("https://api-features.ign.es", "namedplace")
             {
                 FeatureSource =
                 {
-                    ProjectionConverter = new ProjectionConverter(4326, 3857)
+                    ProjectionConverter = projectionConverter
                 }
             };
 
@@ -55,11 +63,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 DrawingBulkCount = 100
             };
 
-            MapView.CenterPoint = new PointShape(235690, 5057360);
-            MapView.CurrentScale = 36200;
-            MapView.Overlays.Add("LayerOverlay", overlay);
+            Map.CenterPoint = new PointShape(235690, 5057360);
+            Map.CurrentScale = 36200;
+            Map.Overlays.Add("LayerOverlay", overlay);
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
     }
 }

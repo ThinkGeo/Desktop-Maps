@@ -20,7 +20,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// </summary>
         private async void Form_Load(object sender, EventArgs e)
         {
-            ThinkGeoDebugger.DisplayTileId = true;
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.Meter;
             var layerOverlay = new WmtsOverlay(new Uri("https://wmts.geo.admin.ch/1.0.0"));
@@ -66,6 +65,17 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
         }
 
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            base.OnVisibleChanged(e);
+
+            if (!this.Visible)
+            {
+                ThinkGeoDebugger.DisplayTileId = false;
+            }
+        }
+
+
         #region Component Designer generated code
 
         private MapView mapView;
@@ -94,24 +104,23 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Name = "mapView";
             mapView.RestrictExtent = null;
             mapView.RotationAngle = 0F;
-            mapView.Size = new System.Drawing.Size(1050, 611);
+            mapView.Size = new System.Drawing.Size(1250, 611);
             mapView.TabIndex = 0;
             // 
             // panel1
             // 
-            panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom
+            panel1.Anchor = AnchorStyles.Top
             | AnchorStyles.Right;
             panel1.BackColor = System.Drawing.Color.Gray;
             panel1.Controls.Add(checkBox1);
-            panel1.Location = new System.Drawing.Point(1050, 0);
+            panel1.Location = new System.Drawing.Point(955, 10);
             panel1.Name = "panel1";
-            panel1.Size = new System.Drawing.Size(285, 611);
+            panel1.Size = new System.Drawing.Size(285, 47);
             panel1.TabIndex = 1;
             // 
             // checkBox1
             // 
             checkBox1.AutoSize = true;
-            checkBox1.Checked = true;
             checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             checkBox1.ForeColor = System.Drawing.Color.White;
             checkBox1.Location = new System.Drawing.Point(15, 10);

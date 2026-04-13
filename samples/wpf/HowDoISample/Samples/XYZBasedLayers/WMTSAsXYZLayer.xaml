@@ -11,7 +11,7 @@
             <ColumnDefinition Width="240" />
         </Grid.ColumnDefinitions>
 
-        <thinkGeoUi:MapView x:Name="MapView" Grid.Column="0" Loaded="MapView_Loaded" />
+        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged" />
 
         <Grid Grid.Column="1">
             <Grid.ColumnDefinitions>
@@ -41,7 +41,7 @@
                              Margin="10, 5" Content="EPSG 4326"/>
 
 
-                <CheckBox FontSize="14" FontWeight="Bold" Foreground="White" IsChecked="True"
+                <CheckBox FontSize="14" FontWeight="Bold" Foreground="White"
                           Checked="DisplayTileIdCheckBox_Checked"
                           Unchecked="DisplayTileIdCheckBox_Checked" 
                           Margin="4" Content="Show Debug Info"/>

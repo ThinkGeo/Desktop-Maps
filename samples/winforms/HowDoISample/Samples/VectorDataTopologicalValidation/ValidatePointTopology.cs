@@ -256,12 +256,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotationAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(778, 664);
+            this.mapView.Size = new System.Drawing.Size(1185, 664);
             this.mapView.TabIndex = 0;
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.txtValidationInfo);
@@ -270,9 +270,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Controls.Add(this.rdoCheckIfPointsAreTouchingLineEndpoints);
             this.panel1.Controls.Add(this.rdoCheckIfPointsAreTouchingLines);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(781, 0);
+            this.panel1.Location = new System.Drawing.Point(771, 10);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(404, 664);
+            this.panel1.Size = new System.Drawing.Size(404, 413);
             this.panel1.TabIndex = 1;
             // 
             // txtValidationInfo

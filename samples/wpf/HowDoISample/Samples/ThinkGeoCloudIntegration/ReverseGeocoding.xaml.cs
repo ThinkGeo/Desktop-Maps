@@ -12,6 +12,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class ReverseGeocoding
     {
+
+        private bool _initialized;
         private ReverseGeocodingCloudClient _reverseGeocodingCloudClient;
 
         public ReverseGeocoding()
@@ -22,8 +24,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay, as well as several feature layers to display the reverse geocoding search area and locations
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
@@ -33,10 +38,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map's unit of measurement to meters (Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Create a new feature layer to display the search radius of the reverse geocode and create a style for it
             var searchRadiusFeatureLayer = new InMemoryFeatureLayer();
@@ -61,12 +66,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var bestMatchPopupOverlay = new PopupOverlay();
 
             // Add the overlays to the map
-            MapView.Overlays.Add("Search Features Overlay", searchFeaturesOverlay);
-            MapView.Overlays.Add("Best Match Popup Overlay", bestMatchPopupOverlay);
+            Map.Overlays.Add("Search Features Overlay", searchFeaturesOverlay);
+            Map.Overlays.Add("Best Match Popup Overlay", bestMatchPopupOverlay);
 
             // Set the map extent to Frisco, TX
-            MapView.CenterPoint = new PointShape(-10778720, 3915154);
-            MapView.CurrentScale = 202090;
+            Map.CenterPoint = new PointShape(-10778720, 3915154);
+            Map.CurrentScale = 202090;
 
             // Initialize the ReverseGeocodingCloudClient with our ThinkGeo Cloud credentials
             _reverseGeocodingCloudClient = new ReverseGeocodingCloudClient
@@ -77,13 +82,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             CboLocationCategories.SelectedIndex = 0;
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         /// <summary>
         /// Perform the reverse geocode when the user clicks on the map
         /// </summary>
-        private void MapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        private void Map_MapClick(object sender, MapClickMapViewEventArgs e)
         {
             if (e.MouseButton == MapMouseButton.Left)
             {
@@ -183,8 +188,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async Task DisplaySearchResultsAsync(PointShape searchPoint, int searchRadius, CloudReverseGeocodingResult searchResult)
         {
-            // Get the 'Search Radius' layer from the MapView
-            var searchRadiusFeatureLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Search Radius");
+            // Get the 'Search Radius' layer from the Map
+            var searchRadiusFeatureLayer = (InMemoryFeatureLayer)Map.FindFeatureLayer("Search Radius");
 
             // Clear the existing features and add new features showing the area that was searched by the reverse geocode
             searchRadiusFeatureLayer.Clear();
@@ -192,14 +197,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             searchRadiusFeatureLayer.InternalFeatures.Add(new Feature(searchPoint));
 
             // Get the 'Result Feature' layer and clear it
-            var selectedResultItemFeatureLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Result Feature Geometry");
+            var selectedResultItemFeatureLayer = (InMemoryFeatureLayer)Map.FindFeatureLayer("Result Feature Geometry");
             selectedResultItemFeatureLayer.Clear();
 
             // If a match was found for the geocode, update the UI
             if (searchResult?.BestMatchLocation != null)
             {
-                // Get the 'Best Match' PopupOverlay from the MapView and clear it
-                var bestMatchPopupOverlay = (PopupOverlay)MapView.Overlays["Best Match Popup Overlay"];
+                // Get the 'Best Match' PopupOverlay from the Map and clear it
+                var bestMatchPopupOverlay = (PopupOverlay)Map.Overlays["Best Match Popup Overlay"];
                 bestMatchPopupOverlay.Popups.Clear();
 
                 // Get the location of the 'Best Match' found within the search radius
@@ -258,14 +263,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Set the map extent to show the results of the search
             var searchRadiusFeatureLayerBBox = searchRadiusFeatureLayer.GetBoundingBox();
-            MapView.CenterPoint = searchRadiusFeatureLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, searchRadiusFeatureLayerBBox, MapView.MapWidth, MapView.MapHeight);
+            Map.CenterPoint = searchRadiusFeatureLayerBBox.GetCenterPoint();
+            Map.CurrentScale = MapUtil.GetScale(Map.MapUnit, searchRadiusFeatureLayerBBox, Map.MapWidth, Map.MapHeight);
             var standardZoomLevelSet = new ZoomLevelSet();
-            if (MapView.CurrentScale < standardZoomLevelSet.ZoomLevel18.Scale)
+            if (Map.CurrentScale < standardZoomLevelSet.ZoomLevel18.Scale)
             {
-                await MapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel18.Scale);
+                await Map.ZoomToAsync(standardZoomLevelSet.ZoomLevel18.Scale);
             }
-            await MapView.RefreshAsync();
+            await Map.RefreshAsync();
         }
 
         /// <summary>
@@ -281,8 +286,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     // Get the selected location
                     var locationFeature = ((CloudReverseGeocodingLocation)selectedResultList.SelectedItem).LocationFeature;
 
-                    // Get the 'Result Feature' layer from the MapView
-                    var selectedResultItemFeatureLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Result Feature Geometry");
+                    // Get the 'Result Feature' layer from the Map
+                    var selectedResultItemFeatureLayer = (InMemoryFeatureLayer)Map.FindFeatureLayer("Result Feature Geometry");
 
                     // Clear the existing features and add the geometry of the selected location
                     selectedResultItemFeatureLayer.Clear();
@@ -290,14 +295,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                     // Center the map on the chosen location
                     var locationFeatureBBox = locationFeature.GetBoundingBox();
-                    MapView.CenterPoint = locationFeatureBBox.GetCenterPoint();
-                    MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, locationFeatureBBox, MapView.MapWidth, MapView.MapHeight);
+                    Map.CenterPoint = locationFeatureBBox.GetCenterPoint();
+                    Map.CurrentScale = MapUtil.GetScale(Map.MapUnit, locationFeatureBBox, Map.MapWidth, Map.MapHeight);
                     var standardZoomLevelSet = new ZoomLevelSet();
-                    if (MapView.CurrentScale < standardZoomLevelSet.ZoomLevel18.Scale)
+                    if (Map.CurrentScale < standardZoomLevelSet.ZoomLevel18.Scale)
                     {
-                        await MapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel18.Scale);
+                        await Map.ZoomToAsync(standardZoomLevelSet.ZoomLevel18.Scale);
                     }
-                    await MapView.RefreshAsync();
+                    await Map.RefreshAsync();
                 }
             }
             catch 

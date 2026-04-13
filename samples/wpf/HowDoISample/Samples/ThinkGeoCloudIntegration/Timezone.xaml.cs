@@ -11,6 +11,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class Timezone : IDisposable
     {
+
+        private bool _initialized;
         private TimeZoneCloudClient _timeZoneCloudClient;
 
         public Timezone()
@@ -21,8 +23,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
             {
@@ -32,16 +37,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map's unit of measurement to meters (Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Create a PopupOverlay to display time zone information based on locations input by the user
             var timezoneInfoPopupOverlay = new PopupOverlay();
 
             // Add the overlay to the map
-            MapView.Overlays.Add("Timezone Info Popup Overlay", timezoneInfoPopupOverlay);
+            Map.Overlays.Add("Timezone Info Popup Overlay", timezoneInfoPopupOverlay);
 
             // Add a new InMemoryFeatureLayer to hold the timezone shapes
             var timezonesFeatureLayer = new InMemoryFeatureLayer();
@@ -53,7 +58,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Add the layer to an overlay, and add it to the map
             var timezonesLayerOverlay = new LayerOverlay();
             timezonesLayerOverlay.Layers.Add("Timezone Feature Layer", timezonesFeatureLayer);
-            MapView.Overlays.Add("Timezone Layer Overlay", timezonesLayerOverlay);
+            Map.Overlays.Add("Timezone Layer Overlay", timezonesLayerOverlay);
 
             // Initialize the TimezoneCloudClient with our ThinkGeo Cloud credentials
             _timeZoneCloudClient = new TimeZoneCloudClient
@@ -63,8 +68,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
 
             // Set the Map Extent
-            MapView.CenterPoint = new PointShape(-10618080, 4557170);
-            MapView.CurrentScale = 33258550;
+            Map.CenterPoint = new PointShape(-10618080, 4557170);
+            Map.CurrentScale = 33258550;
 
             // Get Timezone info for Frisco, TX
             _ = GetTimeZoneInfoAsync(-10779572.80, 3915268.68);
@@ -73,7 +78,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Perform the timezone query when the user clicks on the map
         /// </summary>
-        private void MapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        private void Map_MapClick(object sender, MapClickMapViewEventArgs e)
         {
             if (e.MouseButton == MapMouseButton.Left)
             {
@@ -108,8 +113,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 return;
             }
 
-            // Get the timezone info popup overlay from the mapview
-            var timezoneInfoPopupOverlay = (PopupOverlay)MapView.Overlays["Timezone Info Popup Overlay"];
+            // Get the timezone info popup overlay from the map
+            var timezoneInfoPopupOverlay = (PopupOverlay)Map.Overlays["Timezone Info Popup Overlay"];
 
             // Clear the existing info popups from the map
             timezoneInfoPopupOverlay.Popups.Clear();
@@ -128,7 +133,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             timezoneInfoPopupOverlay.Popups.Add(popup);
 
             // Clear the timezone feature layer of previous features
-            var timezonesFeatureLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Timezone Feature Layer");
+            var timezonesFeatureLayer = (InMemoryFeatureLayer)Map.FindFeatureLayer("Timezone Feature Layer");
             timezonesFeatureLayer.Open();
             timezonesFeatureLayer.InternalFeatures.Clear();
 
@@ -142,13 +147,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             timezonesFeatureLayer.Close();
 
             // Refresh and redraw the map
-            await MapView.RefreshAsync();
+            await Map.RefreshAsync();
         }
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

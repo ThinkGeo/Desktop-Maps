@@ -12,6 +12,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class CacheXyzTiles : IDisposable
     {
+
+        private bool _initialized;
         private OpenStreetMapAsyncLayer _openStreetMapAsyncLayer;
         private int _finishedTileCount;
         private string _cachePath;
@@ -23,11 +25,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             DataContext = this;
         }
 
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             var layerOverlay = new LayerOverlay();
             layerOverlay.TileType = TileType.SingleTile;
-            MapView.Overlays.Add(layerOverlay);
+            Map.Overlays.Add(layerOverlay);
 
             // Add Cloud Maps as a background overlay
             _openStreetMapAsyncLayer = new OpenStreetMapAsyncLayer();
@@ -42,8 +47,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _openStreetMapAsyncLayer.TileCache = new FileRasterTileCache(_cachePath, "xyzLayerCacheTest");
             _openStreetMapAsyncLayer.TileCacheGenerated += OpenStreetMapAsyncLayerOnTileCacheGenerated;
 
-            MapView.CurrentExtent = MaxExtents.OsmMaps;
-            _ = MapView.RefreshAsync();
+            Map.CurrentExtent = MaxExtents.OsmMaps;
+            _ = Map.RefreshAsync();
         }
 
         private void OpenStreetMapAsyncLayerOnTileCacheGenerated(object sender,
@@ -80,7 +85,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MyProgressBar.Visibility = Visibility.Hidden;
                 LblStatus.Visibility = Visibility.Hidden;
 
-                await MapView.RefreshAsync();
+                await Map.RefreshAsync();
             }
             catch
             {
@@ -91,7 +96,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void BtnClearCache_OnClick(object sender, RoutedEventArgs e)
         {
             _openStreetMapAsyncLayer.TileCache.ClearCache();
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private void ckbCacheOnly_OnChecked(object sender, RoutedEventArgs e)
@@ -101,7 +106,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var checkBox = (CheckBox)sender;
             if (checkBox.IsChecked != null)
                 _openStreetMapAsyncLayer.IsCacheOnly = checkBox.IsChecked.Value;
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private void btnOpenCacheFolder_OnClick(object sender, RoutedEventArgs e)
@@ -119,7 +124,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             ThinkGeoDebugger.DisplayTileId = false;
-            MapView.Dispose();
+            Map.Dispose();
             GC.SuppressFinalize(this);
         }
     }

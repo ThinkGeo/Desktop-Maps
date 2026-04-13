@@ -23,12 +23,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             {
                 ClientId = SampleKeys.ClientId,
                 ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light
+                MapType = ThinkGeoCloudVectorMapsMapType.Light,
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
+            mapView.CenterPoint = new PointShape(-10778000, 3912500);
+            mapView.CurrentScale = 68000;
 
             var coyoteSightings = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Coyote_Sightings.shp")
             {

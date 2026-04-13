@@ -10,6 +10,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class RenderBasedOnValues : IDisposable
     {
+
+        private bool _initialized;
         public RenderBasedOnValues()
         {
             InitializeComponent();
@@ -18,10 +20,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, project and style the friscoCrime layer
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -32,7 +37,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             var friscoCrime = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Crime.shp");
             var legend = new LegendAdornmentLayer();
@@ -50,18 +55,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 TextStyle = new TextStyle("Crime Categories", new GeoFont("Verdana", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
             };
             legend.Location = AdornmentLocation.LowerRight;
-            MapView.AdornmentOverlay.Layers.Add(legend);
+            Map.AdornmentOverlay.Layers.Add(legend);
 
             AddValueStyle(friscoCrime, legend);
 
-            // Add layerOverlay to the mapView
-            MapView.Overlays.Add(layerOverlay);
+            // Add layerOverlay to the map
+            Map.Overlays.Add(layerOverlay);
 
             // Set the map extent
-            MapView.CenterPoint = new PointShape(-10778210, 3914410);
-            MapView.CurrentScale = 18260;
+            Map.CenterPoint = new PointShape(-10778210, 3914410);
+            Map.CurrentScale = 18260;
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         /// <summary>
@@ -108,7 +113,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

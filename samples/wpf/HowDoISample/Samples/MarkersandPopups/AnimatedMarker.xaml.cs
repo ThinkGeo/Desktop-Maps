@@ -9,6 +9,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class AnimatedMarker : IDisposable
     {
+
+        private bool _initialized;
         public AnimatedMarker()
         {
             InitializeComponent();
@@ -16,10 +18,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         CustomIcon _icon = new CustomIcon();
 
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -30,17 +35,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             _icon = new CustomIcon();
             _icon.AnimationStarted = true;
 
             var markerOverlay = new SimpleMarkerOverlay();
-            MapView.Overlays.Add(markerOverlay);
+            Map.Overlays.Add(markerOverlay);
             
             // Set the map extent
-            MapView.CenterPoint = new PointShape(-10778000, 3912000);
-            MapView.CurrentScale = 77000;
+            Map.CenterPoint = new PointShape(-10778000, 3912000);
+            Map.CurrentScale = 77000;
 
             var marker = new Marker(-10777932, 3912260)
             {
@@ -51,7 +56,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
             markerOverlay.Markers.Add(marker);
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
@@ -62,7 +67,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

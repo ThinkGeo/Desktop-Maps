@@ -10,15 +10,20 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class CustomFeatureLayer : IDisposable
     {
+
+        private bool _initialized;
         public CustomFeatureLayer()
         {
             InitializeComponent();
         }
 
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -29,7 +34,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             var radiusLayer = new RadiusLayer
             {
@@ -38,17 +43,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 RingDistance = 5
             };
 
-            MapView.AdornmentOverlay.Layers.Add(radiusLayer);
-            MapView.CenterPoint = new PointShape(-10780320, 3915120);
-            MapView.CurrentScale = 288900;
+            Map.AdornmentOverlay.Layers.Add(radiusLayer);
+            Map.CenterPoint = new PointShape(-10780320, 3915120);
+            Map.CurrentScale = 288900;
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

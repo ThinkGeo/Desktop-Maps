@@ -10,6 +10,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class ProjectARaster : IDisposable
     {
+
+        private bool _initialized;
         public ProjectARaster()
         {
             InitializeComponent();
@@ -18,15 +20,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            // Set the Map Unit to meters (Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
-            // Create an overlay that we can add layers to, and add it to the MapView
+            _initialized = true;
+            // Set the Map Unit to meters (Spherical Mercator)
+            Map.MapUnit = GeographyUnit.Meter;
+
+            // Create an overlay that we can add layers to, and add it to the Map
             var layerOverlay = new LayerOverlay();
             layerOverlay.TileType = TileType.SingleTile;
-            MapView.Overlays.Add(layerOverlay);
+            Map.Overlays.Add(layerOverlay);
 
             // Reproject a raster layer and set the extent
             _ = ReprojectRasterLayerAsync(layerOverlay);
@@ -49,17 +54,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Set the map to the extent of the raster layer and refresh the map
             worldRasterLayer.Open();
             var worldRasterLayerBBox = worldRasterLayer.GetBoundingBox();
-            MapView.CenterPoint = worldRasterLayerBBox.GetCenterPoint();
-            var MapScale = MapUtil.GetScale(MapView.MapUnit, worldRasterLayerBBox, MapView.MapWidth, MapView.MapHeight);
-            MapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
+            Map.CenterPoint = worldRasterLayerBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(Map.MapUnit, worldRasterLayerBBox, Map.MapWidth, Map.MapHeight);
+            Map.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
             worldRasterLayer.Close();
-            await MapView.RefreshAsync();
+            await Map.RefreshAsync();
         }
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

@@ -9,15 +9,20 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class CreateAFleeBooleanStyle : IDisposable
     {
+
+        private bool _initialized;
         public CreateAFleeBooleanStyle()
         {
             InitializeComponent();
         }
 
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -28,7 +33,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a layer with polygon data
             var countries02Layer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Countries02.shp")
@@ -45,16 +50,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             layerOverlay.Layers.Add(countries02Layer);
 
             // Add the overlay to the map
-            MapView.Overlays.Add(layerOverlay);
+            Map.Overlays.Add(layerOverlay);
 
             // Add the fleeBooleanStyle to the countries02 layer
             AddFleeBooleanStyle(countries02Layer);
 
             // Set the map extent
-            MapView.CenterPoint = MaxExtents.SphericalMercator.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, MaxExtents.SphericalMercator, MapView.MapWidth, MapView.MapHeight);
+            Map.CenterPoint = MaxExtents.SphericalMercator.GetCenterPoint();
+            Map.CurrentScale = MapUtil.GetScale(Map.MapUnit, MaxExtents.SphericalMercator, Map.MapWidth, Map.MapHeight);
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         /// <summary>
@@ -89,7 +94,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

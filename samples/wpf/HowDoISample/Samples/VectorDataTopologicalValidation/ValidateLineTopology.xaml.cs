@@ -11,16 +11,21 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class ValidateLineTopology : IDisposable
     {
+
+        private bool _initialized;
         public ValidateLineTopology()
         {
             InitializeComponent();
         }
 
         /// <summary>
-        /// Set up feature layers in the MapView to display the validated features
+        /// Set up feature layers in the Map to display the validated features
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             // Create an InMemoryFeatureLayer to hold the shapes to be validated
             // Add styles to display points, lines, and polygons on this layer in green
             var validatedFeaturesLayer = new InMemoryFeatureLayer();
@@ -50,15 +55,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             featuresOverlay.Layers.Add("Filter Features", filterFeaturesLayer);
             featuresOverlay.Layers.Add("Validated Features", validatedFeaturesLayer);
             featuresOverlay.Layers.Add("Result Features", resultFeaturesLayer);
-            MapView.Overlays.Add("Features Overlay", featuresOverlay);
+            Map.Overlays.Add("Features Overlay", featuresOverlay);
 
             // Set a default extent for the map
-            MapView.CenterPoint = new PointShape(100, 100);
-            MapView.CurrentScale = 1060;
+            Map.CenterPoint = new PointShape(100, 100);
+            Map.CurrentScale = 1060;
 
             RdoCheckLineEndpointsMustTouchPoints.IsChecked = true;
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         /// <summary>
@@ -78,7 +83,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Get the invalid features returned from the API
             var invalidResultFeatures = result.InvalidFeatures;
 
-            // Clear the MapView and add the new valid/invalid features to the map
+            // Clear the Map and add the new valid/invalid features to the map
             _ = ClearMapAndAddFeaturesAsync(new Collection<Feature>() { lineFeature }, invalidResultFeatures, new Collection<Feature>() { pointOnEndpointFeature });
 
             // Update the help text
@@ -103,7 +108,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Get the invalid features returned from the API
             var invalidResultFeatures = result.InvalidFeatures;
 
-            // Clear the MapView and add the new valid/invalid features to the map
+            // Clear the Map and add the new valid/invalid features to the map
             _ = ClearMapAndAddFeaturesAsync(new Collection<Feature>() { lineFeature, lineOnBoundaryFeature }, invalidResultFeatures, new Collection<Feature>() { polygonFeature });
 
             // Update the help text
@@ -127,7 +132,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Get the invalid features returned from the API
             var invalidResultFeatures = result.InvalidFeatures;
 
-            // Clear the MapView and add the new valid/invalid features to the map
+            // Clear the Map and add the new valid/invalid features to the map
             _ = ClearMapAndAddFeaturesAsync(new Collection<Feature>() { lineFeature }, invalidResultFeatures, new Collection<Feature>() { coveringLineFeature });
 
             // Update the help text
@@ -150,7 +155,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Get the invalid features returned from the API
             var invalidResultFeatures = result.InvalidFeatures;
 
-            // Clear the MapView and add the new valid/invalid features to the map
+            // Clear the Map and add the new valid/invalid features to the map
             _ = ClearMapAndAddFeaturesAsync(new Collection<Feature>() { singleLineFeature, multiLineFeature }, invalidResultFeatures);
 
             // Update the help text
@@ -173,7 +178,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Get the invalid features returned from the API
             var invalidResultFeatures = result.InvalidFeatures;
 
-            // Clear the MapView and add the new valid/invalid features to the map
+            // Clear the Map and add the new valid/invalid features to the map
             _ = ClearMapAndAddFeaturesAsync(lines, invalidResultFeatures);
 
             // Update the help text
@@ -200,7 +205,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Get the invalid features returned from the API
             var invalidResultFeatures = result.InvalidFeatures;
 
-            // Clear the MapView and add the new valid/invalid features to the map
+            // Clear the Map and add the new valid/invalid features to the map
             _ = ClearMapAndAddFeaturesAsync(lines, invalidResultFeatures);
 
             // Update the help text
@@ -224,7 +229,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Get the invalid features returned from the API
             var invalidResultFeatures = result.InvalidFeatures;
 
-            // Clear the MapView and add the new valid/invalid features to the map
+            // Clear the Map and add the new valid/invalid features to the map
             _ = ClearMapAndAddFeaturesAsync(new Collection<Feature>() { lineFeature1, lineFeature2, lineFeature3 }, invalidResultFeatures);
 
             // Update the help text
@@ -248,7 +253,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Get the invalid features returned from the API
             var invalidResultFeatures = result.InvalidFeatures;
 
-            // Clear the MapView and add the new valid/invalid features to the map
+            // Clear the Map and add the new valid/invalid features to the map
             _ = ClearMapAndAddFeaturesAsync(new Collection<Feature>() { lineFeature1, lineFeature2, lineFeature3 }, invalidResultFeatures);
 
             // Update the help text
@@ -273,7 +278,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Get the invalid features returned from the API
             var invalidResultFeatures = result.InvalidFeatures;
 
-            // Clear the MapView and add the new valid/invalid features to the map
+            // Clear the Map and add the new valid/invalid features to the map
             _ = ClearMapAndAddFeaturesAsync(new Collection<Feature>() { lineFeature1, lineFeature2, lineFeature3 }, invalidResultFeatures);
 
             // Update the help text
@@ -297,7 +302,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Get the invalid features returned from the API
             var invalidResultFeatures = result.InvalidFeatures;
 
-            // Clear the MapView and add the new valid/invalid features to the map
+            // Clear the Map and add the new valid/invalid features to the map
             _ = ClearMapAndAddFeaturesAsync(new Collection<Feature>() { overlappedLineFeature }, invalidResultFeatures, new Collection<Feature>() { overlappingLineFeature });
 
             // Update the help text
@@ -319,7 +324,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Get the invalid features returned from the API
             var invalidResultFeatures = result.InvalidFeatures;
 
-            // Clear the MapView and add the new valid/invalid features to the map
+            // Clear the Map and add the new valid/invalid features to the map
             _ = ClearMapAndAddFeaturesAsync(new Collection<Feature>() { selfIntersectingLine }, invalidResultFeatures);
 
             // Update the help text
@@ -341,7 +346,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Get the invalid features returned from the API
             var invalidResultFeatures = result.InvalidFeatures;
 
-            // Clear the MapView and add the new valid/invalid features to the map
+            // Clear the Map and add the new valid/invalid features to the map
             _ = ClearMapAndAddFeaturesAsync(new Collection<Feature>() { selfOverlappingLine }, invalidResultFeatures);
 
             // Update the help text
@@ -353,10 +358,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async Task ClearMapAndAddFeaturesAsync(Collection<Feature> validatedFeatures, Collection<Feature> resultFeatures, Collection<Feature> filterFeatures = null)
         {
-            // Get the InMemoryFeatureLayers from the MapView
-            var validatedFeaturesLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Validated Features");
-            var filterFeaturesLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Filter Features");
-            var resultFeaturesLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Result Features");
+            // Get the InMemoryFeatureLayers from the Map
+            var validatedFeaturesLayer = (InMemoryFeatureLayer)Map.FindFeatureLayer("Validated Features");
+            var filterFeaturesLayer = (InMemoryFeatureLayer)Map.FindFeatureLayer("Filter Features");
+            var resultFeaturesLayer = (InMemoryFeatureLayer)Map.FindFeatureLayer("Result Features");
 
             validatedFeaturesLayer.Open();
             filterFeaturesLayer.Open();
@@ -390,12 +395,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
 
             // Refresh/redraw the layers and reset the map extent
-            var featureOverlay = (LayerOverlay)MapView.Overlays["Features Overlay"];
+            var featureOverlay = (LayerOverlay)Map.Overlays["Features Overlay"];
             var featureOverlayBBox = featureOverlay.GetBoundingBox();
-            MapView.CenterPoint = featureOverlayBBox.GetCenterPoint();
-            var MapScale = MapUtil.GetScale(MapView.MapUnit, featureOverlayBBox, MapView.MapWidth, MapView.MapHeight);
-            MapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
-            await MapView.RefreshAsync();
+            Map.CenterPoint = featureOverlayBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(Map.MapUnit, featureOverlayBBox, Map.MapWidth, Map.MapHeight);
+            Map.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
+            await Map.RefreshAsync();
 
             validatedFeaturesLayer.Close();
             filterFeaturesLayer.Close();
@@ -405,7 +410,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

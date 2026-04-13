@@ -117,15 +117,15 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom
+            panel1.Anchor = AnchorStyles.Top
             | AnchorStyles.Right;
             panel1.BackColor = System.Drawing.Color.Gray;
             panel1.Controls.Add(radioButton1);
             panel1.Controls.Add(radioButton2);
             panel1.Controls.Add(label1);
-            panel1.Location = new System.Drawing.Point(965, 0);
+            panel1.Location = new System.Drawing.Point(870, 10);
             panel1.Name = "panel1";
-            panel1.Size = new System.Drawing.Size(285, 611);
+            panel1.Size = new System.Drawing.Size(285, 122);
             panel1.TabIndex = 3;
             // 
             // radioButton1

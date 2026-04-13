@@ -2,7 +2,6 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:gif="http://wpfanimatedgif.codeplex.com"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
              xmlns:code="clr-namespace:ThinkGeo.Core;assembly=ThinkGeo.Core" xmlns:system="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -13,15 +12,15 @@
     <Grid>
         <thinkGeoUi:MapView Grid.Column="0"
                             Grid.Row="0"
-                            x:Name="MapView"
-                            Loaded="MapView_Loaded"
-                            MapClick="MapView_MapClick"></thinkGeoUi:MapView>
+                            x:Name="Map"
+                            SizeChanged="Map_SizeChanged"
+                            MapClick="Map_MapClick"></thinkGeoUi:MapView>
         <Image Grid.Column="0"
                x:Name="LoadingImage"
                Height="64"
                Width="64"
                Visibility="Hidden"
-               gif:ImageBehavior.AnimatedSource="..\..\Resources\loading.gif" />
+               Source="..\..\Resources\loading.png" />
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1"
                    Grid.Row="0"

@@ -10,6 +10,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class DisplayCloudMapsRasterOverlaySample : IDisposable
     {
+
+        private bool _initialized;
         public DisplayCloudMapsRasterOverlaySample()
         {
             InitializeComponent();
@@ -18,17 +20,20 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with a background overlay and set the map's extent to Frisco, Tx.
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Add a simple background overlay
-            MapView.BackgroundOverlay.BackgroundBrush = GeoBrushes.AliceBlue;
+            Map.BackgroundOverlay.BackgroundBrush = GeoBrushes.AliceBlue;
 
             // Set the map extent
-            MapView.CenterPoint = new PointShape(-10777420, 3911000);
-            MapView.CurrentScale = 49300;
+            Map.CenterPoint = new PointShape(-10777420, 3911000);
+            Map.CurrentScale = 49300;
         }
 
         /// <summary>
@@ -42,8 +47,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 ClientSecret = SampleKeys.ClientSecret,
                 MapType = ThinkGeoCloudRasterMapsMapType.Hybrid2_V2_X1,
             };
-            MapView.Overlays.Add(thinkGeoCloudRasterMapsOverlay);
-            _ = MapView.RefreshAsync();
+            Map.Overlays.Add(thinkGeoCloudRasterMapsOverlay);
+            _ = Map.RefreshAsync();
         }
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
@@ -55,7 +60,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

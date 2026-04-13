@@ -14,7 +14,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded"></thinkGeoUi:MapView>
+        <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="Map" SizeChanged="Map_SizeChanged"></thinkGeoUi:MapView>
         <Grid Grid.Column="1" Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5" />

@@ -9,6 +9,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class DisplayGdalFile : IDisposable
     {
+
+        private bool _initialized;
         public DisplayGdalFile()
         {
             InitializeComponent();
@@ -17,11 +19,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Add the GeoTiff layer to the map
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            MapView.MapUnit = GeographyUnit.DecimalDegree;
-            MapView.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColors.ShallowOcean);
+            Map.MapUnit = GeographyUnit.DecimalDegree;
+            Map.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColors.ShallowOcean);
 
             // Create the new layer and dd the layer to the overlay we created earlier.
             var worldLayer = new GdalRasterLayer("./Data/GeoTiff/World.tif")
@@ -32,23 +37,23 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             worldLayer.Open();
             var worldLayerBBox = worldLayer.GetBoundingBox();
-            MapView.CenterPoint = worldLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit,worldLayerBBox, MapView.MapWidth, MapView.MapHeight);
+            Map.CenterPoint = worldLayerBBox.GetCenterPoint();
+            Map.CurrentScale = MapUtil.GetScale(Map.MapUnit,worldLayerBBox, Map.MapWidth, Map.MapHeight);
             worldLayer.Close();
 
             // Create a new overlay that will hold our new layer and add it to the map.
             var staticOverlay = new LayerOverlay();
 
             staticOverlay.Layers.Add("WorldLayer", worldLayer);
-            MapView.Overlays.Add(staticOverlay);
+            Map.Overlays.Add(staticOverlay);
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

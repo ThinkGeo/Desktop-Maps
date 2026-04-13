@@ -19,10 +19,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, load Frisco Railroad shapefile data and add it to the map
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudRasterMapsOverlay
@@ -33,11 +36,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
-            MapView.CenterPoint = new PointShape(-10779420, 3914420);
-            MapView.CurrentScale = 2260;
+            Map.CenterPoint = new PointShape(-10779420, 3914420);
+            Map.CurrentScale = 2260;
 
             // Create a layer with line data
             var friscoRailroad = new ShapeFileFeatureLayer(@"./Data/Railroad/Railroad.shp");
@@ -50,7 +53,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             layerOverlay.Layers.Add("Railroad", friscoRailroad);
 
             // Add the overlay to the map
-            MapView.Overlays.Add("overlay", layerOverlay);
+            Map.Overlays.Add("overlay", layerOverlay);
 
             // Create a line style
             var lineStyle = new LineStyle(new GeoPen(GeoBrushes.DimGray, 10), new GeoPen(GeoBrushes.WhiteSmoke, 6));
@@ -65,7 +68,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             RbLineStyle.IsChecked = true;
 
             _initialized = true;
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private void RbLineStyle_OnChecked(object sender, RoutedEventArgs e)
@@ -73,8 +76,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (!_initialized)
                 return;
 
-            if (MapView.Overlays.Count <= 0) return;
-            var layerOverlay = (LayerOverlay)MapView.Overlays["overlay"];
+            if (Map.Overlays.Count <= 0) return;
+            var layerOverlay = (LayerOverlay)Map.Overlays["overlay"];
             var friscoRailroad = (ShapeFileFeatureLayer)layerOverlay.Layers["Railroad"];
 
             // Create a line style
@@ -93,8 +96,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private void RbDashedLineStyle_OnChecked(object sender, RoutedEventArgs e)
         {
-            if (MapView.Overlays.Count <= 0) return;
-            var layerOverlay = (LayerOverlay)MapView.Overlays["overlay"];
+            if (Map.Overlays.Count <= 0) return;
+            var layerOverlay = (LayerOverlay)Map.Overlays["overlay"];
             var friscoRailroad = (ShapeFileFeatureLayer)layerOverlay.Layers["Railroad"];
 
             var lineStyle = new LineStyle(
@@ -121,7 +124,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

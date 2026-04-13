@@ -15,6 +15,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class GenerateESRIGridFile : IDisposable
     {
+
+        private bool _initialized;
         public GenerateESRIGridFile()
         {
             InitializeComponent();
@@ -23,10 +25,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the ESRI Grid layer to the map
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            MapView.MapUnit = GeographyUnit.Meter;
-            MapView.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColors.Snow);
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
+            Map.MapUnit = GeographyUnit.Meter;
+            Map.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColors.Snow);
 
             // Create background hybrid satellite map requested from ThinkGeo Cloud Service. 
             var cloudOverlay = new ThinkGeoCloudRasterMapsOverlay
@@ -35,7 +40,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 ClientSecret = SampleKeys.ClientSecret,
                 MapType = ThinkGeoCloudRasterMapsMapType.Hybrid2_V2_X1
             };
-            MapView.Overlays.Add("Cloud Overlay", cloudOverlay);
+            Map.Overlays.Add("Cloud Overlay", cloudOverlay);
 
             //Applies class break style to show sample points of pH level of a field.
             var classBreakStyle = new ClassBreakStyle("PH");
@@ -61,16 +66,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 TileType = TileType.SingleTile
             };
             gridOverlay.Layers.Add("GridFeatureLayer", samplesLayer);
-            MapView.Overlays.Add("GridFeatureOverlay", gridOverlay);
+            Map.Overlays.Add("GridFeatureOverlay", gridOverlay);
 
             //set the map's current extent to the point shapefile location.
             samplesLayer.Open();
             var samplesLayerBBox = samplesLayer.GetBoundingBox();
-            MapView.CenterPoint = samplesLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, samplesLayerBBox, MapView.MapWidth, MapView.MapHeight);
+            Map.CenterPoint = samplesLayerBBox.GetCenterPoint();
+            Map.CurrentScale = MapUtil.GetScale(Map.MapUnit, samplesLayerBBox, Map.MapWidth, Map.MapHeight);
             samplesLayer.Close();
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private void BtnGenerateGridFile_Click(object sender, RoutedEventArgs e)
@@ -135,7 +140,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             gridFeatureLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(gridClassBreakStyle);
             gridFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            var layerOverlay = MapView.Overlays["GridFeatureOverlay"] as LayerOverlay;
+            var layerOverlay = Map.Overlays["GridFeatureOverlay"] as LayerOverlay;
             if (layerOverlay != null && layerOverlay.Layers.Contains("GridFeatureLayer"))
             {
                 layerOverlay.Layers.Remove("GridFeatureLayer");
@@ -145,14 +150,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             {
                 layerOverlay.Layers.Add("GridFeatureLayer", gridFeatureLayer);
 
-                await MapView.RefreshAsync(layerOverlay);
+                await Map.RefreshAsync(layerOverlay);
             }
         }
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

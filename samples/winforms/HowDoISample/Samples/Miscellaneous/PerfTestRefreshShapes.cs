@@ -243,28 +243,28 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
             this.mapView.Location = new System.Drawing.Point(5, 0);
-            this.mapView.MapFocusMode = MapFocusMode.Default;
+            this.mapView.MapFocusMode = MapFocusMode.MouseEnterFocused;
             this.mapView.MapResizeMode = MapResizeMode.PreserveScale;
             this.mapView.MaximumScale = 1.7976931348623157E+308D;
             this.mapView.MinimumScale = 200D;
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotationAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(969, 562);
+            this.mapView.Size = new System.Drawing.Size(1277, 562);
             this.mapView.TabIndex = 0;
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.btnOffset);
             this.panel1.Controls.Add(this.btnRotate);
             this.panel1.Controls.Add(this.btnStartRefresh);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(975, 0);
+            this.panel1.Location = new System.Drawing.Point(965, 10);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(302, 562);
+            this.panel1.Size = new System.Drawing.Size(302, 173);
             this.panel1.TabIndex = 1;
             // 
             // btnOffset

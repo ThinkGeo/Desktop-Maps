@@ -11,14 +11,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class CustomStyles : IDisposable
     {
+
+        private bool _initialized;
         public CustomStyles()
         {
             InitializeComponent();
         }
 
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            MapView.MapUnit = GeographyUnit.Meter;
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -29,7 +34,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             var worldCapitalsLayer = new ShapeFileFeatureLayer(@".\Data\Shapefile\WorldCapitals.shp")
             {
@@ -42,17 +47,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             var worldOverlay = new LayerOverlay();
             worldOverlay.Layers.Add("WorldCapitals", worldCapitalsLayer);
-            MapView.Overlays.Add("Overlay", worldOverlay);
+            Map.Overlays.Add("Overlay", worldOverlay);
 
-            MapView.CenterPoint = new PointShape(450060, 1074670);
-            MapView.CurrentScale = 147914800;
+            Map.CenterPoint = new PointShape(450060, 1074670);
+            Map.CurrentScale = 147914800;
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private void TimeBasedPointStyle_Click(object sender, RoutedEventArgs e)
         {
-            var worldCapitalsLayer = MapView.FindFeatureLayer("WorldCapitals");
+            var worldCapitalsLayer = Map.FindFeatureLayer("WorldCapitals");
 
             var timeBasedPointStyle = new TimeBasedPointStyle
             {
@@ -64,25 +69,25 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
             worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(timeBasedPointStyle);
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private void SizedBasedPointStyle_Click(object sender, RoutedEventArgs e)
         {
-            var worldCapitalsLayer = MapView.FindFeatureLayer("WorldCapitals");
+            var worldCapitalsLayer = Map.FindFeatureLayer("WorldCapitals");
 
             var sizedpointStyle = new SizedPointStyle(PointStyle.CreateSimpleCircleStyle(GeoColors.Blue, 1), "population", 500000);
 
             worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
             worldCapitalsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(sizedpointStyle);
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

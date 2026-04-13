@@ -152,12 +152,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Name = "mapView";
             mapView.RestrictExtent = null;
             mapView.RotationAngle = 0F;
-            mapView.Size = new System.Drawing.Size(908, 630);
+            mapView.Size = new System.Drawing.Size(1208, 630);
             mapView.TabIndex = 0;
             // 
             // panel1
             // 
-            panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom
+            panel1.Anchor = AnchorStyles.Top
                                              | AnchorStyles.Right;
             panel1.BackColor = System.Drawing.Color.Gray;
             panel1.Controls.Add(radioGroupPanel);
@@ -167,9 +167,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             panel1.Controls.Add(lblCloudMapsLink);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(label1);
-            panel1.Location = new System.Drawing.Point(907, 0);
+            panel1.Location = new System.Drawing.Point(897, 10);
             panel1.Name = "panel1";
-            panel1.Size = new System.Drawing.Size(301, 630);
+            panel1.Size = new System.Drawing.Size(301, 265);
             panel1.TabIndex = 1;
             // 
             // radioGroupPanel

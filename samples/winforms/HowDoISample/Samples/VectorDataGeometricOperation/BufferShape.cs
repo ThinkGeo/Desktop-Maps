@@ -53,7 +53,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Set the map extent to the cityLimits layer bounding box
             cityLimits.Open();
-            mapView.CurrentExtent = cityLimits.GetBoundingBox();
+            var cityLimitsBBox = cityLimits.GetBoundingBox();
+            mapView.CenterPoint = cityLimitsBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(mapView.MapUnit, cityLimitsBBox, mapView.MapWidth, mapView.MapHeight);
+            mapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
             cityLimits.Close();
 
             // Add LayerOverlay to Map
@@ -116,21 +119,21 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotationAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(1036, 751);
+            this.mapView.Size = new System.Drawing.Size(1324, 751);
             this.mapView.TabIndex = 0;
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.bufferShape);
             this.panel1.Controls.Add(this.bufferDistance);
             this.panel1.Controls.Add(this.lblbufferDistance);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(1033, 0);
+            this.panel1.Location = new System.Drawing.Point(1023, 10);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(291, 751);
+            this.panel1.Size = new System.Drawing.Size(291, 137);
             this.panel1.TabIndex = 1;
             // 
             // label1

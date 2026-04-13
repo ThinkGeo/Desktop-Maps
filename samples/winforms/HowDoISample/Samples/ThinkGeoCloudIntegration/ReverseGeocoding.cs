@@ -402,13 +402,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotationAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(855, 588);
+            this.mapView.Size = new System.Drawing.Size(1162, 588);
             this.mapView.TabIndex = 0;
             this.mapView.MapClick += new System.EventHandler<MapClickMapViewEventArgs>(this.mapView_MapClick);
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.tabControl);
@@ -424,9 +424,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Controls.Add(this.txtCoordinates);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(861, 0);
+            this.panel1.Location = new System.Drawing.Point(851, 10);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(301, 588);
+            this.panel1.Size = new System.Drawing.Size(301, 600);
             this.panel1.TabIndex = 1;
             // 
             // tabControl

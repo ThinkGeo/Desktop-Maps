@@ -10,6 +10,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class ResizeTheMap : IDisposable
     {
+        private bool _initialized;
+
         public ResizeTheMap()
         {
             InitializeComponent();
@@ -18,10 +20,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map and a shapefile with simple data to work with
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -32,13 +37,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
-            MapView.CenterPoint = new PointShape(-10336000, 5260000);
-            MapView.CurrentScale = 37000000;
+            Map.CenterPoint = new PointShape(-10336000, 5260000);
+            Map.CurrentScale = 37000000;
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
@@ -49,13 +54,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             switch (radioButton.Content)
             {
                 case "PreserveScale":
-                    MapView.MapResizeMode = MapResizeMode.PreserveScale;
+                    Map.MapResizeMode = MapResizeMode.PreserveScale;
                     break;
                 case "PreserveScaleAndCenter":
-                    MapView.MapResizeMode = MapResizeMode.PreserveScaleAndCenter;
+                    Map.MapResizeMode = MapResizeMode.PreserveScaleAndCenter;
                     break;
                 case "PreserveExtent":
-                    MapView.MapResizeMode = MapResizeMode.PreserveExtent;
+                    Map.MapResizeMode = MapResizeMode.PreserveExtent;
                     break;
             }
         }
@@ -63,7 +68,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

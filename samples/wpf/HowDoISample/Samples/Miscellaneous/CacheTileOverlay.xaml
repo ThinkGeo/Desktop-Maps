@@ -11,7 +11,7 @@
             <ColumnDefinition Width="200" />
         </Grid.ColumnDefinitions>
 
-        <thinkGeoUi:MapView x:Name="MapView" Grid.Column="0" Loaded="MapView_Loaded" />
+        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged" />
         
         <ProgressBar Grid.Column="0" x:Name="MyProgressBar" Height="25" VerticalAlignment="Bottom"
                      Minimum="0" Maximum="100" Value="0" Visibility="Hidden"/>

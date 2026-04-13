@@ -4,44 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ThinkGeo.UI.Wpf.HowDoI"
-        xmlns:b="clr-namespace:Microsoft.Xaml.Behaviors;assembly=Microsoft.Xaml.Behaviors" 
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" 
         x:Class="ThinkGeo.UI.Wpf.HowDoI.Samples"
         mc:Ignorable="d"
         x:Name="Main"
         Loaded="MainWindow_OnLoaded"
-        d:DataContext="{d:DesignInstance {x:Type local:MainWindowViewModel}, IsDesignTimeCreatable=True}"
         Title="WPF How Do I Samples" Height="960" Width="1440"
-        Icon="Theme/Images/favicon.ico">
+        Icon="Resources/favicon.ico">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        <DataTemplate x:Key="MenuGroup" DataType="local:MenuViewModel">
-            <Expander x:Name="menuGroup" Style="{DynamicResource MenuExpanderStyle}" Header="{Binding Title}" IsExpanded="{Binding Expanded}">
-                <b:Interaction.Triggers>
-                    <b:EventTrigger EventName="Expanded">
-                        <b:InvokeCommandAction Command="{Binding DataContext.ExpandedMenusCommand, ElementName=Main, Mode=OneTime}" 
-                                                           CommandParameter="{Binding DataContext, ElementName=menuGroup}"/>
-                    </b:EventTrigger>
-                </b:Interaction.Triggers>
-                <ListBox x:Name="menus" Background="Transparent" BorderThickness="0" ItemsSource="{Binding Children}"
-                                     ItemContainerStyle="{DynamicResource ListBoxMenuItemStyle}"
-                                     IsSynchronizedWithCurrentItem="False"
-                                     SelectedItem="{Binding ElementName=Main, Path=DataContext.SelectedMenu}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate DataType="local:MenuViewModel">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <Path Style="{DynamicResource MenuArrow}"></Path>
-                                <Label Grid.Column="1" Content="{Binding Title}" Foreground="{DynamicResource MenuForegroundColor}" />
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </Expander>
-        </DataTemplate>
         <Style TargetType="{x:Type TreeViewItem}">
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontSize" Value="14"/>
@@ -57,7 +28,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Image Source="Theme/Images/logo.png" HorizontalAlignment="Left"/>
+            <Image Source="Resources/logo.png" HorizontalAlignment="Left"/>
 
             <StackPanel Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <TextBlock Text="ThinkGeo UI Control Samples for Desktop" Style="{DynamicResource ApplicationTitle}"></TextBlock>
@@ -125,8 +96,8 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="{Binding SelectedMenu.Title}" Style="{DynamicResource SampleTitle.Title}"/>
-                    <TextBlock Text="{Binding SelectedMenu.Description}" Grid.Row="1"
+                    <TextBlock x:Name="TitleText" Style="{DynamicResource SampleTitle.Title}"/>
+                    <TextBlock x:Name="DescriptionText" Grid.Row="1"
                            Style="{DynamicResource SampleTitle.Description}" />
                 </Grid>
 
@@ -140,10 +111,14 @@
 
                             <StackPanel Orientation="Horizontal" Margin="5,5,5,2">
                                 <ToggleButton x:Name="CsSwitcher" 
-                                          IsChecked="{Binding CodeViewer.IsCsharpCodeVisible}"
+                                          IsChecked="False"
+                                          Checked="CsSwitcher_OnChecked"
+                                          Unchecked="CsSwitcher_OnChecked"
                                           Style="{DynamicResource ToggleButtonTabStyle}" Content="CS"/>
                                 <ToggleButton x:Name="XamlSwitcher" Style="{DynamicResource ToggleButtonTabStyle}" 
-                                          IsChecked="{Binding CodeViewer.IsXamlCodeVisible}"
+                                          IsChecked="False"
+                                          Checked="XamlSwitcher_OnChecked"
+                                          Unchecked="XamlSwitcher_OnChecked"
                                           Content="XAML" Margin="1,0"/>
                             </StackPanel>
 
@@ -159,21 +134,22 @@
                                                    IsReadOnly="True"
                                                    Style="{DynamicResource CodeViewer}"
                                                    Background="WhiteSmoke"
-                                                   Visibility="{Binding ElementName=CsSwitcher, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                                   Visibility="Collapsed"/>
 
                                 <avalonedit:TextEditor x:Name="XamlCodeViewer" Grid.Column="0"
                                                    SyntaxHighlighting="XML"
                                                    Background="WhiteSmoke"
                                                    IsReadOnly="True"
                                                    Style="{DynamicResource CodeViewer}"
-                                                   Visibility="{Binding ElementName=XamlSwitcher, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                                   Visibility="Collapsed"/>
 
                                 <GridSplitter Grid.Column="1" 
                                               Margin="2,0,0,0" Width="2" 
-                                              ResizeBehavior="PreviousAndNext" ResizeDirection="Columns" x:Name="Splitter"/>
+                                              ResizeBehavior="PreviousAndNext" ResizeDirection="Columns" x:Name="Splitter"
+                                              Visibility="Collapsed"/>
 
                                 <!--<ContentControl Grid.Column="2" x:Name="SampleContent">-->
-                                <DockPanel x:Name="SampleContent" Grid.Column="2"></DockPanel>
+                                <DockPanel x:Name="SampleContent" Grid.Column="0" Grid.ColumnSpan="3"></DockPanel>
                                 <!--</ContentControl>-->
 
                             </Grid>

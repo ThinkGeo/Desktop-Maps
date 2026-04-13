@@ -9,6 +9,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class MagneticNorth : IDisposable
     {
+
+        private bool _initialized;
         public MagneticNorth()
         {
             InitializeComponent();
@@ -17,10 +19,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay.
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Create the layer overlay with some additional settings and add to the map.
             var cloudOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -31,9 +36,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the cloudOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add("Cloud Overlay", cloudOverlay);
+            Map.Overlays.Add("Cloud Overlay", cloudOverlay);
 
-            var magneticDeclinationAdornmentLayer = new MagneticDeclinationAdornmentLayer(AdornmentLocation.LowerLeft);
+            var magneticDeclinationAdornmentLayer = new MagneticDeclinationAdornmentLayer(AdornmentLocation.UpperRight);
             var proj4Projection = new Projection(3857);
             magneticDeclinationAdornmentLayer.Projection = proj4Projection;
             magneticDeclinationAdornmentLayer.TrueNorthPointStyle.SymbolSize = 25;
@@ -42,25 +47,24 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             magneticDeclinationAdornmentLayer.MagneticNorthLineStyle.InnerPen.Width = 2f;
             magneticDeclinationAdornmentLayer.MagneticNorthLineStyle.OuterPen.Width = 5f;
 
-            MapView.AdornmentOverlay.Layers.Add(magneticDeclinationAdornmentLayer);
+            Map.AdornmentOverlay.Layers.Add(magneticDeclinationAdornmentLayer);
+            Map.AdornmentOverlay.Layers.Add(new LogoAdornmentLayer(new GeoImage(@"..\..\..\Resources\generic-logo.png"))
+            {
+                Location = AdornmentLocation.LowerRight
+            });
 
             // Set the current extent to a neighborhood in Frisco Texas.
-            MapView.CenterPoint = new PointShape(-10779700, 3912000);
-            MapView.CurrentScale = 18100;
+            Map.CenterPoint = new PointShape(-10779700, 3912000);
+            Map.CurrentScale = 18100;
 
             // Refresh the map.
-            _ = MapView.RefreshAsync();
-        }
-
-        private void MapView_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            _ = MapView.AdornmentOverlay.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

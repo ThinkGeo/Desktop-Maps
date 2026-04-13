@@ -32,6 +32,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private SimpleMarkerOverlay _markerOverlay;
         private InMemoryFeatureLayer _routeLayer;
         private InMemoryFeatureLayer _visitedRoutesLayer;
+        private bool _initialized;
 
         private const double DefaultScale = 5000;
 
@@ -46,8 +47,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             this._disposed = true;
         }
 
-        private void MapView_OnLoaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             _cancellationTokenSource = new CancellationTokenSource();
             // Add Cloud Maps as a background overlay
             _backgroundOverlay = new ThinkGeoCloudRasterMapsOverlay
@@ -57,10 +61,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 MapType = ThinkGeoCloudRasterMapsMapType.Light_V2_X2,
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_raster_light")
             };
-            MapView.Overlays.Add(_backgroundOverlay);
+            Map.Overlays.Add(_backgroundOverlay);
             _backgroundOverlay.TileViewInMemoryCache = new XyzLruCache<TileView>();
 
-            MapView.DefaultAnimationSettings = new MapAnimationSettings
+            Map.DefaultAnimationSettings = new MapAnimationSettings
             {
                 Type = MapAnimationType.DrawWithAnimation,
                 Duration = 1500,
@@ -79,16 +83,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _routesOverlay = new FeatureLayerWpfDrawingOverlay();
             _routesOverlay.FeatureLayers.Add(_routeLayer);
             _routesOverlay.FeatureLayers.Add(_visitedRoutesLayer);
-            MapView.Overlays.Add(_routesOverlay);
+            Map.Overlays.Add(_routesOverlay);
 
             // Create a marker overlay to show where the vehicle is
             _markerOverlay = new SimpleMarkerOverlay();
-            MapView.Overlays.Add(_markerOverlay);
+            Map.Overlays.Add(_markerOverlay);
 
-            MapView.CurrentExtentChangedInAnimation += MapViewOnCurrentExtentChangedInAnimation;
+            Map.CurrentExtentChangedInAnimation += Map_CurrentExtentChangedInAnimation;
 
-            MapView.CenterPoint = new PointShape(_gpsPoints[0]);
-            MapView.CurrentScale = DefaultScale;
+            Map.CenterPoint = new PointShape(_gpsPoints[0]);
+            Map.CurrentScale = DefaultScale;
 
             // Create the marker of the vehicle
             _vehicleMarker = new Marker()
@@ -105,7 +109,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private async Task ZoomToGpsPointsAsync(Collection<Vertex> gpsPoints)
         {
-            await MapView.RefreshAsync();
+            await Map.RefreshAsync();
 
             for (_currentGpsPointIndex = 0; _currentGpsPointIndex < gpsPoints.Count; _currentGpsPointIndex++)
             {
@@ -126,7 +130,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
         }
 
-        private void MapViewOnCurrentExtentChangedInAnimation(object sender,
+        private void Map_CurrentExtentChangedInAnimation(object sender,
             CurrentExtentChangedInAnimationMapViewEventArgs e)
         {
             if (!MapUtil.IsSameDouble(e.FromResolution, e.ToResolution))
@@ -207,10 +211,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var currentLocation = gpsPoints[gpsPointIndex];
                 var centerPoint = new PointShape(currentLocation);
                 // Recenter the map to display the GPS location 200 pixels towards the bottom for improved visibility.
-                centerPoint = MapUtil.OffsetPointWithScreenOffset(centerPoint, 0, 200, angle, DefaultScale, MapView.MapUnit);
+                centerPoint = MapUtil.OffsetPointWithScreenOffset(centerPoint, 0, 200, angle, DefaultScale, Map.MapUnit);
 
                 //UpdateRoutesAndMarker(0, angle);
-                await MapView.ZoomToAsync(centerPoint, DefaultScale, angle, cancellationToken);
+                await Map.ZoomToAsync(centerPoint, DefaultScale, angle, cancellationToken);
             }
         }
 
@@ -306,7 +310,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _backgroundOverlay.MapType = AerialBackgroundCheckBox.IsChecked.Value
                 ? ThinkGeoCloudRasterMapsMapType.Aerial2_V2_X2
                 : ThinkGeoCloudRasterMapsMapType.Light_V2_X2;
-            await _backgroundOverlay.RefreshAsync(MapView.CancellationTokenSource.Token);
+            await _backgroundOverlay.RefreshAsync(Map.CancellationTokenSource.Token);
 
             _holdAnimation = false;
         }
@@ -331,9 +335,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var center = boundingBox.GetCenterPoint();
 
                 // Multiply the current scale by 1.5 to zoom out 50%.
-                var scale = MapUtil.GetScale(MapView.MapUnit, boundingBox, MapView.MapWidth, MapView.MapHeight) * 1.5;
+                var scale = MapUtil.GetScale(Map.MapUnit, boundingBox, Map.MapWidth, Map.MapHeight) * 1.5;
 
-                await MapView.ZoomToAsync(center, scale, 0);
+                await Map.ZoomToAsync(center, scale, 0);
             }
             else
             {
@@ -346,7 +350,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
 

@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Drawing;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using ThinkGeo.Core;
 
@@ -16,11 +17,18 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void Form_Load(object sender, EventArgs e)
         {
-            var layersToDraw = new Collection<Layer>();
+	        _ = DrawMapOnImageAsync();
+        }
 
-            // Create the background world maps using vector tiles stored locally in our MBTiles file and also set the styling though a json file
-            var mbTilesLayer = new ThinkGeoMBTilesLayer(@"./Data/Mbtiles/Frisco.mbtiles", new Uri(@"./Data/Json/thinkgeo-world-streets-light.json", UriKind.Relative));
-            mbTilesLayer.Open();
+
+        private async Task DrawMapOnImageAsync()
+        {
+            var layersToDraw = new Collection<LayerBase>();
+
+			var wvtServerUri = "https://tiles.preludemaps.com/styles/WorldStreets_Light/style.json";
+			var mbTilesLayer = new MvtTilesAsyncLayer(wvtServerUri);
+
+			await mbTilesLayer.OpenAsync();
             layersToDraw.Add(mbTilesLayer);
 
             // Create the new layer and set the projection as the data is in srid 2276 and our background is srid 3857 (spherical mercator).
@@ -54,7 +62,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // The flush is to compact styles that use different drawing levels
             foreach (var layer in layersToDraw)
             {
-                layer.Draw(canvas, labels);
+                if (layer is Layer syncLayer)
+	                syncLayer.Draw(canvas, labels);
+                if (layer is AsyncLayer asyncLayer)
+	                await asyncLayer.DrawAsync(canvas, labels);
                 canvas.Flush();
             }
 

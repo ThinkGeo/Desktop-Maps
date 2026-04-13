@@ -49,7 +49,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Set the map extent to the railway layer bounding box
             railway.Open();
-            mapView.CurrentExtent = railway.GetBoundingBox();
+            var railwayLayerBBox = railway.GetBoundingBox();
+            mapView.CenterPoint = railwayLayerBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(mapView.MapUnit, railwayLayerBBox, mapView.MapWidth, mapView.MapHeight);
+            mapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
             railway.Close();
 
             // Add LayerOverlay to Map
@@ -120,12 +123,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotationAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(833, 596);
+            this.mapView.Size = new System.Drawing.Size(1133, 596);
             this.mapView.TabIndex = 0;
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.getSubLine);
@@ -134,9 +137,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(833, 0);
+            this.panel1.Location = new System.Drawing.Point(823, 10);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(300, 596);
+            this.panel1.Size = new System.Drawing.Size(300, 187);
             this.panel1.TabIndex = 1;
             // 
             // getSubLine

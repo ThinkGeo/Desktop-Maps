@@ -25,9 +25,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Add the WMS layer to the map
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            MapView.MapUnit = GeographyUnit.Meter;
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
+            Map.MapUnit = GeographyUnit.Meter;
 
             var layerOverlay = new LayerOverlay();
             layerOverlay.TileType = TileType.SingleTile;
@@ -41,7 +44,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
 
             layerOverlay.Layers.Add(_thinkGeoRasterMapsAsyncLayer);
-            MapView.Overlays.Add(layerOverlay);
+            Map.Overlays.Add(layerOverlay);
 
             wms = new WmsAsyncLayer(new Uri("http://geo.vliz.be/geoserver/Dataportal/ows?service=WMS&"));
             wms.DrawingExceptionMode = DrawingExceptionMode.DrawException;
@@ -52,17 +55,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             //wms.Transparency = 100;
 
             // Extent of Australia 
-            MapView.CenterPoint = australiaCenterPoint;
-            MapView.CurrentScale = australiaCurrentScale;
+            Map.CenterPoint = australiaCenterPoint;
+            Map.CurrentScale = australiaCurrentScale;
 
             var layerOverlay2 = new LayerOverlay();
             layerOverlay2.Opacity = 0.5;
             layerOverlay2.TileType = TileType.SingleTile;
             layerOverlay2.Layers.Add(wms);
-            MapView.Overlays.Add(layerOverlay2);
+            Map.Overlays.Add(layerOverlay2);
 
             _initialized = true;
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private async void Projection_Checked(object sender, RoutedEventArgs e)
@@ -82,16 +85,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     case "3857":
                         wms.ProjectionConverter = null;
                         _thinkGeoRasterMapsAsyncLayer.ProjectionConverter = null;
-                        MapView.CenterPoint = australiaCenterPoint;
-                        MapView.CurrentScale = australiaCurrentScale;
+                        Map.CenterPoint = australiaCenterPoint;
+                        Map.CurrentScale = australiaCurrentScale;
                         break;
 
                     case "3112":
                         wms.ProjectionConverter = new GdalProjectionConverter(3857, 6669);
                         _thinkGeoRasterMapsAsyncLayer.ProjectionConverter = new GdalProjectionConverter(3857, 6669);
                         var projectedCenter = ProjectionConverter.Convert(3857, 6669, australiaCenterPoint);
-                        MapView.CenterPoint = projectedCenter;
-                        MapView.CurrentScale = australiaCurrentScale;
+                        Map.CenterPoint = projectedCenter;
+                        Map.CurrentScale = australiaCurrentScale;
                         break;
 
                     default:
@@ -103,7 +106,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 await wms.OpenAsync();
                 await _thinkGeoRasterMapsAsyncLayer.OpenAsync();
 
-                await MapView.RefreshAsync();
+                await Map.RefreshAsync();
             }
             catch
             {
@@ -115,7 +118,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

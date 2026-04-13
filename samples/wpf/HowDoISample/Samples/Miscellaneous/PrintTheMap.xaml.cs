@@ -14,22 +14,27 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class PrintTheMap : IDisposable
     {
+
+        private bool _initialized;
         public PrintTheMap()
         {
             InitializeComponent();
         }
 
         /// <summary>
-        /// Set up the mapView to display a print preview
+        /// Set up the map to display a print preview
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             SetupMapForPrinting();
             AddPageTitleLabel();
             AddMapLayers();
             AddMosquitoDataGrid();
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         /// <summary>
@@ -37,7 +42,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void PrintMap_OnClick(object sender, RoutedEventArgs e)
         {
-            var printerOverlay = (PrinterInteractiveOverlay)MapView.InteractiveOverlays["printerOverlay"];
+            var printerOverlay = (PrinterInteractiveOverlay)Map.InteractiveOverlays["printerOverlay"];
             var pageLayer = (PagePrinterLayer)printerOverlay.PrinterLayers["pageLayer"];
 
             // Create a printDocument that matches the size of our pageLayer
@@ -57,10 +62,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
 
             // Start drawing on the printDocument
-            printerGeoCanvas.BeginDrawing(printDocument, pageLayer.GetBoundingBox(), MapView.MapUnit);
+            printerGeoCanvas.BeginDrawing(printDocument, pageLayer.GetBoundingBox(), Map.MapUnit);
 
-            // Draw each layer in the PrinterLayers collection except for the background PagePrinterLayer
-            foreach (var printerLayer in printerOverlay.PrinterLayers.Reverse())
+            // Draw each layer in collection order (same order as preview rendering).
+            foreach (var printerLayer in printerOverlay.PrinterLayers)
             {
                 printerLayer.IsDrawing = true;
                 if (!(printerLayer is PagePrinterLayer))
@@ -77,17 +82,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Set up the mapView for a print preview and add a printerOverlay to hold various print layers
+        /// Set up the map for a print preview and add a printerOverlay to hold various print layers
         /// </summary>
         private void SetupMapForPrinting()
         {
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Set the map's ZoomLevelSet to a set of common printer zoom settings
-            MapView.ZoomScales =
+            Map.ZoomScales =
                 new PrinterZoomLevelSet(GeographyUnit.Meter, PrinterHelper.GetPointsPerGeographyUnit(GeographyUnit.Meter)).GetScales();
-            MapView.MinimumScale = MapView.ZoomScales[MapView.ZoomScales.Count - 1];
+            Map.MinimumScale = Map.ZoomScales[Map.ZoomScales.Count - 1];
 
             var printerOverlay = new PrinterInteractiveOverlay();
             printerOverlay.IsEditable = true;
@@ -101,12 +106,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Add the pageLayer to the printerOverlay
             printerOverlay.PrinterLayers.Add("pageLayer", pageLayer);
             // Add the printerOverlay to the map
-            MapView.InteractiveOverlays.Add("printerOverlay", printerOverlay);
+            Map.InteractiveOverlays.Add("printerOverlay", printerOverlay);
 
             // Set the map extent
             var pageLayerBBox = pageLayer.GetPosition().GetBoundingBox();
-            MapView.CenterPoint = pageLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, pageLayerBBox, MapView.MapWidth, MapView.MapHeight);
+            Map.CenterPoint = pageLayerBBox.GetCenterPoint();
+            Map.CurrentScale = MapUtil.GetScale(Map.MapUnit, pageLayerBBox, Map.MapWidth, Map.MapHeight);
         }
 
         /// <summary>
@@ -114,7 +119,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void AddPageTitleLabel()
         {
-            var printerOverlay = (PrinterInteractiveOverlay)MapView.InteractiveOverlays["printerOverlay"];
+            var printerOverlay = (PrinterInteractiveOverlay)Map.InteractiveOverlays["printerOverlay"];
 
             var titleLabel = new LabelPrinterLayer("Frisco Mosquito Report - 5/5/2020", new GeoFont("Verdana", 8), GeoBrushes.Black)
             {
@@ -131,7 +136,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void AddMapLayers()
         {
-            var printerOverlay = (PrinterInteractiveOverlay)MapView.InteractiveOverlays["printerOverlay"];
+            var printerOverlay = (PrinterInteractiveOverlay)Map.InteractiveOverlays["printerOverlay"];
             var pageLayer = (PagePrinterLayer)printerOverlay.PrinterLayers["pageLayer"];
 
             /***************************
@@ -140,7 +145,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var cityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimits.shp");
 
             // Style cityLimits layer
-            cityLimits.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.Transparent, GeoColors.Black, 2);
+            var cityLimitsStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.Transparent, GeoColors.Black, 2);
+            cityLimits.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = cityLimitsStyle;
             cityLimits.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle.DrawingLevel = DrawingLevel.LevelFour;
             cityLimits.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
@@ -154,8 +160,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Style streets layer
             var majorStreetsStyle = new FilterStyle();
+            var majorStreetsLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.DarkGray, 1, true);
             majorStreetsStyle.Conditions.Add(new FilterCondition("SUBTYPE", "<= 6"));
-            majorStreetsStyle.Styles.Add(LineStyle.CreateSimpleLineStyle(GeoColors.DarkGray, 1, true));
+            majorStreetsStyle.Styles.Add(majorStreetsLineStyle);
             streets.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(majorStreetsStyle);
             streets.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
@@ -168,7 +175,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var parks = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
 
             // Style parks layer
-            parks.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.LightGray, GeoColors.Transparent);
+            var parksStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.LightGray, GeoColors.Transparent);
+            parks.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = parksStyle;
             parks.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Project parks layer to Spherical Mercator to match the mapLayer projection
@@ -179,16 +187,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
              *************************/
             var mosquitoSightings = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Mosquitos.shp");
 
-            // Style parks layer
+            // Style mosquitoSightings layer
             var mayFifthSightings = new FilterStyle();
+            var mosquitoSightingsPointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Black, 10, GeoColors.White, 2);
             mayFifthSightings.Conditions.Add(new FilterCondition("DateCollec", "20200505"));
-            mayFifthSightings.Styles.Add(PointStyle.CreateSimpleCircleStyle(GeoColors.Black, 10, GeoColors.White, 2));
+            mayFifthSightings.Styles.Add(mosquitoSightingsPointStyle);
             mayFifthSightings.Styles.Add(TextStyle.CreateSimpleTextStyle("TrapSite", "Verdana", 8, DrawingFontStyles.Bold, GeoColors.Black, GeoColors.White, 2, 0, 6));
             mosquitoSightings.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(mayFifthSightings);
             mosquitoSightings.ZoomLevelSet.ZoomLevel01.DefaultPointStyle.DrawingLevel = DrawingLevel.LevelFour;
             mosquitoSightings.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            // Project parks layer to Spherical Mercator to match the mapLayer projection
+            // Project mosquitoSightings layer to Spherical Mercator to match the mapLayer projection
             mosquitoSightings.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
             /********************************
@@ -207,6 +216,74 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapPrinterLayer.SetPosition(7.5, 5, pageCenter.X, pageCenter.Y + 1.75, PrintingUnit.Inch);
 
             printerOverlay.PrinterLayers.Add(mapPrinterLayer);
+
+            // Add a legend describing the map symbology.
+            var legendPrinterLayer = CreateLegendPrinterLayer(cityLimitsStyle, majorStreetsLineStyle, parksStyle, mosquitoSightingsPointStyle);
+            // Place a compact legend near the bottom-right corner of the printed map.
+            legendPrinterLayer.SetPosition(1.40, 1.05, pageCenter.X + 2.95, pageCenter.Y - 0.12, PrintingUnit.Inch);
+            printerOverlay.PrinterLayers.Add(legendPrinterLayer);
+
+            // Add a scale bar that reflects the map printer layer extent and scale.
+            var scaleBarPrinterLayer = new ScaleBarPrinterLayer(mapPrinterLayer)
+            {
+                MapUnit = GeographyUnit.Meter,
+                UnitFamily = UnitSystem.Imperial,
+                HasMask = true,
+                DynamicBoundingBox = true
+            };
+            scaleBarPrinterLayer.SetPosition(2.15, 0.45, pageCenter.X - 2.35, pageCenter.Y - 0.45, PrintingUnit.Inch);
+            printerOverlay.PrinterLayers.Add(scaleBarPrinterLayer);
+        }
+
+        private static LegendPrinterLayer CreateLegendPrinterLayer(AreaStyle cityLimitsStyle, LineStyle majorStreetsLineStyle, AreaStyle parksStyle, PointStyle mosquitoSightingsPointStyle)
+        {
+            var legendAdornment = new LegendAdornmentLayer
+            {
+                Title = new LegendItem
+                {
+                    Width = 98,
+                    Height = 16,
+                    LeftPadding = 4,
+                    RightPadding = 4,
+                    TopPadding = 2,
+                    BottomPadding = 2,
+                    TextLeftPadding = 0,
+                    TextTopPadding = 0,
+                    TextStyle = new TextStyle("Map Legend", new GeoFont("Verdana", 8, DrawingFontStyles.Bold), GeoBrushes.Black)
+                }
+            };
+
+            legendAdornment.LegendItems.Add(CreateLegendItem("City Limits", cityLimitsStyle));
+            legendAdornment.LegendItems.Add(CreateLegendItem("Major Streets", majorStreetsLineStyle));
+            legendAdornment.LegendItems.Add(CreateLegendItem("Parks", parksStyle));
+            legendAdornment.LegendItems.Add(CreateLegendItem("Mosquito Site", mosquitoSightingsPointStyle));
+
+            return new LegendPrinterLayer(legendAdornment);
+        }
+
+        private static LegendItem CreateLegendItem(string text, ThinkGeo.Core.Style imageStyle)
+        {
+            return new LegendItem
+            {
+                Width = 98,
+                Height = 13,
+                LeftPadding = 2,
+                RightPadding = 2,
+                TopPadding = 1,
+                BottomPadding = 1,
+                ImageWidth = 10,
+                ImageHeight = 10,
+                ImageLeftPadding = 2,
+                ImageRightPadding = 3,
+                ImageTopPadding = 1,
+                ImageBottomPadding = 1,
+                TextLeftPadding = 3,
+                TextRightPadding = 1,
+                TextTopPadding = 1,
+                TextBottomPadding = 1,
+                ImageStyle = imageStyle,
+                TextStyle = new TextStyle(text, new GeoFont("Verdana", 8), GeoBrushes.Black)
+            };
         }
 
         /// <summary>
@@ -214,7 +291,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void AddMosquitoDataGrid()
         {
-            var printerOverlay = (PrinterInteractiveOverlay)MapView.InteractiveOverlays["printerOverlay"];
+            var printerOverlay = (PrinterInteractiveOverlay)Map.InteractiveOverlays["printerOverlay"];
             var pageLayer = (PagePrinterLayer)printerOverlay.PrinterLayers["pageLayer"];
 
             // Create a table with columns
@@ -253,7 +330,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

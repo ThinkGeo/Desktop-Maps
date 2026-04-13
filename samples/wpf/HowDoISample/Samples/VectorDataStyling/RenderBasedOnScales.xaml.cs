@@ -10,6 +10,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class RenderBasedOnScales : IDisposable
     {
+
+        private bool _initialized;
         public RenderBasedOnScales()
         {
             InitializeComponent();
@@ -18,13 +20,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, project and add styles to the Hotels, Streets, and Parks layer.
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Set the map background color
-            MapView.Background = new SolidColorBrush(Color.FromRgb(234, 232, 226));
+            Map.Background = new SolidColorBrush(Color.FromRgb(234, 232, 226));
 
             var hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
             var streetsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Streets.shp");
@@ -47,13 +52,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             layerOverlay.Layers.Add(hotelsLayer);
 
             // Add overlay to map
-            MapView.Overlays.Add(layerOverlay);
+            Map.Overlays.Add(layerOverlay);
 
             // Set the map extent
-            MapView.CenterPoint = new PointShape(-10777290, 3908740);
-            MapView.CurrentScale = 9400;
+            Map.CenterPoint = new PointShape(-10777290, 3908740);
+            Map.CurrentScale = 9400;
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         /// <summary>
@@ -208,7 +213,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

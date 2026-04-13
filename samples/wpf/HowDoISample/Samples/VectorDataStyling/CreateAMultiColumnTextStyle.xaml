@@ -8,8 +8,8 @@
              d:DesignHeight="450"
              d:DesignWidth="800">
     <Grid>
-        <thinkGeoUi:MapView x:Name="MapView"
-                            Loaded="MapView_Loaded"
+        <thinkGeoUi:MapView x:Name="Map"
+                            SizeChanged="Map_SizeChanged"
                             Grid.Column="0"
                             Grid.Row="0"
                             MapUnit="DecimalDegree" />

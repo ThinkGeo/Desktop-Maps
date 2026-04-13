@@ -9,6 +9,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class DisplayInMemoryFile : IDisposable
     {
+
+        private bool _initialized;
         public DisplayInMemoryFile()
         {
             InitializeComponent();
@@ -17,10 +19,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the feature layer to the map
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -31,11 +36,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a new overlay that will hold our new layer and add it to the map.
             var inMemoryOverlay = new LayerOverlay();
-            MapView.Overlays.Add(inMemoryOverlay);
+            Map.Overlays.Add(inMemoryOverlay);
 
             // Create a new layer that we will pull features from to populate the in memory layer.
             var shapeFileLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Mosquitos.shp")
@@ -78,16 +83,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Open the layer and set the map view current extent to the bounding box of the layer.  
             inMemoryFeatureLayer.Open();
             var inMemoryFeatureLayerBBox = inMemoryFeatureLayer.GetBoundingBox();
-            MapView.CenterPoint = inMemoryFeatureLayerBBox.GetCenterPoint();
-            MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, inMemoryFeatureLayerBBox, MapView.MapWidth, MapView.MapHeight);
+            Map.CenterPoint = inMemoryFeatureLayerBBox.GetCenterPoint();
+            Map.CurrentScale = MapUtil.GetScale(Map.MapUnit, inMemoryFeatureLayerBBox, Map.MapWidth, Map.MapHeight);
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

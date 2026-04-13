@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="MapView" Loaded="MapView_Loaded"></thinkGeoUi:MapView>
+        <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="Map" SizeChanged="Map_SizeChanged"></thinkGeoUi:MapView>
         <Grid Grid.Column="1" Grid.Row="0">
             <Label Grid.Column="1" Grid.Row="0" Content="Line Type:" FontSize="16" FontWeight="Bold"></Label>
             <RadioButton Grid.Column="1" Grid.Row="1" x:Name="RbLineStyle" Checked="RbLineStyle_OnChecked">Solid Line</RadioButton>

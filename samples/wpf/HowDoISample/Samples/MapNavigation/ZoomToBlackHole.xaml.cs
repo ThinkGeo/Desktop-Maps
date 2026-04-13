@@ -16,6 +16,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private List<(PointShape centerPoint, double scale)> _zoomingExtents;
         private int _currentPointIndex;
         private CancellationTokenSource _cancellationTokenSource;
+        private bool _initialized;
 
         public ZoomToBlackHole()
         {
@@ -25,42 +26,45 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             _cancellationTokenSource = new CancellationTokenSource();
 
-            MapView.DefaultAnimationSettings.Duration = 2000;
-            MapView.DefaultAnimationSettings.Type = MapAnimationType.DrawWithAnimation;
+            Map.DefaultAnimationSettings.Duration = 2000;
+            Map.DefaultAnimationSettings.Type = MapAnimationType.DrawWithAnimation;
 
             _zoomingExtents = GetZoomingExtents();
 
-            MapView.CurrentScaleChanged += MapView_CurrentScaleChanged;
-            MapView.ZoomScales = GetDefaultZoomLevelSet();
+            Map.CurrentScaleChanged += Map_CurrentScaleChanged;
+            Map.ZoomScales = GetDefaultZoomLevelSet();
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
-        private void MapView_CurrentScaleChanged(object sender, CurrentScaleChangedMapViewEventArgs e)
+        private void Map_CurrentScaleChanged(object sender, CurrentScaleChangedMapViewEventArgs e)
         {
-            foreach (var overlay in MapView.Overlays)
+            foreach (var overlay in Map.Overlays)
             {
                 if (!(overlay is LayerOverlay layerOverlay))
                     continue;
                 if (!(layerOverlay.Layers[0] is GeoImageLayer geoImageLayer))
                     continue;
-                if (MapView.CurrentScale < geoImageLayer.LowerScale)
+                if (Map.CurrentScale < geoImageLayer.LowerScale)
                 {
                     layerOverlay.Opacity = 0;
                     continue;
                 }
-                if (MapView.CurrentScale > geoImageLayer.UpperScale)
+                if (Map.CurrentScale > geoImageLayer.UpperScale)
                 {
                     layerOverlay.Opacity = 0;
                     continue;
                 }
 
-                var upperRatio = 1 - MapView.CurrentScale / geoImageLayer.UpperScale;
-                var lowerRatio = MapView.CurrentScale / geoImageLayer.LowerScale;
+                var upperRatio = 1 - Map.CurrentScale / geoImageLayer.UpperScale;
+                var lowerRatio = Map.CurrentScale / geoImageLayer.LowerScale;
 
                 if (upperRatio < 0.4)
                     layerOverlay.Opacity = upperRatio * 2.5;
@@ -80,7 +84,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void DefaultExtentButton_Click(object sender, RoutedEventArgs e)
         {
             StopCurrentAnimation();
-            _ = MapView.ZoomToAsync(_zoomingExtents[0].centerPoint, _zoomingExtents[0].scale, 0, _cancellationTokenSource.Token);
+            _ = Map.ZoomToAsync(_zoomingExtents[0].centerPoint, _zoomingExtents[0].scale, 0, _cancellationTokenSource.Token);
         }
 
         private async Task ZoomToBlackHoleAsync(CancellationToken cancellationToken)
@@ -91,7 +95,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 try
                 {
-                    await MapView.ZoomToAsync(centerPoint, scale, 0, cancellationToken);
+                    await Map.ZoomToAsync(centerPoint, scale, 0, cancellationToken);
                 }
                 catch (TaskCanceledException)
                 {
@@ -104,12 +108,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             var zoomingExtents = new List<(PointShape CenterPoint, double Scale)>();
 
-            var firstLayer = (GeoImageLayer)((LayerOverlay)MapView.Overlays[0]).Layers[0];
+            var firstLayer = (GeoImageLayer)((LayerOverlay)Map.Overlays[0]).Layers[0];
             zoomingExtents.Add((firstLayer.CenterPoint, firstLayer.Scale));
 
-            for (var i = 1; i < MapView.Overlays.Count; i++)
+            for (var i = 1; i < Map.Overlays.Count; i++)
             {
-                var overlay = MapView.Overlays[i];
+                var overlay = Map.Overlays[i];
                 if (!(overlay is LayerOverlay layerOverlay))
                     continue;
                 if (layerOverlay.Layers.Count < 0)
@@ -120,7 +124,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 zoomingExtents.Add((geoImageLayer.CenterPoint, geoImageLayer.UpperScale));
             }
 
-            var lastLayer = (GeoImageLayer)((LayerOverlay)MapView.Overlays[MapView.Overlays.Count - 1]).Layers[0];
+            var lastLayer = (GeoImageLayer)((LayerOverlay)Map.Overlays[Map.Overlays.Count - 1]).Layers[0];
             zoomingExtents.Add((lastLayer.CenterPoint, lastLayer.Scale));
             return zoomingExtents;
         }
@@ -148,9 +152,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
     }
 }
+

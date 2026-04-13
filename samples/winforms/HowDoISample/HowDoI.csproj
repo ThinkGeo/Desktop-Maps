@@ -6,53 +6,9 @@
     <UseWPF>true</UseWPF>
     <RootNamespace>ThinkGeo.UI.WinForms.HowDoI</RootNamespace>
     <AssemblyName>ThinkGeo.UI.WinForms.HowDoI</AssemblyName>
-    <Platforms>AnyCPU;x86;x64</Platforms>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netcoreapp3.0\ThinkGeo.UI.Desktop.HowDoI.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <DocumentationFile>bin\Release\netcoreapp3.0\ThinkGeo.UI.Desktop.HowDoI.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
-    <DocumentationFile>bin\Release\netcoreapp3.0\ThinkGeo.UI.Desktop.HowDoI.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
-    <DocumentationFile>bin\Release\netcoreapp3.0\ThinkGeo.UI.Desktop.HowDoI.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <DocumentationFile>bin\Release\netcoreapp3.0\ThinkGeo.UI.Desktop.HowDoI.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net472|AnyCPU'">
+    <!-- x64 required by ThinkGeo.FileGeoDatabase (Esri.FileGDBAPI.dll is AMD64-only).
+         Other ThinkGeo components support AnyCPU/x86. -->
     <PlatformTarget>x64</PlatformTarget>
-    <DocumentationFile>
-    </DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net472|x64'">
-    <PlatformTarget>x64</PlatformTarget>
-    <DocumentationFile>
-    </DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net451|x86'">
-    <PlatformTarget>x64</PlatformTarget>
-    <DocumentationFile />
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net451|x86'">
-    <PlatformTarget>x64</PlatformTarget>
-    <DocumentationFile />
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net451|x64'">
-    <PlatformTarget>x64</PlatformTarget>
-    <DocumentationFile />
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
-    <PlatformTarget>x64</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|x64'">
-    <PlatformTarget>x64</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|x86'">
-    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Labeling\**" />
@@ -69,16 +25,16 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="9.0.4" />
 
-    <PackageReference Include="ThinkGeo.Cad" Version="14.4.1" />
-    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.4.1" />
-    <PackageReference Include="ThinkGeo.Gdal" Version="14.4.1" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.4.1" />
+    <PackageReference Include="ThinkGeo.Cad" Version="14.5.1" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.5.1" />
+    <PackageReference Include="ThinkGeo.Gdal" Version="14.5.1" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.5.1" />
 
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.4.1" />
-    <PackageReference Include="ThinkGeo.Printers" Version="14.4.1" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="14.4.1" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.5.1" />
+    <PackageReference Include="ThinkGeo.Printers" Version="14.5.1" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="14.5.1" />
 
-    <PackageReference Include="ThinkGeo.UI.WinForms" Version="14.4.1" />
+    <PackageReference Include="ThinkGeo.UI.WinForms" Version="14.5.1" />
 
   </ItemGroup>
   <ItemGroup>
@@ -197,9 +153,6 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Samples\DisplayingLayers\Raster\KmlLayerSample.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Samples\MapOfflineData\Vector\DisplayCloudMapsVectorLayerOffline.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Samples\MapOfflineData\Vector\DisplayGeoPdfFile.cs">

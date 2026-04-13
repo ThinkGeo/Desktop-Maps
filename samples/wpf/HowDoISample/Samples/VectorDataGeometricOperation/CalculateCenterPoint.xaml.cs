@@ -22,10 +22,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the censusHousing and centerPointLayer layers
         /// into a grouped LayerOverlay and display it on the map.
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             // Set the map's unit of measurement to meters(Spherical Mercator)
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -36,7 +39,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a feature layer to hold the Census Housing data
             var censusHousingLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp")
@@ -54,7 +57,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             var censusHousingOverlay = new LayerOverlay();
             censusHousingOverlay.Layers.Add("CensusHousingLayer", censusHousingLayer);
-            MapView.Overlays.Add("CensusHousingOverlay", censusHousingOverlay);
+            Map.Overlays.Add("CensusHousingOverlay", censusHousingOverlay);
 
             // Create a layer to hold the centerPointLayer and Style it
             var centerPointLayer = new InMemoryFeatureLayer();
@@ -65,21 +68,21 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var centerPointOverlay = new LayerOverlay();
             centerPointOverlay.TileType = TileType.SingleTile;
             centerPointOverlay.Layers.Add("CenterPointLayer", centerPointLayer);
-            MapView.Overlays.Add("CenterPointOverlay", centerPointOverlay);
+            Map.Overlays.Add("CenterPointOverlay", centerPointOverlay);
 
             // Set the map extent to the censusHousing layer bounding box
             censusHousingLayer.Open();
             var censusHousingLayerBBox = censusHousingLayer.GetBoundingBox();
-            MapView.CenterPoint = censusHousingLayerBBox.GetCenterPoint();
-            var MapScale = MapUtil.GetScale(MapView.MapUnit, censusHousingLayerBBox, MapView.MapWidth, MapView.MapHeight);
-            MapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
+            Map.CenterPoint = censusHousingLayerBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(Map.MapUnit, censusHousingLayerBBox, Map.MapWidth, Map.MapHeight);
+            Map.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
             censusHousingLayer.Close();
 
             // Add LayerOverlay to Map          
             CentroidCenter.IsChecked = true;
 
             _initialized = true;
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         /// <summary>
@@ -88,7 +91,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <param name="feature"> The target feature to calculate its center point</param>
         private async Task CalculateCenterPointAsync(Feature feature)
         {
-            var centerPointOverlay = (LayerOverlay)MapView.Overlays["CenterPointOverlay"];
+            var centerPointOverlay = (LayerOverlay)Map.Overlays["CenterPointOverlay"];
             var centerPointLayer = (InMemoryFeatureLayer)centerPointOverlay.Layers["CenterPointLayer"];
 
             PointShape centerPoint;
@@ -118,9 +121,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Map event that fires whenever the user clicks on the map. Gets the closest feature from the click event and calculates the center point
         /// </summary>
-        private void MapView_OnMapClick(object sender, MapClickMapViewEventArgs e)
+        private void Map_MapClick(object sender, MapClickMapViewEventArgs e)
         {
-            var censusHousingOverlay = (LayerOverlay)MapView.Overlays["CensusHousingOverlay"];
+            var censusHousingOverlay = (LayerOverlay)Map.Overlays["CensusHousingOverlay"];
             var censusHousingLayer = (ShapeFileFeatureLayer)censusHousingOverlay.Layers["CensusHousingLayer"];
 
             // Query the censusHousing layer to get the first feature closest to the map click event
@@ -138,7 +141,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (!_initialized)
                 return;
 
-            var centerPointOverlay = (LayerOverlay)MapView.Overlays["CenterPointOverlay"];
+            var centerPointOverlay = (LayerOverlay)Map.Overlays["CenterPointOverlay"];
             var centerPointLayer = (InMemoryFeatureLayer)centerPointOverlay.Layers["CenterPointLayer"];
 
             // Recalculate the center point if a feature has already been selected
@@ -151,7 +154,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

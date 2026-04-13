@@ -238,16 +238,17 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Name = "mapView";
             mapView.RestrictExtent = null;
             mapView.RotationAngle = 0F;
-            mapView.Size = new System.Drawing.Size(1050, 611);
+            mapView.Size = new System.Drawing.Size(1250, 611);
             mapView.TabIndex = 0;
             // 
             // consolePanel
             // 
             consolePanel.BackColor = Color.Gray;
-            consolePanel.Location = new Point(1050, 0);
+            consolePanel.Location = new Point(940, 10);
             consolePanel.Name = "consolePanel";
-            consolePanel.Size = new Size(300, 611);
-            consolePanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            consolePanel.Size = new Size(300, 290);
+            consolePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top
+            | System.Windows.Forms.AnchorStyles.Right)));
             consolePanel.Controls.Add(cacheOnlyCheckBox);
             consolePanel.Controls.Add(zoomRangeGroupBox);
             consolePanel.Controls.Add(generateCacheButton);

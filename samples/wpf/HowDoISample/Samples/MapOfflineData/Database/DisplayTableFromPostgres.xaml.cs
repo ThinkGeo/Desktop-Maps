@@ -9,6 +9,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class DisplayTableFromPostgres : IDisposable
     {
+
+        private bool _initialized;
         public DisplayTableFromPostgres()
         {
             InitializeComponent();
@@ -17,10 +19,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the PostgreSQL layer to the map
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -31,11 +36,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a new overlay that will hold our new layer and add it to the map.
             var countriesOverlay = new LayerOverlay();
-            MapView.Overlays.Add(countriesOverlay);
+            Map.Overlays.Add(countriesOverlay);
 
             // Create the new layer and set the projection as the data is in srid 4326 as our background is srid 3857 (spherical mercator).
             var countriesLayer = new PostgreSqlFeatureLayer("User ID=ThinkGeoTest;Password=ThinkGeoTestPassword;Host=demodb.thinkgeo.com;Port=5432;Database=postgres;Pooling=true;", "countries", "gid", 4326)
@@ -54,17 +59,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             countriesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             // Set the map view current extent to a bounding box that shows just a few sightings.  
-            MapView.CenterPoint = new PointShape(-11055850, 4737190);
-            MapView.CurrentScale = 26980800;
+            Map.CenterPoint = new PointShape(-11055850, 4737190);
+            Map.CurrentScale = 26980800;
 
             // Refresh the map.
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

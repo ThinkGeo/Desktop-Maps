@@ -21,10 +21,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay.
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Create the layer overlay with some additional settings and add to the map.
             var cloudOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -35,35 +38,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 //TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add("Cloud Overlay", cloudOverlay);
-
-            // Add Scale Line Adornment Layer
-            var scaleLineAdornmentLayer = new ScaleLineAdornmentLayer
-            {
-                XOffsetInPixel = 20,
-                YOffsetInPixel = -10,
-                Projection = new Projection(3857)
-            };
-
-            // Add ScaleBarAdornmentLayer
-            var scaleBarAdornmentLayer = new ScaleBarAdornmentLayer
-            {
-                XOffsetInPixel = 10,
-                YOffsetInPixel = -50,
-                Projection = new Projection(3857)
-            };
-
-            var adornmentOverlay = new AdornmentOverlay();
-            adornmentOverlay.Layers.Add(scaleLineAdornmentLayer);
-            adornmentOverlay.Layers.Add(scaleBarAdornmentLayer);
-            MapView.Overlays.Add("AdornmentOverlay", adornmentOverlay);
+            Map.Overlays.Add("Cloud Overlay", cloudOverlay);
 
             // Set the current extent to a neighborhood in Frisco Texas.
-            MapView.CenterPoint = new PointShape(-10779700, 3912000);
-            MapView.CurrentScale = 18100;
+            Map.CenterPoint = new PointShape(-10779700, 3912000);
+            Map.CurrentScale = 18100;
 
             _initialized = true;
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
@@ -78,8 +60,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 return;
 
             var button = (RadioButton)sender;
-            if (!MapView.Overlays.Contains("Cloud Overlay")) return;
-            var cloudOverlay = (ThinkGeoCloudVectorMapsOverlay)MapView.Overlays["Cloud Overlay"];
+            if (!Map.Overlays.Contains("Cloud Overlay")) return;
+            var cloudOverlay = (ThinkGeoCloudVectorMapsOverlay)Map.Overlays["Cloud Overlay"];
 
             switch (button.Content.ToString())
             {
@@ -93,13 +75,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     cloudOverlay.MapType = ThinkGeoCloudVectorMapsMapType.TransparentBackground;
                     break;
             }
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

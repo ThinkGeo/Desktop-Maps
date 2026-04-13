@@ -22,32 +22,34 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Add the WMTS layer to the map
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             try
             {
-                ThinkGeoDebugger.DisplayTileId = true;
                 // It is important to set the map unit first to either feet, meters or decimal degrees.
-                MapView.MapUnit = GeographyUnit.Meter;
+                Map.MapUnit = GeographyUnit.Meter;
                 var layerOverlay = new WmtsOverlay(new Uri("https://wmts.geo.admin.ch/1.0.0"));
                 layerOverlay.ActiveLayerName = "ch.swisstopo.pixelkarte-farbe-pk25.noscale";
                 layerOverlay.ActiveStyleName = "default";
                 layerOverlay.OutputFormat = "image/png";
                 layerOverlay.TileMatrixSetName = "21781_26";
-                MapView.Overlays.Add(layerOverlay);
+                Map.Overlays.Add(layerOverlay);
 
                 await layerOverlay.OpenAsync();
 
-                // Apply the wmts matrices to the MapView. 
+                // Apply the wmts matrices to the Map. 
                 var scales = layerOverlay.TileMatrixSet.GetScales();
-                MapView.ZoomScales = new Collection<double>(scales.ToList());
+                Map.ZoomScales = new Collection<double>(scales.ToList());
                 
                 var layerOverlayBBox = layerOverlay.GetBoundingBox();
-                MapView.CenterPoint = layerOverlayBBox.GetCenterPoint();
-                MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit,layerOverlayBBox, MapView.MapWidth, MapView.MapHeight);
+                Map.CenterPoint = layerOverlayBBox.GetCenterPoint();
+                Map.CurrentScale = MapUtil.GetScale(Map.MapUnit,layerOverlayBBox, Map.MapWidth, Map.MapHeight);
                 
                 _initialized = true;
-                await MapView.RefreshAsync();
+                await Map.RefreshAsync();
             }
             catch
             {
@@ -59,7 +61,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             ThinkGeoDebugger.DisplayTileId = false;
-            MapView.Dispose();
+            Map.Dispose();
             GC.SuppressFinalize(this);
         }
 
@@ -77,7 +79,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (ThinkGeoDebugger.DisplayTileId != checkBox.IsChecked.Value)
             {
                 ThinkGeoDebugger.DisplayTileId = checkBox.IsChecked.Value;
-                _ = MapView.RefreshAsync();
+                _ = Map.RefreshAsync();
             }
         }
     }

@@ -12,6 +12,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class GetDatafromOneFeature : IDisposable
     {
+
+        private bool _initialized;
         public GetDatafromOneFeature()
         {
             InitializeComponent();
@@ -20,8 +22,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay and a feature layer containing Frisco parks data
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             try
             {
                 // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
@@ -33,10 +38,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                     TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
                 };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
                 // Set the Map Unit to meters (used in Spherical Mercator)
-                MapView.MapUnit = GeographyUnit.Meter;
+                Map.MapUnit = GeographyUnit.Meter;
 
                 // Create a feature layer to hold the Frisco parks data
                 var parksLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
@@ -53,22 +58,22 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var parksOverlay = new LayerOverlay();
                 parksOverlay.TileType = TileType.SingleTile;
                 parksOverlay.Layers.Add("Frisco Parks", parksLayer);
-                MapView.Overlays.Add(parksOverlay);
+                Map.Overlays.Add(parksOverlay);
 
                 // Add a PopupOverlay to the map, to display feature information
                 var popupOverlay = new PopupOverlay();
-                MapView.Overlays.Add("Info Popup Overlay", popupOverlay);
+                Map.Overlays.Add("Info Popup Overlay", popupOverlay);
 
                 // Set the map extent to the bounding box of the parks
                 parksLayer.Open();
                 var parksLayerBBox = parksLayer.GetBoundingBox();
-                MapView.CenterPoint = parksLayerBBox.GetCenterPoint();
-                MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, parksLayerBBox, MapView.MapWidth, MapView.MapHeight);
-                await MapView.ZoomInAsync();
+                Map.CenterPoint = parksLayerBBox.GetCenterPoint();
+                Map.CurrentScale = MapUtil.GetScale(Map.MapUnit, parksLayerBBox, Map.MapWidth, Map.MapHeight);
+                await Map.ZoomInAsync();
                 parksLayer.Close();
 
                 // Refresh and redraw the map
-                await MapView.RefreshAsync();
+                await Map.RefreshAsync();
             }
             catch 
             {
@@ -82,8 +87,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private Feature GetFeatureFromLocation(BaseShape location)
         {
-            // Get the parks layer from the MapView
-            var parksLayer = MapView.FindFeatureLayer("Frisco Parks");
+            // Get the parks layer from the Map
+            var parksLayer = Map.FindFeatureLayer("Frisco Parks");
 
             // Find the feature that was clicked on by querying the layer for features containing the clicked coordinates
             parksLayer.Open();
@@ -108,7 +113,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
 
             // Create a new popup with the park info string
-            var popupOverlay = (PopupOverlay)MapView.Overlays["Info Popup Overlay"];
+            var popupOverlay = (PopupOverlay)Map.Overlays["Info Popup Overlay"];
             var popup = new Popup(feature.GetShape().GetCenterPoint())
             {
                 Content = parkInfoString.ToString(),
@@ -127,7 +132,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Pull data from the selected feature and display it when clicked
         /// </summary>
-        private void MapView_MapClick(object sender, MapClickMapViewEventArgs e)
+        private void Map_MapClick(object sender, MapClickMapViewEventArgs e)
         {
             // Get the selected feature based on the map click location
             var selectedFeature = GetFeatureFromLocation(e.WorldLocation);
@@ -142,7 +147,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

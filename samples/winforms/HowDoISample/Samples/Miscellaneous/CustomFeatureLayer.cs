@@ -40,7 +40,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             };
 
             layerOverlay.Layers.Add(radiusLayer);
-            mapView.CurrentExtent = new RectangleShape(-10812042.5236828, 3942445.36497713, -10748599.7905585, 3887792.89005685);
+
+            mapView.CenterPoint = new PointShape(-10780320, 3915120);
+            mapView.CurrentScale = 288900;
 
             await mapView.RefreshAsync();
         }
@@ -69,7 +71,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.CurrentScale = 0D;
             this.mapView.ForeColor = System.Drawing.Color.Black;
             this.mapView.Location = new System.Drawing.Point(0, 0);
-            this.mapView.MapFocusMode = MapFocusMode.Default;
+            this.mapView.MapFocusMode = MapFocusMode.MouseEnterFocused;
             this.mapView.MapResizeMode = MapResizeMode.PreserveScale;
             this.mapView.MaximumScale = 1.7976931348623157E+308D;
             this.mapView.MinimumScale = 200D;

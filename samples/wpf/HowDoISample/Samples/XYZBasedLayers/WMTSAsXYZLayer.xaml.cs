@@ -26,12 +26,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Add the WMTS layer to the map
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             try
             {
                 var layerOverlay = new LayerOverlay();
-                MapView.Overlays.Add(layerOverlay);
+                Map.Overlays.Add(layerOverlay);
                 wmtsAsyncLayer = new WmtsAsyncLayer(new Uri("https://wmts.geo.admin.ch/1.0.0"));
                 wmtsAsyncLayer.DrawingExceptionMode = DrawingExceptionMode.DrawException;
                 wmtsAsyncLayer.ActiveLayerName = "ch.swisstopo.pixelkarte-farbe-pk25.noscale";
@@ -49,8 +52,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     System.IO.Directory.CreateDirectory(cachePath);
                 }
 
-                ThinkGeoDebugger.DisplayTileId = true;
-
                 wmtsAsyncLayer.TileCache = new FileRasterTileCache(cachePath, "raw");
                 wmtsAsyncLayer.ProjectedTileCache = new FileRasterTileCache(cachePath, "projected");
 
@@ -59,14 +60,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 await wmtsAsyncLayer.OpenAsync();
                 // Create a zoomlevelSet from the WMTS server
-                MapView.ZoomScales = GetZoomScalesFromWmtsServer();
+                Map.ZoomScales = GetZoomScalesFromWmtsServer();
 
                 var wmtsAsyncLayerBBox = wmtsAsyncLayer.GetBoundingBox();
-                MapView.CenterPoint = wmtsAsyncLayerBBox.GetCenterPoint();
-                MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, wmtsAsyncLayerBBox, MapView.MapWidth, MapView.MapHeight);
+                Map.CenterPoint = wmtsAsyncLayerBBox.GetCenterPoint();
+                Map.CurrentScale = MapUtil.GetScale(Map.MapUnit, wmtsAsyncLayerBBox, Map.MapWidth, Map.MapHeight);
 
                 _initialized = true;
-                await MapView.RefreshAsync();
+                await Map.RefreshAsync();
             }
             catch
             {
@@ -122,12 +123,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 switch (radioButton.Tag.ToString())
                 {
                     case "21781":
-                        MapView.MapUnit = GeographyUnit.Meter;
+                        Map.MapUnit = GeographyUnit.Meter;
                         wmtsAsyncLayer.ProjectionConverter = null;
                         break;
 
                     case "4326":
-                        MapView.MapUnit = GeographyUnit.DecimalDegree;
+                        Map.MapUnit = GeographyUnit.DecimalDegree;
                         var currentCrs = wmtsAsyncLayer.GetTileMatrixSets()[wmtsAsyncLayer.TileMatrixSetName].SupportedCrs;
                         wmtsAsyncLayer.ProjectionConverter = new GdalProjectionConverter(currentCrs, 4326);
                         break;
@@ -139,9 +140,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 await wmtsAsyncLayer.CloseAsync();
                 await wmtsAsyncLayer.OpenAsync();
                 var wmtsAsyncLayerBBox = wmtsAsyncLayer.GetBoundingBox();
-                MapView.CenterPoint = wmtsAsyncLayerBBox.GetCenterPoint();
-                MapView.CurrentScale = MapUtil.GetScale(MapView.MapUnit, wmtsAsyncLayerBBox, MapView.MapWidth, MapView.MapHeight);
-                await MapView.RefreshAsync();
+                Map.CenterPoint = wmtsAsyncLayerBBox.GetCenterPoint();
+                Map.CurrentScale = MapUtil.GetScale(Map.MapUnit, wmtsAsyncLayerBBox, Map.MapWidth, Map.MapHeight);
+                await Map.RefreshAsync();
             }
             catch
             {
@@ -158,7 +159,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (checkBox.IsChecked.HasValue)
                 wmtsAsyncLayer.RenderBeyondMaxZoom = checkBox.IsChecked.Value;
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         private void DisplayTileIdCheckBox_Checked(object sender, RoutedEventArgs e)
@@ -175,7 +176,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (ThinkGeoDebugger.DisplayTileId != checkBox.IsChecked.Value)
             {
                 ThinkGeoDebugger.DisplayTileId = checkBox.IsChecked.Value;
-                _ = MapView.RefreshAsync();
+                _ = Map.RefreshAsync();
             }
         }
 
@@ -189,7 +190,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             ThinkGeoDebugger.DisplayTileId = false;
-            MapView.Dispose();
+            Map.Dispose();
             GC.SuppressFinalize(this);
         }
     }

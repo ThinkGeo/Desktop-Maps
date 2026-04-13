@@ -117,8 +117,5 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="ThinkGeo.Core" name="ThinkGeo.Core, Culture=neutral, PublicKeyToken=0828af5241fb4207" />
-  <data name="mapView.CenterPoint" type="ThinkGeo.Core.PointShape, ThinkGeo.Core">
-    <value>0,0,0</value>
-  </data>
+
 </root>

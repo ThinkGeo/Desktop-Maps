@@ -13,6 +13,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class FindTouchingFeatures : IDisposable
     {
+
+        private bool _initialized;
         public FindTouchingFeatures()
         {
             InitializeComponent();
@@ -21,8 +23,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay and a feature layer containing Frisco zoning data
         /// </summary>
-        private async void MapView_Loaded(object sender, RoutedEventArgs e)
+        private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             try
             {
                 // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
@@ -34,10 +39,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                     TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
                 };
-                MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
                 // Set the Map Unit to meters (used in Spherical Mercator)
-                MapView.MapUnit = GeographyUnit.Meter;
+                Map.MapUnit = GeographyUnit.Meter;
 
                 // Create a feature layer to hold and display the zoning data
                 var zoningLayer = new InMemoryFeatureLayer();
@@ -65,8 +70,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 projectionConverter.Close();
 
                 // Set the map extent to Frisco, TX
-                MapView.CenterPoint = new PointShape(-10777860, 3914200);
-                MapView.CurrentScale = 31300;
+                Map.CenterPoint = new PointShape(-10777860, 3914200);
+                Map.CurrentScale = 31300;
 
                 // Create a layer to hold the feature we will perform the spatial query against
                 var queryFeatureLayer = new InMemoryFeatureLayer();
@@ -83,17 +88,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var zoningOverlay = new LayerOverlay();
                 zoningOverlay.TileType = TileType.SingleTile;
                 zoningOverlay.Layers.Add("Frisco Zoning", zoningLayer);
-                MapView.Overlays.Add("Frisco Zoning Overlay", zoningOverlay);
+                Map.Overlays.Add("Frisco Zoning Overlay", zoningOverlay);
 
                 var queryFeaturesOverlay = new LayerOverlay();
                 queryFeaturesOverlay.TileType = TileType.SingleTile;
                 queryFeaturesOverlay.Layers.Add("Query Feature", queryFeatureLayer);
-                MapView.Overlays.Add("Query Features Overlay", queryFeaturesOverlay);
+                Map.Overlays.Add("Query Features Overlay", queryFeaturesOverlay);
 
                 var highlightedFeaturesOverlay = new LayerOverlay();
                 highlightedFeaturesOverlay.TileType = TileType.SingleTile;
                 highlightedFeaturesOverlay.Layers.Add("Highlighted Features", highlightedFeaturesLayer);
-                MapView.Overlays.Add("Highlighted Features Overlay", highlightedFeaturesOverlay);
+                Map.Overlays.Add("Highlighted Features Overlay", highlightedFeaturesOverlay);
 
                 // Create a sample shape using vertices from an existing feature, to ensure that it is touching other features
                 zoningLayer.Open();
@@ -109,10 +114,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 await GetFeaturesTouchingAsync(sampleShape);
 
                 // Set the map extent to the sample shape
-                MapView.CenterPoint = new PointShape(-10776520, 3919250);
-                MapView.CurrentScale = 18060;
+                Map.CenterPoint = new PointShape(-10776520, 3919250);
+                Map.CurrentScale = 18060;
 
-                await MapView.RefreshAsync();
+                await Map.RefreshAsync();
             }
             catch 
             {
@@ -139,8 +144,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async Task HighlightQueriedFeaturesAsync(IEnumerable<Feature> features)
         {
-            // Find the layers we will be modifying in the MapView dictionary
-            var highlightedFeaturesOverlay = (LayerOverlay)MapView.Overlays["Highlighted Features Overlay"];
+            // Find the layers we will be modifying in the Map dictionary
+            var highlightedFeaturesOverlay = (LayerOverlay)Map.Overlays["Highlighted Features Overlay"];
             var highlightedFeaturesLayer = (InMemoryFeatureLayer)highlightedFeaturesOverlay.Layers["Highlighted Features"];
 
             // Clear the currently highlighted features
@@ -167,10 +172,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async Task GetFeaturesTouchingAsync(BaseShape shape)
         {
-            // Find the layers we will be modifying in the MapView
-            var queryFeaturesOverlay = (LayerOverlay)MapView.Overlays["Query Features Overlay"];
+            // Find the layers we will be modifying in the Map
+            var queryFeaturesOverlay = (LayerOverlay)Map.Overlays["Query Features Overlay"];
             var queryFeatureLayer = (InMemoryFeatureLayer)queryFeaturesOverlay.Layers["Query Feature"];
-            var zoningLayer = (InMemoryFeatureLayer)MapView.FindFeatureLayer("Frisco Zoning");
+            var zoningLayer = (InMemoryFeatureLayer)Map.FindFeatureLayer("Frisco Zoning");
 
             // Clear the query shape layer and add the newly drawn shape
             queryFeatureLayer.InternalFeatures.Clear();
@@ -182,14 +187,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             await HighlightQueriedFeaturesAsync(queriedFeatures);
 
             // Disable map drawing and clear the drawn shape
-            MapView.TrackOverlay.TrackMode = TrackMode.None;
-            MapView.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
+            Map.TrackOverlay.TrackMode = TrackMode.None;
+            Map.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
         }
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

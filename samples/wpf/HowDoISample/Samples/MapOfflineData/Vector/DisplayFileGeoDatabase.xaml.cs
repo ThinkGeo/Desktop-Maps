@@ -9,6 +9,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class DisplayFileGeoDatabase : IDisposable
     {
+
+        private bool _initialized;
         public DisplayFileGeoDatabase()
         {
             InitializeComponent();
@@ -17,10 +19,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the FileGeoDatabase layer to the map
         /// </summary>
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             // It is important to set the map unit first to either feet, meters or decimal degrees.
-            MapView.MapUnit = GeographyUnit.Meter;
+            Map.MapUnit = GeographyUnit.Meter;
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
             var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
@@ -31,12 +36,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
-            MapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Create a new overlay that will hold our new layer and add it to the map.
             var fileGeoDatabaseOverlay = new LayerOverlay();
             fileGeoDatabaseOverlay.TileType = TileType.SingleTile;
-            MapView.Overlays.Add("overlay", fileGeoDatabaseOverlay);
+            Map.Overlays.Add("overlay", fileGeoDatabaseOverlay);
 
             // Create the new layer and set the projection as the data is in srid 2276 and our background is srid 3857 (spherical mercator).
             var fileGeoDatabaseFeatureLayer = new FileGeoDatabaseFeatureLayer(@"./Data/FileGeoDatabase/zoning.gdb")
@@ -58,17 +63,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Open the layer and set the map view current extent to the bounding box of the layer.  
             fileGeoDatabaseFeatureLayer.Open();
             var fileGeoDatabaseFeatureLayerBBox = fileGeoDatabaseFeatureLayer.GetBoundingBox();
-            MapView.CenterPoint = fileGeoDatabaseFeatureLayerBBox.GetCenterPoint();
-            var MapScale = MapUtil.GetScale(MapView.MapUnit, fileGeoDatabaseFeatureLayerBBox, MapView.MapWidth, MapView.MapHeight);
-            MapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
+            Map.CenterPoint = fileGeoDatabaseFeatureLayerBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(Map.MapUnit, fileGeoDatabaseFeatureLayerBBox, Map.MapWidth, Map.MapHeight);
+            Map.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
 
-            _ = MapView.RefreshAsync();
+            _ = Map.RefreshAsync();
         }
 
         public void Dispose()
         {
             // Dispose of unmanaged resources.
-            MapView.Dispose();
+            Map.Dispose();
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }

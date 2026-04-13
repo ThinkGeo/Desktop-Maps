@@ -48,7 +48,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             geoPdfLayer.Open();
 
             // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(8596693.434116628, 1485467.7478196982, 8679245.424205996, 1430891.7099272825);
+            mapView.CenterPoint = new PointShape(8638000, 1458200);
+            mapView.CurrentScale = 288900;
 
             // Refresh the map.
             await mapView.RefreshAsync();
