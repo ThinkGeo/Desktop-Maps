@@ -238,7 +238,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Name = "mapView";
             mapView.RestrictExtent = null;
             mapView.RotationAngle = 0F;
-            mapView.Size = new System.Drawing.Size(946, 634);
+            mapView.Size = new System.Drawing.Size(1255, 634);
             mapView.TabIndex = 0;
             // 
             // consolePanel
@@ -256,10 +256,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             consolePanel.Controls.Add(ZoomToScaleButton);
             consolePanel.Controls.Add(zoomScaleTextBox);
             consolePanel.Controls.Add(zoomingLabel);
-            consolePanel.Dock = DockStyle.Right;
-            consolePanel.Location = new Point(953, 0);
+            consolePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top
+            | System.Windows.Forms.AnchorStyles.Right)));
+            consolePanel.Location = new Point(943, 10);
             consolePanel.Name = "consolePanel";
-            consolePanel.Size = new Size(302, 634);
+            consolePanel.Size = new Size(302, 410);
             consolePanel.TabIndex = 1;
             // 
             // zoomingLabel
@@ -423,7 +424,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // ZoomToExtents
             // 
-            AutoSize = true;
             Controls.Add(mapView);
             Controls.Add(statusLabel);
             Controls.Add(centerPointLabel);
