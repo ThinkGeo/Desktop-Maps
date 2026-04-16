@@ -47,7 +47,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Open the layer and set the map view current extent to the bounding box of the layer.  
             gpxLayer.Open();
-            mapView.CurrentExtent = gpxLayer.GetBoundingBox();
+            var gpxLayerBBox = gpxLayer.GetBoundingBox();
+            mapView.CenterPoint = gpxLayerBBox.GetCenterPoint();
+            mapView.CurrentScale = MapUtil.GetScale(mapView.MapUnit, gpxLayerBBox, mapView.MapWidth, mapView.MapHeight);
 
             // Refresh the map.
             await mapView.RefreshAsync();

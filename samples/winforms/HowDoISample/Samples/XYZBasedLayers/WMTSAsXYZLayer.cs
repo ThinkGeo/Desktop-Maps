@@ -332,6 +332,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             consolePanel.ResumeLayout(false);
             consolePanel.PerformLayout();
             ResumeLayout(false);
+            consolePanel.BringToFront();
             //
             // Attach VisibleChanged event
             //

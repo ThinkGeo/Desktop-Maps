@@ -72,7 +72,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Open the layer and set the map view current extent to the bounding box of the layer.  
             inMemoryFeatureLayer.Open();
-            mapView.CurrentExtent = inMemoryFeatureLayer.GetBoundingBox();
+            var inMemoryFeatureLayerBBox = inMemoryFeatureLayer.GetBoundingBox();
+            mapView.CenterPoint = inMemoryFeatureLayerBBox.GetCenterPoint();
+            mapView.CurrentScale = MapUtil.GetScale(mapView.MapUnit, inMemoryFeatureLayerBBox, mapView.MapWidth, mapView.MapHeight);
 
             //Refresh the map.
             await mapView.RefreshAsync();

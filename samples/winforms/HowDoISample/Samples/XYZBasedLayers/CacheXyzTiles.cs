@@ -309,6 +309,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             zoomRangeGroupBox.ResumeLayout(false);
             zoomRangeGroupBox.PerformLayout();
             ResumeLayout(false);
+            consolePanel.BringToFront();
             progressBar.BringToFront();
             //
             // Attach VisibleChanged event

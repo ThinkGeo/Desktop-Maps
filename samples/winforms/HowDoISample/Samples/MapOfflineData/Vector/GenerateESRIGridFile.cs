@@ -65,7 +65,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             //set the map's current extent to the point shapefile location.
             samplesLayer.Open();
-            mapView.CurrentExtent = samplesLayer.GetBoundingBox();
+            var samplesLayerBBox = samplesLayer.GetBoundingBox();
+            mapView.CenterPoint = samplesLayerBBox.GetCenterPoint();
+            mapView.CurrentScale = MapUtil.GetScale(mapView.MapUnit, samplesLayerBBox, mapView.MapWidth, mapView.MapHeight);
             samplesLayer.Close();
 
             await mapView.RefreshAsync();

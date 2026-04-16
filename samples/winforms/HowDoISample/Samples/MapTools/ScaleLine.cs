@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Forms;
 using ThinkGeo.Core;
 
@@ -27,6 +28,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             mapView.MapTools.ScaleLine.IsEnabled = true;
+            mapView.MapTools.ScaleLine.Margin = new Thickness(5, 0, 0, 20);
 
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
