@@ -42,6 +42,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 TextStyle = new TextStyle("Crime Categories", new GeoFont("Verdana", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
             };
             legend.Location = AdornmentLocation.LowerRight;
+            legend.YOffsetInPixel = -15;
             mapView.AdornmentOverlay.Layers.Add(legend);
 
             AddValueStyle();

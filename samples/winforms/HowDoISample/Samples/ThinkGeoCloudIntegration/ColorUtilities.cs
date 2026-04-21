@@ -54,6 +54,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 },
                 Location = AdornmentLocation.LowerRight
             };
+            legend.YOffsetInPixel = -15;
 
             mapView.AdornmentOverlay.Layers.Add("Legend", legend);
 
@@ -665,6 +666,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // rdoDefaultColor
             // 
             this.rdoDefaultColor.AutoSize = true;
+            this.rdoDefaultColor.Checked = true;
             this.rdoDefaultColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rdoDefaultColor.ForeColor = System.Drawing.Color.White;
             this.rdoDefaultColor.Location = new System.Drawing.Point(17, 286);
@@ -691,7 +693,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // rdoRandomColor
             // 
             this.rdoRandomColor.AutoSize = true;
-            this.rdoRandomColor.Checked = true;
             this.rdoRandomColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rdoRandomColor.ForeColor = System.Drawing.Color.White;
             this.rdoRandomColor.Location = new System.Drawing.Point(17, 232);

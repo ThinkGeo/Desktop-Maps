@@ -436,6 +436,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             ((System.ComponentModel.ISupportInitialize)rotateAngleTrackBar).EndInit();
             ResumeLayout(false);
 
+            consolePanel.BringToFront();
             centerPointLabel.BringToFront();
             statusLabel.BringToFront();
         }

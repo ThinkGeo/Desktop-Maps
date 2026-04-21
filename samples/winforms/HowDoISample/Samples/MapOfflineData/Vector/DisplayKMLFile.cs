@@ -39,7 +39,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             layerOverlay.Layers.Add(layer);
 
             // Set the map view current extent to a slightly zoomed in area of the image.
-            mapView.CurrentExtent = new RectangleShape(-10777998.2731192, 3913070.41013283, -10774999.3141042, 3911542.86390418);
+            mapView.CenterPoint = new PointShape(-10776500, 3912300);
+            mapView.CurrentScale = 10500;
 
             // Refresh the map.
             await mapView.RefreshAsync();

@@ -60,7 +60,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Open the layer and set the map view current extent to the bounding box of the layer.  
             gridFeatureLayer.Open();
-            mapView.CurrentExtent = gridFeatureLayer.GetBoundingBox();
+            var gridFeatureLayerBBox = gridFeatureLayer.GetBoundingBox();
+            mapView.CenterPoint = gridFeatureLayerBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(mapView.MapUnit, gridFeatureLayerBBox, mapView.MapWidth, mapView.MapHeight);
+            mapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
 
             // Refresh the map.
             await mapView.RefreshAsync();

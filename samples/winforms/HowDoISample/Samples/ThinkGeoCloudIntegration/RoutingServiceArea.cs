@@ -171,6 +171,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 },
                 Location = AdornmentLocation.LowerRight
             };
+            legend.YOffsetInPixel = -12;
 
             mapView.AdornmentOverlay.Layers.Add(legend);
 
