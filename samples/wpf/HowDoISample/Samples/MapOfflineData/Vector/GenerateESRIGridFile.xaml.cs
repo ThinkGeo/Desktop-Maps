@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
@@ -10,16 +11,24 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// <summary>
     /// Learn how to generate and display an ESRI Grid Layer on the map
     /// We start with a shapefile of points with each point containing a soil PH value.
-    /// Clicking the Generate button will build a .grd file using an Inverse Distance Weighted (IDW) interpolation model and then displays the grid.
+    /// Clicking the Generate button will build a .asc file using an Inverse Distance Weighted (IDW) interpolation model and then displays the grid.
     /// Although this sample is a soil map, this same technique can be used to translate any other point-based data to a grid
     /// </summary>
     public partial class GenerateESRIGridFile : IDisposable
     {
-
+        private const string SamplePointsOverlayName = "SamplePointsOverlay";
+        private const string GeneratedGridOverlayName = "GeneratedGridOverlay";
         private bool _initialized;
+        private GridOverlay<double> generatedGridOverlay;
+
         public GenerateESRIGridFile()
         {
             InitializeComponent();
+        }
+
+        private void ResamplingMode_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ApplyResamplingSelection();
         }
 
         /// <summary>
@@ -60,13 +69,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             samplesLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(classBreakStyle);
             samplesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            //Create an overlay for our points (and later the grid) and add our points layer to it.
-            var gridOverlay = new LayerOverlay
+            // Create an overlay for the sample points and add it to the map.
+            var pointsOverlay = new LayerOverlay
             {
                 TileType = TileType.SingleTile
             };
-            gridOverlay.Layers.Add("GridFeatureLayer", samplesLayer);
-            Map.Overlays.Add("GridFeatureOverlay", gridOverlay);
+            pointsOverlay.Layers.Add("SamplePointsLayer", samplesLayer);
+            Map.Overlays.Add(SamplePointsOverlayName, pointsOverlay);
 
             //set the map's current extent to the point shapefile location.
             samplesLayer.Open();
@@ -81,7 +90,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void BtnGenerateGridFile_Click(object sender, RoutedEventArgs e)
         {
             // call the functions to generate the grid file and render it.
-            const string filename = @"./Data/GridFile/generated.grd";
+            const string filename = @"./Data/GridFile/generated.asc";
             GenerateGrid(filename);
             _ = LoadGridAsync(filename);
         }
@@ -119,46 +128,89 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             //http://en.wikipedia.org/wiki/Inverse_distance_weighting
             GridInterpolationModel interpolationModel = new InverseDistanceWeightedGridInterpolationModel(2, double.MaxValue);
 
-            var outputStream = new FileStream(filename, FileMode.Create);
-            GridFeatureSource.GenerateGrid(definition, interpolationModel, outputStream);
+            using (var outputStream = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                GridFeatureSource.GenerateGrid(definition, interpolationModel, outputStream);
+            }
         }
 
         private async Task LoadGridAsync(string filename)
         {
-            //Shows how to set the class breaks to display grid cell with color according to its value.
-            var gridFeatureLayer = new GridFeatureLayer(filename);
-            var gridClassBreakStyle = new ClassBreakStyle("CellValue");
+            if (Map.Overlays.Contains(SamplePointsOverlayName))
+            {
+                var samplePointsOverlay = Map.Overlays[SamplePointsOverlayName] as LayerOverlay;
+                Map.Overlays.Remove(SamplePointsOverlayName);
+                samplePointsOverlay?.Dispose();
+            }
+
+            if (Map.Overlays.Contains(GeneratedGridOverlayName))
+            {
+                Map.Overlays.Remove(GeneratedGridOverlayName);
+                generatedGridOverlay?.Dispose();
+                generatedGridOverlay = null;
+            }
+
+            var gridSource = new AscGridSource(filename);
+            generatedGridOverlay = new GridOverlay<double>(gridSource, GetGridColor);
+            ApplyResamplingSelection();
+
+            Map.Overlays.Add(GeneratedGridOverlayName, generatedGridOverlay);
+            await Map.RefreshAsync();
+        }
+
+        private void ApplyResamplingSelection()
+        {
+            if (generatedGridOverlay == null || ResamplingMode == null)
+                return;
+
+            ComboBoxItem selectedItem = ResamplingMode.SelectedItem as ComboBoxItem;
+            if (selectedItem == null)
+                return;
+
+            switch (selectedItem.Tag as string)
+            {
+                case "Auto":
+                    generatedGridOverlay.ResamplingMode = RasterResamplingMode.Auto;
+                    break;
+                case "CartographicAuto":
+                    generatedGridOverlay.ResamplingMode = RasterResamplingMode.CartographicAuto;
+                    break;
+                case "Bicubic":
+                    generatedGridOverlay.ResamplingMode = RasterResamplingMode.Bicubic;
+                    break;
+                case "Trilinear":
+                    generatedGridOverlay.ResamplingMode = RasterResamplingMode.Trilinear;
+                    break;
+                case "Bilinear":
+                    generatedGridOverlay.ResamplingMode = RasterResamplingMode.Bilinear;
+                    break;
+                case "NearestNeighbor":
+                default:
+                    generatedGridOverlay.ResamplingMode = RasterResamplingMode.NearestNeighbor;
+                    break;
+            }
+        }
+
+        private static GeoColor GetGridColor(double value)
+        {
             const byte alpha = 150;
-            gridClassBreakStyle.ClassBreaks.Add(new ClassBreak(double.MinValue, new AreaStyle(new GeoSolidBrush(GeoColors.Transparent))));
-            gridClassBreakStyle.ClassBreaks.Add(new ClassBreak(6.2, new AreaStyle(new GeoSolidBrush(GeoColor.FromArgb(alpha, 255, 0, 0)))));
-            gridClassBreakStyle.ClassBreaks.Add(new ClassBreak(6.83, new AreaStyle(new GeoSolidBrush(GeoColor.FromArgb(alpha, 255, 128, 0)))));
-            gridClassBreakStyle.ClassBreaks.Add(new ClassBreak(7.0, new AreaStyle(new GeoSolidBrush(GeoColor.FromArgb(alpha, 245, 210, 10)))));
-            gridClassBreakStyle.ClassBreaks.Add(new ClassBreak(7.08, new AreaStyle(new GeoSolidBrush(GeoColor.FromArgb(alpha, 225, 255, 0)))));
-            gridClassBreakStyle.ClassBreaks.Add(new ClassBreak(7.15, new AreaStyle(new GeoSolidBrush(GeoColor.FromArgb(alpha, 224, 251, 132)))));
-            gridClassBreakStyle.ClassBreaks.Add(new ClassBreak(7.21, new AreaStyle(new GeoSolidBrush(GeoColor.FromArgb(alpha, 128, 255, 128)))));
-            gridClassBreakStyle.ClassBreaks.Add(new ClassBreak(7.54, new AreaStyle(new GeoSolidBrush(GeoColor.FromArgb(alpha, 0, 255, 0)))));
-            gridFeatureLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(gridClassBreakStyle);
-            gridFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            var layerOverlay = Map.Overlays["GridFeatureOverlay"] as LayerOverlay;
-            if (layerOverlay != null && layerOverlay.Layers.Contains("GridFeatureLayer"))
-            {
-                layerOverlay.Layers.Remove("GridFeatureLayer");
-            }
-
-            if (layerOverlay != null)
-            {
-                layerOverlay.Layers.Add("GridFeatureLayer", gridFeatureLayer);
-
-                await Map.RefreshAsync(layerOverlay);
-            }
+            if (value >= 7.54) return GeoColor.FromArgb(alpha, 0, 255, 0);
+            if (value >= 7.21) return GeoColor.FromArgb(alpha, 128, 255, 128);
+            if (value >= 7.15) return GeoColor.FromArgb(alpha, 224, 251, 132);
+            if (value >= 7.08) return GeoColor.FromArgb(alpha, 225, 255, 0);
+            if (value >= 7.0) return GeoColor.FromArgb(alpha, 245, 210, 10);
+            if (value >= 6.83) return GeoColor.FromArgb(alpha, 255, 128, 0);
+            if (value >= 6.2) return GeoColor.FromArgb(alpha, 255, 0, 0);
+            return GeoColors.Transparent;
         }
 
         public void Dispose()
         {
-            // Dispose of unmanaged resources.
+            generatedGridOverlay?.Dispose();
+            generatedGridOverlay = null;
+
             Map.Dispose();
-            // Suppress finalization.
             GC.SuppressFinalize(this);
         }
     }

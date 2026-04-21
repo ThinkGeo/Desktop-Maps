@@ -11,6 +11,7 @@
 <!-- x64 required by ThinkGeo.FileGeoDatabase (Esri.FileGDBAPI.dll is AMD64-only).
          Other ThinkGeo components support AnyCPU/x86. -->
     <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
   <Target Name="RemoveDuplicateAnalyzers" BeforeTargets="CoreCompile">
@@ -135,14 +136,15 @@
     <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
     <PackageReference Include="Jint" Version="4.5.0" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3800.47" />
-    <PackageReference Include="ThinkGeo.Cad" Version="14.5.1" />
-    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.5.1" />
-    <PackageReference Include="ThinkGeo.Gdal" Version="14.5.1" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.5.1" />
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.5.1" />
-    <PackageReference Include="ThinkGeo.Printers" Version="14.5.1" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="14.5.1" />
-    <PackageReference Include="ThinkGeo.UI.Wpf" Version="14.5.1" />
+    <PackageReference Include="ThinkGeo.Core" Version="15.0.0-beta019" />
+    <PackageReference Include="ThinkGeo.Cad" Version="15.0.0-beta019" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="15.0.0-beta019" />
+    <PackageReference Include="ThinkGeo.Gdal" Version="15.0.0-beta019" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="15.0.0-beta019" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="15.0.0-beta019" />
+    <PackageReference Include="ThinkGeo.Printers" Version="15.0.0-beta019" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="15.0.0-beta019" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="15.0.0-beta019" />
   </ItemGroup>
 
   <ItemGroup>
@@ -160,4 +162,5 @@
     <Folder Include="Data\Csv\" />
     <Folder Include="Data\CAD\" />
   </ItemGroup>
+
 </Project>

@@ -204,12 +204,6 @@
         "source": "Samples/MapOfflineData/Raster/DisplayECWFile"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayESRIGridFile",
-        "title": "Display a ESRI Grid File",
-        "description": "This sample shows how to display a ESRI grid layer.",
-        "source": "Samples/MapOfflineData/Raster/DisplayESRIGridFile"
-      },
-      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayGdalFile",
         "title": "Display a Gdal File",
         "description": "This sample shows how to display raster format data supported by Gdal.",
@@ -320,7 +314,7 @@
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.GenerateESRIGridFile",
         "title": "Generate an ESRI Grid File",
-        "description": "This sample shows how to generate an ESRI .grd Grid File from point data and display it on the map.",
+        "description": "This sample shows how to generate an ESRI .asc Grid File from point data and display it on the map.",
         "source": "Samples/MapOfflineData/Vector/GenerateESRIGridFile"
       },
       {
@@ -907,10 +901,10 @@
         "source": "Samples/Miscellaneous/GetMapSnapShot"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.PerfTestRefreshShapes",
-        "title": "Perf Test: Refresh shapes",
-        "description": "Learn how to use overlays to display dynamically refreshing data. This sample will shows how to refresh 20,000 polygons every seconds.",
-        "source": "Samples/Miscellaneous/PerfTestRefreshShapes"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.PerfTestRefreshNdfdSkyGrid",
+        "title": "Perf Test: Refresh NDFD sky grid",
+        "description": "Use the bundled local NDFD GRIB2 sky-cover grid as a fast bitmap-backed time sequence over a Florida-focused map view.",
+        "source": "Samples/Miscellaneous/PerfTestRefreshNdfdSkyGrid"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.CustomBackground",

@@ -1,7 +1,7 @@
 ﻿---
 document_type: thinkgeo-howdoi-sample-index
 generated_on: 2026-02-25
-sample_count: 138
+sample_count: 143
 schema_version: 2.4
 machine_readable: ../samples.json
 group_by: samples_json_order
@@ -54,7 +54,7 @@ This category demonstrates how to connect online basemaps and feature services. 
 | WMS | Display a WMS layer. (This sample may be slow as we use a public WMS server) | WmsAsyncLayer |
 | WMTS | Display a WMTS layer. (This sample may be slow as we use a public WMTS server) | WmtsOverlay |
 
-### Map Offline Data (28)
+### Map Offline Data (27)
 
 This category shows how to load and render offline local data from common vector, raster, and database formats. The samples focus on layer setup, projection alignment, and display styling.
 
@@ -67,7 +67,6 @@ This category shows how to load and render offline local data from common vector
 | Display a SQLite File | Display a SQLite layer | SqliteFeatureLayer |
 | Display Common Raster Files | Display common image types such as PNG, JPEG, Bitmap etc | SkiaRasterLayer |
 | Display an ECW File | Display a ECW image | EcwGdalRasterLayer |
-| Display a ESRI Grid File | Display a ESRI grid layer | GridFeatureLayer |
 | Display a Gdal File | Display raster format data supported by Gdal | GdalRasterLayer |
 | Display a GeoTiff File | Display a GeoTiff image | GeoTiffRasterLayer |
 | Display a JPEG2000 File | Display a JPEG2000 image | MrSidGdalRasterLayer |
@@ -86,7 +85,7 @@ This category shows how to load and render offline local data from common vector
 | Display a TinyGeo File | Display a TinyGeo layer | TinyGeoFeatureLayer |
 | Display a table from Postgres | Display a Postgres layer | PostgreSqlFeatureLayer |
 | Display a table from SQL Server | Display a SQL Server layer | SqlServerFeatureLayer |
-| Generate an ESRI Grid File | Generate an ESRI .grd Grid File from point data and display it on the map | GenerateGrid |
+| Generate an ESRI Grid File | Generate an ESRI .asc Grid File from point data and display it on the map | GenerateGrid |
 | Grouping Layers Using LayerOverlay | Group layers into logical groups using LayerOverlays | LayerOverlay |
 
 ### XYZ Based Layers (9)
@@ -252,7 +251,7 @@ This category contains practical cross-cutting samples outside a single theme. I
 | Wrap the DateLine | Say the world width is 0 ~ 1, here shows what the shapes with different length look like in the multi-world map | WrappingMode.WrapDateline |
 | Draw the map on an Image | Draw your map onto an image file | ThinkGeoRasterMapsAsyncLayer |
 | Get Map SnapShot | Get the snapshot of the current map | GetSnapshot |
-| Perf Test: Refresh shapes | Use overlays to display dynamically refreshing data. This sample shows how to refresh 20,000 polygons every second | ValueStyle |
+| Perf Test: Refresh NDFD sky grid | Use the bundled local NDFD GRIB2 sky-cover grid as a fast bitmap-backed time sequence over a Florida-focused map view. | GridOverlay |
 | Custom Background | Display a background overlay | GeoLinearGradientBrush |
 | Custom Feature Layer | Use the Layer base class to create your own custom layers | RadiusLayer |
 | Custom Feature Sources | Use the FeatureSource base class to create your own custom Feature Source | SimpleCsvFeatureSource |
