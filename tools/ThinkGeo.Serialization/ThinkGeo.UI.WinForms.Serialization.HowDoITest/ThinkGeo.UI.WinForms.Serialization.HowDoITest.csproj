@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <IsPackable>false</IsPackable>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>ThinkGeo.UI.WinForms.Serialization.HowDoITest</RootNamespace>
+    <AssemblyName>ThinkGeo.UI.WinForms.Serialization.HowDoITest</AssemblyName>
+    <!-- x64 required by ThinkGeo.FileGeoDatabase dependency via the HowDoI sample project. -->
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
+    <PackageReference Include="xunit" Version="2.6.6" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ThinkGeo.Core.Serialization\ThinkGeo.Core.Serialization.csproj" />
+    <ProjectReference Include="..\ThinkGeo.UI.WinForms.Serialization\ThinkGeo.UI.WinForms.Serialization.csproj" />
+    <ProjectReference Include="..\..\..\samples\winforms\HowDoISample\HowDoI.csproj" />
+  </ItemGroup>
+
+</Project>

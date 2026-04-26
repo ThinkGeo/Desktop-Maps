@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>ThinkGeo.UI.Wpf.Serialization</RootNamespace>
+    <AssemblyName>ThinkGeo.UI.Wpf.Serialization</AssemblyName>
+    <Description>MapView / Overlay snapshot DTOs + mappers for ThinkGeo.UI.Wpf. Builds on ThinkGeo.Core.Serialization.</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="15.0.0-beta022" />
+    <PackageReference Include="System.Text.Json" Version="9.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ThinkGeo.Core.Serialization\ThinkGeo.Core.Serialization.csproj" />
+  </ItemGroup>
+
+</Project>
