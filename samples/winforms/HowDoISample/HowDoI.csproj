@@ -25,16 +25,16 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="9.0.4" />
 
-    <PackageReference Include="ThinkGeo.Cad" Version="14.5.1" />
-    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="14.5.1" />
-    <PackageReference Include="ThinkGeo.Gdal" Version="14.5.1" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="14.5.1" />
+    <PackageReference Include="ThinkGeo.Cad" Version="15.0.0-beta036" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="15.0.0-beta036" />
+    <PackageReference Include="ThinkGeo.Gdal" Version="15.0.0-beta036" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="15.0.0-beta036" />
 
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="14.5.1" />
-    <PackageReference Include="ThinkGeo.Printers" Version="14.5.1" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="14.5.1" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="15.0.0-beta036" />
+    <PackageReference Include="ThinkGeo.Printers" Version="15.0.0-beta036" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="15.0.0-beta036" />
 
-    <PackageReference Include="ThinkGeo.UI.WinForms" Version="14.5.1" />
+    <PackageReference Include="ThinkGeo.UI.WinForms" Version="15.0.0-beta036" />
 
   </ItemGroup>
   <ItemGroup>
@@ -114,7 +114,9 @@
     </Content>
     <Resource Include="Resources\loading.gif" />
     <Resource Include="Resources\logo.ico" />
-    <Resource Include="Resources\logo.png" />
+    <Content Include="Resources\logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Resources\North.gif" />
     <Resource Include="Resources\South.gif" />
     <Resource Include="Resources\ThinkGeoLogo.png" />
