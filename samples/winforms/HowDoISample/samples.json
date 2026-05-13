@@ -769,12 +769,6 @@
         "title": "Timezone",
         "description": "Learn how to use the TimezoneCloudClient to access the Timezone APIs available from the ThinkGeo Cloud",
         "source": "Samples/ThinkGeoCloudIntegration/Timezone"
-      },
-      {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.WorldMapsQuery",
-        "title": "World Maps Query",
-        "description": "Learn how to use the MapsQueryClient to query the WorldMaps dataset available from the ThinkGeo Cloud",
-        "source": "Samples/ThinkGeoCloudIntegration/WorldMapsQuery"
       }
     ]
   },

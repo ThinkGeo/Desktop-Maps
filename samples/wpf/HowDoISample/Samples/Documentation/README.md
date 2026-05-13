@@ -222,7 +222,7 @@ This category focuses on topology validation for point, line, and polygon datase
 | Validate Line Topology | Perform validation on lines | TopologyValidator |
 | Validate Polygon Topology | Perform validation on polygons | TopologyValidator |
 
-### ThinkGeo Cloud Integration (10)
+### ThinkGeo Cloud Integration (9)
 
 This category demonstrates ThinkGeo Cloud service client usage. It covers geocoding, reverse geocoding, routing, projection, elevation, timezone, and color services.
 
@@ -237,7 +237,6 @@ This category demonstrates ThinkGeo Cloud service client usage. It covers geocod
 | Routing - Service Area | Use the RoutingCloudClient to find the service area of a location with the ThinkGeo Cloud | RoutingCloudClient |
 | Routing - Traveling Sales Person | Use the RoutingCloudClient to find an optimized route through a set of waypoints with the ThinkGeo Cloud | RoutingCloudClient |
 | Timezone | Use the TimezoneCloudClient to access the Timezone APIs available from the ThinkGeo Cloud | TimeZoneCloudClient |
-| World Maps Query | Use the MapsQueryClient to query the WorldMaps dataset available from the ThinkGeo Cloud | MapsQueryCloudClient |
 
 ### Miscellaneous (12)
 
