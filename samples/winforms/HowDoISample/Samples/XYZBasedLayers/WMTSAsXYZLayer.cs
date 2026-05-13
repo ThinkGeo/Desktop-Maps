@@ -112,8 +112,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             {
                 if (wmtsAsyncLayer == null) return;
 
-                var radioButton = sender as RadioButton;
-                if (radioButton?.Tag == null) return;
+                var radioButton = (RadioButton)sender;
+
+                // CheckedChanged fires twice per click (old=false, then new=true); only run on
+                // the new one — otherwise the two async-void handlers race and corrupt MapUnit.
+                if (!radioButton.Checked) return;
 
                 switch (radioButton.Tag.ToString())
                 {

@@ -241,12 +241,6 @@
         "source": "Samples/MapOfflineData/Vector/DisplayKMLFile"
       },
       {
-        "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayCloudMapsVectorLayerOffline",
-        "title": "Display a Cloud Maps Vector Layer Off-line",
-        "description": "This sample show how to use an off-line version of ThinkGeo Cloud Map Vector data.",
-        "source": "Samples/MapOfflineData/Vector/DisplayCloudMapsVectorLayerOffline"
-      },
-      {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayS57File",
         "title": "Display a S57 (Nautical Charts) File",
         "description": "This sample shows how to display S57 nautical charts.",

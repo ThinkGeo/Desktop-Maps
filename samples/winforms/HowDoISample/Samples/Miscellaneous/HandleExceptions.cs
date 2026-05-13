@@ -67,7 +67,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             {
                 staticOverlay.ThrowingException += (sender, e) =>
                 {
-                    txtException.Text = e.Exception?.InnerException.Message;
+                    txtException.Text = e.Exception?.InnerException?.Message ?? e.Exception?.Message ?? string.Empty;
                     e.Handled = true;
                 };
             }
