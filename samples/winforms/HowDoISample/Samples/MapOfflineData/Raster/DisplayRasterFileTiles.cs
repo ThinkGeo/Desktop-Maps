@@ -114,13 +114,28 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
         }
 
-        private void RenderBeyondMaxZoomCheckBox_CheckedChanged(object sender, EventArgs e)
+        private async void RenderBeyondMaxZoomCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            if (!(sender is CheckBox checkBox))
-                return;
+            try
+            {
+                if (!(sender is CheckBox checkBox))
+                    return;
 
-            fileTilesAsyncLayer.RenderBeyondMaxZoom = checkBox.Checked;
-            _ = mapView.RefreshAsync();
+                fileTilesAsyncLayer.RenderBeyondMaxZoom = checkBox.Checked;
+
+                // Clear cached tiles
+                fileTilesAsyncLayer.TileCache?.ClearCache();
+                fileTilesAsyncLayer.ProjectedTileCache?.ClearCache();
+
+                // Reopen layer to rebuild tiles correctly
+                await fileTilesAsyncLayer.CloseAsync();
+                await fileTilesAsyncLayer.OpenAsync();
+
+                await mapView.RefreshAsync();
+            }
+            catch
+            {
+            }
         }
 
         private void DisplayTileIdCheckBox_CheckedChanged(object sender, EventArgs e)

@@ -151,7 +151,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.coordinateType.Name = "coordinateType";
             this.coordinateType.Size = new System.Drawing.Size(294, 24);
             this.coordinateType.TabIndex = 2;
-            this.coordinateType.Text = "(lat), (lon)";
+            this.coordinateType.Text = "(lon), (lat)";
             this.coordinateType.SelectedIndexChanged += new System.EventHandler(this.coordinateType_SelectedIndexChanged);
             // 
             // displayMouseCoordinates
