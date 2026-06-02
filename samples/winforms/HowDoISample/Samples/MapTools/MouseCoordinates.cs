@@ -29,7 +29,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
+
             mapView.MapTools.MouseCoordinate.IsEnabled = true;
+            mapView.MapTools.MouseCoordinate.Margin = new System.Windows.Thickness(0,0,0,20);
+            mapView.MapTools.MouseCoordinate.FontSize = 14;
 
             await mapView.RefreshAsync();
         }
@@ -146,7 +149,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.coordinateType.Name = "coordinateType";
             this.coordinateType.Size = new System.Drawing.Size(294, 24);
             this.coordinateType.TabIndex = 2;
-            this.coordinateType.Text = "(lat), (lon)";
+            this.coordinateType.Text = "(lon), (lat)";
             this.coordinateType.SelectedIndexChanged += new System.EventHandler(this.coordinateType_SelectedIndexChanged);
             // 
             // displayMouseCoordinates

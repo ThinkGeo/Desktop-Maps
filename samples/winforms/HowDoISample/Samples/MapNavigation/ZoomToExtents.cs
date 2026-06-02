@@ -438,6 +438,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             centerPointLabel.BringToFront();
             statusLabel.BringToFront();
+            consolePanel.BringToFront();
         }
 
         #endregion Component Designer generated code

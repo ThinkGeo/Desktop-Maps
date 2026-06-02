@@ -27,6 +27,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             mapView.MapTools.ScaleLine.IsEnabled = true;
+            mapView.MapTools.ScaleLine.Margin = new System.Windows.Thickness(10, 0, 0, 20);
 
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
