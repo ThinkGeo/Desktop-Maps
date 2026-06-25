@@ -49,33 +49,18 @@
                      Text="100"></TextBox>
             <Label Grid.Column="1"
                    Grid.Row="5"
-                   FontSize="14">Categories:</Label>
-            <ComboBox Grid.Column="2"
-                      Grid.Row="5"
-                      x:Name="CboLocationCategories"
-                      SelectionChanged="CboLocationType_SelectionChanged">
-                <ComboBoxItem>All</ComboBoxItem>
-                <ComboBoxItem>Common</ComboBoxItem>
-                <ComboBoxItem>None</ComboBoxItem>
-            </ComboBox>
-            <Label Grid.Column="1"
-                   Grid.Row="5"
-                   FontSize="14" Grid.ColumnSpan="2" Margin="0,28,65,0" Grid.RowSpan="2">Include Overture Places:</Label>
-            <ComboBox Grid.Column="2"
-                      Grid.Row="6"
-                      x:Name="CboIncludeOverturePlaces"
-                      SelectedIndex="0" Margin="60,3,0,3">
-                <ComboBoxItem Content="No">
-                    <ComboBoxItem.Tag>
-                        <sys:Boolean>False</sys:Boolean>
-                    </ComboBoxItem.Tag>
-                </ComboBoxItem>
-                <ComboBoxItem Content="Yes">
-                    <ComboBoxItem.Tag>
-                        <sys:Boolean>True</sys:Boolean>
-                    </ComboBoxItem.Tag>
-                </ComboBoxItem>
-            </ComboBox>
+                   Grid.ColumnSpan="2"
+                   FontSize="14">Data Sources:</Label>
+            <StackPanel Grid.Column="1"
+                        Grid.Row="6"
+                        Grid.ColumnSpan="2"
+                        Orientation="Vertical">
+                <CheckBox x:Name="CbDataOsm" Content="OSM (OpenStreetMap)" />
+                <CheckBox x:Name="CbDataOa" Content="OA (OpenAddresses)" />
+                <CheckBox x:Name="CbDataWof" Content="WOF (Who's On First)" />
+                <CheckBox x:Name="CbDataGn" Content="GN (GeoNames)" />
+                <CheckBox x:Name="CbDataOt" Content="OT (Overture)" />
+            </StackPanel>
 
             <Button Grid.Column="1"
                     Grid.Row="7"
@@ -229,6 +214,12 @@
         <Style TargetType="RadioButton">
             <Setter Property="Foreground"
                     Value="WhiteSmoke"></Setter>
+        </Style>
+        <Style TargetType="CheckBox">
+            <Setter Property="Foreground"
+                    Value="WhiteSmoke"></Setter>
+            <Setter Property="Margin"
+                    Value="0,2,0,2"></Setter>
         </Style>
     </UserControl.Resources>
 </UserControl>

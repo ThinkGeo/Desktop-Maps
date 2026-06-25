@@ -17,8 +17,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void Form_Load(object sender, EventArgs e)
         {
             mapView.MapUnit = GeographyUnit.Meter;
-            var mvtLayer = new VectorMbTilesAsyncLayer(@".\Data\Mbtiles\maplibre.mbtiles");
-            mvtLayer.StyleJsonUri = @".\Data\Mbtiles\style.json";
+            var mvtLayer = new VectorMbTilesAsyncLayer("C:\\Users\\philt\\Downloads\\planet_06-20-2026.mbtiles");
+            mvtLayer.StyleJsonUri = "C:\\Users\\philt\\Downloads\\worldstreets_light_style.json";
 
             var layerOverlay = new LayerOverlay();
             layerOverlay.Layers.Add(mvtLayer);
@@ -39,9 +39,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             if (selectedType == null)
                 return;
 
-            var mvtLayer = new VectorMbTilesAsyncLayer(@".\Data\Mbtiles\maplibre.mbtiles");
+            var mvtLayer = new VectorMbTilesAsyncLayer("C:\\Users\\philt\\Downloads\\planet_06-20-2026.mbtiles");
             if (selectedType == "applyStyle")
-                mvtLayer.StyleJsonUri = @".\Data\Mbtiles\style.json";
+                mvtLayer.StyleJsonUri = "C:\\Users\\philt\\Downloads\\worldstreets_light_style.json";
 
             var layerOverlay = new LayerOverlay();
             layerOverlay.Layers.Add(mvtLayer);

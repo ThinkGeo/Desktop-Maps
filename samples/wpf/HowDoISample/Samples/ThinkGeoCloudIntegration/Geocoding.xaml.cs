@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -59,9 +60,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 ClientSecret = SampleKeys.ClientSecret2,
             };
 
-            CboSearchType.SelectedIndex = 0;
-            CboLocationType.SelectedIndex = 0;
-
             _ = Map.RefreshAsync();
         }
 
@@ -70,27 +68,40 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async Task<CloudGeocodingResult> PerformGeocodingQuery()
         {
-            // Overture Queries require a BBox - check to make sure the extent is not too large.
-            bool includeOvertureBool = (bool)((ComboBoxItem)CboIncludeOverturePlaces.SelectedValue).Tag;
-            if (includeOvertureBool && Map.CurrentExtent.GetArea(GeographyUnit.Meter, AreaUnit.SquareMiles) > 100000)
-            {
-                MessageBox.Show("Please zoom in before including Overture Place Data in Request.");
-                return await Task.FromResult<CloudGeocodingResult>(new CloudGeocodingResult(null, null));
-            }
-
             // Show a loading graphic to let users know the request is running
             LoadingImage.Visibility = Visibility.Visible;
 
             var options = new CloudGeocodingOptions
             {
-                // Set up the CloudGeocodingOptions object based on the parameters set in the UI
                 MaxResults = int.Parse(TxtMaxResults.Text),
-                SearchMode = ((ComboBoxItem)CboSearchType.SelectedItem).Content.ToString() == "Fuzzy" ? CloudGeocodingSearchMode.FuzzyMatch : CloudGeocodingSearchMode.ExactMatch,
-                LocationType = (CloudGeocodingLocationType)Enum.Parse(typeof(CloudGeocodingLocationType), ((ComboBoxItem)CboLocationType.SelectedItem).Content.ToString() ?? string.Empty),
+                Autocomplete = ChkAutocomplete.IsChecked == true,
                 ResultProjectionInSrid = 3857,
-                BBox = Map.CurrentExtent,
-                IncludeOverturePlaces = includeOvertureBool
             };
+
+            if (ChkRestrictToExtent.IsChecked == true)
+            {
+                options.BBox = Map.CurrentExtent;
+            }
+
+            var countries = (TxtCountryCodes.Text ?? string.Empty)
+                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => s.Trim())
+                .Where(s => s.Length > 0)
+                .ToArray();
+            if (countries.Length > 0)
+            {
+                options.Countries = countries;
+            }
+
+            var languages = (TxtLanguage.Text ?? string.Empty)
+                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => s.Trim())
+                .Where(s => s.Length > 0)
+                .ToArray();
+            if (languages.Length > 0)
+            {
+                options.Language = languages;
+            }
 
             // Run the geocode
             var searchString = TxtSearchString.Text.Trim();
@@ -187,33 +198,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Because async void methods don't return a Task, unhandled exceptions cannot be awaited or caught from outside.
                 // Therefore, it's good practice to catch and handle (or log) all exceptions within these "fire-and-forget" methods.
             }
-        }
-
-        /// <summary>
-        /// Helper function to change the tip shown for different Search Types
-        /// </summary>
-        private void cboSearchType_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            var comboBoxContent = (CboSearchType.SelectedItem as ComboBoxItem)?.Content;
-
-            if (comboBoxContent == null) return;
-            switch (comboBoxContent.ToString())
-            {
-                case "Fuzzy":
-                    TxtSearchTypeDescription.Text = "(Returns both exact and approximate matches for the search address)";
-                    break;
-                case "Exact":
-                    TxtSearchTypeDescription.Text = "(Only returns exact matches for the search address)";
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// Helper function to change the tip shown for different Location Types
-        /// </summary>
-        private void cboLocationType_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            var comboBoxContent = (CboLocationType.SelectedItem as ComboBoxItem)?.Content;
         }
 
         /// <summary>

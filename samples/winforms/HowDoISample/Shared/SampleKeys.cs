@@ -2,11 +2,11 @@
 {
     internal static class SampleKeys
     {
-        public static string ClientId = "AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~";
-        public static string ClientSecret = "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~";
+        public static string ClientId = "6ICFbtjZviwjsW8J2YevQi8OGhF5HixGtyIHOcQGh0Y~";
+        public static string ClientSecret = "JnC4AQl73yNYm8nHXLuWF087mg3TDsm0FKlzdtYYpNdk6Cb9PpYbOw~~";
 
-        public static string ClientId2 = "FSDgWMuqGhZCmZnbnxh-Yl1HOaDQcQ6mMaZZ1VkQNYw~";
-        public static string ClientSecret2 = "IoOZkBJie0K9pz10jTRmrUclX6UYssZBeed401oAfbxb9ufF1WVUvg~~";
+        public static string ClientId2 = "6ICFbtjZviwjsW8J2YevQi8OGhF5HixGtyIHOcQGh0Y~";
+        public static string ClientSecret2 = "JnC4AQl73yNYm8nHXLuWF087mg3TDsm0FKlzdtYYpNdk6Cb9PpYbOw~~";
 
         public static string ProjString1 = "+proj=utm +zone=55 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs";
         public static string ProjString2 = "+proj=aea +lat_1=20 +lat_2=60 +lat_0=40 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m no_defs";

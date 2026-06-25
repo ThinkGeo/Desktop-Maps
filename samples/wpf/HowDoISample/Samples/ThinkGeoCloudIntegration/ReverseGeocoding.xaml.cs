@@ -80,8 +80,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 ClientSecret = SampleKeys.ClientSecret2,
             };
 
-            CboLocationCategories.SelectedIndex = 0;
-
             _ = Map.RefreshAsync();
         }
 
@@ -129,23 +127,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 const int pointProjectionInSrid = 3857;
                 var searchPoint = new PointShape(lon, lat);
                 options.MaxResults = int.Parse(TxtMaxResults.Text);
-	            options.IncludeOverturePlaces = (bool)((ComboBoxItem)CboIncludeOverturePlaces.SelectedValue).Tag;
 
-                switch (((ComboBoxItem)CboLocationCategories.SelectedItem).Content.ToString())
-                {
-                    case "All":
-                        options.LocationCategories = CloudLocationCategories.All;
-                        break;
-                    case "Common":
-                        options.LocationCategories = CloudLocationCategories.Common;
-                        break;
-                    case "None":
-                        options.LocationCategories = CloudLocationCategories.None;
-                        break;
-                    default:
-                        options.LocationCategories = CloudLocationCategories.All;
-                        break;
-                }
+                if (CbDataOsm.IsChecked == true) options.DataSources.Add("osm");
+                if (CbDataOa.IsChecked == true) options.DataSources.Add("oa");
+                if (CbDataWof.IsChecked == true) options.DataSources.Add("wof");
+                if (CbDataGn.IsChecked == true) options.DataSources.Add("gn");
+                if (CbDataOt.IsChecked == true) options.DataSources.Add("ot");
 
                 // Show a loading graphic to let users know the request is running
                 LoadingImage.Visibility = Visibility.Visible;
@@ -227,21 +214,27 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var nearbyRoads = new Collection<CloudReverseGeocodingLocation>();
                 foreach (var foundLocation in nearbyLocations)
                 {
-                    if (foundLocation.LocationCategory.ToLower().Contains("addresspoint"))
+                    var category = (foundLocation.LocationCategory ?? string.Empty).ToLowerInvariant();
+
+                    // Addresses: legacy AddressPoint, Pelias address layer
+                    if (category.Contains("address"))
                     {
                         nearbyAddresses.Add(foundLocation);
                     }
-                    else if (nameof(CloudLocationCategories.Aeroway).Equals(foundLocation.LocationCategory)
-                        || nameof(CloudLocationCategories.Road).Equals(foundLocation.LocationCategory)
-                        || nameof(CloudLocationCategories.Rail).Equals(foundLocation.LocationCategory)
-                        || nameof(CloudLocationCategories.Waterway).Equals(foundLocation.LocationCategory))
+                    // Roads: legacy Aeroway/Road/Rail/Waterway, Pelias street layer
+                    else if (category == "aeroway"
+                        || category == "road"
+                        || category == "rail"
+                        || category == "waterway"
+                        || category == "street")
                     {
                         nearbyRoads.Add(foundLocation);
                     }
-                    else if (!nameof(CloudLocationCategories.Intersection).Equals(foundLocation.LocationCategory))
+                    // Everything else is a Place (skip intersections)
+                    else if (category != "intersection")
                     {
-                        // Note:  Overture Place data does not have 'address' info, so it's null and we just use lat/lon.
-                        if (foundLocation.LocationCategory == "Overture_Places")
+                        // Overture and Pelias venue/admin results often lack a separate Address; fall back to the name.
+                        if (string.IsNullOrWhiteSpace(foundLocation.Address) && !string.IsNullOrWhiteSpace(foundLocation.LocationName))
                         {
                             foundLocation.Address = foundLocation.LocationName;
                         }
@@ -361,12 +354,5 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
 
-        /// <summary>
-        /// Helper function to change the tip shown for different CloudLocationCategories
-        /// </summary>
-        private void CboLocationType_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            var comboBoxContent = (CboLocationCategories.SelectedItem as ComboBoxItem)?.Content;
-        }
     }
 }
