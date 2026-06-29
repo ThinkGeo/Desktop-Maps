@@ -312,6 +312,12 @@
         "source": "Samples/MapOfflineData/Database/DisplayTableFromSQLServer"
       },
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayTableFromOracle",
+        "title": "Display a table from Oracle",
+        "description": "This sample shows how to display an Oracle Spatial layer.",
+        "source": "Samples/MapOfflineData/Database/DisplayTableFromOracle"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.GenerateESRIGridFile",
         "title": "Generate an ESRI Grid File",
         "description": "This sample shows how to generate an ESRI .asc Grid File from point data and display it on the map.",
