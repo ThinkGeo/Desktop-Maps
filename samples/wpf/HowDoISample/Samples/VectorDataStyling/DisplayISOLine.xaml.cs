@@ -141,7 +141,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
 
             //Create the text styles to label the lines and add it to the iso line layer
-            var textStyle = TextStyle.CreateSimpleTextStyle(dynamicIsoLineLayer.DataValueColumnName, "Arial", 10, DrawingFontStyles.Bold, GeoColors.Black, 0, 0);
+            var textStyle = TextStyle.CreateSimpleTextStyle(dynamicIsoLineLayer.DataValueColumnName, "Noto Sans", 10, DrawingFontStyles.Bold, GeoColors.Black, 0, 0);
             textStyle.HaloPen = new GeoPen(GeoColors.White, 2);
             textStyle.OverlappingRule = LabelOverlappingRule.NoOverlapping;
             textStyle.SplineType = SplineType.StandardSplining;

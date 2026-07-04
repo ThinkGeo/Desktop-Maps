@@ -100,12 +100,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (!_initialized)
                 return;
 
-            _scaleLineAdornmentLayer.AboveLabelTextStyle = new TextStyle(string.Empty, new GeoFont("Arial", 16, DrawingFontStyles.Italic), GeoBrushes.Blue);
+            _scaleLineAdornmentLayer.AboveLabelTextStyle = new TextStyle(string.Empty, new GeoFont("Noto Sans", 16, DrawingFontStyles.Italic), GeoBrushes.Blue);
             _scaleLineAdornmentLayer.AboveLabelTextStyle.TextPlacement = TextPlacement.Left;
             _scaleLineAdornmentLayer.AboveLabelTextStyle.YOffsetInPixel = -2;
 
 
-            _scaleLineAdornmentLayer.BelowLabelTextStyle = new TextStyle(string.Empty, new GeoFont("Arial", 16), GeoBrushes.Red);
+            _scaleLineAdornmentLayer.BelowLabelTextStyle = new TextStyle(string.Empty, new GeoFont("Noto Sans", 16), GeoBrushes.Red);
             _scaleLineAdornmentLayer.BelowLabelTextStyle.TextPlacement = TextPlacement.Left;
             _scaleLineAdornmentLayer.BelowLabelTextStyle.YOffsetInPixel = 2;
 

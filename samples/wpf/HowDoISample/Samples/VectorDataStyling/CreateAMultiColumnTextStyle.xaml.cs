@@ -38,7 +38,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var textStyle = new TextStyle
             {
                 TextContent = "{CNTRY_NAME}: " + Environment.NewLine + " Population:{POP_CNTRY}",
-                Font = new GeoFont("Arial", 10),
+                Font = new GeoFont("Noto Sans", 10),
                 TextBrush = GeoBrushes.Black
             };
 

@@ -78,7 +78,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private static void StyleHotelsLayer(FeatureLayer hotelsLayer)
         {
             var pointStyle = new PointStyle(PointSymbolType.Circle, 4, GeoBrushes.Brown, new GeoPen(GeoBrushes.DarkRed, 2));
-            var textStyle = new TextStyle("NAME", new GeoFont("Segoe UI", 12, DrawingFontStyles.Bold), GeoBrushes.DarkRed)
+            var textStyle = new TextStyle("NAME", new GeoFont("Noto Sans", 12, DrawingFontStyles.Bold), GeoBrushes.DarkRed)
             {
                 TextPlacement = TextPlacement.Lower,
                 YOffsetInPixel = 2,
@@ -98,7 +98,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private static void StyleStreetsLayer(FeatureLayer streetsLayer)
         {
             var lineStyle = new LineStyle(new GeoPen(GeoBrushes.DimGray, 6), new GeoPen(GeoBrushes.WhiteSmoke, 4));
-            var textStyle = new TextStyle("FULL_NAME", new GeoFont("Segoe UI", 12, DrawingFontStyles.Bold), GeoBrushes.MidnightBlue)
+            var textStyle = new TextStyle("FULL_NAME", new GeoFont("Noto Sans", 12, DrawingFontStyles.Bold), GeoBrushes.MidnightBlue)
             {
                 SplineType = SplineType.StandardSplining,
                 HaloPen = new GeoPen(GeoBrushes.White, 2),
@@ -116,7 +116,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private static void StyleParksLayer(FeatureLayer parksLayer)
         {
             var areaStyle = new AreaStyle(GeoPens.DimGray, GeoBrushes.PastelGreen);
-            var textStyle = new TextStyle("NAME", new GeoFont("Segoe UI", 12, DrawingFontStyles.Bold), GeoBrushes.DarkGreen)
+            var textStyle = new TextStyle("NAME", new GeoFont("Noto Sans", 12, DrawingFontStyles.Bold), GeoBrushes.DarkGreen)
             {
                 FittingPolygon = true,
                 HaloPen = new GeoPen(GeoBrushes.White, 2),

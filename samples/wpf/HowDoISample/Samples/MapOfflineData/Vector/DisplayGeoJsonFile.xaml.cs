@@ -57,7 +57,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // Add a simple area style and text style, and add the layer to the overlay.
             pittsburghHistoricalDistrictsLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(200, GeoColors.LightOrange), GeoColors.Red);
-            pittsburghHistoricalDistrictsLayer.ZoomLevelSet.ZoomLevel01.DefaultTextStyle = TextStyle.CreateSimpleTextStyle("historic_name", "Segoe UI", 12, DrawingFontStyles.Bold, GeoColors.Black, GeoColors.White, 2);
+            pittsburghHistoricalDistrictsLayer.ZoomLevelSet.ZoomLevel01.DefaultTextStyle = TextStyle.CreateSimpleTextStyle("historic_name", "Noto Sans", 12, DrawingFontStyles.Bold, GeoColors.Black, GeoColors.White, 2);
             pittsburghHistoricalDistrictsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
             layerOverlay.Layers.Add(pittsburghHistoricalDistrictsLayer);
             Map.Overlays.Add(layerOverlay);

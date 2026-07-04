@@ -82,7 +82,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
              * Zoom Level 16-20 *
              ********************/
             hotelsLayer.ZoomLevelSet.ZoomLevel16.DefaultPointStyle = new PointStyle(PointSymbolType.Circle, 12, GeoBrushes.DarkRed, new GeoPen(GeoBrushes.White, 2));
-            hotelsLayer.ZoomLevelSet.ZoomLevel16.DefaultTextStyle = new TextStyle("NAME", new GeoFont("Segoe UI", 12, DrawingFontStyles.Bold), GeoBrushes.DarkRed)
+            hotelsLayer.ZoomLevelSet.ZoomLevel16.DefaultTextStyle = new TextStyle("NAME", new GeoFont("Noto Sans", 12, DrawingFontStyles.Bold), GeoBrushes.DarkRed)
             {
                 TextPlacement = TextPlacement.Lower,
                 YOffsetInPixel = 4,
@@ -113,7 +113,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
              * Zoom Level 13 *
              *****************/
             streetsLayer.ZoomLevelSet.ZoomLevel13.DefaultLineStyle = new LineStyle(new GeoPen(GeoBrushes.LightGray, 4), new GeoPen(GeoBrushes.White, 2));
-            streetsLayer.ZoomLevelSet.ZoomLevel13.DefaultTextStyle = new TextStyle("FULL_NAME", new GeoFont("Segoe UI", 6, DrawingFontStyles.Bold), GeoBrushes.Black)
+            streetsLayer.ZoomLevelSet.ZoomLevel13.DefaultTextStyle = new TextStyle("FULL_NAME", new GeoFont("Noto Sans", 6, DrawingFontStyles.Bold), GeoBrushes.Black)
             {
                 SplineType = SplineType.StandardSplining,
                 HaloPen = new GeoPen(GeoBrushes.White, 2),
@@ -125,7 +125,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
              * Zoom Level 14 *
              *****************/
             streetsLayer.ZoomLevelSet.ZoomLevel14.DefaultLineStyle = new LineStyle(new GeoPen(GeoBrushes.Gray, 5), new GeoPen(GeoBrushes.White, 4));
-            streetsLayer.ZoomLevelSet.ZoomLevel14.DefaultTextStyle = new TextStyle("FULL_NAME", new GeoFont("Segoe UI", 8, DrawingFontStyles.Bold), GeoBrushes.Black)
+            streetsLayer.ZoomLevelSet.ZoomLevel14.DefaultTextStyle = new TextStyle("FULL_NAME", new GeoFont("Noto Sans", 8, DrawingFontStyles.Bold), GeoBrushes.Black)
             {
                 SplineType = SplineType.StandardSplining,
                 HaloPen = new GeoPen(GeoBrushes.White, 2),
@@ -137,7 +137,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
              * Zoom Level 15 *
              *****************/
             streetsLayer.ZoomLevelSet.ZoomLevel15.DefaultLineStyle = new LineStyle(new GeoPen(GeoBrushes.Gray, 7), new GeoPen(GeoBrushes.White, 6));
-            streetsLayer.ZoomLevelSet.ZoomLevel15.DefaultTextStyle = new TextStyle("FULL_NAME", new GeoFont("Segoe UI", 9, DrawingFontStyles.Bold), GeoBrushes.Black)
+            streetsLayer.ZoomLevelSet.ZoomLevel15.DefaultTextStyle = new TextStyle("FULL_NAME", new GeoFont("Noto Sans", 9, DrawingFontStyles.Bold), GeoBrushes.Black)
             {
                 SplineType = SplineType.StandardSplining,
                 HaloPen = new GeoPen(GeoBrushes.White, 2),
@@ -149,7 +149,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
              * Zoom Level 16 *
              *****************/
             streetsLayer.ZoomLevelSet.ZoomLevel16.DefaultLineStyle = new LineStyle(new GeoPen(GeoBrushes.Gray, 9), new GeoPen(GeoBrushes.White, 8));
-            streetsLayer.ZoomLevelSet.ZoomLevel16.DefaultTextStyle = new TextStyle("FULL_NAME", new GeoFont("Segoe UI", 9, DrawingFontStyles.Bold), GeoBrushes.Black)
+            streetsLayer.ZoomLevelSet.ZoomLevel16.DefaultTextStyle = new TextStyle("FULL_NAME", new GeoFont("Noto Sans", 9, DrawingFontStyles.Bold), GeoBrushes.Black)
             {
                 SplineType = SplineType.StandardSplining,
                 HaloPen = new GeoPen(GeoBrushes.White, 2),
@@ -161,7 +161,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
              * Zoom Level 17-18 *
              ********************/
             streetsLayer.ZoomLevelSet.ZoomLevel17.DefaultLineStyle = new LineStyle(new GeoPen(GeoBrushes.Gray, 13), new GeoPen(GeoBrushes.White, 12));
-            streetsLayer.ZoomLevelSet.ZoomLevel17.DefaultTextStyle = new TextStyle("FULL_NAME", new GeoFont("Segoe UI", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
+            streetsLayer.ZoomLevelSet.ZoomLevel17.DefaultTextStyle = new TextStyle("FULL_NAME", new GeoFont("Noto Sans", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
             {
                 SplineType = SplineType.StandardSplining,
                 HaloPen = new GeoPen(GeoBrushes.White, 2),
@@ -174,7 +174,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
              * Zoom Level 19-20 *
              ********************/
             streetsLayer.ZoomLevelSet.ZoomLevel19.DefaultLineStyle = new LineStyle(new GeoPen(GeoBrushes.Gray, 15), new GeoPen(GeoBrushes.White, 14));
-            streetsLayer.ZoomLevelSet.ZoomLevel19.DefaultTextStyle = new TextStyle("FULL_NAME", new GeoFont("Segoe UI", 12, DrawingFontStyles.Bold), GeoBrushes.Black)
+            streetsLayer.ZoomLevelSet.ZoomLevel19.DefaultTextStyle = new TextStyle("FULL_NAME", new GeoFont("Noto Sans", 12, DrawingFontStyles.Bold), GeoBrushes.Black)
             {
                 SplineType = SplineType.StandardSplining,
                 HaloPen = new GeoPen(GeoBrushes.White, 2),
@@ -199,7 +199,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
              * Zoom Level 15-20 *
              ********************/
             parksLayer.ZoomLevelSet.ZoomLevel15.DefaultAreaStyle = new AreaStyle(GeoBrushes.PastelGreen);
-            parksLayer.ZoomLevelSet.ZoomLevel15.DefaultTextStyle = new TextStyle("NAME", new GeoFont("Segoe UI", 12, DrawingFontStyles.Bold), GeoBrushes.DarkGreen)
+            parksLayer.ZoomLevelSet.ZoomLevel15.DefaultTextStyle = new TextStyle("NAME", new GeoFont("Noto Sans", 12, DrawingFontStyles.Bold), GeoBrushes.DarkGreen)
             {
                 FittingPolygon = false,
                 HaloPen = new GeoPen(GeoBrushes.White, 2),

@@ -55,7 +55,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             restaurantsOverlay.Layers.Add("Frisco Restaurants", restaurantsLayer);
 
             // Create a new text style and set various settings to make it look good.
-            var textStyle = new TextStyle("Name", new GeoFont("Arial", 12), GeoBrushes.Black)
+            var textStyle = new TextStyle("Name", new GeoFont("Noto Sans", 12), GeoBrushes.Black)
             {
                 MaskType = MaskType.RoundedCorners,
                 OverlappingRule = LabelOverlappingRule.NoOverlapping,

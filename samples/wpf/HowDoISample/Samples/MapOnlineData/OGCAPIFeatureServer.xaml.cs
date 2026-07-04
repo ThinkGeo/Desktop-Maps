@@ -43,7 +43,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
 
             // Create a new text style and set various settings to make it look good.
-            var ignNamedPlacesTextStyle = new TextStyle("etiqueta", new GeoFont("Arial", 14), GeoBrushes.DarkRed)
+            var ignNamedPlacesTextStyle = new TextStyle("etiqueta", new GeoFont("Noto Sans", 14), GeoBrushes.DarkRed)
             {
                 MaskType = MaskType.RoundedCorners,
                 OverlappingRule = LabelOverlappingRule.NoOverlapping,

@@ -114,7 +114,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 			0f,
 			0f);
 
-			var textStyle = new TextStyle("NAME", new GeoFont("Segoe UI", 12, DrawingFontStyles.Bold), GeoBrushes.DarkGreen)
+			var textStyle = new TextStyle("NAME", new GeoFont("Noto Sans", 12, DrawingFontStyles.Bold), GeoBrushes.DarkGreen)
 			{
 				FittingPolygon = true,
 				HaloPen = new GeoPen(GeoBrushes.White, 2),
