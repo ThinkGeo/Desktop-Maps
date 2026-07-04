@@ -871,10 +871,10 @@
         "source": "Samples/Miscellaneous/CacheTileOverlay"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.PrintTheMap",
-        "title": "Print the Map",
-        "description": "Learn to print maps using the PrintOverlay.",
-        "source": "Samples/Miscellaneous/PrintTheMap"
+        "id": "ThinkGeo.UI.Wpf.HowDoI.PrintOrExportTheMap",
+        "title": "Print or Export the Map to PDF",
+        "description": "Compose a page layout with the LayoutLayer family, then print it via PrinterGeoCanvas or export a cross-platform vector PDF via PdfGeoCanvas.",
+        "source": "Samples/Miscellaneous/PrintOrExportTheMap"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.HandleExceptions",
