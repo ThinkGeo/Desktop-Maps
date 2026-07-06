@@ -247,6 +247,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 LsbRoads.ItemsSource = nearbyRoads;
                 LsbPlaces.ItemsSource = nearbyPlaces;
 
+                LsbAddresses.SelectedIndex = 0;
                 TxtSearchResultsBestMatch.Text = "Best Match: " + searchResult.BestMatchLocation.Address;
             }
             else
