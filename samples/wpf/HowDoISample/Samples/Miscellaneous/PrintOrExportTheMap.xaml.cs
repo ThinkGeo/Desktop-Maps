@@ -367,7 +367,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var pageCenter = pageLayer.GetPosition().GetCenterPoint();
             dataGridLayer.SetPosition(7.5, 4, pageCenter.X, pageCenter.Y - 3, PrintingUnit.Inch);
 
-            // Add the dataGridLayer to the PrinterLayers collection to print later
+            // Add the dataGridLayer to the LayoutAsyncLayers collection to print later
             printerOverlay.LayoutAsyncLayers.Add(dataGridLayer);
         }
 
