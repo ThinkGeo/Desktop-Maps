@@ -174,6 +174,12 @@
         "source": "Samples/XYZBasedLayers/DisplayRasterMbTilesFile"
       },
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayRasterPmTilesFile",
+        "title": "Display Raster from PMTiles",
+        "description": "This sample shows how to display a raster PMTiles (v3) archive. The demo is Stamen Toner (zoom 0-3), an official Protomaps PMTiles sample (CC-BY, OpenStreetMap ODbL).",
+        "source": "Samples/XYZBasedLayers/DisplayRasterPmTilesFile"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayRasterFileTiles",
         "title": "Display Raster from File Tiles",
         "description": "This sample shows how to display the raster tiles created by QGIS. The demo tiles have 6 zoom levels (zoom 0~5)",
@@ -184,6 +190,12 @@
         "title": "Display Vector from MBTiles",
         "description": "This sample shows how to display an MBTiles file. The demo mbtile/json come from https://github.com/maplibre/demotiles?tab=readme-ov-file",
         "source": "Samples/XYZBasedLayers/DisplayMbTilesFile"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayPmTilesFile",
+        "title": "Display Vector from PMTiles",
+        "description": "This sample shows how to display a vector PMTiles (v3) archive. The demo is a Frisco, TX extract from the official Protomaps daily basemap build (zoom 0-15, OpenStreetMap ODbL), styled with the official protomaps-themes-base light theme.",
+        "source": "Samples/XYZBasedLayers/DisplayPmTilesFile"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplaySQLiteFile",
@@ -341,6 +353,12 @@
         "source": "Samples/XYZBasedLayers/DisplayRasterMbTilesFile"
       },
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayRasterPmTilesFile",
+        "title": "Display Raster from PMTiles",
+        "description": "This sample shows how to display a raster PMTiles (v3) archive. The demo is Stamen Toner (zoom 0-3), an official Protomaps PMTiles sample (CC-BY, OpenStreetMap ODbL).",
+        "source": "Samples/XYZBasedLayers/DisplayRasterPmTilesFile"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayRasterFileTiles",
         "title": "Display Raster from File Tiles",
         "description": "This sample shows how to display the raster tiles created by QGIS. The demo tiles have 6 zoom levels (zoom 0~5)",
@@ -369,6 +387,12 @@
         "title": "Display Vector from MBTiles",
         "description": "This sample shows how to display an MBTiles file. The demo mbtile/json come from https://github.com/maplibre/demotiles?tab=readme-ov-file",
         "source": "Samples/XYZBasedLayers/DisplayMbTilesFile"
+      },
+      {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayPmTilesFile",
+        "title": "Display Vector from PMTiles",
+        "description": "This sample shows how to display a vector PMTiles (v3) archive. The demo is a Frisco, TX extract from the official Protomaps daily basemap build (zoom 0-15, OpenStreetMap ODbL), styled with the official protomaps-themes-base light theme.",
+        "source": "Samples/XYZBasedLayers/DisplayPmTilesFile"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.MVT",
