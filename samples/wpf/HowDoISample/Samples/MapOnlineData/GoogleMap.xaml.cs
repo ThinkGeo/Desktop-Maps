@@ -42,7 +42,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             Map.Overlays.Clear();
 
             // Create a new overlay that will hold our new layer and add it to the map.
-            var worldOverlay = new GoogleMapsOverlay(TxtApiKey.Text, string.Empty);
+            var worldOverlay = new GoogleMapsStaticOverlay(TxtApiKey.Text, string.Empty);
             Map.Overlays.Add("WorldOverlay", worldOverlay);
 
             // Set the current extent to the whole world.
