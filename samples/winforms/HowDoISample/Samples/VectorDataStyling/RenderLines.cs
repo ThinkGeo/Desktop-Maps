@@ -25,7 +25,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             {
                 ClientId = SampleKeys.ClientId,
                 ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1
+                MapType = ThinkGeoCloudRasterMapsMapType.Aerial2_V2_X1,
+                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
             };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
@@ -123,7 +124,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.BackColor = System.Drawing.Color.White;
             this.mapView.CurrentScale = 0D;
             this.mapView.Location = new System.Drawing.Point(0, 0);
-            this.mapView.MapFocusMode = MapFocusMode.Default;
+            this.mapView.MapFocusMode = MapFocusMode.MouseEnterFocused;
             this.mapView.MapResizeMode = MapResizeMode.PreserveScale;
             this.mapView.MaximumScale = 1.7976931348623157E+308D;
             this.mapView.MinimumScale = 200D;
@@ -132,19 +133,18 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.RotationAngle = 0F;
             this.mapView.Size = new System.Drawing.Size(1162, 624);
             this.mapView.TabIndex = 0;
-            // 
+            //
             // panel1
-            // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            //
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.AutoSize = true;
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.rbDashedLineStyle);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.rbLineStyle);
-            this.panel1.Location = new System.Drawing.Point(863, 0);
+            this.panel1.Location = new System.Drawing.Point(992, 10);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(299, 624);
+            this.panel1.Size = new System.Drawing.Size(160, 110);
             this.panel1.TabIndex = 1;
             // 
             // label1

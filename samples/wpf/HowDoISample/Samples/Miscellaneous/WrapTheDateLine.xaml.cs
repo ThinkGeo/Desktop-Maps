@@ -53,7 +53,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             layer.InternalFeatures.Add(GetExtent(1.4, 1.8, 0.0, 0.09, "1.4 ~ 1.8"));
 
             layer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(100, GeoColors.Brown), GeoColors.LightRed);
-            layer.ZoomLevelSet.ZoomLevel01.DefaultTextStyle = new TextStyle("Text", new GeoFont("Arial", 16), GeoBrushes.Yellow);
+            layer.ZoomLevelSet.ZoomLevel01.DefaultTextStyle = new TextStyle("Text", new GeoFont("Noto Sans", 16), GeoBrushes.Yellow);
             layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             var layerOverlay = new LayerOverlay

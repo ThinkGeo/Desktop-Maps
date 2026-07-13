@@ -262,12 +262,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotationAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(940, 532);
+            this.mapView.Size = new System.Drawing.Size(1244, 532);
             this.mapView.TabIndex = 0;
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.lsbLocations);
@@ -284,9 +284,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Controls.Add(this.txtSearchString);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(943, 0);
+            this.panel1.Location = new System.Drawing.Point(933, 10);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(301, 532);
+            this.panel1.Size = new System.Drawing.Size(301, 531);
             this.panel1.TabIndex = 1;
             // 
             // lsbLocations

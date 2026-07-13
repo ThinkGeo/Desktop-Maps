@@ -47,8 +47,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                     System.IO.Directory.CreateDirectory(cachePath);
                 }
 
-                ThinkGeoDebugger.DisplayTileId = true;
-
                 wmtsAsyncLayer.TileCache = new FileRasterTileCache(cachePath, "raw");
                 wmtsAsyncLayer.ProjectedTileCache = new FileRasterTileCache(cachePath, "projected");
 
@@ -114,8 +112,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             {
                 if (wmtsAsyncLayer == null) return;
 
-                var radioButton = sender as RadioButton;
-                if (radioButton?.Tag == null) return;
+                var radioButton = (RadioButton)sender;
+
+                // CheckedChanged fires twice per click (old=false, then new=true); only run on
+                // the new one — otherwise the two async-void handlers race and corrupt MapUnit.
+                if (!radioButton.Checked) return;
 
                 switch (radioButton.Tag.ToString())
                 {
@@ -227,7 +228,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Name = "mapView";
             mapView.RestrictExtent = null;
             mapView.RotationAngle = 0F;
-            mapView.Size = new System.Drawing.Size(946, 634);
+            mapView.Size = new System.Drawing.Size(1255, 634);
             mapView.TabIndex = 0;
             // 
             // consolePanel
@@ -239,10 +240,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             consolePanel.Controls.Add(epsg4326RadioButton);
             consolePanel.Controls.Add(epsg21781RadioButton);
             consolePanel.Controls.Add(projectionLabel);
-            consolePanel.Dock = DockStyle.Right;
-            consolePanel.Location = new Point(953, 0);
+            consolePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top
+            | System.Windows.Forms.AnchorStyles.Right)));
+            consolePanel.Location = new Point(943, 10);
             consolePanel.Name = "consolePanel";
-            consolePanel.Size = new Size(302, 634);
+            consolePanel.Size = new Size(302, 643);
             consolePanel.TabIndex = 1;
             // 
             // projectionLabel
@@ -297,7 +299,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             showDebugInfoCheckBox.Size = new Size(83, 19);
             showDebugInfoCheckBox.Text = "Show Debug Info";
             showDebugInfoCheckBox.UseVisualStyleBackColor = true;
-            showDebugInfoCheckBox.Checked = true;
             showDebugInfoCheckBox.CheckedChanged += DisplayTileIdCheckBox_CheckedChanged;
             showDebugInfoCheckBox.TabIndex = 5;
             // 
@@ -326,7 +327,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // WMTSAsXYZLayer
             // 
-            AutoSize = true;
             Controls.Add(mapView);
             Controls.Add(consolePanel);
             Name = "WMTSAsXYZLayer";
@@ -335,6 +335,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             consolePanel.ResumeLayout(false);
             consolePanel.PerformLayout();
             ResumeLayout(false);
+            consolePanel.BringToFront();
             //
             // Attach VisibleChanged event
             //

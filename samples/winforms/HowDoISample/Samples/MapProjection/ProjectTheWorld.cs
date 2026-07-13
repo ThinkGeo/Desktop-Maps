@@ -7,6 +7,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
     public class ProjectTheWorld : UserControl
     {
         private bool _initialized;
+        private MvtTilesAsyncLayer _worldLayer;
 
         public ProjectTheWorld()
         {
@@ -15,6 +16,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void Form_Load(object sender, EventArgs e)
         {
+            _initialized = true;
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.DecimalDegree;
 
@@ -26,23 +28,18 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             layerOverlay.TileType = TileType.SingleTile;
             mapView.Overlays.Add("world overlay", layerOverlay);
 
-            // Create the world layer, it will be decimal degrees at first, but we will be able to change it
-            var worldLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Countries02.shp");
-
-            // Set up the styles for the countries for zoom level 1 and then apply it until zoom level 20
-            worldLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle.OutlinePen.Color = GeoColors.DarkSlateGray;
-            worldLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle.FillBrush = new GeoSolidBrush(GeoColor.FromHtml("#C9E1BE"));
-            worldLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            var wvtServerUri = "https://tiles.preludemaps.com/styles/WorldStreets_Light/style.json";
+            _worldLayer = new MvtTilesAsyncLayer(wvtServerUri);
+            _worldLayer.ProjectionConverter = new ProjectionConverter(3857, 4326);
 
             // Add the layer to the overlay we created earlier.
-            layerOverlay.Layers.Add("world layer", worldLayer);
+            layerOverlay.Layers.Add("world layer", _worldLayer);
 
-            mapView.CurrentExtent = new RectangleShape(-176.885988320039, 121.810205234135, 168.699949179961, -92.642919765865);
-
-            rdoPolar.Checked = true;
+            mapView.CenterPoint = new PointShape(5.92651, 14.58364);
+            mapView.CurrentScale = 147648000;
 
             _initialized = true;
-            await mapView.RefreshAsync();
+            _ = mapView.RefreshAsync();
         }
 
         private async void Radial_CheckChanged(object sender, EventArgs e)
@@ -51,56 +48,49 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 return;
 
             var radioButton = (RadioButton)sender;
-            if (radioButton == null)
-                return;
 
-            if (!radioButton.Checked)
-                return;
-
-            var layer = mapView.FindFeatureLayer("world layer");
-
-            if (layer != null)
+            switch (radioButton.Text)
             {
-                switch (radioButton.Text)
-                {
-                    case "Decimal Degrees":
-                        // Set the new projection converter and open it.  Next set the map to the correct map unit and lastly set the new extent
-                        layer.FeatureSource.ProjectionConverter = null;
-                        mapView.MapUnit = GeographyUnit.DecimalDegree;
-                        mapView.CurrentExtent = new RectangleShape(-76.885988320039, 21.810205234135, 68.699949179961, -72.642919765865);
-                        break;
-                    case "MGA Zone 55":
-                        // Set the new projection converter and open it.  Next set the map to the correct map unit and lastly set the new extent
-                        layer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, SampleKeys.ProjString1);
-                        layer.FeatureSource.ProjectionConverter.Open();
-                        mapView.MapUnit = GeographyUnit.Meter;
-                        mapView.CurrentExtent = new RectangleShape(-4415962.270035205, 10196887.263572674, 3690059.470408367, 3223755.308540492);
-                        break;
-                    case "Albers Equal Area Conic":
-                        // Set the new projection converter and open it.  Next set the map to the correct map unit and lastly set the new extent
-                        layer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, SampleKeys.ProjString2);
-                        layer.FeatureSource.ProjectionConverter.Open();
-                        mapView.MapUnit = GeographyUnit.Meter;
-                        mapView.CurrentExtent = new RectangleShape(-4167908.28780145, 3251198.24423971, 3952761.55210086, -3744318.54555566);
-                        break;
-                    case "Polar Stereographic":
-                        // Set the new projection converter and open it.  Next set the map to the correct map unit and lastly set the new extent
-                        layer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, SampleKeys.ProjString3);
-                        layer.FeatureSource.ProjectionConverter.Open();
-                        mapView.MapUnit = GeographyUnit.Meter;
-                        mapView.CurrentExtent = new RectangleShape(-7944508.96033433, 6176987.61570341, 8296830.7194703, -7814045.96388732);
-                        break;
-                    case "Equal Area Cylindrical":
-                        // Set the new projection converter and open it.  Next set the map to the correct map unit and lastly set the new extent
-                        layer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, SampleKeys.ProjString4);
-                        layer.FeatureSource.ProjectionConverter.Open();
-                        mapView.MapUnit = GeographyUnit.Meter;
-                        mapView.CurrentExtent = new RectangleShape(-13262961.8178162, 11618032.522095, 25138095.3911286, -12211718.1365584);
-                        break;
-                }
+                // Set the new projection converter and open it. Next, set the map to the correct map unit and lastly, set the new extent.
 
-                await mapView.RefreshAsync();
+                case "Decimal Degrees":
+                    _worldLayer.ProjectionConverter = new ProjectionConverter(3857, 4326);
+                    _worldLayer.ProjectionConverter.Open();
+                    mapView.MapUnit = GeographyUnit.DecimalDegree;
+                    mapView.CenterPoint = new PointShape(5.92651, 14.58364);
+                    mapView.CurrentScale = 147648000;
+                    break;
+                case "MGA Zone 55":
+                    _worldLayer.ProjectionConverter = new ProjectionConverter(3857, SampleKeys.ProjString1);
+                    _worldLayer.ProjectionConverter.Open();
+                    mapView.MapUnit = GeographyUnit.Meter;
+                    mapView.CenterPoint = new PointShape(-945060, 7010600);
+                    mapView.CurrentScale = 18489350;
+                    break;
+                case "Equal Area - Albers Conic":
+                    _worldLayer.ProjectionConverter = new ProjectionConverter(3857, SampleKeys.ProjString2);
+                    _worldLayer.ProjectionConverter.Open();
+                    mapView.MapUnit = GeographyUnit.Meter;
+                    mapView.CenterPoint = new PointShape(-107570, -246560);
+                    mapView.CurrentScale = 36978690;
+                    break;
+                case "Polar Stereographic":
+                    _worldLayer.ProjectionConverter = new ProjectionConverter(3857, SampleKeys.ProjString3);
+                    _worldLayer.ProjectionConverter.Open();
+                    mapView.MapUnit = GeographyUnit.Meter;
+                    mapView.CenterPoint = new PointShape(176160, -818530);
+                    mapView.CurrentScale = 73957380;
+                    break;
+                case "Equal Area - Cylindrical":
+                    _worldLayer.ProjectionConverter = new ProjectionConverter(3857, SampleKeys.ProjString4);
+                    _worldLayer.ProjectionConverter.Open();
+                    mapView.MapUnit = GeographyUnit.Meter;
+                    mapView.CenterPoint = new PointShape(-1152760, 796980);
+                    mapView.CurrentScale = 147648000;
+                    break;
             }
+
+            _ = mapView.RefreshAsync();
         }
 
         protected override void Dispose(bool disposing)
@@ -110,6 +100,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         }
 
         #region Component Designer generated code
+
         private Panel panel1;
         private Label label1;
         private RadioButton rdoPolar;
@@ -141,7 +132,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.CurrentScale = 0D;
             this.mapView.ForeColor = System.Drawing.Color.White;
             this.mapView.Location = new System.Drawing.Point(0, 0);
-            this.mapView.MapFocusMode = MapFocusMode.Default;
+            this.mapView.MapFocusMode = MapFocusMode.MouseEnterFocused;
             this.mapView.MapResizeMode = MapResizeMode.PreserveScale;
             this.mapView.MaximumScale = 1.7976931348623157E+308D;
             this.mapView.MinimumScale = 200D;
@@ -153,7 +144,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.rdoCylindrical);
@@ -162,9 +153,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Controls.Add(this.rdoMGAZone);
             this.panel1.Controls.Add(this.rdoDecimalDegrees);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(952, 0);
+            this.panel1.Location = new System.Drawing.Point(942, 10);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(302, 667);
+            this.panel1.Size = new System.Drawing.Size(302, 193);
             this.panel1.TabIndex = 2;
             // 
             // rdoCylindrical
@@ -176,7 +167,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.rdoCylindrical.Name = "rdoCylindrical";
             this.rdoCylindrical.Size = new System.Drawing.Size(164, 21);
             this.rdoCylindrical.TabIndex = 7;
-            this.rdoCylindrical.Text = "Equal Area Cylindrical";
+            this.rdoCylindrical.Text = "Equal Area - Cylindrical";
             this.rdoCylindrical.UseVisualStyleBackColor = true;
             this.rdoCylindrical.CheckedChanged += new System.EventHandler(this.Radial_CheckChanged);
             // 
@@ -202,7 +193,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.rdoAlbers.Name = "rdoAlbers";
             this.rdoAlbers.Size = new System.Drawing.Size(179, 21);
             this.rdoAlbers.TabIndex = 5;
-            this.rdoAlbers.Text = "Albers Equal Area Conic";
+            this.rdoAlbers.Text = "Equal Area - Albers Conic";
             this.rdoAlbers.UseVisualStyleBackColor = true;
             this.rdoAlbers.CheckedChanged += new System.EventHandler(this.Radial_CheckChanged);
             // 
@@ -230,6 +221,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.rdoDecimalDegrees.TabIndex = 3;
             this.rdoDecimalDegrees.Text = "Decimal Degrees";
             this.rdoDecimalDegrees.UseVisualStyleBackColor = true;
+            this.rdoDecimalDegrees.Checked = true;
             this.rdoDecimalDegrees.CheckedChanged += new System.EventHandler(this.Radial_CheckChanged);
             // 
             // label1

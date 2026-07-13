@@ -49,7 +49,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Open the layer and set the map view current extent to the bounding box of the layer.  
             tinyGeoLayer.Open();
-            mapView.CurrentExtent = tinyGeoLayer.GetBoundingBox();
+            var tinyGeoLayerBBox = tinyGeoLayer.GetBoundingBox();
+            mapView.CenterPoint = tinyGeoLayerBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(mapView.MapUnit, tinyGeoLayerBBox, mapView.MapWidth, mapView.MapHeight);
+            mapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
 
             // Refresh the map.
             await mapView.RefreshAsync();

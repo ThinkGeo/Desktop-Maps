@@ -65,7 +65,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             //set the map's current extent to the point shapefile location.
             samplesLayer.Open();
-            mapView.CurrentExtent = samplesLayer.GetBoundingBox();
+            var samplesLayerBBox = samplesLayer.GetBoundingBox();
+            mapView.CenterPoint = samplesLayerBBox.GetCenterPoint();
+            mapView.CurrentScale = MapUtil.GetScale(mapView.MapUnit, samplesLayerBBox, mapView.MapWidth, mapView.MapHeight);
             samplesLayer.Close();
 
             await mapView.RefreshAsync();
@@ -176,19 +178,19 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Name = "mapView";
             mapView.RestrictExtent = null;
             mapView.RotationAngle = 0F;
-            mapView.Size = new System.Drawing.Size(891, 560);
+            mapView.Size = new System.Drawing.Size(1194, 560);
             mapView.TabIndex = 0;
             // 
             // panel1
             // 
-            panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom
+            panel1.Anchor = AnchorStyles.Top
             | AnchorStyles.Right;
             panel1.BackColor = System.Drawing.Color.Gray;
             panel1.Controls.Add(button1);
             panel1.Controls.Add(label1);
-            panel1.Location = new System.Drawing.Point(894, 0);
+            panel1.Location = new System.Drawing.Point(884, 10);
             panel1.Name = "panel1";
-            panel1.Size = new System.Drawing.Size(300, 560);
+            panel1.Size = new System.Drawing.Size(300, 100);
             panel1.TabIndex = 1;
             // 
             // button1

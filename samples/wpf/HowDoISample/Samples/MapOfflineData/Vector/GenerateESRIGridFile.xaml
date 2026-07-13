@@ -15,7 +15,20 @@
             <Grid>
                 <TextBlock Text="Generate Grid File:" Grid.Row="0" Grid.ColumnSpan="2"/>
 
-                <Button x:Name="BtnGenerateGridFile" Click="BtnGenerateGridFile_Click"  Content="Generate Grid File" Grid.Row="2" Grid.ColumnSpan="2"
+                <Label Content="Resampling Mode" Grid.Row="1" Grid.ColumnSpan="2"/>
+                <ComboBox x:Name="ResamplingMode"
+                          Grid.Row="2"
+                          Grid.ColumnSpan="2"
+                          SelectionChanged="ResamplingMode_SelectionChanged">
+                    <ComboBoxItem Content="Nearest Neighbor" Tag="NearestNeighbor" IsSelected="True" />
+                    <ComboBoxItem Content="Bilinear" Tag="Bilinear" />
+                    <ComboBoxItem Content="Trilinear" Tag="Trilinear" />
+                    <ComboBoxItem Content="Bicubic" Tag="Bicubic" />
+                    <ComboBoxItem Content="Auto" Tag="Auto" />
+                    <ComboBoxItem Content="Cartographic Auto" Tag="CartographicAuto" />
+                </ComboBox>
+
+                <Button x:Name="BtnGenerateGridFile" Click="BtnGenerateGridFile_Click"  Content="Generate Grid File" Grid.Row="3" Grid.ColumnSpan="2"
                         Grid.Column="0" />
 
                 <!-- Controls Grid Layout -->

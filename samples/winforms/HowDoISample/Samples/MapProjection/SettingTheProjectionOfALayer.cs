@@ -65,7 +65,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Set the map to the extent of the subdivisions features and refresh the map
             subdivisionsLayer.Open();
-            mapView.CurrentExtent = subdivisionsLayer.GetBoundingBox();
+            var subdivisionsLayerBBox = subdivisionsLayer.GetBoundingBox();
+            mapView.CenterPoint = subdivisionsLayerBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(mapView.MapUnit, subdivisionsLayerBBox, mapView.MapWidth, mapView.MapHeight);
+            mapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
             subdivisionsLayer.Close();
             await mapView.RefreshAsync();
         }

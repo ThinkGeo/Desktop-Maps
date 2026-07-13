@@ -28,7 +28,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(-10778329.017082, 3909598.36751101, -10776250.8853871, 3907890.47766975);
+            mapView.CenterPoint = new PointShape(-10777290, 3908740);
+            mapView.CurrentScale = 9400;
 
             var hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp");
             var layerOverlay = new LayerOverlay();
@@ -162,23 +163,22 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotationAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(843, 659);
+            this.mapView.Size = new System.Drawing.Size(1142, 659);
             this.mapView.TabIndex = 0;
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.AutoSize = true;
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.symbol);
             this.panel1.Controls.Add(this.icon);
             this.panel1.Controls.Add(this.pointSymbol);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(843, 0);
+            this.panel1.Location = new System.Drawing.Point(833, 10);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(299, 659);
+            this.panel1.Size = new System.Drawing.Size(299, 147);
             this.panel1.TabIndex = 1;
             // 
             // label1

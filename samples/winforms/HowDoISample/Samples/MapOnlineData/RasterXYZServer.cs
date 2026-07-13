@@ -32,8 +32,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void Form_Load(object sender, EventArgs e)
         {
-            ThinkGeoDebugger.DisplayTileId = true;
-
             var layerOverlay = new LayerOverlay();
             layerOverlay.TileType = TileType.SingleTile;
             mapView.Overlays.Add(layerOverlay);
@@ -289,7 +287,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             showDebugInfoCheckBox.Size = new Size(83, 19);
             showDebugInfoCheckBox.Text = "Show Debug Info";
             showDebugInfoCheckBox.UseVisualStyleBackColor = true;
-            showDebugInfoCheckBox.Checked = true;
             showDebugInfoCheckBox.CheckedChanged += DisplayTileIdCheckBox_CheckedChanged;
             showDebugInfoCheckBox.TabIndex = 5;
             // 

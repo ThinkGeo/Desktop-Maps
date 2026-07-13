@@ -84,6 +84,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                         mapView.Overlays["LayerOverlay"].IsVisible = true;
                         break;
                 }
+                _= mapView.RefreshAsync();
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Media;
 using ThinkGeo.Core;
@@ -28,8 +29,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
             // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
+            mapView.CenterPoint = new PointShape(-10778000, 3912000);
+            mapView.CurrentScale = 77000;
+
             mapView.MapTools.MouseCoordinate.IsEnabled = true;
+            mapView.MapTools.MouseCoordinate.Margin = new Thickness(0,0,0,20);
+            mapView.MapTools.MouseCoordinate.FontSize = 18;
 
             await mapView.RefreshAsync();
         }
@@ -117,21 +122,21 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotationAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(993, 534);
+            this.mapView.Size = new System.Drawing.Size(1296, 546);
             this.mapView.TabIndex = 0;
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.coordinateType);
             this.panel1.Controls.Add(this.displayMouseCoordinates);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.panel1.Location = new System.Drawing.Point(996, 0);
+            this.panel1.Location = new System.Drawing.Point(986, 10);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(300, 546);
+            this.panel1.Size = new System.Drawing.Size(300, 146);
             this.panel1.TabIndex = 1;
             // 
             // coordinateType
@@ -146,7 +151,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.coordinateType.Name = "coordinateType";
             this.coordinateType.Size = new System.Drawing.Size(294, 24);
             this.coordinateType.TabIndex = 2;
-            this.coordinateType.Text = "(lat), (lon)";
+            this.coordinateType.Text = "(lon), (lat)";
             this.coordinateType.SelectedIndexChanged += new System.EventHandler(this.coordinateType_SelectedIndexChanged);
             // 
             // displayMouseCoordinates

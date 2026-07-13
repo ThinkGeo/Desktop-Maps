@@ -7,6 +7,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public class GetDataFromAllFeatures : UserControl
     {
+        private bool _isLoaded = false;
+
         public GetDataFromAllFeatures()
         {
             InitializeComponent();
@@ -68,7 +70,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 hotels.Add(new Hotel(name, address, rooms, location));
             }
 
-            mapView.CurrentExtent = hotelsLayer.GetBoundingBox();
+            // Set the map extent to the extent of the hotel features
+            var hotelsLayerBBox = hotelsLayer.GetBoundingBox();
+            mapView.CenterPoint = hotelsLayerBBox.GetCenterPoint();
+            mapView.CurrentScale = MapUtil.GetScale(mapView.MapUnit, hotelsLayerBBox, mapView.MapWidth, mapView.MapHeight);
             hotelsLayer.Close();
 
             // Set the hotel collection as the data source of the list box
@@ -78,10 +83,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Refresh and redraw the map
             _ = mapView.RefreshAsync();
+
+            _isLoaded = true;
         }
 
         private void lsbHotels_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (!_isLoaded) return;
+
             var highlightedHotelLayer = (InMemoryFeatureLayer)mapView.FindFeatureLayer("Highlighted Hotel");
             highlightedHotelLayer.Open();
             highlightedHotelLayer.InternalFeatures.Clear();
@@ -147,20 +156,20 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotationAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(748, 665);
+            this.mapView.Size = new System.Drawing.Size(1056, 665);
             this.mapView.TabIndex = 0;
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.lsbHotels);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(754, 0);
+            this.panel1.Location = new System.Drawing.Point(744, 10);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(302, 665);
+            this.panel1.Size = new System.Drawing.Size(302, 567);
             this.panel1.TabIndex = 1;
             // 
             // lsbHotels

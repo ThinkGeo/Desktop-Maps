@@ -42,6 +42,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 TextStyle = new TextStyle("Crime Categories", new GeoFont("Verdana", 10, DrawingFontStyles.Bold), GeoBrushes.Black)
             };
             legend.Location = AdornmentLocation.LowerRight;
+            legend.YOffsetInPixel = -15;
             mapView.AdornmentOverlay.Layers.Add(legend);
 
             AddValueStyle();
@@ -50,7 +51,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Overlays.Add(layerOverlay);
 
             // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(-10780196.9469504, 3916119.49665258, -10776231.7761301, 3912703.71697007);
+            mapView.CenterPoint = new PointShape(-10778210, 3914410);
+            mapView.CurrentScale = 18260;
 
             await mapView.RefreshAsync();
         }

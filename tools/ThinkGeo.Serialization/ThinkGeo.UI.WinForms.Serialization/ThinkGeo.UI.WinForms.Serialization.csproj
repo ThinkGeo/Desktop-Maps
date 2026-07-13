@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <!-- ThinkGeo.UI.WinForms MapView hosts a WPF visual tree via ElementHost, so WPF types
+         (ImageSource, ContentControl) leak into the public surface and the referencing
+         project needs UseWPF=true to compile against them. -->
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>ThinkGeo.UI.WinForms.Serialization</RootNamespace>
+    <AssemblyName>ThinkGeo.UI.WinForms.Serialization</AssemblyName>
+    <Description>MapView / Overlay snapshot DTOs + mappers for ThinkGeo.UI.WinForms. Builds on ThinkGeo.Core.Serialization.</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ThinkGeo.UI.WinForms" Version="15.0.0-beta022" />
+    <PackageReference Include="System.Text.Json" Version="9.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ThinkGeo.Core.Serialization\ThinkGeo.Core.Serialization.csproj" />
+  </ItemGroup>
+
+</Project>

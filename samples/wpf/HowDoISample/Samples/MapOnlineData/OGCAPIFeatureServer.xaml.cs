@@ -31,16 +31,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
             Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
+            var projectionConverter = new ProjectionConverter(4326, 3857);
+            projectionConverter.Open();
+
             var ignLayer = new OgcApiFeatureLayer("https://api-features.ign.es", "namedplace")
             {
                 FeatureSource =
                 {
-                    ProjectionConverter = new ProjectionConverter(4326, 3857)
+                    ProjectionConverter = projectionConverter
                 }
             };
 
             // Create a new text style and set various settings to make it look good.
-            var ignNamedPlacesTextStyle = new TextStyle("etiqueta", new GeoFont("Arial", 14), GeoBrushes.DarkRed)
+            var ignNamedPlacesTextStyle = new TextStyle("etiqueta", new GeoFont("Noto Sans", 14), GeoBrushes.DarkRed)
             {
                 MaskType = MaskType.RoundedCorners,
                 OverlappingRule = LabelOverlappingRule.NoOverlapping,

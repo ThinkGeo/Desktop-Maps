@@ -25,7 +25,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             layerOverlay.Layers.Add(mrSidRasterLayer);
 
             // Set the map view current extent to a slightly zoomed in area of the image.
-            mapView.CurrentExtent = new RectangleShape(-90.5399054799761, 68.8866552710533, 57.5181302343096, -43.7137911575181);
+            mapView.CenterPoint = new PointShape(-16.51088, 12.58643);
+            mapView.CurrentScale = 66139200;
 
             // Refresh the map.
             await mapView.RefreshAsync();

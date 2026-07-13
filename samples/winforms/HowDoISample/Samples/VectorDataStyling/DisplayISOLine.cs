@@ -39,7 +39,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             //  We then set the drawing quality high, so we get a crisp rendering.
             var isoLineLayer = GetDynamicIsoLineLayer(csvPointData);
             isoLineOverlay.Layers.Add("IsoLineLayer", isoLineLayer);
-            isoLineOverlay.DrawingQuality = DrawingQuality.HighQuality;
+            isoLineOverlay.DrawingQuality = DrawingQuality.Standard;
 
             // Create a layer that, so we can get the current extent below to set the maps extend 
             // We won't use it after so later in the code we will just close it.
@@ -50,7 +50,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Open the layer and set the map view current extent to the bounding box of the layer scaled up just a bit then close the layer
             mosquitosLayer.Open();
-            mapView.CurrentExtent = mosquitosLayer.GetBoundingBox();
+            var mosquitosLayerBBox = mosquitosLayer.GetBoundingBox();
+            mapView.CenterPoint = mosquitosLayerBBox.GetCenterPoint();
+            mapView.CurrentScale = MapUtil.GetScale(mapView.MapUnit, mosquitosLayerBBox, mapView.MapWidth, mapView.MapHeight);
             mosquitosLayer.Close();
 
             // Refresh the map.

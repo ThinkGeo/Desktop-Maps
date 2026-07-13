@@ -206,13 +206,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Name = "mapView";
             mapView.RestrictExtent = null;
             mapView.RotationAngle = 0D;
-            mapView.Size = new System.Drawing.Size(645, 574);
+            mapView.Size = new System.Drawing.Size(946, 574);
             mapView.TabIndex = 0;
             mapView.MapClick += mapView_MapClick;
             // 
             // consolePanel
             // 
-            consolePanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            consolePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top
+            | System.Windows.Forms.AnchorStyles.Right)));
             consolePanel.BackColor = System.Drawing.Color.Gray;
             consolePanel.Controls.Add(zoomTextBox);
             consolePanel.Controls.Add(zoomLabel);
@@ -222,9 +223,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             consolePanel.Controls.Add(doubleClickLabel);
             consolePanel.Controls.Add(clickLabel);
             consolePanel.Controls.Add(queryLabel);
-            consolePanel.Location = new System.Drawing.Point(645, 0);
+            consolePanel.Location = new System.Drawing.Point(635, 10);
             consolePanel.Name = "consolePanel";
-            consolePanel.Size = new System.Drawing.Size(301, 574);
+            consolePanel.Size = new System.Drawing.Size(301, 398);
             consolePanel.TabIndex = 1;
             // 
             // queryLabel

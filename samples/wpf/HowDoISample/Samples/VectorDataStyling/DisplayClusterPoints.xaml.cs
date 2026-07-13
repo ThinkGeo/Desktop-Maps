@@ -78,7 +78,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
 
             // Create a text style that will display the number of features within a clustered point
-            var textStyle = new TextStyle("FeatureCount", new GeoFont("Segoe UI", 12, DrawingFontStyles.Bold), GeoBrushes.DimGray)
+            var textStyle = new TextStyle("FeatureCount", new GeoFont("Noto Sans", 12, DrawingFontStyles.Bold), GeoBrushes.DimGray)
             {
                 HaloPen = new GeoPen(GeoBrushes.White, 2),
                 YOffsetInPixel = 12

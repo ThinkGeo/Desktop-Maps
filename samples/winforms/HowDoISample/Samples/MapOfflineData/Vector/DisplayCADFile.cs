@@ -52,7 +52,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Set the current extent of the map to the extent of the CAD data
             _cadLayer.Open();
-            mapView.CurrentExtent = _cadLayer.GetBoundingBox();
+            var cadLayerBBox = _cadLayer.GetBoundingBox();
+            mapView.CenterPoint = cadLayerBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(mapView.MapUnit, cadLayerBBox, mapView.MapWidth, mapView.MapHeight);
+            mapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
 
             await mapView.RefreshAsync();
         }
@@ -109,20 +112,20 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.Name = "mapView";
             mapView.RestrictExtent = null;
             mapView.RotationAngle = 0F;
-            mapView.Size = new System.Drawing.Size(962, 611);
+            mapView.Size = new System.Drawing.Size(1250, 611);
             mapView.TabIndex = 0;
             // 
             // panel1
             // 
-            panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom
+            panel1.Anchor = AnchorStyles.Top
             | AnchorStyles.Right;
             panel1.BackColor = System.Drawing.Color.Gray;
             panel1.Controls.Add(radioButton1);
             panel1.Controls.Add(radioButton2);
             panel1.Controls.Add(label1);
-            panel1.Location = new System.Drawing.Point(965, 0);
+            panel1.Location = new System.Drawing.Point(955, 10);
             panel1.Name = "panel1";
-            panel1.Size = new System.Drawing.Size(285, 611);
+            panel1.Size = new System.Drawing.Size(285, 122);
             panel1.TabIndex = 3;
             // 
             // radioButton1

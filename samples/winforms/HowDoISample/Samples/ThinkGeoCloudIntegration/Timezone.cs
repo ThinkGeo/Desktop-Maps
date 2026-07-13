@@ -51,7 +51,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             timeZoneCloudClient = new TimeZoneCloudClient(SampleKeys.ClientId2, SampleKeys.ClientSecret2);
 
             // Set the Map Extent
-            mapView.CurrentExtent = new RectangleShape(-14269933.09, 6354969.40, -6966221.89, 2759371.58);
+            mapView.CenterPoint = new PointShape(-10618080, 4557170);
+            mapView.CurrentScale = 33258550;
 
             // Get Timezone info for Frisco, TX
             await GetTimeZoneInfoAsync(-10779572.80, 3915268.68);
@@ -153,19 +154,19 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotationAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(906, 713);
+            this.mapView.Size = new System.Drawing.Size(1212, 713);
             this.mapView.TabIndex = 0;
             this.mapView.MapClick += new System.EventHandler<MapClickMapViewEventArgs>(this.mapView_MapClick);
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(912, 0);
+            this.panel1.Location = new System.Drawing.Point(902, 10);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(300, 713);
+            this.panel1.Size = new System.Drawing.Size(300, 78);
             this.panel1.TabIndex = 1;
             // 
             // label1

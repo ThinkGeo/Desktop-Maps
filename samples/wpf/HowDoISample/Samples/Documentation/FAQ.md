@@ -34,6 +34,8 @@ mapView.CancellationTokenSource.Cancel();
 
 3. Start another map interaction, such as panning, to interrupt the current operation.
 
+Note: ways 2 and 3 both work by cancelling the map's internal `CancellationTokenSource`. State-changing methods such as `ZoomToAsync` surface this as `OperationCanceledException` on the awaiter, so you can react to the interruption. `RefreshAsync` does not — the underlying tile work stops, but the awaiter sees a normal completion. If you need to observe a `RefreshAsync` cancel from the caller side, use way 1 (pass your own `CancellationTokenSource` and cancel it).
+
 
 ### Why do some methods throw `TaskCanceledException` but some others don't?
 

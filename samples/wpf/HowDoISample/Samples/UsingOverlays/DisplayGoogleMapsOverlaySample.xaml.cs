@@ -42,7 +42,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private void DisplayGoogleMaps_Click(object sender, RoutedEventArgs e)
         {
-            var googleMapsOverlay = new GoogleMapsOverlay(GoogleApiKey.Text, string.Empty);
+            var googleMapsOverlay = new GoogleMapsStaticOverlay(GoogleApiKey.Text, string.Empty);
             Map.Overlays.Add(googleMapsOverlay);
             _ = Map.RefreshAsync();
         }

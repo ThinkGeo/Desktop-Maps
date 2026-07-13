@@ -48,7 +48,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             layerOverlay.Layers.Add("selectedLineLayer", selectedLineLayer);
 
             // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(-10782307.6877106, 3918904.87378907, -10774377.3460701, 3912073.31442403);
+            mapView.CenterPoint = new PointShape(-10778340, 3915490);
+            mapView.CurrentScale = 36110;
 
             // Add LayerOverlay to Map
             mapView.Overlays.Add("layerOverlay", layerOverlay);
@@ -113,22 +114,22 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotationAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(819, 663);
+            this.mapView.Size = new System.Drawing.Size(1133, 663);
             this.mapView.TabIndex = 0;
             this.mapView.MapClick += new System.EventHandler<MapClickMapViewEventArgs>(this.mapView_MapClick);
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.lengthResult);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(819, 0);
+            this.panel1.Location = new System.Drawing.Point(809, 10);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(314, 660);
+            this.panel1.Size = new System.Drawing.Size(314, 146);
             this.panel1.TabIndex = 1;
             // 
             // lengthResult

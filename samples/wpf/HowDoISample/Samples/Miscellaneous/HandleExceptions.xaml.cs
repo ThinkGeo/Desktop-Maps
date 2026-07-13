@@ -117,7 +117,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             {
                 // customize the drawing exception. Here below we draw the error in red on orange canvas.
                 canvas.DrawArea(canvas.CurrentWorldExtent, GeoBrushes.LightOrange, DrawingLevel.LevelOne);
-                canvas.DrawText("Customized Exception Message", new GeoFont("Arial", 10), GeoBrushes.Red, new[] { new ScreenPointF(canvas.Width / 2, canvas.Height / 2) }, DrawingLevel.LabelLevel);
+                canvas.DrawText("Customized Exception Message", new GeoFont("Noto Sans", 10), GeoBrushes.Red, new[] { new ScreenPointF(canvas.Width / 2, canvas.Height / 2) }, DrawingLevel.LabelLevel);
             }
         }
     }

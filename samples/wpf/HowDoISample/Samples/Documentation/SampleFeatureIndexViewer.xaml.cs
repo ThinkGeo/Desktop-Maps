@@ -178,7 +178,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             return "<!DOCTYPE html><html><head><meta charset=\"utf-8\"/>" +
                    "<style>" +
-                   "body{font-family:'Segoe UI',sans-serif;margin:16px;color:#dce3ec;background:#0d1117;line-height:1.5;}" +
+                   "body{font-family:'Noto Sans',sans-serif;margin:16px;color:#dce3ec;background:#0d1117;line-height:1.5;}" +
                    "h1,h2,h3{margin:16px 0 8px 0;color:#f4f7fb;}" +
                    "p{margin:8px 0;}" +
                    "ul{margin:8px 0 8px 20px;padding:0;}" +

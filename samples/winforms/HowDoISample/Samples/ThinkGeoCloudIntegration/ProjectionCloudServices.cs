@@ -182,21 +182,21 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.mapView.Name = "mapView";
             this.mapView.RestrictExtent = null;
             this.mapView.RotationAngle = 0F;
-            this.mapView.Size = new System.Drawing.Size(793, 596);
+            this.mapView.Size = new System.Drawing.Size(1134, 596);
             this.mapView.TabIndex = 0;
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Gray;
             this.panel1.Controls.Add(this.btnReprojectFeatures);
             this.panel1.Controls.Add(this.txtWKT);
             this.panel1.Controls.Add(this.btnReprojectFeature);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(799, 0);
+            this.panel1.Location = new System.Drawing.Point(789, 10);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(335, 596);
+            this.panel1.Size = new System.Drawing.Size(335, 446);
             this.panel1.TabIndex = 1;
             // 
             // btnReprojectFeatures
