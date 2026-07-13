@@ -237,12 +237,21 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             Map.EditOverlay.VertexRemoved += EditOverlay_VertexRemoved;
             Map.EditOverlay.VertexRemoving += EditOverlay_VertexRemoving;
 
+
+            Map.ExtentOverlay.MapKeyDown += ExtentOverlay_MapKeyDown;
+
             // Update instructions
             Instructions.Text =
                 "Edit Shapes Mode — Use anchor handles to translate, rotate, or scale shapes. Drag an existing vertex to move it. Click on a segment to add a vertex. Double-click an existing vertex to remove it.";
 
             _ = Map.RefreshAsync();
             _initialized = true;
+        }
+
+        private void ExtentOverlay_MapKeyDown(object sender, MapKeyDownInteractiveOverlayEventArgs e)
+        {
+            var s = "";
+            throw new NotImplementedException();
         }
 
 

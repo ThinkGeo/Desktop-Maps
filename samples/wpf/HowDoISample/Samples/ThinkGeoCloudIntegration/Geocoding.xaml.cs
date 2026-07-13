@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -44,10 +45,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Set the map's unit of measurement to meters (Spherical Mercator)
             Map.MapUnit = GeographyUnit.Meter;
 
-            // Create a marker overlay to display the geocoded locations that will be generated, and add it to the map
-            MarkerOverlay geocodedLocationsOverlay = new SimpleMarkerOverlay();
-            Map.Overlays.Add("Geocoded Locations Overlay", geocodedLocationsOverlay);
-
+            // Create a new feature layer to display selected locations returned from the geocode and create styles for it
+            var selectedResultItemFeatureLayer = new InMemoryFeatureLayer();
+            // Add a point, line, and polygon style to the layer. These styles control how the shapes will be drawn
+            selectedResultItemFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = new PointStyle(PointSymbolType.Star, 24, GeoBrushes.MediumPurple, GeoPens.Purple);
+            selectedResultItemFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.MediumPurple, 6, false);
+            selectedResultItemFeatureLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(80, GeoColors.MediumPurple), GeoColors.MediumPurple, 2);
+            selectedResultItemFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            
+            // Create a new overlay to display the selected locations returned from the geocode and add it to the map
+            var searchFeaturesOverlay = new LayerOverlay();
+            searchFeaturesOverlay.Layers.Add("Result Feature Geometry", selectedResultItemFeatureLayer);
+            Map.Overlays.Add("Search Features Overlay", searchFeaturesOverlay);
+            
             // Set the map extent to Frisco, TX
             Map.CenterPoint = new PointShape(-10778720, 3915154);
             Map.CurrentScale = 202090;
@@ -59,9 +69,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 ClientSecret = SampleKeys.ClientSecret2,
             };
 
-            CboSearchType.SelectedIndex = 0;
-            CboLocationType.SelectedIndex = 0;
-
             _ = Map.RefreshAsync();
         }
 
@@ -70,27 +77,40 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private async Task<CloudGeocodingResult> PerformGeocodingQuery()
         {
-            // Overture Queries require a BBox - check to make sure the extent is not too large.
-            bool includeOvertureBool = (bool)((ComboBoxItem)CboIncludeOverturePlaces.SelectedValue).Tag;
-            if (includeOvertureBool && Map.CurrentExtent.GetArea(GeographyUnit.Meter, AreaUnit.SquareMiles) > 100000)
-            {
-                MessageBox.Show("Please zoom in before including Overture Place Data in Request.");
-                return await Task.FromResult<CloudGeocodingResult>(new CloudGeocodingResult(null, null));
-            }
-
             // Show a loading graphic to let users know the request is running
             LoadingImage.Visibility = Visibility.Visible;
 
             var options = new CloudGeocodingOptions
             {
-                // Set up the CloudGeocodingOptions object based on the parameters set in the UI
                 MaxResults = int.Parse(TxtMaxResults.Text),
-                SearchMode = ((ComboBoxItem)CboSearchType.SelectedItem).Content.ToString() == "Fuzzy" ? CloudGeocodingSearchMode.FuzzyMatch : CloudGeocodingSearchMode.ExactMatch,
-                LocationType = (CloudGeocodingLocationType)Enum.Parse(typeof(CloudGeocodingLocationType), ((ComboBoxItem)CboLocationType.SelectedItem).Content.ToString() ?? string.Empty),
+                Autocomplete = ChkAutocomplete.IsChecked == true,
                 ResultProjectionInSrid = 3857,
-                BBox = Map.CurrentExtent,
-                IncludeOverturePlaces = includeOvertureBool
             };
+
+            if (ChkRestrictToExtent.IsChecked == true)
+            {
+                options.BBox = Map.CurrentExtent;
+            }
+
+            var countries = (TxtCountryCodes.Text ?? string.Empty)
+                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => s.Trim())
+                .Where(s => s.Length > 0)
+                .ToArray();
+            if (countries.Length > 0)
+            {
+                options.Countries = countries;
+            }
+
+            var languages = (TxtLanguage.Text ?? string.Empty)
+                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => s.Trim())
+                .Where(s => s.Length > 0)
+                .ToArray();
+            if (languages.Length > 0)
+            {
+                options.Language = languages;
+            }
 
             // Run the geocode
             var searchString = TxtSearchString.Text.Trim();
@@ -108,10 +128,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private async Task UpdateSearchResultsOnUIAsync(CloudGeocodingResult searchResult)
         {
             // Clear the locations list and existing location markers on the map
-            var geocodedLocationOverlay = (SimpleMarkerOverlay)Map.Overlays["Geocoded Locations Overlay"];
-            geocodedLocationOverlay.Markers.Clear();
+            var selectedResultItemFeatureLayer = (InMemoryFeatureLayer)Map.FindFeatureLayer("Result Feature Geometry");
+            selectedResultItemFeatureLayer.Clear();
             LsbLocations.ItemsSource = null;
-            await geocodedLocationOverlay.RefreshAsync();
 
             if (searchResult.Locations != null)
             {
@@ -167,12 +186,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Get the selected location
                 var chosenLocation = LsbLocations.SelectedItem as CloudGeocodingLocation;
                 if (chosenLocation == null) return;
-                // Get the MarkerOverlay from the Map
-                var geocodedLocationOverlay = (SimpleMarkerOverlay)Map.Overlays["Geocoded Locations Overlay"];
+                // Get the InMemoryFeatureLayer from the Map
+                var selectedResultItemFeatureLayer = (InMemoryFeatureLayer)Map.FindFeatureLayer("Result Feature Geometry");
 
                 // Clear the existing markers and add a new marker at the chosen location
-                geocodedLocationOverlay.Markers.Clear();
-                geocodedLocationOverlay.Markers.Add(CreateNewMarker(chosenLocation.LocationPoint));
+                selectedResultItemFeatureLayer.Clear();
+                selectedResultItemFeatureLayer.InternalFeatures.Add(new Feature(chosenLocation.Shape));
 
                 // Center the map on the chosen location
                 var chosenLocationBBox = chosenLocation.BoundingBox;
@@ -187,33 +206,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Because async void methods don't return a Task, unhandled exceptions cannot be awaited or caught from outside.
                 // Therefore, it's good practice to catch and handle (or log) all exceptions within these "fire-and-forget" methods.
             }
-        }
-
-        /// <summary>
-        /// Helper function to change the tip shown for different Search Types
-        /// </summary>
-        private void cboSearchType_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            var comboBoxContent = (CboSearchType.SelectedItem as ComboBoxItem)?.Content;
-
-            if (comboBoxContent == null) return;
-            switch (comboBoxContent.ToString())
-            {
-                case "Fuzzy":
-                    TxtSearchTypeDescription.Text = "(Returns both exact and approximate matches for the search address)";
-                    break;
-                case "Exact":
-                    TxtSearchTypeDescription.Text = "(Only returns exact matches for the search address)";
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// Helper function to change the tip shown for different Location Types
-        /// </summary>
-        private void cboLocationType_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            var comboBoxContent = (CboLocationType.SelectedItem as ComboBoxItem)?.Content;
         }
 
         /// <summary>
