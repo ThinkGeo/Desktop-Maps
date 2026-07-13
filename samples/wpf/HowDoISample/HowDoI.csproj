@@ -141,6 +141,7 @@
     <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="15.0.0-beta102" />
     <PackageReference Include="ThinkGeo.Gdal" Version="15.0.0-beta102" />
     <PackageReference Include="ThinkGeo.NauticalCharts" Version="15.0.0-beta102" />
+    <PackageReference Include="ThinkGeo.Oracle" Version="15.0.0-beta102" />
     <PackageReference Include="ThinkGeo.PostgreSql" Version="15.0.0-beta102" />
     <PackageReference Include="ThinkGeo.Printers" Version="15.0.0-beta102" />
     <PackageReference Include="ThinkGeo.SqlServer" Version="15.0.0-beta102" />
