@@ -101,28 +101,6 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </TabItem>
-                <TabItem x:Name="NearbyRoadsTabItem"
-                         Header="Road">
-                    <ListBox x:Name="LsbRoads"
-                             SelectionChanged="LsbSearchResults_SelectionChanged">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate DataType="{x:Type code:CloudReverseGeocodingLocation}">
-                                <Grid Width="280">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                    </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="0"
-                                               Text="{Binding Path=Address}"
-                                               TextWrapping="Wrap" 
-                                               FontWeight="Bold" />
-                                    <TextBlock Grid.Row="1"
-                                               Text="{Binding Path=LocationType, StringFormat=Type: {0}}"/>
-                                </Grid>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </TabItem>
                 <TabItem x:Name="NearbyPlacesTabItem"
                          Header="Place">
                     <ListBox x:Name="LsbPlaces"

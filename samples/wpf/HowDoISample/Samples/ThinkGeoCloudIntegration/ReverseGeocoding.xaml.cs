@@ -211,7 +211,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var nearbyLocations = new Collection<CloudReverseGeocodingLocation>(searchResult.NearbyLocations);
                 var nearbyAddresses = new Collection<CloudReverseGeocodingLocation>();
                 var nearbyPlaces = new Collection<CloudReverseGeocodingLocation>();
-                var nearbyRoads = new Collection<CloudReverseGeocodingLocation>();
                 foreach (var foundLocation in nearbyLocations)
                 {
                     var category = (foundLocation.LocationCategory ?? string.Empty).ToLowerInvariant();
@@ -220,15 +219,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     if (category.Contains("address"))
                     {
                         nearbyAddresses.Add(foundLocation);
-                    }
-                    // Roads: legacy Aeroway/Road/Rail/Waterway, Pelias street layer
-                    else if (category == "aeroway"
-                        || category == "road"
-                        || category == "rail"
-                        || category == "waterway"
-                        || category == "street")
-                    {
-                        nearbyRoads.Add(foundLocation);
                     }
                     // Everything else is a Place (skip intersections)
                     else if (category != "intersection")
@@ -244,7 +234,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 // Set the data sources for the addresses, roads, and places list boxes
                 LsbAddresses.ItemsSource = nearbyAddresses;
-                LsbRoads.ItemsSource = nearbyRoads;
                 LsbPlaces.ItemsSource = nearbyPlaces;
 
                 LsbAddresses.SelectedIndex = 0;
