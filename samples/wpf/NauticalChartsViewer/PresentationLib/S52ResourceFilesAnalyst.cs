@@ -314,7 +314,9 @@ namespace ThinkGeo.MapSuite
         public void UpdateColorEntry(NauticalChartsDefaultColorSchema colorSchema, ColorEntry newColorEntry)
         {
             XDocument document = XDocument.Load(resourceFile);
-            XElement element = document.Root.XPathSelectElements("ColorSchemas/" + colorSchema.ToString().ToUpperInvariant() + "/Color").Where(x => x.Attribute("token").Value.ToString() == newColorEntry.Token).First();
+            // Color schemas are stored as <ColorSchema name="DayBright"> ... </ColorSchema>,
+            // so match on the name attribute (PascalCase) rather than an element per schema.
+            XElement element = document.Root.XPathSelectElements("ColorSchemas/ColorSchema[@name='" + colorSchema.ToString() + "']/Color").Where(x => x.Attribute("token").Value.ToString() == newColorEntry.Token).First();
             if (element != null)
             {
                 element.Attribute("r").SetValue(newColorEntry.Color.R);

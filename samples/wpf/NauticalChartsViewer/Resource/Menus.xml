@@ -27,6 +27,13 @@ isCheckable indicate if the MenuItem can checkable.
       <separator />
       <menuItem header="Show Lights" action="lights" groupName="lights" isCheckable="true" isChecked="true" canToggle="true"  icon="Resource/Image/lighthouse.png" />
       <separator />
+      <menuItem header="Full Light Lines" action="fulllightline" groupName="fulllightline" isCheckable="true" isChecked="true" canToggle="true" />
+      <menuItem header="Shallow Water Pattern" action="shallowwaterpattern" groupName="shallowwaterpattern" isCheckable="true" canToggle="true" />
+      <menuItem header="Isolated Dangers (Shallow)" action="isolateddanger" groupName="isolateddanger" isCheckable="true" canToggle="true" />
+      <menuItem header="SCAMIN Declutter" action="minimumscale" groupName="minimumscale" isCheckable="true" isChecked="true" canToggle="true" />
+      <menuItem header="Four-Color Depths" action="fourcolordepths" groupName="fourcolordepths" isCheckable="true" canToggle="true" />
+      <menuItem header="S-52 Styling" action="s52styling" groupName="s52styling" isCheckable="true" isChecked="true" canToggle="true" />
+      <separator />
       <menuItem header="English" action="textlabel" groupName="textlabel" isCheckable="true" icon="Resource/Image/symboltext.png" />
       <menuItem header="National Language" action="nationallanguagelabel" groupName="textlabel" isCheckable="true" icon="Resource/Image/nationalsymboltext.png"/>
       <menuItem header="None" action="notextlabel" groupName="textlabel" isCheckable="true" isChecked="true" icon="Resource/Image/nosymboltext.png"/>
@@ -61,11 +68,6 @@ isCheckable indicate if the MenuItem can checkable.
       <separator />
       <menuItem header="Symbolized Boundaries" action="Symbolized" groupName="s52areadrawingmode" isCheckable="true" icon="Resource/Image/symbolizedboundaries.png" />
       <menuItem header="Plain Boundaries" action="Plain" groupName="s52areadrawingmode" isCheckable="true" isChecked="true" icon="Resource/Image/plainboundaries.png" />
-      <separator />
-
-      <menuItem header="Optimized Performance" action="optimized" groupName="performancemode" isCheckable="true" isChecked="true" />
-      <menuItem header="High Drawing Speed" action="hightspeed" groupName="performancemode" isCheckable="true" />
-      <menuItem header="High Image Quality" action="hightquality" groupName="performancemode" isCheckable="true" />
     </menuItems>
   </menu>
 

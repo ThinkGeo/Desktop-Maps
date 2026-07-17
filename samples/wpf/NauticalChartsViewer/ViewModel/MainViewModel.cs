@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using ThinkGeo.Core;
@@ -32,6 +33,7 @@ namespace NauticalChartsViewer
         private bool isOnLoading;
         private bool showOpacityPanel;
         private MapView map;
+        private ChartMessage lastLoadedChartMessage;
         private Collection<object> menuItems;
 
         private Collection<MenuItemMessageHandler> messageHandlers;
@@ -74,6 +76,7 @@ namespace NauticalChartsViewer
             Messenger.Default.Register<MenuItemMessage>(this, HandleMenuItemMessage);
             Messenger.Default.Register<ToolBarMessage>(this, HandleToolBarMessage);
             Messenger.Default.Register<ChartMessage>(this, "LoadCharts", HandleLoadChartMessage);
+            Messenger.Default.Register<ChartMessage>(this, "ReloadCharts", HandleReloadChartsMessage);
             Messenger.Default.Register<ChartMessage>(this, "UnloadCharts", HandleUnloadChartMessage);
             Messenger.Default.Register<ChartSelectedItemMessage>(this, HandleChartSelectedItemMessage);
             Messenger.Default.Register<SafeWaterDepthSettingMessage>(this, HandleSafeWaterDepthMessage);
@@ -470,7 +473,7 @@ namespace NauticalChartsViewer
                 {
                     LayerOverlay highlightOverlay = CreateHighlightLayerOverlay(feature);
                     map.Overlays.Add(highlightOverlayName, highlightOverlay);
-                    map.CurrentExtent = feature.GetBoundingBox();
+                    // Highlight the selected feature in place; do not move/zoom the map to it.
                 }
             }
 
@@ -479,6 +482,25 @@ namespace NauticalChartsViewer
 
         private async void HandleLoadChartMessage(ChartMessage message)
         {
+            await LoadChartsAsync(message, preserveExtent: false);
+        }
+
+        // Re-runs the load with the last-loaded charts so that edits saved by the
+        // "Edit Symbol File" editor (which writes back to Globals.StyleFilePath) show up
+        // on the map. The current view is preserved instead of zooming to full extent.
+        private async void HandleReloadChartsMessage(ChartMessage message)
+        {
+            if (lastLoadedChartMessage != null)
+            {
+                await LoadChartsAsync(lastLoadedChartMessage, preserveExtent: true);
+            }
+        }
+
+        private async Task LoadChartsAsync(ChartMessage message, bool preserveExtent)
+        {
+            lastLoadedChartMessage = message;
+            RectangleShape savedExtent = preserveExtent ? map.CurrentExtent : null;
+            Globals.EnsureStyleFile();
             LayerOverlay overlay = null;
             if (message.Charts != null)
             {
@@ -505,7 +527,7 @@ namespace NauticalChartsViewer
                     {
                         NauticalChartsFeatureSource.BuildIndexFile(item.FileName, BuildIndexMode.DoNotRebuild);
                     }
-                    NauticalChartsFeatureLayer layer = new NauticalChartsFeatureLayer(item.FileName);
+                    NauticalChartsFeatureLayer layer = new NauticalChartsFeatureLayer(item.FileName, Globals.StyleFilePath);
                     if (map.MapUnit == GeographyUnit.Meter)
                     {
                         layer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 3857);
@@ -527,9 +549,20 @@ namespace NauticalChartsViewer
                     layer.DeepDepthInMeter = NauticalChartsFeatureLayer.ConvertDistanceToMeters(Globals.DeepDepth, Globals.CurrentDepthUnit);
                     layer.SafetyContourDepthInMeter = NauticalChartsFeatureLayer.ConvertDistanceToMeters(Globals.SafetyContour, Globals.CurrentDepthUnit);
 
-                    layer.DrawingMode = Globals.CurrentDrawingMode;
+                    layer.DrawingMode = NauticalChartsDrawingMode.HightQuality;
                     layer.IsFullLightLineVisible = Globals.IsFullLightLineVisible;
                     layer.IsMetaObjectsVisible = Globals.IsMetaObjectsVisible;
+                    layer.IsShallowWaterPatternVisible = Globals.IsShallowWaterPatternVisible;
+                    layer.IsIsolatedDangerInShallowWaterVisible = Globals.IsIsolatedDangerVisible;
+                    layer.IsMinimumScaleEnabled = Globals.IsMinimumScaleEnabled;
+                    layer.DepthShades = Globals.CurrentDepthShades;
+                    layer.StylingType = Globals.CurrentStylingType;
+                    // Plain fallback styles, used only when StylingType == StandardStyling (S-52 off),
+                    // so toggling "S-52 Styling" off shows the raw ENC geometry instead of a blank map.
+                    layer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(90, GeoColors.SteelBlue), GeoColors.Gray);
+                    layer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.Gray, 1, false);
+                    layer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.DarkRed, 4);
+                    layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
                     layer.Name = item.FileName;
                     layer.Open();
                     if (boundingBox == null)
@@ -546,11 +579,14 @@ namespace NauticalChartsViewer
                     layer.Close();
                     overlay.Layers.Add(item.FileName, layer);
                 }
+                // On reload (after a symbol edit) keep the user's current view; on a fresh
+                // load zoom to the charts' full extent.
+                RectangleShape targetExtent = (preserveExtent && savedExtent != null) ? savedExtent : boundingBox;
                 RectangleShape preserveBoundingBox = null;
-                if (boundingBox != null)
+                if (targetExtent != null)
                 {
-                    map.CurrentExtent = boundingBox;
-                    preserveBoundingBox = boundingBox;
+                    map.CurrentExtent = targetExtent;
+                    preserveBoundingBox = targetExtent;
                 }
 
                 //SetupAnimationForOverlay(overlay);
@@ -735,9 +771,9 @@ namespace NauticalChartsViewer
                 new LightsMenuItemMessageHandler(),
                 new MetaObjectsMenuItemMessageHandler(),
                 new OpacityMenuItemMessageHandler(),
-                new PerformanceModeMenuItemMessageHandler(),
                 new PointDrawingModeMenuItemMessageHandler(),
                 new SafeWaterDepthMenuItemMessageHandler(),
+                new S52OptionsMenuItemMessageHandler(),
                 new SymbolsCreatingMenuItemMessageHandler(),
                 new SymbolsEditionMenuItemMessageHandler(),
                 new TextVisibilibyMenuItemMessageHandler(),

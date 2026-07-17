@@ -12,7 +12,7 @@ namespace NauticalChartsViewer
     {
         private MainViewModel mainViewModel;
         private string defaultSampleDataFile = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) +
-            @"\SampleData\Chicago\US4IL10M.000";
+            @"\SampleData\SanFrancisco\US5CA12M.000";
 
         /// <summary>
         /// Initializes a new instance of the MainWindow class.

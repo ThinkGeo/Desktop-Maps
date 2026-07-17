@@ -22,6 +22,12 @@ namespace NauticalChartsViewer
             colorTableViewModel = new ColorTableViewModel();
             symbolTableViewModel = new SymbolTableViewModel();
             lookupTableViewModel = new LookupTableViewModel();
+
+            // Open the built-in default S-52 library so the editor isn't empty. Edits are
+            // saved back to this same file and applied to the map when the charts reload.
+            // Users can still Browse to a different S-52 style file if they want.
+            Globals.EnsureStyleFile();
+            S52SymbolsSourcePath = Globals.StyleFilePath;
         }
 
         public string S52SymbolsSourcePath

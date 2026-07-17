@@ -1,0 +1,2 @@
+CAUTION - QUALITY OF BATHYMETRIC DATA
+The areas represented by the object M_QUAL are approximate due to generalization for clarity. Caution is advised, particularly for nearshore navigation or voyage planning. M_QUAL (Quality of data) represents areas of uniform quality of bathymetric data. The CATZOC (Category of zone of confidence in data) attribute of M_QUAL provides an assessment of the overall zone of confidence. 

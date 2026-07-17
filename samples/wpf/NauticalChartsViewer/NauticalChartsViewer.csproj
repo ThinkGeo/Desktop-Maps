@@ -51,8 +51,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.142" />
-    <PackageReference Include="ThinkGeo.UI.Wpf" Version="15.0.0-beta106" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="15.0.0-beta106" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="15.0.0-beta107" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="15.0.0-beta107" />
   </ItemGroup>
 
   <ItemGroup>
@@ -96,91 +96,49 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="SampleData\Chicago\US4IL10A.TXT">
+    <None Update="SampleData\SanFrancisco\US5CA12A.TXT">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="SampleData\Chicago\US4IL10B.TXT">
+    <None Update="SampleData\SanFrancisco\US5CA12B.TXT">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="SampleData\Chicago\US4IL10C.TXT">
+    <None Update="SampleData\SanFrancisco\US5CA12C.TXT">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="SampleData\Chicago\US4IL10D.TXT">
+    <None Update="SampleData\SanFrancisco\US5CA12D.TXT">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="SampleData\Chicago\US4IL10M.000">
+    <None Update="SampleData\SanFrancisco\US5CA12E.TXT">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="SampleData\Chicago\US4IL10M.001">
+    <None Update="SampleData\SanFrancisco\US5CA12F.TXT">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="SampleData\Chicago\US4IL10M.hyr">
+    <None Update="SampleData\SanFrancisco\US5CA12G.TXT">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="SampleData\Chicago\US4IL10M.ids">
+    <None Update="SampleData\SanFrancisco\US5CA12H.TXT">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="SampleData\Chicago\US4IL10M.idx">
+    <None Update="SampleData\SanFrancisco\US5CA12I.TXT">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09A.TXT">
+    <None Update="SampleData\SanFrancisco\US5CA12M.000">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09B.TXT">
+    <None Update="SampleData\SanFrancisco\US5CA12M.001">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09C.TXT">
+    <None Update="SampleData\SanFrancisco\US5CA12M.002">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09D.TXT">
+    <None Update="SampleData\SanFrancisco\US5CA12M.hyr">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09E.TXT">
+    <None Update="SampleData\SanFrancisco\US5CA12M.ids">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09F.TXT">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09G.TXT">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09M.000">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09M.001">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09M.002">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09M.003">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09M.004">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09M.005">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09M.006">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09M.007">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09M.008">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09M.009">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09M.hyr">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09M.ids">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="SampleData\TX_ENCs\ENC_ROOT\US1GC09M\US1GC09M.idx">
+    <None Update="SampleData\SanFrancisco\US5CA12M.idx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

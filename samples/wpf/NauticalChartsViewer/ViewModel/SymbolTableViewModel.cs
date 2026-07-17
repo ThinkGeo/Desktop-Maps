@@ -185,6 +185,10 @@ namespace NauticalChartsViewer
             LoadSymbolList();
             SelectedSymbolItem = selectedItemCache;
             MessageBox.Show("Commit succeed.", string.Empty, MessageBoxButton.OK, MessageBoxImage.Information);
+
+            // The edit was written to Globals.StyleFilePath, which the loaded charts are styled
+            // from; reload them (keeping the current view) so the change shows on the map now.
+            Messenger.Default.Send(new ChartMessage(), "ReloadCharts");
         }
 
         public ObservableCollection<SymbolItem> SymbolItems
