@@ -1,6 +1,4 @@
-﻿using GalaSoft.MvvmLight.CommandWpf;
-using GalaSoft.MvvmLight.Messaging;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows.Input;
 
 namespace NauticalChartsViewer
@@ -94,7 +92,7 @@ namespace NauticalChartsViewer
                 }
 
                 var message = new MenuItemMessage(this);
-                Messenger.Default.Send<MenuItemMessage>(message);
+                Messenger.Default.Send(message);
             }
             else
             {
@@ -106,7 +104,7 @@ namespace NauticalChartsViewer
         {
             SwitchCheckedState(this, Parent.Children);
             var message = new MenuItemMessage(this);
-            Messenger.Default.Send<MenuItemMessage>(message);
+            Messenger.Default.Send(message);
         }
 
         private void SwitchCheckedState(BaseMenuItem menuItem, IEnumerable<object> menuItems)

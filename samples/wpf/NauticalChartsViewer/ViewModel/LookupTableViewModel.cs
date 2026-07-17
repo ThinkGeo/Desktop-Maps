@@ -1,6 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.CommandWpf;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -46,7 +44,7 @@ namespace NauticalChartsViewer
                 if (isEnalbed != value)
                 {
                     isEnalbed = value;
-                    RaisePropertyChanged("IsEnabled");
+                    OnPropertyChanged("IsEnabled");
                 }
             }
         }
@@ -72,7 +70,7 @@ namespace NauticalChartsViewer
                 if (editionLookupItem != value)
                 {
                     editionLookupItem = value;
-                    RaisePropertyChanged("EditionLookupItem");
+                    OnPropertyChanged("EditionLookupItem");
                 }
             }
         }
@@ -86,7 +84,7 @@ namespace NauticalChartsViewer
                 {
                     selectedLookupTableType = value;
                     LoadLookupItems();
-                    RaisePropertyChanged("SelectedLookupTableType");
+                    OnPropertyChanged("SelectedLookupTableType");
                 }
             }
         }

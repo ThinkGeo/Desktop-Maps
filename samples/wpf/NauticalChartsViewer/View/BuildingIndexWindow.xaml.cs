@@ -1,5 +1,4 @@
-﻿using GalaSoft.MvvmLight.Messaging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,7 +32,7 @@ namespace NauticalChartsViewer
 
             Unloaded += (sender, e) =>
             {
-                Messenger.Default.Unregister<WindowStateMessage>(this, "BuildIndexWindow");
+                Messenger.Default.UnregisterAll(this);
                 buildingIndexViewModel.Cleanup();
             };
         }

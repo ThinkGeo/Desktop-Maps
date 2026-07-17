@@ -1,8 +1,7 @@
-﻿using GalaSoft.MvvmLight.Messaging;
-
+﻿
 namespace NauticalChartsViewer
 {
-    internal class ChartSelectedItemMessage : MessageBase
+    internal class ChartSelectedItemMessage
     {
         private ChartSelectedItem chartSelectedItem;
 

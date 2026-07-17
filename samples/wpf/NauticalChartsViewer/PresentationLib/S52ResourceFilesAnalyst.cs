@@ -66,7 +66,7 @@ namespace ThinkGeo.MapSuite
                     break;
             }
 
-            IEnumerable<SymbolStyleModule> chartTablesList = chartTables.Where(x => x.Key == type && x.Value.Name == name).Select(x => x.Value.ChartStyleModules.Values).Cast<SymbolStyleModule>();
+            IEnumerable<SymbolStyleModule> chartTablesList = chartTables.Where(x => x.Key == type && x.Value.Name == name).SelectMany(x => x.Value.ChartStyleModules.Values).OfType<SymbolStyleModule>();
             SymbolStyleModule chartTable = chartTablesList.First();
             return chartTable; // Todo: please implement it
         }

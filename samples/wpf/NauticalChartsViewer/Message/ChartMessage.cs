@@ -1,9 +1,8 @@
-﻿using GalaSoft.MvvmLight.Messaging;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace NauticalChartsViewer
 {
-    internal class ChartMessage : MessageBase
+    internal class ChartMessage
     {
         public ChartMessage() { }
 

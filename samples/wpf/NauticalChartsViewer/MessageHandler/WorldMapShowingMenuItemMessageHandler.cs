@@ -32,15 +32,15 @@ namespace NauticalChartsViewer
             switch (message.MenuItem.Action.ToLowerInvariant())
             {
                 case "light":
-                    backgroundOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Light;
+                    backgroundOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Light_V1_X1;
                     break;
 
                 case "aerial":
-                    backgroundOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Aerial;
+                    backgroundOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Aerial_V1_X1;
                     break;
 
                 case "hybrid":
-                    backgroundOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid;
+                    backgroundOverlay.MapType = ThinkGeoCloudRasterMapsMapType.Hybrid_V1_X1;
                     break;
 
                 case "none":

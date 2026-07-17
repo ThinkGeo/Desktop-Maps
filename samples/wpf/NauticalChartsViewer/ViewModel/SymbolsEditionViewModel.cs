@@ -1,7 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.CommandWpf;
-using GalaSoft.MvvmLight.Messaging;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System;
 using System.Windows;
 using System.Windows.Input;
@@ -48,9 +45,9 @@ namespace NauticalChartsViewer
                         };
                         SymbolTable = new SymbolTableViewModel(s52ResourceFilesAnalyst, ColorTable.SelectedColorSchema);
                         LookupTable = new LookupTableViewModel(s52ResourceFilesAnalyst);
-                        RaisePropertyChanged("S52SymbolsSourcePath");
+                        OnPropertyChanged("S52SymbolsSourcePath");
                     }
-                    catch (NullReferenceException e) 
+                    catch (NullReferenceException)
                     {
                         MessageBox.Show("S52 file format error.", string.Empty, MessageBoxButton.OK, MessageBoxImage.Error);
                     }
@@ -66,7 +63,7 @@ namespace NauticalChartsViewer
                 if (colorTableViewModel != value)
                 {
                     colorTableViewModel = value;
-                    RaisePropertyChanged("ColorTable");
+                    OnPropertyChanged("ColorTable");
                 }
             }
         }
@@ -79,7 +76,7 @@ namespace NauticalChartsViewer
                 if (symbolTableViewModel != value)
                 {
                     symbolTableViewModel = value;
-                    RaisePropertyChanged("SymbolTable");
+                    OnPropertyChanged("SymbolTable");
                 }
             }
         }
@@ -93,7 +90,7 @@ namespace NauticalChartsViewer
                 if (lookupTableViewModel != value)
                 {
                     lookupTableViewModel = value;
-                    RaisePropertyChanged("LookupTable");
+                    OnPropertyChanged("LookupTable");
                 }
             }
         }
@@ -125,7 +122,7 @@ namespace NauticalChartsViewer
 
         private void HandleCancelCommand()
         {
-            Messenger.Default.Send<WindowStateMessage>(new WindowStateMessage(S57WindowState.Close));
+            Messenger.Default.Send(new WindowStateMessage(S57WindowState.Close));
         }
     }
 }

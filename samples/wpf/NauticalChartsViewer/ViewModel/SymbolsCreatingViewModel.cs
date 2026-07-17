@@ -1,7 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.CommandWpf;
-using GalaSoft.MvvmLight.Messaging;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
@@ -47,7 +44,7 @@ namespace NauticalChartsViewer
                     {
                         OutputFilePath = string.Empty;
                     }
-                    RaisePropertyChanged("DaiFilePath");
+                    OnPropertyChanged("DaiFilePath");
                 }
             }
         }
@@ -60,7 +57,7 @@ namespace NauticalChartsViewer
                 if (outputFilePath != value)
                 {
                     outputFilePath = value;
-                    RaisePropertyChanged("OutputFilePath");
+                    OnPropertyChanged("OutputFilePath");
                 }
             }
         }
@@ -74,7 +71,7 @@ namespace NauticalChartsViewer
                 if (isProgressBarVisible != value)
                 {
                     isProgressBarVisible = value;
-                    RaisePropertyChanged("IsProgressBarVisible");
+                    OnPropertyChanged("IsProgressBarVisible");
                 }
             }
         }
@@ -87,7 +84,7 @@ namespace NauticalChartsViewer
                 if (isRebuild != value)
                 {
                     isRebuild = value;
-                    RaisePropertyChanged("IsRebuild");
+                    OnPropertyChanged("IsRebuild");
                 }
             }
         }
@@ -159,7 +156,7 @@ namespace NauticalChartsViewer
 
         private void HandleCancelCommand()
         {
-            Messenger.Default.Send<WindowStateMessage>(new WindowStateMessage(S57WindowState.Close), "SymbolsCreatingWindow");
+            Messenger.Default.Send(new WindowStateMessage(S57WindowState.Close), "SymbolsCreatingWindow");
         }
 
         void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -173,7 +170,7 @@ namespace NauticalChartsViewer
             if (!e.Cancelled && e.Error == null)
             {
                 MessageBox.Show("Symbol file creating completed.", string.Empty, MessageBoxButton.OK, MessageBoxImage.Information);
-                Messenger.Default.Send<WindowStateMessage>(new WindowStateMessage(S57WindowState.Close), "SymbolsCreatingWindow");
+                Messenger.Default.Send(new WindowStateMessage(S57WindowState.Close), "SymbolsCreatingWindow");
             }
             else if (e.Error != null)
             {

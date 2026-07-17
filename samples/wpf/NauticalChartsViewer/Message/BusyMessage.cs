@@ -1,8 +1,7 @@
-﻿using GalaSoft.MvvmLight.Messaging;
-
+﻿
 namespace NauticalChartsViewer
 {
-    public class BusyMessage : MessageBase
+    public class BusyMessage
     {
         public BusyMessage() { }
 

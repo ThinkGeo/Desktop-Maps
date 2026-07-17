@@ -1,9 +1,8 @@
-﻿using GalaSoft.MvvmLight.Messaging;
-using ThinkGeo.Core;
+﻿using ThinkGeo.Core;
 
 namespace NauticalChartsViewer
 {
-    public class SafeWaterDepthSettingMessage : MessageBase
+    public class SafeWaterDepthSettingMessage
     {
         private double safeWaterDepth;
         private double shallowWaterDepth;

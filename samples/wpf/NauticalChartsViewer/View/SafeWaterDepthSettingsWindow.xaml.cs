@@ -1,5 +1,4 @@
-﻿using GalaSoft.MvvmLight.Messaging;
-using System.Windows;
+﻿using System.Windows;
 
 namespace NauticalChartsViewer
 {
@@ -25,7 +24,7 @@ namespace NauticalChartsViewer
             Unloaded += (sender, e) =>
             {
                 safeWaterDepthSettingViewModel.Cleanup();
-                Messenger.Default.Unregister<WindowStateMessage>(this, HandleWindowStateMessage);
+                Messenger.Default.UnregisterAll(this);
             };
         }
 

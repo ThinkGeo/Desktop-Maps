@@ -1,7 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.CommandWpf;
-using GalaSoft.MvvmLight.Messaging;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using ThinkGeo.Core;
 
 namespace NauticalChartsViewer
@@ -77,7 +74,7 @@ namespace NauticalChartsViewer
         //        {
         //            SwitchCheckedState(menuItem, menuItems);
         //            var message = new MenuItemMessage(menuItem);
-        //            Messenger.Default.Send<MenuItemMessage>(message);
+        //            Messenger.Default.Send(message);
         //        }
         //        else
         //        {

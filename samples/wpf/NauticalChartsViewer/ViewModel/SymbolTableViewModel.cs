@@ -1,9 +1,6 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.CommandWpf;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Drawing;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -83,7 +80,7 @@ namespace NauticalChartsViewer
                 if (isEnalbed != value)
                 {
                     isEnalbed = value;
-                    RaisePropertyChanged("IsEnabled");
+                    OnPropertyChanged("IsEnabled");
                 }
             }
         }
@@ -103,7 +100,7 @@ namespace NauticalChartsViewer
                 {
                     selectedSymbolType = value;
                     LoadSymbolList();
-                    RaisePropertyChanged("SelectedSymbolType");
+                    OnPropertyChanged("SelectedSymbolType");
                 }
             }
         }
@@ -117,7 +114,7 @@ namespace NauticalChartsViewer
                 {
                     selectedSymbolItem = value;
                     EditionSymbolItem = value != null ? (SymbolItem)value.Clone() : null;
-                    RaisePropertyChanged("SelectedSymbolItem");
+                    OnPropertyChanged("SelectedSymbolItem");
                 }
             }
         }
@@ -135,7 +132,7 @@ namespace NauticalChartsViewer
                     {
                         SymbolBitmapImage = null;
                     }
-                    RaisePropertyChanged("EditionSymbolItem");
+                    OnPropertyChanged("EditionSymbolItem");
                 }
             }
         }
@@ -148,7 +145,7 @@ namespace NauticalChartsViewer
                 if (symbolBitmapImage != value)
                 {
                     symbolBitmapImage = value;
-                    RaisePropertyChanged("SymbolBitmapImage");
+                    OnPropertyChanged("SymbolBitmapImage");
                 }
             }
         }
@@ -222,21 +219,6 @@ namespace NauticalChartsViewer
             }
         }
 
-        [System.Runtime.InteropServices.DllImport("gdi32.dll")]
-        public static extern bool DeleteObject(IntPtr hObject);
-        public static ImageSource ChangeBitmapToImageSource(Bitmap bitmap)
-        {
-            bitmap.Save("filePath");
-            IntPtr hBitmap = bitmap.GetHbitmap();
-            ImageSource wpfBitmap = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
-                hBitmap,
-                IntPtr.Zero,
-                Int32Rect.Empty,
-                BitmapSizeOptions.FromEmptyOptions());
-            DeleteObject(hBitmap);
-            return wpfBitmap;
-        }
-
         private void DrawSymbols()
         {
             if (editionSymbolItem != null)
@@ -279,17 +261,17 @@ namespace NauticalChartsViewer
 
                 S52Object symbolObject = new S52Object();
                 symbolObject.ObjectType = symbolTypeObjectTypeMappings[selectedSymbolType];
-                symbolObject.Height = editionSymbolItem.BoundingBox.Height;
-                symbolObject.Width = editionSymbolItem.BoundingBox.Width;
-                symbolObject.PivotVertex = new ThinkGeo.MapSuite.Vertex(editionSymbolItem.Pivot.X, editionSymbolItem.Pivot.Y);
-                symbolObject.UpperLeftVertex = new ThinkGeo.MapSuite.Vertex(editionSymbolItem.UpperLeft.X, editionSymbolItem.UpperLeft.Y);
+                symbolObject.Height = (int)editionSymbolItem.BoundingBox.Height;
+                symbolObject.Width = (int)editionSymbolItem.BoundingBox.Width;
+                symbolObject.PivotVertex = new ThinkGeo.MapSuite.Vertex((int)editionSymbolItem.Pivot.X, (int)editionSymbolItem.Pivot.Y);
+                symbolObject.UpperLeftVertex = new ThinkGeo.MapSuite.Vertex((int)editionSymbolItem.UpperLeft.X, (int)editionSymbolItem.UpperLeft.Y);
                 symbolObject.Shapes = vectorCommandField.GetDrawingShapes(detailedcolorRef);
 
                 using (S52ObjectsPresenter s52ObjectsPrinter = new S52ObjectsPresenter(imageWidth, imageHeight))
                 {
                     s52ObjectsPrinter.Clear(backgroundColor);
                     s52ObjectsPrinter.Draw(symbolObject, backgroundColor);
-                    SymbolBitmapImage = ChangeBitmapToImageSource(s52ObjectsPrinter.GetBitmap());
+                    SymbolBitmapImage = s52ObjectsPrinter.GetBitmap();
                 }
             }
         }

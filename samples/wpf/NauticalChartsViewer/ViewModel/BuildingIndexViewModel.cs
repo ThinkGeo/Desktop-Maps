@@ -1,7 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.CommandWpf;
-using GalaSoft.MvvmLight.Messaging;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
@@ -60,7 +57,7 @@ namespace NauticalChartsViewer
                     fileName = value;
                     string fileNameWithoutEx = Path.GetFileNameWithoutExtension(fileName);
                     IndexFileName = Path.Combine(Path.GetDirectoryName(fileName), string.Format("{0}.idx", fileNameWithoutEx));
-                    RaisePropertyChanged("FileName");
+                    OnPropertyChanged("FileName");
                 }
             }
         }
@@ -73,7 +70,7 @@ namespace NauticalChartsViewer
                 if (indexFileName != value)
                 {
                     indexFileName = value;
-                    RaisePropertyChanged("IndexFileName");
+                    OnPropertyChanged("IndexFileName");
                 }
             }
         }
@@ -86,7 +83,7 @@ namespace NauticalChartsViewer
                 if (isProgressBarVisible != value)
                 {
                     isProgressBarVisible = value;
-                    RaisePropertyChanged("IsProgressBarVisible");
+                    OnPropertyChanged("IsProgressBarVisible");
                 }
             }
         }
@@ -99,7 +96,7 @@ namespace NauticalChartsViewer
                 if (progressPercentage != value)
                 {
                     progressPercentage = value;
-                    RaisePropertyChanged("ProgressPercentage");
+                    OnPropertyChanged("ProgressPercentage");
                 }
             }
         }
@@ -112,7 +109,7 @@ namespace NauticalChartsViewer
                 if (rebuild != value)
                 {
                     rebuild = value;
-                    RaisePropertyChanged(() => Rebuild);
+                    OnPropertyChanged(nameof(Rebuild));
                 }
             }
         }
@@ -154,7 +151,7 @@ namespace NauticalChartsViewer
 
         private void HandCancelCommand()
         {
-            Messenger.Default.Send<WindowStateMessage>(new WindowStateMessage(S57WindowState.Close), "BuildIndexWindow");
+            Messenger.Default.Send(new WindowStateMessage(S57WindowState.Close), "BuildIndexWindow");
         }
 
         private void worker_DoWork(object sender, DoWorkEventArgs e)
@@ -187,7 +184,7 @@ namespace NauticalChartsViewer
                 if (ExistsIndexFile(IndexFileName))
                 {
                     MessageBox.Show("Index building compeleted", string.Empty, MessageBoxButton.OK, MessageBoxImage.Information);
-                    Messenger.Default.Send<WindowStateMessage>(new WindowStateMessage(S57WindowState.Close), "BuildIndexWindow");
+                    Messenger.Default.Send(new WindowStateMessage(S57WindowState.Close), "BuildIndexWindow");
                 }
                 else
                 {

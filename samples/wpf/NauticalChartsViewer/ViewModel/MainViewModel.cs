@@ -3,18 +3,12 @@
    a Client ID and Secret. These were sent to you via email when you signed up
    with ThinkGeo, or you can register now at https://cloud.thinkgeo.com.
 ===========================================*/
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.CommandWpf;
-using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.ComponentModel.Composition;
-using System.ComponentModel.Composition.Hosting;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
 using ThinkGeo.Core;
@@ -40,7 +34,6 @@ namespace NauticalChartsViewer
         private MapView map;
         private Collection<object> menuItems;
 
-        [ImportMany(typeof(MenuItemMessageHandler), AllowRecomposition = false)]
         private Collection<MenuItemMessageHandler> messageHandlers;
 
         private ICommand clearSelectionCommand;
@@ -76,8 +69,8 @@ namespace NauticalChartsViewer
             LoadMessageHandlers();
             SetToolbarMenuItems();
 
-            Messenger.Default.Register<ChartMessage>(this, (m) => ChartSelectedItem = new ChartSelectedItem(string.Empty, null));
-            Messenger.Default.Register<MenuItemMessage>(this, "ShowOpacityPanel", (m) => ShowOpacityPanel = true);
+            Messenger.Default.Register<ChartMessage>(this, m => ChartSelectedItem = new ChartSelectedItem(string.Empty, null));
+            Messenger.Default.Register<MenuItemMessage>(this, "ShowOpacityPanel", m => ShowOpacityPanel = true);
             Messenger.Default.Register<MenuItemMessage>(this, HandleMenuItemMessage);
             Messenger.Default.Register<ToolBarMessage>(this, HandleToolBarMessage);
             Messenger.Default.Register<ChartMessage>(this, "LoadCharts", HandleLoadChartMessage);
@@ -86,7 +79,7 @@ namespace NauticalChartsViewer
             Messenger.Default.Register<SafeWaterDepthSettingMessage>(this, HandleSafeWaterDepthMessage);
 
             map.MapUnit = GeographyUnit.Meter;
-            map.ZoomLevelSet = new ThinkGeoCloudMapsZoomLevelSet();
+            map.ZoomScales = new ThinkGeoCloudMapsZoomLevelSet().GetScales();
 
             // Please input your ThinkGeo Cloud Client ID / Client Secret to enable the background map. 
             //ThinkGeoCloudRasterMapsOverlay baseOverlay = new ThinkGeoCloudRasterMapsOverlay("ThinkGeo Cloud Client ID", "ThinkGeo Cloud Client Secret");
@@ -113,7 +106,7 @@ namespace NauticalChartsViewer
                 if (chartSelectedItem != value)
                 {
                     chartSelectedItem = value;
-                    RaisePropertyChanged(() => ChartSelectedItem);
+                    OnPropertyChanged(nameof(ChartSelectedItem));
                 }
             }
         }
@@ -149,7 +142,7 @@ namespace NauticalChartsViewer
             set
             {
                 isOnLoading = value;
-                RaisePropertyChanged(() => IsOnLoading);
+                OnPropertyChanged(nameof(IsOnLoading));
             }
         }
 
@@ -172,7 +165,7 @@ namespace NauticalChartsViewer
                 {
                     overlayOpacity = value;
                     ApplyOverlayOpacity();
-                    RaisePropertyChanged(() => OverlayOpacity);
+                    OnPropertyChanged(nameof(OverlayOpacity));
                 }
             }
         }
@@ -194,7 +187,7 @@ namespace NauticalChartsViewer
                     {
                         value.SelectedCommand.Execute(null);
                     }
-                    RaisePropertyChanged(() => SelectedAreaDrawingMode);
+                    OnPropertyChanged(nameof(SelectedAreaDrawingMode));
                 }
             }
         }
@@ -209,7 +202,7 @@ namespace NauticalChartsViewer
                 {
                     value.SelectedCommand.Execute(null);
                 }
-                RaisePropertyChanged(() => SelectedBaseMap);
+                OnPropertyChanged(nameof(SelectedBaseMap));
             }
         }
 
@@ -225,7 +218,7 @@ namespace NauticalChartsViewer
                     {
                         value.SelectedCommand.Execute(null);
                     }
-                    RaisePropertyChanged(() => SelectedColorSchema);
+                    OnPropertyChanged(nameof(SelectedColorSchema));
                 }
             }
         }
@@ -242,7 +235,7 @@ namespace NauticalChartsViewer
                     {
                         value.SelectedCommand.Execute(null);
                     }
-                    RaisePropertyChanged(() => SelectedDisplayCategory);
+                    OnPropertyChanged(nameof(SelectedDisplayCategory));
                 }
             }
         }
@@ -256,7 +249,7 @@ namespace NauticalChartsViewer
                 {
                     selectedFeatureInfo = value;
                     HandleFeatureSelectedChanged(value);
-                    RaisePropertyChanged(() => SelectedFeatureInfo);
+                    OnPropertyChanged(nameof(SelectedFeatureInfo));
                 }
             }
         }
@@ -273,7 +266,7 @@ namespace NauticalChartsViewer
                     {
                         value.SelectedCommand.Execute(null);
                     }
-                    RaisePropertyChanged(() => SelectedPointDrawingMode);
+                    OnPropertyChanged(nameof(SelectedPointDrawingMode));
                 }
             }
         }
@@ -290,7 +283,7 @@ namespace NauticalChartsViewer
                     {
                         value.SelectedCommand.Execute(null);
                     }
-                    RaisePropertyChanged(() => SelectedSymbolLabel);
+                    OnPropertyChanged(nameof(SelectedSymbolLabel));
                 }
             }
         }
@@ -309,7 +302,7 @@ namespace NauticalChartsViewer
                 if (showingGradicule != value)
                 {
                     showingGradicule = value;
-                    RaisePropertyChanged(() => ShowingGradicule);
+                    OnPropertyChanged(nameof(ShowingGradicule));
                 }
             }
         }
@@ -334,7 +327,7 @@ namespace NauticalChartsViewer
                 if (showOpacityPanel != value)
                 {
                     showOpacityPanel = value;
-                    RaisePropertyChanged(() => ShowOpacityPanel);
+                    OnPropertyChanged(nameof(ShowOpacityPanel));
                 }
             }
         }
@@ -358,7 +351,6 @@ namespace NauticalChartsViewer
         public override void Cleanup()
         {
             map.MapClick -= WpfMap_MapClick;
-            Messenger.Default.Unregister(this);
             base.Cleanup();
         }
 
@@ -367,7 +359,7 @@ namespace NauticalChartsViewer
             if (map.Overlays.Contains(chartsOverlayName))
             {
                 LayerOverlay overlay = ((LayerOverlay)map.Overlays[chartsOverlayName]);
-                overlay.OverlayCanvas.Opacity = OverlayOpacity;
+                overlay.Opacity = OverlayOpacity;
                 await map.RefreshAsync(overlay);
             }
         }
@@ -621,7 +613,7 @@ namespace NauticalChartsViewer
         private void HandleToolBarCommand(string action)
         {
             var message = new ToolBarMessage(action);
-            Messenger.Default.Send<ToolBarMessage>(message);
+            Messenger.Default.Send(message);
         }
 
         private void HandleToolBarMessage(ToolBarMessage message)
@@ -726,9 +718,31 @@ namespace NauticalChartsViewer
 
         private void LoadMessageHandlers()
         {
-            var catalog = new AssemblyCatalog(Assembly.GetExecutingAssembly());
-            var container = new CompositionContainer(catalog);
-            container.ComposeParts(this);
+            // Explicit registry of the toolbar/menu command handlers. To add a command, create a
+            // MenuItemMessageHandler subclass, add it here, and add its <menuItem action="..."> to
+            // Resource/Menus.xml. (Previously these were discovered via MEF; a plain list is simpler
+            // and compile-checked for a single-assembly sample.)
+            messageHandlers = new Collection<MenuItemMessageHandler>
+            {
+                new AreaDrawingModeMenuItemMessageHandler(),
+                new ChartManagmentMenuItemMessageHandler(),
+                new ColorSchemaMenuItemMessageHandler(),
+                new DisplayCategoryMenuItemMessageHandler(),
+                new ExitMenuItemMessageHandler(),
+                new GraticleMenuItemMessageHandler(),
+                new HomePageMenuItemMessageHandler(),
+                new IndexBuildingMenuItemMessageHandler(),
+                new LightsMenuItemMessageHandler(),
+                new MetaObjectsMenuItemMessageHandler(),
+                new OpacityMenuItemMessageHandler(),
+                new PerformanceModeMenuItemMessageHandler(),
+                new PointDrawingModeMenuItemMessageHandler(),
+                new SafeWaterDepthMenuItemMessageHandler(),
+                new SymbolsCreatingMenuItemMessageHandler(),
+                new SymbolsEditionMenuItemMessageHandler(),
+                new TextVisibilibyMenuItemMessageHandler(),
+                new WorldMapShowingMenuItemMessageHandler(),
+            };
         }
 
         private void MenuItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
