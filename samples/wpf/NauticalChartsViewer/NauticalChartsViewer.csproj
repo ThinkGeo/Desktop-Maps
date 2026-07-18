@@ -51,8 +51,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.142" />
-    <PackageReference Include="ThinkGeo.UI.Wpf" Version="15.0.0-beta107" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="15.0.0-beta107" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="15.0.0-beta108" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="15.0.0-beta108" />
   </ItemGroup>
 
   <ItemGroup>

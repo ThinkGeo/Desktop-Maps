@@ -336,6 +336,7 @@
                                 <Rectangle Width="2" Margin="0,0,3,0" Fill="#FFF7A5A5" />
 
                                 <StackPanel Grid.Column="1">
+                                    <TextBlock TextWrapping="WrapWithOverflow" FontWeight="Bold" Text="{Binding ObjectClass, Mode=OneWay}" />
                                     <TextBlock TextWrapping="WrapWithOverflow">
                                     <Run Text="Id:" />
                                     <Run Text="{Binding Id, Mode=OneWay}" />

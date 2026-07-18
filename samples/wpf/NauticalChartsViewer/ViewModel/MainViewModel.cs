@@ -929,7 +929,8 @@ namespace NauticalChartsViewer
                         {
                             area = areaShape.GetArea(map.MapUnit, AreaUnit.SquareMeters);
                         }
-                        selectedFeatures.Add(new FeatureInfo(item, hydrographyFeatureLayer.Name, area));
+                        NauticalChartsFeatureDescription description = hydrographyFeatureLayer.GetFeatureDescription(item);
+                        selectedFeatures.Add(new FeatureInfo(item, description, hydrographyFeatureLayer.Name, area));
                     }
 
                     if (map.Overlays.Contains(highlightOverlayName))
