@@ -26,6 +26,11 @@
     { "type": "fill",
       "source-layer": "route_lane",
       "filter": ["==", ["get", "level"], "0"],
+      "paint": { "fill-color": "#23282e" } },
+
+    { "type": "fill",
+      "source-layer": "route_lane",
+      "filter": ["==", ["get", "level"], "0"],
       "paint": {
           "fill-color": "#3b74ff",
           "fill-opacity": 0.22 }
@@ -110,6 +115,11 @@
     { "type": "fill",
       "source-layer": "route_lane",
       "filter": ["==", ["get", "level"], "1"],
+      "paint": { "fill-color": "#23282e" } },
+
+    { "type": "fill",
+      "source-layer": "route_lane",
+      "filter": ["==", ["get", "level"], "1"],
       "paint": {
           "fill-color": "#3b74ff",
           "fill-opacity": 0.22 }
@@ -188,6 +198,11 @@
 
     { "type": "fill",
       "source-layer": "lane",
+      "filter": ["==", ["get", "level"], "2"],
+      "paint": { "fill-color": "#23282e" } },
+
+    { "type": "fill",
+      "source-layer": "route_lane",
       "filter": ["==", ["get", "level"], "2"],
       "paint": { "fill-color": "#23282e" } },
 
@@ -270,15 +285,6 @@
       "paint": {
           "fill-color": "#e6ebf0",
           "fill-opacity": 0.16 }
-    },
-
-    { "type": "line",
-      "source-layer": "route",
-      "layout": { "line-cap": "round", "line-join": "round" },
-      "paint": {
-          "line-color": "#3f7dff",
-          "line-opacity": 0.9,
-          "line-width": ["interpolate", ["exponential", 2], ["zoom"], 14, 0.5, 18, 4, 19, 7, 20, 14, 21, 24] }
     }
   ]
 }</sys:String>

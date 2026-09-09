@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -36,11 +38,24 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private const int RouteSamples = 360;
         private static readonly TimeSpan MorphDuration = TimeSpan.FromMilliseconds(900);
         private static readonly TimeSpan FlightDuration = TimeSpan.FromSeconds(45);
+        // The opening: the globe stands still for a moment, turns slowly westward under the
+        // route, then flattens into Web Mercator - where the seam this sample is about is.
+        private static readonly TimeSpan IntroHold = TimeSpan.FromMilliseconds(900);
+        private static readonly TimeSpan IntroTurn = TimeSpan.FromSeconds(7);
+        private const double IntroTurnDegrees = 34.0;
 
         private static readonly Airport Origin = new Airport("LAX", "Los Angeles", -118.408, 33.942);
         private static readonly Airport Destination = new Airport("PVG", "Shanghai Pudong", 121.805, 31.143);
 
-        private readonly ThinkGeoVectorTileSource _cloud = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey);
+        // A tile source built in code has no cache unless it is given one, so every run would fetch every
+        // tile it shows again - one HTTPS round trip each, and a world view wants dozens of them. Measured
+        // here: 122-192 ms per tile without this, 27 ms cold and 8 ms warm with it.
+        private readonly ThinkGeoVectorTileSource _cloud = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey)
+        {
+            VectorTileCache = new FileTileCache(Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "ThinkGeo", "HowDoI", "dateline-tiles")),
+        };
 
         // The route and the corridor's edges, in Web Mercator meters with the
         // western half past the world's west edge (x < -20037508). The tile cut
@@ -49,7 +64,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         private readonly InMemoryGeometrySource _airports = new InMemoryGeometrySource();
         private readonly InMemoryGeometrySource _aircraft = new InMemoryGeometrySource();
-        private readonly DispatcherTimer _clock = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(40) };
         private readonly DispatcherTimer _applyTimer;
 
         // The route, sampled evenly along the arc. Longitudes are continuous from the
@@ -58,16 +72,20 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private (double Lon, double Lat)[] _route;
         private double _routeLengthMeters;
         private double _flownMeters;
-        private DateTime _flightStart;
+        private readonly Stopwatch _flightClock = new Stopwatch();
         private double _flightStartMeters;
+        private TimeSpan _lastRenderingTime = TimeSpan.MinValue;
+        private double _hudShownAtSeconds;
+        private bool _ticking;
         private bool _flying;
         private bool _initialized;
         private string _projection = "globe";
+        private CancellationTokenSource _intro;
+        private bool _introSwitching;
 
         public CrossTheDateline()
         {
             InitializeComponent();
-            _clock.Tick += (_, _) => Advance();
             _route = GreatCircle(Origin, Destination, RouteSamples, out _routeLengthMeters);
             ShowFlight();
 
@@ -93,6 +111,73 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             FrameRoute();
             await Map.RefreshAsync();
             ShowSeam();
+
+            // Anything the user does - a button, a drag, the wheel - is more interesting
+            // than the opening, so it ends the moment one of them arrives.
+            Map.PreviewMouseDown += CancelIntro;
+            Map.PreviewMouseWheel += CancelIntro;
+            await PlayIntroAsync();
+        }
+
+        // ------------------------------------------------------------------ intro ----
+
+        /// <summary>
+        /// The opening move, made of the two animations this sample already has: the globe
+        /// turning (a camera move in pure longitude, so the sphere keeps its size) and the
+        /// switch to Web Mercator, which is exactly what the projection buttons do. Runs
+        /// once on load; public so it can be watched again.
+        /// </summary>
+        public async Task PlayIntroAsync()
+        {
+            _intro = new CancellationTokenSource();
+            var cancel = _intro.Token;
+            try
+            {
+                // The turn ENDS on the route's own framing, so what the flattening leaves on screen is
+                // the view this sample opens with - the seam down the middle, both airports in frame.
+                // It therefore starts that far east of it, which is where the opening hold sits.
+                var middle = _route[_route.Length / 2];
+                var (cx, cy) = Meters(middle.Lon, middle.Lat);
+                var destination = new PointShape(cx, cy);
+                var turn = IntroTurnDegrees / 180.0 * HalfWorld;
+                var width = Map.CurrentExtent.Width;
+                var height = Map.CurrentExtent.Height;
+                Map.CurrentExtent = new RectangleShape(
+                    cx + turn - (width / 2), cy + (height / 2), cx + turn + (width / 2), cy - (height / 2));
+                await Map.RefreshAsync();
+
+                await Task.Delay(IntroHold, cancel);
+
+                // No easing: a planet turns at one speed.
+                await Map.ZoomToAsync(destination, Map.CurrentScale, 0,
+                    new MapAnimationSettings { Duration = (uint)IntroTurn.TotalMilliseconds, Type = MapAnimationType.DrawWithAnimation });
+                if (cancel.IsCancellationRequested)
+                {
+                    return;
+                }
+
+                _introSwitching = true;
+                ProjMercator.IsChecked = true;   // the same path the button takes
+            }
+            catch (OperationCanceledException)
+            {
+            }
+            finally
+            {
+                _introSwitching = false;
+            }
+        }
+
+        private void CancelIntro(object sender, RoutedEventArgs e) => CancelIntro();
+
+        private void CancelIntro()
+        {
+            if (_introSwitching)
+            {
+                return;
+            }
+
+            _intro?.Cancel();
         }
 
         /// <summary>
@@ -145,6 +230,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 return;
             }
 
+            CancelIntro();
+
             _projection = definition;
             var target = definition == "globe"
                 ? ThinkGeo.Gpu.DisplayProjection.Globe
@@ -182,9 +269,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         private void Fly_Click(object sender, RoutedEventArgs e)
         {
+            CancelIntro();
+
             if (_flying)
             {
-                _clock.Stop();
+                StopTicking();
                 _flying = false;
                 FlyButton.Content = "Fly";
                 return;
@@ -195,16 +284,51 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 _flownMeters = 0;
             }
 
-            _flightStart = DateTime.UtcNow;
             _flightStartMeters = _flownMeters;
+            _flightClock.Restart();
+            _hudShownAtSeconds = 0;
             _flying = true;
             FlyButton.Content = "Pause";
-            _clock.Start();
+            StartTicking();
+        }
+
+        /// <summary>
+        /// The flight advances once per composed frame, on the frame the compositor is about to present.
+        /// A DispatcherTimer cannot do this: it runs at Background priority, behind the GL frame that shares
+        /// this thread, so a 40 ms timer asking for 25 steps a second delivered under 10 of them, unevenly -
+        /// which is what made the aircraft judder. Subscribing keeps the render loop running, so the
+        /// subscription lives exactly as long as the flight does.
+        /// </summary>
+        private void StartTicking()
+        {
+            if (_ticking) return;
+            _ticking = true;
+            CompositionTarget.Rendering += Clock_Rendering;
+        }
+
+        private void StopTicking()
+        {
+            if (!_ticking) return;
+            _ticking = false;
+            CompositionTarget.Rendering -= Clock_Rendering;
+        }
+
+        private void Clock_Rendering(object sender, EventArgs e)
+        {
+            // Several handlers can be called for one composition; the rendering time tells them apart.
+            if (e is RenderingEventArgs rendering)
+            {
+                if (rendering.RenderingTime == _lastRenderingTime) return;
+                _lastRenderingTime = rendering.RenderingTime;
+            }
+
+            Advance();
         }
 
         private async void Reset_Click(object sender, RoutedEventArgs e)
         {
-            _clock.Stop();
+            StopTicking();
+            _flightClock.Reset();
             _flying = false;
             FlyButton.Content = "Fly";
             _flownMeters = 0;
@@ -219,15 +343,23 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         private void Advance()
         {
-            var elapsed = (DateTime.UtcNow - _flightStart).TotalSeconds / FlightDuration.TotalSeconds;
-            _flownMeters = Math.Min(_routeLengthMeters, _flightStartMeters + elapsed * _routeLengthMeters);
+            var seconds = _flightClock.Elapsed.TotalSeconds;
+            _flownMeters = Math.Min(_routeLengthMeters, _flightStartMeters + seconds / FlightDuration.TotalSeconds * _routeLengthMeters);
             ShowAircraft(_flownMeters);
-            ShowFlight();
+
+            // The readout has to keep up with the eye, not with the frame.
+            if (seconds - _hudShownAtSeconds >= 0.1)
+            {
+                _hudShownAtSeconds = seconds;
+                ShowFlight();
+            }
+
             if (_flownMeters >= _routeLengthMeters)
             {
-                _clock.Stop();
+                StopTicking();
                 _flying = false;
                 FlyButton.Content = "Fly";
+                ShowFlight();
             }
         }
 
@@ -451,7 +583,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         public void Dispose()
         {
-            _clock.Stop();
+            StopTicking();
             Map.Dispose();
         }
     }
