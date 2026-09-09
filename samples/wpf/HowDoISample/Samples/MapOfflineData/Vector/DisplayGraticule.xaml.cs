@@ -38,24 +38,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
             Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 
-            // Create a new overlay that will hold our new layer and add it to the map.
-            var layerOverlay = new FeatureLayerWpfDrawingOverlay();
-            Map.Overlays.Add(layerOverlay);
-
-            // Create the new layer and set the projection as the data is in srid 4326 and our background is srid 3857 (spherical mercator).
-            var graticuleFeatureLayer = new GraticuleFeatureLayer
+            // Create the new layer. It generates its lines in srid 4326, so set the projection our background is in, srid 3857 (spherical mercator).
+            var graticuleLayer = new GraticuleAdornmentLayer
             {
-                
-                FeatureSource =
-                {
-                    ProjectionConverter = new ProjectionConverter(4326, 3857)
-                }
+                Projection = new Projection(3857)
             };
             // We set the pen color to the graticule layer.
-            graticuleFeatureLayer.GraticuleLineStyle.OuterPen.Color = GeoColor.FromArgb(125, GeoColors.Navy);
+            graticuleLayer.GraticuleLineStyle.OuterPen.Color = GeoColor.FromArgb(125, GeoColors.Navy);
 
-            // Add the layer to the overlay we created earlier.
-            layerOverlay.FeatureLayers.Add("graticule", graticuleFeatureLayer);
+            // Add the layer to the map's adornment overlay, so its labels stay pinned to the edges of the map while panning.
+            Map.AdornmentOverlay.Layers.Add("graticule", graticuleLayer);
 
             // Set the current extent of the map to start in Frisco TX
             Map.CenterPoint = new PointShape(-10777200, 3911500);

@@ -72,8 +72,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private static void AddHeatStyle(FeatureLayer layer)
         {
-            // Create the heat style
-            var heatStyle = new HeatStyle(20, 1, DistanceUnit.Kilometer);
+            // Create the heat style, spreading each point's heat over one kilometer on the ground
+            var heatStyle = new HeatStyle(20)
+            {
+                PointRadius = 1,
+                PointRadiusUnit = DistanceUnit.Kilometer
+            };
 
             // Add the point style to the collection of custom styles for ZoomLevel 1.
             layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(heatStyle);
