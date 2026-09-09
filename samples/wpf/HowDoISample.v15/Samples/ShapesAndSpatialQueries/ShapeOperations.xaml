@@ -1,0 +1,57 @@
+<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.Samples.ShapeOperations"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="250"/>
+        </Grid.ColumnDefinitions>
+
+        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" Loaded="Map_Loaded"/>
+
+        <StackPanel Grid.Column="1" Background="DimGray" Margin="10">
+            <TextBlock Text="Operation" FontSize="16" FontWeight="Bold" Foreground="WhiteSmoke" Margin="0,0,0,6"/>
+
+            <RadioButton x:Name="OpBuffer" Content="Buffer" IsChecked="True" Checked="Operation_Checked"/>
+            <RadioButton x:Name="OpSimplify" Content="Simplify" Checked="Operation_Checked"/>
+            <RadioButton x:Name="OpRotate" Content="Rotate" Checked="Operation_Checked"/>
+            <RadioButton x:Name="OpScale" Content="Scale" Checked="Operation_Checked"/>
+            <RadioButton x:Name="OpTranslate" Content="Translate" Checked="Operation_Checked"/>
+            <RadioButton x:Name="OpConvexHull" Content="Convex hull" Checked="Operation_Checked"/>
+            <RadioButton x:Name="OpEnvelope" Content="Envelope" Checked="Operation_Checked"/>
+            <RadioButton x:Name="OpIntersection" Content="Intersection with the blue area" Checked="Operation_Checked"/>
+            <RadioButton x:Name="OpDifference" Content="Difference from the blue area" Checked="Operation_Checked"/>
+
+            <!-- Last, because it is the only one that reads more than one shape. -->
+            <RadioButton x:Name="OpUnion" Content="Union of all the pieces" Checked="Operation_Checked"/>
+
+            <StackPanel x:Name="UnionPanel" Margin="0,14,0,0" Visibility="Collapsed">
+                <TextBlock x:Name="UnionCount" Foreground="WhiteSmoke" TextWrapping="Wrap"/>
+                <Button x:Name="MergeOne" Content="Merge them into one" Height="24" Margin="0,6,0,0" Click="MergeOne_Click"/>
+                <Button x:Name="MergeReset" Content="Separate them again" Height="24" Margin="0,4,0,0" Click="MergeReset_Click"/>
+            </StackPanel>
+
+            <StackPanel x:Name="ParameterPanel" Margin="0,14,0,0" Visibility="Collapsed">
+                <TextBlock x:Name="ParameterLabel" Foreground="WhiteSmoke"/>
+                <TextBox x:Name="ParameterBox" Height="22" TextChanged="Parameter_TextChanged"/>
+                <TextBlock x:Name="SecondParameterLabel" Foreground="WhiteSmoke" Margin="0,6,0,0" Visibility="Collapsed"/>
+                <TextBox x:Name="SecondParameterBox" Height="22" TextChanged="Parameter_TextChanged" Visibility="Collapsed"/>
+                <CheckBox x:Name="Animate" Content="Animate it" Foreground="WhiteSmoke" Margin="0,10,0,0"
+                          IsChecked="True"
+                          ToolTip="Sweeps the number above and runs the operation again on every frame."
+                          Checked="Animate_Changed" Unchecked="Animate_Changed"/>
+            </StackPanel>
+
+            <TextBlock Foreground="#DDDDDD" TextWrapping="Wrap" FontSize="11" Margin="0,16,0,0"
+                       Text="Orange is what the operation reads; green is what it returned. Only the shapes an operation actually uses are drawn, so most of these show one piece of Frisco's city limits and nothing else."/>
+
+            <TextBlock Foreground="#DDDDDD" TextWrapping="Wrap" FontSize="11" Margin="0,10,0,0"
+                       Text="Both go straight to the GPU as geometry rather than being cut into tiles, which is what lets the result be rebuilt thirty times a second while you watch."/>
+        </StackPanel>
+    </Grid>
+</UserControl>

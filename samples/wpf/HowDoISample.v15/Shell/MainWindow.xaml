@@ -1,0 +1,137 @@
+﻿<Window x:Class="ThinkGeo.UI.Wpf.HowDoI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
+        Title="GpuBasemap HowDoI — classic MapView API on the GPU renderer"
+        Width="1560" Height="880" Background="#EDEFF2">
+
+    <!--
+        Three panes and a header. Each pane collapses on its own - the menu
+        because 165 samples do not need to be on screen while you read one, the
+        code because a map sample is worth more full-width than beside its own
+        source. The classic shell could do both and this port could do neither.
+    -->
+    <DockPanel>
+
+        <Border DockPanel.Dock="Top" Background="{StaticResource Shell.Header}" Height="58">
+            <DockPanel Margin="10,0" LastChildFill="True">
+
+                <ToggleButton x:Name="MenuToggle" DockPanel.Dock="Left"
+                              Style="{StaticResource Shell.ChromeToggle}"
+                              Content="Samples" IsChecked="True"
+                              VerticalAlignment="Center"
+                              ToolTip="Show or hide the sample menu (Ctrl+F to search it)"
+                              Checked="ChromeToggle_Changed" Unchecked="ChromeToggle_Changed" />
+
+                <ToggleButton x:Name="CodeToggle" DockPanel.Dock="Right"
+                              Style="{StaticResource Shell.ChromeToggle}"
+                              Content="Code" IsChecked="True"
+                              Margin="8,0,0,0" VerticalAlignment="Center"
+                              ToolTip="Show or hide the source pane"
+                              Checked="ChromeToggle_Changed" Unchecked="ChromeToggle_Changed" />
+
+                <!-- The API a developer would search for, next to the sample that
+                     demonstrates it: the catalog knows it, and until now only the
+                     home page ever said it. -->
+                <Border x:Name="KeyApiChip" DockPanel.Dock="Right"
+                        Background="#33383E" BorderBrush="{StaticResource Shell.Divider}" BorderThickness="1"
+                        CornerRadius="3" Padding="8,3" VerticalAlignment="Center">
+                    <TextBlock x:Name="KeyApiText" Foreground="{StaticResource Shell.Accent}"
+                               FontFamily="Consolas" FontSize="11.5" />
+                </Border>
+
+                <StackPanel Margin="16,0,16,0" VerticalAlignment="Center">
+                    <TextBlock x:Name="SampleTitle" Foreground="#FFFFFF" FontSize="15" FontWeight="SemiBold"
+                               TextTrimming="CharacterEllipsis" />
+                    <TextBlock x:Name="SampleFocus" Foreground="{StaticResource Shell.TextDim}" FontSize="11.5"
+                               Margin="0,2,0,0" TextTrimming="CharacterEllipsis" />
+                </StackPanel>
+
+            </DockPanel>
+        </Border>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="SidebarColumn" Width="260" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition x:Name="CodeColumn" Width="470" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" MinWidth="320" />
+            </Grid.ColumnDefinitions>
+
+            <Border x:Name="Sidebar" Grid.Column="0" Background="{StaticResource Shell.Sidebar}">
+                <DockPanel LastChildFill="True">
+
+                    <!-- Type-to-filter over title, focus, key API and group. The classic
+                         shell searched title and description only, on Enter; searching the
+                         API name is what a developer actually reaches for. -->
+                    <Grid DockPanel.Dock="Top" Margin="10,10,10,6">
+                        <TextBox x:Name="SearchBox" Style="{StaticResource Shell.SearchBox}"
+                                 TextChanged="SearchBox_TextChanged" />
+                        <TextBlock x:Name="SearchHint" Text="Filter by name, focus or API"
+                                   Foreground="{StaticResource Shell.TextDim}" FontSize="12"
+                                   Margin="9,0,0,0" VerticalAlignment="Center" IsHitTestVisible="False" />
+                    </Grid>
+                    <TextBlock x:Name="SearchStatus" DockPanel.Dock="Top" Margin="11,0,10,6"
+                               FontSize="11" Foreground="{StaticResource Shell.TextDim}" Visibility="Collapsed" />
+
+                    <!-- Grouped by the classic HowDoI folder the sample came from, so the
+                         menu reads the same as the sample tree on disk, and every group
+                         folds away. Still one ListBox, so SelectedIndex still means the
+                         nth sample in the catalog - which is what the scripted checks
+                         drive the gallery with. -->
+                    <ListBox x:Name="SampleList" SelectionChanged="SampleList_SelectionChanged"
+                             Background="Transparent" BorderThickness="0"
+                             ItemTemplate="{StaticResource Shell.SampleRow}"
+                             ItemContainerStyle="{StaticResource Shell.SampleItem}"
+                             HorizontalContentAlignment="Stretch"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <ListBox.Resources>
+                            <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource Shell.ScrollBar}" />
+                        </ListBox.Resources>
+                        <ListBox.GroupStyle>
+                            <GroupStyle ContainerStyle="{StaticResource Shell.GroupContainer}" />
+                        </ListBox.GroupStyle>
+                    </ListBox>
+
+                </DockPanel>
+            </Border>
+
+            <GridSplitter x:Name="SidebarSplitter" Grid.Column="1" Style="{StaticResource Shell.Splitter}" />
+
+            <!-- The sample's complete source, straight from the embedded file the build
+                 carried: what the pane shows IS what runs. -->
+            <Border x:Name="CodePane" Grid.Column="2" Background="{StaticResource Shell.Code.Background}">
+                <DockPanel LastChildFill="True">
+                    <Border DockPanel.Dock="Top" Background="{StaticResource Shell.Code.Bar}"
+                            BorderBrush="{StaticResource Shell.Code.Border}" BorderThickness="0,0,0,1">
+                        <DockPanel Margin="8,6" LastChildFill="False">
+                            <RadioButton x:Name="CsTab" DockPanel.Dock="Left" GroupName="CodeTab"
+                                         Style="{StaticResource Shell.CodeTab}" Content="C#"
+                                         IsChecked="True" Checked="CodeTab_Checked" />
+                            <RadioButton x:Name="XamlTab" DockPanel.Dock="Left" GroupName="CodeTab"
+                                         Style="{StaticResource Shell.CodeTab}" Content="XAML"
+                                         Checked="CodeTab_Checked" />
+                            <TextBlock x:Name="CodeTitle" DockPanel.Dock="Right"
+                                       Foreground="{StaticResource Shell.Code.Text}" FontSize="11.5"
+                                       VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                        </DockPanel>
+                    </Border>
+                    <avalonedit:TextEditor x:Name="CodeView"
+                                           IsReadOnly="True" ShowLineNumbers="True" WordWrap="False"
+                                           FontFamily="Consolas" FontSize="12"
+                                           Background="{StaticResource Shell.Code.Background}"
+                                           Foreground="#D4D4D4" LineNumbersForeground="#6E7681"
+                                           Padding="4,6,0,6"
+                                           HorizontalScrollBarVisibility="Auto"
+                                           VerticalScrollBarVisibility="Auto" />
+                </DockPanel>
+            </Border>
+
+            <GridSplitter x:Name="CodeSplitter" Grid.Column="3" Style="{StaticResource Shell.Splitter}" />
+
+            <ContentControl x:Name="SampleHost" Grid.Column="4" />
+        </Grid>
+
+    </DockPanel>
+</Window>

@@ -1,0 +1,41 @@
+<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.HomePage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <DockPanel Margin="16,14,16,10">
+        <StackPanel DockPanel.Dock="Top">
+            <TextBlock Text="GpuBasemap HowDoI" FontSize="20" FontWeight="SemiBold"/>
+            <TextBlock x:Name="Subtitle" Foreground="#5F6368" FontSize="12" Margin="0,3,0,0"/>
+
+            <!-- The table is generated from the same catalog the menu is, so it
+                 cannot fall behind it. The document it replaced was generated on the
+                 classic side and was missing 23 of this app's samples, every
+                 GPU-only one among them. -->
+            <Grid Margin="0,12,0,6">
+                <TextBox x:Name="FilterBox" TextChanged="FilterBox_TextChanged" FontSize="13" Padding="4,3"/>
+                <TextBlock x:Name="FilterHint" Text="Filter by name, focus or API"
+                           Foreground="#9AA0A6" FontSize="13" Margin="7,4,0,0" IsHitTestVisible="False"/>
+            </Grid>
+            <TextBlock x:Name="FilterStatus" Foreground="#6B7280" FontSize="11" Margin="1,0,0,6"/>
+        </StackPanel>
+
+        <ListView x:Name="Rows" MouseDoubleClick="Rows_MouseDoubleClick" SelectionChanged="Rows_SelectionChanged"
+                  FontSize="12" BorderThickness="1" BorderBrush="#E3E5E8"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Group" Width="170" DisplayMemberBinding="{Binding Category}"/>
+                    <GridViewColumn Header="Sample" Width="220" DisplayMemberBinding="{Binding Title}"/>
+                    <GridViewColumn Header="Does what" Width="430" DisplayMemberBinding="{Binding Focus}"/>
+                    <GridViewColumn Header="Key API" Width="200" DisplayMemberBinding="{Binding KeyApi}"/>
+                    <GridViewColumn Header="GPU" Width="42">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding GpuMark}" HorizontalAlignment="Center" Foreground="#2B6CB0"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </DockPanel>
+</UserControl>

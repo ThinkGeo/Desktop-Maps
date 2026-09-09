@@ -1,0 +1,43 @@
+<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.Samples.VectorMapProviders"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="260"/>
+        </Grid.ColumnDefinitions>
+
+        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" Loaded="Map_Loaded"/>
+        <!-- The keyed providers are a page over the map: without your key most of them draw nothing. -->
+        <ContentControl x:Name="OtherProvidersPage" Grid.Column="0" Visibility="Collapsed"/>
+
+        <StackPanel Grid.Column="1" Background="DimGray" Margin="10">
+            <TextBlock Text="Provider" FontSize="16" FontWeight="Bold" Foreground="WhiteSmoke" Margin="0,0,0,6"/>
+
+            <RadioButton x:Name="ThinkGeoLight" Content="ThinkGeo Maps - Light" IsChecked="True" Checked="Provider_Checked"/>
+            <RadioButton x:Name="ThinkGeoDark" Content="ThinkGeo Maps - Dark" Checked="Provider_Checked"/>
+            <RadioButton x:Name="OpenFreeMapLiberty" Content="OpenFreeMap - Liberty" Checked="Provider_Checked"/>
+            <RadioButton x:Name="OpenFreeMapPositron" Content="OpenFreeMap - Positron" Checked="Provider_Checked"/>
+            <RadioButton x:Name="OpenFreeMapDark" Content="OpenFreeMap - Dark" Checked="Provider_Checked"/>
+            <RadioButton x:Name="OtherProviders" Content="Mapbox, Esri, TomTom and More" Checked="Provider_Checked"/>
+            <RadioButton x:Name="CustomServer" Content="Custom map server" Checked="Provider_Checked"/>
+
+            <StackPanel x:Name="CustomPanel" Visibility="Collapsed" Margin="0,10,0,0">
+                <TextBlock Text="Style document URL" Foreground="WhiteSmoke" Margin="0,0,0,4"/>
+                <TextBox x:Name="StyleUriBox" Text="https://demotiles.maplibre.org/style.json" TextWrapping="Wrap" MinHeight="48"/>
+                <Button Content="Load" Click="Load_Click" Margin="0,6,0,0"/>
+            </StackPanel>
+
+            <TextBlock x:Name="Status" Foreground="#DDDDDD" FontFamily="Consolas" FontSize="11"
+                       Margin="0,12,0,0" TextWrapping="Wrap"/>
+
+            <TextBlock Foreground="#DDDDDD" TextWrapping="Wrap" FontSize="11" Margin="0,12,0,0"
+                       Text="A vector basemap is its style document: the document names the tiles, the fonts and the sprites, and the map follows it. ThinkGeo Maps binds its keyed tile source to a published style; OpenFreeMap and any other MVT server are a style URL alone."/>
+        </StackPanel>
+    </Grid>
+</UserControl>

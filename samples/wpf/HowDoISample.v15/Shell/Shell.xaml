@@ -1,0 +1,383 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        The shell chrome, and only the shell chrome. Every key is prefixed "Shell."
+        and there is not one implicit (TargetType-only) style in here on purpose:
+        this dictionary is merged at application level, and a sample that suddenly
+        renders its own buttons in shell colors would be a port that no longer
+        matches the classic sample it came from.
+
+        The palette is the classic HowDoI's - dark frame, light sample - because
+        that is what tells the shell apart from the sample it is hosting.
+    -->
+    <SolidColorBrush x:Key="Shell.Header" Color="#26282C" />
+    <SolidColorBrush x:Key="Shell.Sidebar" Color="#2D3035" />
+    <SolidColorBrush x:Key="Shell.Sidebar.Input" Color="#23262A" />
+    <SolidColorBrush x:Key="Shell.Hover" Color="#3A3F45" />
+    <SolidColorBrush x:Key="Shell.Selected" Color="#404750" />
+    <SolidColorBrush x:Key="Shell.Divider" Color="#3B3F45" />
+    <SolidColorBrush x:Key="Shell.Accent" Color="#60B9E2" />
+    <SolidColorBrush x:Key="Shell.Text" Color="#E7E9EC" />
+    <SolidColorBrush x:Key="Shell.TextDim" Color="#9AA0A6" />
+    <SolidColorBrush x:Key="Shell.Code.Background" Color="#1E1E1E" />
+    <SolidColorBrush x:Key="Shell.Code.Bar" Color="#26282C" />
+    <SolidColorBrush x:Key="Shell.Code.Border" Color="#3B3F45" />
+    <SolidColorBrush x:Key="Shell.Code.Text" Color="#9AA0A6" />
+
+    <!-- A header button: the two pane toggles wear it. Flat until it means
+         something - hovered, or on. -->
+    <Style x:Key="Shell.ChromeToggle" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Foreground" Value="{StaticResource Shell.TextDim}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Padding" Value="11,5" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border x:Name="Bd"
+                            Background="Transparent"
+                            BorderBrush="{StaticResource Shell.Divider}"
+                            BorderThickness="1"
+                            CornerRadius="3"
+                            Padding="{TemplateBinding Padding}"
+                            SnapsToDevicePixels="True">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource Shell.Hover}" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource Shell.Selected}" />
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource Shell.Accent}" />
+                            <Setter Property="Foreground" Value="{StaticResource Shell.Accent}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- The C# / XAML tabs over the code pane. Radio buttons, not the classic's
+         pair of toggles plus a re-entrancy flag to keep them exclusive. -->
+    <Style x:Key="Shell.CodeTab" TargetType="{x:Type RadioButton}">
+        <Setter Property="Foreground" Value="#9AA0A6" />
+        <Setter Property="FontSize" Value="11.5" />
+        <Setter Property="Padding" Value="12,4" />
+        <Setter Property="Margin" Value="0,0,4,0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    <Border x:Name="Bd"
+                            Background="Transparent"
+                            BorderBrush="{StaticResource Shell.Code.Border}"
+                            BorderThickness="1"
+                            CornerRadius="3"
+                            Padding="{TemplateBinding Padding}"
+                            SnapsToDevicePixels="True">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="#3A3F45" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="#1E1E1E" />
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="#60B9E2" />
+                            <Setter Property="Foreground" Value="#60B9E2" />
+                            <Setter Property="FontWeight" Value="SemiBold" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Shell.SearchBox" TargetType="{x:Type TextBox}">
+        <Setter Property="Background" Value="{StaticResource Shell.Sidebar.Input}" />
+        <Setter Property="Foreground" Value="{StaticResource Shell.Text}" />
+        <Setter Property="CaretBrush" Value="{StaticResource Shell.Accent}" />
+        <Setter Property="BorderBrush" Value="{StaticResource Shell.Divider}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="7,4" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Border x:Name="Bd"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="3"
+                            SnapsToDevicePixels="True">
+                        <ScrollViewer x:Name="PART_ContentHost"
+                                      Margin="{TemplateBinding Padding}"
+                                      VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource Shell.Accent}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- One sample. The accent bar on the left is the selection - a filled row
+         alone is hard to find again after a group has been scrolled. -->
+    <Style x:Key="Shell.SampleItem" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="Foreground" Value="{StaticResource Shell.Text}" />
+        <Setter Property="FontSize" Value="12.5" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border x:Name="Marker" Grid.Column="0" Background="Transparent" />
+                        <Border x:Name="Bd" Grid.Column="1" Background="Transparent" Padding="16,5,8,5">
+                            <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource Shell.Hover}" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource Shell.Selected}" />
+                            <Setter TargetName="Marker" Property="Background" Value="{StaticResource Shell.Accent}" />
+                            <Setter Property="Foreground" Value="#FFFFFF" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <DataTemplate x:Key="Shell.SampleRow">
+        <DockPanel LastChildFill="True" ToolTip="{Binding Focus}">
+            <!-- SampleEntry.GpuMark: a dot on the rows that draw through the GPU
+                 renderer rather than the classic overlays. Its own tooltip, or the
+                 mark means nothing to anyone who did not write the catalog. -->
+            <TextBlock DockPanel.Dock="Right"
+                       Text="{Binding GpuMark}"
+                       ToolTip="Draws through the GPU renderer"
+                       Foreground="{StaticResource Shell.Accent}"
+                       FontSize="9"
+                       Margin="6,0,0,0"
+                       VerticalAlignment="Center" />
+            <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" />
+        </DockPanel>
+    </DataTemplate>
+
+    <!-- A group header: chevron, name, and how many samples are under it - which
+         is also how a filtered menu says where its hits are without opening
+         every group. -->
+    <Style x:Key="Shell.GroupHeaderToggle" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Foreground" Value="{StaticResource Shell.Accent}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border x:Name="Bd"
+                            Background="Transparent"
+                            BorderBrush="{StaticResource Shell.Divider}"
+                            BorderThickness="0,0,0,1"
+                            Padding="8,7"
+                            SnapsToDevicePixels="True">
+                        <DockPanel LastChildFill="True">
+                            <Path x:Name="Chevron"
+                                  DockPanel.Dock="Left"
+                                  Data="M 0,0 L 4,4 L 0,8"
+                                  Stroke="{StaticResource Shell.Accent}"
+                                  StrokeThickness="1.6"
+                                  Stretch="Uniform"
+                                  Width="7"
+                                  Height="9"
+                                  Margin="2,0,8,0"
+                                  VerticalAlignment="Center" />
+                            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              VerticalAlignment="Center" />
+                        </DockPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource Shell.Hover}" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Chevron" Property="Data" Value="M 0,0 L 4,4 L 8,0" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <DataTemplate x:Key="Shell.GroupHeader">
+        <DockPanel LastChildFill="True">
+            <TextBlock DockPanel.Dock="Right"
+                       Text="{Binding ItemCount}"
+                       Foreground="{StaticResource Shell.TextDim}"
+                       FontSize="11"
+                       Margin="8,0,2,0"
+                       VerticalAlignment="Center" />
+            <TextBlock Text="{Binding Name.Title}"
+                       FontSize="12.5"
+                       FontWeight="SemiBold"
+                       TextTrimming="CharacterEllipsis" />
+        </DockPanel>
+    </DataTemplate>
+
+    <Style x:Key="Shell.GroupExpander" TargetType="{x:Type Expander}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Expander}">
+                    <DockPanel LastChildFill="True">
+                        <ToggleButton x:Name="HeaderSite"
+                                      DockPanel.Dock="Top"
+                                      Style="{StaticResource Shell.GroupHeaderToggle}"
+                                      Content="{TemplateBinding Header}"
+                                      ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                      IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                        <ContentPresenter x:Name="Body" Visibility="Collapsed" Margin="0,2,0,6" />
+                    </DockPanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsExpanded" Value="True">
+                            <Setter TargetName="Body" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--
+        The collapsible group itself. IsExpanded binds through to the group model
+        (SampleGroup) rather than living on the Expander, because WPF throws these
+        containers away and rebuilds them every time the filter changes - state
+        left on the container would not survive a keystroke in the search box.
+    -->
+    <Style x:Key="Shell.GroupContainer" TargetType="{x:Type GroupItem}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type GroupItem}">
+                    <StackPanel>
+                        <!-- The chapter label, on the first group of each chapter
+                             (SampleCatalog.ChapterStarts): the journey over the
+                             groups, read-only on purpose - a chapter is a place in
+                             the menu, not a thing that opens and closes. -->
+                        <TextBlock Text="{Binding Name.Chapter}"
+                                   Foreground="{StaticResource Shell.TextDim}"
+                                   FontSize="10"
+                                   FontWeight="SemiBold"
+                                   Margin="10,14,8,4">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Name.Chapter}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <Expander Style="{StaticResource Shell.GroupExpander}"
+                                  Header="{Binding}"
+                                  HeaderTemplate="{StaticResource Shell.GroupHeader}"
+                                  IsExpanded="{Binding Name.IsExpanded, Mode=TwoWay}">
+                            <ItemsPresenter />
+                        </Expander>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Shell.Splitter" TargetType="{x:Type GridSplitter}">
+        <Setter Property="Width" Value="5" />
+        <Setter Property="Background" Value="#1F2225" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="ResizeBehavior" Value="PreviousAndNext" />
+        <Setter Property="ResizeDirection" Value="Columns" />
+        <Setter Property="ShowsPreview" Value="False" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource Shell.Accent}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- A scrollbar that belongs on the dark sidebar. Scoped to the sample list
+         by ListBox.Resources, so nothing else in the app inherits it. -->
+    <Style x:Key="Shell.ScrollBarThumb" TargetType="{x:Type Thumb}">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Border x:Name="Bd" Background="#565C64" CornerRadius="3" Margin="2,0" />
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="#727A84" />
+                        </Trigger>
+                        <Trigger Property="IsDragging" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource Shell.Accent}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Shell.ScrollBarPage" TargetType="{x:Type RepeatButton}">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Rectangle Fill="Transparent" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Shell.ScrollBar" TargetType="{x:Type ScrollBar}">
+        <Setter Property="Width" Value="9" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ScrollBar}">
+                    <Grid Background="{TemplateBinding Background}">
+                        <Track x:Name="PART_Track" IsDirectionReversed="True">
+                            <Track.DecreaseRepeatButton>
+                                <RepeatButton Command="{x:Static ScrollBar.PageUpCommand}"
+                                              Style="{StaticResource Shell.ScrollBarPage}" />
+                            </Track.DecreaseRepeatButton>
+                            <Track.IncreaseRepeatButton>
+                                <RepeatButton Command="{x:Static ScrollBar.PageDownCommand}"
+                                              Style="{StaticResource Shell.ScrollBarPage}" />
+                            </Track.IncreaseRepeatButton>
+                            <Track.Thumb>
+                                <Thumb Style="{StaticResource Shell.ScrollBarThumb}" />
+                            </Track.Thumb>
+                        </Track>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

@@ -1,4 +1,4 @@
-# AGENTS.md (thinkgeo-desktop-maps)
+﻿# AGENTS.md (thinkgeo-desktop-maps)
 
 Repository root: `.`
 
@@ -12,6 +12,7 @@ Repository root: `.`
 - `quick-start-guide/QuickStartGuide_WPF_VS/WpfSample.sln`
 - `samples/winforms/HowDoISample/HowDoI.sln`
 - `samples/wpf/HowDoISample/HowDoI.sln`
+- `samples/wpf/HowDoISample.v15/HowDoI.v15.sln`
 - `samples/wpf/NauticalChartsViewer/NauticalChartsViewer.sln`
 
 ## 3) Main Areas

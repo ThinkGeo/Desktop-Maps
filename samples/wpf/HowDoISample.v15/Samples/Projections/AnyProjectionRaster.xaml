@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.Samples.AnyProjectionRaster"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:wpf="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             Loaded="UserControl_Loaded">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <wpf:MapView x:Name="Map" Grid.Column="0" />
+
+        <StackPanel Grid.Column="1" Width="250" Margin="8">
+            <TextBlock Text="Projection" FontSize="16" FontWeight="Bold" Margin="0,0,0,6" />
+            <TextBlock TextWrapping="Wrap" Foreground="#666" Margin="0,0,0,10"
+                       Text="ThinkGeo Cloud satellite imagery - ordinary web-mercator tiles - drawn in whichever projection you pick. The tiles are never refetched or resampled on the CPU: each one is warped on the GPU at draw time." />
+
+            <RadioButton x:Name="RdoMercator" Content="Spherical Mercator" IsChecked="True" Checked="Projection_Checked" Margin="0,3" />
+            <RadioButton x:Name="RdoEquirectangular" Content="Equirectangular (degrees)" Checked="Projection_Checked" Margin="0,3" />
+            <RadioButton x:Name="RdoRobinson" Content="Robinson" Checked="Projection_Checked" Margin="0,3" />
+            <RadioButton x:Name="RdoMollweide" Content="Mollweide" Checked="Projection_Checked" Margin="0,3" />
+            <RadioButton x:Name="RdoEckert" Content="Equal Area - Eckert IV" Checked="Projection_Checked" Margin="0,3" />
+            <RadioButton x:Name="RdoCylindrical" Content="Equal Area - Cylindrical" Checked="Projection_Checked" Margin="0,3" />
+
+            <CheckBox x:Name="ChkMorph" Content="Animate the change" IsChecked="True" Margin="0,12,0,0" />
+            <TextBlock TextWrapping="Wrap" Foreground="#666" Margin="0,2,0,0" FontSize="11"
+                       Text="The camera never moves: the screen center keeps the same ground point, and only the canvas under it changes shape." />
+
+            <Separator Margin="0,12,0,8" />
+            <TextBlock TextWrapping="Wrap" Foreground="#444" FontSize="11"
+                       Text="How it works: a photograph is a bitmap in mercator, so another projection means warping the image. Each tile is subdivided into a grid, the forward projection runs at every grid vertex in the vertex shader, and the GPU interpolates the picture across each cell - no per-pixel inverse, no CPU resampling." />
+
+            <TextBlock x:Name="StatusText" TextWrapping="Wrap" FontFamily="Consolas" FontSize="11"
+                       Foreground="#444" Margin="0,10,0,0" Text="loading..." />
+        </StackPanel>
+    </Grid>
+</UserControl>

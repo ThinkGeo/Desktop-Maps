@@ -1,0 +1,102 @@
+NOAA ENC®
+
+NATIONAL OCEANIC AND ATMOSPHERIC ADMINISTRATION
+
+US1GC09M - GULF OF MEXICO:
+
+
+INDEX:
+
+
+OFFSHORE NAVIGATION
+AIDS TO NAVIGATION
+POLLUTION REPORTS
+CAUTION  USE OF RADIO SIGNALS (LIMITATIONS)
+SUPPLEMENTAL INFORMATION
+CAUTION  TEMPORARY CHANGES
+WARNING  PRUDENT MARINER
+ADDITIONAL INFORMATION
+NOTE A
+AUTHORITIES 
+CAUTION  SUBMARINE PIPELINES AND CABLES
+HURRICANES AND TROPICAL STORMS
+RADAR REFLECTORS
+TIDAL INFORMATION 
+CAUTION - FISH HAVENS
+GULF STREAM CURRENTS
+
+
+NOTES:
+
+
+OFFSHORE NAVIGATION 
+For offshore navigation only:  Detail within the minimal depiction area is not shown except on off lying shoals. Use the 1:80,000 / US4 series ENCs for near-shore navigation.
+
+
+AIDS TO NAVIGATION 
+Consult U.S. Coast Guard Light List for supplemental information concerning aids to navigation.
+
+
+POLLUTION REPORTS
+Report all spills of oil and hazardous substances to the National Response Center via 1-800-424-8802 (toll free), or to the nearest U.S. Coast Guard facility if telephone communication is impossible (33 CFR 153).
+
+
+CAUTION  USE OF RADIO SIGNALS (LIMITATIONS) 
+Limitations on the use of radio signals as aids to marine navigation can be found in the U.S. Coast Guard Light Lists and National Geospatial-Intelligence Agency Publication 117. Radio direction-finder bearings to commercial broadcasting stations are subject to error and should be used with caution.
+
+
+SUPPLEMENTAL INFORMATION
+Consult U.S. Coast Pilot 5 for important supplemental information.
+
+
+CAUTION  TEMPORARY CHANGES 
+Temporary changes or defects in aids to navigation are not indicated. See Local Notice to Mariners.
+
+
+WARNING  PRUDENT MARINER 
+The prudent mariner will not rely solely on any single aid to navigation, particularly on floating aids. See U.S. Coast Guard Light List and U.S. Coast Pilot for details.
+
+
+ADDITIONAL INFORMATION 
+Additional information can be obtained at www.nauticalcharts.noaa.gov.
+
+
+NOTE A 
+Navigation regulations are published in Chapter 2, U.S. Coast Pilot 4 and 5.  Additions or revisions to Chapter 2 are published in the Notice to Mariners. Information concerning the regulations may be obtained at the Office of the Commander, 7th Coast Guard District in Miami, FL and 8th Coast Guard District in New Orleans, LA, or at the Office of the District Engineer, Corps of Engineers, in Charleston, SC, Jacksonville, FL, Mobile, AL, New Orleans, LA and Galveston, TX. 
+Refer to charted regulation section numbers.
+
+
+AUTHORITIES 
+Hydrography and topography by the National Ocean Service, Coast Survey, with additional data from the Corps of Engineers, Geological Survey, and U.S. Coast Guard.
+
+
+CAUTION  SUBMARINE PIPELINES AND CABLES 
+Additional uncharted submarine pipelines and submarine cables may exist within the area of this chart. Not all submarine pipelines and submarine cables are required to be buried, and those that were originally buried may have become exposed. Mariners should use extreme caution when operating vessels in depths of water comparable to their draft in areas where pipelines and cables may exist, and when anchoring, dragging, or trawling. Covered wells may be marked by lighted or unlighted buoys.
+
+
+HURRICANES AND TROPICAL STORMS 
+Hurricanes, tropical storms and other major storms may cause considerable damage to marine structures, aids to navigation and moored vessels, resulting in submerged debris in unknown locations. Charted soundings, channel depths and shoreline may not reflect actual conditions following these storms. Fixed aids to navigation may have been damaged or destroyed. Buoys may have been moved from their charted positions, damaged, sunk extinguished or otherwise made inoperative. Mariners should not rely upon the position or operation of an aid to navigation. Wrecks and submerged obstructions may have been displaced from charted locations. Pipelines may have become uncovered or moved. Mariners are urged to exercise extreme caution and are requested to report aids to navigation discrepancies and hazards to navigation to the nearest United States Coast Guard unit.
+
+
+RADAR REFLECTORS 
+Radar reflectors have been placed on many floating aids to navigation. Individual radar reflector identification on these aids has been omitted from this chart.
+
+
+TIDAL INFORMATION 
+For tidal information see the NOS Tide Table publication or go to http://co-ops.nos.noaa.gov
+
+
+CAUTION - FISH HAVENS
+Numerous uncharted Fish Havens, some marked by privately buoys, exist seaward of the 18.2-meter/10-fathom curve. See larger scale charts for location.
+
+
+GULF STREAM CURRENTS
+From investigation by the Coast and Geodetic Survey in 1885, 1886 and 1887.
+
+Locality of Current stations                 Time of max velocity after Moons Transit
+East of Fowey Rocks (6 stations)             	3h          00m
+South of Rebecca Shoal (5 stations)          	3h          40m
+Between Yucatan and Cuba (6 stations)        	3h          24m
+
+
+END OF FILE

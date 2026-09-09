@@ -1,0 +1,222 @@
+<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.Samples.AdvancedLabels"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <!-- symbol-placement: line lays the glyphs along the geometry, one by one,
+             so the name bends with its parkway. -->
+        <sys:String x:Key="LessonCurved" xml:space="preserve">{
+  "layers": [
+
+    { "type": "background",
+      "paint": { "background-color": "#F4F2EC" } },
+
+    { "type": "line",
+      "source-layer": "lessons",
+      "filter": ["==", ["get", "KIND"], "curve"],
+      "paint": { "line-color": "#A1887F", "line-width": 5 } },
+
+    { "type": "symbol",
+      "source-layer": "lessons",
+      "filter": ["==", ["get", "KIND"], "curve"],
+      "layout": {
+          "symbol-placement": "line",
+          "text-field": ["get", "NAME"],
+          "text-font": ["Noto Sans Bold"],
+          "text-size": 15 },
+      "paint": {
+          "text-color": "#4E342E",
+          "text-halo-color": "#FFFFFF",
+          "text-halo-width": 1.4 }
+    }
+  ]
+}</sys:String>
+
+        <!-- text-anchor read from each feature's own column: the grid position of
+             every point matches the anchor it names, so the label placement explains
+             itself. text-offset is editable in ems. -->
+        <sys:String x:Key="LessonAnchors" xml:space="preserve">{
+  "layers": [
+
+    { "type": "background",
+      "paint": { "background-color": "#F4F2EC" } },
+
+    { "type": "circle",
+      "source-layer": "lessons",
+      "filter": ["==", ["get", "KIND"], "anchor"],
+      "paint": { "circle-radius": 4, "circle-color": "#1E88E5" } },
+
+    { "type": "symbol",
+      "source-layer": "lessons",
+      "filter": ["==", ["get", "KIND"], "anchor"],
+      "layout": {
+          "text-field": ["get", "NAME"],
+          "text-font": ["Noto Sans Regular"],
+          "text-anchor": ["get", "ANCHOR"],
+          "text-offset": [0, 0],
+          "text-size": 12 },
+      "paint": {
+          "text-color": "#37474F",
+          "text-halo-color": "#FFFFFF",
+          "text-halo-width": 1.2 }
+    }
+  ]
+}</sys:String>
+
+        <!-- Too many labels for the space: symbol-sort-key decides who survives,
+             lowest first. The top three ranks are red - watch them always win. -->
+        <sys:String x:Key="LessonPriority" xml:space="preserve">{
+  "layers": [
+
+    { "type": "background",
+      "paint": { "background-color": "#F4F2EC" } },
+
+    { "type": "circle",
+      "source-layer": "lessons",
+      "filter": ["==", ["get", "KIND"], "rank"],
+      "paint": { "circle-radius": 3, "circle-color": "#90A4AE" } },
+
+    { "type": "symbol",
+      "source-layer": "lessons",
+      "filter": ["==", ["get", "KIND"], "rank"],
+      "layout": {
+          "symbol-sort-key": ["to-number", ["get", "RANK"]],
+          "text-field": ["get", "NAME"],
+          "text-font": ["Noto Sans Bold"],
+          "text-size": 15 },
+      "paint": {
+          "text-color": ["step", ["to-number", ["get", "RANK"]],
+              "#B71C1C",
+              4, "#37474F"],
+          "text-halo-color": "#FFFFFF",
+          "text-halo-width": 1.4 }
+    }
+  ]
+}</sys:String>
+
+        <!-- text-max-width wraps long names at eight ems; text-transform recases
+             them without touching the data. -->
+        <sys:String x:Key="LessonWrap" xml:space="preserve">{
+  "layers": [
+
+    { "type": "background",
+      "paint": { "background-color": "#F4F2EC" } },
+
+    { "type": "circle",
+      "source-layer": "lessons",
+      "filter": ["==", ["get", "KIND"], "wrap"],
+      "paint": { "circle-radius": 4, "circle-color": "#43A047" } },
+
+    { "type": "symbol",
+      "source-layer": "lessons",
+      "filter": ["==", ["get", "KIND"], "wrap"],
+      "layout": {
+          "text-field": ["get", "NAME"],
+          "text-font": ["Noto Sans Regular"],
+          "text-max-width": 8,
+          "text-transform": "uppercase",
+          "text-anchor": "top",
+          "text-offset": [0, 0.5],
+          "text-size": 12 },
+      "paint": {
+          "text-color": "#1B5E20",
+          "text-halo-color": "#FFFFFF",
+          "text-halo-width": 1.2 }
+    }
+  ]
+}</sys:String>
+
+        <!-- Icon plus text, too crowded for every name: text-optional lets a name
+             drop while its icon stays, so the place is still marked. Set it false
+             and the crowded pairs vanish whole. -->
+        <sys:String x:Key="LessonOptional" xml:space="preserve">{
+  "layers": [
+
+    { "type": "background",
+      "paint": { "background-color": "#F4F2EC" } },
+
+    { "type": "symbol",
+      "source-layer": "lessons",
+      "filter": ["==", ["get", "KIND"], "poi"],
+      "layout": {
+          "icon-image": "dot",
+          "text-field": ["get", "NAME"],
+          "text-font": ["Noto Sans Regular"],
+          "text-optional": true,
+          "text-anchor": "top",
+          "text-offset": [0, 0.7],
+          "text-size": 13 },
+      "paint": {
+          "text-color": "#4527A0",
+          "text-halo-color": "#FFFFFF",
+          "text-halo-width": 1.2 }
+    }
+  ]
+}</sys:String>
+
+        <!-- A CJK name on a line running up the screen writes vertically on its
+             own - upright characters, punctuation in vertical forms. No key asks
+             for it; the script and the direction decide. -->
+        <sys:String x:Key="LessonCjk" xml:space="preserve">{
+  "layers": [
+
+    { "type": "background",
+      "paint": { "background-color": "#F4F2EC" } },
+
+    { "type": "line",
+      "source-layer": "lessons",
+      "filter": ["==", ["get", "KIND"], "cjk"],
+      "paint": { "line-color": "#80CBC4", "line-width": 5 } },
+
+    { "type": "symbol",
+      "source-layer": "lessons",
+      "filter": ["==", ["get", "KIND"], "cjk"],
+      "layout": {
+          "symbol-placement": "line",
+          "text-field": ["get", "NAME"],
+          "text-font": ["Noto Sans Regular"],
+          "text-size": 18 },
+      "paint": {
+          "text-color": "#00695C",
+          "text-halo-color": "#FFFFFF",
+          "text-halo-width": 1.4 }
+    }
+  ]
+}</sys:String>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="240"/>
+            <ColumnDefinition Width="420"/>
+        </Grid.ColumnDefinitions>
+
+        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
+
+        <DockPanel Grid.Column="1" Background="#F6F6F4">
+            <TextBlock DockPanel.Dock="Top" Text="labels - pick a lesson, or edit its document; the map follows"
+                       FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
+            <StackPanel DockPanel.Dock="Top" Margin="8,0,8,4">
+                <RadioButton Content="Along a line - curved text" Tag="LessonCurved" IsChecked="True" Checked="Lesson_Checked"/>
+                <RadioButton Content="Anchors from the data" Tag="LessonAnchors" Checked="Lesson_Checked"/>
+                <RadioButton Content="Priority - who survives the crowd" Tag="LessonPriority" Checked="Lesson_Checked"/>
+                <RadioButton Content="Wrap and transform" Tag="LessonWrap" Checked="Lesson_Checked"/>
+                <RadioButton Content="Icon stays, text yields" Tag="LessonOptional" Checked="Lesson_Checked"/>
+                <RadioButton Content="CJK writes vertically" Tag="LessonCjk" Checked="Lesson_Checked"/>
+            </StackPanel>
+            <TextBlock x:Name="Status" DockPanel.Dock="Bottom" FontSize="11" Margin="8,4,8,6"
+                       TextWrapping="Wrap" Foreground="DarkGreen"/>
+            <TextBox x:Name="Editor" TextChanged="Editor_TextChanged"
+                     Text="{StaticResource LessonCurved}"
+                     AcceptsReturn="True" AcceptsTab="True"
+                     FontFamily="Consolas" FontSize="11.5" Padding="6"
+                     TextWrapping="NoWrap" BorderThickness="1,0,0,0" BorderBrush="#CCCCCC"
+                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
+        </DockPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,345 @@
+<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.Samples.LaneLevelNavigation"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <!-- Every lane layer is repeated per vertical level (0 ground, 1 bridge, 2 bridge over a
+             bridge), fills before lines, so a road passing over another is drawn on top of it. -->
+        <sys:String x:Key="StyleJson" xml:space="preserve">{
+  "layers": [
+
+    { "type": "fill",
+      "source-layer": "drivable",
+      "filter": ["==", ["get", "level"], "0"],
+      "paint": { "fill-color": "#1b1f24" } },
+
+    { "type": "fill",
+      "source-layer": "lane",
+      "filter": ["==", ["get", "level"], "0"],
+      "paint": { "fill-color": "#23282e" } },
+
+    { "type": "fill",
+      "source-layer": "route_lane",
+      "filter": ["==", ["get", "level"], "0"],
+      "paint": {
+          "fill-color": "#3b74ff",
+          "fill-opacity": 0.22 }
+    },
+
+    { "type": "line",
+      "source-layer": "lane_edge",
+      "filter": ["==", ["get", "level"], "0"],
+      "layout": { "line-cap": "butt", "line-join": "round" },
+      "paint": {
+          "line-color": "#0a0c0f",
+          "line-opacity": 0.95,
+          "line-width": ["interpolate", ["exponential", 2], ["zoom"], 15, 1.2, 17, 2, 18, 3, 19, 5, 20, 9, 21, 15] }
+    },
+
+    { "type": "line",
+      "source-layer": "lane_edge",
+      "filter": ["==", ["get", "level"], "0"],
+      "layout": { "line-cap": "butt", "line-join": "round" },
+      "paint": {
+          "line-color": "#b9c1c9",
+          "line-width": ["interpolate", ["exponential", 2], ["zoom"], 15, 0.5, 17, 0.8, 18, 1.2, 19, 2, 20, 4, 21, 7] }
+    },
+
+    { "type": "line",
+      "source-layer": "lane_marking_dashed",
+      "filter": ["==", ["get", "level"], "0"],
+      "layout": { "line-cap": "butt", "line-join": "round" },
+      "paint": {
+          "line-color": "#ffffff",
+          "line-dasharray": [3, 3.5],
+          "line-width": ["interpolate", ["exponential", 2], ["zoom"], 15, 0.6, 17, 1.0, 18, 1.6, 19, 3, 20, 6, 21, 11] }
+    },
+
+    { "type": "line",
+      "source-layer": "lane_marking_solid",
+      "filter": ["==", ["get", "level"], "0"],
+      "layout": { "line-cap": "butt", "line-join": "round" },
+      "paint": {
+          "line-color": "#ffffff",
+          "line-width": ["interpolate", ["exponential", 2], ["zoom"], 15, 0.7, 17, 1.1, 18, 1.8, 19, 3.5, 20, 7, 21, 12] }
+    },
+
+    { "type": "line",
+      "source-layer": "lane_marking_yellow",
+      "filter": ["==", ["get", "level"], "0"],
+      "layout": { "line-cap": "butt", "line-join": "round" },
+      "paint": {
+          "line-color": "#f7c948",
+          "line-width": ["interpolate", ["exponential", 2], ["zoom"], 15, 0.7, 17, 1.1, 18, 1.8, 19, 3.5, 20, 7, 21, 12] }
+    },
+
+    { "type": "line",
+      "source-layer": "lane_marking_yellow_double",
+      "filter": ["==", ["get", "level"], "0"],
+      "layout": { "line-cap": "butt", "line-join": "round" },
+      "paint": {
+          "line-color": "#f7c948",
+          "line-width": ["interpolate", ["exponential", 2], ["zoom"], 15, 1.0, 17, 1.8, 18, 3, 19, 6, 20, 12, 21, 20] }
+    },
+
+    { "type": "line",
+      "source-layer": "lane_marking_yellow_dashed",
+      "filter": ["==", ["get", "level"], "0"],
+      "layout": { "line-cap": "butt", "line-join": "round" },
+      "paint": {
+          "line-color": "#f7c948",
+          "line-dasharray": [3, 3.5],
+          "line-width": ["interpolate", ["exponential", 2], ["zoom"], 15, 0.6, 17, 1.0, 18, 1.6, 19, 3, 20, 6, 21, 11] }
+    },
+
+    { "type": "fill",
+      "source-layer": "drivable",
+      "filter": ["==", ["get", "level"], "1"],
+      "paint": { "fill-color": "#1b1f24" } },
+
+    { "type": "fill",
+      "source-layer": "lane",
+      "filter": ["==", ["get", "level"], "1"],
+      "paint": { "fill-color": "#23282e" } },
+
+    { "type": "fill",
+      "source-layer": "route_lane",
+      "filter": ["==", ["get", "level"], "1"],
+      "paint": {
+          "fill-color": "#3b74ff",
+          "fill-opacity": 0.22 }
+    },
+
+    { "type": "line",
+      "source-layer": "lane_edge",
+      "filter": ["==", ["get", "level"], "1"],
+      "layout": { "line-cap": "butt", "line-join": "round" },
+      "paint": {
+          "line-color": "#0a0c0f",
+          "line-opacity": 0.95,
+          "line-width": ["interpolate", ["exponential", 2], ["zoom"], 15, 1.2, 17, 2, 18, 3, 19, 5, 20, 9, 21, 15] }
+    },
+
+    { "type": "line",
+      "source-layer": "lane_edge",
+      "filter": ["==", ["get", "level"], "1"],
+      "layout": { "line-cap": "butt", "line-join": "round" },
+      "paint": {
+          "line-color": "#b9c1c9",
+          "line-width": ["interpolate", ["exponential", 2], ["zoom"], 15, 0.5, 17, 0.8, 18, 1.2, 19, 2, 20, 4, 21, 7] }
+    },
+
+    { "type": "line",
+      "source-layer": "lane_marking_dashed",
+      "filter": ["==", ["get", "level"], "1"],
+      "layout": { "line-cap": "butt", "line-join": "round" },
+      "paint": {
+          "line-color": "#ffffff",
+          "line-dasharray": [3, 3.5],
+          "line-width": ["interpolate", ["exponential", 2], ["zoom"], 15, 0.6, 17, 1.0, 18, 1.6, 19, 3, 20, 6, 21, 11] }
+    },
+
+    { "type": "line",
+      "source-layer": "lane_marking_solid",
+      "filter": ["==", ["get", "level"], "1"],
+      "layout": { "line-cap": "butt", "line-join": "round" },
+      "paint": {
+          "line-color": "#ffffff",
+          "line-width": ["interpolate", ["exponential", 2], ["zoom"], 15, 0.7, 17, 1.1, 18, 1.8, 19, 3.5, 20, 7, 21, 12] }
+    },
+
+    { "type": "line",
+      "source-layer": "lane_marking_yellow",
+      "filter": ["==", ["get", "level"], "1"],
+      "layout": { "line-cap": "butt", "line-join": "round" },
+      "paint": {
+          "line-color": "#f7c948",
+          "line-width": ["interpolate", ["exponential", 2], ["zoom"], 15, 0.7, 17, 1.1, 18, 1.8, 19, 3.5, 20, 7, 21, 12] }
+    },
+
+    { "type": "line",
+      "source-layer": "lane_marking_yellow_double",
+      "filter": ["==", ["get", "level"], "1"],
+      "layout": { "line-cap": "butt", "line-join": "round" },
+      "paint": {
+          "line-color": "#f7c948",
+          "line-width": ["interpolate", ["exponential", 2], ["zoom"], 15, 1.0, 17, 1.8, 18, 3, 19, 6, 20, 12, 21, 20] }
+    },
+
+    { "type": "line",
+      "source-layer": "lane_marking_yellow_dashed",
+      "filter": ["==", ["get", "level"], "1"],
+      "layout": { "line-cap": "butt", "line-join": "round" },
+      "paint": {
+          "line-color": "#f7c948",
+          "line-dasharray": [3, 3.5],
+          "line-width": ["interpolate", ["exponential", 2], ["zoom"], 15, 0.6, 17, 1.0, 18, 1.6, 19, 3, 20, 6, 21, 11] }
+    },
+
+    { "type": "fill",
+      "source-layer": "drivable",
+      "filter": ["==", ["get", "level"], "2"],
+      "paint": { "fill-color": "#1b1f24" } },
+
+    { "type": "fill",
+      "source-layer": "lane",
+      "filter": ["==", ["get", "level"], "2"],
+      "paint": { "fill-color": "#23282e" } },
+
+    { "type": "fill",
+      "source-layer": "route_lane",
+      "filter": ["==", ["get", "level"], "2"],
+      "paint": {
+          "fill-color": "#3b74ff",
+          "fill-opacity": 0.22 }
+    },
+
+    { "type": "line",
+      "source-layer": "lane_edge",
+      "filter": ["==", ["get", "level"], "2"],
+      "layout": { "line-cap": "butt", "line-join": "round" },
+      "paint": {
+          "line-color": "#0a0c0f",
+          "line-opacity": 0.95,
+          "line-width": ["interpolate", ["exponential", 2], ["zoom"], 15, 1.2, 17, 2, 18, 3, 19, 5, 20, 9, 21, 15] }
+    },
+
+    { "type": "line",
+      "source-layer": "lane_edge",
+      "filter": ["==", ["get", "level"], "2"],
+      "layout": { "line-cap": "butt", "line-join": "round" },
+      "paint": {
+          "line-color": "#b9c1c9",
+          "line-width": ["interpolate", ["exponential", 2], ["zoom"], 15, 0.5, 17, 0.8, 18, 1.2, 19, 2, 20, 4, 21, 7] }
+    },
+
+    { "type": "line",
+      "source-layer": "lane_marking_dashed",
+      "filter": ["==", ["get", "level"], "2"],
+      "layout": { "line-cap": "butt", "line-join": "round" },
+      "paint": {
+          "line-color": "#ffffff",
+          "line-dasharray": [3, 3.5],
+          "line-width": ["interpolate", ["exponential", 2], ["zoom"], 15, 0.6, 17, 1.0, 18, 1.6, 19, 3, 20, 6, 21, 11] }
+    },
+
+    { "type": "line",
+      "source-layer": "lane_marking_solid",
+      "filter": ["==", ["get", "level"], "2"],
+      "layout": { "line-cap": "butt", "line-join": "round" },
+      "paint": {
+          "line-color": "#ffffff",
+          "line-width": ["interpolate", ["exponential", 2], ["zoom"], 15, 0.7, 17, 1.1, 18, 1.8, 19, 3.5, 20, 7, 21, 12] }
+    },
+
+    { "type": "line",
+      "source-layer": "lane_marking_yellow",
+      "filter": ["==", ["get", "level"], "2"],
+      "layout": { "line-cap": "butt", "line-join": "round" },
+      "paint": {
+          "line-color": "#f7c948",
+          "line-width": ["interpolate", ["exponential", 2], ["zoom"], 15, 0.7, 17, 1.1, 18, 1.8, 19, 3.5, 20, 7, 21, 12] }
+    },
+
+    { "type": "line",
+      "source-layer": "lane_marking_yellow_double",
+      "filter": ["==", ["get", "level"], "2"],
+      "layout": { "line-cap": "butt", "line-join": "round" },
+      "paint": {
+          "line-color": "#f7c948",
+          "line-width": ["interpolate", ["exponential", 2], ["zoom"], 15, 1.0, 17, 1.8, 18, 3, 19, 6, 20, 12, 21, 20] }
+    },
+
+    { "type": "line",
+      "source-layer": "lane_marking_yellow_dashed",
+      "filter": ["==", ["get", "level"], "2"],
+      "layout": { "line-cap": "butt", "line-join": "round" },
+      "paint": {
+          "line-color": "#f7c948",
+          "line-dasharray": [3, 3.5],
+          "line-width": ["interpolate", ["exponential", 2], ["zoom"], 15, 0.6, 17, 1.0, 18, 1.6, 19, 3, 20, 6, 21, 11] }
+    },
+
+    { "type": "fill",
+      "source-layer": "crossing",
+      "paint": {
+          "fill-color": "#e6ebf0",
+          "fill-opacity": 0.16 }
+    },
+
+    { "type": "line",
+      "source-layer": "route",
+      "layout": { "line-cap": "round", "line-join": "round" },
+      "paint": {
+          "line-color": "#3f7dff",
+          "line-opacity": 0.9,
+          "line-width": ["interpolate", ["exponential", 2], ["zoom"], 14, 0.5, 18, 4, 19, 7, 20, 14, 21, 24] }
+    }
+  ]
+}</sys:String>
+    </UserControl.Resources>
+
+    <Grid>
+        <thinkGeoUi:MapView x:Name="Map" MapUnit="Meter" Background="#101317" SizeChanged="Map_SizeChanged"/>
+
+        <!-- The navigation card: the lane the vehicle is in, the maneuver ahead
+             and how far away it is - all read off the lane map's topology. -->
+        <Border HorizontalAlignment="Left" VerticalAlignment="Top"
+                Margin="16" Width="340" Padding="18"
+                CornerRadius="16" Background="#E6111917" BorderBrush="#33584F" BorderThickness="1"
+                IsHitTestVisible="False">
+            <StackPanel>
+                <TextBlock x:Name="StreetText" Text="Lane 2 of 3" Foreground="#7EF2D9" FontSize="16" FontWeight="SemiBold"/>
+                <TextBlock x:Name="InstructionText" Text="Cross the intersection" Foreground="White" FontSize="26" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,4,0,2"/>
+                <TextBlock x:Name="NextText" Text="In 200 ft" Foreground="#C9D4D0" FontSize="14"/>
+                <DockPanel Margin="0,12,0,0" LastChildFill="False">
+                    <TextBlock x:Name="SpeedText" Text="30 mph" Foreground="#C9D4D0" FontSize="14"/>
+                    <TextBlock x:Name="ProgressText" Text="0.0 mi complete" Foreground="#C9D4D0" FontSize="14" DockPanel.Dock="Right"/>
+                </DockPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- Where the lanes come from, and under which license. -->
+        <Border HorizontalAlignment="Right" VerticalAlignment="Top"
+                Margin="16,62,16,16" Padding="12"
+                CornerRadius="12" Background="#E6111917" BorderBrush="#33584F" BorderThickness="1"
+                IsHitTestVisible="False">
+            <StackPanel>
+                <TextBlock x:Name="TitleText" Text="Brunswick, OpenDRIVE HD map" Foreground="#7EF2D9" FontSize="14" FontWeight="SemiBold"/>
+                <TextBlock x:Name="StatsText" Text="" Foreground="#C9D4D0" FontSize="12"/>
+                <TextBlock x:Name="AttributionText" Text="" Foreground="#C9D4D0" FontSize="12"/>
+            </StackPanel>
+        </Border>
+
+        <Image Source="/Resources/icon_north_arrow.png"
+               VerticalAlignment="Top" HorizontalAlignment="Right"
+               Width="40" Height="40" Margin="5"
+               RenderTransformOrigin="0.5,0.5">
+            <Image.RenderTransform>
+                <RotateTransform Angle="{Binding ElementName=Map, Path=RotationAngle}"/>
+            </Image.RenderTransform>
+        </Image>
+
+        <Border HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                Margin="16" Padding="12"
+                CornerRadius="12" Background="#E6111917" BorderBrush="#33584F" BorderThickness="1">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Pitch" Foreground="#C9D4D0" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <Slider x:Name="PitchSlider" Minimum="0" Maximum="60" Value="58" Width="150"
+                            VerticalAlignment="Center" ValueChanged="PitchSlider_ValueChanged"/>
+                    <TextBlock x:Name="PitchValueText" Text="58°" Foreground="#C9D4D0" Width="36"
+                               VerticalAlignment="Center" Margin="8,0,0,0"/>
+                </StackPanel>
+                <Button x:Name="OverviewButton" Content="Overview Mode" Height="28" Margin="0,8,0,0" Click="OverviewButton_OnClick"/>
+                <TextBlock Text="Wheel: zoom   |   right-drag: tilt   |   Alt+drag: rotate"
+                           Foreground="#8FA39D" FontSize="11" Margin="0,8,0,0"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

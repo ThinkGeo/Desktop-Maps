@@ -1,0 +1,65 @@
+using System;
+using System.Threading.Tasks;
+using System.Windows;
+using ThinkGeo.Core;
+using ThinkGeo.UI.Wpf;
+
+namespace ThinkGeo.UI.Wpf.HowDoI.Samples
+{
+    /// <summary>
+    /// Learn how to automatically reproject a raster layer using the ProjectionConverter class
+    /// </summary>
+    public partial class ProjectARaster
+    {
+
+        private bool _initialized;
+        public ProjectARaster()
+        {
+            InitializeComponent();
+        }
+
+        /// <summary>
+        /// Set up the map
+        /// </summary>
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
+            // Set the Map Unit to meters (Spherical Mercator)
+            Map.MapUnit = GeographyUnit.Meter;
+
+            // Create an overlay that we can add layers to, and add it to the Map
+            var layerOverlay = new LayerOverlay();
+            layerOverlay.TileType = TileType.SingleTile;
+            Map.Overlays.Add(layerOverlay);
+
+            // Reproject a raster layer and set the extent
+            _ = ReprojectRasterLayerAsync(layerOverlay);
+        }
+
+        /// <summary>
+        /// Use the ProjectionConverter class to reproject a raster layer
+        /// </summary>
+        private async Task ReprojectRasterLayerAsync(LayerOverlay layerOverlay)
+        {
+            var worldRasterLayer = new GeoTiffRasterLayer(@"./Data/GeoTiff/World.tif");
+
+            // Create a new ProjectionConverter to convert between World Geodetic System (4326) and US National Atlas Equal Area (2163)
+            ProjectionConverter projectionConverter = new GdalProjectionConverter(4326, 9311);
+            worldRasterLayer.ImageSource.ProjectionConverter = projectionConverter;
+
+            layerOverlay.Layers.Clear();
+            layerOverlay.Layers.Add("World", worldRasterLayer);
+
+            // Set the map to the extent of the raster layer and refresh the map
+            worldRasterLayer.Open();
+            var worldRasterLayerBBox = worldRasterLayer.GetBoundingBox();
+            Map.CenterPoint = worldRasterLayerBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(Map.MapUnit, worldRasterLayerBBox, Map.MapWidth, Map.MapHeight);
+            Map.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
+            worldRasterLayer.Close();
+            await Map.RefreshAsync();
+        }
+    }
+}

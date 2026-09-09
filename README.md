@@ -1,4 +1,4 @@
-# ThinkGeo Desktop Maps
+﻿# ThinkGeo Desktop Maps
 
 If you're new to ThinkGeo's Desktop Maps, start with our Quick-Start Guides to set up a map with custom styling and external data. After that, explore our "How Do I" Sample, showcasing over 100 features of our Desktop Map Control.
 
@@ -18,7 +18,10 @@ The Quick Start Guide introduces ThinkGeo Desktop Maps by guiding you through se
 
 The ThinkGeo HowDoI Samples feature over 100 straightforward examples that demonstrate the capabilities of ThinkGeo's Desktop Components. You can use these samples as a foundation for your own application or refer to them to understand how to use our controls following best practices.
 
-- [HowDoI Sample - WPF](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/samples/wpf?ref_type=heads)
+There are two WPF galleries, and which one you want depends on your .NET:
+
+- [HowDoI Sample - WPF](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/samples/wpf/HowDoISample?ref_type=heads) builds for .NET Framework 4.8 and .NET 8.
+- [HowDoI Sample - WPF (v15)](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/samples/wpf/HowDoISample.v15?ref_type=heads) needs .NET 8, and covers what ThinkGeo 15 adds: 3D terrain and a tilted camera, vector tile styling, and the data displays built on them.
 - [HowDoI Sample - Winforms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/samples/winforms?ref_type=heads)
 
 

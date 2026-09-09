@@ -1,0 +1,123 @@
+<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.Samples.Heatmap"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <!-- The heatmap layer keeps an id: SetHeatmapPaint names it. -->
+        <sys:String x:Key="HeatEven" xml:space="preserve">{
+  "layers": [
+
+    { "id": "coyote-heat",
+      "type": "heatmap",
+      "source-layer": "Frisco_Coyote_Sightings",
+      "paint": {
+          "heatmap-radius": 22,
+          "heatmap-intensity": 0.55,
+          "heatmap-opacity": 0.85 }
+    },
+
+    { "type": "circle",
+      "source-layer": "Frisco_Coyote_Sightings",
+      "minzoom": 13,
+      "paint": {
+          "circle-radius": 4,
+          "circle-color": "#A0522D" }
+    }
+  ]
+}</sys:String>
+
+        <sys:String x:Key="HeatByCount" xml:space="preserve">{
+  "layers": [
+
+    { "id": "coyote-heat",
+      "type": "heatmap",
+      "source-layer": "Frisco_Coyote_Sightings",
+      "paint": {
+          "heatmap-weight": ["match", ["get", "CoyoteCoun"], "1", 1, "2", 2, "3", 3, "More than 3", 5, 1],
+          "heatmap-radius": 22,
+          "heatmap-intensity": 0.55,
+          "heatmap-opacity": 0.85 }
+    },
+
+    { "type": "circle",
+      "source-layer": "Frisco_Coyote_Sightings",
+      "minzoom": 13,
+      "paint": {
+          "circle-radius": 4,
+          "circle-color": "#A0522D" }
+    }
+  ]
+}</sys:String>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="240"/>
+            <ColumnDefinition Width="420"/>
+        </Grid.ColumnDefinitions>
+
+        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
+
+        <DockPanel Grid.Column="1" Background="#F6F6F4">
+            <TextBlock DockPanel.Dock="Top" Text="style.json - pick a weight, or edit it; the map follows"
+                       FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
+            <StackPanel DockPanel.Dock="Top" Margin="8,0,8,4">
+                <RadioButton Content="Every sighting counts one" Tag="HeatEven" IsChecked="True" Checked="Weight_Checked"/>
+                <RadioButton Content="Weighted by coyotes seen - heatmap-weight" Tag="HeatByCount" Checked="Weight_Checked"/>
+            </StackPanel>
+
+            <TextBlock DockPanel.Dock="Top" Text="SetHeatmapPaint - a runtime call, nothing rebuilt"
+                       FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,2"/>
+            <Grid DockPanel.Dock="Top" Margin="8,0,8,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="40"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="heatmap-radius" FontSize="11.5" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                <Slider Grid.Row="0" Grid.Column="1" x:Name="RadiusSlider" Minimum="4" Maximum="60" Value="22"
+                        TickFrequency="1" IsSnapToTickEnabled="True" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="0" Grid.Column="2" x:Name="RadiusReadout" FontSize="11.5" VerticalAlignment="Center" Margin="4,0,0,0"/>
+
+                <TextBlock Grid.Row="1" Text="heatmap-intensity" FontSize="11.5" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                <Slider Grid.Row="1" Grid.Column="1" x:Name="IntensitySlider" Minimum="0.1" Maximum="3" Value="0.55"
+                        TickFrequency="0.05" IsSnapToTickEnabled="True" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="1" Grid.Column="2" x:Name="IntensityReadout" FontSize="11.5" VerticalAlignment="Center" Margin="4,0,0,0"/>
+
+                <TextBlock Grid.Row="2" Text="heatmap-opacity" FontSize="11.5" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                <Slider Grid.Row="2" Grid.Column="1" x:Name="OpacitySlider" Minimum="0.1" Maximum="1" Value="0.85"
+                        TickFrequency="0.05" IsSnapToTickEnabled="True" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="2" Grid.Column="2" x:Name="OpacityReadout" FontSize="11.5" VerticalAlignment="Center" Margin="4,0,0,0"/>
+            </Grid>
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="8,4,8,0">
+                <TextBlock Text="heatmap-color" FontSize="11.5" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                <RadioButton x:Name="RampDefault" Content="MapLibre default" IsChecked="True" Checked="Ramp_Checked" Margin="0,0,8,0"/>
+                <RadioButton x:Name="RampWarm" Content="Warm" Checked="Ramp_Checked" Margin="0,0,8,0"/>
+                <RadioButton x:Name="RampViridis" Content="Viridis" Checked="Ramp_Checked" Margin="0,0,8,0"/>
+                <RadioButton x:Name="RampBlueRed" Content="Blue to red" Checked="Ramp_Checked"/>
+            </StackPanel>
+            <TextBlock DockPanel.Dock="Top" x:Name="PaintPreview" FontFamily="Consolas" FontSize="11" Foreground="#444A52"
+                       TextWrapping="Wrap" Margin="8,4,8,6"/>
+
+            <TextBlock x:Name="Status" DockPanel.Dock="Bottom" FontSize="11" Margin="8,4,8,6"
+                       TextWrapping="Wrap" Foreground="DarkGreen"/>
+            <TextBox x:Name="Editor" TextChanged="Editor_TextChanged"
+                     Text="{StaticResource HeatEven}"
+                     AcceptsReturn="True" AcceptsTab="True"
+                     FontFamily="Consolas" FontSize="11.5" Padding="6"
+                     TextWrapping="NoWrap" BorderThickness="1,0,0,0" BorderBrush="#CCCCCC"
+                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
+        </DockPanel>
+    </Grid>
+</UserControl>

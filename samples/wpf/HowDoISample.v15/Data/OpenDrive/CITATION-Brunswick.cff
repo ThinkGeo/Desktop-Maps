@@ -1,0 +1,54 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: >-
+  OpenDRIVE dataset of ViVre research track in
+  Brunswick
+message: >-
+  If you use this dataset, please cite it using the
+  metadata from this file.
+type: dataset
+authors:
+  - given-names: Michael
+    family-names: Scholz
+    email: michael.scholz@dlr.de
+    affiliation: >-
+      German Aerospace Center (DLR), Institute of
+      Transportation Systems
+    city: Brunswick
+    country: DE
+    orcid: 'https://orcid.org/0000-0002-1052-6503'
+  - given-names: Laura Maria
+    family-names: Fischer Prestes
+    affiliation: >-
+      German Aerospace Center (DLR), Institute of
+      Transportation Systems
+    city: Berlin
+    country: DE
+    orcid: 'https://orcid.org/0000-0002-2432-9076'
+    email: laura.fischer@dlr.de
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.7071846
+    description: 'Initially published OpenDRIVE raw data'
+abstract: >-
+  This OpenDRIVE dataset models a road network
+  excerpt of the city of Brunswick, Lower Saxony,
+  Germany. Main application scopes of this OpenDRIVE
+  data are in the domain of automated driving:
+  simulation, verification and validation. The data
+  has been acquired in context of the research
+  project ViVre.
+keywords:
+  - XODR
+  - OpenDRIVE
+  - HD map
+  - driving simulation
+  - road network
+  - ViVre
+  - Brunswick
+  - Braunschweig
+license: CC-BY-4.0
+version: '2021-07-28'
+date-released: '2022-09-12'

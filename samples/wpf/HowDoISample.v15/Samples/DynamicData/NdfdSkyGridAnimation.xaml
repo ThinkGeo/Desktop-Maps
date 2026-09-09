@@ -1,0 +1,33 @@
+<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.Samples.NdfdSkyGridAnimation"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" Loaded="Map_Loaded"/>
+
+        <StackPanel Grid.Column="1" Width="190" Background="#E020242B">
+            <TextBlock x:Name="Status" Foreground="WhiteSmoke" FontFamily="Consolas" FontSize="12"
+                       Margin="8,6,8,6" TextWrapping="Wrap"/>
+            <RadioButton Content="Weather Rainbow" GroupName="palette" IsChecked="True"
+                         Foreground="WhiteSmoke" Margin="8,2,8,2" Checked="Palette_Checked"/>
+            <RadioButton Content="Cloud Gray" GroupName="palette"
+                         Foreground="WhiteSmoke" Margin="8,2,8,2" Checked="Palette_Checked"/>
+            <RadioButton Content="Warm Tones" GroupName="palette"
+                         Foreground="WhiteSmoke" Margin="8,2,8,2" Checked="Palette_Checked"/>
+            <RadioButton Content="Cool Tones" GroupName="palette"
+                         Foreground="WhiteSmoke" Margin="8,2,8,2" Checked="Palette_Checked"/>
+            <RadioButton Content="Viridis" GroupName="palette"
+                         Foreground="WhiteSmoke" Margin="8,2,8,2" Checked="Palette_Checked"/>
+            <Button x:Name="PlayButton" Content="Pause" Margin="8,8,8,8" Click="PlayButton_Click"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

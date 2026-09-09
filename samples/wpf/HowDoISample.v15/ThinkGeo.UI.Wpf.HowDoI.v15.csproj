@@ -1,0 +1,75 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <!-- The Print The Map sample prints through System.Drawing.Printing. -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <!-- The assembly name carries the v15 suffix so this gallery and the classic one,
+         which still serves .NET Framework, can sit side by side. The namespaces stay
+         ThinkGeo.UI.Wpf.HowDoI in both: the code a reader copies out of either gallery
+         should look the same. -->
+    <AssemblyName>ThinkGeo.UI.Wpf.HowDoI.v15</AssemblyName>
+    <RootNamespace>ThinkGeo.UI.Wpf.HowDoI</RootNamespace>
+    <!-- ThinkGeo.FileGeoDatabase wraps Esri.FileGDBAPI.dll, which is AMD64-only. -->
+    <PlatformTarget>x64</PlatformTarget>
+    <!-- Several samples were ported from the classic gallery and still use patterns
+         these analyzers flag; rewriting them would defeat the point of porting. -->
+    <NoWarn>$(NoWarn);CS0618;CS0612;CA1416</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="15.0.0-beta136" />
+    <PackageReference Include="ThinkGeo.Gpu" Version="15.0.0-beta136" />
+    <PackageReference Include="ThinkGeo.Cad" Version="15.0.0-beta136" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="15.0.0-beta136" />
+    <PackageReference Include="ThinkGeo.Gdal" Version="15.0.0-beta136" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="15.0.0-beta136" />
+    <PackageReference Include="ThinkGeo.Oracle" Version="15.0.0-beta136" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="15.0.0-beta136" />
+    <PackageReference Include="ThinkGeo.Printers" Version="15.0.0-beta136" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="15.0.0-beta136" />
+    <!-- The documentation samples render markdown and show source. -->
+    <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3800.47" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Data\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Samples\samples.json;Samples\Documentation\*.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <!-- The pictures ship twice, on purpose. A sample that names one in XAML
+         ("/Resources/icon_north_arrow.png") needs it compiled INTO the assembly; a
+         sample that hands the path to GeoImage needs it as a FILE beside the exe.
+         CopyToOutputDirectory does nothing on a Resource item. -->
+    <Resource Include="Resources\*.png" />
+    <None Update="Resources\*.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The code pane shows each sample's own source from these embedded copies, markup
+         included: half of what a WPF sample demonstrates lives in the .xaml. The two
+         shell controls that are themselves menu rows are embedded for the same reason. -->
+    <EmbeddedResource Include="Samples\**\*.cs" LogicalName="SampleSource.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Samples\**\*.xaml" LogicalName="SampleSource.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Shell\HomePage.xaml.cs" LogicalName="SampleSource.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Shell\HomePage.xaml" LogicalName="SampleSource.%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- ThinkGeo's own scripted checks live in the SDK repository and drive these samples
+         through the internal fields WPF generates for x:Name. The grant names a project
+         that is not in this repository, and costs nothing when it is absent. -->
+    <InternalsVisibleTo Include="ThinkGeo.UI.Wpf.HowDoI.Checks" />
+  </ItemGroup>
+
+</Project>
