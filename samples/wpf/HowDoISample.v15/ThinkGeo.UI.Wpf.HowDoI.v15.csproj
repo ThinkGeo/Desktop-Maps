@@ -70,6 +70,10 @@
          through the internal fields WPF generates for x:Name. The grant names a project
          that is not in this repository, and costs nothing when it is absent. -->
     <InternalsVisibleTo Include="ThinkGeo.UI.Wpf.HowDoI.Checks" />
+    <!-- And to ThinkGeo's scripted camera tour, which runs seven of these samples for
+         real and lifts their maps onto its own stage. It is not in this repository
+         either, and the grant costs nothing where it is absent. -->
+    <InternalsVisibleTo Include="ScriptedCameraTour" />
   </ItemGroup>
 
 </Project>
