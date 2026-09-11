@@ -460,6 +460,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 "Use the FeatureSource base class to create your own custom Feature Source",
                 "SimpleCsvFeatureSource", false, typeof(Samples.CustomFeatureSources), () => new Samples.CustomFeatureSources()),
 
+            // ---- Misc ----
+            // New samples land here first and move to a group once there are enough
+            // of a kind to make one.
+            new SampleEntry("Misc", "Migrate a Classic Layer", "MigrateAClassicLayer.xaml.cs",
+                "Add a FeatureLayer styled on its ZoomLevelSet to a MapStyle in one call, beside the classic renderer drawing the same layers",
+                "AddFeatureLayer", true, typeof(Samples.MigrateAClassicLayer), () => new Samples.MigrateAClassicLayer()),
+
         };
 
         /// <summary>The menu groups, in menu order.</summary>
