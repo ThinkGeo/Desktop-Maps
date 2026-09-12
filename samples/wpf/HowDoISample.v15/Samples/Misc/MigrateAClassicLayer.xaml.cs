@@ -99,7 +99,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             var parks = Layer("Parks.shp");
             parks.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(AreaStyle.CreateHatchStyle(
                 GeoHatchStyle.DiagonalCross, GeoColor.FromHtml("#5E9E62"), GeoColor.FromArgb(110, 180, 224, 182), GeoColor.FromHtml("#3F7F45")));
-            parks.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(new TextStyle("NAME", new GeoFont("Segoe UI", 12, DrawingFontStyles.Bold), new GeoSolidBrush(GeoColors.DarkGreen))
+            parks.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(new TextStyle("NAME", new GeoFont("Segoe UI", 12, DrawingFontStyles.Bold | DrawingFontStyles.Underline), new GeoSolidBrush(GeoColors.DarkGreen))
             {
                 HaloPen = new GeoPen(GeoColors.White, 2),
             });
@@ -112,7 +112,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             var streets = Layer("Streets.shp");
             streets.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(new LineStyle(new GeoPen(GeoColors.DimGray, 6), new GeoPen(GeoColors.WhiteSmoke, 4)));
             streets.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-            streets.ZoomLevelSet.ZoomLevel17.CustomStyles.Add(new TextStyle("FULL_NAME", new GeoFont("Segoe UI", 11, DrawingFontStyles.Bold), new GeoSolidBrush(GeoColors.MidnightBlue))
+            streets.ZoomLevelSet.ZoomLevel17.CustomStyles.Add(new TextStyle("FULL_NAME", new GeoFont("Segoe UI", 11, DrawingFontStyles.Bold | DrawingFontStyles.Strikeout), new GeoSolidBrush(GeoColors.MidnightBlue))
             {
                 HaloPen = new GeoPen(GeoColors.White, 2),
             });
@@ -120,7 +120,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             var schools = Layer("Schools.shp");
             schools.ZoomLevelSet.ZoomLevel15.CustomStyles.Add(new PointStyle(PointSymbolType.Star, 14, new GeoSolidBrush(GeoColor.FromHtml("#F5B301")), new GeoPen(GeoColor.FromHtml("#8A5A00"), 1)));
-            schools.ZoomLevelSet.ZoomLevel15.CustomStyles.Add(new TextStyle("NAME", new GeoFont("Segoe UI", 11, DrawingFontStyles.Bold), new GeoSolidBrush(GeoColor.FromHtml("#8A5A00")))
+            schools.ZoomLevelSet.ZoomLevel15.CustomStyles.Add(new TextStyle("NAME", new GeoFont("Segoe UI", 11, DrawingFontStyles.Bold | DrawingFontStyles.Underline), new GeoSolidBrush(GeoColor.FromHtml("#8A5A00")))
             {
                 TextPlacement = TextPlacement.Lower,
                 YOffsetInPixel = 2,

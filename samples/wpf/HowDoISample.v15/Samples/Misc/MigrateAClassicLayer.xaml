@@ -10,7 +10,7 @@
         <Border DockPanel.Dock="Top" Background="#F2F2F2" Padding="12,8"
                 BorderBrush="#CCCCCC" BorderThickness="0,0,0,1">
             <TextBlock FontSize="11.5" Foreground="#555B62" TextWrapping="Wrap"
-                       Text="Five shapefile layers styled the classic way - AreaStyle, LineStyle, PointStyle, TextStyle and a ValueStyle on their ZoomLevelSets. The left map adds them to a MapStyle with AddFeatureLayer; the right map draws them with a LayerOverlay. Pan or zoom either map; the school names and the street names arrive one zoom level apart on both."/>
+                       Text="Five shapefile layers styled the classic way - AreaStyle, LineStyle, PointStyle, TextStyle and a ValueStyle on their ZoomLevelSets. The left map adds them to a MapStyle with AddFeatureLayer; the right map draws them with a LayerOverlay. Pan or zoom either map; the school names and the street names arrive at the same zoom levels on both."/>
         </Border>
 
         <Border DockPanel.Dock="Bottom" Background="#F6F6F4" Padding="12,6"
