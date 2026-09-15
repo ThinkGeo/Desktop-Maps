@@ -34,7 +34,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var projectionConverter = new ProjectionConverter(4326, 3857);
             projectionConverter.Open();
 
-            var ignLayer = new OgcApiFeatureLayer("https://api-features.ign.es", "namedplace")
+            var ignLayer = new OgcApiAsyncLayer("https://api-features.ign.es", "namedplace")
             {
                 FeatureSource =
                 {
@@ -59,7 +59,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             var overlay = new OgcApiFeaturesOverlay()
             {
-                FeatureLayer = ignLayer,
+                AsyncLayer = ignLayer,
                 DrawingBulkCount = 100
             };
 
