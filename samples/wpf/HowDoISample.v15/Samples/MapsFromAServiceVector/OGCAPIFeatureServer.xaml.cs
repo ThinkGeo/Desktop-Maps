@@ -45,8 +45,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         private async Task BuildMapAsync()
         {
-            _places.FeatureSources.Add("places", new OgcApiFeatureSource(
-                "https://api-features.ign.es", "namedplace", 1000)
+            _places.FeatureSources.Add("places", new OgcApiAsyncFeatureSource(
+                "https://api-features.ign.es", "namedplace")
             {
                 ProjectionConverter = new ProjectionConverter(4326, 3857)
             });

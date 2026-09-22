@@ -49,7 +49,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // ask it for web mercator rather than converting afterwards: the server
             // holds the datum transformation for its national grid, and a generic
             // client-side conversion lands the parcels about 170 m off the basemap.
-            _parcels.FeatureSources.Add("parcels", new WfsV2FeatureSource(
+            _parcels.FeatureSources.Add("parcels", new WfsV2AsyncFeatureSource(
                 "https://service.pdok.nl/kadaster/kadastralekaart/wfs/v5_0",
                 "kadastralekaart:Perceel")
             {

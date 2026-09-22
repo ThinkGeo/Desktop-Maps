@@ -466,6 +466,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             new SampleEntry("Misc", "Migrate a Classic Layer", "MigrateAClassicLayer.xaml.cs",
                 "Add a FeatureLayer styled on its ZoomLevelSet to a MapStyle in one call, beside the classic renderer drawing the same layers",
                 "AddFeatureLayer", true, typeof(Samples.MigrateAClassicLayer), () => new Samples.MigrateAClassicLayer()),
+            new SampleEntry("Misc", "Handle Exceptions", "HandleExceptions.xaml.cs",
+                "A raster layer whose key is wrong fails every tile: the map leaves each one out and raises TileLoadFailed with the exception, and the handler decides whether the tile is asked for again",
+                "TileLoadFailed", true, typeof(Samples.HandleExceptions), () => new Samples.HandleExceptions()),
 
         };
 
