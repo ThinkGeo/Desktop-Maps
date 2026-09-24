@@ -31,7 +31,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private int _frameIndex;
         private readonly GpuBasemap _overlay;
         private readonly MapStyle _style;
-        private GridSource _grid;
+        private ValueGridSource _grid;
         private Func<byte, GeoColor> _palette;
         private readonly DispatcherTimer _timer;
 
@@ -144,7 +144,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             // One call bakes the Lambert->Mercator mesh; every animation frame after
             // this is UpdateValueGridValues - a single texture upload.
-            _grid = GridSource.FromBytes(GetFrame(0), _gridWidth, _gridHeight, sourceExtent, new Projection(proj4));
+            _grid = ValueGridSource.FromBytes(GetFrame(0), _gridWidth, _gridHeight, sourceExtent, new Projection(proj4));
             _palette ??= CreatePalette("Weather Rainbow");
             _style.AddGridFill(_grid, new GridFillStyle { Ramp = _palette, MeshDensity = 96 });
             _ = _overlay.SetStyleAsync(_style);

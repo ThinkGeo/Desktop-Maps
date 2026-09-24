@@ -31,7 +31,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private readonly RectangleShape _dataBounds;
         private readonly System.Windows.Threading.DispatcherTimer _costTimer;
 
-        private GridSource _isolineSource;
+        private ValueGridSource _isolineSource;
         private bool _initialized;
 
         // The live knobs: every change re-issues the isoline registration and the next frame shows
@@ -207,7 +207,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 _style.RemoveIsolines(_isolineSource);
             }
 
-            _isolineSource = new GridSource(points, interpolation);
+            _isolineSource = new ValueGridSource(points, interpolation);
             _style.AddIsolines(_isolineSource, display);
             _ = _overlay.SetStyleAsync(_style);
             stopwatch.Stop();

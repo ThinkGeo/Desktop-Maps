@@ -14,7 +14,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
     /// streaming and fading continuously - AddParticleFlow is one call and the
     /// simulation runs itself from there. The toggle switches to the
     /// field's other rendering, magnitude-scaled arrows, and both read the same
-    /// source object: one field, two renderings, the GridSource pattern again.
+    /// source object: one field, two renderings, the ValueGridSource pattern again.
     /// </summary>
     public partial class NdfdWindField
     {
