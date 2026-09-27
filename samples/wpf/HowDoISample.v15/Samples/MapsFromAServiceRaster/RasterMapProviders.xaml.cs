@@ -69,7 +69,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         }
 
         /// <summary>The line that differs: which class serves the tiles.</summary>
-        private IRasterTileSource OpenChosen()
+        private RasterTileSource OpenChosen()
         {
             if (ThinkGeoLight.IsChecked == true)
                 return new ThinkGeoRasterTileSource(SampleShared.CloudApiKey, ThinkGeoRasterMapType.Light);

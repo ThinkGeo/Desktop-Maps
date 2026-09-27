@@ -29,7 +29,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             new ThinkGeoVectorTileSource(SampleShared.CloudApiKey);
 
         private GpuBasemap _basemap;
-        private IRasterTileSource _current;
+        private RasterTileSource _current;
         private bool _ready;
 
         public RasterFileFormats()
