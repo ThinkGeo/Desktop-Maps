@@ -97,14 +97,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 var source = OpenChosen();
 
                 // These are files on disk that nothing writes to while the sample runs.
-                // Saying so lets the tile cutter read them through one open source and
-                // keep the tiles it encodes, instead of cloning the source per worker -
-                // which a GeoPDF or a DWG cannot do cheaply, or at all. One source means
-                // one reader: GDAL allows a single feature iterator per dataset, so the
-                // two settings only make sense together.
+                // One tile at a time: GDAL allows a single feature iterator per dataset, so
+                // a GeoPDF or a DWG cannot be read by two workers at once - and cloning one
+                // per worker is expensive, or impossible.
                 _current = new FeatureSourceVectorTileSource
                 {
-                    SharedSources = true,
                     MaxConcurrentEncodes = 1,
                 };
                 _current.FeatureSources.Add(DataLayer, source);

@@ -60,7 +60,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         // The route and the corridor's edges, in Web Mercator meters with the
         // western half past the world's west edge (x < -20037508). The tile cut
         // folds it back; the sample never splits anything itself.
-        private readonly FeatureSourceVectorTileSource _flight = new FeatureSourceVectorTileSource { SharedSources = true };
+        private readonly FeatureSourceVectorTileSource _flight = new FeatureSourceVectorTileSource();
 
         private readonly InMemoryGeometrySource _airports = new InMemoryGeometrySource();
         private readonly InMemoryGeometrySource _aircraft = new InMemoryGeometrySource();
