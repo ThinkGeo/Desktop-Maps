@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using Microsoft.Web.WebView2.Core;
 
 using ThinkGeo.UI.Wpf;
+
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     public partial class MarkdownDocumentViewer : UserControl
@@ -133,6 +134,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                    "strong{color:#f4f7fb;font-weight:600;}" +
                    "a{color:#7eb6ff;text-decoration:none;font-weight:600;}" +
                    "a:hover{text-decoration:underline;}" +
+                   ".markdown-table{width:100%;border-collapse:collapse;margin:12px 0 18px 0;background:#111827;border:1px solid #2a3442;}" +
+                   ".markdown-table th,.markdown-table td{padding:8px 12px;border:1px solid #2a3442;text-align:left;vertical-align:top;}" +
+                   ".markdown-table th{background:#1f2937;color:#f4f7fb;font-weight:600;}" +
+                   ".markdown-table td{color:#dce3ec;}" +
                    ".toc{margin:20px 0;padding:16px 18px;background:#111827;border:1px solid #2a3442;border-radius:8px;}" +
                    ".toc h2{margin:0 0 12px 0;border:none;padding:0;}" +
                    ".toc h3{margin:14px 0 6px 0;color:#f4f7fb;font-size:1em;}" +
@@ -151,8 +156,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             string codeFence = null;
             int headingIndex = 0;
 
-            foreach (var rawLine in lines)
+            for (int i = 0; i < lines.Length; i++)
             {
+                var rawLine = lines[i];
                 var line = rawLine.Trim();
 
                 if (!inCodeBlock && line.Length >= 3 &&
@@ -167,7 +173,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
                 if (inCodeBlock)
                 {
-                    if (line == codeFence || (line.StartsWith(codeFence, StringComparison.Ordinal) && line.Trim(codeFence[0]).Length == 0))
+                    if (line == codeFence ||
+                        (line.StartsWith(codeFence, StringComparison.Ordinal) &&
+                         line.Trim(codeFence[0]).Length == 0))
                     {
                         html.Append("</code></pre>");
                         inCodeBlock = false;
@@ -177,15 +185,30 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                     {
                         html.Append(WebUtility.HtmlEncode(rawLine)).Append('\n');
                     }
+
                     continue;
                 }
 
-                if (line.Length == 0) { CloseParagraphAndList(html, ref inParagraph, ref inList); continue; }
+                if (line.Length == 0)
+                {
+                    CloseParagraphAndList(html, ref inParagraph, ref inList);
+                    continue;
+                }
 
                 if (line == "---" || line == "***" || line == "___")
                 {
                     CloseParagraphAndList(html, ref inParagraph, ref inList);
                     html.Append("<hr/>");
+                    continue;
+                }
+
+                // Markdown table.
+                // A table is recognized only when the current line contains table cells
+                // and the following line is a valid Markdown table separator.
+                if (IsTableStart(lines, i))
+                {
+                    CloseParagraphAndList(html, ref inParagraph, ref inList);
+                    i = AppendMarkdownTable(lines, i, html);
                     continue;
                 }
 
@@ -210,42 +233,210 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
                 if (line.StartsWith("- ", StringComparison.Ordinal))
                 {
-                    if (inParagraph) { html.Append("</p>"); inParagraph = false; }
-                    if (!inList) { html.Append("<ul>"); inList = true; }
-                    html.Append("<li>").Append(ConvertInline(line.Substring(2))).Append("</li>");
+                    if (inParagraph)
+                    {
+                        html.Append("</p>");
+                        inParagraph = false;
+                    }
+
+                    if (!inList)
+                    {
+                        html.Append("<ul>");
+                        inList = true;
+                    }
+
+                    html.Append("<li>")
+                        .Append(ConvertInline(line.Substring(2)))
+                        .Append("</li>");
                     continue;
                 }
 
-                if (inList) { html.Append("</ul>"); inList = false; }
-                if (!inParagraph) { html.Append("<p>"); inParagraph = true; } else html.Append(' ');
+                if (inList)
+                {
+                    html.Append("</ul>");
+                    inList = false;
+                }
+
+                if (!inParagraph)
+                {
+                    html.Append("<p>");
+                    inParagraph = true;
+                }
+                else
+                {
+                    html.Append(' ');
+                }
+
                 html.Append(ConvertInline(line));
             }
 
-            if (inCodeBlock) html.Append("</code></pre>");
-            if (inParagraph) html.Append("</p>");
-            if (inList) html.Append("</ul>");
+            if (inCodeBlock)
+                html.Append("</code></pre>");
+
+            if (inParagraph)
+                html.Append("</p>");
+
+            if (inList)
+                html.Append("</ul>");
+
             return html.ToString();
+        }
+
+        private static bool IsTableStart(string[] lines, int index)
+        {
+            if (lines == null || index < 0 || index + 1 >= lines.Length)
+                return false;
+
+            var header = lines[index].Trim();
+            var separator = lines[index + 1].Trim();
+
+            if (header.IndexOf('|') < 0)
+                return false;
+
+            if (separator.IndexOf('|') < 0)
+                return false;
+
+            var headerCells = SplitTableCells(header);
+            var separatorCells = SplitTableCells(separator);
+
+            if (headerCells.Length == 0 || headerCells.Length != separatorCells.Length)
+                return false;
+
+            foreach (var cell in separatorCells)
+            {
+                if (!IsTableSeparatorCell(cell))
+                    return false;
+            }
+
+            return true;
+        }
+
+        private static bool IsTableSeparatorCell(string cell)
+        {
+            var value = (cell ?? string.Empty).Trim();
+
+            if (value.StartsWith(":", StringComparison.Ordinal))
+                value = value.Substring(1);
+
+            if (value.EndsWith(":", StringComparison.Ordinal))
+                value = value.Substring(0, value.Length - 1);
+
+            if (value.Length < 3)
+                return false;
+
+            for (int i = 0; i < value.Length; i++)
+            {
+                if (value[i] != '-')
+                    return false;
+            }
+
+            return true;
+        }
+
+        private static string[] SplitTableCells(string line)
+        {
+            if (string.IsNullOrWhiteSpace(line))
+                return new string[0];
+
+            var value = line.Trim();
+
+            if (value.StartsWith("|", StringComparison.Ordinal))
+                value = value.Substring(1);
+
+            if (value.EndsWith("|", StringComparison.Ordinal))
+                value = value.Substring(0, value.Length - 1);
+
+            return value
+                .Split('|')
+                .Select(cell => cell.Trim())
+                .ToArray();
+        }
+
+        private static int AppendMarkdownTable(string[] lines, int headerIndex, StringBuilder html)
+        {
+            var headerCells = SplitTableCells(lines[headerIndex]);
+            int rowIndex = headerIndex + 2;
+
+            html.Append("<table class=\"markdown-table\">");
+            html.Append("<thead><tr>");
+
+            foreach (var cell in headerCells)
+            {
+                html.Append("<th>")
+                    .Append(ConvertInline(cell))
+                    .Append("</th>");
+            }
+
+            html.Append("</tr></thead>");
+
+            html.Append("<tbody>");
+
+            while (rowIndex < lines.Length)
+            {
+                var line = lines[rowIndex].Trim();
+
+                if (string.IsNullOrEmpty(line))
+                    break;
+
+                if (line.IndexOf('|') < 0)
+                    break;
+
+                if (line.StartsWith("# ", StringComparison.Ordinal) ||
+                    line.StartsWith("## ", StringComparison.Ordinal) ||
+                    line.StartsWith("### ", StringComparison.Ordinal) ||
+                    line.StartsWith("- ", StringComparison.Ordinal))
+                {
+                    break;
+                }
+
+                var cells = SplitTableCells(line);
+
+                if (cells.Length != headerCells.Length)
+                    break;
+
+                html.Append("<tr>");
+
+                foreach (var cell in cells)
+                {
+                    html.Append("<td>")
+                        .Append(ConvertInline(cell))
+                        .Append("</td>");
+                }
+
+                html.Append("</tr>");
+                rowIndex++;
+            }
+
+            html.Append("</tbody></table>");
+
+            return rowIndex - 1;
         }
 
         private static MarkdownDocument ParseMarkdownDocument(string markdown)
         {
             var normalized = (markdown ?? string.Empty).Replace("\r\n", "\n");
+
             if (!normalized.StartsWith("---\n", StringComparison.Ordinal))
                 return new MarkdownDocument(null, normalized);
 
             var end = normalized.IndexOf("\n---\n", 4, StringComparison.Ordinal);
+
             if (end < 0)
                 return new MarkdownDocument(null, normalized);
 
             string documentType = null;
             var frontMatter = normalized.Substring(4, end - 4).Split('\n');
+
             foreach (var line in frontMatter)
             {
                 var separatorIndex = line.IndexOf(':');
-                if (separatorIndex <= 0) continue;
+
+                if (separatorIndex <= 0)
+                    continue;
 
                 var key = line.Substring(0, separatorIndex).Trim();
                 var value = line.Substring(separatorIndex + 1).Trim();
+
                 if (key.Equals("document_type", StringComparison.OrdinalIgnoreCase))
                 {
                     documentType = value;
@@ -269,7 +460,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 var line = rawLine.Trim();
 
                 if (!inCodeBlock && line.Length >= 3 &&
-                    (line.StartsWith("```", StringComparison.Ordinal) || line.StartsWith("~~~", StringComparison.Ordinal)))
+                    (line.StartsWith("```", StringComparison.Ordinal) ||
+                     line.StartsWith("~~~", StringComparison.Ordinal)))
                 {
                     codeFence = line.Substring(0, 3);
                     inCodeBlock = true;
@@ -278,7 +470,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
                 if (inCodeBlock)
                 {
-                    if (line == codeFence || (line.StartsWith(codeFence, StringComparison.Ordinal) && line.Trim(codeFence[0]).Length == 0))
+                    if (line == codeFence ||
+                        (line.StartsWith(codeFence, StringComparison.Ordinal) &&
+                         line.Trim(codeFence[0]).Length == 0))
                     {
                         inCodeBlock = false;
                         codeFence = null;
@@ -304,10 +498,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             return headings;
         }
 
-        private static HeadingInfo CreateHeadingInfo(int level, string rawText, Dictionary<string, int> usedIds)
+        private static HeadingInfo CreateHeadingInfo(
+            int level,
+            string rawText,
+            Dictionary<string, int> usedIds)
         {
             var plainText = GetPlainText(rawText);
             var id = CreateHeadingId(plainText, usedIds);
+
             return new HeadingInfo(level, rawText.Trim(), plainText, id);
         }
 
@@ -316,7 +514,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             return (text ?? string.Empty).Replace("`", string.Empty).Trim();
         }
 
-        private static string CreateHeadingId(string text, Dictionary<string, int> usedIds)
+        private static string CreateHeadingId(
+            string text,
+            Dictionary<string, int> usedIds)
         {
             var builder = new StringBuilder();
             bool previousWasDash = false;
@@ -328,7 +528,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                     builder.Append(ch);
                     previousWasDash = false;
                 }
-                else if ((char.IsWhiteSpace(ch) || ch == '-' || ch == '_') && !previousWasDash && builder.Length > 0)
+                else if ((char.IsWhiteSpace(ch) || ch == '-' || ch == '_') &&
+                         !previousWasDash &&
+                         builder.Length > 0)
                 {
                     builder.Append('-');
                     previousWasDash = true;
@@ -336,10 +538,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             }
 
             var baseId = builder.ToString().Trim('-');
+
             if (string.IsNullOrEmpty(baseId))
                 baseId = "section";
 
-            if (!usedIds.TryGetValue(baseId, out var count))
+            int count;
+
+            if (!usedIds.TryGetValue(baseId, out count))
             {
                 usedIds[baseId] = 1;
                 return baseId;
@@ -347,16 +552,23 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             count++;
             usedIds[baseId] = count;
+
             return $"{baseId}-{count}";
         }
 
-        private static bool ShouldRenderTableOfContents(string documentType, IReadOnlyList<HeadingInfo> headings)
+        private static bool ShouldRenderTableOfContents(
+            string documentType,
+            IReadOnlyList<HeadingInfo> headings)
         {
-            return string.Equals(documentType, FaqDocumentType, StringComparison.OrdinalIgnoreCase) &&
+            return string.Equals(
+                       documentType,
+                       FaqDocumentType,
+                       StringComparison.OrdinalIgnoreCase) &&
                    headings.Any(heading => heading.Level == 3);
         }
 
-        private static string BuildTableOfContents(IReadOnlyList<HeadingInfo> headings)
+        private static string BuildTableOfContents(
+            IReadOnlyList<HeadingInfo> headings)
         {
             var sections = new List<TableOfContentsSection>();
             TableOfContentsSection currentSection = null;
@@ -388,9 +600,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             foreach (var section in sections.Where(section => section.Items.Count > 0))
             {
                 if (!string.IsNullOrEmpty(section.Title))
-                    html.Append("<h3>").Append(WebUtility.HtmlEncode(section.Title)).Append("</h3>");
+                {
+                    html.Append("<h3>")
+                        .Append(WebUtility.HtmlEncode(section.Title))
+                        .Append("</h3>");
+                }
 
                 html.Append("<ul>");
+
                 foreach (var item in section.Items)
                 {
                     html.Append("<li><a href=\"#")
@@ -404,29 +621,47 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             }
 
             html.Append("</nav>");
+
             return html.ToString();
         }
 
-        private static string InsertTableOfContents(string bodyHtml, string tableOfContentsHtml)
+        private static string InsertTableOfContents(
+            string bodyHtml,
+            string tableOfContentsHtml)
         {
             if (string.IsNullOrEmpty(tableOfContentsHtml))
                 return bodyHtml;
 
             var firstSectionIndex = bodyHtml.IndexOf("<h2", StringComparison.Ordinal);
+
             return firstSectionIndex >= 0
                 ? bodyHtml.Insert(firstSectionIndex, tableOfContentsHtml)
                 : tableOfContentsHtml + bodyHtml;
         }
 
-        private static void CloseParagraphAndList(StringBuilder html, ref bool inParagraph, ref bool inList)
+        private static void CloseParagraphAndList(
+            StringBuilder html,
+            ref bool inParagraph,
+            ref bool inList)
         {
-            if (inParagraph) { html.Append("</p>"); inParagraph = false; }
-            if (inList) { html.Append("</ul>"); inList = false; }
+            if (inParagraph)
+            {
+                html.Append("</p>");
+                inParagraph = false;
+            }
+
+            if (inList)
+            {
+                html.Append("</ul>");
+                inList = false;
+            }
         }
 
         private static string ConvertInline(string text)
         {
-            if (string.IsNullOrEmpty(text)) return string.Empty;
+            if (string.IsNullOrEmpty(text))
+                return string.Empty;
+
             var result = new StringBuilder();
             var token = new StringBuilder();
             bool inCode = false;
@@ -435,15 +670,41 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             {
                 if (ch == '`')
                 {
-                    if (inCode) { result.Append("<code>").Append(WebUtility.HtmlEncode(token.ToString())).Append("</code>"); token.Clear(); inCode = false; }
-                    else { if (token.Length > 0) { result.Append(WebUtility.HtmlEncode(token.ToString())); token.Clear(); } inCode = true; }
+                    if (inCode)
+                    {
+                        result.Append("<code>")
+                            .Append(WebUtility.HtmlEncode(token.ToString()))
+                            .Append("</code>");
+
+                        token.Clear();
+                        inCode = false;
+                    }
+                    else
+                    {
+                        if (token.Length > 0)
+                        {
+                            result.Append(
+                                WebUtility.HtmlEncode(token.ToString()));
+
+                            token.Clear();
+                        }
+
+                        inCode = true;
+                    }
+
                     continue;
                 }
+
                 token.Append(ch);
             }
 
             if (token.Length > 0)
-                result.Append(inCode ? "<code>" + WebUtility.HtmlEncode(token.ToString()) + "</code>" : WebUtility.HtmlEncode(token.ToString()));
+            {
+                result.Append(
+                    inCode
+                        ? "<code>" + WebUtility.HtmlEncode(token.ToString()) + "</code>"
+                        : WebUtility.HtmlEncode(token.ToString()));
+            }
 
             return result.ToString();
         }
@@ -463,7 +724,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         private sealed class HeadingInfo
         {
-            public HeadingInfo(int level, string rawText, string plainText, string id)
+            public HeadingInfo(
+                int level,
+                string rawText,
+                string plainText,
+                string id)
             {
                 Level = level;
                 RawText = rawText;
