@@ -29,13 +29,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             Map.MapUnit = GeographyUnit.Meter;
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-            {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-            };
-            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            var thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey);
+            Map.Overlays.Add(thinkGeoVectorTileOverlay);
 
             // Create a new overlay that will hold our new layer and add it to the map.
             var cadOverlay = new LayerOverlay();

@@ -30,14 +30,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             Map.MapUnit = GeographyUnit.Meter;
 
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            var thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey)
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_tile_light")
             };
-            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoVectorTileOverlay);
 
             Map.MapTools.Logo.Source = new BitmapImage(new Uri(@"..\..\..\Resources\generic-logo.png", UriKind.RelativeOrAbsolute));
             Map.MapTools.Logo.IsEnabled = true;

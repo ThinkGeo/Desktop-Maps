@@ -28,15 +28,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             Map.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            var thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey)
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                // Set up the tile cache for the ThinkGeoVectorTileOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_tile_light")
             };
-            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoVectorTileOverlay);
 
             var cityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimits.shp");
             var simplifyLayer = new InMemoryFeatureLayer();

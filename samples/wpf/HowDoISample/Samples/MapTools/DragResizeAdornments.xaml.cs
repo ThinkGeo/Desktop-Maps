@@ -27,14 +27,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             Map.MapUnit = GeographyUnit.Meter;
 
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            var thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey)
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_tile_light")
             };
-            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            Map.Overlays.Add(thinkGeoVectorTileOverlay);
 
             var housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
             housingUnitsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);

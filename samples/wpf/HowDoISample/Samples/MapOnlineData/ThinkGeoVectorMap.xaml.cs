@@ -30,13 +30,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             Map.MapUnit = GeographyUnit.Meter;
 
             // Create the layer overlay with some additional settings and add to the map.
-            var cloudOverlay = new ThinkGeoCloudVectorMapsOverlay
+            var cloudOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey)
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                //TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                // Set up the tile cache for the ThinkGeoVectorTileOverlay, passing in the location and an ID to distinguish the cache. 
+                //TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_tile_light")
             };
             Map.Overlays.Add("Cloud Overlay", cloudOverlay);
 
@@ -61,18 +58,21 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             var button = (RadioButton)sender;
             if (!Map.Overlays.Contains("Cloud Overlay")) return;
-            var cloudOverlay = (ThinkGeoCloudVectorMapsOverlay)Map.Overlays["Cloud Overlay"];
+            var cloudOverlay = (ThinkGeoVectorTileOverlay)Map.Overlays["Cloud Overlay"];
 
             switch (button.Content.ToString())
             {
                 case "Light":
-                    cloudOverlay.MapType = ThinkGeoCloudVectorMapsMapType.Light;
+                    cloudOverlay.StyleUri = ThinkGeoVectorStyles.Light;
+                    cloudOverlay.TransparentBackground = false;
                     break;
                 case "Dark":
-                    cloudOverlay.MapType = ThinkGeoCloudVectorMapsMapType.Dark;
+                    cloudOverlay.StyleUri = ThinkGeoVectorStyles.Dark;
+                    cloudOverlay.TransparentBackground = false;
                     break;
                 case "TransparentBackground":
-                    cloudOverlay.MapType = ThinkGeoCloudVectorMapsMapType.TransparentBackground;
+                    cloudOverlay.StyleUri = ThinkGeoVectorStyles.Light;
+                    cloudOverlay.TransparentBackground = true;
                     break;
             }
             _ = Map.RefreshAsync();

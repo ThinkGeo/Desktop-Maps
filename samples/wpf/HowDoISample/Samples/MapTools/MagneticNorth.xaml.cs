@@ -28,13 +28,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             Map.MapUnit = GeographyUnit.Meter;
 
             // Create the layer overlay with some additional settings and add to the map.
-            var cloudOverlay = new ThinkGeoCloudVectorMapsOverlay
+            var cloudOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey)
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
                 // Set up the tile cache for the cloudOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_tile_light")
             };
             Map.Overlays.Add("Cloud Overlay", cloudOverlay);
 

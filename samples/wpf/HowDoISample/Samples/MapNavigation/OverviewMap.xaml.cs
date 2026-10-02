@@ -82,11 +82,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 		{
 			map.MapUnit = GeographyUnit.Meter;
 
-			var layerOverlay = new ThinkGeoCloudVectorMapsOverlay()
-			{
-				ClientId = SampleKeys.ClientId,
-				ClientSecret = SampleKeys.ClientSecret,
-			};
+			var layerOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey);
 
 			map.Overlays.Add(layerOverlay);
 			map.CenterPoint = new PointShape(x, y);

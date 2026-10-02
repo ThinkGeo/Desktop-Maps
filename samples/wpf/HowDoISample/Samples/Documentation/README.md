@@ -41,7 +41,7 @@ This category demonstrates how to connect online basemaps and feature services. 
 | --- | --- | --- |
 | ThinkGeo Raster Map | Display ThinkGeo cloud raster background images | ThinkGeoCloudRasterMapsOverlay |
 | Raster Map from XYZ Server | Display the tiles from a raster XYZ server. This demo server has 20 zoom levels (zoom 0~19) | ThinkGeoRasterMapsAsyncLayer |
-| ThinkGeo Vector Map | Display ThinkGeo cloud vector background maps | ThinkGeoCloudVectorMapsOverlay |
+| ThinkGeo Vector Map | Display ThinkGeo cloud vector background maps | ThinkGeoVectorTileOverlay |
 | Azure Map | Display an Azure Maps layer | AzureMapsRasterOverlay |
 | Google Map | Display a Google Maps layer | GoogleMapsOverlay |
 | NOAA Weather Stations | Display NOAA weather stations current readings on your map | NoaaWeatherStationFeatureLayer |
