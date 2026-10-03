@@ -38,7 +38,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 ClientId = SampleKeys.ClientId,
                 ClientSecret = SampleKeys.ClientSecret,
                 MapType = ThinkGeoCloudRasterMapsMapType.Light_V2_X2,
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_raster_light")
             };
             Map.Overlays.Add(_backgroundOverlay);
 
@@ -103,7 +103,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // You may need to reset the tile cache ID to avoid mixing dark/light tiles:
             _backgroundOverlay.TileCache = new FileRasterTileCache(@".\cache",
-                ThemeCheckBox.IsChecked == true ? "thinkgeo_vector_dark" : "thinkgeo_vector_light");
+                ThemeCheckBox.IsChecked == true ? "thinkgeo_raster_dark" : "thinkgeo_raster_light");
 
             Map.CancellationTokenSource.Cancel(); // Cancel the ongoing rendering
             _ = _backgroundOverlay.RefreshAsync();

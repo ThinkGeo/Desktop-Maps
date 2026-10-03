@@ -34,7 +34,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 ClientSecret = SampleKeys.ClientSecret,
                 MapType = ThinkGeoCloudRasterMapsMapType.Aerial2_V2_X1,
                 // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_raster_light")
             };
             Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 

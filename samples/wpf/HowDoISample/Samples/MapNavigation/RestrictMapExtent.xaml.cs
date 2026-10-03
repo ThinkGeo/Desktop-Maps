@@ -34,7 +34,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 ClientId = SampleKeys.ClientId,
                 ClientSecret = SampleKeys.ClientSecret,
                 MapType = ThinkGeoCloudRasterMapsMapType.Light_V2_X2,
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_raster_light")
             };
             Map.Overlays.Add(backgroundOverlay);
 
