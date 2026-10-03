@@ -153,6 +153,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             new SampleEntry("Your Data", "Offline Tiles", "OfflineTiles.xaml.cs",
                 "Serve tiles off disk with no network - an MBTiles or PMTiles archive, vector or raster, or a folder of z/x/y images written by QGIS; opening the archive is the only line that differs",
                 "MbTilesVectorTileSource", true, typeof(Samples.OfflineTiles), () => new Samples.OfflineTiles()),
+            // The one row in the group that keeps a classic overlay: an S-57 chart is
+            // drawn by its S-52 symbology, which lives in NauticalChartsFeatureLayer,
+            // not in a style document.
+            new SampleEntry("Your Data", "Nautical Charts", "NauticalCharts.xaml.cs",
+                "Draw an S-57 chart with its embedded S-52 styling, and ask it at every step of a ship's route about the depth under her keel, the aids to navigation and hazards nearby, and the restricted areas she is in",
+                "NauticalChartsFeatureLayer", false, typeof(Samples.NauticalCharts), () => new Samples.NauticalCharts()),
             // ---- Styling ----
             // One row, not four: this sample already styles a point layer, a line
             // layer and a polygon layer and labels each of them, so "Render Points",

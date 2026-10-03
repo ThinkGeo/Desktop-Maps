@@ -1,0 +1,160 @@
+NOAA ENC®
+
+NATIONAL OCEANIC AND ATMOSPHERIC ADMINISTRATION
+
+US4IL10M - CHICAGO LAKE FRONT
+
+INDEX:
+AIDS TO NAVIGATION
+BRIDGES AND OVERHEAD CABLE CLEARANCES
+AUTHORITIES
+SAILING DIRECTIONS
+NOTE A
+SAILING COURSES
+WARNING - PRUDENT MARINER
+POLLUTION REPORTS
+SUPPLEMENTAL INFORMATION
+CAUTION - TEMPORARY CHANGES
+CAUTION - LIMITATIONS
+CAUTION - LOW WATER DATUM
+CAUTION - DREDGED AREAS
+CAUTION - SUBMARINE PIPELINES AND CABLES
+RADAR REFLECTORS
+NOAA WEATHER RADIO BROADCASTS
+TIDAL INFORMATION
+ADDITIONAL INFORMATION
+
+
+NOTES:
+AIDS TO NAVIGATION
+Consult U.S. Coast Guard Light List for supplemental information
+concerning aids to navigation.
+
+
+BRIDGES AND OVERHEAD CABLE CLEARANCES
+When the water surface is above Low Water
+Datum, bridge and overhead clearances are reduced correspondingly.  For clearances see U.S. 
+Coast Pilot 6.
+
+
+AUTHORITIES
+Hydrography and topography by the National Ocean Service, Coast Survey,
+with additional data from the Corps of Engineers, Geological Survey, and U.S. Coast Guard.
+
+
+SAILING DIRECTIONS
+Bearings of sailing courses are true and distances given thereon are in
+statue miles between points of departures.
+
+
+NOTE A
+Navigation regulations are published in Chapter 2, U.S.
+Coast Pilot 6.  Additions or revisions to Chapter 2 are pub-
+lished in the Notices to Mariners.  Information concerning
+the regulations may be obtained at the Office of the Com-
+mander, 9th Coast Guard District in Cleveland, Ohio, or at
+the Office of the District Engineer, Corps of Engineers in
+Chicago, Illinois.
+Refer to charted regulation section numbers.
+
+
+SAILING COURSES
+Sailing courses and limits indicated in magenta are recom-
+mended by the Lake Carriers Association and the Canadian
+Shipowners Association.
+
+
+WARNING - PRUDENT MARINER
+The prudent mariner will not rely solely on any single aid
+to navigation, particularly on floating aids.  See U.S. Coast
+Guard Light List and U.S. Coast Pilot 6 for details.
+
+
+POLLUTION REPORTS
+Report all spills of oil and hazardous substances to the National Response
+Center via 1-800-424-8802 (toll free), or to the nearest U.S. Coast Guard facility
+if telephone communication is impossible (33 CFR 153).
+
+
+SUPPLEMENTAL INFORMATION
+Consult U.S. Coast Pilot 6 for important
+supplemental information.
+
+
+CAUTION - TEMPORARY CAHNGES
+Temporary changes or defects in aids to
+navigation are not indicated.  See
+Local Notice to Mariners.
+During some winter months or when endan-
+gered by ice, certain aids to navigation are
+replaced by other types or removed.  For details
+see U.S. Coast Guard Light List.
+
+
+CAUTION - LIMITATIONS
+Limitations on the use of certain other radio signals as
+aids to marine navigation can be found in the
+U.S. Coast Guard Light Lists and National
+Geospatial-Intelligence Agency Publication 117.
+Radio direction-finder bearings to commercial
+broadcasting stations are subject to error and
+should be used with caution.
+
+
+CAUTION - LOW WATER DATUM
+Due to periodic high water conditions in the Great Lakes, some
+features charted as visible at Low Water Datum may be submerged,
+particularly in the near shore areas.  Mariners should proceed with
+caution.
+
+
+CAUTION - DREDGED AREAS
+Improved channels are
+subject to shoaling, particularly at the edges.
+
+
+CAUTION - SUBMARINE PIPELINES AND CABLES
+Additional uncharted submarine pipelines and
+submarine cables may exist within the area of
+this chart. Not all submarine pipelines and sub-
+marine cables are required to be buried, and
+those that were originally buried may have
+become exposed. Mariners should use extreme
+caution when operating vessels in depths of
+water comparable to their draft in areas where
+pipelines and cables may exist, and when
+anchoring, dragging, or trawling.
+covered wells may be marked by lighted or
+unlighted buoys
+
+
+RADAR REFLECTORS
+Radar reflectors have been placed on many
+floating aids to navigation. Individual radar
+reflector identification on these aids has been
+omitted from this chart.
+
+
+NOAA NOAA WEATHER RADIO BROADCASTS
+The National Weather Service stations listed
+below provides continuous marine weather broadcasts.
+The range of reception is typically 20 to 40
+nautical miles from the antenna site, but can be
+as much as 100 nautical miles for stations at
+high elevations.  
+
+Chicago, IL		KWO-39		152.550 MHz
+Chrystal Lake, IL	KXI-41		162.500 MHz
+Lockport, IL		KZZ-81		162.425 MHz
+Racine, WI		KZZ-76		162.450 MHz
+
+
+TIDAL INFORMATION
+For tidal information see the NOS tide table publication or go to http://co-ops.nos.noaa.gov.
+
+
+ADDITIONAL INFORMATION
+Additional information can be obtained at www.nauticalcharts.noaa.gov
+
+
+END OF FILE

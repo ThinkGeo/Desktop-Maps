@@ -1,0 +1,66 @@
+<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.Samples.NauticalCharts"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style x:Key="Heading" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="0,10,0,2"/>
+        </Style>
+        <Style x:Key="Fact" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
+        <Style x:Key="List" TargetType="ItemsControl">
+            <Setter Property="Foreground" Value="#444444"/>
+            <Setter Property="Margin" Value="12,0,0,0"/>
+        </Style>
+    </UserControl.Resources>
+    <DockPanel LastChildFill="True">
+        <StackPanel DockPanel.Dock="Right" Width="340" Background="#F7F7F7">
+            <StackPanel Margin="14,12,14,12">
+                <TextBlock Text="Nautical charts" FontSize="18" FontWeight="SemiBold"/>
+                <TextBlock TextWrapping="Wrap" Foreground="#505050" Margin="0,6,0,10"
+                           Text="An S-57 chart of Chicago Harbor drawn by the NauticalChartsFeatureLayer with its embedded S-52 styling: depth areas coloured by the safety depths, contours, lights, buoys and wrecks. A ship under way asks the chart at every step what the water she is in holds for a vessel of her draft."/>
+
+                <DockPanel>
+                    <TextBlock Text="Draft" VerticalAlignment="Center"/>
+                    <TextBox x:Name="DraftBox" Text="6.5" Width="52" Margin="8,0,4,0" VerticalContentAlignment="Center"/>
+                    <TextBlock Text="m" VerticalAlignment="Center"/>
+                    <Button x:Name="DrawButton" Content="Draw a route" DockPanel.Dock="Right" Padding="10,3" Click="DrawButton_Click"/>
+                    <Button x:Name="SailButton" Content="Stop" DockPanel.Dock="Right" Padding="14,3" Margin="0,0,6,0" Click="SailButton_Click"/>
+                </DockPanel>
+
+                <DockPanel Margin="0,12,0,0">
+                    <TextBlock Text="Status" VerticalAlignment="Center"/>
+                    <Border x:Name="StatusPill" DockPanel.Dock="Right" Background="#888888" CornerRadius="10" Padding="10,2">
+                        <TextBlock x:Name="StatusText" Text="docked" Foreground="White" FontWeight="SemiBold"/>
+                    </Border>
+                </DockPanel>
+                <DockPanel Margin="0,8,0,0">
+                    <TextBlock Text="Charted depth"/>
+                    <TextBlock x:Name="DepthText" Text="-" Style="{StaticResource Fact}"/>
+                </DockPanel>
+                <DockPanel Margin="0,4,0,0">
+                    <TextBlock Text="Under the keel"/>
+                    <TextBlock x:Name="UnderKeelText" Text="-" Style="{StaticResource Fact}"/>
+                </DockPanel>
+
+                <TextBlock Text="Aids to navigation nearby" Style="{StaticResource Heading}"/>
+                <ItemsControl x:Name="AidsList" Style="{StaticResource List}"/>
+                <TextBlock Text="Hazards within 500 m" Style="{StaticResource Heading}"/>
+                <ItemsControl x:Name="HazardsList" Style="{StaticResource List}"/>
+                <TextBlock Text="Restricted areas here" Style="{StaticResource Heading}"/>
+                <ItemsControl x:Name="RestrictedList" Style="{StaticResource List}"/>
+
+                <TextBlock x:Name="Hint" TextWrapping="Wrap" Foreground="#808080" Margin="0,14,0,0"
+                           Text="Draw a route: click the vertices, double-click to finish; the ship sails it in a loop."/>
+            </StackPanel>
+        </StackPanel>
+        <thinkGeoUi:MapView x:Name="Map" Loaded="Map_Loaded"/>
+    </DockPanel>
+</UserControl>
