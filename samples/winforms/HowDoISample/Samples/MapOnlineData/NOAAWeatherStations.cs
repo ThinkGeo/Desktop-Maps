@@ -20,7 +20,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Create background world map with vector tile requested from ThinkGeo Cloud Service. 
             var thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey);
             // Set up the tile cache for the ThinkGeoVectorTileOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoVectorTileOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            thinkGeoVectorTileOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_tile_light");
             mapView.Overlays.Add(thinkGeoVectorTileOverlay);
 
             // Set the extent to a view of the US

@@ -19,7 +19,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Add Cloud Maps as a background overlay
             var thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey);
-            thinkGeoVectorTileOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            thinkGeoVectorTileOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_tile_light");
             mapView.Overlays.Add(thinkGeoVectorTileOverlay);
 
             var layerOverlay = new LayerOverlay();
