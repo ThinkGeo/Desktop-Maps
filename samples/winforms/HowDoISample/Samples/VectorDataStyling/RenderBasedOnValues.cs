@@ -21,13 +21,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-            {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light
-            };
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            var thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey);
+            mapView.Overlays.Add(thinkGeoVectorTileOverlay);
 
             // Project the layer's data to match the projection of the map
             friscoCrime.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);

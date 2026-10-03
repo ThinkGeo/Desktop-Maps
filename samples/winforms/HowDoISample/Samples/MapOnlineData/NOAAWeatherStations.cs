@@ -18,16 +18,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Create background world map with vector tile requested from ThinkGeo Cloud Service. 
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-            {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light
-
-            };
-            // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            var thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey);
+            // Set up the tile cache for the ThinkGeoVectorTileOverlay, passing in the location and an ID to distinguish the cache. 
+            thinkGeoVectorTileOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            mapView.Overlays.Add(thinkGeoVectorTileOverlay);
 
             // Set the extent to a view of the US
             mapView.CurrentExtent = new RectangleShape(-14927495, 8262593, -6686622, 1827556);

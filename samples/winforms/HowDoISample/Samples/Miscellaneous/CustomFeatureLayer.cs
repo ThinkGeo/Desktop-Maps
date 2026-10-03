@@ -18,15 +18,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-            {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light
-
-            };
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            var thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey);
+            thinkGeoVectorTileOverlay.TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light");
+            mapView.Overlays.Add(thinkGeoVectorTileOverlay);
 
             var layerOverlay = new LayerOverlay();
             layerOverlay.TileType = TileType.SingleTile;

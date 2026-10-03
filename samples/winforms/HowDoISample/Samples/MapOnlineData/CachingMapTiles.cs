@@ -6,7 +6,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 {
     public class CachingMapTiles : UserControl
     {
-        ThinkGeoCloudVectorMapsOverlay thinkGeoCloudVectorMapsOverlay;
+        ThinkGeoVectorTileOverlay thinkGeoVectorTileOverlay;
         public CachingMapTiles()
         {
             InitializeComponent();
@@ -18,14 +18,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-            {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light
-
-            };
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey);
+            mapView.Overlays.Add(thinkGeoVectorTileOverlay);
 
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
@@ -35,7 +29,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void useCache_CheckedChanged(object sender, EventArgs e)
         {
-            thinkGeoCloudVectorMapsOverlay.TileCache = new FileRasterTileCache("cache", "CloudMapsImages", GeoImageFormat.Png);
+            thinkGeoVectorTileOverlay.TileCache = new FileRasterTileCache("cache", "CloudMapsImages", GeoImageFormat.Png);
         }
 
         #region Component Designer generated code

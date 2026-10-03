@@ -22,13 +22,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.ZoomScales = zoomLevelSet.GetScales();
 
             // Create the layer overlay with some additional settings and add to the map.
-            var cloudOverlay = new ThinkGeoCloudVectorMapsOverlay
-            {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light
-
-            };
+            var cloudOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey);
             mapView.Overlays.Add("Cloud Overlay", cloudOverlay);
 
             // Set the current extent to a neighborhood in Frisco Texas.
@@ -48,18 +42,21 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var button = (RadioButton)sender;
             if (mapView.Overlays.Contains("Cloud Overlay"))
             {
-                var cloudOverlay = (ThinkGeoCloudVectorMapsOverlay)mapView.Overlays["Cloud Overlay"];
+                var cloudOverlay = (ThinkGeoVectorTileOverlay)mapView.Overlays["Cloud Overlay"];
 
                 switch (button.Text)
                 {
                     case "Light":
-                        cloudOverlay.MapType = ThinkGeoCloudVectorMapsMapType.Light;
+                        cloudOverlay.StyleUri = ThinkGeoVectorStyles.Light;
+                        cloudOverlay.TransparentBackground = false;
                         break;
                     case "Dark":
-                        cloudOverlay.MapType = ThinkGeoCloudVectorMapsMapType.Dark;
+                        cloudOverlay.StyleUri = ThinkGeoVectorStyles.Dark;
+                        cloudOverlay.TransparentBackground = false;
                         break;
                     case "TransparentBackground":
-                        cloudOverlay.MapType = ThinkGeoCloudVectorMapsMapType.TransparentBackground;
+                        cloudOverlay.StyleUri = ThinkGeoVectorStyles.Light;
+                        cloudOverlay.TransparentBackground = true;
                         break;
                 }
                 await mapView.RefreshAsync();
@@ -71,18 +68,21 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var button = (RadioButton)sender;
             if (mapView.Overlays.Contains("Cloud Overlay"))
             {
-                var cloudOverlay = (ThinkGeoCloudVectorMapsOverlay)mapView.Overlays["Cloud Overlay"];
+                var cloudOverlay = (ThinkGeoVectorTileOverlay)mapView.Overlays["Cloud Overlay"];
 
                 switch (button.Text)
                 {
                     case "Light":
-                        cloudOverlay.MapType = ThinkGeoCloudVectorMapsMapType.Light;
+                        cloudOverlay.StyleUri = ThinkGeoVectorStyles.Light;
+                        cloudOverlay.TransparentBackground = false;
                         break;
                     case "Dark":
-                        cloudOverlay.MapType = ThinkGeoCloudVectorMapsMapType.Dark;
+                        cloudOverlay.StyleUri = ThinkGeoVectorStyles.Dark;
+                        cloudOverlay.TransparentBackground = false;
                         break;
                     case "TransparentBackground":
-                        cloudOverlay.MapType = ThinkGeoCloudVectorMapsMapType.TransparentBackground;
+                        cloudOverlay.StyleUri = ThinkGeoVectorStyles.Light;
+                        cloudOverlay.TransparentBackground = true;
                         break;
                 }
                 await mapView.RefreshAsync();
@@ -94,18 +94,21 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var button = (RadioButton)sender;
             if (mapView.Overlays.Contains("Cloud Overlay"))
             {
-                var cloudOverlay = (ThinkGeoCloudVectorMapsOverlay)mapView.Overlays["Cloud Overlay"];
+                var cloudOverlay = (ThinkGeoVectorTileOverlay)mapView.Overlays["Cloud Overlay"];
 
                 switch (button.Text)
                 {
                     case "Light":
-                        cloudOverlay.MapType = ThinkGeoCloudVectorMapsMapType.Light;
+                        cloudOverlay.StyleUri = ThinkGeoVectorStyles.Light;
+                        cloudOverlay.TransparentBackground = false;
                         break;
                     case "Dark":
-                        cloudOverlay.MapType = ThinkGeoCloudVectorMapsMapType.Dark;
+                        cloudOverlay.StyleUri = ThinkGeoVectorStyles.Dark;
+                        cloudOverlay.TransparentBackground = false;
                         break;
                     case "TransparentBackground":
-                        cloudOverlay.MapType = ThinkGeoCloudVectorMapsMapType.TransparentBackground;
+                        cloudOverlay.StyleUri = ThinkGeoVectorStyles.Light;
+                        cloudOverlay.TransparentBackground = true;
                         break;
                 }
                 await mapView.RefreshAsync();
