@@ -25,9 +25,6 @@
                       VerticalAlignment="Center" Margin="12,4,0,4"
                       Checked="PointToggle_Changed" Unchecked="PointToggle_Changed"
                       ToolTip="The measurements the surface is interpolated FROM. Shown for up to 2,000 points - past that the markers would drown the map and the point they are making."/>
-            <CheckBox Content="rebuild/frame" VerticalAlignment="Center" Margin="12,0,0,0"
-                      Checked="EveryFrameToggle_Changed" Unchecked="EveryFrameToggle_Changed"
-                      ToolTip="Rebuild the surface every frame instead of when it goes stale - the honest way to find out whether the intermediate grid is a concept you need. At 16 points nothing changes; at 100,000 it crawls."/>
             <Button x:Name="ExportButton" Content="export features" VerticalAlignment="Center"
                     Margin="12,0,0,0" Padding="8,2,8,2" Click="ExportButton_Click"
                     ToolTip="Read the GPU field back, run the SDK's marching squares on it (IsoLineLayer.GetIsoFeatures), and DRAW the result as classic features over the GPU contours - so the geometry can be compared with the per-pixel drawing it came from, and then queried, measured or exported like any other feature."/>

@@ -41,7 +41,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private bool _fillBands;
         private double _searchRadius;   // 0 = every point
         private bool _showLabels = true;
-        private bool _rebuildEveryFrame;
         private SimpleMarkerOverlay _pointOverlay;
         private LayerOverlay _exportOverlay;
         private InMemoryFeatureLayer _exportLayer;
@@ -125,12 +124,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             }
         }
 
-        private void EveryFrameToggle_Changed(object sender, RoutedEventArgs e)
-        {
-            _rebuildEveryFrame = (sender as CheckBox)?.IsChecked == true;
-            ApplyIsolines();
-        }
-
         private void ExportButton_Click(object sender, RoutedEventArgs e) => ExportFeatures();
 
         private void LevelSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -179,7 +172,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             {
                 Power = _power,
                 SearchRadius = _searchRadius,
-                RebuildEveryFrame = _rebuildEveryFrame,
                 // The field pass is O(texels x points); at 100k points a 1024^2 field
                 // costs ~1.8s per rebuild on an RTX 2070, 512^2 a quarter of that.
                 // Rebuilds happen on zoom or data/parameter changes, not per frame,
