@@ -13,7 +13,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
     /// Open a vector file - a shapefile, GeoJSON, KML, GPX, MapInfo TAB, TinyGeo, CAD,
-    /// an S-57 nautical chart, a GeoPDF - or build features in memory, and draw them.
+    /// a GeoPDF - or build features in memory, and draw them.
     /// Reading the format is one line; everything after it is the same for all of
     /// them, because a FeatureSource is a FeatureSource.
     /// </summary>
@@ -174,10 +174,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             if (FmtCad.IsChecked == true)
                 return new CadFeatureSource(Data("CAD", "Zipcodes.DWG"))
                 { ProjectionConverter = new ProjectionConverter(103376, 3857) };
-
-            if (FmtS57.IsChecked == true)
-                return new NauticalChartsFeatureSource(Data(Path.Combine("S57", "US1GC09M"), "US1GC09M.000"))
-                { ProjectionConverter = new ProjectionConverter(4326, 3857) };
 
             if (FmtGeoPdf.IsChecked == true)
                 return new GeoPdfGdalFeatureSource(Data("GeoPdf", "bangalore.pdf"))

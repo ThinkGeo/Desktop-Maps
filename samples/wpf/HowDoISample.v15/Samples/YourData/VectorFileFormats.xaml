@@ -59,7 +59,6 @@
                 <RadioButton x:Name="FmtTab" Content="MapInfo TAB" Checked="Format_Checked"/>
                 <RadioButton x:Name="FmtTinyGeo" Content="TinyGeo" Checked="Format_Checked"/>
                 <RadioButton x:Name="FmtCad" Content="CAD (DWG)" Checked="Format_Checked"/>
-                <RadioButton x:Name="FmtS57" Content="S-57 nautical chart" Checked="Format_Checked"/>
                 <RadioButton x:Name="FmtGeoPdf" Content="GeoPDF" Checked="Format_Checked"/>
                 <RadioButton x:Name="FmtInMemory" Content="In memory (built in code)" Checked="Format_Checked"/>
             </StackPanel>

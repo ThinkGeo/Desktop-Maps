@@ -133,7 +133,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // FeatureSource into vector tiles, ClassicRasterTileSource serves any
             // RasterSource, and an archive of tiles is a tile source already.
             new SampleEntry("Your Data", "Vector File Formats", "VectorFileFormats.xaml.cs",
-                "Open a vector file - a shapefile, GeoJSON, KML, GPX, MapInfo TAB, TinyGeo, CAD, an S-57 chart, a GeoPDF - or build features in code; reading the format is the only line that differs",
+                "Open a vector file - a shapefile, GeoJSON, KML, GPX, MapInfo TAB, TinyGeo, CAD, a GeoPDF - or build features in code; reading the format is the only line that differs",
                 "FeatureSourceVectorTileSource", true, typeof(Samples.VectorFileFormats), () => new Samples.VectorFileFormats()),
             new SampleEntry("Your Data", "Raster File Formats", "RasterFileFormats.xaml.cs",
                 "Open a raster file - GeoTIFF, ECW, JPEG 2000, MrSID or anything else GDAL reads - through the classic source named after the format, warped to Web Mercator once and served as tiles",
