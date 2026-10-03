@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -23,7 +23,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
     /// camera the engine flies, the vehicle in the style's marker batch, and 3D
     /// buildings standing in front of the road behind them.
     /// <para>
-    /// The lanes come from the DLR's ASAM OpenDRIVE HD map of Brunswick, evaluated
+    /// The lanes come from the DLR's ASAM OpenDRIVE HD map of Wolfsburg, evaluated
     /// offline into GeoJSON (Data\OpenDrive\tools\xodr-to-lanes.py): lane polygons,
     /// road marks by type, curbs, and the vertical level of each road section
     /// where one road passes over another. The GeoJSON is served as vector tiles by
@@ -95,7 +95,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private async Task LoadAsync()
         {
             var folder = Path.Combine(AppContext.BaseDirectory, "Data", "OpenDrive");
-            _laneMap = LaneMap.Load(Path.Combine(folder, "XodrBrunswickLanes.geojson"), Path.Combine(folder, "XodrBrunswickRoute.json"));
+            _laneMap = LaneMap.Load(Path.Combine(folder, "XodrWolfsburgLanes.geojson"), Path.Combine(folder, "XodrWolfsburgRoute.json"));
 
             // Every source-layer the style names is one in-memory feature source,
             // cut into vector tiles on the fly - the same path a shapefile or a

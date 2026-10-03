@@ -30,6 +30,12 @@ from shapely.geometry import Polygon
 from shapely.ops import unary_union
 from shapely.strtree import STRtree
 
+# How far a drive should run before the search is satisfied, how far sideways a merge
+# may reach for the next lane, and how many steps the backtracking walk may spend.
+DriveTargetMetres = 3000.0
+MergeReachMetres = 6.0
+WalkStepBudget = 20000
+
 LAYER_FOR_MARK = {
     ("solid", "standard"): "lane_marking_solid",
     ("solid", "white"): "lane_marking_solid",
@@ -442,6 +448,43 @@ def main():
             return (road.id, 0, lid, +1)
         return (road.id, len(road.sections) - 1, lid, -1)
 
+    def merge_successors(state):
+        """Where a lane simply ends - a drop, or the taper of a merge - its link chain
+        stops even though the road runs on, and a drive that only follows links dies
+        there. A driver moves over: this picks the nearest driving lane at the same
+        place, so the route is not cut short by every lane that ends."""
+        road_id, si, lid, direction = state
+        road = roads[road_id]
+        here = centreline((road_id, si, lid), direction)
+        if len(here) < 2:
+            return []
+        end = here[-1]
+        next_si = si + direction
+        if 0 <= next_si < len(road.sections):
+            pool = [(road_id, next_si, l, direction) for (r, s, l) in lane_type if r == road_id and s == next_si]
+        else:
+            road_link = road.succ if direction > 0 else road.pred
+            if road_link is None or road_link.get("elementType") != "road":
+                return []
+            nxt = roads.get(road_link.get("elementId"))
+            if nxt is None:
+                return []
+            contact = road_link.get("contactPoint", "start")
+            si2 = 0 if contact == "start" else len(nxt.sections) - 1
+            dir2 = +1 if contact == "start" else -1
+            pool = [(nxt.id, si2, l, dir2) for (r, s, l) in lane_type if r == nxt.id and s == si2]
+        best, best_gap = None, MergeReachMetres
+        for cand in pool:
+            if lane_type.get(cand[:3]) not in DRIVING:
+                continue
+            pts = centreline(cand[:3], cand[3])
+            if len(pts) < 2:
+                continue
+            gap = math.hypot(pts[0][0] - end[0], pts[0][1] - end[1])
+            if gap < best_gap:
+                best, best_gap = cand, gap
+        return [best] if best is not None else []
+
     def successors(state):
         road_id, si, lid, direction = state
         road = roads[road_id]
@@ -453,7 +496,9 @@ def main():
         next_lids = [int(l.get("id")) for l in link.findall(link_tag)] if link is not None else []
         next_si = si + direction
         if 0 <= next_si < len(road.sections):
-            return [(road_id, next_si, n, direction) for n in next_lids if lane_type.get((road_id, next_si, n)) in DRIVING]
+            return ([(road_id, next_si, n, direction) for n in next_lids
+                     if lane_type.get((road_id, next_si, n)) in DRIVING]
+                    or merge_successors(state))
         road_link = road.succ if direction > 0 else road.pred
         if road_link is None:
             return []
@@ -479,7 +524,7 @@ def main():
                             st = enter_road(connecting, conn.get("contactPoint", "start"), int(ll.get("to")))
                             if lane_type.get(st[:3]) in DRIVING:
                                 out.append(st)
-        return out
+        return out or merge_successors(state)
 
     def lanes_across(state):
         road_id, si, lid, direction = state
@@ -497,18 +542,40 @@ def main():
     # Scored by length x lanes across, so the drive prefers the wide roads: a
     # lane-level view has more to show on three lanes than on one.
     def walk(start):
-        path, seen = [start], {start}
-        score = piece_length(start) * lanes_across(start)[1]
-        while True:
+        """The drive from this lane: straightest at every fork, which keeps it reading
+        like one road rather than a tour of the neighbourhood. A dead end is not the end
+        of it - the walk backs up to the last fork with an unvisited option and carries
+        on - and it stops once the drive is long enough to be a drive, so the search
+        does not turn into an exhaustive tour of every alley the map holds."""
+        best_length, best_path = 0.0, [start]
+        path, seen, pending = [start], {start}, [None]
+        length = piece_length(start)
+        budget = WalkStepBudget
+        while path and budget > 0:
+            budget -= 1
             cur = path[-1]
-            options = [s for s in successors(cur) if s not in seen and len(centreline(s[:3], s[3])) >= 2]
-            if not options:
-                return score, path
-            h = heading(centreline(cur[:3], cur[3]), True)
-            best = min(options, key=lambda s: abs(turn(h, heading(centreline(s[:3], s[3]), False))))
-            path.append(best)
-            seen.add(best)
-            score += piece_length(best) * lanes_across(best)[1]
+            if pending[-1] is None:
+                options = [s for s in successors(cur) if s not in seen and len(centreline(s[:3], s[3])) >= 2]
+                h = heading(centreline(cur[:3], cur[3]), True)
+                options.sort(key=lambda s: abs(turn(h, heading(centreline(s[:3], s[3]), False))))
+                pending[-1] = options
+            if length > best_length:
+                best_length, best_path = length, list(path)
+                if best_length >= DriveTargetMetres:
+                    return best_length, best_path
+            if pending[-1]:
+                nxt = pending[-1].pop(0)
+                path.append(nxt)
+                seen.add(nxt)
+                length += piece_length(nxt)
+                pending.append(None)
+            else:
+                dropped = path.pop()
+                pending.pop()
+                seen.discard(dropped)
+                if path:
+                    length -= piece_length(dropped)
+        return best_length, best_path
 
     # Starts: the middle lane of any multi-lane section on a non-junction road,
     # so the drive opens on the widest stretch the map has; single-lane roads
