@@ -901,6 +901,12 @@
         "source": "Samples/Miscellaneous/PrintOrExportTheMap"
       },
       {
+        "id": "ThinkGeo.UI.Wpf.HowDoI.ExportAMultiPagePdf",
+        "title": "Export a Multi-Page PDF",
+        "description": "Split an area into a grid of sheets and write one PDF with a page per sheet, using PrinterLayoutDocument and PdfGeoCanvas.",
+        "source": "Samples/Miscellaneous/ExportAMultiPagePdf"
+      },
+      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.HandleExceptions",
         "title": "Handle Exceptions",
         "description": "Learn how to throw an overlay exception, or draw the exception on the map.",
