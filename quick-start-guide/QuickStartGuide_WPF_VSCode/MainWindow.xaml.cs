@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ThinkGeo.Core;
+using ThinkGeo.UI.Wpf;
 
 namespace MapDemo;
 
@@ -30,8 +31,7 @@ public partial class MainWindow : Window
         mapView.CurrentExtent = MaxExtents.ThinkGeoMaps;
                         
         // Add a base map overlay.
-        var baseOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~", 
-            "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+        var baseOverlay = new ThinkGeoVectorTileOverlay("SGjwpxF60knqZi3R0A9RRE3GqiuRA1LsnxHMot7rJ58~");
         // Set up the tile cache for the base overlay, passing in the location and an ID to distinguish the cache.     
         baseOverlay.TileCache = new FileRasterTileCache(@".\cache", "basemap");
 

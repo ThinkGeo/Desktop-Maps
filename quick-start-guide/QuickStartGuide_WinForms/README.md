@@ -75,7 +75,7 @@ Add the form's load event in the `Form1` constructor to display the map.
  this.Load += new System.EventHandler(this.Form_Load);
 ```
 
-Add the following code to the `Form_Load` event, which is triggered when `Form1` is fully loaded and ready to use. (The key passed to ThinkGeoCloudVectorMapsOverlay is for test only; you can apply for your own key from [ThinkGeo Cloud](https://cloud.thinkgeo.com/clients.html))
+Add the following code to the `Form_Load` event, which is triggered when `Form1` is fully loaded and ready to use. (The key passed to ThinkGeoVectorTileOverlay is for test only; you can apply for your own key from [ThinkGeo Cloud](https://cloud.thinkgeo.com/clients.html))
 
 We have set up a tile cache for the base overlay to improve performance. This cache retrieves tiles from the local disk instead of downloading them from the internet each time they are needed.
 
@@ -86,14 +86,11 @@ private async void Form_Load(object? sender, EventArgs e)
     mapView.MapUnit = GeographyUnit.Meter;
 
     // Add Cloud Maps as a background overlay
-    var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+    var thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay("SGjwpxF60knqZi3R0A9RRE3GqiuRA1LsnxHMot7rJ58~")
     {
-        ClientId = "AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~",
-        ClientSecret = "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~",
-        MapType = ThinkGeoCloudVectorMapsMapType.Light,
-        TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+        TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_tile_light")
     };
-    mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+    mapView.Overlays.Add(thinkGeoVectorTileOverlay);
 
     // Set the map extent
     mapView.CurrentExtent = MaxExtents.ThinkGeoMaps;
