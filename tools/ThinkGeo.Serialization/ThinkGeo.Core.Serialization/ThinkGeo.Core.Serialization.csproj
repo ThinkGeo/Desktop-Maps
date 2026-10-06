@@ -14,8 +14,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ThinkGeo.Core" Version="15.0.0-beta022" />
-    <PackageReference Include="System.Text.Json" Version="9.0.10" />
+    <PackageReference Include="ThinkGeo.Core" Version="15.0.0-beta205" />
+    <PackageReference Include="System.Text.Json" Version="10.0.9" />
   </ItemGroup>
 
 </Project>

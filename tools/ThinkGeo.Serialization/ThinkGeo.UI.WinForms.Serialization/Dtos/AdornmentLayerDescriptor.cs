@@ -23,6 +23,8 @@ public abstract record AdornmentLayerDescriptor
 
     /// <summary>Corner anchor: <c>"UpperLeft" | "UpperCenter" | "UpperRight" | "CenterLeft" | "Center" | "CenterRight" | "LowerLeft" | "LowerCenter" | "LowerRight"</c>.</summary>
     public string Location { get; init; } = "LowerRight";
+    /// <summary>Kept for snapshots taken before ThinkGeo 14.5, which recorded a size; an adornment
+    /// is the size it draws now, scaled by <see cref="ResizeScale"/>, and these are no longer written.</summary>
     public float Width { get; init; }
     public float Height { get; init; }
     public float XOffsetInPixel { get; init; }

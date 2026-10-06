@@ -10,7 +10,7 @@ namespace ThinkGeo.UI.WinForms.Serialization.Mappers;
 
 /// <summary>
 /// Maps between <see cref="Overlay"/> instances and <see cref="OverlayDescriptor"/>.
-/// Implemented: LayerOverlay, BackgroundOverlay, SimpleMarkerOverlay, ThinkGeoCloudVectorMapsOverlay,
+/// Implemented: LayerOverlay, BackgroundOverlay, SimpleMarkerOverlay, ThinkGeoVectorTileOverlay, ThinkGeoCloudVectorMapsOverlay,
 /// ThinkGeoCloudRasterMapsOverlay, OpenStreetMapOverlay, WmsOverlay, WmtsOverlay, BingMapsOverlay,
 /// GoogleMapsOverlay, AzureMapsRasterOverlay, HereMapsRasterTileOverlay, MapBoxStaticTilesOverlay.
 /// Unknown overlay types throw <see cref="NotSupportedException"/>.
@@ -24,12 +24,21 @@ public static class OverlayMapper
 
         OverlayDescriptor? descriptor = overlay switch
         {
+            ThinkGeoVectorTileOverlay vt => new ThinkGeoVectorTileOverlayDescriptor
+            {
+                ApiKey = vt.ApiKey ?? string.Empty,
+                StyleUri = vt.StyleUri ?? string.Empty,
+                TransparentBackground = vt.TransparentBackground,
+                LabelDisplayMode = vt.LabelDisplayMode.ToString(),
+            },
+#pragma warning disable CS0618 // The old overlay ships until 15.4, and a snapshot of it still reads back.
             ThinkGeoCloudVectorMapsOverlay cv => new ThinkGeoCloudVectorMapsOverlayDescriptor
             {
                 ClientId = cv.ClientId ?? string.Empty,
                 ClientSecret = cv.ClientSecret ?? string.Empty,
                 MapType = cv.MapType.ToString(),
             },
+#pragma warning restore CS0618
             ThinkGeoCloudRasterMapsOverlay cr => new ThinkGeoCloudRasterMapsOverlayDescriptor
             {
                 ClientId = cr.ClientId ?? string.Empty,
@@ -173,6 +182,7 @@ public static class OverlayMapper
 
         Overlay? overlay = descriptor switch
         {
+            ThinkGeoVectorTileOverlayDescriptor vt => BuildThinkGeoVectorTileOverlay(vt),
             ThinkGeoCloudVectorMapsOverlayDescriptor cv => BuildThinkGeoCloudVectorOverlay(cv),
             ThinkGeoCloudRasterMapsOverlayDescriptor cr => BuildThinkGeoCloudRasterOverlay(cr),
             OpenStreetMapOverlayDescriptor osm => string.IsNullOrEmpty(osm.UserAgent)
@@ -228,6 +238,21 @@ public static class OverlayMapper
         return null;
     }
 
+    private static ThinkGeoVectorTileOverlay BuildThinkGeoVectorTileOverlay(ThinkGeoVectorTileOverlayDescriptor descriptor)
+    {
+        var overlay = string.IsNullOrEmpty(descriptor.StyleUri)
+            ? new ThinkGeoVectorTileOverlay(descriptor.ApiKey)
+            : new ThinkGeoVectorTileOverlay(descriptor.ApiKey, descriptor.StyleUri);
+        overlay.TransparentBackground = descriptor.TransparentBackground;
+        if (Enum.TryParse<LabelDisplayMode>(descriptor.LabelDisplayMode, ignoreCase: true, out var mode))
+        {
+            overlay.LabelDisplayMode = mode;
+        }
+
+        return overlay;
+    }
+
+#pragma warning disable CS0618 // The old overlay ships until 15.4, and a snapshot of it still reads back.
     private static ThinkGeoCloudVectorMapsOverlay BuildThinkGeoCloudVectorOverlay(ThinkGeoCloudVectorMapsOverlayDescriptor descriptor)
     {
         var mapType = Enum.TryParse<ThinkGeoCloudVectorMapsMapType>(descriptor.MapType, ignoreCase: true, out var mt)
@@ -235,6 +260,7 @@ public static class OverlayMapper
             : ThinkGeoCloudVectorMapsMapType.Light;
         return new ThinkGeoCloudVectorMapsOverlay(descriptor.ClientId, descriptor.ClientSecret, mapType);
     }
+#pragma warning restore CS0618
 
     private static ThinkGeoCloudRasterMapsOverlay BuildThinkGeoCloudRasterOverlay(ThinkGeoCloudRasterMapsOverlayDescriptor descriptor)
     {

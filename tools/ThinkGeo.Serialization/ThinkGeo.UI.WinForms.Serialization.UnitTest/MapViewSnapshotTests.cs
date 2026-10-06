@@ -62,8 +62,6 @@ public class MapViewSnapshotTests
             src.Map.AdornmentOverlay.Layers.Add(new LogoAdornmentLayer
             {
                 Location = AdornmentLocation.UpperLeft,
-                Width = 120,
-                Height = 40,
             });
             src.Map.AdornmentOverlay.Layers.Add(new ScaleLineAdornmentLayer
             {

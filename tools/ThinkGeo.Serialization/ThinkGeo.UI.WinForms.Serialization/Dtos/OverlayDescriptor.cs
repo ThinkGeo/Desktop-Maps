@@ -11,6 +11,7 @@ namespace ThinkGeo.UI.WinForms.Serialization.Dtos;
 [JsonDerivedType(typeof(LayerOverlayDescriptor), "layerOverlay")]
 [JsonDerivedType(typeof(BackgroundOverlayDescriptor), "background")]
 [JsonDerivedType(typeof(SimpleMarkerOverlayDescriptor), "simpleMarker")]
+[JsonDerivedType(typeof(ThinkGeoVectorTileOverlayDescriptor), "thinkGeoVectorTile")]
 [JsonDerivedType(typeof(ThinkGeoCloudVectorMapsOverlayDescriptor), "thinkGeoCloudVector")]
 [JsonDerivedType(typeof(ThinkGeoCloudRasterMapsOverlayDescriptor), "thinkGeoCloudRaster")]
 [JsonDerivedType(typeof(OpenStreetMapOverlayDescriptor), "openStreetMap")]
@@ -64,7 +65,16 @@ public sealed record MarkerDescriptor(
     string? ImagePath = null,
     string? ToolTip = null);
 
-/// <summary>ThinkGeo Cloud vector map service.</summary>
+/// <summary>ThinkGeo's vector basemap - the newer vector tiles drawn from a MapLibre style document.</summary>
+public sealed record ThinkGeoVectorTileOverlayDescriptor : OverlayDescriptor
+{
+    public string ApiKey { get; init; } = "";
+    public string StyleUri { get; init; } = "";
+    public bool TransparentBackground { get; init; }
+    public string LabelDisplayMode { get; init; } = "LabelsAndShapes";
+}
+
+/// <summary>ThinkGeo Cloud vector map service (obsolete; kept for snapshots taken before 15.4).</summary>
 public sealed record ThinkGeoCloudVectorMapsOverlayDescriptor : OverlayDescriptor
 {
     public string ClientId { get; init; } = "";

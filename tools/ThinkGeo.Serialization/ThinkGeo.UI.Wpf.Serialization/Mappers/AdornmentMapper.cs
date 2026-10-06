@@ -94,8 +94,9 @@ public static class AdornmentMapper
             Name = layer.Name ?? string.Empty,
             IsVisible = layer.IsVisible,
             Location = layer.Location.ToString(),
-            Width = layer.Width,
-            Height = layer.Height,
+            // Width and Height are not recorded: since ThinkGeo 14.5 an adornment is the size it
+            // draws, scaled by ResizeScale, and that size is known only once it has drawn. The
+            // descriptor keeps the two fields so snapshots taken before read back.
             XOffsetInPixel = layer.XOffsetInPixel,
             YOffsetInPixel = layer.YOffsetInPixel,
             ResizeScale = layer.ResizeScale,
@@ -124,8 +125,6 @@ public static class AdornmentMapper
         layer.Location = Enum.TryParse<AdornmentLocation>(descriptor.Location, ignoreCase: true, out var loc)
             ? loc
             : AdornmentLocation.LowerRight;
-        layer.Width = descriptor.Width;
-        layer.Height = descriptor.Height;
         layer.XOffsetInPixel = descriptor.XOffsetInPixel;
         layer.YOffsetInPixel = descriptor.YOffsetInPixel;
         layer.ResizeScale = descriptor.ResizeScale;

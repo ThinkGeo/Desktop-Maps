@@ -20,8 +20,8 @@ public class AdornmentMapperTests
             {
                 Name = "watermark",
                 Location = AdornmentLocation.UpperLeft,
-                Width = 120,
-                Height = 40,
+                ResizeScale = 1.5f,
+                Image = new GeoImage(120, 40),
             };
 
             var dto = AdornmentMapper.ToDescriptor(original)!;
@@ -31,7 +31,8 @@ public class AdornmentMapperTests
 
             Assert.Equal("watermark", roundTripped.Name);
             Assert.Equal(AdornmentLocation.UpperLeft, roundTripped.Location);
-            Assert.Equal(120, roundTripped.Width);
+            Assert.Equal(1.5f, roundTripped.ResizeScale);
+            Assert.Equal(120, original.GetWidth());
             await Task.CompletedTask;
         });
     }
@@ -199,7 +200,7 @@ public class AdornmentMapperTests
                 CurrentScale = 1_000_000,
             };
             source.AdornmentOverlay.Layers.Add(new LogoAdornmentLayer
-                { Location = AdornmentLocation.UpperLeft, Width = 100, Height = 30 });
+                { Location = AdornmentLocation.UpperLeft });
             source.AdornmentOverlay.Layers.Add(new ScaleLineAdornmentLayer
                 { Location = AdornmentLocation.LowerLeft, UnitSystem = ScaleLineUnitSystem.ImperialAndMetric });
 

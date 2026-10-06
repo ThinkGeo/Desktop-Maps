@@ -11,6 +11,34 @@ namespace ThinkGeo.UI.Wpf.Serialization.UnitTest;
 public class OverlayMapperTests
 {
     [Fact]
+    public void ThinkGeoVectorTileOverlay_RoundTrips_ViaJson()
+    {
+        StaRunner.Run(async () =>
+        {
+            var original = new ThinkGeoVectorTileOverlay("api-key", ThinkGeoVectorStyles.Dark)
+            {
+                Name = "tg-vector-tile",
+                TransparentBackground = true,
+                LabelDisplayMode = LabelDisplayMode.ShapesOnly,
+            };
+
+            var dto = OverlayMapper.ToDescriptor(original);
+            var json = JsonSerializer.Serialize(dto);
+            Assert.Contains("\"kind\":\"thinkGeoVectorTile\"", json);
+            var deserialized = JsonSerializer.Deserialize<OverlayDescriptor>(json)!;
+            var roundTripped = (ThinkGeoVectorTileOverlay)OverlayMapper.FromDescriptor(deserialized);
+
+            Assert.Equal("tg-vector-tile", roundTripped.Name);
+            Assert.Equal("api-key", roundTripped.ApiKey);
+            Assert.Equal(ThinkGeoVectorStyles.Dark, roundTripped.StyleUri);
+            Assert.True(roundTripped.TransparentBackground);
+            Assert.Equal(LabelDisplayMode.ShapesOnly, roundTripped.LabelDisplayMode);
+            await Task.CompletedTask;
+        });
+    }
+
+#pragma warning disable CS0618 // The old overlay ships until 15.4; its snapshot still reads back.
+    [Fact]
     public void ThinkGeoCloudVectorOverlay_RoundTrips_ViaJson()
     {
         StaRunner.Run(async () =>
@@ -31,6 +59,8 @@ public class OverlayMapperTests
             await Task.CompletedTask;
         });
     }
+
+#pragma warning restore CS0618
 
     [Fact]
     public void ThinkGeoCloudRasterOverlay_RoundTrips_ViaJson()
