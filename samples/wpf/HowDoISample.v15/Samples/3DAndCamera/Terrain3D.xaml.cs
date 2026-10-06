@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using ThinkGeo.Core;
+using ThinkGeo.Core.Styling;
 using ThinkGeo.Gpu;
 using ThinkGeo.UI.Wpf;
 
@@ -13,7 +14,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
     /// 3D terrain over the Grand Canyon: an elevation source shapes the ground and aerial
-    /// imagery drapes over it. The elevation source is built IN CODE - a DemSource handed
+    /// imagery drapes over it. The elevation source is built IN CODE - a RasterDemSource handed
     /// to SetTerrain, no style document declaring it - and lands in the style under the id
     /// <c>terrain-dem</c>, which the relief layer in the editor references. (A style
     /// document carrying its own <c>raster-dem</c> and root <c>terrain</c> lights up
@@ -28,10 +29,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             new RectangleShape(-12_534_000, 4_346_000, -12_484_000, 4_314_000);
 
         private readonly ThinkGeoRasterTileSource _aerial =
-            new ThinkGeoRasterTileSource(SampleShared.CloudApiKey, ThinkGeoRasterMapType.Aerial);
+            new ThinkGeoRasterTileSource(SampleShared.CloudApiKey, ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1);
 
-        // The AWS open terrarium tiles (no key), as a code-built DemSource.
-        private readonly DemSource _dem = new DemSource(
+        // The AWS open terrarium tiles (no key), as a code-built RasterDemSource.
+        private readonly RasterDemSource _dem = new RasterDemSource(
             "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png",
             DemEncoding.Terrarium);
 

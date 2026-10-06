@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using ThinkGeo.Core;
+using ThinkGeo.Core.Styling;
 using ThinkGeo.Gpu;
 using ThinkGeo.UI.Wpf;
 

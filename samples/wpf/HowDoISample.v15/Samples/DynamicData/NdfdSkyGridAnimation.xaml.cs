@@ -6,6 +6,7 @@ using System.Windows.Threading;
 using OSGeo.GDAL;
 using OSGeo.OSR;
 using ThinkGeo.Core;
+using ThinkGeo.Core.Styling;
 using ThinkGeo.UI.Wpf;
 using ThinkGeo.Gpu;
 

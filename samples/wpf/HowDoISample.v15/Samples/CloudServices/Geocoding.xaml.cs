@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using ThinkGeo.Core;
+using ThinkGeo.Core.Styling;
 using ThinkGeo.UI.Wpf;
 using ThinkGeo.Gpu;
 

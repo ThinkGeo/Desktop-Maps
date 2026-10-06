@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows;
 using OSGeo.GDAL;
 using ThinkGeo.Core;
+using ThinkGeo.Core.Styling;
 using ThinkGeo.Gpu;
 using ThinkGeo.UI.Wpf;
 

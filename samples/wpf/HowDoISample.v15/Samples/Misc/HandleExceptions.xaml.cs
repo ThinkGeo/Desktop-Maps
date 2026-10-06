@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using SkiaSharp;
 using ThinkGeo.Core;
+using ThinkGeo.Core.Styling;
 using ThinkGeo.Gpu;
 using ThinkGeo.UI.Wpf;
 
@@ -39,7 +40,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             await style.OpenAsync();
 
             // The key is wrong on purpose: the service answers 401 for every tile.
-            _aerial = new ThinkGeoRasterTileSource("not-a-valid-key", ThinkGeoRasterMapType.Aerial);
+            _aerial = new ThinkGeoRasterTileSource("not-a-valid-key", ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1);
             style.InsertRasterAt(StyleLayerSlot.AboveFills, _aerial, "aerial");
 
             var basemap = new GpuBasemap(style);

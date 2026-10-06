@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using System.Windows;
 using ThinkGeo.Core;
+using ThinkGeo.Core.Styling;
 using ThinkGeo.Gpu;
 using ThinkGeo.UI.Wpf;
 
@@ -72,13 +73,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private RasterTileSource OpenChosen()
         {
             if (ThinkGeoLight.IsChecked == true)
-                return new ThinkGeoRasterTileSource(SampleShared.CloudApiKey, ThinkGeoRasterMapType.Light);
+                return new ThinkGeoRasterTileSource(SampleShared.CloudApiKey, ThinkGeoCloudRasterMapsMapType.Light_V2_X1);
             if (ThinkGeoDark.IsChecked == true)
-                return new ThinkGeoRasterTileSource(SampleShared.CloudApiKey, ThinkGeoRasterMapType.Dark);
+                return new ThinkGeoRasterTileSource(SampleShared.CloudApiKey, ThinkGeoCloudRasterMapsMapType.Dark_V2_X1);
             if (ThinkGeoAerial.IsChecked == true)
-                return new ThinkGeoRasterTileSource(SampleShared.CloudApiKey, ThinkGeoRasterMapType.Aerial);
+                return new ThinkGeoRasterTileSource(SampleShared.CloudApiKey, ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1);
             if (ThinkGeoHybrid.IsChecked == true)
-                return new ThinkGeoRasterTileSource(SampleShared.CloudApiKey, ThinkGeoRasterMapType.Hybrid);
+                return new ThinkGeoRasterTileSource(SampleShared.CloudApiKey, ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1);
 
             // OpenStreetMap's tile policy asks every application for a descriptive user agent.
             return new OpenStreetMapRasterTileSource("ThinkGeo HowDoI Sample (support@thinkgeo.com)");

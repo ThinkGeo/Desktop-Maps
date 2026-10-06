@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
+using ThinkGeo.Core.Styling;
 using ThinkGeo.UI.Wpf;
 using ThinkGeo.Gpu;
 
@@ -57,7 +58,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 // picture - and coastlines in a photo make the bend of a projection
                 // easy to read.
                 // The gallery's shared source: same credentials, one call.
-                _source = new ThinkGeoRasterTileSource(SampleShared.CloudApiKey, ThinkGeoRasterMapType.Aerial, scaleFactor: 2);
+                _source = new ThinkGeoRasterTileSource(SampleShared.CloudApiKey, ThinkGeoCloudRasterMapsMapType.Aerial_V2_X2);
 
                 // One call puts the raster service on the GPU map. No style JSON, and
                 // no reprojection setup: the projection is a property of the DISPLAY,

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
+using ThinkGeo.Core.Styling;
 using ThinkGeo.UI.Wpf;
 using ThinkGeo.Gpu;
 
@@ -47,7 +48,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             try
             {
-                _source = new ThinkGeoRasterTileSource(SampleShared.CloudApiKey, ThinkGeoRasterMapType.Aerial, scaleFactor: 2);
+                _source = new ThinkGeoRasterTileSource(SampleShared.CloudApiKey, ThinkGeoCloudRasterMapsMapType.Aerial_V2_X2);
 
                 Map.Basemap = new GpuBasemap(new MapStyle());
                 Map.Basemap.AddRasterSource("thinkgeo", _source);

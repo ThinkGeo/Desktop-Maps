@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using ThinkGeo.Core;
+using ThinkGeo.Core.Styling;
 using ThinkGeo.Gpu;
 using ThinkGeo.UI.Wpf;
 
@@ -54,7 +55,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         private async Task BuildMapAsync()
         {
-            _aerial = new ThinkGeoRasterTileSource(SampleShared.CloudApiKey, ThinkGeoRasterMapType.Aerial);
+            _aerial = new ThinkGeoRasterTileSource(SampleShared.CloudApiKey, ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1);
             _vector = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey);
             await _vector.OpenAsync();
 
