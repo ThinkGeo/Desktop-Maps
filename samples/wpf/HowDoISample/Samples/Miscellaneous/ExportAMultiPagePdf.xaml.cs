@@ -52,17 +52,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (saveFileDialog.ShowDialog() != true) return;
 
             var document = BuildMapBook(GetGridSize());
-            var firstSheet = document.Pages[0].Page;
 
+            // One PDF page per sheet, each the size of its own sheet.
             using (var stream = File.Create(saveFileDialog.FileName))
             {
-                var pdfGeoCanvas = new PdfGeoCanvas();
-                pdfGeoCanvas.SetPageSize(firstSheet);
-
-                // DrawAsync walks the pages, calling AddPage on the canvas between them.
-                pdfGeoCanvas.BeginDrawing(stream, firstSheet.GetPosition(), Map.MapUnit);
-                await document.DrawAsync(pdfGeoCanvas);
-                pdfGeoCanvas.EndDrawing();
+                await document.ExportPdfAsync(stream);
             }
 
             Process.Start(new ProcessStartInfo(saveFileDialog.FileName) { UseShellExecute = true });

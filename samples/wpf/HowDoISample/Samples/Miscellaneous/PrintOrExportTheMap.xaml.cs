@@ -71,12 +71,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Draws the same layout into a PdfGeoCanvas, producing a cross-platform vector PDF.
+        /// Exports the same layout as a cross-platform vector PDF.
         /// </summary>
         private async void ExportPdf_OnClick(object sender, RoutedEventArgs e)
         {
             var printerOverlay = (PrinterInteractiveOverlay)Map.InteractiveOverlays["printerOverlay"];
-            var pageLayer = (PagePrinterLayoutAsyncLayer)printerOverlay.PrinterLayoutAsyncLayers["pageLayer"];
 
             var saveFileDialog = new Microsoft.Win32.SaveFileDialog
             {
@@ -85,16 +84,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
             if (saveFileDialog.ShowDialog() != true) return;
 
+            // The PDF page takes the size of the layout's sheet.
             using (var stream = File.Create(saveFileDialog.FileName))
             {
-                var pdfGeoCanvas = new PdfGeoCanvas();
-
-                // Take the PDF page size from the layout's page instead of working the points out here.
-                pdfGeoCanvas.SetPageSize(pageLayer);
-
-                pdfGeoCanvas.BeginDrawing(stream, pageLayer.GetPosition(), Map.MapUnit);
-                await BuildLayoutDocument(printerOverlay).DrawAsync(pdfGeoCanvas);
-                pdfGeoCanvas.EndDrawing();
+                await BuildLayoutDocument(printerOverlay).ExportPdfAsync(stream);
             }
 
             Process.Start(new ProcessStartInfo(saveFileDialog.FileName) { UseShellExecute = true });
