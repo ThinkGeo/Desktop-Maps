@@ -95,7 +95,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             style.AddStyle(ThinkGeoVectorStyles.Light, _cloud);
             if (_current != null)
             {
-                style.AddRaster(_current, "raster");
+                style.AddRaster(_current, sourceId: "raster");
             }
 
             return style;

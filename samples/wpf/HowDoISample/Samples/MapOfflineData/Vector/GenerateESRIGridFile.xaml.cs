@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
+using ThinkGeo.Core.Styling;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
@@ -19,7 +20,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private const string SamplePointsOverlayName = "SamplePointsOverlay";
         private const string GeneratedGridOverlayName = "GeneratedGridOverlay";
         private bool _initialized;
-        private GridOverlay<double> generatedGridOverlay;
+        private GridOverlay generatedGridOverlay;
 
         public GenerateESRIGridFile()
         {
@@ -151,7 +152,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
 
             var gridSource = new AscGridSource(filename);
-            generatedGridOverlay = new GridOverlay<double>(gridSource, GetGridColor);
+            generatedGridOverlay = new GridOverlay(gridSource, GridStyle());
             ApplyResamplingSelection();
 
             Map.Overlays.Add(GeneratedGridOverlayName, generatedGridOverlay);
@@ -191,19 +192,23 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
         }
 
-        private static GeoColor GetGridColor(double value)
+        // The pH bands, each colour held from its value up to the next; below 6.2 nothing is drawn.
+        private static GridFillStyle GridStyle() => new GridFillStyle
         {
-            const byte alpha = 150;
-
-            if (value >= 7.54) return GeoColor.FromArgb(alpha, 0, 255, 0);
-            if (value >= 7.21) return GeoColor.FromArgb(alpha, 128, 255, 128);
-            if (value >= 7.15) return GeoColor.FromArgb(alpha, 224, 251, 132);
-            if (value >= 7.08) return GeoColor.FromArgb(alpha, 225, 255, 0);
-            if (value >= 7.0) return GeoColor.FromArgb(alpha, 245, 210, 10);
-            if (value >= 6.83) return GeoColor.FromArgb(alpha, 255, 128, 0);
-            if (value >= 6.2) return GeoColor.FromArgb(alpha, 255, 0, 0);
-            return GeoColors.Transparent;
-        }
+            RampMode = ColorRampMode.Classes,
+            Opacity = 150 / 255f,
+            ColorStops = new[]
+            {
+                new ColorStop(0, GeoColors.Transparent),
+                new ColorStop(6.2, GeoColor.FromArgb(255, 255, 0, 0)),
+                new ColorStop(6.83, GeoColor.FromArgb(255, 255, 128, 0)),
+                new ColorStop(7.0, GeoColor.FromArgb(255, 245, 210, 10)),
+                new ColorStop(7.08, GeoColor.FromArgb(255, 225, 255, 0)),
+                new ColorStop(7.15, GeoColor.FromArgb(255, 224, 251, 132)),
+                new ColorStop(7.21, GeoColor.FromArgb(255, 128, 255, 128)),
+                new ColorStop(7.54, GeoColor.FromArgb(255, 0, 255, 0)),
+            },
+        };
 
         public void Dispose()
         {

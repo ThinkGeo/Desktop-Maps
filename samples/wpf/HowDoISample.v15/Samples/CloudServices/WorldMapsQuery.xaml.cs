@@ -20,8 +20,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private MapsQueryCloudClient _mapsQueryCloudClient;
 
         // The query shape and what it found, drawn as geometry with the basemap.
-        private readonly InMemoryGeometrySource _querySource = new InMemoryGeometrySource();
-        private readonly InMemoryGeometrySource _resultsSource = new InMemoryGeometrySource();
+        private readonly DynamicSource _querySource = new DynamicSource();
+        private readonly DynamicSource _resultsSource = new DynamicSource();
         private BaseShape _queryShape;
 
         public WorldMapsQuery()
@@ -45,8 +45,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey));
             style.Images.Add("star-blue", new PointStyle(PointSymbolType.Star, 20, GeoBrushes.Blue));
             style.Images.Add("star-orange", new PointStyle(PointSymbolType.Star, 20, GeoBrushes.OrangeRed));
-            style.AddGeometry(_resultsSource);
-            style.AddGeometry(_querySource);
+            style.AddDynamic(_resultsSource);
+            style.AddDynamic(_querySource);
             Map.Basemap = new GpuBasemap(style);
 
             Map.CenterPoint = new PointShape(-10778720, 3915154);
@@ -138,26 +138,23 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             if (result.Features.Count > 0)
             {
-                // Sort what came back by kind and hand each kind to its channel
-                var points = new List<BaseShape>();
-                var lines = new List<BaseShape>();
-                var areas = new List<BaseShape>();
+                // Each result is added the way its kind is drawn, under its own id; the
+                // Clear and the run of Adds land as one rebuild on the next frame.
                 var all = new List<BaseShape>();
-                foreach (var feature in result.Features)
+                _resultsSource.Clear();
+                for (var i = 0; i < result.Features.Count; i++)
                 {
+                    var feature = result.Features[i];
                     var shape = feature.GetShape();
                     all.Add(shape);
+                    var id = "result-" + i;
                     switch (shape)
                     {
-                        case AreaBaseShape: areas.Add(shape); break;
-                        case LineBaseShape: lines.Add(shape); break;
-                        default: points.Add(shape); break;
+                        case AreaBaseShape: _resultsSource.AddArea(id, feature, new GeoColor(10, GeoColors.OrangeRed), GeoColors.OrangeRed, 1f); break;
+                        case LineBaseShape: _resultsSource.AddLine(id, feature, GeoColors.OrangeRed, 2f); break;
+                        default: _resultsSource.AddPoint(id, feature, sizeInPixels: 20f, iconName: "star-orange"); break;
                     }
                 }
-
-                _resultsSource.UpdatePoints(points, sizeInPixels: 20f, iconName: "star-orange");
-                _resultsSource.UpdateLines(lines, GeoColors.OrangeRed, 2f);
-                _resultsSource.UpdateAreas(areas, new GeoColor(10, GeoColors.OrangeRed), GeoColors.OrangeRed, 1f);
 
                 var queriedFeaturesBBox = MapUtil.GetBoundingBoxOfItems(all);
                 Map.CenterPoint = queriedFeaturesBBox.GetCenterPoint();
@@ -239,9 +236,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private void ShowQueryShape(BaseShape shape)
         {
             _queryShape = shape;
-            _querySource.UpdatePoints(shape is PointShape ? new[] { shape } : Array.Empty<BaseShape>(), sizeInPixels: 20f, iconName: "star-blue");
-            _querySource.UpdateLines(shape is LineBaseShape ? new[] { shape } : Array.Empty<BaseShape>(), GeoColors.Blue, 2f);
-            _querySource.UpdateAreas(shape is AreaBaseShape ? new[] { shape } : Array.Empty<BaseShape>(), new GeoColor(10, GeoColors.Blue), GeoColors.Blue, 1f);
+            _querySource.Clear();
+            var query = new Feature(shape);
+            switch (shape)
+            {
+                case PointShape: _querySource.AddPoint("query", query, sizeInPixels: 20f, iconName: "star-blue"); break;
+                case LineBaseShape: _querySource.AddLine("query", query, GeoColors.Blue, 2f); break;
+                case AreaBaseShape: _querySource.AddArea("query", query, new GeoColor(10, GeoColors.Blue), GeoColors.Blue, 1f); break;
+            }
         }
 
         /// <summary>
@@ -251,12 +253,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             // Clear the old query result and query shape from the map
             _queryShape = null;
-            _querySource.UpdatePoints(Array.Empty<BaseShape>());
-            _querySource.UpdateLines(Array.Empty<BaseShape>());
-            _querySource.UpdateAreas(Array.Empty<BaseShape>());
-            _resultsSource.UpdatePoints(Array.Empty<BaseShape>());
-            _resultsSource.UpdateLines(Array.Empty<BaseShape>());
-            _resultsSource.UpdateAreas(Array.Empty<BaseShape>());
+            _querySource.Clear();
+            _resultsSource.Clear();
             return Task.CompletedTask;
         }
     }

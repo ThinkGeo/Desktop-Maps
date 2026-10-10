@@ -260,7 +260,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Add a scale bar that reflects the map printer layer extent and scale.
             var scaleBarPrinterLayer = new ScaleBarPrinterLayoutAsyncLayer(mapPrinterLayer)
             {
-                MapUnit = GeographyUnit.Meter,
                 UnitFamily = UnitSystem.Imperial,
                 HasMask = true,
                 DynamicBoundingBox = true

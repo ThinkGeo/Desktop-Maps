@@ -22,7 +22,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             InitializeComponent();
             Map.MapUnit = GeographyUnit.Meter;
-            Map.TiltInteractionEnabled = true;
+            Map.IsTiltInteractionEnabled = true;
         }
 
         private async void Map_Loaded(object sender, RoutedEventArgs e)

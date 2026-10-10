@@ -25,48 +25,48 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// <summary>heatmap-color as density stops, 0 (no data) to 1 (densest). Stop 0
         /// is transparent in every ramp - it leaves the basemap visible where nothing
         /// was seen.</summary>
-        private static readonly (string Name, HeatmapColorStop[] Stops)[] ColorRamps =
+        private static readonly (string Name, ColorStop[] Stops)[] ColorRamps =
         {
             ("MapLibre default", new[]
             {
-                 new HeatmapColorStop(0.0, GeoColor.FromArgb(0, 0, 0, 255)),
-                 new HeatmapColorStop(0.1, GeoColor.FromArgb(255, 65, 105, 225)),
-                 new HeatmapColorStop(0.3, GeoColor.FromArgb(255, 0, 255, 255)),
-                 new HeatmapColorStop(0.5, GeoColor.FromArgb(255, 0, 255, 0)),
-                 new HeatmapColorStop(0.7, GeoColor.FromArgb(255, 255, 255, 0)),
-                 new HeatmapColorStop(1.0, GeoColor.FromArgb(255, 255, 0, 0)),
+                 new ColorStop(0.0, GeoColor.FromArgb(0, 0, 0, 255)),
+                 new ColorStop(0.1, GeoColor.FromArgb(255, 65, 105, 225)),
+                 new ColorStop(0.3, GeoColor.FromArgb(255, 0, 255, 255)),
+                 new ColorStop(0.5, GeoColor.FromArgb(255, 0, 255, 0)),
+                 new ColorStop(0.7, GeoColor.FromArgb(255, 255, 255, 0)),
+                 new ColorStop(1.0, GeoColor.FromArgb(255, 255, 0, 0)),
             }),
             ("Warm", new[]
             {
-                 new HeatmapColorStop(0.0, GeoColor.FromArgb(0, 255, 255, 178)),
-                 new HeatmapColorStop(0.15, GeoColor.FromArgb(180, 255, 255, 178)),
-                 new HeatmapColorStop(0.4, GeoColor.FromArgb(255, 254, 204, 92)),
-                 new HeatmapColorStop(0.7, GeoColor.FromArgb(255, 253, 141, 60)),
-                 new HeatmapColorStop(1.0, GeoColor.FromArgb(255, 189, 0, 38)),
+                 new ColorStop(0.0, GeoColor.FromArgb(0, 255, 255, 178)),
+                 new ColorStop(0.15, GeoColor.FromArgb(180, 255, 255, 178)),
+                 new ColorStop(0.4, GeoColor.FromArgb(255, 254, 204, 92)),
+                 new ColorStop(0.7, GeoColor.FromArgb(255, 253, 141, 60)),
+                 new ColorStop(1.0, GeoColor.FromArgb(255, 189, 0, 38)),
             }),
             ("Viridis", new[]
             {
-                 new HeatmapColorStop(0.0, GeoColor.FromArgb(0, 68, 1, 84)),
-                 new HeatmapColorStop(0.25, GeoColor.FromArgb(255, 59, 82, 139)),
-                 new HeatmapColorStop(0.5, GeoColor.FromArgb(255, 33, 145, 140)),
-                 new HeatmapColorStop(0.75, GeoColor.FromArgb(255, 94, 201, 98)),
-                 new HeatmapColorStop(1.0, GeoColor.FromArgb(255, 253, 231, 37)),
+                 new ColorStop(0.0, GeoColor.FromArgb(0, 68, 1, 84)),
+                 new ColorStop(0.25, GeoColor.FromArgb(255, 59, 82, 139)),
+                 new ColorStop(0.5, GeoColor.FromArgb(255, 33, 145, 140)),
+                 new ColorStop(0.75, GeoColor.FromArgb(255, 94, 201, 98)),
+                 new ColorStop(1.0, GeoColor.FromArgb(255, 253, 231, 37)),
             }),
             ("Blue to red", new[]
             {
-                 new HeatmapColorStop(0.0, GeoColor.FromArgb(0, 33, 102, 172)),
-                 new HeatmapColorStop(0.2, GeoColor.FromArgb(255, 103, 169, 207)),
-                 new HeatmapColorStop(0.4, GeoColor.FromArgb(255, 209, 229, 240)),
-                 new HeatmapColorStop(0.6, GeoColor.FromArgb(255, 253, 219, 199)),
-                 new HeatmapColorStop(0.8, GeoColor.FromArgb(255, 239, 138, 98)),
-                 new HeatmapColorStop(1.0, GeoColor.FromArgb(255, 178, 24, 43)),
+                 new ColorStop(0.0, GeoColor.FromArgb(0, 33, 102, 172)),
+                 new ColorStop(0.2, GeoColor.FromArgb(255, 103, 169, 207)),
+                 new ColorStop(0.4, GeoColor.FromArgb(255, 209, 229, 240)),
+                 new ColorStop(0.6, GeoColor.FromArgb(255, 253, 219, 199)),
+                 new ColorStop(0.8, GeoColor.FromArgb(255, 239, 138, 98)),
+                 new ColorStop(1.0, GeoColor.FromArgb(255, 178, 24, 43)),
             }),
         };
 
         private readonly ThinkGeoVectorTileSource _cloud = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey);
         private readonly FeatureSourceVectorTileSource _coyote = new FeatureSourceVectorTileSource();
         private readonly DispatcherTimer _applyTimer;
-        private (string Name, HeatmapColorStop[] Stops) _ramp = ColorRamps[0];
+        private (string Name, ColorStop[] Stops) _ramp = ColorRamps[0];
         private MapStyle _style;
         private bool _initialized;
 
@@ -89,7 +89,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             _initialized = true;
             Map.MapUnit = GeographyUnit.Meter;
-            Map.ZoomStep = 0.15;
+            Map.ExtentOverlay.ZoomStep = 0.15;
             Map.CenterPoint = new PointShape(-10778000, 3912500);
             Map.CurrentScale = 68000;
 
@@ -154,9 +154,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             ShowPaintPreview();
             _style?.SetHeatmapPaint(
                 HeatLayerId,
-                radius: RadiusSlider.Value,
-                intensity: IntensitySlider.Value,
-                opacity: OpacitySlider.Value,
+                radius: (float)RadiusSlider.Value,
+                intensity: (float)IntensitySlider.Value,
+                opacity: (float)OpacitySlider.Value,
                 colorRamp: _ramp.Stops);
         }
 

@@ -75,7 +75,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             {
                 var tiles = new MbTilesVectorTileSource(Data("Mbtiles", "maplibre.mbtiles"));
                 await tiles.OpenAsync();
-                return (tiles, VectorStyle(Data("Mbtiles", "style.json"), tiles, tiles.MetadataJson), await tiles.GetBoundingBoxAsync());
+                return (tiles, VectorStyle(Data("Mbtiles", "style.json"), tiles, tiles.Metadata["json"]), tiles.GetBoundingBox());
             }
 
             if (SrcVectorPmTiles.IsChecked == true)

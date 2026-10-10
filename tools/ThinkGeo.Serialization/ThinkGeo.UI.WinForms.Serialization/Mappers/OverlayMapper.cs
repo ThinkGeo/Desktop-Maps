@@ -150,7 +150,6 @@ public static class OverlayMapper
                 DoubleLeftClickMode = ext.DoubleLeftClickMode.ToString(),
                 DoubleRightClickMode = ext.DoubleRightClickMode.ToString(),
                 ExtentChangedType = ext.ExtentChangedType.ToString(),
-                ZoomSnapDirection = ext.ZoomSnapDirection.ToString(),
                 ZoomPercentage = ext.ZoomPercentage,
                 MinimumTrackZoomInExtentInPixels = ext.MinimumTrackZoomInExtentInPixels,
             },
@@ -460,7 +459,6 @@ public static class OverlayMapper
         if (Enum.TryParse<MapDoubleClickMode>(descriptor.DoubleLeftClickMode, ignoreCase: true, out var dl)) overlay.DoubleLeftClickMode = dl;
         if (Enum.TryParse<MapDoubleClickMode>(descriptor.DoubleRightClickMode, ignoreCase: true, out var dr)) overlay.DoubleRightClickMode = dr;
         // ExtentChangedType has an internal setter; capture-only. The descriptor value is ignored on apply.
-        if (Enum.TryParse<ZoomSnapDirection>(descriptor.ZoomSnapDirection, ignoreCase: true, out var sd)) overlay.ZoomSnapDirection = sd;
         overlay.ZoomPercentage = descriptor.ZoomPercentage;
         overlay.MinimumTrackZoomInExtentInPixels = descriptor.MinimumTrackZoomInExtentInPixels;
         return overlay;

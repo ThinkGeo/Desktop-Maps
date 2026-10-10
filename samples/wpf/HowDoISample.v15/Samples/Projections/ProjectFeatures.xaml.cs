@@ -17,7 +17,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
     {
 
         private bool _initialized;
-        private readonly InMemoryGeometrySource _reprojected = new InMemoryGeometrySource();
+        private readonly DynamicSource _reprojected = new DynamicSource();
 
         public ProjectFeatures()
         {
@@ -42,14 +42,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // The GPU draws a marker from a named image, so a point style the GPU has no
             // shape of its own for - a star - is drawn once by the CPU and registered.
             style.Images.Add("star", new PointStyle(PointSymbolType.Star, 24, GeoBrushes.MediumPurple, GeoPens.Purple));
-            style.AddGeometry(_reprojected, new GeometryStyle
-            {
-                FillColor = new GeoColor(80, GeoColors.MediumPurple),
-                OutlineColor = GeoColors.MediumPurple,
-                OutlineWidthInPixels = 2,
-                LineColor = GeoColors.MediumPurple,
-                LineWidthInPixels = 6,
-            });
+            style.AddDynamic(_reprojected);
             Map.Basemap = new GpuBasemap(style);
 
             Map.CenterPoint = new PointShape(-10779580, 3915255);
@@ -97,11 +90,25 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// </summary>
         private async Task ClearMapAndAddFeaturesAsync(Collection<Feature> reprojectedFeatures)
         {
-            // The same collection three times: each call takes the shapes it draws, so
-            // the points, the line and the polygon all arrive without being sorted first.
-            _reprojected.UpdateAreas(reprojectedFeatures);
-            _reprojected.UpdateLines(reprojectedFeatures);
-            _reprojected.UpdatePoints(reprojectedFeatures, sizeInPixels: 24f, iconName: "star");
+            // Each feature is added by its kind - the points as stars, the line as a
+            // ribbon, the polygon as a fill - and the Clear and the Adds land as one rebuild.
+            _reprojected.Clear();
+            for (var i = 0; i < reprojectedFeatures.Count; i++)
+            {
+                var id = "feature-" + i;
+                switch (reprojectedFeatures[i].GetShape())
+                {
+                    case AreaBaseShape _:
+                        _reprojected.AddArea(id, reprojectedFeatures[i], new GeoColor(80, GeoColors.MediumPurple), GeoColors.MediumPurple, 2f);
+                        break;
+                    case LineBaseShape _:
+                        _reprojected.AddLine(id, reprojectedFeatures[i], GeoColors.MediumPurple, 6f);
+                        break;
+                    default:
+                        _reprojected.AddPoint(id, reprojectedFeatures[i], sizeInPixels: 24f, iconName: "star");
+                        break;
+                }
+            }
 
             var reprojectedFeaturesBoundingBox = MapUtil.GetBoundingBoxOfItems(reprojectedFeatures);
             Map.CenterPoint = reprojectedFeaturesBoundingBox.GetCenterPoint();

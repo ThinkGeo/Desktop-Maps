@@ -104,7 +104,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // hour each tile was cut. Visibility is the per-frame runtime channel:
             // each zone gets a static day layer and a static night layer (same filter),
             // and the clock only flips which one shows.
-            var layers = new List<Func<int, StyleLayer>>();
+            var layers = new List<StyleLayer>();
             foreach (var offset in ReadTimeZoneOffsets())
             {
                 var zoneOffset = offset;
@@ -112,13 +112,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 var nightId = FormattableString.Invariant($"utc{zoneOffset:+0.0;-0.0}-night");
                 _zones.Add((zoneOffset, dayId, nightId, null));
 
-                layers.Add(index => StyleLayer.CreateCircle(
-                    dayId, index, "features", CapitalsLayer,
+                layers.Add(StyleLayer.CreateCircle(
+                    dayId, CapitalsLayer,
                     paint: (_, _) => new CirclePaint(GeoColor.FromArgb(255, 255, 215, 0), GeoColors.Black, 8f, 2f, 1f),
                     filter: (feature, _) => TryReadTimezone(feature, out var value) &&
                                             Math.Abs(value - zoneOffset) < 0.01));
-                layers.Add(index => StyleLayer.CreateCircle(
-                    nightId, index, "features", CapitalsLayer,
+                layers.Add(StyleLayer.CreateCircle(
+                    nightId, CapitalsLayer,
                     paint: (_, _) => new CirclePaint(GeoColor.FromArgb(255, 70, 80, 95), GeoColors.Black, 8f, 2f, 1f),
                     filter: (feature, _) => TryReadTimezone(feature, out var value) &&
                                             Math.Abs(value - zoneOffset) < 0.01));
@@ -126,20 +126,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             _style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey));
 
-            // A slot is found by walking the layers already loaded, so the document
-            // must be open before inserting into it. The ramp goes above the basemap's
-            // fills - under its roads and labels; the capitals go on top of everything.
-            await _style.OpenAsync();
-            _style.InsertStyleLayersAt(StyleLayerSlot.AboveFills, states, "usstates",
-                index => StyleLayer.CreateFill(RampFillId, index, "usstates", StatesLayer,
-                    paint: (feature, _) => new FillPaint(
-                        color: DensityColor(feature), opacity: 0.60f, outlineColor: null,
-                        antialias: true, translateX: 0f, translateY: 0f)),
-                index => StyleLayer.CreateLine(RampOutlineId, index, "usstates", StatesLayer,
-                    paint: (_, zoom) => new LinePaint(
-                        color: GeoColors.White, width: zoom < 5d ? 0.6f : 1.4f, opacity: 0.9f,
-                        blur: 0f, gapWidth: 0f, offset: 0f)));
-            _style.AddStyleLayers(capitals, "features", layers.ToArray());
+            _style.AddVectorTiles(states, "usstates", StyleLayerSlot.AboveFills,
+                StyleLayer.CreateFill(RampFillId, StatesLayer,
+                    paint: (feature, _) => new FillPaint(DensityColor(feature), opacity: 0.60f)),
+                StyleLayer.CreateLine(RampOutlineId, StatesLayer,
+                    paint: (_, zoom) => new LinePaint(GeoColors.White, zoom < 5d ? 0.6f : 1.4f, opacity: 0.9f)));
+            _style.AddVectorTiles(capitals, "features", layers.ToArray());
 
             ShowMode();
             Map.Basemap = new GpuBasemap(_style);

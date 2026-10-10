@@ -97,7 +97,6 @@ public class InteractiveOverlayMapperTests
                 MouseWheelMode = MapMouseWheelMode.Disabled,
                 DoubleLeftClickMode = MapDoubleClickMode.Disabled,
                 DoubleRightClickMode = MapDoubleClickMode.Default,
-                ZoomSnapDirection = ZoomSnapDirection.UpperScale,
                 ZoomPercentage = 75,
                 MinimumTrackZoomInExtentInPixels = 20f,
             };

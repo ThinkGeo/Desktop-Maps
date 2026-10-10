@@ -18,8 +18,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         private bool _initialized;
         private ReverseGeocodingCloudClient _reverseGeocodingCloudClient;
-        private readonly InMemoryGeometrySource _searchRadius = new InMemoryGeometrySource();
-        private readonly InMemoryGeometrySource _selectedResult = new InMemoryGeometrySource();
+        private readonly DynamicSource _searchRadius = new DynamicSource();
+        private readonly DynamicSource _selectedResult = new DynamicSource();
 
         public ReverseGeocoding()
         {
@@ -47,20 +47,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // registered under the names the markers ask for.
             style.Images.Add("center", new PointStyle(PointSymbolType.Cross, 20, GeoBrushes.Red));
             style.Images.Add("match", new PointStyle(PointSymbolType.Star, 24, GeoBrushes.MediumPurple, GeoPens.Purple));
-            style.AddGeometry(_searchRadius, new GeometryStyle
-            {
-                FillColor = new GeoColor(10, GeoColors.Blue),
-                OutlineColor = new GeoColor(100, GeoColors.Blue),
-                OutlineWidthInPixels = 2,
-            });
-            style.AddGeometry(_selectedResult, new GeometryStyle
-            {
-                FillColor = new GeoColor(80, GeoColors.MediumPurple),
-                OutlineColor = GeoColors.MediumPurple,
-                OutlineWidthInPixels = 2,
-                LineColor = GeoColors.MediumPurple,
-                LineWidthInPixels = 6,
-            });
+            style.AddDynamic(_searchRadius);
+            style.AddDynamic(_selectedResult);
             Map.Basemap = new GpuBasemap(style);
 
             // Create a popup overlay to display the best match
@@ -89,7 +77,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             if (e.MouseButton == MapMouseButton.Left)
             {
                 // Set the coordinates in the UI
-                TxtCoordinates.Text = $"{e.WorldY:0.000000},{e.WorldX:0.000000}";
+                TxtCoordinates.Text = $"{e.WorldLocation.Y:0.000000},{e.WorldLocation.X:0.000000}";
 
                 // Run the reverse geocode
                 PerformReverseGeocode();
@@ -170,15 +158,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// </summary>
         private async Task DisplaySearchResultsAsync(PointShape searchPoint, int searchRadius, CloudReverseGeocodingResult searchResult)
         {
-            // Show the area that was searched, and the point it was searched around
+            // Show the area that was searched, and the point it was searched around.
+            // Each feature carries its own colours; a Clear and the two Adds land as one
+            // rebuild on the next frame.
             var searched = new EllipseShape(searchPoint, searchRadius);
-            _searchRadius.UpdateAreas(new[] { searched });
-            _searchRadius.UpdatePoints(new[] { searchPoint }, sizeInPixels: 20f, iconName: "center");
+            _searchRadius.Clear();
+            _searchRadius.AddArea("searched", new Feature(searched), new GeoColor(10, GeoColors.Blue), new GeoColor(100, GeoColors.Blue), 2f);
+            _searchRadius.AddPoint("center", new Feature(searchPoint), sizeInPixels: 20f, iconName: "center");
 
             // Nothing is picked out of the results yet
-            _selectedResult.UpdateAreas(Array.Empty<BaseShape>());
-            _selectedResult.UpdateLines(Array.Empty<BaseShape>());
-            _selectedResult.UpdatePoints(Array.Empty<BaseShape>());
+            _selectedResult.Clear();
 
             // If a match was found for the geocode, update the UI
             if (searchResult?.BestMatchLocation != null)
@@ -266,11 +255,20 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                     var locationFeature = ((CloudReverseGeocodingLocation)selectedResultList.SelectedItem).LocationFeature;
 
                     // A found location can be an address point, a road or a building
-                    // footprint, so it goes to all three calls and each takes its own.
-                    var found = new[] { locationFeature.GetShape() };
-                    _selectedResult.UpdateAreas(found);
-                    _selectedResult.UpdateLines(found);
-                    _selectedResult.UpdatePoints(found, sizeInPixels: 24f, iconName: "match");
+                    // footprint, so it is added the way its kind is drawn.
+                    _selectedResult.Clear();
+                    switch (locationFeature.GetShape())
+                    {
+                        case AreaBaseShape _:
+                            _selectedResult.AddArea("found", locationFeature, new GeoColor(80, GeoColors.MediumPurple), GeoColors.MediumPurple, 2f);
+                            break;
+                        case LineBaseShape _:
+                            _selectedResult.AddLine("found", locationFeature, GeoColors.MediumPurple, 6f);
+                            break;
+                        case PointBaseShape _:
+                            _selectedResult.AddPoint("found", locationFeature, sizeInPixels: 24f, iconName: "match");
+                            break;
+                    }
 
                     // Center the map on the chosen location
                     var locationFeatureBBox = locationFeature.GetBoundingBox();

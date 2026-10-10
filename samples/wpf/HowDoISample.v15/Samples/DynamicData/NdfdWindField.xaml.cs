@@ -81,8 +81,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 directions[i] = (from[i] + 180f) % 360f;
             }
 
-            _field = VectorFieldSource.FromSpeedDirection(
-                speeds, directions, width, height, extent, new Projection(proj4));
+            var flow = new FlowVector[height, width];
+            for (var row = 0; row < height; row++)
+            {
+                for (var column = 0; column < width; column++)
+                {
+                    var i = (row * width) + column;
+                    flow[row, column] = FlowVector.FromSpeedDirection(speeds[i], directions[i]);
+                }
+            }
+
+            _field = new VectorFieldSource(flow, extent, new Projection(proj4));
         }
 
         private static float[] ReadFirstBand(string path, out int width, out int height,

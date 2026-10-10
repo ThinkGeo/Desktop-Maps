@@ -129,7 +129,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                     }
                     else
                     {
-                        Map.DisplayProjection = target;
+                        Map.Basemap.DisplayProjection = target;
                     }
 
                     // The projected canvas is not cyclic: zoomed out past one world the
@@ -170,7 +170,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
                     if (morphTarget != null)
                     {
-                        await Map.AnimateDisplayProjectionAsync(morphTarget, MorphDuration);
+                        await Map.Basemap.AnimateDisplayProjectionAsync(morphTarget, MorphDuration);
                     }
                 }
                 finally

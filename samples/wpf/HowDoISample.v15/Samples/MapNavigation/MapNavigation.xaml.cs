@@ -32,15 +32,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
-            Map.ZoomStep = 0.15;
+            Map.ExtentOverlay.ZoomStep = 0.15;
             Map.CurrentExtentChanged += Map_CurrentExtentChanged;
 
             Map.MapUnit = GeographyUnit.Meter;
             // The street style carries its own building extrusions, so the 3D
             // Buildings checkbox is a renderer switch, not a style rebuild.
-            Map.TiltInteractionEnabled = true;
+            Map.IsTiltInteractionEnabled = true;
             _backgroundOverlay = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, _cloud));
-            _backgroundOverlay.DrawExtrusionsEnabled = BuildingCheckBox.IsChecked != false;
+            _backgroundOverlay.IsExtrusionDrawingEnabled = BuildingCheckBox.IsChecked != false;
             Map.Basemap = _backgroundOverlay;
 
             var markerOverlay = new SimpleMarkerOverlay();
@@ -92,7 +92,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             if (!_initialized || _backgroundOverlay == null) return;
 
-            _backgroundOverlay.DrawExtrusionsEnabled = BuildingCheckBox.IsChecked == true;
+            _backgroundOverlay.IsExtrusionDrawingEnabled = BuildingCheckBox.IsChecked == true;
             _ = Map.RefreshAsync();
         }
 

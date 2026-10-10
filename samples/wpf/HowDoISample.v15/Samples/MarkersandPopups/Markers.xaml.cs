@@ -21,7 +21,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         // A dot drawn AT the center point, for contrast with the marker: the marker
         // is a screen element anchored by its image's tip, the dot is geometry.
-        private readonly InMemoryGeometrySource _centerDot = new InMemoryGeometrySource();
+        private readonly DynamicSource _centerDot = new DynamicSource();
 
         public Markers()
         {
@@ -39,14 +39,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _initialized = true;
             Map.MapUnit = GeographyUnit.Meter;
 
-            // Tilt with the right mouse button or the bar on the right: a marker is a
-            // screen element, and it stays on its ground point under perspective.
-            Map.TiltInteractionEnabled = true;
-            Map.MapTools.TiltBar.IsEnabled = true;
+            // Tilt with the right mouse button or the slider: a marker is a screen
+            // element, and it stays on its ground point under perspective.
+            Map.IsTiltInteractionEnabled = true;
 
             var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey));
             style.Images.Add("dot", PointStyle.CreateSimpleCircleStyle(GeoColors.Red, 10));
-            style.AddGeometry(_centerDot);
+            style.AddDynamic(_centerDot);
             Map.Basemap = new GpuBasemap(style);
 
             Map.CenterPoint = new PointShape(-10777290, 3908740);
@@ -58,7 +57,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             Map.Overlays.Add("simpleMarkerOverlay", simpleMarkerOverlay);
 
             // The dot marks the exact point; the marker's image tip points at it.
-            _centerDot.UpdatePoints(new[] { Map.CenterPoint }, sizeInPixels: 10f, iconName: "dot");
+            _centerDot.AddPoint("center", new Feature(Map.CenterPoint), sizeInPixels: 10f, iconName: "dot");
 
             // Create a marker at the center point
             var marker = new Marker(Map.CenterPoint)

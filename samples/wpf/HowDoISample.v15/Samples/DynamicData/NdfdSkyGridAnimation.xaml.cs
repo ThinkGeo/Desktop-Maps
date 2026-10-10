@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -32,8 +33,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private int _frameIndex;
         private readonly GpuBasemap _overlay;
         private readonly MapStyle _style;
-        private ValueGridSource _grid;
-        private Func<byte, GeoColor> _palette;
+        private InMemoryGridSource _grid;
+        private IReadOnlyList<ColorStop> _palette;
         private readonly DispatcherTimer _timer;
 
         public NdfdSkyGridAnimation()
@@ -41,7 +42,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             InitializeComponent();
 
             Map.MapUnit = GeographyUnit.Meter;
-            Map.ZoomStep = 0.15;
+            Map.ExtentOverlay.ZoomStep = 0.15;
             _style = new MapStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey));
             _overlay = new GpuBasemap(_style);
             Map.Basemap = _overlay;
@@ -86,7 +87,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _palette = CreatePalette((sender as RadioButton)?.Content as string);
             if (_grid != null)
             {
-                _style.AddGridFill(_grid, new GridFillStyle { Ramp = _palette, MeshDensity = 96 });
+                _style.AddGridFill(_grid, new GridFillStyle { ColorStops = _palette });
                 await _overlay.SetStyleAsync(_style);
             }
         }
@@ -144,10 +145,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             sr.Dispose();
 
             // One call bakes the Lambert->Mercator mesh; every animation frame after
-            // this is UpdateValueGridValues - a single texture upload.
-            _grid = ValueGridSource.FromBytes(GetFrame(0), _gridWidth, _gridHeight, sourceExtent, new Projection(proj4));
+            // this is SetValues - a single texture upload.
+            _grid = new InMemoryGridSource(ToValues(GetFrame(0)), sourceExtent, new Projection(proj4));
             _palette ??= CreatePalette("Weather Rainbow");
-            _style.AddGridFill(_grid, new GridFillStyle { Ramp = _palette, MeshDensity = 96 });
+            _style.AddGridFill(_grid, new GridFillStyle { ColorStops = _palette });
             _ = _overlay.SetStyleAsync(_style);
             ShowFrame(0);
         }
@@ -172,6 +173,23 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             return _frames[index];
         }
 
+        // GRIB sky cover is a percentage, 1..100; 0 and anything above 100 is no data,
+        // which the grid draws as nothing.
+        private float[,] ToValues(byte[] frame)
+        {
+            var values = new float[_gridHeight, _gridWidth];
+            for (var row = 0; row < _gridHeight; row++)
+            {
+                for (var column = 0; column < _gridWidth; column++)
+                {
+                    var v = frame[(row * _gridWidth) + column];
+                    values[row, column] = v == 0 || v > 100 ? float.NaN : v;
+                }
+            }
+
+            return values;
+        }
+
         private void ShowFrame(int index)
         {
             if (_disposed || _frames == null || _frames.Length == 0)
@@ -181,7 +199,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             var bounded = ((index % _frames.Length) + _frames.Length) % _frames.Length;
             _frameIndex = bounded;
-            _grid.UpdateBytes(GetFrame(bounded));
+            _grid.SetValues(ToValues(GetFrame(bounded)));
 
             Status.Text = string.Format(
                 "Frame {0}/{1}\n{2}\nGrid {3} x {4}",
@@ -192,7 +210,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 _gridHeight);
         }
 
-        private static Func<byte, GeoColor> CreatePalette(string name)
+        private static IReadOnlyList<ColorStop> CreatePalette(string name)
         {
             var table = new GeoColor[101];
             for (var v = 1; v <= 100; v++)
@@ -218,7 +236,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 }
             }
 
-            return value => value == 0 || value > 100 ? GeoColors.Transparent : table[value];
+            // Ten stops over the percentage; the fill blends between them.
+            var stops = new List<ColorStop> { new ColorStop(1, table[1]) };
+            for (var v = 10; v <= 100; v += 10)
+            {
+                stops.Add(new ColorStop(v, table[v]));
+            }
+
+            return stops;
         }
 
         private static GeoColor Lerp(byte[][] stops, double ratio, byte alpha)

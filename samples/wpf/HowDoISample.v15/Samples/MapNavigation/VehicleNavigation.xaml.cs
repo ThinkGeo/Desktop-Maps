@@ -29,10 +29,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private readonly ThinkGeoVectorTileSource _cloud = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey);
         private GpuBasemap _backgroundOverlay;
 
-        // The route, the growing trail and the vehicle all ride the marker
-        // batch: two PathLines and one icon TrackPoint, updated per animation tick.
-        private InMemoryGeometrySource _paths;
-        private InMemoryGeometrySource _vehicle;
+        // The route, the growing trail and the vehicle all ride dynamic sources:
+        // two lines and one icon marker, each kept under its id and updated per
+        // animation tick.
+        private DynamicSource _paths;
+        private DynamicSource _vehicle;
         private GeoImage _vehicleImage;
         private double _vehicleHeading;
         private bool _initialized;
@@ -60,19 +61,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
-            Map.ZoomStep = 0.15;
-            Map.TiltInteractionEnabled = true;
+            Map.ExtentOverlay.ZoomStep = 0.15;
+            Map.IsTiltInteractionEnabled = true;
             _cancellationTokenSource = new CancellationTokenSource();
 
-            _paths = new InMemoryGeometrySource();
-            _vehicle = new InMemoryGeometrySource();
+            _paths = new DynamicSource();
+            _vehicle = new DynamicSource();
             // From the file beside the app, not the assembly's embedded resources: an
             // embedded pack URI resolves against whichever EXE is hosting the sample,
             // and a second host (the Checks harness) does not embed it.
             _vehicleImage = new GeoImage("./Resources/vehicle_location.png");
 
             _backgroundOverlay = new GpuBasemap(ComposeStyle());
-            _backgroundOverlay.DrawExtrusionsEnabled = BuildingCheckBox.IsChecked != false;
+            _backgroundOverlay.IsExtrusionDrawingEnabled = BuildingCheckBox.IsChecked != false;
             Map.Basemap = _backgroundOverlay;
             Map.TiltAngle = DefaultPitch;
             UpdatePitchValueText(DefaultPitch);
@@ -96,9 +97,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         }
 
         /// <summary>
-        /// The whole scene state in two calls: both route lines through the path
-        /// source, the vehicle through the track source. Runs every animation tick;
-        /// nothing else about the map changes.
+        /// The whole scene state: both route lines through the path source, the
+        /// vehicle through the track source, each under its own id. Runs every
+        /// animation tick; nothing else about the map changes.
         /// </summary>
         private void PushRoutesAndVehicle(double x, double y)
         {
@@ -110,30 +111,39 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             var routeColor = _darkTheme ? GeoColor.FromHtml("#41F3FF") : GeoColor.FromHtml("#FFD400");
             var visitedColor = _darkTheme ? GeoColor.FromHtml("#21FF8F") : GeoColors.Green;
 
-            var route = new List<PointShape>(_gpsPoints.Count);
-            foreach (var point in _gpsPoints)
-            {
-                route.Add(new PointShape(point));
-            }
-
-            var lines = new List<PathLine> { new PathLine(route, routeColor, 6f) };
+            PutLine(_paths, "route", new Feature(new LineShape(_gpsPoints)), routeColor);
             if (_visitedVertices.Count >= 2)
             {
-                var visited = new List<PointShape>(_visitedVertices.Count);
-                foreach (var vertex in _visitedVertices)
-                {
-                    visited.Add(new PointShape(vertex));
-                }
-
-                lines.Add(new PathLine(visited, visitedColor, 6f));
+                PutLine(_paths, "visited", new Feature(new LineShape(_visitedVertices)), visitedColor);
+            }
+            else
+            {
+                _paths.Remove("visited");
             }
 
-            _paths.UpdateLines(lines);
             PushDestinationArea();
-            _vehicle.UpdatePoints(new[]
+            var position = new Feature(x, y);
+            if (_vehicle.Contains("vehicle"))
             {
-                new TrackPoint(x, y, (float)_vehicleHeading, GeoColors.White, 26f, "vehicle"),
-            });
+                _vehicle.UpdatePoint("vehicle", position, (float)_vehicleHeading, GeoColors.White, 26f, "vehicle");
+            }
+            else
+            {
+                _vehicle.AddPoint("vehicle", position, (float)_vehicleHeading, GeoColors.White, 26f, "vehicle");
+            }
+        }
+
+        /// <summary>Adds the line under the id, or moves the one already there.</summary>
+        private static void PutLine(DynamicSource source, string id, Feature line, GeoColor color)
+        {
+            if (source.Contains(id))
+            {
+                source.UpdateLine(id, line, color, 6f);
+            }
+            else
+            {
+                source.AddLine(id, line, color, 6f);
+            }
         }
 
         /// <summary>
@@ -146,15 +156,24 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             var end = _gpsPoints[_gpsPoints.Count - 1];
             const double radius = 55;
             const int segments = 36;
-            var ring = new List<PointShape>(segments);
+            var ring = new List<Vertex>(segments + 1);
             for (var i = 0; i < segments; i++)
             {
                 var angle = i * 2 * Math.PI / segments;
-                ring.Add(new PointShape(end.X + (radius * Math.Cos(angle)), end.Y + (radius * Math.Sin(angle))));
+                ring.Add(new Vertex(end.X + (radius * Math.Cos(angle)), end.Y + (radius * Math.Sin(angle))));
             }
 
+            ring.Add(ring[0]);
             var areaColor = _darkTheme ? GeoColor.FromArgb(70, 33, 255, 143) : GeoColor.FromArgb(70, 0, 150, 60);
-            _paths.UpdateAreas(new[] { new FillArea(ring, areaColor) });
+            var area = new Feature(new PolygonShape(new RingShape(ring)));
+            if (_paths.Contains("destination"))
+            {
+                _paths.UpdateArea("destination", area, areaColor);
+            }
+            else
+            {
+                _paths.AddArea("destination", area, areaColor);
+            }
         }
 
         private async Task ZoomToGpsPointsAsync(Collection<Vertex> gpsPoints)
@@ -331,7 +350,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             if (!_initialized || _backgroundOverlay == null)
                 return;
 
-            _backgroundOverlay.DrawExtrusionsEnabled = BuildingCheckBox.IsChecked == true;
+            _backgroundOverlay.IsExtrusionDrawingEnabled = BuildingCheckBox.IsChecked == true;
             _ = Map.RefreshAsync();
         }
 
@@ -395,8 +414,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             var style = new MapStyle(_darkTheme ? ThinkGeoVectorStyles.Dark : ThinkGeoVectorStyles.Light, _cloud);
             style.Images.Add("vehicle", _vehicleImage);
-            style.AddGeometry(_paths)
-                .AddGeometry(_vehicle);
+            style.AddDynamic(_paths)
+                .AddDynamic(_vehicle);
             return style;
         }
 

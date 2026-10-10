@@ -126,7 +126,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             try
             {
                 var projection = ThinkGeo.Gpu.DisplayProjection.FromProjString(projString);
-                GpuMap.DisplayProjection = projection;
+                GpuMap.Basemap.DisplayProjection = projection;
                 GpuMap.CurrentExtent = ProjectedWorldBounds(projection);
                 await GpuMap.RefreshAsync();
             }

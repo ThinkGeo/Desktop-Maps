@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
 using ThinkGeo.Core;
+using ThinkGeo.Core.Styling;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
@@ -24,7 +25,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private bool isPlaying;
         private readonly Stopwatch frameStopwatch = new Stopwatch();
         private NdfdSkyFrameSequence frameSequence;
-        private GridOverlay<byte> bitmapOverlay;
+        private GridOverlay bitmapOverlay;
         private int currentFrameIndex;
         private NdfdMapProjectionMode currentProjectionMode = NdfdMapProjectionMode.Lambert;
 
@@ -111,7 +112,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 frameSequence = new NdfdSkyFrameSequence(filePath, currentProjectionMode);
                 AddStateOutlineOverlay(frameSequence.MapProjection);
 
-                bitmapOverlay = new GridOverlay<byte>(frameSequence, CreateSkyStyleFunc(GetSelectedColorStyle()), frameSequence.SourceProjection, frameSequence.MapProjection);
+                bitmapOverlay = new GridOverlay(frameSequence, CreateSkyStyle(GetSelectedColorStyle()), frameSequence.MapProjection);
                 ApplyResamplingSelection();
 
                 if (MapView.Overlays.Contains("NdfdSkyOverlay"))
@@ -162,7 +163,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             currentFrameIndex = boundedIndex;
             frameSequence.LoadFrame(currentFrameIndex);
-            bitmapOverlay.InvalidateValues();
 
             long renderMs = frameStopwatch.ElapsedMilliseconds;
 
@@ -180,8 +180,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 currentFrameIndex + 1,
                 frameSequence.FrameCount,
                 timeLabel,
-                frameSequence.Width,
-                frameSequence.Height,
+                frameSequence.ColumnCount,
+                frameSequence.RowCount,
                 currentProjectionMode == NdfdMapProjectionMode.Lambert ? "Lambert (source)" : "3857",
                 frameSequence.LookupDescription,
                 timingLine).TrimEnd();
@@ -230,7 +230,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (bitmapOverlay == null)
                 return;
 
-            bitmapOverlay.Style = CreateSkyStyleFunc(GetSelectedColorStyle());
+            bitmapOverlay.Style = CreateSkyStyle(GetSelectedColorStyle());
         }
 
         private SkyColorStyle GetSelectedColorStyle()
@@ -242,16 +242,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             return SkyColorStyle.WeatherRainbow;
         }
 
-        private static Func<byte, GeoColor> CreateSkyStyleFunc(SkyColorStyle style)
+        // The sky cover ramp as colour stops over 1..100 percent, blended between them; 0 (clear) and
+        // anything above 100 (no data) come out of the source as NaN and are not drawn.
+        private static GridFillStyle CreateSkyStyle(SkyColorStyle style)
         {
-            GeoColor[] table = new GeoColor[101];
-            for (int v = 1; v <= 100; v++)
+            var stops = new System.Collections.Generic.List<ColorStop>();
+            foreach (int v in new[] { 1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 })
             {
-                double ratio = v / 100d;
-                GetColorForSkyStyle(style, ratio, out System.Windows.Media.Color color, out byte alpha);
-                table[v] = GeoColor.FromArgb(alpha, color.R, color.G, color.B);
+                GetColorForSkyStyle(style, v / 100d, out System.Windows.Media.Color color, out byte alpha);
+                stops.Add(new ColorStop(v, GeoColor.FromArgb(alpha, color.R, color.G, color.B)));
             }
-            return value => (value == 0 || value > 100) ? GeoColors.Transparent : table[value];
+            return new GridFillStyle { ColorStops = stops, RampMode = ColorRampMode.Gradient };
         }
 
         private static void GetColorForSkyStyle(SkyColorStyle style, double ratio, out System.Windows.Media.Color color, out byte alpha)
@@ -326,7 +327,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
     }
 
-    internal sealed class NdfdSkyFrameSequence : GridSource<byte>, IDisposable
+    internal sealed class NdfdSkyFrameSequence : GridSource, IDisposable
     {
         private readonly Dataset dataset;
         private readonly DateTime?[] frameTimes;
@@ -339,14 +340,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             : this(Parse(filePath, mapProjectionMode))
         { }
 
-        public Projection SourceProjection { get; }
         public Projection MapProjection { get; }
 
         private NdfdSkyFrameSequence(ParseResult result)
-            : base(result.Width, result.Height, result.SourceExtent, value => value > 100)
+            : base(result.Width, result.Height, result.SourceExtent, result.SourceProjection)
         {
             dataset = result.Dataset;
-            SourceProjection = result.SourceProjection;
             MapProjection = result.MapProjection;
             frameTimes = result.FrameTimes;
             lookupDescription = result.LookupDescription;
@@ -368,23 +367,26 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             Band band = dataset.GetRasterBand(frameIndex + 1);
             try
             {
-                band.ReadRaster(0, 0, Width, Height, currentValues, Width, Height, 0, 0);
+                band.ReadRaster(0, 0, ColumnCount, RowCount, currentValues, ColumnCount, RowCount, 0, 0);
                 loadedFrameIndex = frameIndex;
             }
             finally
             {
                 band.Dispose();
             }
+            // The overlay drawing this source redraws on Changed.
+            OnChanged();
         }
 
-        protected override void FillValuesCore(GridSlot<byte>[] samples)
+        protected override void FillValuesCore(GridSlot[] samples)
         {
             if (currentValues == null) return;
             for (int i = 0; i < samples.Length; i++)
             {
-                if (samples[i].X < 0) continue;
-                int idx = samples[i].Y * Width + samples[i].X;
-                samples[i].Value = (idx < currentValues.Length) ? currentValues[idx] : (byte)0;
+                if (samples[i].Column < 0) continue;
+                int idx = samples[i].Row * ColumnCount + samples[i].Column;
+                byte value = (idx < currentValues.Length) ? currentValues[idx] : (byte)0;
+                samples[i].Value = (value == 0 || value > 100) ? float.NaN : value;
             }
         }
 

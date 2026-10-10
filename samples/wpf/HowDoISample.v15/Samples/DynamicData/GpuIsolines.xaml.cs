@@ -32,7 +32,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private readonly RectangleShape _dataBounds;
         private readonly System.Windows.Threading.DispatcherTimer _costTimer;
 
-        private ValueGridSource _isolineSource;
+        private PointValueSource _isolineSource;
         private bool _initialized;
 
         // The live knobs: every change re-issues the isoline registration and the next frame shows
@@ -54,7 +54,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             InitializeComponent();
 
             Map.MapUnit = GeographyUnit.Meter;
-            Map.TiltInteractionEnabled = true;
+            Map.IsTiltInteractionEnabled = true;
             _style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey));
             _overlay = new GpuBasemap(_style);
             Map.Basemap = _overlay;
@@ -166,23 +166,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             var colors = GeoColor.GetColorsInQualityFamily(
                 GeoColors.Blue, GeoColors.Red, levels.Count, ColorWheelDirection.Clockwise);
 
-            // The two halves of the old options bag, split where they belong: how the
-            // field is MADE rides the data source, how the contours are DRAWN rides
-            // the style.
-            var interpolation = new IsolineInterpolationOptions
+            // How the field is MADE rides the data source (Power, SearchRadius below);
+            // how the contours are DRAWN rides the style. A level and its colour travel
+            // together, so they cannot fall out of step.
+            var display = new IsolineStyle
             {
-                Power = _power,
-                SearchRadius = _searchRadius,
-                // The field pass is O(texels x points); at 100k points a 1024^2 field
-                // costs ~1.8s per rebuild on an RTX 2070, 512^2 a quarter of that.
-                // Rebuilds happen on zoom or data/parameter changes, not per frame,
-                // so this is the hitch budget, not the frame budget.
-                FieldResolution = points.Count > 20_000 ? 512 : 1024,
-            };
-            var display = new IsolineDisplayOptions
-            {
-                Levels = levels,
-                LevelColors = colors.ToList(),
+                Levels = levels.Select((level, i) => new ColorStop(level, colors[i])).ToList(),
                 LineWidthInPixels = _lineWidth,
                 FillOpacity = _fillBands ? 0.45f : 0f,
                 // Labels every second level, the usual contour-map cadence; the value
@@ -200,7 +189,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 _style.RemoveIsolines(_isolineSource);
             }
 
-            _isolineSource = new ValueGridSource(points, interpolation);
+            _isolineSource = new PointValueSource(points) { Power = _power, SearchRadius = _searchRadius };
             _style.AddIsolines(_isolineSource, display);
             _ = _overlay.SetStyleAsync(_style);
             stopwatch.Stop();

@@ -38,7 +38,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             };
 
             // One call puts the service on the map - no style JSON is written or needed.
-            Map.Basemap = new GpuBasemap(new MapStyle().AddRaster(source, "xyz"));
+            Map.Basemap = new GpuBasemap(new MapStyle().AddRaster(source, sourceId: "xyz"));
 
             Map.CenterPoint = new PointShape(-10777290, 3908740);
             Map.CurrentScale = 50000;

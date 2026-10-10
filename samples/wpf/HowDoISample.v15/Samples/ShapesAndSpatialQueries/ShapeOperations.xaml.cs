@@ -47,11 +47,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         // What the operation reads, what it works against, and what it returned. All
         // three change as you move down the list, and the result changes on every frame
-        // of the animation - which is what this channel is for. An Update replaces the
-        // whole snapshot and it is on screen the next frame, with nothing re-cut.
-        private readonly InMemoryGeometrySource _sourceArea = new InMemoryGeometrySource();
-        private readonly InMemoryGeometrySource _regionArea = new InMemoryGeometrySource();
-        private readonly InMemoryGeometrySource _resultArea = new InMemoryGeometrySource();
+        // of the animation - which is what this channel is for. A Clear and a fresh set
+        // of Add calls land as one rebuild, on screen the next frame, with nothing re-cut.
+        private readonly DynamicSource _sourceArea = new DynamicSource();
+        private readonly DynamicSource _regionArea = new DynamicSource();
+        private readonly DynamicSource _resultArea = new DynamicSource();
 
         private Collection<Feature> _pieces;
         private DispatcherTimer _timer;
@@ -75,7 +75,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             var style = new MapStyle();
             style.AddStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey));
-            style.AddGeometry(_sourceArea).AddGeometry(_regionArea).AddGeometry(_resultArea);
+            style.AddDynamic(_sourceArea).AddDynamic(_regionArea).AddDynamic(_resultArea);
             Map.Basemap = new GpuBasemap(style);
 
             // The city limits arrive cut into pieces, which is what gives Union
@@ -243,18 +243,33 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // are shown in a color each - two shapes look like one blob otherwise, and
             // then merging them would look like nothing at all. The blue area appears
             // for the two operations that have a second operand, and not otherwise.
-            var read = union && !_merged
-                ? _pieces.SelectMany((piece, index) => Areas(piece.GetShape(), PieceColors[index % PieceColors.Length]))
-                : union ? Enumerable.Empty<FillArea>()
-                : Areas(shape, SourceColor);
+            _sourceArea.Clear();
+            if (union && !_merged)
+            {
+                for (var i = 0; i < _pieces.Count; i++)
+                {
+                    _sourceArea.AddArea("piece-" + i, _pieces[i], PieceColors[i % PieceColors.Length]);
+                }
+            }
+            else if (!union)
+            {
+                _sourceArea.AddArea("source", new Feature(shape), SourceColor);
+            }
 
-            _sourceArea.UpdateAreas(read.ToList());
-            _regionArea.UpdateAreas(paired ? Areas(_westRegion, RegionColor) : Array.Empty<FillArea>());
+            _regionArea.Clear();
+            if (paired)
+            {
+                _regionArea.AddArea("region", new Feature(_westRegion), RegionColor);
+            }
+
             // The result carries an outline: what an operation returned is easier to
-            // read against what it read when its edge is drawn.
-            _resultArea.UpdateAreas(result == null
-                ? Array.Empty<FillArea>()
-                : Areas(result, ResultColor, GeoColors.DarkGreen));
+            // read against what it read when its edge is drawn. An operation that
+            // returns nothing - an intersection of things that do not meet - draws nothing.
+            _resultArea.Clear();
+            if (result is AreaBaseShape)
+            {
+                _resultArea.AddArea("result", new Feature(result), ResultColor, GeoColors.DarkGreen, 2f);
+            }
 
             if (union)
             {
@@ -273,27 +288,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             new GeoColor(128, GeoColors.MediumPurple),
         };
 
-        /// <summary>
-        /// The polygons of whatever the operation returned, as the GPU wants them:
-        /// an outer ring, its holes, and a color. An operation that returns nothing -
-        /// an intersection of things that do not meet - draws nothing.
-        /// </summary>
-        private static IReadOnlyList<FillArea> Areas(BaseShape shape, GeoColor color, GeoColor outline = null)
-        {
-            var areas = new List<FillArea>();
-            foreach (var polygon in Polygons(shape))
-            {
-                areas.Add(new FillArea(
-                    Ring(polygon.OuterRing),
-                    color,
-                    polygon.InnerRings.Select(Ring),
-                    outline,
-                    outline == null ? (float?)null : 2f));
-            }
-
-            return areas;
-        }
-
+        /// <summary>The polygons of whatever the operation returned, for the count the union shows.</summary>
         private static IEnumerable<PolygonShape> Polygons(BaseShape shape)
         {
             switch (shape)
@@ -305,9 +300,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 default: return Enumerable.Empty<PolygonShape>();
             }
         }
-
-        private static IEnumerable<PointShape> Ring(RingShape ring) =>
-            ring.Vertices.Select(vertex => new PointShape(vertex.X, vertex.Y));
 
         /// <summary>A half-typed number is a number the user is still writing, not an error.</summary>
         private static double Number(System.Windows.Controls.TextBox box, double fallback) =>

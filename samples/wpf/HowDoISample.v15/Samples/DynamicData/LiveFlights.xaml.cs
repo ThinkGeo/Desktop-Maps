@@ -15,9 +15,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
     /// Every aircraft in the sky right now: one live fetch from the OpenSky network -
     /// ten-thousand-plus airborne planes with position, track and speed - then dead
     /// reckoning flies them all forward, sped up by the time slider. Each tick is one
-    /// InMemoryGeometrySource.UpdatePoints carrying the whole sky; the renderer redraws the markers and
-    /// nothing else changes. Hover a plane for its callsign, altitude and speed - and
-    /// it starts drawing its trail, through the same source's line channel.
+    /// DynamicSource.UpdatePoint per aircraft, and the whole sky lands as one rebuild; the
+    /// renderer redraws the markers and nothing else changes. Hover a plane for its
+    /// callsign, altitude and speed - and it starts drawing its trail, a line in the
+    /// same source.
     /// </summary>
     public partial class LiveFlights : IDisposable
     {
@@ -27,7 +28,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         private readonly DispatcherTimer _timer;
 
-        private InMemoryGeometrySource _tracks;
+        private DynamicSource _tracks;
         private Flight[] _flights;
         private DateTime _lastTick;
         private bool _built;
@@ -39,6 +40,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         private sealed class Flight
         {
+            // The id the aircraft's marker is kept under in the source.
+            public string Id;
             public string Callsign;
             public double Lon;
             public double Lat;
@@ -68,11 +71,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             try
             {
                 // Coordinates arrive in WGS84 and the source converts.
-                _tracks = new InMemoryGeometrySource(new Projection(4326));
+                _tracks = new DynamicSource(new Projection(4326));
 
                 var style = new MapStyle();
                 style.AddStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey));
-                style.AddGeometry(_tracks);
+                style.AddDynamic(_tracks);
                 Map.Basemap = new GpuBasemap(style);
 
                 // The lower 48, the densest continuous airspace; zoom out for the world.
@@ -103,7 +106,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         }
 
         private void Map_MapMouseMove(object sender, MapMouseMoveMapViewEventArgs e) =>
-            ShowHover(e.WorldX, e.WorldY, e.ScreenX, e.ScreenY);
+            ShowHover(e.WorldLocation.X, e.WorldLocation.Y, e.ScreenX, e.ScreenY);
 
         private static Flight[] ParseOpenSky(string json)
         {
@@ -124,6 +127,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
                 flights.Add(new Flight
                 {
+                    Id = "flight-" + flights.Count,
                     Callsign = state[1].ValueKind == JsonValueKind.Null ? string.Empty : state[1].GetString().Trim(),
                     Lon = lon.GetDouble(),
                     Lat = lat.GetDouble(),
@@ -138,8 +142,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         /// <summary>
         /// One tick: every aircraft flies straight ahead at its reported speed and
-        /// track (dead reckoning), sped up by the time slider, and the whole sky goes
-        /// down as one snapshot. Longitudes wrap, so the Pacific crossings keep going.
+        /// track (dead reckoning), sped up by the time slider, and its marker is moved
+        /// in place; the whole sky lands as one rebuild on the next frame. Longitudes
+        /// wrap, so the Pacific crossings keep going.
         /// </summary>
         private void Advance()
         {
@@ -152,7 +157,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             var dt = (now - _lastTick).TotalSeconds * SpeedSlider.Value;
             _lastTick = now;
 
-            var points = new List<TrackPoint>(_flights.Length);
             foreach (var flight in _flights)
             {
                 var radians = flight.TrackDegrees * Math.PI / 180;
@@ -161,17 +165,24 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 flight.Lon += meters * Math.Sin(radians) / (111320.0 * Math.Max(0.2, Math.Cos(flight.Lat * Math.PI / 180)));
                 if (flight.Lat > 85 || flight.Lat < -85)
                 {
+                    _tracks.Remove(flight.Id);
                     continue;
                 }
 
                 if (flight.Lon > 180) flight.Lon -= 360;
                 if (flight.Lon < -180) flight.Lon += 360;
 
-                points.Add(new TrackPoint(flight.Lon, flight.Lat, flight.TrackDegrees,
-                    ColorForAltitude(flight.AltitudeMeters), 11f));
+                var position = new Feature(flight.Lon, flight.Lat);
+                var color = ColorForAltitude(flight.AltitudeMeters);
+                if (_tracks.Contains(flight.Id))
+                {
+                    _tracks.UpdatePoint(flight.Id, position, flight.TrackDegrees, color, 11f);
+                }
+                else
+                {
+                    _tracks.AddPoint(flight.Id, position, flight.TrackDegrees, color, 11f);
+                }
             }
-
-            _tracks.UpdatePoints(points);
 
             if (_trailedFlight != null)
             {
@@ -189,8 +200,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
                 if (_trail.Count > 1)
                 {
-                    _tracks.UpdateLines(new BaseShape[] { new LineShape(_trail) },
-                        ColorForAltitude(_trailedFlight.AltitudeMeters), 2f);
+                    var trail = new Feature(new LineShape(_trail));
+                    var color = ColorForAltitude(_trailedFlight.AltitudeMeters);
+                    if (_tracks.Contains("trail"))
+                    {
+                        _tracks.UpdateLine("trail", trail, color, 2f);
+                    }
+                    else
+                    {
+                        _tracks.AddLine("trail", trail, color, 2f);
+                    }
                 }
             }
         }

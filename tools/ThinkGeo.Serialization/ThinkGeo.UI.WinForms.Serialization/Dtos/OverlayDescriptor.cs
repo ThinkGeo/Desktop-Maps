@@ -236,8 +236,6 @@ public sealed record ExtentInteractiveOverlayDescriptor : OverlayDescriptor
     public string DoubleRightClickMode { get; init; } = "Default";
     /// <summary>Any <c>ExtentChangedType</c> enum name.</summary>
     public string ExtentChangedType { get; init; } = "Default";
-    /// <summary>Any <c>ZoomSnapDirection</c> enum name: <c>"UpperScale" | "LowerScale"</c>.</summary>
-    public string ZoomSnapDirection { get; init; } = "LowerScale";
     public int ZoomPercentage { get; init; } = 50;
     public float MinimumTrackZoomInExtentInPixels { get; init; } = 10f;
 }

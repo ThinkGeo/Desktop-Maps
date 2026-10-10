@@ -60,7 +60,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private bool _disposed;
         private LaneMap _laneMap;
         private FeatureSourceVectorTileSource _laneTiles;
-        private InMemoryGeometrySource _vehicle;
+        private DynamicSource _vehicle;
         private GeoImage _vehicleImage;
         private RoutePlayback _playback;
         private RoutePose _pose;
@@ -81,7 +81,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
-            Map.TiltInteractionEnabled = true;
+            Map.IsTiltInteractionEnabled = true;
             _vehicleImage = RenderVehicleImage();
             Map.CurrentExtentChangedInAnimation += Map_CurrentExtentChangedInAnimation;
             Map.PreviewMouseWheel += Map_PreviewMouseWheel;
@@ -114,7 +114,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             await _laneTiles.OpenAsync();
             if (_disposed) return;
 
-            _vehicle = new InMemoryGeometrySource();
+            _vehicle = new DynamicSource();
 
             var style = ComposeStyle();
             await style.OpenAsync();
@@ -151,12 +151,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private MapStyle ComposeStyle()
         {
             var style = new MapStyle();
-            style.AddStyle(ThinkGeoVectorStyles.Dark, _cloud, "background");
             style.SetBackground(GeoColor.FromHtml("#101317"));
             style.AddStyle((string)Resources["StyleJson"], _laneTiles);
-            style.AddStyle(ThinkGeoVectorStyles.Dark, _cloud, "fill-extrusion");
+            style.AddStyle(ThinkGeoVectorStyles.Dark, _cloud, StyleLayerType.FillExtrusion);
             style.Images.Add("vehicle", _vehicleImage);
-            style.AddGeometry(_vehicle);
+            style.AddDynamic(_vehicle);
             return style;
         }
 
@@ -207,17 +206,24 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         // ------------------------------------------------------------- drive --
 
         /// <summary>
-        /// The vehicle is a <see cref="TrackPoint"/> in the style's marker batch:
-        /// the GPU draws it every frame from this one call, and the batch counters
-        /// the view rotation itself, so the heading is a plain compass bearing.
+        /// The vehicle is one marker in a <see cref="DynamicSource"/>: the GPU draws it
+        /// every frame from this one call, and the source counters the view rotation
+        /// itself, so the heading is a plain compass bearing.
         /// </summary>
         private void ShowVehicle(RoutePose at)
         {
             _pose = at;
-            _vehicle.UpdatePoints(new[]
+            var position = new Feature(at.Position.X, at.Position.Y);
+            var heading = (float)(90 - at.HeadingDegrees);
+            if (_vehicle.Contains("vehicle"))
             {
-                new TrackPoint(at.Position.X, at.Position.Y, (float)(90 - at.HeadingDegrees), GeoColors.White, 100f, "vehicle"),
-            });
+                _vehicle.UpdatePoint("vehicle", position, heading, GeoColors.White, 100f, "vehicle");
+            }
+            else
+            {
+                _vehicle.AddPoint("vehicle", position, heading, GeoColors.White, 100f, "vehicle");
+            }
+
             UpdateHud(at);
         }
 

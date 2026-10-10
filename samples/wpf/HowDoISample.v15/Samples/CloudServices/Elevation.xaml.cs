@@ -18,8 +18,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         private bool _initialized;
         private ElevationCloudClient _elevationCloudClient;
-        private readonly InMemoryGeometrySource _queryShape = new InMemoryGeometrySource();
-        private readonly InMemoryGeometrySource _elevationPoints = new InMemoryGeometrySource();
+        private readonly DynamicSource _queryShape = new DynamicSource();
+        private readonly DynamicSource _elevationPoints = new DynamicSource();
 
         public Elevation()
         {
@@ -46,15 +46,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 // The GPU draws a marker from a named image, so a point style the GPU has
                 // no shape of its own for - a star - is drawn once by the CPU and registered.
                 style.Images.Add("star", new PointStyle(PointSymbolType.Star, 20, GeoBrushes.Blue));
-                style.AddGeometry(_queryShape, new GeometryStyle
-                {
-                    FillColor = new GeoColor(10, GeoColors.Blue),
-                    OutlineColor = GeoColors.Blue,
-                    OutlineWidthInPixels = 2,
-                    LineColor = GeoColors.Blue,
-                    LineWidthInPixels = 2,
-                });
-                style.AddGeometry(_elevationPoints);
+                style.AddDynamic(_queryShape);
+                style.AddDynamic(_elevationPoints);
                 Map.Basemap = new GpuBasemap(style);
 
                 // Add an event to trigger the elevation query when a new shape is drawn
@@ -88,12 +81,22 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// </summary>
         private async Task PerformElevationQueryAsync(BaseShape queryShape)
         {
-            // Show the shape being asked about. It can be a point, a line or a polygon,
-            // so the same shape goes to all three calls and each takes the one it draws.
-            var asked = new[] { queryShape };
-            _queryShape.UpdateAreas(asked);
-            _queryShape.UpdateLines(asked);
-            _queryShape.UpdatePoints(asked, sizeInPixels: 20f, iconName: "star");
+            // Show the shape being asked about: a point, a line or a polygon, each added
+            // the way its kind is drawn. The colour rides the feature, not the source.
+            _queryShape.Clear();
+            var asked = new Feature(queryShape);
+            switch (queryShape)
+            {
+                case AreaBaseShape _:
+                    _queryShape.AddArea("asked", asked, new GeoColor(10, GeoColors.Blue), GeoColors.Blue, 2f);
+                    break;
+                case LineBaseShape _:
+                    _queryShape.AddLine("asked", asked, GeoColors.Blue, 2f);
+                    break;
+                case PointBaseShape _:
+                    _queryShape.AddPoint("asked", asked, sizeInPixels: 20f, iconName: "star");
+                    break;
+            }
 
             // Set options from the UI and run the query using the ElevationCloudClient
             var elevationPoints = new Collection<CloudElevationPointResult>();
@@ -148,7 +151,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             }
 
             // Add the elevation result points to the map and list box
-            _elevationPoints.UpdatePoints(elevationPoints.Select(elevationPoint => elevationPoint.Point), sizeInPixels: 20f, iconName: "star");
+            _elevationPoints.Show(elevationPoints.Select(elevationPoint => elevationPoint.Point), pointSizeInPixels: 20f, iconName: "star", idPrefix: "elevation");
             LsbElevations.ItemsSource = elevationPoints;
 
             // Hide the loading graphic

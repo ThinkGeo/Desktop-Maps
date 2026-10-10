@@ -70,7 +70,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
                 var style = new MapStyle();
                 style.AddStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey));
-                style.AddRaster(_radar, RadarSourceId, opacity: 0.75f);
+                style.AddRaster(_radar, new RasterPaint(0.75f), RadarSourceId);
                 _basemap = new GpuBasemap(style);
                 Map.Basemap = _basemap;
 

@@ -35,8 +35,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             // The source is the data level: opening it negotiates the server's
             // capabilities, and TileMatrixSetName picks the web-mercator grid.
-            var source = new WmtsRasterTileSource(new Uri("https://wmts.geo.admin.ch/EPSG/3857/1.0.0"),
-                null, WmtsServerEncodingType.Restful)
+            var source = new WmtsRasterTileSource(new Uri("https://wmts.geo.admin.ch/EPSG/3857/1.0.0"), WmtsServerEncodingType.Restful)
             {
                 ActiveLayerName = "ch.swisstopo.pixelkarte-farbe-pk25.noscale",
                 ActiveStyleName = "default",

@@ -17,7 +17,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         private bool _initialized;
         private TimeZoneCloudClient _timeZoneCloudClient;
-        private readonly InMemoryGeometrySource _timezoneArea = new InMemoryGeometrySource();
+        private readonly DynamicSource _timezoneArea = new DynamicSource();
 
         public Timezone()
         {
@@ -46,12 +46,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // and the shape would then stretch through a fractional zoom while the map
             // under it did not.
             var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey));
-            style.AddGeometry(_timezoneArea, new GeometryStyle
-            {
-                FillColor = new GeoColor(50, GeoColors.MediumPurple),
-                OutlineColor = GeoColors.MediumPurple,
-                OutlineWidthInPixels = 2,
-            });
+            style.AddDynamic(_timezoneArea);
             Map.Basemap = new GpuBasemap(style);
 
             // Initialize the TimezoneCloudClient with our ThinkGeo Cloud credentials
@@ -77,7 +72,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             if (e.MouseButton == MapMouseButton.Left)
             {
                 // Run the timezone info query
-                _ = GetTimeZoneInfoAsync(e.WorldX, e.WorldY);
+                _ = GetTimeZoneInfoAsync(e.WorldLocation.X, e.WorldLocation.Y);
             }
         }
 
@@ -130,8 +125,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             var converter = new ProjectionConverter(3857, 4326);
             converter.Open();
 
-            // Replace whatever was there with the timezone just returned.
-            _timezoneArea.UpdateAreas(new[] { converter.ConvertToInternalProjection(result.Shape) });
+            // Replace whatever was there with the timezone just returned; the colour
+            // rides the feature.
+            _timezoneArea.Clear();
+            _timezoneArea.AddArea("timezone", new Feature(converter.ConvertToInternalProjection(result.Shape)),
+                new GeoColor(50, GeoColors.MediumPurple), GeoColors.MediumPurple, 2f);
             converter.Close();
 
             // Refresh and redraw the map

@@ -63,8 +63,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         // folds it back; the sample never splits anything itself.
         private readonly FeatureSourceVectorTileSource _flight = new FeatureSourceVectorTileSource();
 
-        private readonly InMemoryGeometrySource _airports = new InMemoryGeometrySource();
-        private readonly InMemoryGeometrySource _aircraft = new InMemoryGeometrySource();
+        private readonly DynamicSource _airports = new DynamicSource();
+        private readonly DynamicSource _aircraft = new DynamicSource();
         private readonly DispatcherTimer _applyTimer;
 
         // The route, sampled evenly along the arc. Longitudes are continuous from the
@@ -192,8 +192,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             style.AddStyle(Editor.Text, _flight);
             style.Images.Add("airport", RenderDotImage());
             style.Images.Add("plane", RenderPlaneImage());
-            style.AddGeometry(_airports);
-            style.AddGeometry(_aircraft);
+            style.AddDynamic(_airports);
+            style.AddDynamic(_aircraft);
             return style;
         }
 
@@ -245,7 +245,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             Map.MaximumScale = definition == "3857" ? double.MaxValue : WorldFillScale();
             Map.CurrentExtent = before;
             await Map.RefreshAsync();
-            await Map.AnimateDisplayProjectionAsync(target, MorphDuration);
+            await Map.Basemap.AnimateDisplayProjectionAsync(target, MorphDuration);
             ShowSeam();
         }
 
@@ -369,25 +369,30 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             var (lon, lat, heading) = PoseAt(meters);
             var (x, y) = Meters(lon, lat);
-            _aircraft.UpdatePoints(new[]
+            var position = new Feature(x, y);
+            if (_aircraft.Contains("plane"))
             {
-                new TrackPoint(x, y, (float)heading, GeoColors.White, 44f, "plane"),
-            });
+                _aircraft.UpdatePoint("plane", position, (float)heading, GeoColors.White, 44f, "plane");
+            }
+            else
+            {
+                _aircraft.AddPoint("plane", position, (float)heading, GeoColors.White, 44f, "plane");
+            }
         }
 
         private void ShowAirports()
         {
-            var points = new List<TrackPoint>();
-            var labels = new List<GeometryLabel>();
+            _airports.Clear();
             foreach (var airport in new[] { Origin, Destination })
             {
                 var (x, y) = Meters(airport.Lon, airport.Lat);
-                points.Add(new TrackPoint(x, y, 0f, GeoColors.White, 14f, "airport"));
-                labels.Add(new GeometryLabel(x, y, airport.Code + "  " + airport.Name, GeoColor.FromHtml("#101317"), 13f, 0f, -14f));
+                // The marker and its label share one feature under one id; the label
+                // reads its text from the feature's column.
+                var feature = new Feature(new PointShape(x, y),
+                    new Dictionary<string, string> { { "NAME", airport.Code + "  " + airport.Name } });
+                _airports.AddPoint(airport.Code, feature, 0f, GeoColors.White, 14f, "airport");
+                _airports.AddLabel(airport.Code, feature, "NAME", GeoColor.FromHtml("#101317"), 13f, 0f, -14f);
             }
-
-            _airports.UpdatePoints(points);
-            _airports.UpdateLabels(labels);
         }
 
         /// <summary>Position and compass heading at a distance along the arc.</summary>

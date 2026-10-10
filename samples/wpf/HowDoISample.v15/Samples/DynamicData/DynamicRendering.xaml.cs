@@ -15,18 +15,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
     /// A century of state populations as animated circles, entirely. Each
-    /// circle is a TrackPoint whose size and tint are data; the circle SHAPE is one
-    /// white image registered with AddImage and instanced by the renderer - any
-    /// marker shape is an image, so the renderer never grows per-shape code. Dragging
-    /// the year is one Update over fifty points: no recompile, no tile rebuilds, and
-    /// none of the tile-edge clipping that kept the old screen-space circles on the
-    /// per-frame CPU overlay.
+    /// circle is a marker in a DynamicSource whose size and tint are data; the circle
+    /// SHAPE is one white image registered with the style and instanced by the renderer -
+    /// any marker shape is an image, so the renderer never grows per-shape code. Dragging
+    /// the year updates fifty markers, which land as one rebuild: no recompile, no tile
+    /// rebuilds, and none of the tile-edge clipping that kept the old screen-space
+    /// circles on the per-frame CPU overlay.
     /// </summary>
     public partial class DynamicRendering
     {
         private readonly DispatcherTimer _applyTimer;
         private FeatureSourceVectorTileSource _states;
-        private InMemoryGeometrySource _circles;
+        private DynamicSource _circles;
         private List<(double X, double Y, string Abbreviation)> _stateCenters;
         private Dictionary<(string State, int Year), int> _population;
         private bool _initialized;
@@ -52,7 +52,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 _stateCenters = ReadStateCenters(shapefilePath);
                 _population = ReadPopulation(Path.Combine(AppContext.BaseDirectory, "Data", "historical_state_population_by_year.csv"));
 
-                _circles = new InMemoryGeometrySource();
+                _circles = new DynamicSource();
                 _states = new FeatureSourceVectorTileSource();
                 _states.FeatureSources.Add("states", new ShapeFileFeatureSource(shapefilePath));
                 Map.Basemap = new ThinkGeo.UI.Wpf.GpuBasemap(ComposeStyle());
@@ -79,7 +79,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             var style = new MapStyle()
                 .SetBackground(GeoColors.White)
                 .AddStyle(Editor.Text, _states)
-                .AddGeometry(_circles);
+                .AddDynamic(_circles);
             style.Images.Add("disc", CreateDiscImage());
             return style;
         }
@@ -130,8 +130,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         }
 
         /// <summary>
-        /// One year: every state contributes one TrackPoint whose size and color are
-        /// its population, and the whole set goes down in a single Update.
+        /// One year: every state's marker, kept under the state's abbreviation, takes
+        /// the size and color of its population. The fifty updates land as one rebuild.
         /// </summary>
         private void ShowYear(int year)
         {
@@ -140,21 +140,26 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 return;
             }
 
-            var points = new List<TrackPoint>(_stateCenters.Count);
             foreach (var (x, y, abbreviation) in _stateCenters)
             {
                 if (!_population.TryGetValue((abbreviation, year), out var population))
                 {
+                    _circles.Remove(abbreviation);
                     continue;
                 }
 
                 var strength = Math.Min(population / 300000f, 150f);
-                points.Add(new TrackPoint(x, y, 0,
-                    GeoColor.FromArgb(150, (byte)(255 * (1 - (strength / 150))), (byte)(255 * strength / 150), 0),
-                    Math.Max(4f, strength), "disc"));
+                var color = GeoColor.FromArgb(150, (byte)(255 * (1 - (strength / 150))), (byte)(255 * strength / 150), 0);
+                var size = Math.Max(4f, strength);
+                if (_circles.Contains(abbreviation))
+                {
+                    _circles.UpdatePoint(abbreviation, new Feature(x, y), 0f, color, size, "disc");
+                }
+                else
+                {
+                    _circles.AddPoint(abbreviation, new Feature(x, y), 0f, color, size, "disc");
+                }
             }
-
-            _circles.UpdatePoints(points);
         }
 
         /// <summary>One antialiased white disc; every circle on the map is this image, tinted and scaled.</summary>

@@ -31,8 +31,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private GpuBasemap _basemap;
         private ShapeFileFeatureSource _data;
         private FeatureSourceVectorTileSource _tiles;
-        private readonly InMemoryGeometrySource _measured = new InMemoryGeometrySource();
-        private readonly InMemoryGeometrySource _stadium = new InMemoryGeometrySource();
+        private readonly DynamicSource _measured = new DynamicSource();
+        private readonly DynamicSource _stadium = new DynamicSource();
         private bool _ready;
 
         public ShapeMeasurements()
@@ -49,7 +49,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             Map.MapUnit = GeographyUnit.Meter;
 
-            _stadium.UpdatePoints(new[] { Stadium }, sizeInPixels: 18f, iconName: "stadium");
+            _stadium.Clear();
+            _stadium.AddPoint("stadium", new Feature(Stadium), sizeInPixels: 18f, iconName: "stadium");
 
             ChooseData();
             _basemap = new GpuBasemap(ComposeStyle());
@@ -153,15 +154,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // once and registered under the names the point markers ask for.
             style.Images.Add("stadium", PointStyle.CreateSimpleCircleStyle(GeoColors.Blue, 14, GeoColors.White, 3));
             style.Images.Add("measured", PointStyle.CreateSimpleCircleStyle(GeoColors.DarkGreen, 12, GeoColors.White, 3));
-            style.AddGeometry(_stadium);
-            style.AddGeometry(_measured, new GeometryStyle
-            {
-                FillColor = new GeoColor(96, GeoColors.Green),
-                OutlineColor = GeoColors.DarkGreen,
-                OutlineWidthInPixels = 2,
-                LineColor = GeoColors.DarkGreen,
-                LineWidthInPixels = 5,
-            });
+            style.AddDynamic(_stadium);
+            style.AddDynamic(_measured);
             return style;
         }
 
@@ -278,10 +272,27 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             }
 
             // A measurement can draw a park, a trail, a center point or a line to the
-            // stadium, so the same list goes to all three calls and each takes its own.
-            _measured.UpdateAreas(drawn);
-            _measured.UpdateLines(drawn);
-            _measured.UpdatePoints(drawn, sizeInPixels: 16f, iconName: "measured");
+            // stadium, so each shape is added by its kind; the Clear and the Adds land
+            // as one rebuild.
+            _measured.Clear();
+            var index = 0;
+            foreach (var measured in drawn)
+            {
+                var id = "measured-" + index++;
+                var measuredFeature = new Feature(measured);
+                switch (measured)
+                {
+                    case AreaBaseShape _:
+                        _measured.AddArea(id, measuredFeature, new GeoColor(96, GeoColors.Green), GeoColors.DarkGreen, 2f);
+                        break;
+                    case LineBaseShape _:
+                        _measured.AddLine(id, measuredFeature, GeoColors.DarkGreen, 5f);
+                        break;
+                    default:
+                        _measured.AddPoint(id, measuredFeature, sizeInPixels: 16f, iconName: "measured");
+                        break;
+                }
+            }
 
             _ = Map.RefreshAsync();
         }

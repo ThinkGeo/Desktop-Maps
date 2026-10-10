@@ -21,9 +21,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         // Nothing here is drawn from a layer, so nothing here needs one: a query runs on
         // a FeatureSource, and QueryTools takes one directly.
         private InMemoryFeatureSource _zoningSource;
-        private readonly InMemoryGeometrySource _zoning = new InMemoryGeometrySource();
-        private readonly InMemoryGeometrySource _queryShape = new InMemoryGeometrySource();
-        private readonly InMemoryGeometrySource _highlighted = new InMemoryGeometrySource();
+        private readonly DynamicSource _zoning = new DynamicSource();
+        private readonly DynamicSource _queryShape = new DynamicSource();
+        private readonly DynamicSource _highlighted = new DynamicSource();
 
         public CheckIfFeaturesAreEqual()
         {
@@ -46,11 +46,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 // The zoning polygons, the query shape and the matches all go to the GPU
                 // with the basemap. Drawn on overlays they would be raster tiles, so they
                 // would stretch through a fractional zoom while the map under them stayed
-                // sharp.
+                // sharp. Each source's colours ride the features added to it.
                 var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey));
-                style.AddGeometry(_zoning, new GeometryStyle { FillColor = new GeoColor(50, GeoColors.MediumPurple), OutlineColor = GeoColors.MediumPurple, OutlineWidthInPixels = 2 });
-                style.AddGeometry(_queryShape, new GeometryStyle { FillColor = new GeoColor(75, GeoColors.LightRed), OutlineColor = GeoColors.LightRed, OutlineWidthInPixels = 2 });
-                style.AddGeometry(_highlighted, new GeometryStyle { FillColor = new GeoColor(90, GeoColors.MidnightBlue), OutlineColor = GeoColors.MidnightBlue, OutlineWidthInPixels = 2 });
+                style.AddDynamic(_zoning);
+                style.AddDynamic(_queryShape);
+                style.AddDynamic(_highlighted);
                 Map.Basemap = new GpuBasemap(style);
 
                 // Import the features from the Frisco zoning data shapefile
@@ -73,7 +73,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
                 // The reprojected features, held where the query can reach them
                 _zoningSource = new InMemoryFeatureSource(columns, reprojectedFeatures);
-                _zoning.UpdateAreas(reprojectedFeatures);
+                _zoning.Show(reprojectedFeatures, new GeoColor(50, GeoColors.MediumPurple), GeoColors.MediumPurple, 2f, idPrefix: "zoning");
 
                 // Add a sample shape to the map for the initial query
                 // To ensure topological equality for this sample, we create a new shape using the same geometry as an existing feature
@@ -113,7 +113,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             // Replace whatever was highlighted with the features just found
             var enumerable = features as Feature[] ?? features.ToArray();
-            _highlighted.UpdateAreas(enumerable);
+            _highlighted.Show(enumerable, new GeoColor(90, GeoColors.MidnightBlue), GeoColors.MidnightBlue, 2f, idPrefix: "match");
             await Map.RefreshAsync();
 
             // Update the number of matching features found in the UI
@@ -127,7 +127,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private async Task GetFeaturesEqualAsync(BaseShape shape)
         {
             // Show the shape being queried with
-            _queryShape.UpdateAreas(new[] { shape });
+            _queryShape.Clear();
+            _queryShape.AddArea("query", new Feature(shape), new GeoColor(75, GeoColors.LightRed), GeoColors.LightRed, 2f);
 
             // Perform the spatial query using the drawn shape and highlight features that were found
             var queriedFeatures = PerformSpatialQuery(shape, _zoningSource);

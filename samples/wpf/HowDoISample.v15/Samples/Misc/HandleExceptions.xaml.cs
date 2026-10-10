@@ -41,7 +41,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             // The key is wrong on purpose: the service answers 401 for every tile.
             _aerial = new ThinkGeoRasterTileSource("not-a-valid-key", ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1);
-            style.InsertRasterAt(StyleLayerSlot.AboveFills, _aerial, "aerial");
+            style.AddRaster(_aerial, sourceId: "aerial", slot: StyleLayerSlot.AboveFills);
 
             var basemap = new GpuBasemap(style);
             basemap.TileLoadFailed += (_, e) =>

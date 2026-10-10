@@ -37,8 +37,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         private readonly ThinkGeoVectorTileSource _cloud = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey);
         private readonly FeatureSourceVectorTileSource _tiles = new FeatureSourceVectorTileSource();
-        private readonly InMemoryGeometrySource _query = new InMemoryGeometrySource();
-        private readonly InMemoryGeometrySource _matches = new InMemoryGeometrySource();
+        private readonly DynamicSource _query = new DynamicSource();
+        private readonly DynamicSource _matches = new DynamicSource();
         private readonly DispatcherTimer _applyTimer;
         private bool _ready;
 
@@ -103,8 +103,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // A ringed circle is no shape the renderer has of its own, so it is drawn
             // once and registered under the name the point marker asks for.
             style.Images.Add("pin", PointStyle.CreateSimpleCircleStyle(GeoColors.Black, 8, GeoColors.White, 2));
-            style.AddGeometry(_matches, new GeometryStyle { FillColor = new GeoColor(90, GeoColors.MidnightBlue), OutlineColor = GeoColors.MidnightBlue, OutlineWidthInPixels = 2 });
-            style.AddGeometry(_query, new GeometryStyle { FillColor = GeoColors.Transparent, OutlineColor = GeoColors.Black, OutlineWidthInPixels = 2, LineColor = GeoColors.Black, LineWidthInPixels = 2 });
+            style.AddDynamic(_matches);
+            style.AddDynamic(_query);
             return style;
         }
 
@@ -313,17 +313,27 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         /// <summary>
         /// Hands both results over. The query shape is whatever the relation reads - a
-        /// point, a line or a polygon - so it goes to all three calls and each takes
-        /// the one it draws.
+        /// point, a line or a polygon - so it is added by its kind: an outline with no
+        /// fill, a black line, or the pin.
         /// </summary>
         private void Paint(BaseShape query, IEnumerable<Feature> matches)
         {
-            _matches.UpdateAreas(matches);
+            _matches.Show(matches, new GeoColor(90, GeoColors.MidnightBlue), GeoColors.MidnightBlue, 2f, idPrefix: "match");
 
-            var asked = new[] { query };
-            _query.UpdateAreas(asked);
-            _query.UpdateLines(asked);
-            _query.UpdatePoints(asked, sizeInPixels: 12f, iconName: "pin");
+            _query.Clear();
+            var asked = new Feature(query);
+            switch (query)
+            {
+                case AreaBaseShape _:
+                    _query.AddArea("query", asked, GeoColors.Transparent, GeoColors.Black, 2f);
+                    break;
+                case LineBaseShape _:
+                    _query.AddLine("query", asked, GeoColors.Black, 2f);
+                    break;
+                default:
+                    _query.AddPoint("query", asked, sizeInPixels: 12f, iconName: "pin");
+                    break;
+            }
 
             _ = Map.RefreshAsync();
         }

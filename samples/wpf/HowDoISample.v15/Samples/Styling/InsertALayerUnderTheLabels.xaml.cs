@@ -75,32 +75,29 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _washQuad = new FeatureSourceVectorTileSource();
             _washQuad.FeatureSources.Add("world", world);
 
-            Map.Basemap = new GpuBasemap(await ComposeStyleAsync(WashSlider.Value));
+            Map.Basemap = new GpuBasemap(ComposeStyle(WashSlider.Value));
             await Map.RefreshAsync();
         }
 
-        private async Task<MapStyle> ComposeStyleAsync(double washOpacity)
+        private MapStyle ComposeStyle(double washOpacity)
         {
             var style = new MapStyle()
-                .AddRaster(_aerial, "aerial");
+                .AddRaster(_aerial, sourceId: "aerial");
 
             // Only the street style's lines and symbols: its fills would paint an
             // opaque land base over the imagery.
-            style.AddStyle(_streetStyleJson, _vector, "line", "symbol");
+            style.AddStyle(_streetStyleJson, _vector, StyleLayerType.Line, StyleLayerType.Symbol);
 
-            // A slot is found by walking the layers already loaded, so the document
-            // must be open before inserting into it.
-            await style.OpenAsync();
-            style.InsertStyleLayersAt(StyleLayerSlot.UnderLabels, _washQuad, "washsrc",
-                index => StyleLayer.CreateFill("wash", index, "washsrc", "world",
-                    paint: (_, _) => new FillPaint(GeoColors.White, (float)washOpacity, null, false, 0f, 0f)));
+            style.AddVectorTiles(_washQuad, "washsrc", StyleLayerSlot.UnderLabels,
+                StyleLayer.CreateFill("wash", "world",
+                    paint: (_, _) => new FillPaint(GeoColors.White, (float)washOpacity), antialias: false));
             return style;
         }
 
         private async Task ApplyWashAsync()
         {
             if (!IsLoaded || _streetStyleJson == null) return;
-            await Map.Basemap.SetStyleAsync(await ComposeStyleAsync(WashSlider.Value));
+            await Map.Basemap.SetStyleAsync(ComposeStyle(WashSlider.Value));
         }
 
         private void ShowWash() => WashReadout.Text =

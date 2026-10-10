@@ -103,7 +103,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 }
 
                 _initialized = true;
-                MainMap.ZoomStep = 0.15;
+                MainMap.ExtentOverlay.ZoomStep = 0.15;
                 InitializeMaps();
             }
 

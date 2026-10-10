@@ -17,7 +17,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         private bool _initialized;
         private ProjectionCloudClient _projectionCloudClient;
-        private readonly InMemoryGeometrySource _reprojected = new InMemoryGeometrySource();
+        private readonly DynamicSource _reprojected = new DynamicSource();
 
         public ProjectionCloudServices()
         {
@@ -42,14 +42,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // The GPU draws a marker from a named image, so a point style the GPU has no
             // shape of its own for - a star - is drawn once by the CPU and registered.
             style.Images.Add("star", new PointStyle(PointSymbolType.Star, 24, GeoBrushes.MediumPurple, GeoPens.Purple));
-            style.AddGeometry(_reprojected, new GeometryStyle
-            {
-                FillColor = new GeoColor(80, GeoColors.MediumPurple),
-                OutlineColor = GeoColors.MediumPurple,
-                OutlineWidthInPixels = 2,
-                LineColor = GeoColors.MediumPurple,
-                LineWidthInPixels = 6,
-            });
+            style.AddDynamic(_reprojected);
             Map.Basemap = new GpuBasemap(style);
 
             Map.CenterPoint = new PointShape(-10778720, 3915154);
@@ -108,11 +101,26 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// </summary>
         private async Task ClearMapAndAddFeaturesAsync(Collection<Feature> features)
         {
-            // The same collection three times: each call takes the shapes it draws, so
-            // the points, the lines and the polygons all arrive without being sorted first.
-            _reprojected.UpdateAreas(features);
-            _reprojected.UpdateLines(features);
-            _reprojected.UpdatePoints(features, sizeInPixels: 24f, iconName: "star");
+            // Each feature is added the way its kind is drawn, so the points, the lines
+            // and the polygons all arrive without being sorted first. One Clear and the
+            // run of Adds land as a single rebuild on the next frame.
+            _reprojected.Clear();
+            for (var i = 0; i < features.Count; i++)
+            {
+                var id = "feature-" + i;
+                switch (features[i].GetShape())
+                {
+                    case AreaBaseShape _:
+                        _reprojected.AddArea(id, features[i], new GeoColor(80, GeoColors.MediumPurple), GeoColors.MediumPurple, 2f);
+                        break;
+                    case LineBaseShape _:
+                        _reprojected.AddLine(id, features[i], GeoColors.MediumPurple, 6f);
+                        break;
+                    case PointBaseShape _:
+                        _reprojected.AddPoint(id, features[i], sizeInPixels: 24f, iconName: "star");
+                        break;
+                }
+            }
 
             Map.CenterPoint = MapUtil.GetBoundingBoxOfItems(features).GetCenterPoint();
 

@@ -30,7 +30,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             _initialized = true;
             Map.MapUnit = GeographyUnit.Meter;
-            Map.ZoomStep = 0.15;
+            Map.ExtentOverlay.ZoomStep = 0.15;
 
             _style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey));
             Map.Basemap = new GpuBasemap(_style);

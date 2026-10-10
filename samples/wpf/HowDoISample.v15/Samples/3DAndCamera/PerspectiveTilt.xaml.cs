@@ -27,10 +27,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             InitializeComponent();
 
             Map.MapUnit = GeographyUnit.Meter;
-            Map.TiltInteractionEnabled = true;
+            Map.IsTiltInteractionEnabled = true;
 
-            // The built-in tilt bar: hidden by default, shown on the right when enabled.
-            Map.MapTools.TiltBar.IsEnabled = true;
         }
 
         private async void Map_Loaded(object sender, RoutedEventArgs e)
@@ -54,7 +52,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // sources, so this is the one case where the basemap really is rebuilt.
             Map.Basemap = new GpuBasemap(vector
                 ? new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey))
-                : new MapStyle().AddRaster(new ThinkGeoRasterTileSource(SampleShared.CloudApiKey), "thinkgeo"));
+                : new MapStyle().AddRaster(new ThinkGeoRasterTileSource(SampleShared.CloudApiKey), sourceId: "thinkgeo"));
 
             Map.CurrentExtent = vector ? Manhattan : SanFranciscoBay;
             await Map.RefreshAsync();

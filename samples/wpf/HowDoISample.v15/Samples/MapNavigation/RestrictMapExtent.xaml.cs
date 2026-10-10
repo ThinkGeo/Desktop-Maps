@@ -28,24 +28,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
-            Map.ZoomStep = 0.15;
+            Map.ExtentOverlay.ZoomStep = 0.15;
             Map.MapUnit = GeographyUnit.Meter;
 
             // The red border marking the restricted extent goes to the GPU with the
             // basemap. Drawn on an overlay it would be a raster, and this sample is
             // about zooming - the one thing that would show the border stretching while
             // the map under it stayed sharp.
-            var boundary = new InMemoryGeometrySource();
+            var boundary = new DynamicSource();
             var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey));
-            style.AddGeometry(boundary, new GeometryStyle
-            {
-                // A border, not a shaded box - a fill is drawn unless one is asked not to be.
-                FillColor = GeoColors.Transparent,
-                OutlineColor = new GeoColor(180, GeoColors.Red),
-                OutlineWidthInPixels = 2,
-            });
+            style.AddDynamic(boundary);
             Map.Basemap = new GpuBasemap(style);
-            boundary.UpdateAreas(new[] { _restrictExtent });
+            // A border, not a shaded box - a fill is drawn unless one is asked not to be.
+            boundary.AddArea("boundary", new Feature(_restrictExtent), GeoColors.Transparent, new GeoColor(180, GeoColors.Red), 2f);
 
             // Apply restrictions and set initial extent
             ApplyRestrictions();

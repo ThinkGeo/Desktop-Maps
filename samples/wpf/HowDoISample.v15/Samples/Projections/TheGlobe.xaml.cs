@@ -95,11 +95,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             if (ChkMorph?.IsChecked == true)
             {
                 await Map.RefreshAsync();
-                await Map.AnimateDisplayProjectionAsync(target, MorphDuration);
+                await Map.Basemap.AnimateDisplayProjectionAsync(target, MorphDuration);
             }
             else
             {
-                Map.DisplayProjection = target;
+                Map.Basemap.DisplayProjection = target;
                 await Map.RefreshAsync();
             }
 
@@ -147,7 +147,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             var extent = Map.CurrentExtent;
             var basemap = Map.Basemap;
-            var factor = basemap != null && extent != null ? basemap.GlobeHandoverFactorAt(extent) : 0;
+            var factor = basemap != null && extent != null ? basemap.GlobeHandoverFactor : 0;
             var zoom = extent == null || extent.Width <= 0
                 ? 0
                 : Math.Log2(2.0 * WorldHalfSize / extent.Width) + Math.Log2(Math.Max(1, Map.ActualWidth) / 512.0);

@@ -19,9 +19,12 @@
 
             <RadioButton x:Name="TiltVector" Content="Vector tiles - Manhattan" IsChecked="True" Checked="Basemap_Checked"/>
             <RadioButton x:Name="TiltRaster" Content="Raster tiles - San Francisco Bay" Checked="Basemap_Checked"/>
+            <TextBlock Text="Tilt" FontSize="16" FontWeight="Bold" Foreground="WhiteSmoke" Margin="0,16,0,6"/>
+            <!-- A Slider bound to the map's TiltAngle: it drives the camera and follows the right-drag gesture. -->
+            <Slider Maximum="60" Value="{Binding TiltAngle, ElementName=Map, Mode=TwoWay}"/>
 
             <TextBlock Foreground="#DDDDDD" TextWrapping="Wrap" FontSize="11" Margin="0,16,0,0"
-                       Text="Right-drag tilts. Left-drag pans, and the ground you grabbed stays under the cursor. Alt and left-drag rotates; the wheel zooms. None of that is in this sample - it is what the MapView does once TiltInteractionEnabled is set."/>
+                       Text="Right-drag tilts. Left-drag pans, and the ground you grabbed stays under the cursor. Alt and left-drag rotates; the wheel zooms. None of that is in this sample - it is what the MapView does once IsTiltInteractionEnabled is set."/>
 
             <TextBlock Foreground="#DDDDDD" TextWrapping="Wrap" FontSize="11" Margin="0,12,0,0"
                        Text="Raster tiles tilt exactly as vector tiles do. What vector adds is labels that stay upright and tiles that get coarser toward the horizon."/>

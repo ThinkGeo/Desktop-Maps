@@ -21,9 +21,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
     /// </summary>
     public partial class ValidateTopology
     {
-        private readonly InMemoryGeometrySource _against = new InMemoryGeometrySource();
-        private readonly InMemoryGeometrySource _checked = new InMemoryGeometrySource();
-        private readonly InMemoryGeometrySource _broken = new InMemoryGeometrySource();
+        private readonly DynamicSource _against = new DynamicSource();
+        private readonly DynamicSource _checked = new DynamicSource();
+        private readonly DynamicSource _broken = new DynamicSource();
         private readonly DispatcherTimer _applyTimer;
         private bool _ready;
 
@@ -44,7 +44,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // Three sets of shapes that change with every rule, so they are geometry
             // rather than an overlay's raster tiles, which a zoom between two levels
             // would stretch.
-            Map.Basemap = new GpuBasemap(new MapStyle(Editor.Text).AddGeometry(_against).AddGeometry(_checked).AddGeometry(_broken));
+            Map.Basemap = new GpuBasemap(new MapStyle(Editor.Text).AddDynamic(_against).AddDynamic(_checked).AddDynamic(_broken));
 
             _ready = true;
             Run();
@@ -67,7 +67,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             try
             {
-                await Map.Basemap.SetStyleAsync(new MapStyle(Editor.Text).AddGeometry(_against).AddGeometry(_checked).AddGeometry(_broken));
+                await Map.Basemap.SetStyleAsync(new MapStyle(Editor.Text).AddDynamic(_against).AddDynamic(_checked).AddDynamic(_broken));
                 Status.Foreground = Brushes.DarkGreen;
                 Status.Text = FormattableString.Invariant($"applied at {DateTime.Now:HH:mm:ss}");
             }
@@ -316,8 +316,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             Collection<Feature> broken, string note)
         {
             // A rule's answer is whatever geometry it happens to be - a point where two
-            // lines meet, a stretch of line, the hole between polygons - so each set is
-            // handed over whole three times and each call takes what it understands.
+            // lines meet, a stretch of line, the hole between polygons - so each feature
+            // is added by its kind: a fill, a line or a marker.
             Paint(_against, against ?? new Collection<Feature>(), GeoColors.Blue);
             Paint(_checked, subject, GeoColors.Green);
             Paint(_broken, broken, GeoColors.Red);
@@ -331,11 +331,25 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _ = Map.RefreshAsync();
         }
 
-        private static void Paint(InMemoryGeometrySource into, Collection<Feature> features, GeoColor color)
+        private static void Paint(DynamicSource into, Collection<Feature> features, GeoColor color)
         {
-            into.UpdateAreas(features, new GeoColor(50, color), color, 2f);
-            into.UpdateLines(features, color, 3f);
-            into.UpdatePoints(features, color, 12f);
+            into.Clear();
+            for (var i = 0; i < features.Count; i++)
+            {
+                var id = "feature-" + i;
+                switch (features[i].GetShape())
+                {
+                    case AreaBaseShape _:
+                        into.AddArea(id, features[i], new GeoColor(50, color), color, 2f);
+                        break;
+                    case LineBaseShape _:
+                        into.AddLine(id, features[i], color, 3f);
+                        break;
+                    default:
+                        into.AddPoint(id, features[i], color: color, sizeInPixels: 12f);
+                        break;
+                }
+            }
         }
 
         /// <summary>Around everything the rule put on screen.</summary>

@@ -24,8 +24,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         // a request answers, so they go to the GPU as geometry with the basemap.
         // The stop labels ride the side channel: they draw over everything and
         // collide with nothing, which is what a route's own numbering wants.
-        private readonly InMemoryGeometrySource _route = new InMemoryGeometrySource();
-        private readonly InMemoryGeometrySource _highlight = new InMemoryGeometrySource();
+        private readonly DynamicSource _route = new DynamicSource();
+        private readonly DynamicSource _highlight = new DynamicSource();
 
         public Routing()
         {
@@ -47,8 +47,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             style.Images.Add("star", new PointStyle(PointSymbolType.Star, 24, GeoBrushes.MediumPurple, GeoPens.Purple));
             // Sources draw in the order they are added; the highlight goes last so a
             // picked segment covers the route it belongs to.
-            style.AddGeometry(_route, new GeometryStyle { LineColor = GeoColors.MediumPurple, LineWidthInPixels = 3 });
-            style.AddGeometry(_highlight, new GeometryStyle { LineColor = GeoColors.BrightYellow, LineWidthInPixels = 6 });
+            style.AddDynamic(_route);
+            style.AddDynamic(_highlight);
             Map.Basemap = new GpuBasemap(style);
 
             Map.CenterPoint = new PointShape(-10778720, 3915154);
@@ -108,11 +108,20 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 routeSegments.AddRange(route.Segments);
             }
 
-            // The route as lines, the stops as stars, and each stop's label lifted
-            // just above its marker.
-            _route.UpdateLines(routeLines, GeoColors.MediumPurple, 3f);
-            _route.UpdatePoints(stops, sizeInPixels: 24f, iconName: "star");
-            _route.UpdateLabels(stops, "SequenceNumber", sizeInPixels: 15f, offsetYInPixels: -20f);
+            // The route as lines, the stops as stars, and each stop's label lifted just
+            // above its marker - the marker and the label share the stop's id, one feature
+            // drawn two ways. A Clear and the run of Adds land as one rebuild.
+            _route.Clear();
+            for (var i = 0; i < routeLines.Count; i++)
+            {
+                _route.AddLine("route-" + i, new Feature(routeLines[i]), GeoColors.MediumPurple, 3f);
+            }
+
+            for (var i = 0; i < stops.Count; i++)
+            {
+                _route.AddPoint("stop-" + i, stops[i], sizeInPixels: 24f, iconName: "star");
+                _route.AddLabel("stop-" + i, stops[i], "SequenceNumber", sizeInPixels: 15f, offsetYInPixels: -20f);
+            }
 
             // Set the data source for the list box to the route segments
             LsbRouteSegments.ItemsSource = routeSegments;
@@ -167,7 +176,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 if (routeSegments.SelectedItem == null) return;
 
                 // Highlight the selected route segment
-                _highlight.UpdateLines(new[] { ((CloudRoutingSegment)routeSegments.SelectedItem).Shape },
+                _highlight.Clear();
+                _highlight.AddLine("segment", new Feature(((CloudRoutingSegment)routeSegments.SelectedItem).Shape),
                     GeoColors.BrightYellow, 6f);
 
                 // Zoom to the selected feature and zoom out to an appropriate level
