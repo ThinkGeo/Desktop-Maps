@@ -57,6 +57,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             new SampleEntry("Start Here", "GPU or Classic?", "RendererGuidePage.xaml",
                 "When the GPU tile path wins, when the per-frame classic overlays do, and the four rules that decide",
                 "GpuBasemap", false, typeof(RendererGuidePage), () => new RendererGuidePage()),
+            // Moving a classic application across is the first thing an existing
+            // customer asks, so the bridge opens the menu rather than closing it.
+            new SampleEntry("Start Here", "Migrate a Classic Layer", "MigrateAClassicLayer.xaml.cs",
+                "Add a FeatureLayer styled on its ZoomLevelSet to a MapStyle in one call, beside the classic renderer drawing the same layers",
+                "AddFeatureLayer", true, typeof(Samples.MigrateAClassicLayer), () => new Samples.MigrateAClassicLayer()),
             new SampleEntry("Start Here", "HowDoI Sample Feature Index", "SampleFeatureIndexViewer.xaml.cs",
                 "Generated catalog of all samples with focus, categories, source path, and key APIs",
                 "", false, typeof(Samples.SampleFeatureIndexViewer), () => new Samples.SampleFeatureIndexViewer()),
@@ -206,6 +211,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             new SampleEntry("Styling", "Heatmap", "Heatmap.xaml.cs",
                 "Render point observations as a heatmap, with radius, intensity, opacity and color ramp on live controls",
                 "SetHeatmapPaint", true, typeof(Samples.Heatmap), () => new Samples.Heatmap()),
+            // The GPU isolines sample stands where the classic DisplayISOLine row
+            // did: same mosquito data, same contours, but the field is generated and
+            // contoured on the GPU instead of re-running IDW plus marching squares
+            // on the CPU for every redraw. Beside the heatmap, because both draw
+            // a field out of scattered points; nothing in it moves.
+            new SampleEntry("Styling", "GPU Isolines", "GpuIsolines.xaml.cs",
+                "Generate and label isolines (contour lines) on the GPU",
+                "GpuIsolineOptions", true, typeof(Samples.GpuIsolines), () => new Samples.GpuIsolines()),
             new SampleEntry("Styling", "Hatch Styles", "HatchStyles.xaml.cs",
                 "Fill areas with the classic GeoHatchStyle patterns - each one stroked into an image, registered through style.Images, and named by fill-pattern",
                 "MapStyle.Images", true, typeof(Samples.HatchStyles), () => new Samples.HatchStyles()),
@@ -249,13 +262,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             new SampleEntry("Dynamic Data", "Dynamic Rendering", "DynamicRendering.xaml.cs",
                 "A century of state populations as animated circles: size and tint are data, the circle is one registered disc image instanced by the GPU, and a year change is one Update over fifty points",
                 "TrackPoint.IconName", true, typeof(Samples.DynamicRendering), () => new Samples.DynamicRendering()),
-            // The GPU isolines sample stands where the classic DisplayISOLine row
-            // did: same mosquito data, same contours, but the field is generated and
-            // contoured on the GPU instead of re-running IDW plus marching squares
-            // on the CPU for every redraw.
-            new SampleEntry("Dynamic Data", "GPU Isolines", "GpuIsolines.xaml.cs",
-                "Generate and label isolines (contour lines) on the GPU",
-                "GpuIsolineOptions", true, typeof(Samples.GpuIsolines), () => new Samples.GpuIsolines()),
+            // Moved from Map Navigation, where "navigation" meant panning the map: a
+            // vehicle following GPS fixes is data that moves, which is this group.
+            new SampleEntry("Dynamic Data", "Vehicle Navigation", "VehicleNavigation.xaml.cs",
+                "Navigate to the Empire State Building using GPS points (vehicle tracking)",
+                "FeatureLayerWpfDrawingOverlay", false, typeof(Samples.VehicleNavigation), () => new Samples.VehicleNavigation()),
 
             // ---- 3D & Camera ----
             // What the camera can do once a GpuBasemap is the basemap. Grouped by the
@@ -271,6 +282,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             new SampleEntry("3D & Camera", "3D Terrain", "Terrain3D.xaml.cs",
                 "Drape the map over elevation data",
                 "GpuBasemap", true, typeof(Samples.Terrain3D), () => new Samples.Terrain3D()),
+            // Moved from Map Navigation: what it shows is the camera - a follow camera
+            // the engine flies at street level, with buildings standing in front of
+            // the road - not panning the map.
+            new SampleEntry("3D & Camera", "Lane-Level Navigation", "LaneLevelNavigation.xaml.cs",
+                "In-car view over an OpenDRIVE HD map: every lane as surveyed with its paint, a follow camera the engine flies, the vehicle in the style's marker batch, 3D buildings in front of the road",
+                "FeatureSourceVectorTileSource", true, typeof(Samples.LaneLevelNavigation), () => new Samples.LaneLevelNavigation()),
 
             // ---- Markers & Popups ----
             // Three rows. "Markers and Popups on a Tilted Map" folded into Markers (its
@@ -300,12 +317,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             new SampleEntry("Map Navigation", "Resize the Map", "ResizeTheMap.xaml.cs",
                 "Resize the map while preserving the world extent with various map resize modes",
                 "MapResizeMode", false, typeof(Samples.ResizeTheMap), () => new Samples.ResizeTheMap()),
-            new SampleEntry("Map Navigation", "Vehicle Navigation", "VehicleNavigation.xaml.cs",
-                "Navigate to the Empire State Building using GPS points (vehicle tracking)",
-                "FeatureLayerWpfDrawingOverlay", false, typeof(Samples.VehicleNavigation), () => new Samples.VehicleNavigation()),
-            new SampleEntry("Map Navigation", "Lane-Level Navigation", "LaneLevelNavigation.xaml.cs",
-                "In-car view over an OpenDRIVE HD map: every lane as surveyed with its paint, a follow camera the engine flies, the vehicle in the style's marker batch, 3D buildings in front of the road",
-                "FeatureSourceVectorTileSource", true, typeof(Samples.LaneLevelNavigation), () => new Samples.LaneLevelNavigation()),
             new SampleEntry("Map Navigation", "Overview Map", "OverviewMap.xaml.cs",
                 "Overview map with rotating frame; drag to recenter the main map",
                 "EditOverlay", false, typeof(Samples.OverviewMap), () => new Samples.OverviewMap()),
@@ -465,17 +476,27 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             new SampleEntry("Extending the SDK", "Custom Feature Sources", "CustomFeatureSources.xaml.cs",
                 "Use the FeatureSource base class to create your own custom Feature Source",
                 "SimpleCsvFeatureSource", false, typeof(Samples.CustomFeatureSources), () => new Samples.CustomFeatureSources()),
-
-            // ---- Misc ----
-            // New samples land here first and move to a group once there are enough
-            // of a kind to make one.
-            new SampleEntry("Misc", "Migrate a Classic Layer", "MigrateAClassicLayer.xaml.cs",
-                "Add a FeatureLayer styled on its ZoomLevelSet to a MapStyle in one call, beside the classic renderer drawing the same layers",
-                "AddFeatureLayer", true, typeof(Samples.MigrateAClassicLayer), () => new Samples.MigrateAClassicLayer()),
-            new SampleEntry("Misc", "Handle Exceptions", "HandleExceptions.xaml.cs",
+            // Deciding what happens when a tile fails is a hook into the SDK's own
+            // loop, the same kind of thing as the two rows above.
+            new SampleEntry("Extending the SDK", "Handle Exceptions", "HandleExceptions.xaml.cs",
                 "A raster layer whose key is wrong fails every tile: the map leaves each one out and raises TileLoadFailed with the exception, and the handler decides whether the tile is asked for again",
                 "TileLoadFailed", true, typeof(Samples.HandleExceptions), () => new Samples.HandleExceptions()),
 
+        };
+
+        /// <summary>
+        /// The row of samples the home page opens with: what ThinkGeo 15 adds, one
+        /// sample each. They stay in their own groups - this is a way in, not a
+        /// group - because a reader who arrives for tilt still looks under 3D.
+        /// </summary>
+        internal static readonly IReadOnlyList<Type> Featured = new[]
+        {
+            typeof(Samples.PerspectiveTilt),
+            typeof(Samples.Terrain3D),
+            typeof(Samples.Buildings3DInteractive),
+            typeof(Samples.TheGlobe),
+            typeof(Samples.AdvancedLabels),
+            typeof(Samples.LiveFlights),
         };
 
         /// <summary>The menu groups, in menu order.</summary>
@@ -534,6 +555,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                          .OrderBy(c => c, StringComparer.Ordinal))
             {
                 problems.Add("chapter starts at a category no sample is in: " + category);
+            }
+
+            foreach (var type in Featured.Where(t => !listed.Contains(t)))
+            {
+                problems.Add("featured but not in the catalog: " + type.Name);
             }
 
             return problems;
