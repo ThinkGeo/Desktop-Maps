@@ -20,7 +20,7 @@ The ThinkGeo HowDoI Samples feature over 100 straightforward examples that demon
 
 There are two WPF galleries, and which one you want depends on your .NET:
 
-- [HowDoI Sample - WPF](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/samples/wpf/HowDoISample?ref_type=heads) builds for .NET Framework 4.8 and .NET 8.
+- [HowDoI Sample - WPF](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/samples/wpf/HowDoISample.Classic?ref_type=heads) builds for .NET Framework 4.8 and .NET 8.
 - [HowDoI Sample - WPF (v15)](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/samples/wpf/HowDoISample.v15?ref_type=heads) needs .NET 8, and covers what ThinkGeo 15 adds: 3D terrain and a tilted camera, vector tile styling, and the data displays built on them.
 - [HowDoI Sample - Winforms](https://gitlab.com/thinkgeo/public/thinkgeo-desktop-maps/-/tree/master/samples/winforms?ref_type=heads)
 

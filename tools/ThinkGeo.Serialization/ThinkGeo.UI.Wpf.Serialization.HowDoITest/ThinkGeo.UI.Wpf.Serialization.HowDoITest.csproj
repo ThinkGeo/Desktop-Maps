@@ -22,7 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ThinkGeo.Core.Serialization\ThinkGeo.Core.Serialization.csproj" />
     <ProjectReference Include="..\ThinkGeo.UI.Wpf.Serialization\ThinkGeo.UI.Wpf.Serialization.csproj" />
-    <ProjectReference Include="..\..\..\samples\wpf\HowDoISample\HowDoI.csproj" />
+    <ProjectReference Include="..\..\..\samples\wpf\HowDoISample.Classic\HowDoI.csproj" />
   </ItemGroup>
 
 </Project>
