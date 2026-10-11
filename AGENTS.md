@@ -11,7 +11,7 @@ Repository root: `.`
 - `quick-start-guide/QuickStartGuide_WinForms/WinFormsSample.sln`
 - `quick-start-guide/QuickStartGuide_WPF_VS/WpfSample.sln`
 - `samples/winforms/HowDoISample/HowDoI.sln`
-- `samples/wpf/HowDoISample/HowDoI.sln`
+- `samples/wpf/HowDoISample.Classic/HowDoI.sln`
 - `samples/wpf/HowDoISample.v15/HowDoI.v15.sln`
 - `samples/wpf/NauticalChartsViewer/NauticalChartsViewer.sln`
 
