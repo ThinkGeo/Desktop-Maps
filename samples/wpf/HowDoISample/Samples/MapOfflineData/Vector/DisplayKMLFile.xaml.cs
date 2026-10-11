@@ -39,8 +39,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var layerOverlay = new LayerOverlay();
             Map.Overlays.Add(layerOverlay);
 
-            // Create the new layer and dd the layer to the overlay we created earlier.
-            var layer = new KmlGdalFeatureLayer("./Data/Kml/Frisco.kml");
+            // Create the new layer and set the projection as the data is in srid 4326 and our background is srid 3857 (spherical mercator).
+            var layer = new KmlGdalFeatureLayer("./Data/Kml/Frisco.kml")
+            {
+                FeatureSource =
+                {
+                    ProjectionConverter = new ProjectionConverter(4326, 3857)
+                }
+            };
             layer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimplePointStyle(PointSymbolType.Diamond, GeoColors.Black, 10);
             layer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.Red, 4, true);
             layer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.Blue);

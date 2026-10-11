@@ -51,15 +51,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Add the overlay to the map
             Map.Overlays.Add(layerOverlay);
 
-            // Create a regex style and item that looks for big / large / huge based on the comments
-            // from users and draws them differently
+            // Create a regex style and item that looks for injured or sick coyotes based on the reported behavior
+            // and draws them differently
             var regexStyle = new RegexStyle
             {
-                ColumnName = "Comments"
+                ColumnName = "Behavior"
             };
 
-            var largeItem = new RegexItem("big|large|huge", new PointStyle(PointSymbolType.Circle, 12, GeoBrushes.Red));
-            regexStyle.RegexItems.Add(largeItem);
+            var injuredOrSickItem = new RegexItem("injured|sick", new PointStyle(PointSymbolType.Circle, 12, GeoBrushes.Red));
+            regexStyle.RegexItems.Add(injuredOrSickItem);
 
             // We have a default drawing style for every sighting
             var allSightingsStyle = new PointStyle(PointSymbolType.Circle, 5, GeoBrushes.Green);
