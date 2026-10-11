@@ -6,6 +6,10 @@
             <TextBlock Text="GpuBasemap HowDoI" FontSize="20" FontWeight="SemiBold"/>
             <TextBlock x:Name="Subtitle" Foreground="#5F6368" FontSize="12" Margin="0,3,0,0"/>
 
+            <!-- New in 15: one sample each, built from SampleCatalog.Featured. -->
+            <TextBlock Text="NEW IN THINKGEO 15" Foreground="#2B6CB0" FontSize="11" FontWeight="SemiBold" Margin="0,12,0,4"/>
+            <WrapPanel x:Name="Featured"/>
+
             <!-- The table is generated from the same catalog the menu is, so it
                  cannot fall behind it. The document it replaced was generated on the
                  classic side and was missing 23 of this app's samples, every

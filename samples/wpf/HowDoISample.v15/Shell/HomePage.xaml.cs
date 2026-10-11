@@ -31,6 +31,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var groups = SampleCatalog.All.Select(e => e.Category).Distinct(StringComparer.Ordinal).Count();
             Subtitle.Text = FormattableString.Invariant(
                 $"{SampleCatalog.All.Count} samples in {groups} groups, {gpu} of them on the GPU renderer. Double-click a row to open it.");
+
+            foreach (var entry in SampleCatalog.Featured.Select(t => SampleCatalog.All.First(e => e.SampleType == t)))
+            {
+                var button = new Button { Content = entry.Title, ToolTip = entry.Focus, Padding = new Thickness(10, 4, 10, 4), Margin = new Thickness(0, 0, 6, 6) };
+                button.Click += (_, _) => SampleRequested?.Invoke(this, entry);
+                Featured.Children.Add(button);
+            }
         }
 
         /// <summary>Raised when a row is opened; the shell selects that sample.</summary>
