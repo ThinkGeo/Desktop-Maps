@@ -21,7 +21,7 @@
                              Checked="Choice_Changed"/>
                 <RadioButton x:Name="DrawCustom" Content="Draw my own image" Margin="0,2" Checked="Choice_Changed"/>
                 <RadioButton x:Name="DrawNothing" Content="Leave it blank" Margin="0,2" Checked="Choice_Changed"/>
-                <CheckBox x:Name="AskAgain" Content="Keep asking for the tile, every few seconds" IsChecked="True" Margin="0,12,0,0"
+                <CheckBox x:Name="AskAgain" Content="Ask for the tile again on the next pan or zoom" IsChecked="True" Margin="0,12,0,0"
                           Checked="Choice_Changed" Unchecked="Choice_Changed"/>
                 <TextBlock x:Name="Count" Margin="0,14,0,4" FontSize="11" Foreground="#555B62"
                            Text="No tile has failed yet."/>
