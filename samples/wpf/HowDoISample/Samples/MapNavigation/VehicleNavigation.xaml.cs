@@ -453,6 +453,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             else
             {
                 OverviewButton.Content = "Overview Mode";
+
+                // Once the drive is over nothing moves the camera, so bring it back to the vehicle.
+                if (_currentGpsPointIndex >= _gpsPoints.Count)
+                {
+                    await ZoomToGpsPointAsync(_gpsPoints, _gpsPoints.Count - 1, _cancellationTokenSource.Token);
+                }
             }
 
             _holdAnimation = false;
