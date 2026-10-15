@@ -155,8 +155,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                         // looking at", not an approximation of it.
                         //
                         // A region projection (Albers, MGA) is not steered to either.
-                        // Whatever falls inside the definition draws, the rest is blank,
-                        // and WarnIfOutsideRegion says so - a viewer who wants that region
+                        // Whatever falls inside the definition draws true, the rest is
+                        // not a map, and WarnIfOutsideRegion says so - a viewer who wants that region
                         // zooms to it, which is one gesture they control instead of one
                         // the sample performs on them.
                         Map.CurrentExtent = before;
