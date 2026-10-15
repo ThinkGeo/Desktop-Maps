@@ -49,9 +49,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             Map.MapUnit = GeographyUnit.Meter;
 
-            _stadium.Clear();
-            _stadium.AddPoint("stadium", new Feature(Stadium), sizeInPixels: 18f, iconName: "stadium");
-
             ChooseData();
             _basemap = new GpuBasemap(ComposeStyle());
             Map.Basemap = _basemap;
@@ -166,6 +163,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 ? "Click a trail, then change how far along the stretch starts and how long it runs."
                 : MeaLength.IsChecked == true ? "Click a trail." : "Click a park.";
 
+            // The stadium is the other end of one measurement only.
+            _stadium.Clear();
+            if (MeaShortest.IsChecked == true)
+            {
+                _stadium.AddPoint("stadium", new Feature(Stadium), sizeInPixels: 18f, iconName: "stadium");
+            }
+
             // Measure the biggest thing in the file straight away, so the sample says
             // what it does before it is clicked - and says it about a feature large
             // enough for the number to mean something. The nearest feature to wherever
@@ -183,6 +187,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             if (biggest != null)
             {
                 var bounds = biggest.GetBoundingBox();
+                if (MeaShortest.IsChecked == true)
+                {
+                    bounds.ExpandToInclude(Stadium);
+                }
                 bounds.ScaleUp(60);
                 Map.CenterPoint = bounds.GetCenterPoint();
                 Map.CurrentScale = MapUtil.GetScale(Map.MapUnit, bounds, Map.MapWidth, Map.MapHeight);
