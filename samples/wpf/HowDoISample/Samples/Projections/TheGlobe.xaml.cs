@@ -19,6 +19,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private const double WorldHalfSize = 20037508.342789244;
 
         private static readonly TimeSpan MorphDuration = TimeSpan.FromMilliseconds(900);
+        private static readonly TimeSpan ZoomDuration = TimeSpan.FromMilliseconds(1500);
+
+        // Italy, so the zooms below land on a coast. Open ocean has no detail to show:
+        // past zoom 8 the satellite tiles there are a flat, black sea.
+        private static readonly PointShape Center = new PointShape(1390000, 5160000);
 
         private static readonly Dictionary<string, string> Choices = new Dictionary<string, string>
         {
@@ -54,7 +59,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 Map.Basemap.AddRasterSource("thinkgeo", _source);
                 Map.Basemap.DisplayProjection = ThinkGeo.Gpu.DisplayProjection.Globe;
 
-                Map.CurrentExtent = new RectangleShape(-WorldHalfSize, WorldHalfSize, WorldHalfSize, -WorldHalfSize);
+                Map.CurrentExtent = new RectangleShape(
+                    Center.X - WorldHalfSize, Center.Y + WorldHalfSize, Center.X + WorldHalfSize, Center.Y - WorldHalfSize);
                 await Map.RefreshAsync();
                 _ready = true;
                 ShowStatus();
@@ -121,6 +127,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// <summary>Past it, where the globe has switched itself off entirely.</summary>
         private async void Street_Click(object sender, RoutedEventArgs e) => await FrameAsync(400000);
 
+        // Animated, about the point in the middle of the view, so the ball can be watched
+        // easing into flat mercator on the way.
         private async Task FrameAsync(double widthInMeters)
         {
             if (!_ready)
@@ -128,10 +136,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 return;
             }
 
-            var height = widthInMeters * Map.ActualHeight / Math.Max(1, Map.ActualWidth);
-            Map.CurrentExtent = new RectangleShape(
-                -widthInMeters * 0.5, height * 0.5, widthInMeters * 0.5, -height * 0.5);
-            await Map.RefreshAsync();
+            var scale = Map.CurrentScale * widthInMeters / Map.CurrentExtent.Width;
+            await Map.ZoomToAsync(Map.CenterPoint, scale, Map.RotationAngle,
+                new MapAnimationSettings { Duration = (uint)ZoomDuration.TotalMilliseconds, Type = MapAnimationType.DrawWithAnimation });
             ShowStatus();
         }
 
