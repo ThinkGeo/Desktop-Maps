@@ -25,6 +25,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         private readonly DispatcherTimer _applyTimer;
         private bool _initialized;
+        // Every restyle passes this same source: a document on its own has no data to draw.
+        private FeatureSourceVectorTileSource _tiles;
 
         public DisplayDotDensity()
         {
@@ -47,12 +49,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             var features = states.GetAllFeatures(new[] { "OWNER_OCC", "RENTER_OCC" });
             states.Close();
 
-            var tileSource = new FeatureSourceVectorTileSource();
-            tileSource.FeatureSources.Add(new ShapeFileFeatureSource(SampleShared.Shapefile("USStates_3857.shp")));
-            tileSource.FeatureSources.Add("owner", Scatter(features, "OWNER_OCC", seed: 1));
-            tileSource.FeatureSources.Add("renter", Scatter(features, "RENTER_OCC", seed: 2));
+            _tiles = new FeatureSourceVectorTileSource();
+            _tiles.FeatureSources.Add(new ShapeFileFeatureSource(SampleShared.Shapefile("USStates_3857.shp")));
+            _tiles.FeatureSources.Add("owner", Scatter(features, "OWNER_OCC", seed: 1));
+            _tiles.FeatureSources.Add("renter", Scatter(features, "RENTER_OCC", seed: 2));
 
-            Map.Basemap = new GpuBasemap(new MapStyle(Editor.Text, tileSource));
+            Map.Basemap = new GpuBasemap(new MapStyle(Editor.Text, _tiles));
 
             // Frame the lower 48; Alaska would stretch the box to the Aleutians.
             var lower48 = new RectangleShape(-13_900_000, 6_400_000, -7_400_000, 2_800_000);
@@ -76,7 +78,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             try
             {
-                await Map.Basemap.SetStyleAsync(new MapStyle(Editor.Text));
+                await Map.Basemap.SetStyleAsync(new MapStyle(Editor.Text, _tiles));
                 Status.Foreground = Brushes.DarkGreen;
                 Status.Text = FormattableString.Invariant($"applied at {DateTime.Now:HH:mm:ss}");
             }

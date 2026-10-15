@@ -29,6 +29,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         private double _pixelScale = 1d;
         private bool _initialized;
+        // Every restyle passes this same source: a document on its own has no data to draw.
+        private FeatureSourceVectorTileSource _parks;
 
         public HatchStyles()
         {
@@ -80,13 +82,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 _previews[style] = ToBitmap(png);
             }
 
-            var parks = new FeatureSourceVectorTileSource();
-            parks.FeatureSources.Add(new ShapeFileFeatureSource(SampleShared.Shapefile("Parks.shp"))
+            _parks = new FeatureSourceVectorTileSource();
+            _parks.FeatureSources.Add(new ShapeFileFeatureSource(SampleShared.Shapefile("Parks.shp"))
             {
                 ProjectionConverter = new ProjectionConverter(2276, 3857),
             });
 
-            var mapStyle = new MapStyle(Editor.Text, parks);
+            var mapStyle = new MapStyle(Editor.Text, _parks);
             AddPatternImages(mapStyle);
             Map.Basemap = new GpuBasemap(mapStyle);
 
@@ -108,7 +110,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             try
             {
-                var style = new MapStyle(Editor.Text);
+                var style = new MapStyle(Editor.Text, _parks);
                 AddPatternImages(style);
                 await Map.Basemap.SetStyleAsync(style);
                 Status.Foreground = Brushes.DarkGreen;
