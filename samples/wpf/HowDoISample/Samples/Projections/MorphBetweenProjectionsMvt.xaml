@@ -33,7 +33,7 @@
 
             <TextBlock Text="Region only" FontWeight="Bold" Margin="0,12,0,4" />
             <TextBlock TextWrapping="Wrap" Foreground="#666" Margin="0,0,0,4" FontSize="11"
-                       Text="Neither covers the globe - the view frames the ground the definition is for, and leaving it is warned about." />
+                       Text="Neither covers the globe, and the view does not move to its ground - zoom there yourself. Outside it what is drawn is not a map, and a warning says so." />
             <RadioButton x:Name="RdoAlbers" Content="Equal Area - Albers Conic (US)" Checked="Projection_Checked" Margin="0,3" />
             <RadioButton x:Name="RdoMga55" Content="MGA Zone 55 (E Australia)" Checked="Projection_Checked" Margin="0,3" />
 
