@@ -30,7 +30,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             _ready = true;
             Map.CenterPoint = new PointShape(-10778800, 3915300);
-            Map.CurrentScale = 91000;
+            // Raster tiles carry their labels as pixels: a zoom of their own draws them crisp,
+            // a scale between two shrinks or stretches them.
+            Map.CurrentScale = new ZoomLevelSet().ZoomLevel13.Scale;
             await ShowChosenAsync();
         }
 

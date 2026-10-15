@@ -17,8 +17,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private static readonly RectangleShape Manhattan =
             new RectangleShape(-8_240_000, 4_975_000, -8_228_000, 4_965_000);
 
-        private static readonly RectangleShape SanFranciscoBay =
-            new RectangleShape(-13_660_000, 4_565_000, -13_600_000, 4_515_000);
+        private static readonly PointShape SanFranciscoBay = new PointShape(-13_630_000, 4_540_000);
 
         private bool _ready;
 
@@ -54,7 +53,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 ? new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey))
                 : new MapStyle().AddRaster(new ThinkGeoRasterTileSource(SampleShared.CloudApiKey), sourceId: "thinkgeo"));
 
-            Map.CurrentExtent = vector ? Manhattan : SanFranciscoBay;
+            if (vector)
+            {
+                Map.CurrentExtent = Manhattan;
+            }
+            else
+            {
+                // Raster tiles carry their labels as pixels: a zoom of their own draws them
+                // crisp, a scale between two shrinks or stretches them.
+                Map.CenterPoint = SanFranciscoBay;
+                Map.CurrentScale = new ZoomLevelSet().ZoomLevel12.Scale;
+            }
             await Map.RefreshAsync();
         }
     }
