@@ -125,11 +125,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             var position = new Feature(x, y);
             if (_vehicle.Contains("vehicle"))
             {
-                _vehicle.UpdatePoint("vehicle", position, (float)_vehicleHeading, GeoColors.White, 26f, "vehicle");
+                _vehicle.UpdatePoint("vehicle", position, (float)_vehicleHeading, GeoColors.White, 26f, "vehicle", lieOnMap: true);
             }
             else
             {
-                _vehicle.AddPoint("vehicle", position, (float)_vehicleHeading, GeoColors.White, 26f, "vehicle");
+                _vehicle.AddPoint("vehicle", position, (float)_vehicleHeading, GeoColors.White, 26f, "vehicle", lieOnMap: true);
             }
         }
 
