@@ -25,6 +25,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private readonly DispatcherTimer _applyTimer;
         private string _lesson = "LessonCurved";
         private bool _initialized;
+        // Every restyle passes this same source: a document on its own has no data to draw.
+        private FeatureSourceVectorTileSource _tiles;
 
         public AdvancedLabels()
         {
@@ -41,9 +43,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _initialized = true;
             Map.MapUnit = GeographyUnit.Meter;
 
-            var tiles = new FeatureSourceVectorTileSource();
-            tiles.FeatureSources.Add("lessons", BuildLessons());
-            Map.Basemap = new GpuBasemap(Compose(Editor.Text, tiles));
+            _tiles = new FeatureSourceVectorTileSource();
+            _tiles.FeatureSources.Add("lessons", BuildLessons());
+            Map.Basemap = new GpuBasemap(Compose(Editor.Text, _tiles));
 
             FrameLesson();
             _ = Map.RefreshAsync();
@@ -76,7 +78,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             try
             {
-                await Map.Basemap.SetStyleAsync(Compose(Editor.Text, null));
+                await Map.Basemap.SetStyleAsync(Compose(Editor.Text, _tiles));
                 Status.Foreground = Brushes.DarkGreen;
                 Status.Text = FormattableString.Invariant($"applied at {DateTime.Now:HH:mm:ss}");
             }
@@ -94,7 +96,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// </summary>
         private static MapStyle Compose(string json, FeatureSourceVectorTileSource tiles)
         {
-            var style = tiles == null ? new MapStyle(json) : new MapStyle(json, tiles);
+            var style = new MapStyle(json, tiles);
             style.Images.Add("dot", PointStyle.CreateSimpleCircleStyle(GeoColor.FromHtml("#5E35B1"), 10, GeoColors.White, 2));
             return style;
         }

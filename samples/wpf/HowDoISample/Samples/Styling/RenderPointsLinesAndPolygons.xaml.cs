@@ -19,6 +19,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
     {
         private readonly DispatcherTimer _applyTimer;
         private bool _initialized;
+        // Every restyle passes this same source: a document on its own has no data to draw.
+        private FeatureSourceVectorTileSource _tiles;
 
         public RenderPointsLinesAndPolygons()
         {
@@ -36,12 +38,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             Map.MapUnit = GeographyUnit.Meter;
 
             // The shapefiles are in Texas North Central feet (EPSG:2276); reproject to the map's EPSG:3857.
-            var tileSource = new FeatureSourceVectorTileSource();
-            tileSource.FeatureSources.Add(new ShapeFileFeatureSource(SampleShared.Shapefile("Parks.shp")) { ProjectionConverter = new ProjectionConverter(2276, 3857) });
-            tileSource.FeatureSources.Add(new ShapeFileFeatureSource(SampleShared.Shapefile("Streets.shp")) { ProjectionConverter = new ProjectionConverter(2276, 3857) });
-            tileSource.FeatureSources.Add(new ShapeFileFeatureSource(SampleShared.Shapefile("Hotels.shp")) { ProjectionConverter = new ProjectionConverter(2276, 3857) });
+            _tiles = new FeatureSourceVectorTileSource();
+            _tiles.FeatureSources.Add(new ShapeFileFeatureSource(SampleShared.Shapefile("Parks.shp")) { ProjectionConverter = new ProjectionConverter(2276, 3857) });
+            _tiles.FeatureSources.Add(new ShapeFileFeatureSource(SampleShared.Shapefile("Streets.shp")) { ProjectionConverter = new ProjectionConverter(2276, 3857) });
+            _tiles.FeatureSources.Add(new ShapeFileFeatureSource(SampleShared.Shapefile("Hotels.shp")) { ProjectionConverter = new ProjectionConverter(2276, 3857) });
 
-            Map.Basemap = new GpuBasemap(new MapStyle(Editor.Text, tileSource));
+            Map.Basemap = new GpuBasemap(new MapStyle(Editor.Text, _tiles));
 
             Map.CenterPoint = new PointShape(-10777290, 3908740);
             Map.CurrentScale = 9000;
@@ -63,7 +65,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             try
             {
-                await Map.Basemap.SetStyleAsync(new MapStyle(Editor.Text));
+                await Map.Basemap.SetStyleAsync(new MapStyle(Editor.Text, _tiles));
                 Status.Foreground = Brushes.DarkGreen;
                 Status.Text = FormattableString.Invariant($"applied at {DateTime.Now:HH:mm:ss}");
             }

@@ -22,6 +22,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
     {
         private readonly DispatcherTimer _applyTimer;
         private bool _initialized;
+        // Every restyle passes this same source: a document on its own has no data to draw.
+        private FeatureSourceVectorTileSource _tiles;
 
         public RenderBasedOnRules()
         {
@@ -38,13 +40,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _initialized = true;
             Map.MapUnit = GeographyUnit.Meter;
 
-            var tileSource = new FeatureSourceVectorTileSource();
-            tileSource.FeatureSources.Add(new ShapeFileFeatureSource(SampleShared.Shapefile("Countries02.shp"))
+            _tiles = new FeatureSourceVectorTileSource();
+            _tiles.FeatureSources.Add(new ShapeFileFeatureSource(SampleShared.Shapefile("Countries02.shp"))
             {
                 ProjectionConverter = new ProjectionConverter(4326, 3857),
             });
 
-            Map.Basemap = new GpuBasemap(new MapStyle(Editor.Text, tileSource));
+            Map.Basemap = new GpuBasemap(new MapStyle(Editor.Text, _tiles));
 
             Map.CenterPoint = MaxExtents.SphericalMercator.GetCenterPoint();
             Map.CurrentScale = MapUtil.GetScale(Map.MapUnit, MaxExtents.SphericalMercator, Map.MapWidth, Map.MapHeight);
@@ -74,7 +76,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             try
             {
-                await Map.Basemap.SetStyleAsync(new MapStyle(Editor.Text));
+                await Map.Basemap.SetStyleAsync(new MapStyle(Editor.Text, _tiles));
                 Status.Foreground = Brushes.DarkGreen;
                 Status.Text = FormattableString.Invariant($"applied at {DateTime.Now:HH:mm:ss}");
             }
