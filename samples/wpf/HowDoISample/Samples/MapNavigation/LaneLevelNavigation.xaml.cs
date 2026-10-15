@@ -217,11 +217,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             var heading = (float)(90 - at.HeadingDegrees);
             if (_vehicle.Contains("vehicle"))
             {
-                _vehicle.UpdatePoint("vehicle", position, heading, GeoColors.White, 100f, "vehicle");
+                _vehicle.UpdatePoint("vehicle", position, heading, GeoColors.White, 100f, "vehicle", lieOnMap: true);
             }
             else
             {
-                _vehicle.AddPoint("vehicle", position, heading, GeoColors.White, 100f, "vehicle");
+                _vehicle.AddPoint("vehicle", position, heading, GeoColors.White, 100f, "vehicle", lieOnMap: true);
             }
 
             UpdateHud(at);
