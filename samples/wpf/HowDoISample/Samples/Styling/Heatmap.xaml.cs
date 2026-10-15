@@ -138,6 +138,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             {
                 _style = new MapStyle(ThinkGeoVectorStyles.Light, _cloud).AddStyle(Editor.Text, _coyote);
                 await Map.Basemap.SetStyleAsync(_style);
+                // The new document carries its own paint; the controls keep theirs.
+                ApplyPaint();
                 Status.Foreground = Brushes.DarkGreen;
                 Status.Text = FormattableString.Invariant($"applied at {DateTime.Now:HH:mm:ss}");
             }
