@@ -1,4 +1,6 @@
 using System;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -73,6 +75,46 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             {
                 Status.Foreground = Brushes.Firebrick;
                 Status.Text = "not applied - " + exception.Message.Split('\n')[0].TrimEnd('\r');
+            }
+        }
+
+        // The same document over the same shapefiles, drawn into a PDF as vector paths and text.
+        private async void ExportPdf_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new Microsoft.Win32.SaveFileDialog { Filter = "PDF files (*.pdf)|*.pdf", FileName = "Frisco.pdf" };
+            if (dialog.ShowDialog() != true) return;
+
+            // Sources of its own: the map is reading the ones it was given.
+            var featureSources = new GeoCollection<FeatureSource>();
+            foreach (var name in new[] { "Parks", "Streets", "Hotels" })
+            {
+                featureSources.Add(name, new ShapeFileFeatureSource(SampleShared.Shapefile(name + ".shp")) { ProjectionConverter = new ProjectionConverter(2276, 3857) });
+            }
+
+            var layer = new MapStyleFeatureAsyncLayer(new MapStyle(Editor.Text), featureSources);
+            try
+            {
+                await layer.OpenAsync();
+                var pdf = new PdfGeoCanvas();
+                pdf.SetPageSize(PrinterPageSize.AnsiA, PrinterOrientation.Landscape);
+                using (var stream = File.Create(dialog.FileName))
+                {
+                    pdf.BeginDrawing(stream, Map.CurrentExtent, Map.MapUnit);
+                    await layer.DrawAsync(pdf, new Collection<SimpleCandidate>());
+                    pdf.EndDrawing();
+                }
+
+                Status.Foreground = Brushes.DarkGreen;
+                Status.Text = "exported to " + dialog.FileName;
+            }
+            catch (Exception exception)
+            {
+                Status.Foreground = Brushes.Firebrick;
+                Status.Text = "not exported - " + exception.Message.Split('\n')[0].TrimEnd('\r');
+            }
+            finally
+            {
+                await layer.CloseAsync();
             }
         }
     }
