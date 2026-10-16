@@ -19,6 +19,8 @@
                        FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
             <TextBlock x:Name="Status" DockPanel.Dock="Bottom" FontSize="11" Margin="8,4,8,6"
                        TextWrapping="Wrap" Foreground="DarkGreen"/>
+            <Button DockPanel.Dock="Bottom" Content="Export PDF" Click="ExportPdf_Click"
+                    HorizontalAlignment="Left" Padding="12,3" Margin="8,4,8,0"/>
             <TextBox x:Name="Editor" TextChanged="Editor_TextChanged"
                      AcceptsReturn="True" AcceptsTab="True"
                      FontFamily="Consolas" FontSize="11.5" Padding="6"
