@@ -99,10 +99,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             });
 
             _style = new MapStyle(ThinkGeoVectorStyles.Light, _cloud).AddStyle(Editor.Text, _coyote);
+            ApplyPaint();
             Map.Basemap = new GpuBasemap(_style);
             await Map.RefreshAsync();
-
-            ApplyPaint();
         }
 
         private void Weight_Checked(object sender, RoutedEventArgs e)
@@ -136,10 +135,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             try
             {
-                _style = new MapStyle(ThinkGeoVectorStyles.Light, _cloud).AddStyle(Editor.Text, _coyote);
-                await Map.Basemap.SetStyleAsync(_style);
-                // The new document carries its own paint; the controls keep theirs.
-                ApplyPaint();
+                // The new document carries its own paint; the controls keep theirs, laid
+                // on before the map takes it so its first frame already draws them.
+                var style = new MapStyle(ThinkGeoVectorStyles.Light, _cloud).AddStyle(Editor.Text, _coyote);
+                ApplyPaint(style);
+                await Map.Basemap.SetStyleAsync(style);
+                _style = style;
+                ApplyPaint(); // a slider moved while the map was taking it
                 Status.Foreground = Brushes.DarkGreen;
                 Status.Text = FormattableString.Invariant($"applied at {DateTime.Now:HH:mm:ss}");
             }
@@ -151,10 +153,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         }
 
         // One runtime call, four properties: no style rebuild, no re-fetch.
-        private void ApplyPaint()
+        private void ApplyPaint() => ApplyPaint(_style);
+
+        private void ApplyPaint(MapStyle style)
         {
             ShowPaintPreview();
-            _style?.SetHeatmapPaint(
+            style?.SetHeatmapPaint(
                 HeatLayerId,
                 radius: (float)RadiusSlider.Value,
                 intensity: (float)IntensitySlider.Value,
