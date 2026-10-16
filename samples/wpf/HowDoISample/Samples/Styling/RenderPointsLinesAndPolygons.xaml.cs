@@ -91,9 +91,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 featureSources.Add(name, new ShapeFileFeatureSource(SampleShared.Shapefile(name + ".shp")) { ProjectionConverter = new ProjectionConverter(2276, 3857) });
             }
 
-            var layer = new MapStyleFeatureAsyncLayer(new MapStyle(Editor.Text), featureSources);
+            MapStyleFeatureAsyncLayer layer = null;
             try
             {
+                layer = new MapStyleFeatureAsyncLayer(new MapStyle(Editor.Text), featureSources);
                 await layer.OpenAsync();
                 var pdf = new PdfGeoCanvas();
                 pdf.SetPageSize(PrinterPageSize.AnsiA, PrinterOrientation.Landscape);
@@ -114,7 +115,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             }
             finally
             {
-                await layer.CloseAsync();
+                if (layer != null) await layer.CloseAsync();
             }
         }
     }
