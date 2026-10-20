@@ -14,13 +14,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
     /// <summary>
     /// The same vector tiles displayed in any projection, and walked from one to the
     /// next. Tiles and coordinates stay web mercator throughout - a projection changes
-    /// only how that plane reaches the screen, so nothing is refetched and nothing is
-    /// reprojected on the CPU. Ten families are coded into the renderer; everything
+    /// only how that plane reaches the screen, without CPU reprojection. Moving to
+    /// a regional overview loads tiles for that view. Ten families are coded into the renderer; everything
     /// else is drawn from a grid PROJ fills in, and behaves identically.
     /// </summary>
     public partial class MorphBetweenProjectionsMvt : UserControl
     {
-        private sealed record Choice(string Definition, RectangleShape Region);
+        private sealed record Choice(string Definition, RectangleShape Region, RectangleShape InitialView = null);
 
         private static readonly Dictionary<string, Choice> Choices = new Dictionary<string, Choice>
         {
@@ -40,7 +40,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 new RectangleShape(-170, 72, -52, 12)),
             ["RdoMga55"] = new Choice(
                 "+proj=utm +zone=55 +south +datum=WGS84 +units=m +no_defs",
-                new RectangleShape(143, -9, 151, -44)),
+                new RectangleShape(143, -9, 151, -44),
+                // Center the Australian overview near 132E rather than the zone's
+                // central meridian (147E). Keep the actual zone bounds for warnings.
+                new RectangleShape(128, -9, 136, -44)),
         };
 
         internal const double WorldHalfSize = 20037508.342789244;
@@ -97,9 +100,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _showBusy = true;
             try
             {
-                // The middle of what you are looking at, and how close you are to it.
-                // Keeping both is what makes a projection change feel like a change of
-                // projection rather than a change of subject.
+                // Global projections keep the current view. Regional projections
+                // start on their own ground instead of warping an unrelated view.
                 var before = Map.CurrentExtent;
                 _choice = choice;
 
@@ -147,23 +149,21 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                             Map.CurrentScale = Map.MaximumScale;
                     }
 
-                    if (_ready)
+                    if (choice.Region != null)
                     {
-                        // The camera does not move. Under this renderer the screen center
-                        // always shows Map.CenterPoint whatever the display projection is,
-                        // so LEAVING the camera alone is exactly "keep the ground you are
-                        // looking at", not an approximation of it.
-                        //
-                        // A region projection (Albers, MGA) is not steered to either.
-                        // Whatever falls inside the definition draws true, the rest is
-                        // not a map, and WarnIfOutsideRegion says so - a viewer who wants that region
-                        // zooms to it, which is one gesture they control instead of one
-                        // the sample performs on them.
+                        // Regional projections cannot display the previous worldwide
+                        // view. Frame their ground before refreshing or starting the
+                        // morph so the first settled view already shows useful data.
+                        // Map coordinates remain Web Mercator, even for a UTM display.
+                        Map.CurrentExtent = ToMercator(choice.InitialView ?? choice.Region);
+                    }
+                    else if (_ready)
+                    {
                         Map.CurrentExtent = before;
                     }
                     else
                     {
-                        Map.CurrentExtent = ToMercator(choice.Region ?? new RectangleShape(-180, 85, 180, -85));
+                        Map.CurrentExtent = ToMercator(new RectangleShape(-180, 85, 180, -85));
                     }
 
                     await Map.RefreshAsync();
@@ -283,10 +283,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             return new RectangleShape(Lon(mercator.MinX), Lat(mercator.MaxY), Lon(mercator.MaxX), Lat(mercator.MinY));
         }
 
-        /// <summary>
-        /// A region projection is only valid for its own ground. Leaving it is warned
-        /// about rather than corrected: the view is the viewer's.
-        /// </summary>
+        /// <summary>Explain the regional projection's limits without treating
+        /// a deliberately broad overview as a rendering failure.</summary>
         private void WarnIfOutsideRegion()
         {
             if (WarningText == null)
@@ -300,21 +298,27 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             var ground = CurrentGround();
             var region = _choice.Region;
-
-            // Any edge past the region's, not "shares nothing with it": a view that
-            // is half inside is already showing ground the definition does not
-            // describe, which is exactly what the warning is for.
             var outside = ground.MinX < region.MinX || ground.MaxX > region.MaxX
                 || ground.MinY < region.MinY || ground.MaxY > region.MaxY;
+            var entirelyOutside = ground.MaxX <= region.MinX || ground.MinX >= region.MaxX
+                || ground.MaxY <= region.MinY || ground.MinY >= region.MaxY;
 
             WarnDebug = string.Create(CultureInfo.InvariantCulture,
-                $"ground {ground.MinX:0.#}..{ground.MaxX:0.#} lat {ground.MinY:0.#}..{ground.MaxY:0.#} region {region.MinX:0.#}..{region.MaxX:0.#} outside={outside}");
+                $"ground {ground.MinX:0.#}..{ground.MaxX:0.#} lat {ground.MinY:0.#}..{ground.MaxY:0.#} region {region.MinX:0.#}..{region.MaxX:0.#} outside={outside} entirelyOutside={entirelyOutside}");
             WarningText.Visibility = outside ? Visibility.Visible : Visibility.Collapsed;
-            if (outside)
-            {
-                WarningText.Text = string.Create(CultureInfo.InvariantCulture,
-                    $"Outside this projection's ground (lon {region.MinX:0} to {region.MaxX:0}, lat {region.MinY:0} to {region.MaxY:0}). What is drawn out here is not a map.");
-            }
+            if (!outside)
+                return;
+
+            var isMga = _choice == Choices["RdoMga55"];
+            var projectionName = isMga ? "MGA Zone 55" : "Albers Conic";
+            var regionName = isMga ? "eastern Australia" : "the US region shown by this sample";
+            WarningText.Foreground = new System.Windows.Media.SolidColorBrush(
+                entirelyOutside
+                    ? System.Windows.Media.Color.FromRgb(0xB0, 0x4A, 0x2A)
+                    : System.Windows.Media.Color.FromRgb(0x8A, 0x5A, 0x00));
+            WarningText.Text = entirelyOutside
+                ? $"The current view is outside this projection's intended region. Return to {regionName}."
+                : $"{projectionName} is intended for {regionName}. This view extends beyond that region, where distortion may increase. Zoom into the region for a more representative view.";
         }
 
         private void ShowStatus()
