@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -35,6 +36,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private ThinkGeoRasterTileSource _source;
         private string _choice = "globe";
         private bool _ready;
+        private CancellationTokenSource _zoomCancellation;
 
         public TheGlobe()
         {
@@ -83,6 +85,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 return;
             }
 
+            // Changing projection supersedes any zoom started by this sample.
+            _zoomCancellation?.Cancel();
             _choice = definition;
 
             var target = definition switch
@@ -127,7 +131,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// <summary>Past it, where the globe has switched itself off entirely.</summary>
         private async void Street_Click(object sender, RoutedEventArgs e) => await FrameAsync(400000);
 
-        // Animated, about the point in the middle of the view, so the ball can be watched
+        // When animation is enabled, zoom about the view center so the ball can be watched
         // easing into flat mercator on the way.
         private async Task FrameAsync(double widthInMeters)
         {
@@ -136,10 +140,30 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 return;
             }
 
-            var scale = Map.CurrentScale * widthInMeters / Map.CurrentExtent.Width;
-            await Map.ZoomToAsync(Map.CenterPoint, scale, Map.RotationAngle,
-                new MapAnimationSettings { Duration = (uint)ZoomDuration.TotalMilliseconds, Type = MapAnimationType.DrawWithAnimation });
-            ShowStatus();
+            var previous = _zoomCancellation;
+            var cancellation = new CancellationTokenSource();
+            _zoomCancellation = cancellation;
+            previous?.Cancel();
+
+            try
+            {
+                var scale = Map.CurrentScale * widthInMeters / Map.CurrentExtent.Width;
+                await Map.ZoomToAsync(Map.CenterPoint, scale, Map.RotationAngle,
+                    new MapAnimationSettings { Duration = ChkMorph?.IsChecked == true ? (uint)ZoomDuration.TotalMilliseconds : 0u, Type = MapAnimationType.DrawWithAnimation },
+                    cancellation.Token);
+                ShowStatus();
+            }
+            catch (OperationCanceledException) when (cancellation.IsCancellationRequested)
+            {
+                // A newer zoom, projection change or sample disposal superseded
+                // this request. Other cancellations and failures still propagate.
+            }
+            finally
+            {
+                if (ReferenceEquals(_zoomCancellation, cancellation))
+                    _zoomCancellation = null;
+                cancellation.Dispose();
+            }
         }
 
         /// <summary>
@@ -173,6 +197,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         public void Dispose()
         {
+            _ready = false;
+            _zoomCancellation?.Cancel();
             _source = null;
         }
     }
