@@ -85,6 +85,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _vehicleImage = RenderVehicleImage();
             Map.CurrentExtentChangedInAnimation += Map_CurrentExtentChangedInAnimation;
             Map.PreviewMouseWheel += Map_PreviewMouseWheel;
+            Map.PreviewMouseMove += Map_PreviewMouseMove;
 
             await LoadAsync();
         }
@@ -324,6 +325,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 var scale = MapUtil.GetScale(Map.MapUnit, extent, Map.MapWidth, Map.MapHeight);
                 await Map.ZoomToAsync(extent.GetCenterPoint(), scale, 0, ViewChange);
             }
+        }
+
+        /// <summary>
+        /// A left-drag (pan, or Alt+drag rotate) while driving leaves tracking mode
+        /// where the map is, so the next flight does not pull it back.
+        /// </summary>
+        private void Map_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (!_trackingMode || _playback == null || e.LeftButton != MouseButtonState.Pressed) return;
+            _trackingMode = false;
+            OverviewButton.Content = "Tracking Mode";
+            _flight?.Cancel();
         }
 
         private void PitchSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
