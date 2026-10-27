@@ -66,6 +66,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private async void Map_Loaded(object sender, RoutedEventArgs e)
         {
             if (_built) return;
+            // A map squeezed to nothing has no extent yet; build once it has a size.
+            if (Map.ActualWidth == 0 || Map.ActualHeight == 0)
+            {
+                Map.SizeChanged -= Map_SizeChanged;
+                Map.SizeChanged += Map_SizeChanged;
+                return;
+            }
+            Map.SizeChanged -= Map_SizeChanged;
             _built = true;
 
             Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey)));
@@ -132,6 +140,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             });
             _timer.Start();
         }
+
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e) => Map_Loaded(sender, e);
 
         private void SetRoute(PointShape[] routeInDegrees)
         {
