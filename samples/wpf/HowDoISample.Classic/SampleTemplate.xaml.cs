@@ -10,13 +10,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// </summary>
     public partial class GenerateMapImageSample : UserControl, IDisposable
     {
+        private bool _initialized = false;
+
         public GenerateMapImageSample()
         {
             InitializeComponent();
         }
 
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
             mapView.MapUnit = GeographyUnit.DecimalDegree;
             mapView.CurrentExtent = new RectangleShape(-155.733, 95.60, 104.42, -81.9);
 

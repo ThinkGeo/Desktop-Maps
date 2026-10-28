@@ -28,14 +28,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private GridOverlay bitmapOverlay;
         private int currentFrameIndex;
         private NdfdMapProjectionMode currentProjectionMode = NdfdMapProjectionMode.Lambert;
+        private bool initialized;
 
         public PerfTestRefreshNdfdSkyGrid()
         {
             InitializeComponent();
         }
 
-        private void MapView_Loaded(object sender, RoutedEventArgs e)
+        private void MapView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            initialized = true;
             MapView.MapUnit = GeographyUnit.Meter;
             MapView.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColor.FromArgb(255, 19, 24, 32));
 
