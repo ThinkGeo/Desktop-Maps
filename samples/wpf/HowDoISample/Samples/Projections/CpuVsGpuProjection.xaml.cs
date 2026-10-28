@@ -48,9 +48,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _applyTimer.Tick += async (_, _) => { _applyTimer.Stop(); await ApplyEditorStyleAsync(); };
         }
 
-        private async void UserControl_Loaded(object sender, RoutedEventArgs e)
+        private async void Maps_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (_ready)
+            if (_ready || CpuMap.ActualWidth <= 0 || CpuMap.ActualHeight <= 0 || GpuMap.ActualWidth <= 0 || GpuMap.ActualHeight <= 0)
             {
                 return;
             }

@@ -12,7 +12,7 @@
             <ColumnDefinition Width="260"/>
         </Grid.ColumnDefinitions>
 
-        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" Loaded="Map_Loaded"/>
+        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
         <!-- The keyed providers are a page over the map: without your key most of them draw nothing. -->
         <ContentControl x:Name="OtherProvidersPage" Grid.Column="0" Visibility="Collapsed"/>
 

@@ -60,9 +60,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _timer.Tick += (_, __) => Advance();
         }
 
-        private async void Map_Loaded(object sender, RoutedEventArgs e)
+        private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (_built)
+            if (_built || e.NewSize.Width <= 0 || e.NewSize.Height <= 0)
             {
                 return;
             }

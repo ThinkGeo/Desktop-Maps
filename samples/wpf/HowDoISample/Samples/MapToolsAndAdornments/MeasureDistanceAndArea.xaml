@@ -12,6 +12,6 @@
             <RadioButton Content="Area" Margin="6,8,6,8" Checked="Area_Checked"/>
             <Button Content="Clear" Padding="10,2,10,2" Margin="10,6,10,6" Click="Clear_Click"/>
         </StackPanel>
-        <thinkGeoUi:MapView x:Name="Map" Loaded="Map_Loaded"/>
+        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
     </DockPanel>
 </UserControl>

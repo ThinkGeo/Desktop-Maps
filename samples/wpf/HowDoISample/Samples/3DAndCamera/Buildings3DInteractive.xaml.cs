@@ -24,9 +24,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             Map.IsTiltInteractionEnabled = true;
         }
 
-        private async void Map_Loaded(object sender, RoutedEventArgs e)
+        private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (_initialized) return;
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
             Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey)));

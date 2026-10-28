@@ -12,7 +12,7 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" Loaded="Map_Loaded"/>
+        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
 
         <StackPanel Grid.Column="1" Width="190" Background="#E020242B">
             <TextBlock x:Name="Status" Foreground="WhiteSmoke" FontFamily="Consolas" FontSize="12"

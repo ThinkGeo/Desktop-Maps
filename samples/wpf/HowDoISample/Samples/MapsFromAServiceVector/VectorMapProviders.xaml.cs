@@ -25,9 +25,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             Map.IsTiltInteractionEnabled = true;
         }
 
-        private async void Map_Loaded(object sender, RoutedEventArgs e)
+        private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (_ready) return;
+            if (_ready || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _ready = true;
             Map.CenterPoint = new PointShape(-10779700, 3912000);

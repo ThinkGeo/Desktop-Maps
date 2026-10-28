@@ -42,9 +42,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             InitializeComponent();
         }
 
-        private async void UserControl_Loaded(object sender, RoutedEventArgs e)
+        private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (_source != null)
+            if (_source != null || e.NewSize.Width <= 0 || e.NewSize.Height <= 0)
                 return;
 
             Map.MapUnit = GeographyUnit.Meter;

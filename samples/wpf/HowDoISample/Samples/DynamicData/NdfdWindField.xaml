@@ -13,6 +13,6 @@
                           Checked="Mode_Checked" Unchecked="Mode_Unchecked"/>
             <TextBlock x:Name="Status" VerticalAlignment="Center" Margin="12,0,0,0"/>
         </DockPanel>
-        <thinkGeoUi:MapView x:Name="Map" Loaded="Map_Loaded"/>
+        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
     </DockPanel>
 </UserControl>

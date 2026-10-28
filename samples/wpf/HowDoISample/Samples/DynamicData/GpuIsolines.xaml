@@ -62,6 +62,6 @@
             <TextBlock x:Name="Cost" Margin="12,4,12,4" FontFamily="Consolas" FontSize="11" Foreground="DimGray"/>
         </StackPanel>
 
-        <thinkGeoUi:MapView x:Name="Map" Loaded="Map_Loaded"/>
+        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
     </DockPanel>
 </UserControl>

@@ -61,6 +61,6 @@
                            Text="Draw a route: click the vertices, double-click to finish; the ship sails it in a loop."/>
             </StackPanel>
         </StackPanel>
-        <thinkGeoUi:MapView x:Name="Map" Loaded="Map_Loaded"/>
+        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
     </DockPanel>
 </UserControl>

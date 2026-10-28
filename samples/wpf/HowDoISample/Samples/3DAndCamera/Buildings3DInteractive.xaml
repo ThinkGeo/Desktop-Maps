@@ -7,7 +7,7 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <thinkGeoUi:MapView x:Name="Map" Loaded="Map_Loaded"/>
+        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
         <!-- The tilt is a property of the map, so a plain Slider bound to it is the control:
              it drives the camera and follows the right-drag gesture. -->
         <Slider Orientation="Vertical" Height="200" Maximum="60" HorizontalAlignment="Right" VerticalAlignment="Center"

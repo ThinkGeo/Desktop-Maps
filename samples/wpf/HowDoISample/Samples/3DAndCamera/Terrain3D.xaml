@@ -26,7 +26,7 @@
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0">
-            <thinkGeoUi:MapView x:Name="Map" Loaded="Map_Loaded" MapClick="Map_MapClick"/>
+            <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged" MapClick="Map_MapClick"/>
 
             <!-- The profile chart: distance along the line across, elevation up. -->
             <Border x:Name="ChartPanel" Visibility="Collapsed"

@@ -27,7 +27,7 @@
             <ColumnDefinition Width="420"/>
         </Grid.ColumnDefinitions>
 
-        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" Loaded="Map_Loaded"/>
+        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
 
         <DockPanel Grid.Column="1" Background="#F6F6F4">
             <TextBlock DockPanel.Dock="Top" Text="Relation" FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>

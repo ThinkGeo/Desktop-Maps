@@ -19,7 +19,7 @@
         </DockPanel>
 
         <Grid>
-            <thinkGeoUi:MapView x:Name="Map" Loaded="Map_Loaded" MapMouseMove="Map_MapMouseMove"/>
+            <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged" MapMouseMove="Map_MapMouseMove"/>
             <!-- The hover card floats over the map next to the cursor. -->
             <Border x:Name="HoverCard" Background="#EBFFFFFF" BorderBrush="#B0B0B0" BorderThickness="1"
                     CornerRadius="3" Visibility="Collapsed" IsHitTestVisible="False"

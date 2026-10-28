@@ -1,15 +1,14 @@
 ﻿<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.Samples.AnyProjectionRaster"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:wpf="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
-             Loaded="UserControl_Loaded">
+             xmlns:wpf="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <wpf:MapView x:Name="Map" Grid.Column="0" />
+        <wpf:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged" />
 
         <StackPanel Grid.Column="1" Width="250" Margin="8">
             <TextBlock Text="Projection" FontSize="16" FontWeight="Bold" Margin="0,0,0,6" />

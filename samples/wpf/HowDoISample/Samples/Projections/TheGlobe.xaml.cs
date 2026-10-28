@@ -43,13 +43,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             InitializeComponent();
         }
 
-        private async void UserControl_Loaded(object sender, RoutedEventArgs e)
+        private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (_ready)
+            if (_ready || e.NewSize.Width <= 0 || e.NewSize.Height <= 0)
             {
                 return;
             }
 
+            // Built once; _ready is only set after the first draw.
+            Map.SizeChanged -= Map_SizeChanged;
             Map.MapUnit = GeographyUnit.Meter;
             Map.CurrentExtentChanged += (_, _) => ShowStatus();
 

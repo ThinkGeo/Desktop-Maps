@@ -43,9 +43,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _applyTimer.Tick += async (_, _) => { _applyTimer.Stop(); await ApplyEditorStyleAsync(); };
         }
 
-        private async void Map_Loaded(object sender, RoutedEventArgs e)
+        private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (_ready) return;
+            if (_ready || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _ready = true;
             var (style, extent) = await ComposeStyleAsync();
