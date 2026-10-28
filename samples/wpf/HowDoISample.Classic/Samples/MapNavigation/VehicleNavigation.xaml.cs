@@ -24,6 +24,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private bool _disposed;
         private bool _showOverview;
         private bool _holdAnimation = false;
+        // The direction of travel, as the map rotation that puts it up the screen.
+        private double _heading;
 
         private CancellationTokenSource _cancellationTokenSource;
         private ThinkGeoCloudRasterMapsOverlay _backgroundOverlay;
@@ -133,13 +135,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void Map_CurrentExtentChangedInAnimation(object sender,
             CurrentExtentChangedInAnimationMapViewEventArgs e)
         {
+            // The marker is not rotated with the map, so it turns as the map turns.
+            _vehicleMarker.RotationAngle = Map.RotationAngle - _heading;
+
             if (!MapUtil.IsSameDouble(e.FromResolution, e.ToResolution))
                 return;
 
             UpdateRoutesAndMarker(e.Progress);
         }
 
-        private void UpdateRoutesAndMarker(double progress, double angle = 0)
+        private void UpdateRoutesAndMarker(double progress)
         {
             if (_currentGpsPointIndex == 0)
                 return;
@@ -160,7 +165,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             UpdateVisitedRoutes(new Vertex(x, y));
 
-            _vehicleMarker.RotationAngle = -angle;
+            _vehicleMarker.RotationAngle = Map.RotationAngle - _heading;
             _vehicleMarker.Position = new Point(x, y);
 
             _ = _routesOverlay.RefreshAsync();
@@ -184,6 +189,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 return;
 
             var angle = GetRotationAngle(gpsPointIndex, gpsPoints);
+            _heading = angle;
 
             if (_showOverview)
             {
@@ -200,7 +206,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     if (process > 1)
                         break;
 
-                    UpdateRoutesAndMarker(process, angle);
+                    UpdateRoutesAndMarker(process);
 
                     await _routesOverlay.RefreshAsync();
                     await Task.Delay(10); // update every 10 ms
@@ -304,15 +310,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (AerialBackgroundCheckBox.IsChecked == null)
                 return;
 
-            _holdAnimation = true;
-
-            RefreshCancellationTokenAsync();
+            // The vehicle keeps driving: the background redraws beside the navigation.
             _backgroundOverlay.MapType = AerialBackgroundCheckBox.IsChecked.Value
                 ? ThinkGeoCloudRasterMapsMapType.Aerial2_V2_X2
                 : ThinkGeoCloudRasterMapsMapType.Light_V2_X2;
-            await _backgroundOverlay.RefreshAsync(Map.CancellationTokenSource.Token);
-
-            _holdAnimation = false;
+            await _backgroundOverlay.RefreshAsync();
         }
 
         private void OverviewButton_OnClick(object sender, RoutedEventArgs e)
@@ -342,6 +344,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             else
             {
                 OverviewButton.Content = "Overview Mode";
+
+                RefreshCancellationTokenAsync();
+
+                // Back to the vehicle, which matters once the route is finished and nothing else will.
+                var vehicle = new PointShape(_vehicleMarker.Position.X, _vehicleMarker.Position.Y);
+                var center = MapUtil.OffsetPointWithScreenOffset(vehicle, 0, 200, _heading, DefaultScale, Map.MapUnit);
+                try
+                {
+                    await Map.ZoomToAsync(center, DefaultScale, _heading);
+                }
+                catch (TaskCanceledException)
+                {
+                }
             }
 
             _holdAnimation = false;
