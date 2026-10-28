@@ -15,6 +15,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private int _currentZoomLevel = 0;
         private double _currentScale = 0;
         private double _lastRotationAngle = 0;
+        private bool _isSyncingRotationAngle;
 
         public ZoomToExtents()
         {
@@ -141,6 +142,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 _lastRotationAngle = currentRotation;
                 _currentRotationAngle = (float)currentRotation;
                 rotateAngleTextBox.Text = currentRotation.ToString("F0");
+                _isSyncingRotationAngle = true;
+                rotateAngleTrackBar.Value = (int)Math.Round(currentRotation, MidpointRounding.AwayFromZero);
+                _isSyncingRotationAngle = false;
                 UpdateStatusLabel();
             }
         }
@@ -150,6 +154,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// </summary>
         private void RotateAngleTrackBar_ValueChanged(object sender, EventArgs e)
         {
+            if (_isSyncingRotationAngle) return;
+
             int angle = ((TrackBar)sender).Value;
             rotateAngleTextBox.Text = angle.ToString();
             _ = mapView.ZoomToAsync(mapView.CenterPoint, mapView.CurrentScale, angle);
@@ -164,7 +170,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                     angle = Math.Max(-180, Math.Min(180, angle));
                     int intAngle = (int)Math.Round(angle, MidpointRounding.AwayFromZero);
 
+                    _isSyncingRotationAngle = true;
                     rotateAngleTrackBar.Value = intAngle;
+                    _isSyncingRotationAngle = false;
                     rotateAngleTextBox.Text = intAngle.ToString();
                     _ = mapView.ZoomToAsync(mapView.CenterPoint, mapView.CurrentScale, angle);
                 }
@@ -409,8 +417,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             rotateAngleTrackBar.Name = "rotateAngleTrackBar";
             rotateAngleTrackBar.Location = new Point(17, 350);
-            rotateAngleTrackBar.Minimum = 0;
-            rotateAngleTrackBar.Maximum = 360;
+            rotateAngleTrackBar.Minimum = -180;
+            rotateAngleTrackBar.Maximum = 180;
             rotateAngleTrackBar.Value = 0;
             rotateAngleTrackBar.TickFrequency = 15;
             rotateAngleTrackBar.SmallChange = 1;

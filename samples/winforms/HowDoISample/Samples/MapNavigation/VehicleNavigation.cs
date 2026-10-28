@@ -25,6 +25,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private bool _disposed;
         private bool _showOverview;
         private bool _holdAnimation = false;
+        private double _vehicleHeading;
 
         private CancellationTokenSource _cancellationTokenSource;
         private ThinkGeoCloudRasterMapsOverlay _backgroundOverlay;
@@ -141,7 +142,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             UpdateRoutesAndMarker(e.Progress);
         }
 
-        private void UpdateRoutesAndMarker(double progress, double angle = 0)
+        private void UpdateRoutesAndMarker(double progress)
         {
             if (_currentGpsPointIndex == 0)
                 return;
@@ -162,7 +163,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             UpdateVisitedRoutes(new Vertex(x, y));
 
-            _vehicleMarker.RotationAngle = - angle;
+            _vehicleMarker.RotationAngle = mapView.RotationAngle - _vehicleHeading;
             _vehicleMarker.Position = new Point(x, y);
 
             _ = _routesOverlay.RefreshAsync();
@@ -187,6 +188,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 return;
 
             var angle = GetRotationAngle(gpsPointIndex, gpsPoints);
+            _vehicleHeading = angle;
 
             if (_showOverview)
             {
@@ -203,7 +205,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                     if (process > 1)
                         break;
 
-                    UpdateRoutesAndMarker(process, angle);
+                    UpdateRoutesAndMarker(process);
 
                     await _routesOverlay.RefreshAsync();
                     await Task.Delay(10); // update every 10 ms
@@ -307,9 +309,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             //if (!aerialBackgroundCheckBox.Checked)
             //    return;
 
+            // Hold the next leg, but let the vehicle finish the one it is on: canceling it
+            // restarted the marker at the next point - a visible jump.
             _holdAnimation = true;
 
-            RefreshCancellationTokenAsync();
             _backgroundOverlay.MapType = aerialBackgroundCheckBox.Checked
                 ? ThinkGeoCloudRasterMapsMapType.Aerial2_V2_X2
                 : ThinkGeoCloudRasterMapsMapType.Light_V2_X2;
@@ -345,6 +348,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             else
             {
                 overviewButton.Text = "Overview Mode";
+
+                // Back to the vehicle, also when the route has already been driven.
+                var index = Math.Min(_currentGpsPointIndex, _gpsPoints.Count - 1);
+                try
+                {
+                    await ZoomToGpsPointAsync(_gpsPoints, index, _cancellationTokenSource.Token);
+                }
+                catch (TaskCanceledException)
+                {
+                }
             }
 
             _holdAnimation = false;
@@ -353,6 +366,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private void MapView_RotationAngleChanging(object sender, RotationAngleChangingMapViewEventArgs e)
         {
             double currentRotation = e.NewRotationAngle;
+            _vehicleMarker.RotationAngle = currentRotation - _vehicleHeading;
 
             if (Math.Abs(currentRotation - lastRotationAngle) > 0.1) // Change threshold
             {
