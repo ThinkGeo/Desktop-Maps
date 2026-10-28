@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using ThinkGeo.Core;
 
@@ -14,7 +13,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private bool _initialized;
         private LayerOverlay _layerOverlay = new LayerOverlay();
-        private FeatureLayerWpfDrawingOverlay _featureLayerWpfDrawingOverlay = new FeatureLayerWpfDrawingOverlay();
 
         public RenderTheLabels()
         {
@@ -57,13 +55,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _layerOverlay.Layers.Add(hotelsLayer);
             _layerOverlay.TileType = TileType.SingleTile;
             Map.Overlays.Add(_layerOverlay);
-
-            _featureLayerWpfDrawingOverlay = new FeatureLayerWpfDrawingOverlay();
-            _featureLayerWpfDrawingOverlay.Visibility = Visibility.Hidden;
-            _featureLayerWpfDrawingOverlay.FeatureLayers.Add(parksLayer);
-            _featureLayerWpfDrawingOverlay.FeatureLayers.Add(streetsLayer);
-            _featureLayerWpfDrawingOverlay.FeatureLayers.Add(hotelsLayer);
-            Map.Overlays.Add(_featureLayerWpfDrawingOverlay);
 
             // Set the map extent
             Map.CenterPoint = new PointShape(-10777290, 3908740);
@@ -128,17 +119,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             parksLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(textStyle);
 
             parksLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-        }
-
-        private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
-        {
-            if (sender is CheckBox checkBox)
-            {
-                _layerOverlay.IsVisible = !checkBox.IsChecked.GetValueOrDefault();
-                _featureLayerWpfDrawingOverlay.IsVisible = checkBox.IsChecked.GetValueOrDefault();
-
-                //_ = Map.RefreshAsync();
-            }
         }
 
         public void Dispose()
