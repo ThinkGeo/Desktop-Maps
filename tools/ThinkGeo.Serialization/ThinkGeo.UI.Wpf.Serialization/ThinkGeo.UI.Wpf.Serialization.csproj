@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ThinkGeo.UI.Wpf" Version="15.0.0-beta236" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="15.0.0-beta238" />
     <PackageReference Include="System.Text.Json" Version="10.0.9" />
   </ItemGroup>
 
