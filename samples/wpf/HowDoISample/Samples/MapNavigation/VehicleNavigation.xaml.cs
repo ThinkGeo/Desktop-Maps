@@ -252,7 +252,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 while (true)
                 {
                     if (cancellationToken.IsCancellationRequested)
-                        await Task.Delay(500);
+                        return;
                     double duration = (DateTime.Now - currentTime).TotalMilliseconds;
                     var process = duration / totalTime;
 
@@ -462,14 +462,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             }
 
             _holdAnimation = false;
-        }
-
-        public void Dispose()
-        {
-            Map.Dispose();
-            GC.SuppressFinalize(this);
-
-            _disposed = true;
         }
     }
 }

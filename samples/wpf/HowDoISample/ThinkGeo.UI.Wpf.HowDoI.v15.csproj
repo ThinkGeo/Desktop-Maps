@@ -42,7 +42,7 @@
     <None Update="Data\**\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Samples\samples.json;Samples\Documentation\*.md">
+    <None Update="Samples\Documentation\*.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <!-- The pictures ship twice, on purpose. A sample that names one in XAML

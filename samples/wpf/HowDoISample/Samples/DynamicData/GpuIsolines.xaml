@@ -57,9 +57,8 @@
              enough in it that a message docked beside the sliders is pushed off the
              edge of the window exactly when it has something to say. -->
         <StackPanel DockPanel.Dock="Bottom" Background="WhiteSmoke">
-            <TextBlock x:Name="Status" Margin="12,4,12,0" TextWrapping="NoWrap"
-                       Text="field + contours run on the GPU every frame; drag the sliders - updates land on the next frame"/>
-            <TextBlock x:Name="Cost" Margin="12,4,12,4" FontFamily="Consolas" FontSize="11" Foreground="DimGray"/>
+            <TextBlock x:Name="Status" Margin="12,4,12,4" TextWrapping="NoWrap"
+                       Text="drag the sliders - updates land on the next frame"/>
         </StackPanel>
 
         <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>

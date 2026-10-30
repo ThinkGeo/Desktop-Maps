@@ -30,7 +30,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private readonly MapStyle _style;
         private readonly Dictionary<PointShape, double> _seedPoints;
         private readonly RectangleShape _dataBounds;
-        private readonly System.Windows.Threading.DispatcherTimer _costTimer;
 
         private PointValueSource _isolineSource;
         private bool _initialized;
@@ -66,13 +65,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             ((ComboBoxItem)PointCountCombo.Items[0]).Content = $"{_seedPoints.Count} points (real sample data)";
             PointCountCombo.SelectedIndex = 0;
-
-            _costTimer = new System.Windows.Threading.DispatcherTimer
-            {
-                Interval = TimeSpan.FromMilliseconds(500),
-            };
-            _costTimer.Tick += (_, __) => UpdateCost();
-            _costTimer.Start();
         }
 
         private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -183,7 +175,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // Levels and colors are the style's; the points ride a source object. The
             // document did not change, so SetStyleAsync takes the cheap path - it only
             // re-pushes the isoline registration, no tile is rebuilt.
-            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             if (_isolineSource != null)
             {
                 _style.RemoveIsolines(_isolineSource);
@@ -192,31 +183,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _isolineSource = new PointValueSource(points) { Power = _power, SearchRadius = _searchRadius };
             _style.AddIsolines(_isolineSource, display);
             _ = _overlay.SetStyleAsync(_style);
-            stopwatch.Stop();
-            var path = string.Format(
-                CultureInfo.InvariantCulture,
-                "IDW on the GPU - AddIsolines took {0:0.0} ms on the UI thread, the field builds on the next frame",
-                stopwatch.Elapsed.TotalMilliseconds);
 
             Status.Text = string.Format(
                 CultureInfo.InvariantCulture,
-                "{0:N0} points, {1} levels - {2}",
-                points.Count, levels.Count, path);
+                "{0:N0} points, {1} levels",
+                points.Count, levels.Count);
         }
 
-        // A field built ANYWHERE ELSE reaches the same contour passes through
-        // SetIsolineField(values, width, height, extent, levels, colors):
-        // a grid from any GridInterpolationModel, a .grd file, a weather or DEM grid.
-        // It is not in this sample's UI because for THIS data the CPU grid is both
-        // slower and coarser than the field shader, and a dropdown that makes the
-        // sample worse teaches the wrong thing.
-        //
-        // If you do reach for kriging there, note that it takes its points in its OWN
-        // constructor and ignores GridDefinition.DataPoints - unlike IDW. Constructed
-        // empty it has nothing to interpolate from and hangs (see
-        // KrigingGridInterpolationModel.ListPointAvailables, whose search loop has no
-        // exit when the dataset holds fewer points than referencingPointCount). Given
-        // its points it is fast: a 16x12 grid over this data takes about 30 ms.
+        // A field built elsewhere - any GridInterpolationModel, a .grd file, a weather
+        // or DEM grid - reaches the same contour passes through
+        // SetIsolineField(values, width, height, extent, levels, colors).
 
         /// <summary>
         /// The seed data as-is, or a synthetic scale-up: random points across the data
@@ -346,22 +322,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _ = _exportOverlay.RefreshAsync();
         }
 
-        private void UpdateCost()
-        {
-            var stats = _overlay.GetIsolineStats();
-            if (stats.FieldWidth == 0)
-            {
-                return;
-            }
-
-            Cost.Text = string.Format(
-                CultureInfo.InvariantCulture,
-                "field {0}x{1}{2} | last build {3:0.0} ms | rebuilds {4} | points {5:N0}",
-                stats.FieldWidth, stats.FieldHeight,
-                stats.FieldSupplied ? " (supplied)" : string.Empty,
-                stats.LastFieldBuildMilliseconds, stats.FieldRebuilds, stats.PointCount);
-        }
-
         /// <summary>
         /// The per-pixel drawing never makes geometry, so this is how you get some: read
         /// the field back and hand it to the SDK's own marching squares. Note what is
@@ -421,7 +381,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         public void Dispose()
         {
-            _costTimer?.Stop();
             Map.Dispose();
             GC.SuppressFinalize(this);
         }

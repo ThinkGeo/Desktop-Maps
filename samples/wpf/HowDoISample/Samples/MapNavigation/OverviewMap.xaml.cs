@@ -10,7 +10,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
     /// <summary>
     /// Interaction logic for OverviewMap.xaml
     /// </summary>
-    public partial class OverviewMap : IDisposable
+    public partial class OverviewMap
     {
         private bool _initialized;
 
@@ -176,13 +176,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             }
 
             return new RingShape(rotated);
-        }
-
-        public void Dispose()
-        {
-            ThinkGeoDebugger.DisplayTileId = false;
-            MainMap.Dispose();
-            GC.SuppressFinalize(this);
         }
     }
 }

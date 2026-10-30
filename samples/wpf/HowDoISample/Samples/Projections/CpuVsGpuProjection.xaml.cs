@@ -255,6 +255,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         public void Dispose()
         {
             _cpuLayer?.Close();
+            CpuMap.Dispose();
+            GpuMap.Dispose();
         }
     }
 }

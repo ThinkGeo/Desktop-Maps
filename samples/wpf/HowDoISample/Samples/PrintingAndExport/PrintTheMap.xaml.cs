@@ -1,9 +1,10 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Diagnostics;
+using System.IO;
 using System.Drawing;
 using System.Drawing.Printing;
-using System.Linq;
 using System.Windows;
 using ThinkGeo.Core;
 using ThinkGeo.UI.Wpf;
@@ -41,10 +42,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// <summary>
         /// Creates a PrintDocument and draws all the layers for it to print onto.
         /// </summary>
-        private void PrintMap_OnClick(object sender, RoutedEventArgs e)
+        private async void PrintMap_OnClick(object sender, RoutedEventArgs e)
         {
             var printerOverlay = (PrinterInteractiveOverlay)Map.InteractiveOverlays["printerOverlay"];
-            var pageLayer = (PagePrinterLayer)printerOverlay.PrinterLayers["pageLayer"];
+            var pageLayer = (PagePrinterLayoutAsyncLayer)printerOverlay.PrinterLayoutAsyncLayers["pageLayer"];
 
             // Create a printDocument that matches the size of our pageLayer
             var printDocument = new PrintDocument
@@ -63,70 +64,55 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             };
 
             // Start drawing on the printDocument
-            printerGeoCanvas.BeginDrawing(printDocument, pageLayer.GetBoundingBox(), Map.MapUnit);
+            printerGeoCanvas.BeginDrawing(printDocument, pageLayer.GetPosition(), Map.MapUnit);
 
-            // Draw each layer in collection order (same order as preview rendering).
-            foreach (var printerLayer in printerOverlay.PrinterLayers)
-            {
-                printerLayer.IsDrawing = true;
-                if (!(printerLayer is PagePrinterLayer))
-                {
-                    // Draw the layer
-                    printerLayer.Draw(printerGeoCanvas, new Collection<SimpleCandidate>());
-                }
-
-                printerLayer.IsDrawing = false;
-            }
-
-            // Finish drawing and send the print commands to the printer
+            // Draw the layout, then send the print commands to the printer
+            await BuildLayoutDocument(printerOverlay).DrawAsync(printerGeoCanvas);
             printerGeoCanvas.EndDrawing();
         }
 
         /// <summary>
-        /// Writes the same composed page to a vector PDF instead of a printer. Same
-        /// draw loop, different canvas: geometry and text arrive as PDF operators,
-        /// so the text stays selectable and searchable.
+        /// Exports the same layout as a cross-platform vector PDF.
         /// </summary>
-        private void ExportPdf_OnClick(object sender, RoutedEventArgs e)
+        private async void ExportPdf_OnClick(object sender, RoutedEventArgs e)
         {
             var printerOverlay = (PrinterInteractiveOverlay)Map.InteractiveOverlays["printerOverlay"];
-            var pageLayer = (PagePrinterLayer)printerOverlay.PrinterLayers["pageLayer"];
 
-            var dialog = new Microsoft.Win32.SaveFileDialog
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog
             {
-                Filter = "PDF files (*.pdf)|*.pdf",
+                Filter = "PDF Document|*.pdf",
                 FileName = "FriscoMosquitoReport.pdf"
             };
-            if (dialog.ShowDialog() != true) return;
+            if (saveFileDialog.ShowDialog() != true) return;
 
-            // Page size in PDF points (1/72 inch): ANSI A is 8.5 x 11 inches
-            var pdfGeoCanvas = new PdfGeoCanvas
+            // The PDF page takes the size of the layout's sheet.
+            using (var stream = File.Create(saveFileDialog.FileName))
             {
-                PageWidth = pageLayer.Orientation == PrinterOrientation.Landscape ? 792 : 612,
-                PageHeight = pageLayer.Orientation == PrinterOrientation.Landscape ? 612 : 792
-            };
-
-            using (var pdfStream = System.IO.File.Create(dialog.FileName))
-            {
-                // Start drawing on the PDF stream
-                pdfGeoCanvas.BeginDrawing(pdfStream, pageLayer.GetBoundingBox(), Map.MapUnit);
-
-                // Draw each layer in collection order (same order as preview rendering).
-                foreach (var printerLayer in printerOverlay.PrinterLayers)
-                {
-                    printerLayer.IsDrawing = true;
-                    if (!(printerLayer is PagePrinterLayer))
-                    {
-                        // Draw the layer
-                        printerLayer.Draw(pdfGeoCanvas, new Collection<SimpleCandidate>());
-                    }
-
-                    printerLayer.IsDrawing = false;
-                }
-
-                // Finish drawing and close the PDF
-                pdfGeoCanvas.EndDrawing();
+                await BuildLayoutDocument(printerOverlay).ExportPdfAsync(stream);
             }
+
+            Process.Start(new ProcessStartInfo(saveFileDialog.FileName) { UseShellExecute = true });
+        }
+
+        /// <summary>
+        /// Collects what is on screen into a one page document for output.
+        /// </summary>
+        private static PrinterLayoutDocument BuildLayoutDocument(PrinterInteractiveOverlay printerOverlay)
+        {
+            // The page layer is the sheet, so it stays out of the layers: it is drawn on screen to
+            // show where the paper is, not printed onto the paper.
+            var page = new PrinterLayoutPage((PagePrinterLayoutAsyncLayer)printerOverlay.PrinterLayoutAsyncLayers["pageLayer"]);
+            foreach (var layoutLayer in printerOverlay.PrinterLayoutAsyncLayers)
+            {
+                if (!(layoutLayer is PagePrinterLayoutAsyncLayer))
+                {
+                    page.Layers.Add(layoutLayer);
+                }
+            }
+
+            var document = new PrinterLayoutDocument();
+            document.Pages.Add(page);
+            return document;
         }
 
         /// <summary>
@@ -134,27 +120,29 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// </summary>
         private void SetupMapForPrinting()
         {
+            // Set the map's unit of measurement to meters(Spherical Mercator)
             Map.MapUnit = GeographyUnit.Meter;
 
             // Set the map's ZoomLevelSet to a set of common printer zoom settings
             Map.ZoomScales =
-                new PrinterZoomLevelSet(GeographyUnit.Meter, PrinterHelper.GetPointsPerGeographyUnit(GeographyUnit.Meter)).GetScales();
+                new PrinterZoomLevelSet(GeographyUnit.Meter, PrinterLayoutHelper.GetPointsPerGeographyUnit(GeographyUnit.Meter)).GetScales();
             Map.MinimumScale = Map.ZoomScales[Map.ZoomScales.Count - 1];
 
             var printerOverlay = new PrinterInteractiveOverlay();
             printerOverlay.IsEditable = true;
 
-            var pageLayer = new PagePrinterLayer(PrinterPageSize.AnsiA, PrinterOrientation.Portrait)
+            var pageLayer = new PagePrinterLayoutAsyncLayer(PrinterPageSize.AnsiA, PrinterOrientation.Portrait)
             {
                 // Style the pageLayer to appear to look like a piece of paper
                 BackgroundMask = AreaStyle.CreateSimpleAreaStyle(GeoColors.White, GeoColors.Black)
             };
 
             // Add the pageLayer to the printerOverlay
-            printerOverlay.PrinterLayers.Add("pageLayer", pageLayer);
+            printerOverlay.PrinterLayoutAsyncLayers.Add("pageLayer", pageLayer);
             // Add the printerOverlay to the map
             Map.InteractiveOverlays.Add("printerOverlay", printerOverlay);
 
+            // Set the map extent
             var pageLayerBBox = pageLayer.GetPosition().GetBoundingBox();
             Map.CenterPoint = pageLayerBBox.GetCenterPoint();
             Map.CurrentScale = MapUtil.GetScale(Map.MapUnit, pageLayerBBox, Map.MapWidth, Map.MapHeight);
@@ -167,13 +155,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             var printerOverlay = (PrinterInteractiveOverlay)Map.InteractiveOverlays["printerOverlay"];
 
-            var titleLabel = new LabelPrinterLayer("Frisco Mosquito Report - 5/5/2020", new GeoFont("Verdana", 8), GeoBrushes.Black)
+            var titleLabel = new LabelPrinterLayoutAsyncLayer("Frisco Mosquito Report - 5/5/2020", new GeoFont("Verdana", 8), GeoBrushes.Black)
             {
                 PrinterWrapMode = PrinterWrapMode.AutoSizeText
             };
             titleLabel.SetPosition(7.5, .5, 0, 4.75, PrintingUnit.Inch);
 
-            printerOverlay.PrinterLayers.Add(titleLabel);
+            printerOverlay.PrinterLayoutAsyncLayers.Add(titleLabel);
 
         }
 
@@ -183,7 +171,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private void AddMapLayers()
         {
             var printerOverlay = (PrinterInteractiveOverlay)Map.InteractiveOverlays["printerOverlay"];
-            var pageLayer = (PagePrinterLayer)printerOverlay.PrinterLayers["pageLayer"];
+            var pageLayer = (PagePrinterLayoutAsyncLayer)printerOverlay.PrinterLayoutAsyncLayers["pageLayer"];
 
             /***************************
              * Create cityLimits layer *
@@ -255,33 +243,33 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             cityLimits.Close();
 
             // Create the mapPrinterLayer, adding the FeatureLayers that we want to print
-            var mapPrinterLayer = new MapPrinterLayer(new LayerBase[] { cityLimits, streets, parks, mosquitoSightings }, mapExtent, GeographyUnit.Meter);
+            var mapPrinterLayer = new MapPrinterLayoutAsyncLayer(new LayerBase[] { cityLimits, streets, parks, mosquitoSightings }, mapExtent, GeographyUnit.Meter);
+            mapPrinterLayer.DrawingMode = MapPrinterDrawingMode.Vector;
 
             // Set the position of the map using the pageLayer's centerPoint
             var pageCenter = pageLayer.GetPosition().GetCenterPoint();
             mapPrinterLayer.SetPosition(7.5, 5, pageCenter.X, pageCenter.Y + 1.75, PrintingUnit.Inch);
 
-            printerOverlay.PrinterLayers.Add(mapPrinterLayer);
+            printerOverlay.PrinterLayoutAsyncLayers.Add(mapPrinterLayer);
 
             // Add a legend describing the map symbology.
-            var legendPrinterLayer = CreateLegendPrinterLayer(cityLimitsStyle, majorStreetsLineStyle, parksStyle, mosquitoSightingsPointStyle);
+            var legendPrinterLayer = CreateLegendPrinterLayoutAsyncLayer(cityLimitsStyle, majorStreetsLineStyle, parksStyle, mosquitoSightingsPointStyle);
             // Place a compact legend near the bottom-right corner of the printed map.
             legendPrinterLayer.SetPosition(1.40, 1.05, pageCenter.X + 2.95, pageCenter.Y - 0.12, PrintingUnit.Inch);
-            printerOverlay.PrinterLayers.Add(legendPrinterLayer);
+            printerOverlay.PrinterLayoutAsyncLayers.Add(legendPrinterLayer);
 
             // Add a scale bar that reflects the map printer layer extent and scale.
-            var scaleBarPrinterLayer = new ScaleBarPrinterLayer(mapPrinterLayer)
+            var scaleBarPrinterLayer = new ScaleBarPrinterLayoutAsyncLayer(mapPrinterLayer)
             {
-                MapUnit = GeographyUnit.Meter,
                 UnitFamily = UnitSystem.Imperial,
                 HasMask = true,
                 DynamicBoundingBox = true
             };
             scaleBarPrinterLayer.SetPosition(2.15, 0.45, pageCenter.X - 2.35, pageCenter.Y - 0.45, PrintingUnit.Inch);
-            printerOverlay.PrinterLayers.Add(scaleBarPrinterLayer);
+            printerOverlay.PrinterLayoutAsyncLayers.Add(scaleBarPrinterLayer);
         }
 
-        private static LegendPrinterLayer CreateLegendPrinterLayer(AreaStyle cityLimitsStyle, LineStyle majorStreetsLineStyle, AreaStyle parksStyle, PointStyle mosquitoSightingsPointStyle)
+        private static LegendPrinterLayoutAsyncLayer CreateLegendPrinterLayoutAsyncLayer(AreaStyle cityLimitsStyle, LineStyle majorStreetsLineStyle, AreaStyle parksStyle, PointStyle mosquitoSightingsPointStyle)
         {
             var legendAdornment = new LegendAdornmentLayer
             {
@@ -304,7 +292,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             legendAdornment.LegendItems.Add(CreateLegendItem("Parks", parksStyle));
             legendAdornment.LegendItems.Add(CreateLegendItem("Mosquito Site", mosquitoSightingsPointStyle));
 
-            return new LegendPrinterLayer(legendAdornment);
+            return new LegendPrinterLayoutAsyncLayer(legendAdornment);
         }
 
         private static LegendItem CreateLegendItem(string text, ThinkGeo.Core.Style imageStyle)
@@ -338,7 +326,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private void AddMosquitoDataGrid()
         {
             var printerOverlay = (PrinterInteractiveOverlay)Map.InteractiveOverlays["printerOverlay"];
-            var pageLayer = (PagePrinterLayer)printerOverlay.PrinterLayers["pageLayer"];
+            var pageLayer = (PagePrinterLayoutAsyncLayer)printerOverlay.PrinterLayoutAsyncLayers["pageLayer"];
 
             // Create a table with columns
             var table = new DataTable();
@@ -363,14 +351,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             }
 
             // Create the dataGridLayer that will display the mosquito data
-            var dataGridLayer = new DataGridPrinterLayer(table, new GeoFont("Verdana", 8), new GeoFont("Verdana", 8, DrawingFontStyles.Bold));
+            var dataGridLayer = new DataGridPrinterLayoutAsyncLayer(table, new GeoFont("Verdana", 8), new GeoFont("Verdana", 8, DrawingFontStyles.Bold));
 
             // Set the position of the map using the pageLayer's centerPoint
             var pageCenter = pageLayer.GetPosition().GetCenterPoint();
             dataGridLayer.SetPosition(7.5, 4, pageCenter.X, pageCenter.Y - 3, PrintingUnit.Inch);
 
-            // Add the dataGridLayer to the PrinterLayers collection to print later
-            printerOverlay.PrinterLayers.Add(dataGridLayer);
+            // Add the dataGridLayer to the PrinterLayoutAsyncLayers collection to print later
+            printerOverlay.PrinterLayoutAsyncLayers.Add(dataGridLayer);
         }
     }
 }

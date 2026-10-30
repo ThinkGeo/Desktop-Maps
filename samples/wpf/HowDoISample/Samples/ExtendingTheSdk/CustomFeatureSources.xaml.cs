@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Windows;
 using ThinkGeo.Core;
@@ -90,7 +91,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             foreach (var location in locations)
             {
-                _features.Add(new Feature(double.Parse(location.Split(',')[1]), double.Parse(location.Split(',')[0])));
+                var parts = location.Split(',');
+                _features.Add(new Feature(double.Parse(parts[1], CultureInfo.InvariantCulture), double.Parse(parts[0], CultureInfo.InvariantCulture)));
             }
             return _features;
         }

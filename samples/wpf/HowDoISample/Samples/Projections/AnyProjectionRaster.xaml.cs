@@ -15,7 +15,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
     /// <summary>
     /// Satellite imagery in any projection.
     /// </summary>
-    public partial class AnyProjectionRaster : UserControl, IDisposable
+    public partial class AnyProjectionRaster : UserControl
     {
         private static readonly Dictionary<string, string> Choices = new Dictionary<string, string>
         {
@@ -155,11 +155,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             var extent = Map.CurrentExtent;
             StatusText.Text = string.Create(CultureInfo.InvariantCulture,
                 $"projection  {_choice}\nscale       1:{Map.CurrentScale:N0}\ncentre      {(extent.MinX + extent.MaxX) * 0.5:N0}, {(extent.MinY + extent.MaxY) * 0.5:N0}");
-        }
-
-        public void Dispose()
-        {
-            _source = null;
         }
 
     }

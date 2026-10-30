@@ -53,9 +53,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 ClientSecret = SampleKeys.ClientSecret2,
             };
 
-            CboSearchType.SelectedIndex = 0;
-            CboLocationType.SelectedIndex = 0;
-
             _ = Map.RefreshAsync();
         }
 
@@ -64,14 +61,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// </summary>
         private async Task<CloudGeocodingResult> PerformGeocodingQuery()
         {
-            // Overture Queries require a BBox - check to make sure the extent is not too large.
-            bool includeOvertureBool = (bool)((ComboBoxItem)CboIncludeOverturePlaces.SelectedValue).Tag;
-            if (includeOvertureBool && Map.CurrentExtent.GetArea(GeographyUnit.Meter, AreaUnit.SquareMiles) > 100000)
-            {
-                MessageBox.Show("Please zoom in before including Overture Place Data in Request.");
-                return await Task.FromResult<CloudGeocodingResult>(new CloudGeocodingResult(null, null));
-            }
-
             // Show a loading graphic to let users know the request is running
             LoadingImage.Visibility = Visibility.Visible;
 
@@ -79,9 +68,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             {
                 // Set up the CloudGeocodingOptions object based on the parameters set in the UI
                 MaxResults = int.Parse(TxtMaxResults.Text),
-                // SearchMode, LocationType and IncludeOverturePlaces exist in the
-                // released ThinkGeo.Core package but not in this repo's
-                // CloudGeocodingOptions, so those three controls are inert here.
                 ResultProjectionInSrid = 3857,
                 BBox = Map.CurrentExtent
             };
@@ -146,6 +132,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             }
             catch 
             {
+                LoadingImage.Visibility = Visibility.Hidden;
                 // Because async void methods don't return a Task, unhandled exceptions cannot be awaited or caught from outside.
                 // Therefore, it's good practice to catch and handle (or log) all exceptions within these "fire-and-forget" methods.
             }
@@ -178,36 +165,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             }
             catch 
             {
+                LoadingImage.Visibility = Visibility.Hidden;
                 // Because async void methods don't return a Task, unhandled exceptions cannot be awaited or caught from outside.
                 // Therefore, it's good practice to catch and handle (or log) all exceptions within these "fire-and-forget" methods.
             }
-        }
-
-        /// <summary>
-        /// Helper function to change the tip shown for different Search Types
-        /// </summary>
-        private void cboSearchType_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            var comboBoxContent = (CboSearchType.SelectedItem as ComboBoxItem)?.Content;
-
-            if (comboBoxContent == null) return;
-            switch (comboBoxContent.ToString())
-            {
-                case "Fuzzy":
-                    TxtSearchTypeDescription.Text = "(Returns both exact and approximate matches for the search address)";
-                    break;
-                case "Exact":
-                    TxtSearchTypeDescription.Text = "(Only returns exact matches for the search address)";
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// Helper function to change the tip shown for different Location Types
-        /// </summary>
-        private void cboLocationType_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            var comboBoxContent = (CboLocationType.SelectedItem as ComboBoxItem)?.Content;
         }
 
         /// <summary>

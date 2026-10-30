@@ -181,9 +181,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 }
 
                 _lastBuildMs = stopwatch.Elapsed.TotalMilliseconds;
-                var label = choice.Definition.Length > 26 ? choice.Definition.Substring(0, 26) : choice.Definition;
-                LogTiming(string.Create(CultureInfo.InvariantCulture,
-                    $"switch {label} ={_lastBuildMs:0}ms"), stamp: false);
 
                 ShowStatus();
                 WarnIfOutsideRegion();
@@ -224,33 +221,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// </summary>
         internal PointShape CanvasPointFor(string radioName, double lon, double lat) =>
             ToMercatorPoint(lon, lat);
-
-        // ---- the timing panel -------------------------------------------------
-
-        private readonly Queue<string> _timingLines = new Queue<string>();
-
-        internal void LogTiming(string line, bool stamp = true)
-        {
-            void Append()
-            {
-                _timingLines.Enqueue(stamp
-                    ? string.Create(CultureInfo.InvariantCulture, $"{DateTime.Now:mm:ss.f} {line}")
-                    : line);
-                while (_timingLines.Count > 80)
-                    _timingLines.Dequeue();
-
-                if (TimingLog != null)
-                {
-                    TimingLog.Text = string.Join(Environment.NewLine, _timingLines);
-                    TimingLog.ScrollToEnd();
-                }
-            }
-
-            if (Dispatcher.CheckAccess())
-                Append();
-            else
-                Dispatcher.BeginInvoke((Action)Append);
-        }
 
         // ---- ground and view --------------------------------------------------
 

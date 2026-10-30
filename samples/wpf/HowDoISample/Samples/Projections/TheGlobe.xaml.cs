@@ -201,7 +201,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             _ready = false;
             _zoomCancellation?.Cancel();
-            _source = null;
+            Map.Dispose();
         }
     }
 }

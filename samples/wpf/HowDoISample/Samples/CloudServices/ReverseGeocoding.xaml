@@ -47,35 +47,6 @@
                      Grid.Row="4"
                      x:Name="TxtMaxResults"
                      Text="100"></TextBox>
-            <Label Grid.Column="1"
-                   Grid.Row="5"
-                   FontSize="14">Categories:</Label>
-            <ComboBox Grid.Column="2"
-                      Grid.Row="5"
-                      x:Name="CboLocationCategories"
-                      SelectionChanged="CboLocationType_SelectionChanged">
-                <ComboBoxItem>All</ComboBoxItem>
-                <ComboBoxItem>Common</ComboBoxItem>
-                <ComboBoxItem>None</ComboBoxItem>
-            </ComboBox>
-            <Label Grid.Column="1"
-                   Grid.Row="5"
-                   FontSize="14" Grid.ColumnSpan="2" Margin="0,28,65,0" Grid.RowSpan="2">Include Overture Places:</Label>
-            <ComboBox Grid.Column="2"
-                      Grid.Row="6"
-                      x:Name="CboIncludeOverturePlaces"
-                      SelectedIndex="0" Margin="60,3,0,3">
-                <ComboBoxItem Content="No">
-                    <ComboBoxItem.Tag>
-                        <sys:Boolean>False</sys:Boolean>
-                    </ComboBoxItem.Tag>
-                </ComboBoxItem>
-                <ComboBoxItem Content="Yes">
-                    <ComboBoxItem.Tag>
-                        <sys:Boolean>True</sys:Boolean>
-                    </ComboBoxItem.Tag>
-                </ComboBoxItem>
-            </ComboBox>
 
             <Button Grid.Column="1"
                     Grid.Row="7"

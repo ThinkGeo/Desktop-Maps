@@ -47,10 +47,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             // ---- Start Here ----
             // The pages about the gallery rather than samples of the SDK: the
-            // whole catalog as one table, the renderer guide, the classic-side
-            // index and the FAQ. One group at the head of the menu, instead of a
-            // "Home" at the top and a "Documentation" at the tail - the tail is
-            // where a new user never scrolls.
+            // whole catalog as one table, the renderer guide and the FAQ. One
+            // group at the head of the menu, instead of a "Home" at the top and
+            // a "Documentation" at the tail - the tail is where a new user never
+            // scrolls.
             new SampleEntry("Start Here", "Start here", "HomePage.xaml.cs",
                 "Every sample in one table, with what it does and the API to search for",
                 "SampleCatalog", false, typeof(HomePage), () => new HomePage()),
@@ -62,9 +62,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             new SampleEntry("Start Here", "Migrate a Classic Layer", "MigrateAClassicLayer.xaml.cs",
                 "Add a FeatureLayer styled on its ZoomLevelSet to a MapStyle in one call, beside the classic renderer drawing the same layers",
                 "AddFeatureLayer", true, typeof(Samples.MigrateAClassicLayer), () => new Samples.MigrateAClassicLayer()),
-            new SampleEntry("Start Here", "HowDoI Sample Feature Index", "SampleFeatureIndexViewer.xaml.cs",
-                "Generated catalog of all samples with focus, categories, source path, and key APIs",
-                "", false, typeof(Samples.SampleFeatureIndexViewer), () => new Samples.SampleFeatureIndexViewer()),
             new SampleEntry("Start Here", "Frequently Asked Questions", "FaqViewer.cs",
                 "Frequently asked questions about the samples and the SDK",
                 "MarkdownDocumentViewer", false, typeof(Samples.FaqViewer), () => new Samples.FaqViewer()),
@@ -92,17 +89,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // geometry and attributes you style yourself, which is why these
             // rows lead straight into Styling.
             new SampleEntry("Maps from a Service - Vector", "WFS", "WFS.xaml.cs",
-                "Merge a WFS V2 service into the GPU basemap style - Dutch cadastral parcels from PDOK, numbered from their own attributes",
-                "WfsV2FeatureSource", false, typeof(Samples.WFS), () => new Samples.WFS()),
+                "Merge a WFS V2 service into the basemap style - Dutch cadastral parcels from PDOK, numbered from their own attributes",
+                "WfsV2AsyncFeatureSource", true, typeof(Samples.WFS), () => new Samples.WFS()),
             new SampleEntry("Maps from a Service - Vector", "OGC API Feature Server", "OGCAPIFeatureServer.xaml.cs",
-                "Merge an OGC API Features collection into the GPU basemap style, labeled from its own attributes",
-                "OgcApiFeatureSource", false, typeof(Samples.OGCAPIFeatureServer), () => new Samples.OGCAPIFeatureServer()),
+                "Merge an OGC API Features collection into the basemap style, labeled from its own attributes",
+                "OgcApiAsyncFeatureSource", true, typeof(Samples.OGCAPIFeatureServer), () => new Samples.OGCAPIFeatureServer()),
             new SampleEntry("Maps from a Service - Vector", "NOAA Weather Stations", "NOAAWeatherStations.xaml.cs",
-                "NOAA weather stations' current readings on the GPU - dots colored by temperature, labeled from the data",
-                "NoaaWeatherStationFeatureSource", false, typeof(Samples.NOAAWeatherStations), () => new Samples.NOAAWeatherStations()),
+                "NOAA weather stations' current readings - dots colored by temperature, labeled from the data",
+                "NoaaWeatherStationFeatureSource", true, typeof(Samples.NOAAWeatherStations), () => new Samples.NOAAWeatherStations()),
             new SampleEntry("Maps from a Service - Vector", "NOAA Weather Warnings", "NOAAWeatherWarnings.xaml.cs",
-                "NOAA weather warnings merged into the GPU basemap style - polygons colored by severity, labeled by event",
-                "NoaaWeatherWarningsFeatureSource", false, typeof(Samples.NOAAWeatherWarnings), () => new Samples.NOAAWeatherWarnings()),
+                "NOAA weather warnings merged into the basemap style - polygons colored by severity, labeled by event",
+                "NoaaWeatherWarningsFeatureSource", true, typeof(Samples.NOAAWeatherWarnings), () => new Samples.NOAAWeatherWarnings()),
 
             // One row for the turn-key providers, where three (ThinkGeo Raster Map, Open
             // Street Map, and a documentation page for the bring-your-own-key ones) split
@@ -112,13 +109,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 "ThinkGeo Cloud (light, dark, aerial, hybrid) and OpenStreetMap as one tile source each, and the keyed providers - Azure Maps, Google Maps, HERE and Mapbox - as a page of their classes and one-line usage",
                 "ThinkGeoRasterTileSource", true, typeof(Samples.RasterMapProviders), () => new Samples.RasterMapProviders()),
             new SampleEntry("Maps from a Service - Raster", "XYZ Tile Server", "XyzTileServer.xaml.cs",
-                "Draw any {z}/{x}/{y} tile server by writing the tile source yourself - the whole IRasterTileSource contract in one file",
-                "IRasterTileSource", true, typeof(Samples.XyzTileServer), () => new Samples.XyzTileServer()),
+                "Draw any {z}/{x}/{y} tile server as one XyzRasterTileSource - here OpenStreetMap, with the user agent its tile policy asks for",
+                "XyzRasterTileSource", true, typeof(Samples.XyzTileServer), () => new Samples.XyzTileServer()),
             new SampleEntry("Maps from a Service - Raster", "WMS", "WMS.xaml.cs",
-                "NASA GIBS true-color imagery of yesterday's Earth over the GPU basemap - one GetMap request per web-mercator tile",
+                "NASA GIBS true-color imagery of yesterday's Earth over the basemap - one GetMap request per web-mercator tile",
                 "WmsRasterTileSource", true, typeof(Samples.WMS), () => new Samples.WMS()),
             new SampleEntry("Maps from a Service - Raster", "WMTS", "WMTS.xaml.cs",
-                "Display a WMTS server as the GPU basemap through its web-mercator tile matrix set",
+                "Display a WMTS server as the basemap through its web-mercator tile matrix set",
                 "WmtsRasterTileSource", true, typeof(Samples.WMTS), () => new Samples.WMTS()),
 
             // ---- Your Data ----
@@ -178,7 +175,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // match / step / filter / case, and the document itself on screen to edit.
             new SampleEntry("Styling", "Render Based on Rules", "RenderBasedOnRules.xaml.cs",
                 "One dataset, four expressions: match, step, filter and case - the ValueStyle, ClassBreakStyle, FilterStyle and boolean-expression styles as one mechanism, editable while the map runs",
-                "SetStyleJsonAsync", true, typeof(Samples.RenderBasedOnRules), () => new Samples.RenderBasedOnRules()),
+                "SetStyleAsync", true, typeof(Samples.RenderBasedOnRules), () => new Samples.RenderBasedOnRules()),
 
             // Labels as the subject rather than a side effect: several samples bend a
             // name along a line or lose one to a collision incidentally; this is the
@@ -216,9 +213,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // contoured on the GPU instead of re-running IDW plus marching squares
             // on the CPU for every redraw. Beside the heatmap, because both draw
             // a field out of scattered points; nothing in it moves.
-            new SampleEntry("Styling", "GPU Isolines", "GpuIsolines.xaml.cs",
-                "Generate and label isolines (contour lines) on the GPU",
-                "GpuIsolineOptions", true, typeof(Samples.GpuIsolines), () => new Samples.GpuIsolines()),
+            new SampleEntry("Styling", "Isolines", "GpuIsolines.xaml.cs",
+                "Generate and label isolines (contour lines) from scattered point values, the field and the contours redrawn every frame",
+                "AddIsolines", true, typeof(Samples.GpuIsolines), () => new Samples.GpuIsolines()),
             new SampleEntry("Styling", "Hatch Styles", "HatchStyles.xaml.cs",
                 "Fill areas with the classic GeoHatchStyle patterns - each one stroked into an image, registered through style.Images, and named by fill-pattern",
                 "MapStyle.Images", true, typeof(Samples.HatchStyles), () => new Samples.HatchStyles()),
@@ -245,23 +242,23 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // traffic data because that is what naturally moves, but the group's
             // subject is the channel, not the theme.
             new SampleEntry("Dynamic Data", "Live Flights", "LiveFlights.xaml.cs",
-                "Every airborne aircraft, live from OpenSky, dead-reckoned forward through one InMemoryGeometrySource - ten thousand moving markers, one UpdatePoints per tick",
-                "InMemoryGeometrySource", true, typeof(Samples.LiveFlights), () => new Samples.LiveFlights()),
+                "Every airborne aircraft, live from OpenSky, dead-reckoned forward through one DynamicSource - ten thousand moving markers, one UpdatePoint per aircraft per tick",
+                "DynamicSource", true, typeof(Samples.LiveFlights), () => new Samples.LiveFlights()),
             new SampleEntry("Dynamic Data", "Wind as a Vector Field", "NdfdWindField.xaml.cs",
-                "The NDFD wind forecast through a VectorFieldSource: 65k tracer particles advected and faded entirely on the GPU - the streaming weather-map look - or magnitude-scaled arrows from the same source",
+                "The NDFD wind forecast through a VectorFieldSource: 65k tracer particles advected and faded every frame - the streaming weather-map look - or magnitude-scaled arrows from the same source",
                 "VectorFieldSource", true, typeof(Samples.NdfdWindField), () => new Samples.NdfdWindField()),
             new SampleEntry("Dynamic Data", "NEXRAD Weather Radar", "NexradRadar.xaml.cs",
                 "One georeferenced PNG draped over the basemap as a GeoImageRasterTileSource - no tile protocol - with the last half hour animating through the source object",
                 "GeoImageRasterTileSource", true, typeof(Samples.NexradRadar), () => new Samples.NexradRadar()),
             new SampleEntry("Dynamic Data", "Animate a Weather Grid", "NdfdSkyGridAnimation.xaml.cs",
-                "Animate an NDFD sky grid over the GPU basemap - color ramps, resampling and projection",
-                "GridOverlay", true, typeof(Samples.NdfdSkyGridAnimation), () => new Samples.NdfdSkyGridAnimation()),
+                "Animate an NDFD sky grid over the basemap - color ramps, resampling and projection",
+                "InMemoryGridSource", true, typeof(Samples.NdfdSkyGridAnimation), () => new Samples.NdfdSkyGridAnimation()),
             // The GPU rewrite of the old CPU-overlay population sample: the circle is
             // an IMAGE instanced by the marker batch, which is what makes any shape
             // one registration instead of one renderer feature.
             new SampleEntry("Dynamic Data", "Dynamic Rendering", "DynamicRendering.xaml.cs",
-                "A century of state populations as animated circles: size and tint are data, the circle is one registered disc image instanced by the GPU, and a year change is one Update over fifty points",
-                "TrackPoint.IconName", true, typeof(Samples.DynamicRendering), () => new Samples.DynamicRendering()),
+                "A century of state populations as animated circles: size and tint are data, the circle is one registered disc image drawn at every point, and a year change is one UpdatePoint per state",
+                "DynamicSource.UpdatePoint", true, typeof(Samples.DynamicRendering), () => new Samples.DynamicRendering()),
             // Moved from Map Navigation, where "navigation" meant panning the map: a
             // vehicle following GPS fixes is data that moves, which is this group.
             new SampleEntry("Dynamic Data", "Vehicle Navigation", "VehicleNavigation.xaml.cs",
@@ -307,7 +304,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // ---- Map Navigation ----
             new SampleEntry("Map Navigation", "Map Navigation", "MapNavigation.xaml.cs",
                 "Zoom, pan, and rotate the map control",
-                "ZoomToAsync", false, typeof(Samples.MapNavigation), () => new Samples.MapNavigation()),
+                "ZoomToAsync", true, typeof(Samples.MapNavigation), () => new Samples.MapNavigation()),
             new SampleEntry("Map Navigation", "Zoom to Extents", "ZoomToExtents.xaml.cs",
                 "Set the map extent in a variety of different ways",
                 "ZoomToAsync", false, typeof(Samples.ZoomToExtents), () => new Samples.ZoomToExtents()),
@@ -417,10 +414,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 "Projected when the map is DRAWN - a full map, zoom and pan and style, in any proj4 definition, from the same web-mercator tiles, and animated from one projection to the next",
                 "DisplayProjection", true, typeof(Samples.MorphBetweenProjectionsMvt), () => new Samples.MorphBetweenProjectionsMvt()),
             new SampleEntry("Projections", "Any Projection, Satellite Imagery (ThinkGeo Cloud)", "AnyProjectionRaster.xaml.cs",
-                "Projected when the map is DRAWN (GPU) - satellite tiles warped per vertex, with no CPU resampling",
-                "IRasterTileSource", true, typeof(Samples.AnyProjectionRaster), () => new Samples.AnyProjectionRaster()),
+                "Projected when the map is drawn - satellite tiles warped per vertex, with no CPU resampling",
+                "DisplayProjection", true, typeof(Samples.AnyProjectionRaster), () => new Samples.AnyProjectionRaster()),
             new SampleEntry("Projections", "The Globe", "TheGlobe.xaml.cs",
-                "Projected when the map is DRAWN (GPU) - the same tiles on a sphere, and what it does when you zoom in far enough to let go",
+                "Projected when the map is drawn - the same tiles on a sphere, and what it does when you zoom in far enough to let go",
                 "DisplayProjection.Globe", true, typeof(Samples.TheGlobe), () => new Samples.TheGlobe()),
             new SampleEntry("Projections", "CPU vs GPU projection, side by side", "CpuVsGpuProjection.xaml.cs",
                 "Both routes at once - the same shapefile projected at READ time on the left and at DRAW time on the right, with what each costs",
@@ -446,7 +443,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 "Use the ElevationCloudClient class to get elevation data from the ThinkGeo Cloud",
                 "ElevationCloudClient", false, typeof(Samples.Elevation), () => new Samples.Elevation()),
             new SampleEntry("Cloud Services", "Timezone", "Timezone.xaml.cs",
-                "Use the TimezoneCloudClient to access the Timezone APIs available from the ThinkGeo Cloud",
+                "Use the TimeZoneCloudClient to access the Timezone APIs available from the ThinkGeo Cloud",
                 "TimeZoneCloudClient", false, typeof(Samples.Timezone), () => new Samples.Timezone()),
             new SampleEntry("Cloud Services", "Projection", "ProjectionCloudServices.xaml.cs",
                 "Use the ProjectionCloudClient to access the Projection APIs available from the ThinkGeo Cloud",
@@ -455,13 +452,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 "Use the ColorCloudClient class to access the ColorUtilities APIs available from the ThinkGeo Cloud",
                 "ColorCloudClient", false, typeof(Samples.ColorUtilities), () => new Samples.ColorUtilities()),
             new SampleEntry("Cloud Services", "World Maps Query", "WorldMapsQuery.xaml.cs",
-                "Use the MapsQueryClient to query the WorldMaps dataset available from the ThinkGeo Cloud",
+                "Use the MapsQueryCloudClient to query the WorldMaps dataset available from the ThinkGeo Cloud",
                 "MapsQueryCloudClient", false, typeof(Samples.WorldMapsQuery), () => new Samples.WorldMapsQuery()),
 
             // ---- Printing & Export ----
             new SampleEntry("Printing & Export", "Print the Map", "PrintTheMap.xaml.cs",
-                "Print maps using the PrintOverlay",
-                "MapPrinterLayer", false, typeof(Samples.PrintTheMap), () => new Samples.PrintTheMap()),
+                "Compose a page of map, legend, scale bar, title and data grid, then print it or export it as a vector PDF",
+                "PrinterLayoutDocument", false, typeof(Samples.PrintTheMap), () => new Samples.PrintTheMap()),
             new SampleEntry("Printing & Export", "Draw the map on an Image", "DrawTheMapOnAnImage.xaml.cs",
                 "Draw your map onto an image file",
                 "ThinkGeoRasterMapsAsyncLayer", false, typeof(Samples.DrawTheMapOnAnImage), () => new Samples.DrawTheMapOnAnImage()),

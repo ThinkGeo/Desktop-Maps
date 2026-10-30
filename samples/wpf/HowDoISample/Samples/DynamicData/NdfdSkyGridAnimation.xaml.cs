@@ -87,7 +87,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _palette = CreatePalette((sender as RadioButton)?.Content as string);
             if (_grid != null)
             {
-                _style.AddGridFill(_grid, new GridFillStyle { ColorStops = _palette });
+                _style.RemoveGridFill(_grid).AddGridFill(_grid, new GridFillStyle { ColorStops = _palette });
                 await _overlay.SetStyleAsync(_style);
             }
         }

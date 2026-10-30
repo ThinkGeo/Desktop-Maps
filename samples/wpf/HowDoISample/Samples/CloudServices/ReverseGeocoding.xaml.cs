@@ -64,7 +64,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 ClientSecret = SampleKeys.ClientSecret2,
             };
 
-            CboLocationCategories.SelectedIndex = 0;
 
             _ = Map.RefreshAsync();
         }
@@ -113,26 +112,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 const int pointProjectionInSrid = 3857;
                 var searchPoint = new PointShape(lon, lat);
                 options.MaxResults = int.Parse(TxtMaxResults.Text);
-                // IncludeOverturePlaces and LocationCategories exist in the released
-                // ThinkGeo.Core package but not in this repo's
-                // CloudReverseGeocodingOptions, so those two controls are inert here.
 
                 // Show a loading graphic to let users know the request is running
                 LoadingImage.Visibility = Visibility.Visible;
 
                 // Run the reverse geocode
-                //var searchResult = await _reverseGeocodingCloudClient.SearchPointAsync(lon, lat, pointProjectionInSrid, searchRadius, searchRadiusDistanceUnit, options);
-                CloudReverseGeocodingResult searchResult;
-                try
-                {
-                    searchResult = await _reverseGeocodingCloudClient.SearchPointAsync(lon, lat, pointProjectionInSrid, searchRadius, searchRadiusDistanceUnit, options);
-
-                }
-                catch (System.ArgumentNullException)
-                {
-                    MessageBox.Show("Please enter a valid set of coordinates to search", "Error");
-                    return;
-                }
+                var searchResult = await _reverseGeocodingCloudClient.SearchPointAsync(lon, lat, pointProjectionInSrid, searchRadius, searchRadiusDistanceUnit, options);
                 // Hide the loading graphic
                 LoadingImage.Visibility = Visibility.Hidden;
 
@@ -148,6 +133,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             }
             catch 
             {
+                LoadingImage.Visibility = Visibility.Hidden;
                 // Because async void methods don't return a Task, unhandled exceptions cannot be awaited or caught from outside.
                 // Therefore, it's good practice to catch and handle (or log) all exceptions within these "fire-and-forget" methods.
             }
@@ -284,6 +270,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             }
             catch 
             {
+                LoadingImage.Visibility = Visibility.Hidden;
                 // Because async void methods don't return a Task, unhandled exceptions cannot be awaited or caught from outside.
                 // Therefore, it's good practice to catch and handle (or log) all exceptions within these "fire-and-forget" methods.
             }
@@ -337,13 +324,5 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         }
 
-
-        /// <summary>
-        /// Helper function to change the tip shown for different CloudLocationCategories
-        /// </summary>
-        private void CboLocationType_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            var comboBoxContent = (CboLocationCategories.SelectedItem as ComboBoxItem)?.Content;
-        }
     }
 }
