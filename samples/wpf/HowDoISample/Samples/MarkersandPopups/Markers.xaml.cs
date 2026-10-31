@@ -43,7 +43,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // element, and it stays on its ground point under perspective.
             Map.IsTiltInteractionEnabled = true;
 
-            var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey));
+            var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
             style.Images.Add("dot", PointStyle.CreateSimpleCircleStyle(GeoColors.Red, 10));
             style.AddDynamic(_centerDot);
             Map.Basemap = new GpuBasemap(style);

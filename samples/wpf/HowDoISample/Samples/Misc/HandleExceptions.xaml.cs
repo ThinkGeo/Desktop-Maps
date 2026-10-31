@@ -36,7 +36,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private async Task BuildMapAsync()
         {
             var style = new MapStyle();
-            style.AddStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey));
+            style.AddStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
             await style.OpenAsync();
 
             // The key is wrong on purpose: the service answers 401 for every tile.

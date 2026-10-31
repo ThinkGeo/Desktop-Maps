@@ -25,11 +25,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private static readonly PointShape Stadium = new PointShape(-10779651.5, 3915933.0);
 
         private readonly ThinkGeoVectorTileSource _cloud =
-            new ThinkGeoVectorTileSource(SampleShared.CloudApiKey);
+            new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) };
 
         private readonly DispatcherTimer _applyTimer;
         private GpuBasemap _basemap;
-        private ShapeFileFeatureSource _data;
+        private FeatureSource _data;
         private FeatureSourceVectorTileSource _tiles;
         private readonly DynamicSource _measured = new DynamicSource();
         private readonly DynamicSource _stadium = new DynamicSource();
@@ -120,18 +120,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             var file = lines ? "Hike_Bike.shp" : "Parks.shp";
 
             // Nothing here is drawn from a layer, so nothing here needs one: a query runs
-            // on a FeatureSource.
-            _data = new ShapeFileFeatureSource(SampleShared.Shapefile(file))
-            {
-                ProjectionConverter = new ProjectionConverter(2276, 3857),
-            };
-
-            // A second reader over the same file: the tile cutter queries its own source,
-            // and this sample queries _data on every click.
+            // on a FeatureSource. The tile cutter reads the source it is given on its own
+            // threads, so a source that is not safe to read from two threads at once is
+            // queried through a copy.
             var drawn = new ShapeFileFeatureSource(SampleShared.Shapefile(file))
             {
                 ProjectionConverter = new ProjectionConverter(2276, 3857),
             };
+            _data = drawn.ConcurrentAccess == ConcurrentAccess.Safe ? drawn : drawn.CloneDeep();
 
             _tiles = new FeatureSourceVectorTileSource();
             _tiles.FeatureSources.Add("data", drawn);

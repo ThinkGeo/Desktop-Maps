@@ -124,7 +124,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                                             Math.Abs(value - zoneOffset) < 0.01));
             }
 
-            _style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey));
+            _style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
 
             _style.AddVectorTiles(states, "usstates", StyleLayerSlot.AboveFills,
                 StyleLayer.CreateFill(RampFillId, StatesLayer,

@@ -69,7 +69,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             _built = true;
 
-            Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey)));
+            Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
 
             var chart = new NauticalChartsFeatureLayer(ChartFile)
             {

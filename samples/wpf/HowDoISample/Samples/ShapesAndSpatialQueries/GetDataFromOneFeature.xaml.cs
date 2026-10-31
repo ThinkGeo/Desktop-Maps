@@ -18,15 +18,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
     /// </summary>
     public partial class GetDataFromOneFeature
     {
-        private readonly ThinkGeoVectorTileSource _cloud = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey);
+        private readonly ThinkGeoVectorTileSource _cloud = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) };
         private readonly FeatureSourceVectorTileSource _tiles = new FeatureSourceVectorTileSource();
         private readonly DispatcherTimer _applyTimer;
         private bool _initialized;
 
-        // The parks read a second time, for asking rather than drawing: the tile source
-        // below queries its own copy, and a second consumer asking that one questions
-        // mid-cut is a race.
-        private ShapeFileFeatureLayer _parks;
+        // The parks, asked rather than drawn. The tile cutter reads the source it is given on
+        // its own threads, so a source that is not safe to read from two threads at once is
+        // queried through a copy.
+        private FeatureSource _parks;
 
         public GetDataFromOneFeature()
         {
@@ -51,17 +51,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
                 // The parks are static polygons, so they are cut into tiles and drawn
                 // with the basemap in one pass rather than by an overlay above it.
-                _tiles.FeatureSources.Add("parks", new ShapeFileFeatureSource(@"./Data/Shapefile/Parks.shp")
+                var parks = new ShapeFileFeatureSource(SampleShared.Shapefile("Parks.shp"))
                 {
                     // Convert the Frisco shapefile from its native projection to Spherical Mercator, to match the map
                     ProjectionConverter = new ProjectionConverter(2276, 3857),
-                });
-                Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, _cloud).AddStyle(Editor.Text, _tiles));
-
-                _parks = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp")
-                {
-                    FeatureSource = { ProjectionConverter = new ProjectionConverter(2276, 3857) },
                 };
+                _tiles.FeatureSources.Add("parks", parks);
+                _parks = parks.ConcurrentAccess == ConcurrentAccess.Safe ? parks : parks.CloneDeep();
+                Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, _cloud).AddStyle(Editor.Text, _tiles));
 
                 // Add a PopupOverlay to the map, to display feature information
                 var popupOverlay = new PopupOverlay();
@@ -116,7 +113,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             // Find the feature that was clicked on by querying the layer for features containing the clicked coordinates
             _parks.Open();
-            var selectedFeature = _parks.QueryTools.GetFeaturesContaining(location, ReturningColumnsType.AllColumns).FirstOrDefault();
+            var selectedFeature = _parks.SpatialQuery(location, QueryType.Contains, ReturningColumnsType.AllColumns).FirstOrDefault();
             _parks.Close();
 
             return selectedFeature;

@@ -42,7 +42,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // The query shape and its results go to the GPU as geometry with the
             // basemap; a star icon serves the point results. The query shape is added
             // last so it draws over what it found.
-            var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey));
+            var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
             style.Images.Add("star-blue", new PointStyle(PointSymbolType.Star, 20, GeoBrushes.Blue));
             style.Images.Add("star-orange", new PointStyle(PointSymbolType.Star, 20, GeoBrushes.OrangeRed));
             style.AddDynamic(_resultsSource);

@@ -45,7 +45,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // with the basemap in one pass. An overlay would draw it to raster tiles,
             // and the shape would then stretch through a fractional zoom while the map
             // under it did not.
-            var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey));
+            var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
             style.AddDynamic(_timezoneArea);
             Map.Basemap = new GpuBasemap(style);
 

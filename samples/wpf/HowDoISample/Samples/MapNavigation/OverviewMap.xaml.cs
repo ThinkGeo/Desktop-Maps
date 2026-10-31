@@ -85,7 +85,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             map.MapUnit = GeographyUnit.Meter;
 
-            var layerOverlay = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey)));
+            var layerOverlay = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
 
             map.Basemap = layerOverlay;
             map.CenterPoint = new PointShape(x, y);

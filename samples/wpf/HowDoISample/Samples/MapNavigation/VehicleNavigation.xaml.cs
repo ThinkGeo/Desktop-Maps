@@ -26,7 +26,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private bool _holdAnimation = false;
 
         private CancellationTokenSource _cancellationTokenSource;
-        private readonly ThinkGeoVectorTileSource _cloud = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey);
+        private readonly ThinkGeoVectorTileSource _cloud = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) };
         private GpuBasemap _backgroundOverlay;
 
         // The route, the growing trail and the vehicle all ride dynamic sources:

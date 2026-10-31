@@ -56,7 +56,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private async Task BuildMapAsync()
         {
             _aerial = new ThinkGeoRasterTileSource(SampleShared.CloudApiKey, ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1);
-            _vector = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey);
+            _vector = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) };
             await _vector.OpenAsync();
 
             // The street style as text, fetched once: every wash change composes a

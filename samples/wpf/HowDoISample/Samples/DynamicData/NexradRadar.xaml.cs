@@ -69,7 +69,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 _radar.TransparentColor = GeoColors.Black;
 
                 var style = new MapStyle();
-                style.AddStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey));
+                style.AddStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
                 style.AddRaster(_radar, new RasterPaint(0.75f), RadarSourceId);
                 _basemap = new GpuBasemap(style);
                 Map.Basemap = _basemap;

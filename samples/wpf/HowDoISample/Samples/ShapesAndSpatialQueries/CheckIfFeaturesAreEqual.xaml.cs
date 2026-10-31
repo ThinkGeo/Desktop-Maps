@@ -47,7 +47,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 // with the basemap. Drawn on overlays they would be raster tiles, so they
                 // would stretch through a fractional zoom while the map under them stayed
                 // sharp. Each source's colours ride the features added to it.
-                var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey));
+                var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
                 style.AddDynamic(_zoning);
                 style.AddDynamic(_queryShape);
                 style.AddDynamic(_highlighted);

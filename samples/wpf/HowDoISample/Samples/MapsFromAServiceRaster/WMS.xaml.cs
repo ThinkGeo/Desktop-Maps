@@ -43,7 +43,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // The basemap's own layers first, then the imagery inserted into them -
             // above the fills, below the lines and labels. Nothing is reordered: the
             // slot is found by walking the layers the style already declared.
-            var basemapTiles = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey);
+            var basemapTiles = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) };
             var style = new MapStyle();
             style.AddStyle(ThinkGeoVectorStyles.Light, basemapTiles);
             style.AddRaster(imagery, slot: StyleLayerSlot.AboveFills);

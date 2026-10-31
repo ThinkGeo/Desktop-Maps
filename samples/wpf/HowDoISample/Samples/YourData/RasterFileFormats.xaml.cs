@@ -27,7 +27,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         // restyle keeps the sources it recognizes, so the map below holds still
         // while the image above it changes file.
         private readonly ThinkGeoVectorTileSource _cloud =
-            new ThinkGeoVectorTileSource(SampleShared.CloudApiKey);
+            new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) };
 
         private GpuBasemap _basemap;
         private RasterTileSource _current;

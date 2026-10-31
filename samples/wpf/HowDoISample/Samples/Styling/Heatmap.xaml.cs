@@ -63,7 +63,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             }),
         };
 
-        private readonly ThinkGeoVectorTileSource _cloud = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey);
+        private readonly ThinkGeoVectorTileSource _cloud = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) };
         private readonly FeatureSourceVectorTileSource _coyote = new FeatureSourceVectorTileSource();
         private readonly DispatcherTimer _applyTimer;
         private (string Name, ColorStop[] Stops) _ramp = ColorRamps[0];

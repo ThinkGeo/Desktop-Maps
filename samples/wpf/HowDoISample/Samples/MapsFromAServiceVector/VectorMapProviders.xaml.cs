@@ -72,7 +72,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 }
                 else
                 {
-                    _thinkGeo = thinkGeo ? new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) : null;
+                    _thinkGeo = thinkGeo ? new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) } : null;
                     var style = thinkGeo
                         ? new MapStyle().AddStyle(ThinkGeoLight.IsChecked == true ? ThinkGeoVectorStyles.Light : ThinkGeoVectorStyles.Dark, _thinkGeo)
                         : new MapStyle().AddStyle(ChosenStyleUri());

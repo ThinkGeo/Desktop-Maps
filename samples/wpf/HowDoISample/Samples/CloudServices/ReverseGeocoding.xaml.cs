@@ -40,7 +40,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // to the GPU with the basemap. Drawn on an overlay they would be raster tiles,
             // so they would stretch through a fractional zoom while the map under them
             // stayed sharp.
-            var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey));
+            var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
 
             // The GPU draws a marker from a named image, so point styles the GPU has no
             // shape of its own for - a cross, a star - are drawn once by the CPU and

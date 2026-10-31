@@ -27,7 +27,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         // which is the geometry source's case. Neither is drawn from a layer, so the
         // query side is a FeatureSource: QueryTools takes one directly.
         private QueryTools _zoningQuery;
-        private ShapeFileFeatureSource _zoning;
+        private FeatureSource _zoning;
 
         // The same file read in its own state-plane coordinates, and the converter out
         // of them. Touching needs both - see the comment where it is used.
@@ -35,7 +35,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private ShapeFileFeatureSource _native;
         private ProjectionConverter _outward;
 
-        private readonly ThinkGeoVectorTileSource _cloud = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey);
+        private readonly ThinkGeoVectorTileSource _cloud = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) };
         private readonly FeatureSourceVectorTileSource _tiles = new FeatureSourceVectorTileSource();
         private readonly DynamicSource _query = new DynamicSource();
         private readonly DynamicSource _matches = new DynamicSource();
@@ -56,20 +56,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             Map.MapUnit = GeographyUnit.Meter;
 
-            // Two readers over the same file: one the tile cutter owns, one this sample
-            // queries. A tile source queries its source itself, and a second consumer
-            // asking it questions mid-cut is a race.
-            _tiles.FeatureSources.Add("zoning", new ShapeFileFeatureSource(SampleShared.Shapefile("Zoning.shp"))
-            {
-                ProjectionConverter = new ProjectionConverter(2276, 3857),
-            });
-            Map.Basemap = new GpuBasemap(ComposeStyle());
-
-            _zoning = new ShapeFileFeatureSource(SampleShared.Shapefile("Zoning.shp"))
+            // The tile cutter reads the source it is given on its own threads, so a source
+            // that is not safe to read from two threads at once is queried through a copy.
+            var zoning = new ShapeFileFeatureSource(SampleShared.Shapefile("Zoning.shp"))
             {
                 ProjectionConverter = new ProjectionConverter(2276, 3857),
             };
+            _tiles.FeatureSources.Add("zoning", zoning);
+            _zoning = zoning.ConcurrentAccess == ConcurrentAccess.Safe ? zoning : zoning.CloneDeep();
             _zoningQuery = new QueryTools(_zoning);
+            Map.Basemap = new GpuBasemap(ComposeStyle());
 
             _native = new ShapeFileFeatureSource(SampleShared.Shapefile("Zoning.shp"));
             _nativeQuery = new QueryTools(_native);

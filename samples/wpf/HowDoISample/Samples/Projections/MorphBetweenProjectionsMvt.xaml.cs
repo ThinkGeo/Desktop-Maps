@@ -121,7 +121,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                     if (!_ready)
                     {
                         Map.Basemap = new GpuBasemap(new MapStyle(
-                            ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey)));
+                            ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
                     }
 
                     // The morph is deliberately NOT run yet: the camera writes below

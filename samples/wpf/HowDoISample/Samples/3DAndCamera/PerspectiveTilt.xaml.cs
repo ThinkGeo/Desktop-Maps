@@ -50,7 +50,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // A raster basemap and a vector one are different styles over different
             // sources, so this is the one case where the basemap really is rebuilt.
             Map.Basemap = new GpuBasemap(vector
-                ? new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey))
+                ? new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) })
                 : new MapStyle().AddRaster(new ThinkGeoRasterTileSource(SampleShared.CloudApiKey), sourceId: "thinkgeo"));
 
             if (vector)

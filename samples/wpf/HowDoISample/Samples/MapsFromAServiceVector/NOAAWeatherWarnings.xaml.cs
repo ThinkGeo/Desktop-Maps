@@ -18,7 +18,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
     /// </summary>
     public partial class NOAAWeatherWarnings
     {
-        private readonly ThinkGeoVectorTileSource _cloud = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey);
+        private readonly ThinkGeoVectorTileSource _cloud = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) };
         private readonly FeatureSourceVectorTileSource _warnings = new FeatureSourceVectorTileSource { MaxConcurrentEncodes = 1 };
         private readonly DispatcherTimer _applyTimer;
         private bool _initialized;
