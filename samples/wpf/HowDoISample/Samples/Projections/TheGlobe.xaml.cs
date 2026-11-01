@@ -180,9 +180,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             var extent = Map.CurrentExtent;
             var basemap = Map.Basemap;
             var factor = basemap != null && extent != null ? basemap.GlobeHandoverFactor : 0;
-            var zoom = extent == null || extent.Width <= 0
-                ? 0
-                : Math.Log2(2.0 * WorldHalfSize / extent.Width) + Math.Log2(Math.Max(1, Map.ActualWidth) / 512.0);
+            var zoom = Map.CurrentZoom;
 
             var shape = _choice != "globe"
                 ? "not a globe"

@@ -154,22 +154,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _ = Map.RefreshAsync();
         }
 
-        /// <summary>
-        /// The elevation query asks in degrees; this map is in Spherical Mercator meters,
-        /// so a click has to be converted rather than passed through. Handing it meters
-        /// answers from the corner of the world instead of failing, so the number looks
-        /// like an answer.
-        /// </summary>
-        private static PointShape ToDegrees(double worldX, double worldY) =>
-            (PointShape)ProjectionConverter.Convert(3857, 4326, new PointShape(worldX, worldY));
-
         private async void Map_MapClick(object sender, MapClickMapViewEventArgs e)
             => await AddProfilePointAsync(new PointShape(e.WorldLocation.X, e.WorldLocation.Y));
 
         private async Task AddProfilePointAsync(PointShape clicked)
         {
-            var inDegrees = ToDegrees(clicked.X, clicked.Y);
-            var elevation = await _basemap.GetElevationAsync(inDegrees.X, inDegrees.Y);
+            var elevation = await _basemap.GetElevationAsync(clicked, 3857);
             if (elevation == null)
             {
                 ProfileText.Text = "no elevation here - the DEM does not cover this point";

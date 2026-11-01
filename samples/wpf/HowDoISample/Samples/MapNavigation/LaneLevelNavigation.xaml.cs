@@ -102,26 +102,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // Every source-layer the style names is one in-memory feature source,
             // cut into vector tiles on the fly - the same path a shapefile or a
             // database would take.
-            _laneTiles = new FeatureSourceVectorTileSource
-            {
-                SourceId = "features",
-                MaxConcurrentEncodes = 1
-            };
+            _laneTiles = new FeatureSourceVectorTileSource { SourceId = "features" };
             foreach (var pair in _laneMap.Sources)
             {
                 _laneTiles.FeatureSources.Add(pair.Key, pair.Value);
             }
 
-            await _laneTiles.OpenAsync();
-            if (_disposed) return;
-
             _vehicle = new DynamicSource();
 
-            var style = ComposeStyle();
-            await style.OpenAsync();
-            if (_disposed) return;
-
-            Map.Basemap = new GpuBasemap(style);
+            Map.Basemap = new GpuBasemap(ComposeStyle());
 
             _playback = new RoutePlayback(_laneMap.RouteTrace);
             _pose = _playback.PoseAtDistance(0);
@@ -138,6 +127,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 _laneMap.MarkingCount, _laneMap.RouteLength * _laneMap.GroundScale / 1000);
             AttributionText.Text = _laneMap.Attribution;
             await Map.RefreshAsync();
+            if (_disposed) return;
 
             _drive = new CancellationTokenSource();
             _ = DriveAsync(_drive.Token);
@@ -584,11 +574,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             private static Pt Project(double longitude, double latitude)
             {
-                const double radius = 6378137.0;
-                var x = radius * longitude * Math.PI / 180.0;
-                var lat = Math.Max(-85.05112878, Math.Min(85.05112878, latitude));
-                var y = radius * Math.Log(Math.Tan(Math.PI / 4.0 + lat * Math.PI / 360.0));
-                return new Pt(x, y);
+                var meters = ProjectionConverter.DecimalDegreesToSphericalMercator.ConvertToExternalProjection(longitude, latitude);
+                return new Pt(meters.X, meters.Y);
             }
 
             private static LineShape Line(IEnumerable<Pt> points) =>

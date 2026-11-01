@@ -82,13 +82,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // Show a loading graphic to let users know the request is running
             LoadingImage.Visibility = Visibility.Visible;
 
-            var reprojectedFeatures = new Collection<Feature>();
-
-            foreach (var feature in decimalDegreeFeatures)
-            {
-                var reprojectedFeature = await _projectionCloudClient.ProjectAsync(feature, 4326, 3857);
-                reprojectedFeatures.Add(reprojectedFeature);
-            }
+            var reprojectedFeatures = await _projectionCloudClient.ProjectAsync(decimalDegreeFeatures, 4326, 3857);
 
             // Hide the loading graphic
             LoadingImage.Visibility = Visibility.Hidden;

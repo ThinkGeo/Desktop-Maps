@@ -233,27 +233,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         private static PointShape ToMercatorPoint(double lon, double lat)
         {
-            var clamped = Math.Max(-85.05112878, Math.Min(85.05112878, lat));
-            return new PointShape(
-                lon / 180.0 * WorldHalfSize,
-                Math.Log(Math.Tan((90.0 + clamped) * Math.PI / 360.0)) / (Math.PI / 180.0) / 180.0 * WorldHalfSize);
+            var meters = ProjectionConverter.DecimalDegreesToSphericalMercator.ConvertToExternalProjection(lon, lat);
+            return new PointShape(meters.X, meters.Y);
         }
 
         private static RectangleShape ToMercator(RectangleShape ground)
         {
-            var upperLeft = ToMercatorPoint(ground.MinX, ground.MaxY);
-            var lowerRight = ToMercatorPoint(ground.MaxX, ground.MinY);
+            var upperLeft = ToMercatorPoint(ground.MinX, Math.Min(85.05112878, ground.MaxY));
+            var lowerRight = ToMercatorPoint(ground.MaxX, Math.Max(-85.05112878, ground.MinY));
             return new RectangleShape(upperLeft.X, upperLeft.Y, lowerRight.X, lowerRight.Y);
         }
 
-        private static RectangleShape ToGeographic(RectangleShape mercator)
-        {
-            double Lon(double x) => x / WorldHalfSize * 180.0;
-            double Lat(double y) => 180.0 / Math.PI *
-                (2.0 * Math.Atan(Math.Exp(y / WorldHalfSize * Math.PI)) - Math.PI / 2.0);
-
-            return new RectangleShape(Lon(mercator.MinX), Lat(mercator.MaxY), Lon(mercator.MaxX), Lat(mercator.MinY));
-        }
+        private static RectangleShape ToGeographic(RectangleShape mercator) =>
+            ProjectionConverter.DecimalDegreesToSphericalMercator.ConvertToInternalProjection(mercator);
 
         /// <summary>Explain the regional projection's limits without treating
         /// a deliberately broad overview as a rendering failure.</summary>

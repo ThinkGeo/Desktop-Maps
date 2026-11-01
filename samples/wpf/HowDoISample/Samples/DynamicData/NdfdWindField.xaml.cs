@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
-using OSGeo.GDAL;
 using ThinkGeo.Core;
 using ThinkGeo.Core.Styling;
 using ThinkGeo.Gpu;
@@ -67,83 +66,23 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// </summary>
         private void LoadField()
         {
-            GdalManager.ConfigureGdal();
-            var speeds = ReadFirstBand(Path.Combine(AppContext.BaseDirectory, "Data", "Ndfd", "ds.wspd.tif"),
-                out var width, out var height, out var extent, out var proj4);
-            var from = ReadFirstBand(Path.Combine(AppContext.BaseDirectory, "Data", "Ndfd", "ds.wdir.tif"),
-                out _, out _, out _, out _);
+            var speed = GdalGrid.ReadBand(Path.Combine(AppContext.BaseDirectory, "Data", "Ndfd", "ds.wspd.tif"));
+            var from = GdalGrid.ReadBand(Path.Combine(AppContext.BaseDirectory, "Data", "Ndfd", "ds.wdir.tif"));
 
             // A meteorological wind direction is where the wind comes FROM; the arrow
             // points where it is going.
-            var directions = new float[from.Length];
-            for (var i = 0; i < from.Length; i++)
+            var rows = speed.Values.GetLength(0);
+            var columns = speed.Values.GetLength(1);
+            var flow = new FlowVector[rows, columns];
+            for (var row = 0; row < rows; row++)
             {
-                directions[i] = (from[i] + 180f) % 360f;
-            }
-
-            var flow = new FlowVector[height, width];
-            for (var row = 0; row < height; row++)
-            {
-                for (var column = 0; column < width; column++)
+                for (var column = 0; column < columns; column++)
                 {
-                    var i = (row * width) + column;
-                    flow[row, column] = FlowVector.FromSpeedDirection(speeds[i], directions[i]);
+                    flow[row, column] = FlowVector.FromSpeedDirection(speed.Values[row, column], (from.Values[row, column] + 180f) % 360f);
                 }
             }
 
-            _field = new VectorFieldSource(flow, extent, new Projection(proj4));
-        }
-
-        private static float[] ReadFirstBand(string path, out int width, out int height,
-            out RectangleShape extent, out string proj4)
-        {
-            var dataset = Gdal.Open(path, Access.GA_ReadOnly)
-                ?? throw new InvalidOperationException("GDAL could not open " + path);
-            try
-            {
-                width = dataset.RasterXSize;
-                height = dataset.RasterYSize;
-
-                var gt = new double[6];
-                dataset.GetGeoTransform(gt);
-                var x1 = gt[0] + (width * gt[1]) + (height * gt[2]);
-                var y1 = gt[3] + (width * gt[4]) + (height * gt[5]);
-                extent = new RectangleShape(Math.Min(gt[0], x1), Math.Max(gt[3], y1), Math.Max(gt[0], x1), Math.Min(gt[3], y1));
-
-                var wkt = dataset.GetProjection();
-                var sr = new OSGeo.OSR.SpatialReference(string.Empty);
-                sr.ImportFromWkt(ref wkt);
-                sr.ExportToProj4(out proj4);
-                sr.Dispose();
-
-                var band = dataset.GetRasterBand(1);
-                try
-                {
-                    var values = new float[width * height];
-                    band.ReadRaster(0, 0, width, height, values, width, height, 0, 0);
-                    band.GetNoDataValue(out var noData, out var hasNoData);
-                    if (hasNoData != 0)
-                    {
-                        for (var i = 0; i < values.Length; i++)
-                        {
-                            if (values[i] == (float)noData)
-                            {
-                                values[i] = float.NaN;
-                            }
-                        }
-                    }
-
-                    return values;
-                }
-                finally
-                {
-                    band.Dispose();
-                }
-            }
-            finally
-            {
-                dataset.Dispose();
-            }
+            _field = new VectorFieldSource(flow, speed.Extent, speed.Projection);
         }
 
         private void Mode_Unchecked(object sender, RoutedEventArgs e)

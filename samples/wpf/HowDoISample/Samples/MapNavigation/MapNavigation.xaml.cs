@@ -32,7 +32,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
-            Map.ExtentOverlay.ZoomStep = 0.15;
             Map.CurrentExtentChanged += Map_CurrentExtentChanged;
 
             Map.MapUnit = GeographyUnit.Meter;

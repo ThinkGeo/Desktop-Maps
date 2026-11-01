@@ -224,9 +224,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             }
 
             // The cursor in degrees, and a 14-pixel pick radius converted the same way.
-            var lon = worldX / 6378137.0 * 180 / Math.PI;
-            var lat = ((2 * Math.Atan(Math.Exp(worldY / 6378137.0))) - (Math.PI / 2)) * 180 / Math.PI;
-            var degreesPerPixel = Map.CurrentExtent.Width / 6378137.0 * 180 / Math.PI / Map.ActualWidth;
+            var toDegrees = ProjectionConverter.DecimalDegreesToSphericalMercator;
+            var cursor = toDegrees.ConvertToInternalProjection(worldX, worldY);
+            var lon = cursor.X;
+            var lat = cursor.Y;
+            var degreesPerPixel = toDegrees.ConvertToInternalProjection(Map.CurrentExtent.Width, 0).X / Map.ActualWidth;
             var pick = degreesPerPixel * 14;
             var cosLat = Math.Max(0.2, Math.Cos(lat * Math.PI / 180));
 

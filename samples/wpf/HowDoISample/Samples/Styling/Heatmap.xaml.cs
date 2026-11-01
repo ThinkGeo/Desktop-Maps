@@ -89,7 +89,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             _initialized = true;
             Map.MapUnit = GeographyUnit.Meter;
-            Map.ExtentOverlay.ZoomStep = 0.15;
             Map.CenterPoint = new PointShape(-10778000, 3912500);
             Map.CurrentScale = 68000;
 

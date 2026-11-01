@@ -80,7 +80,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 .SetBackground(GeoColors.White)
                 .AddStyle(Editor.Text, _states)
                 .AddDynamic(_circles);
-            style.Images.Add("disc", CreateDiscImage());
+            style.Images.Add("disc", new PointStyle(PointSymbolType.Circle, 62, GeoBrushes.White));
             return style;
         }
 
@@ -160,23 +160,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                     _circles.SetPoint(abbreviation, new Feature(x, y), 0f, color, size, "disc");
                 }
             }
-        }
-
-        /// <summary>One antialiased white disc; every circle on the map is this image, tinted and scaled.</summary>
-        private static GeoImage CreateDiscImage()
-        {
-            using var bitmap = new SkiaSharp.SKBitmap(new SkiaSharp.SKImageInfo(64, 64,
-                SkiaSharp.SKColorType.Rgba8888, SkiaSharp.SKAlphaType.Premul));
-            using (var canvas = new SkiaSharp.SKCanvas(bitmap))
-            using (var paint = new SkiaSharp.SKPaint { Color = SkiaSharp.SKColors.White, IsAntialias = true })
-            {
-                canvas.Clear(SkiaSharp.SKColors.Transparent);
-                canvas.DrawCircle(32, 32, 31, paint);
-            }
-
-            using var image = SkiaSharp.SKImage.FromBitmap(bitmap);
-            using var data = image.Encode(SkiaSharp.SKEncodedImageFormat.Png, 100);
-            return new GeoImage(data.ToArray());
         }
 
         private static List<(double, double, string)> ReadStateCenters(string shapefilePath)

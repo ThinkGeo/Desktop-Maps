@@ -1,5 +1,4 @@
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -151,7 +150,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             }
 
             // Add the elevation result points to the map and list box
-            _elevationPoints.Show(elevationPoints.Select(elevationPoint => elevationPoint.Point), pointSizeInPixel: 20f, iconName: "star", idPrefix: "elevation");
+            _elevationPoints.Clear();
+            for (var i = 0; i < elevationPoints.Count; i++)
+            {
+                _elevationPoints.SetPoint("elevation-" + i, new Feature(elevationPoints[i].Point), sizeInPixel: 20f, iconName: "star");
+            }
             LsbElevations.ItemsSource = elevationPoints;
 
             // Hide the loading graphic

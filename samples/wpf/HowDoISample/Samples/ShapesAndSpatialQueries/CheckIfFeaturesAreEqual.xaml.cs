@@ -73,7 +73,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
                 // The reprojected features, held where the query can reach them
                 _zoningSource = new InMemoryFeatureSource(columns, reprojectedFeatures);
-                _zoning.Show(reprojectedFeatures, new GeoColor(50, GeoColors.MediumPurple), GeoColors.MediumPurple, 2f, idPrefix: "zoning");
+                _zoning.Clear();
+                var zoningIndex = 0;
+                foreach (var feature in reprojectedFeatures)
+                {
+                    _zoning.SetArea("zoning-" + zoningIndex++, feature, new GeoColor(50, GeoColors.MediumPurple), GeoColors.MediumPurple, 2f);
+                }
 
                 // Add a sample shape to the map for the initial query
                 // To ensure topological equality for this sample, we create a new shape using the same geometry as an existing feature
@@ -112,13 +117,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private async Task HighlightQueriedFeaturesAsync(IEnumerable<Feature> features)
         {
             // Replace whatever was highlighted with the features just found
-            var enumerable = features as Feature[] ?? features.ToArray();
-            _highlighted.Show(enumerable, new GeoColor(90, GeoColors.MidnightBlue), GeoColors.MidnightBlue, 2f, idPrefix: "match");
+            var matches = features.ToList();
+            _highlighted.Clear();
+            for (var i = 0; i < matches.Count; i++)
+            {
+                _highlighted.SetArea("match-" + i, matches[i], new GeoColor(90, GeoColors.MidnightBlue), GeoColors.MidnightBlue, 2f);
+            }
             await Map.RefreshAsync();
 
             // Update the number of matching features found in the UI
             TxtNumberOfFeaturesFound.Text =
-                $"Number of features topologically equal to the drawn shape: {enumerable.Length}";
+                $"Number of features topologically equal to the drawn shape: {matches.Count}";
         }
 
         /// <summary>

@@ -61,7 +61,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 };
 
             // Show the waypoints while the optimizer is thinking
-            _route.Show(_routingWaypoints, pointSizeInPixel: 24f, iconName: "star", idPrefix: "waypoint");
+            _route.Clear();
+            for (var i = 0; i < _routingWaypoints.Count; i++)
+            {
+                _route.SetPoint("waypoint-" + i, new Feature(_routingWaypoints[i]), sizeInPixel: 24f, iconName: "star");
+            }
 
             Map.CenterPoint = new PointShape(-10778720, 3915154);
             Map.CurrentScale = 202090;

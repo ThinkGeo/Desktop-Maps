@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using OSGeo.GDAL;
-using OSGeo.OSR;
 using ThinkGeo.Core;
 using ThinkGeo.Core.Styling;
 using ThinkGeo.UI.Wpf;
@@ -25,8 +24,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private bool _initialized;
         private bool _disposed;
         private bool _playing;
-        private Dataset _dataset;
-        private byte[][] _frames;
+        private string _path;
+        private float[][,] _frames;
         private string[] _frameTimes;
         private int _gridWidth;
         private int _gridHeight;
@@ -42,7 +41,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             InitializeComponent();
 
             Map.MapUnit = GeographyUnit.Meter;
-            Map.ExtentOverlay.ZoomStep = 0.15;
             _style = new MapStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
             _overlay = new GpuBasemap(_style);
             Map.Basemap = _overlay;
@@ -100,90 +98,56 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         private void LoadGrid()
         {
-            GdalManager.ConfigureGdal();
-            var path = Path.Combine(AppContext.BaseDirectory, "Data", "Ndfd", "ds.sky.bin");
-            _dataset = Gdal.Open(path, Access.GA_ReadOnly);
-            if (_dataset == null)
-            {
-                throw new InvalidOperationException("GDAL could not open " + path);
-            }
-
-            _gridWidth = _dataset.RasterXSize;
-            _gridHeight = _dataset.RasterYSize;
-            _frames = new byte[_dataset.RasterCount][];
-            _frameTimes = new string[_frames.Length];
-            for (var i = 0; i < _frames.Length; i++)
-            {
-                var band = _dataset.GetRasterBand(i + 1);
-                try
-                {
-                    var meta = band.GetMetadataItem("GRIB_VALID_TIME", string.Empty);
-                    if (!string.IsNullOrEmpty(meta) && long.TryParse(meta.Split(' ')[0].Trim(), out var unixSeconds))
-                    {
-                        _frameTimes[i] = DateTimeOffset.FromUnixTimeSeconds(unixSeconds).UtcDateTime.ToString("yyyy-MM-dd HH:mm \'UTC\'");
-                    }
-                }
-                finally
-                {
-                    band.Dispose();
-                }
-            }
-
-            // Source extent and projection straight from the dataset.
-            var gt = new double[6];
-            _dataset.GetGeoTransform(gt);
-            var x0 = gt[0];
-            var y0 = gt[3];
-            var x1 = gt[0] + (_gridWidth * gt[1]) + (_gridHeight * gt[2]);
-            var y1 = gt[3] + (_gridWidth * gt[4]) + (_gridHeight * gt[5]);
-            var sourceExtent = new RectangleShape(Math.Min(x0, x1), Math.Max(y0, y1), Math.Max(x0, x1), Math.Min(y0, y1));
-
-            var wkt = _dataset.GetProjection();
-            var sr = new SpatialReference(string.Empty);
-            sr.ImportFromWkt(ref wkt);
-            sr.ExportToProj4(out var proj4);
-            sr.Dispose();
+            _path = Path.Combine(AppContext.BaseDirectory, "Data", "Ndfd", "ds.sky.bin");
+            var first = GdalGrid.ReadBand(_path, 1);
+            _gridHeight = first.Values.GetLength(0);
+            _gridWidth = first.Values.GetLength(1);
+            _frameTimes = FrameTimes(_path);
+            _frames = new float[_frameTimes.Length][,];
+            _frames[0] = SkyCover(first.Values);
 
             // One call bakes the Lambert->Mercator mesh; every animation frame after
             // this is SetValues - a single texture upload.
-            _grid = new InMemoryGridSource(ToValues(GetFrame(0)), sourceExtent, new Projection(proj4));
+            _grid = new InMemoryGridSource(_frames[0], first.Extent, first.Projection);
             _palette ??= CreatePalette("Weather Rainbow");
             _style.AddGridFill(_grid, new GridFillStyle { ColorStops = _palette });
             _ = _overlay.SetStyleAsync(_style);
             ShowFrame(0);
         }
 
-        private byte[] GetFrame(int index)
+        // Each band is one forecast hour. GdalGrid reads the band; the hour it is valid for is
+        // GRIB metadata on the band, which GdalGrid does not carry, so that one item is read here.
+        private static string[] FrameTimes(string path)
         {
-            if (_frames[index] == null)
+            using var dataset = Gdal.Open(path, Access.GA_ReadOnly)
+                ?? throw new InvalidOperationException("GDAL could not open " + path);
+            var times = new string[dataset.RasterCount];
+            for (var i = 0; i < times.Length; i++)
             {
-                var band = _dataset.GetRasterBand(index + 1);
-                try
+                using var band = dataset.GetRasterBand(i + 1);
+                var meta = band.GetMetadataItem("GRIB_VALID_TIME", string.Empty);
+                if (!string.IsNullOrEmpty(meta) && long.TryParse(meta.Split(' ')[0].Trim(), out var unixSeconds))
                 {
-                    var values = new byte[_gridWidth * _gridHeight];
-                    band.ReadRaster(0, 0, _gridWidth, _gridHeight, values, _gridWidth, _gridHeight, 0, 0);
-                    _frames[index] = values;
-                }
-                finally
-                {
-                    band.Dispose();
+                    times[i] = DateTimeOffset.FromUnixTimeSeconds(unixSeconds).UtcDateTime.ToString("yyyy-MM-dd HH:mm 'UTC'");
                 }
             }
 
-            return _frames[index];
+            return times;
         }
+
+        private float[,] GetFrame(int index) => _frames[index] ??= SkyCover(GdalGrid.ReadBand(_path, index + 1).Values);
 
         // GRIB sky cover is a percentage, 1..100; 0 and anything above 100 is no data,
         // which the grid draws as nothing.
-        private float[,] ToValues(byte[] frame)
+        private static float[,] SkyCover(float[,] band)
         {
-            var values = new float[_gridHeight, _gridWidth];
-            for (var row = 0; row < _gridHeight; row++)
+            var values = new float[band.GetLength(0), band.GetLength(1)];
+            for (var row = 0; row < values.GetLength(0); row++)
             {
-                for (var column = 0; column < _gridWidth; column++)
+                for (var column = 0; column < values.GetLength(1); column++)
                 {
-                    var v = frame[(row * _gridWidth) + column];
-                    values[row, column] = v == 0 || v > 100 ? float.NaN : v;
+                    var v = band[row, column];
+                    values[row, column] = float.IsNaN(v) || v <= 0 || v > 100 ? float.NaN : v;
                 }
             }
 
@@ -199,7 +163,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             var bounded = ((index % _frames.Length) + _frames.Length) % _frames.Length;
             _frameIndex = bounded;
-            _grid.SetValues(ToValues(GetFrame(bounded)));
+            _grid.SetValues(GetFrame(bounded));
 
             Status.Text = string.Format(
                 "Frame {0}/{1}\n{2}\nGrid {3} x {4}",
@@ -264,8 +228,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _disposed = true;
             _playing = false;
             _timer.Stop();
-            _dataset?.Dispose();
-            _dataset = null;
             Map.Dispose();
         }
     }

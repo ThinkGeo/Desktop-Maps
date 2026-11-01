@@ -1,6 +1,5 @@
 using System;
 using System.Collections.ObjectModel;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -57,14 +56,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             _aerial = new ThinkGeoRasterTileSource(SampleShared.CloudApiKey, ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1);
             _vector = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) };
-            await _vector.OpenAsync();
 
-            // The street style as text, fetched once: every wash change composes a
-            // fresh style from it.
-            using (var http = new HttpClient())
-            {
-                _streetStyleJson = await http.GetStringAsync(ThinkGeoVectorStyles.Light);
-            }
+            // The street style as one document, resolved once: every wash change composes
+            // a fresh style from it.
+            var street = new MapStyle();
+            street.AddStyle(ThinkGeoVectorStyles.Light, _vector);
+            await street.ResolveAsync();
+            _streetStyleJson = street.ToJson();
 
             // The wash is one world-covering polygon, cut into tiles like any other
             // vector data - which is what keeps it whole at every zoom.

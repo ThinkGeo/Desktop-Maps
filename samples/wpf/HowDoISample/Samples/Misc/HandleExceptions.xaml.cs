@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
-using SkiaSharp;
 using ThinkGeo.Core;
 using ThinkGeo.Core.Styling;
 using ThinkGeo.Gpu;
@@ -37,7 +36,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             var style = new MapStyle();
             style.AddStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
-            await style.OpenAsync();
 
             // The key is wrong on purpose: the service answers 401 for every tile.
             _aerial = new ThinkGeoRasterTileSource("not-a-valid-key", ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1);
@@ -70,18 +68,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             if (_ownImages.TryGetValue(pixelSize, out var cached)) return cached;
 
-            var bitmap = new SKBitmap(pixelSize, pixelSize);
-            using (var canvas = new SKCanvas(bitmap))
-            {
-                canvas.Clear(new SKColor(225, 240, 255, 190));
-                using var font = new SKFont(SKTypeface.Default, 13 * pixelRatio);
-                using var ink = new SKPaint { Color = new SKColor(30, 60, 110), IsAntialias = true };
-                var centre = pixelSize / 2f;
-                canvas.DrawText("Aerial imagery unavailable", centre, centre - font.Size * 0.4f, SKTextAlign.Center, font, ink);
-                canvas.DrawText("Check the API key", centre, centre + font.Size * 1.1f, SKTextAlign.Center, font, ink);
-            }
+            var image = new GeoImage(pixelSize, pixelSize);
+            var canvas = GeoCanvas.CreateDefaultGeoCanvas();
+            canvas.BeginDrawing(image, new RectangleShape(0, pixelSize, pixelSize, 0), GeographyUnit.Meter);
+            canvas.Clear(new GeoSolidBrush(GeoColor.FromArgb(190, 225, 240, 255)));
+            var font = new GeoFont("Arial", 13 * pixelRatio);
+            var ink = new GeoSolidBrush(GeoColor.FromArgb(255, 30, 60, 110));
+            var centre = pixelSize / 2f;
+            canvas.DrawText("Aerial imagery unavailable", font, ink, new[] { new ScreenPointF(centre, centre - font.Size) }, DrawingLevel.LevelOne);
+            canvas.DrawText("Check the API key", font, ink, new[] { new ScreenPointF(centre, centre + font.Size) }, DrawingLevel.LevelOne);
+            canvas.EndDrawing();
 
-            var image = new GeoImage(bitmap);
             _ownImages[pixelSize] = image;
             return image;
         }

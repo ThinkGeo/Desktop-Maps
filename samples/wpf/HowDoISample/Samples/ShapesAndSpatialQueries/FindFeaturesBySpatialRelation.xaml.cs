@@ -214,13 +214,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// <summary>
         /// Touching, asked in the plane the data is stored in.
         /// <para>
-        /// Every other relation on this list tolerates a rounded coordinate. Touching
-        /// does not - it means the boundaries coincide and the interiors share nothing,
-        /// which is a question about exact equality. Converting these parcels out to
-        /// mercator and a query back into state plane moves every vertex by a fraction
-        /// of a foot, and that is enough: the same edge that touches three parcels in
-        /// the file touches none through the converter. So this one relation queries the
-        /// unprojected layer and converts only what it draws.
+        /// Touching means the boundaries coincide exactly, and coordinates converted between
+        /// projections never quite do, so a source with a ProjectionConverter answers a
+        /// touching query with no features by design. This one relation therefore asks the
+        /// data in its own state-plane coordinates and converts only what it draws.
         /// </para>
         /// </summary>
         private void RunTouching(BaseShape shape, bool alreadyNative)
@@ -314,7 +311,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// </summary>
         private void Paint(BaseShape query, IEnumerable<Feature> matches)
         {
-            _matches.Show(matches, new GeoColor(90, GeoColors.MidnightBlue), GeoColors.MidnightBlue, 2f, idPrefix: "match");
+            _matches.Clear();
+            var matchIndex = 0;
+            foreach (var match in matches)
+            {
+                _matches.SetArea("match-" + matchIndex++, match, new GeoColor(90, GeoColors.MidnightBlue), GeoColors.MidnightBlue, 2f);
+            }
 
             _query.Clear();
             var asked = new Feature(query);

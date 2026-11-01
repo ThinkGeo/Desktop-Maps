@@ -97,14 +97,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             {
                 var source = OpenChosen();
 
-                // These are files on disk that nothing writes to while the sample runs.
-                // One tile at a time: GDAL allows a single feature iterator per dataset, so
-                // a GeoPDF or a DWG cannot be read by two workers at once - and cloning one
-                // per worker is expensive, or impossible.
-                _current = new FeatureSourceVectorTileSource
-                {
-                    MaxConcurrentEncodes = 1,
-                };
+                _current = new FeatureSourceVectorTileSource();
                 _current.FeatureSources.Add(DataLayer, source);
                 style.AddStyle(Editor.Text, _current);
 

@@ -21,7 +21,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         // One query at a time: a public service is not a shapefile, and four
         // concurrent bounding-box requests per screenful is not politeness.
-        private readonly FeatureSourceVectorTileSource _parcels = new FeatureSourceVectorTileSource { MinDataZoom = 15, MaxConcurrentEncodes = 1 };
+        private readonly FeatureSourceVectorTileSource _parcels = new FeatureSourceVectorTileSource { MinDataZoom = 15 };
 
         private readonly DispatcherTimer _applyTimer;
         private bool _initialized;

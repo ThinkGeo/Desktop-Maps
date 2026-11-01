@@ -61,7 +61,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             await _basemap.SetStyleAsync(ComposeStyle());
             Map.CurrentExtent = StartExtent();
             await Map.RefreshAsync();
-            (retired as IDisposable)?.Dispose();
+            retired?.Dispose();
         }
 
         /// <summary>
