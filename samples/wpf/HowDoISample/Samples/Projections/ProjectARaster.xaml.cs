@@ -43,7 +43,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// </summary>
         private async Task ReprojectRasterLayerAsync(LayerOverlay layerOverlay)
         {
-            var worldRasterLayer = new GeoTiffRasterLayer(@"./Data/GeoTiff/World.tif");
+            var worldRasterLayer = new GeoTiffRasterLayer(System.IO.Path.Combine(AppContext.BaseDirectory, "Data", "GeoTiff", "World.tif"));
 
             // Create a new ProjectionConverter to convert between World Geodetic System (4326) and US National Atlas Equal Area (2163)
             ProjectionConverter projectionConverter = new GdalProjectionConverter(4326, 9311);

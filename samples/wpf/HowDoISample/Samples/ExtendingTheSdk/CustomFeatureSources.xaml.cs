@@ -23,18 +23,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             InitializeComponent();
         }
 
-        private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
             Map.MapUnit = GeographyUnit.Meter;
 
-            var thinkGeoCloudVectorMapsOverlay = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
-            Map.Basemap = thinkGeoCloudVectorMapsOverlay;
+            var basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
+            Map.Basemap = basemap;
 
             // Load CSV data in EPSG:4326 and convert to EPSG:3857 for the map
-            var csvLayer = new SimpleCsvFeatureLayer(@"./Data/Csv/vehicle-route.csv")
+            var csvLayer = new SimpleCsvFeatureLayer(System.IO.Path.Combine(AppContext.BaseDirectory, "Data", "Csv", "vehicle-route.csv"))
             {
                 FeatureSource = { ProjectionConverter = new ProjectionConverter(4326, 3857) }
             };

@@ -11,8 +11,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
     /// reprojects any XYZ raster service - only the tile source differs, so switching
     /// server never moves the view. Classic rendering on purpose: reprojection lives in
     /// the layer's DRAW path (tiles are fetched on the native grid, merged, and warped
-    /// as they draw), while the GPU source path serves native-grid tiles only - so this
-    /// row is the classic path's own ability. Caching needs no wiring here either: each
+    /// as they draw), while a raster tile source on a basemap serves native-grid tiles
+    /// only - so this row is the classic path's own ability. Caching needs no wiring here either: each
     /// layer carries its data-level tile cache by default.
     /// </summary>
     public partial class ReprojectRasterTiles
@@ -48,7 +48,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             RasterXyzTileAsyncLayer layer = ServerCombo.SelectedIndex == 1
                 ? new OpenStreetMapAsyncLayer("ThinkGeo Samples")
-                : new ThinkGeoRasterMapsAsyncLayer(SampleKeys.ClientId, SampleKeys.ClientSecret,
+                : new ThinkGeoRasterMapsAsyncLayer(SampleShared.ClientId, SampleShared.ClientSecret,
                     ThinkGeoCloudRasterMapsMapType.Light_V2_X1);
             if (_epsg == 4326)
             {

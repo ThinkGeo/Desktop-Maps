@@ -176,7 +176,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             /***************************
              * Create cityLimits layer *
              ***************************/
-            var cityLimits = new ShapeFileFeatureLayer(@"./Data/Shapefile/FriscoCityLimits.shp");
+            var cityLimits = new ShapeFileFeatureLayer(SampleShared.Shapefile("FriscoCityLimits.shp"));
 
             // Style cityLimits layer
             var cityLimitsStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.Transparent, GeoColors.Black, 2);
@@ -190,7 +190,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             /************************
              * Create streets layer *
              ************************/
-            var streets = new ShapeFileFeatureLayer(@"./Data/Shapefile/Streets.shp");
+            var streets = new ShapeFileFeatureLayer(SampleShared.Shapefile("Streets.shp"));
 
             // Style streets layer
             var majorStreetsStyle = new FilterStyle();
@@ -206,7 +206,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             /**********************
              * Create parks layer *
              **********************/
-            var parks = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
+            var parks = new ShapeFileFeatureLayer(SampleShared.Shapefile("Parks.shp"));
 
             // Style parks layer
             var parksStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.LightGray, GeoColors.Transparent);
@@ -219,7 +219,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             /*************************
              * Create mosquitoSightings layer *
              *************************/
-            var mosquitoSightings = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Mosquitos.shp");
+            var mosquitoSightings = new ShapeFileFeatureLayer(SampleShared.Shapefile("Frisco_Mosquitos.shp"));
 
             // Style mosquitoSightings layer
             var mayFifthSightings = new FilterStyle();
@@ -337,7 +337,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             table.Columns.Add("WEST NILE DETECTED");
 
             // Load in the mosquito feature source data
-            var mosquitoFeatureSource = new ShapeFileFeatureSource(@"./Data/Shapefile/Frisco_Mosquitos.shp");
+            var mosquitoFeatureSource = new ShapeFileFeatureSource(SampleShared.Shapefile("Frisco_Mosquitos.shp"));
 
             // Query the data for all features whose data was collected on 5/5/2020
             mosquitoFeatureSource.Open();

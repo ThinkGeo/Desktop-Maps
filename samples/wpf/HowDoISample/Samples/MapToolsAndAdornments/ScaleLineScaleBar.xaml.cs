@@ -31,22 +31,21 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map
         /// </summary>
-        private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
             Map.MapUnit = GeographyUnit.Meter;
 
-            var thinkGeoCloudVectorMapsOverlay = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
-            Map.Basemap = thinkGeoCloudVectorMapsOverlay;
+            var basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
+            Map.Basemap = basemap;
 
             BuildAdornments();
 
             Map.CenterPoint = new PointShape(-10778000, 3912000);
             Map.CurrentScale = 77000;
 
-            _initialized = true;
             _ = Map.RefreshAsync();
         }
         /// <summary>

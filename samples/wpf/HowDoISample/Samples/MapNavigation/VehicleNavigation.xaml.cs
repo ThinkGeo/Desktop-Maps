@@ -27,7 +27,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         private CancellationTokenSource _cancellationTokenSource;
         private readonly ThinkGeoVectorTileSource _cloud = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) };
-        private GpuBasemap _backgroundOverlay;
+        private GpuBasemap _basemap;
 
         // The route, the growing trail and the vehicle all ride dynamic sources:
         // two lines and one icon marker, each kept under its id and updated per
@@ -56,7 +56,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _cancellationTokenSource?.Dispose();
         }
 
-        private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
@@ -71,9 +71,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // and a second host (the Checks harness) does not embed it.
             _vehicleImage = new GeoImage("./Resources/vehicle_location.png");
 
-            _backgroundOverlay = new GpuBasemap(ComposeStyle());
-            _backgroundOverlay.IsExtrusionDrawingEnabled = BuildingCheckBox.IsChecked != false;
-            Map.Basemap = _backgroundOverlay;
+            _basemap = new GpuBasemap(ComposeStyle());
+            _basemap.IsExtrusionDrawingEnabled = BuildingCheckBox.IsChecked != false;
+            Map.Basemap = _basemap;
             Map.TiltAngle = DefaultPitch;
             UpdatePitchValueText(DefaultPitch);
 
@@ -278,13 +278,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             var gpsPoints = new Collection<Vertex>();
 
-            // Resolve data file path: try relative path first, then absolute path from exe directory
-            string dataPath = @"./Data/Csv/vehicle-route.csv";
-            if (!File.Exists(dataPath))
-            {
-                var exeDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-                dataPath = System.IO.Path.Combine(exeDir, @"Data/Csv/vehicle-route.csv");
-            }
+            var dataPath = System.IO.Path.Combine(AppContext.BaseDirectory, "Data", "Csv", "vehicle-route.csv");
 
             var lines = File.ReadAllLines(dataPath);
 
@@ -346,10 +340,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         private void BuildingCheckBox_CheckedChanged(object sender, RoutedEventArgs e)
         {
-            if (!_initialized || _backgroundOverlay == null)
+            if (!_initialized || _basemap == null)
                 return;
 
-            _backgroundOverlay.IsExtrusionDrawingEnabled = BuildingCheckBox.IsChecked == true;
+            _basemap.IsExtrusionDrawingEnabled = BuildingCheckBox.IsChecked == true;
             _ = Map.RefreshAsync();
         }
 
@@ -385,7 +379,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 // not a new basemap. SetStyleAsync keeps the map, the camera, the
                 // running animation and the fetched tiles; only the styling recompiles
                 // and the tile buffers rebuild, replacing on screen as they arrive.
-                await _backgroundOverlay.SetStyleAsync(ComposeStyle());
+                await _basemap.SetStyleAsync(ComposeStyle());
 
                 // The route colors are theme-inked into the paths, so re-push them.
                 if (_visitedVertices.Count > 0)

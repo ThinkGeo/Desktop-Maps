@@ -23,13 +23,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             var layersToDraw = new Collection<LayerBase>();
 
-			var mbTilesLayer = new ThinkGeoRasterMapsAsyncLayer(SampleKeys.ClientId,
-				SampleKeys.ClientSecret);
+			var mbTilesLayer = new ThinkGeoRasterMapsAsyncLayer(SampleShared.ClientId,
+				SampleShared.ClientSecret);
             await mbTilesLayer.OpenAsync();
             layersToDraw.Add(mbTilesLayer);
 
             // Create the new layer and set the projection as the data is in srid 2276 and our background is srid 3857 (spherical mercator).
-            var zoningLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Zoning.shp")
+            var zoningLayer = new ShapeFileFeatureLayer(SampleShared.Shapefile("Zoning.shp"))
             {
                 FeatureSource =
                 {

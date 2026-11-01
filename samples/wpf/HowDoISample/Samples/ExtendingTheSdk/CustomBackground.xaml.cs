@@ -33,7 +33,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _initialized = true;
             Map.MapUnit = GeographyUnit.Meter;
 
-            var housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp")
+            var housingUnitsLayer = new ShapeFileFeatureLayer(SampleShared.Shapefile("Frisco 2010 Census Housing Units.shp"))
             {
                 FeatureSource =
                     {

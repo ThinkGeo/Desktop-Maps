@@ -39,7 +39,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// <summary>
         /// Set up the map with the GpuStyleOverlay to show a basic map and a shapefile with simple data to work with
         /// </summary>
-        private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
@@ -48,13 +48,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             Map.CurrentExtentChanged += Map_CurrentExtentChanged;
             Map.RotationAngleChanging += Map_RotationAngleChanging;
 
-            // Resolve shapefile path: try relative path first, then absolute path from exe directory
-            string shapefilePath = @"./Data/Shapefile/City_ETJ.shp";
-            if (!System.IO.File.Exists(shapefilePath))
-            {
-                var exeDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-                shapefilePath = System.IO.Path.Combine(exeDir, @"Data/Shapefile/City_ETJ.shp");
-            }
+            var shapefilePath = SampleShared.Shapefile("City_ETJ.shp");
 
             // The boundary never changes, so it is cut into tiles and drawn with the
             // basemap in one pass rather than by an overlay above it.

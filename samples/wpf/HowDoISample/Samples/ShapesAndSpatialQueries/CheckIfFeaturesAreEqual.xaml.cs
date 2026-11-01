@@ -54,7 +54,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 Map.Basemap = new GpuBasemap(style);
 
                 // Import the features from the Frisco zoning data shapefile
-                var zoningDataFeatureSource = new ShapeFileFeatureSource(@"./Data/Shapefile/Zoning.shp");
+                var zoningDataFeatureSource = new ShapeFileFeatureSource(SampleShared.Shapefile("Zoning.shp"));
 
                 // Create a ProjectionConverter to convert the shapefile data from North Central Texas (2276) to Spherical Mercator (3857)
                 var projectionConverter = new ProjectionConverter(3857, 2276);

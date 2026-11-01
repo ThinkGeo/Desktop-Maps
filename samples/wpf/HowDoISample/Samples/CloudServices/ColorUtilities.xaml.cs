@@ -41,13 +41,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             try
             {
                 // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-                var thinkGeoCloudVectorMapsOverlay = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
-                Map.Basemap = thinkGeoCloudVectorMapsOverlay;
+                var basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
+                Map.Basemap = basemap;
 
                 Map.MapUnit = GeographyUnit.Meter;
 
                 // Create a new ShapeFileFeatureLayer using a shapefile containing Frisco Census data
-                var housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
+                var housingUnitsLayer = new ShapeFileFeatureLayer(SampleShared.Shapefile("Frisco 2010 Census Housing Units.shp"));
                 housingUnitsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
                 // Create a new ProjectionConverter to convert between Texas North Central (2276) and Spherical Mercator (3857)
@@ -83,8 +83,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 // Initialize the ColorCloudClient using our ThinkGeo Cloud credentials
                 _colorCloudClient = new ColorCloudClient
                 {
-                    ClientId = SampleKeys.ClientId2,
-                    ClientSecret = SampleKeys.ClientSecret2,
+                    ClientId = SampleShared.ClientId,
+                    ClientSecret = SampleShared.ClientSecret,
                 };
 
                 // Set the initial color scheme for the housing units layer
@@ -112,44 +112,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // Set the number of colors we want to generate
             const int numberOfColors = 6;
 
-            // Create a new collection to hold the colors generated
-            var colors = new Collection<GeoColor>();
-
             // Show a loading graphic to let users know the request is running
             LoadingImage.Visibility = Visibility.Visible;
 
             // Generate colors based on the selected 'color type'
-            switch ((CboColorType.SelectedItem as ComboBoxItem)?.Content.ToString())
-            {
-                case "Hue":
-                    // Get a family of colors with the same hue and sequential variances in lightness and saturation
-                    colors = await GetColorsByHue(numberOfColors);
-                    break;
-                case "Analogous":
-                    // Get a family of colors based on analogous hues
-                    colors = await GetAnalogousColors(numberOfColors);
-                    break;
-                case "Complementary":
-                    // Get a family of colors based on complementary hues
-                    colors = await GetComplementaryColors(numberOfColors);
-                    break;
-                case "Contrasting":
-                    // Get a family of colors based on contrasting hues
-                    colors = await GetContrastingColors(numberOfColors);
-                    break;
-                case "Quality":
-                    // Get a family of colors with qualitative variances in hue, but similar lightness and saturation
-                    colors = await GetQualityColors(numberOfColors);
-                    break;
-                case "Tetrad":
-                    // Get a family of colors based on a harmonious tetrad of hues
-                    colors = await GetTetradColors(numberOfColors);
-                    break;
-                case "Triad":
-                    // Get a family of colors based on a harmonious tried of hues
-                    colors = await GetTriadColors(numberOfColors);
-                    break;
-            }
+            var colors = await GetColors((CboColorType.SelectedItem as ComboBoxItem)?.Content.ToString(), numberOfColors);
 
             // Hide the loading graphic
             LoadingImage.Visibility = Visibility.Hidden;
@@ -238,265 +205,66 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         }
 
         /// <summary>
-        /// Get a family of colors with the same hue and sequential variances in lightness and saturation
+        /// Ask the ThinkGeo Cloud for a family of colors. Hue and Quality answer one family;
+        /// the other families come back as one list per base color the service chose, and
+        /// this sample uses all of them.
         /// </summary>
-        private async Task<Collection<GeoColor>> GetColorsByHue(int numberOfColors)
+        private async Task<Collection<GeoColor>> GetColors(string family, int numberOfColors)
         {
-            var hueColors = new Collection<GeoColor>();
-
-            // Generate colors based on the parameters selected in the UI
-            switch (_baseColorRadioButtons.FirstOrDefault(btn => btn.IsChecked != null && (bool)btn.IsChecked)?.Name)
+            // The base color: random, the HTML color code typed in, or one of the defaults
+            GeoColor baseColor = null;
+            switch (_baseColorRadioButtons.FirstOrDefault(btn => btn.IsChecked == true)?.Name)
             {
-                case "RdoRandomColor":
-                    // Use a random base color
-                    hueColors = await _colorCloudClient.GetColorsInHueFamilyAsync(numberOfColors);
-                    break;
                 case "RdoSpecificColor":
-                    // Use the HTML color code specified for the base color
-                    var colorFromInputString = GetGeoColorFromString(TxtSpecificColor.Text);
-                    if (colorFromInputString != null)
-                    {
-                        hueColors = await _colorCloudClient.GetColorsInHueFamilyAsync(colorFromInputString, numberOfColors);
-                    }
+                    baseColor = GetGeoColorFromString(TxtSpecificColor.Text);
+                    if (baseColor == null) return new Collection<GeoColor>();
                     break;
                 case "RdoDefaultColor":
-                    // Use a default color for the base color
-                    hueColors = await _colorCloudClient.GetColorsInHueFamilyAsync(GetGeoColorFromDefaultColors(), numberOfColors);
+                    baseColor = GetGeoColorFromDefaultColors();
                     break;
             }
 
-            return hueColors;
-        }
-
-        /// <summary>
-        /// Get a family of colors based on analogous hues
-        /// </summary>
-        private async Task<Collection<GeoColor>> GetAnalogousColors(int numberOfColors)
-        {
-            var analogousColors = new Collection<GeoColor>();
-            var colorsDictionary = new Dictionary<GeoColor, Collection<GeoColor>>();
-
-            // Generate colors based on the parameters selected in the UI
-            switch (_baseColorRadioButtons.FirstOrDefault(btn => btn.IsChecked != null && (bool)btn.IsChecked)?.Name)
+            Dictionary<GeoColor, Collection<GeoColor>> families;
+            switch (family)
             {
-                case "RdoRandomColor":
-                    // Use a random base color
-                    colorsDictionary = await _colorCloudClient.GetColorsInAnalogousFamilyAsync(numberOfColors);
+                case "Hue":
+                    return baseColor == null
+                        ? await _colorCloudClient.GetColorsInHueFamilyAsync(numberOfColors)
+                        : await _colorCloudClient.GetColorsInHueFamilyAsync(baseColor, numberOfColors);
+                case "Quality":
+                    return baseColor == null
+                        ? await _colorCloudClient.GetColorsInQualityFamilyAsync(numberOfColors)
+                        : await _colorCloudClient.GetColorsInQualityFamilyAsync(baseColor, numberOfColors);
+                case "Analogous":
+                    families = baseColor == null
+                        ? await _colorCloudClient.GetColorsInAnalogousFamilyAsync(numberOfColors)
+                        : await _colorCloudClient.GetColorsInAnalogousFamilyAsync(baseColor, numberOfColors);
                     break;
-                case "RdoSpecificColor":
-                    // Use the HTML color code specified for the base color
-                    var colorFromInputString = GetGeoColorFromString(TxtSpecificColor.Text);
-                    if (colorFromInputString != null)
-                    {
-                        colorsDictionary = await _colorCloudClient.GetColorsInAnalogousFamilyAsync(colorFromInputString, numberOfColors);
-                    }
+                case "Complementary":
+                    families = baseColor == null
+                        ? await _colorCloudClient.GetColorsInComplementaryFamilyAsync(numberOfColors)
+                        : await _colorCloudClient.GetColorsInComplementaryFamilyAsync(baseColor, numberOfColors);
                     break;
-                case "RdoDefaultColor":
-                    // Use a default color for the base color
-                    colorsDictionary = await _colorCloudClient.GetColorsInAnalogousFamilyAsync(GetGeoColorFromDefaultColors(), numberOfColors);
+                case "Contrasting":
+                    families = baseColor == null
+                        ? await _colorCloudClient.GetColorsInContrastingFamilyAsync(numberOfColors)
+                        : await _colorCloudClient.GetColorsInContrastingFamilyAsync(baseColor, numberOfColors);
                     break;
+                case "Tetrad":
+                    families = baseColor == null
+                        ? await _colorCloudClient.GetColorsInTetradFamilyAsync(numberOfColors)
+                        : await _colorCloudClient.GetColorsInTetradFamilyAsync(baseColor, numberOfColors);
+                    break;
+                case "Triad":
+                    families = baseColor == null
+                        ? await _colorCloudClient.GetColorsInTriadFamilyAsync(numberOfColors)
+                        : await _colorCloudClient.GetColorsInTriadFamilyAsync(baseColor, numberOfColors);
+                    break;
+                default:
+                    return new Collection<GeoColor>();
             }
 
-            // Some color generation APIs use multiple base colors based on the original input color
-            // These APIs return a dictionary where the 'keys' are the base colors and the 'values' are the colors generated from that base
-            // For this sample we will simply utilize all the colors generated
-            foreach (var color in colorsDictionary.Values.SelectMany(colors => colors))
-            {
-                analogousColors.Add(color);
-            }
-
-            return analogousColors;
-        }
-
-        /// <summary>
-        /// Get a family of colors based on complementary hues
-        /// </summary>
-        private async Task<Collection<GeoColor>> GetComplementaryColors(int numberOfColors)
-        {
-            var complementaryColors = new Collection<GeoColor>();
-            var colorsDictionary = new Dictionary<GeoColor, Collection<GeoColor>>();
-
-            // Generate colors based on the parameters selected in the UI
-            switch (_baseColorRadioButtons.FirstOrDefault(btn => btn.IsChecked != null && (bool)btn.IsChecked)?.Name)
-            {
-                case "RdoRandomColor":
-                    // Use a random base color
-                    colorsDictionary = await _colorCloudClient.GetColorsInComplementaryFamilyAsync(numberOfColors);
-                    break;
-                case "RdoSpecificColor":
-                    // Use the HTML color code specified for the base color
-                    var colorFromInputString = GetGeoColorFromString(TxtSpecificColor.Text);
-                    if (colorFromInputString != null)
-                    {
-                        colorsDictionary = await _colorCloudClient.GetColorsInComplementaryFamilyAsync(colorFromInputString, numberOfColors);
-                    }
-                    break;
-                case "RdoDefaultColor":
-                    // Use a default color for the base color
-                    colorsDictionary = await _colorCloudClient.GetColorsInComplementaryFamilyAsync(GetGeoColorFromDefaultColors(), numberOfColors);
-                    break;
-            }
-
-            // Some color generation APIs use multiple base colors based on the original input color
-            // These APIs return a dictionary where the 'keys' are the base colors and the 'values' are the colors generated from that base
-            // For this sample we will simply utilize all the colors generated
-            foreach (var color in colorsDictionary.Values.SelectMany(colors => colors))
-            {
-                complementaryColors.Add(color);
-            }
-
-            return complementaryColors;
-        }
-
-        /// <summary>
-        /// Get a family of colors based on contrasting hues
-        /// </summary>
-        private async Task<Collection<GeoColor>> GetContrastingColors(int numberOfColors)
-        {
-            var contrastingColors = new Collection<GeoColor>();
-            var colorsDictionary = new Dictionary<GeoColor, Collection<GeoColor>>();
-
-            // Generate colors based on the parameters selected in the UI
-            switch (_baseColorRadioButtons.FirstOrDefault(btn => btn.IsChecked != null && (bool)btn.IsChecked)?.Name)
-            {
-                case "RdoRandomColor":
-                    // Use a random base color
-                    colorsDictionary = await _colorCloudClient.GetColorsInContrastingFamilyAsync(numberOfColors);
-                    break;
-                case "RdoSpecificColor":
-                    // Use the HTML color code specified for the base color
-                    var colorFromInputString = GetGeoColorFromString(TxtSpecificColor.Text);
-                    if (colorFromInputString != null)
-                    {
-                        colorsDictionary = await _colorCloudClient.GetColorsInContrastingFamilyAsync(colorFromInputString, numberOfColors);
-                    }
-                    break;
-                case "RdoDefaultColor":
-                    // Use a default color for the base color
-                    colorsDictionary = await _colorCloudClient.GetColorsInContrastingFamilyAsync(GetGeoColorFromDefaultColors(), numberOfColors);
-                    break;
-            }
-
-            // Some color generation APIs use multiple base colors based on the original input color
-            // These APIs return a dictionary where the 'keys' are the base colors and the 'values' are the colors generated from that base
-            // For this sample we will simply utilize all the colors generated
-            foreach (var color in colorsDictionary.Values.SelectMany(colors => colors))
-            {
-                contrastingColors.Add(color);
-            }
-
-            return contrastingColors;
-        }
-
-        /// <summary>
-        /// Get a family of colors with qualitative variances in hue, but similar lightness and saturation
-        /// </summary>
-        private async Task<Collection<GeoColor>> GetQualityColors(int numberOfColors)
-        {
-            var qualityColors = new Collection<GeoColor>();
-
-            // Generate colors based on the parameters selected in the UI
-            switch (_baseColorRadioButtons.FirstOrDefault(btn => btn.IsChecked != null && (bool)btn.IsChecked)?.Name)
-            {
-                case "RdoRandomColor":
-                    // Use a random base color
-                    qualityColors = await _colorCloudClient.GetColorsInQualityFamilyAsync(numberOfColors);
-                    break;
-                case "RdoSpecificColor":
-                    // Use the HTML color code specified for the base color
-                    var colorFromInputString = GetGeoColorFromString(TxtSpecificColor.Text);
-                    if (colorFromInputString != null)
-                    {
-                        qualityColors = await _colorCloudClient.GetColorsInQualityFamilyAsync(colorFromInputString, numberOfColors);
-                    }
-                    break;
-                case "RdoDefaultColor":
-                    // Use a default color for the base color
-                    qualityColors = await _colorCloudClient.GetColorsInQualityFamilyAsync(GetGeoColorFromDefaultColors(), numberOfColors);
-                    break;
-            }
-
-            return qualityColors;
-        }
-
-        /// <summary>
-        /// Get a family of colors based on a harmonious tetrad of hues
-        /// </summary>
-        private async Task<Collection<GeoColor>> GetTetradColors(int numberOfColors)
-        {
-            var tetradColors = new Collection<GeoColor>();
-            var colorsDictionary = new Dictionary<GeoColor, Collection<GeoColor>>();
-
-            // Generate colors based on the parameters selected in the UI
-            switch (_baseColorRadioButtons.FirstOrDefault(btn => btn.IsChecked != null && (bool)btn.IsChecked)?.Name)
-            {
-                case "RdoRandomColor":
-                    // Use a random base color
-                    colorsDictionary = await _colorCloudClient.GetColorsInTetradFamilyAsync(numberOfColors);
-                    break;
-                case "RdoSpecificColor":
-                    // Use the HTML color code specified for the base color
-                    var colorFromInputString = GetGeoColorFromString(TxtSpecificColor.Text);
-                    if (colorFromInputString != null)
-                    {
-                        colorsDictionary = await _colorCloudClient.GetColorsInTetradFamilyAsync(colorFromInputString, numberOfColors);
-                    }
-                    break;
-                case "RdoDefaultColor":
-                    // Use a default color for the base color
-                    colorsDictionary = await _colorCloudClient.GetColorsInTetradFamilyAsync(GetGeoColorFromDefaultColors(), numberOfColors);
-                    break;
-            }
-
-            // Some color generation APIs use multiple base colors based on the original input color
-            // These APIs return a dictionary where the 'keys' are the base colors and the 'values' are the colors generated from that base
-            // For this sample we will simply utilize all the colors generated
-            foreach (var color in colorsDictionary.Values.SelectMany(colors => colors))
-            {
-                tetradColors.Add(color);
-            }
-
-            return tetradColors;
-        }
-
-        /// <summary>
-        /// Get a family of colors based on a harmonious tried of hues
-        /// </summary>
-        private async Task<Collection<GeoColor>> GetTriadColors(int numberOfColors)
-        {
-            var triadColors = new Collection<GeoColor>();
-            var colorsDictionary = new Dictionary<GeoColor, Collection<GeoColor>>();
-
-            // Generate colors based on the parameters selected in the UI
-            switch (_baseColorRadioButtons.FirstOrDefault(btn => btn.IsChecked != null && (bool)btn.IsChecked)?.Name)
-            {
-                case "RdoRandomColor":
-                    // Use a random base color
-                    colorsDictionary = await _colorCloudClient.GetColorsInTriadFamilyAsync(numberOfColors);
-                    break;
-                case "RdoSpecificColor":
-                    // Use the HTML color code specified for the base color
-                    var colorFromInputString = GetGeoColorFromString(TxtSpecificColor.Text);
-                    if (colorFromInputString != null)
-                    {
-                        colorsDictionary = await _colorCloudClient.GetColorsInTriadFamilyAsync(colorFromInputString, numberOfColors);
-                    }
-                    break;
-                case "RdoDefaultColor":
-                    // Use a default color for the base color
-                    colorsDictionary = await _colorCloudClient.GetColorsInTriadFamilyAsync(GetGeoColorFromDefaultColors(), numberOfColors);
-                    break;
-            }
-
-            // Some color generation APIs use multiple base colors based on the original input color
-            // These APIs return a dictionary where the 'keys' are the base colors and the 'values' are the colors generated from that base
-            // For this sample we will simply utilize all the colors generated
-            foreach (var color in colorsDictionary.Values.SelectMany(colors => colors))
-            {
-                triadColors.Add(color);
-            }
-
-            return triadColors;
+            return new Collection<GeoColor>(families.Values.SelectMany(colors => colors).ToList());
         }
 
         /// <summary>

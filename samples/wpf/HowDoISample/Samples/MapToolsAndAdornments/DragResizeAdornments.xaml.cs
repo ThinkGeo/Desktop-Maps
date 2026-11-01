@@ -22,7 +22,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             InitializeComponent();
         }
 
-        private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
@@ -30,10 +30,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             Map.MapUnit = GeographyUnit.Meter;
 
-            var thinkGeoCloudVectorMapsOverlay = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
-            Map.Basemap = thinkGeoCloudVectorMapsOverlay;
+            var basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
+            Map.Basemap = basemap;
 
-            var housingUnitsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp");
+            var housingUnitsLayer = new ShapeFileFeatureLayer(SampleShared.Shapefile("Frisco 2010 Census Housing Units.shp"));
             housingUnitsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
             var legend = CreateLegend();
@@ -57,7 +57,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 YOffsetInPixel = -45
             };
 
-            var logo = new LogoAdornmentLayer(new GeoImage(@"..\..\..\Resources\generic-logo.png"))
+            var logo = new LogoAdornmentLayer(new GeoImage(System.IO.Path.Combine(AppContext.BaseDirectory, "Resources", "generic-logo.png")))
             {
                 Location = AdornmentLocation.LowerRight
             };
@@ -92,7 +92,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             Map.CurrentScale = MapUtil.GetScale(Map.MapUnit, housingUnitsLayerBBox, Map.MapWidth, Map.MapHeight) * 1.5;
             housingUnitsLayer.Close();
 
-            _initialized = true;
             ApplyAdornmentInteraction();
 
             _ = Map.RefreshAsync();

@@ -60,7 +60,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Moving a classic application across is the first thing an existing
             // customer asks, so the bridge opens the menu rather than closing it.
             new SampleEntry("Start Here", "Migrate a Classic Layer", "MigrateAClassicLayer.xaml.cs",
-                "Add a FeatureLayer styled on its ZoomLevelSet to a MapStyle in one call, beside the classic renderer drawing the same layers",
+                "Translate a FeatureLayer styled on its ZoomLevelSet and add it to a MapStyle, beside the classic renderer drawing the same layers",
                 "AddFeatureLayer", true, typeof(Samples.MigrateAClassicLayer), () => new Samples.MigrateAClassicLayer()),
             new SampleEntry("Start Here", "Frequently Asked Questions", "FaqViewer.cs",
                 "Frequently asked questions about the samples and the SDK",

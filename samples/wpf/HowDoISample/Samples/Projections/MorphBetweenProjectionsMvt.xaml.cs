@@ -46,7 +46,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 new RectangleShape(128, -9, 136, -44)),
         };
 
-        internal const double WorldHalfSize = 20037508.342789244;
+        private const double WorldHalfSize = 20037508.342789244;
 
         /// <summary>How long the projection morph takes, matching the shapefile
         /// sample's so the two read as the same gesture.</summary>
@@ -203,23 +203,23 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _ => DisplayProjection.FromProjString(definition),
         };
 
-        // ---- the acceptance run's window into the sample ----------------------
+        // ---- state the SDK's acceptance run reads ----------------------------
 
         /// <summary>Settled: ready, and no projection change in flight.</summary>
-        internal bool IsIdle => _ready && !_rebuilding && !_showBusy;
+        private bool IsIdle => _ready && !_rebuilding && !_showBusy;
 
-        internal string WarnDebug = string.Empty;
+        private string WarnDebug { get; set; } = string.Empty;
 
-        internal RectangleShape GroundNow() => CurrentGround();
+        private RectangleShape GroundNow() => CurrentGround();
 
-        internal double LastBuildMilliseconds => _lastBuildMs;
+        private double LastBuildMilliseconds => _lastBuildMs;
 
         /// <summary>
         /// Where a ground point lands on the canvas. The map API speaks web mercator
         /// whatever the display projection is, so this is simply the mercator
         /// coordinate - the projection happens on the way to the screen.
         /// </summary>
-        internal PointShape CanvasPointFor(string radioName, double lon, double lat) =>
+        private PointShape CanvasPointFor(string radioName, double lon, double lat) =>
             ToMercatorPoint(lon, lat);
 
         // ---- ground and view --------------------------------------------------
@@ -231,21 +231,32 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             return ToGeographic(view);
         }
 
+        // View arithmetic, not data: a view can reach past the world's edge, and
+        // ProjectionConverter clips a rectangle to the world and wraps a longitude past
+        // 180, so these stay the plain formulas.
         private static PointShape ToMercatorPoint(double lon, double lat)
         {
-            var meters = ProjectionConverter.DecimalDegreesToSphericalMercator.ConvertToExternalProjection(lon, lat);
-            return new PointShape(meters.X, meters.Y);
+            var clamped = Math.Max(-85.05112878, Math.Min(85.05112878, lat));
+            return new PointShape(
+                lon / 180.0 * WorldHalfSize,
+                Math.Log(Math.Tan((90.0 + clamped) * Math.PI / 360.0)) / (Math.PI / 180.0) / 180.0 * WorldHalfSize);
         }
 
         private static RectangleShape ToMercator(RectangleShape ground)
         {
-            var upperLeft = ToMercatorPoint(ground.MinX, Math.Min(85.05112878, ground.MaxY));
-            var lowerRight = ToMercatorPoint(ground.MaxX, Math.Max(-85.05112878, ground.MinY));
+            var upperLeft = ToMercatorPoint(ground.MinX, ground.MaxY);
+            var lowerRight = ToMercatorPoint(ground.MaxX, ground.MinY);
             return new RectangleShape(upperLeft.X, upperLeft.Y, lowerRight.X, lowerRight.Y);
         }
 
-        private static RectangleShape ToGeographic(RectangleShape mercator) =>
-            ProjectionConverter.DecimalDegreesToSphericalMercator.ConvertToInternalProjection(mercator);
+        private static RectangleShape ToGeographic(RectangleShape mercator)
+        {
+            double Lon(double x) => x / WorldHalfSize * 180.0;
+            double Lat(double y) => 180.0 / Math.PI *
+                (2.0 * Math.Atan(Math.Exp(y / WorldHalfSize * Math.PI)) - Math.PI / 2.0);
+
+            return new RectangleShape(Lon(mercator.MinX), Lat(mercator.MaxY), Lon(mercator.MaxX), Lat(mercator.MinY));
+        }
 
         /// <summary>Explain the regional projection's limits without treating
         /// a deliberately broad overview as a rendering failure.</summary>

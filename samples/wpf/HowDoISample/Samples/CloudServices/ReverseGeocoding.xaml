@@ -47,6 +47,20 @@
                      Grid.Row="4"
                      x:Name="TxtMaxResults"
                      Text="100"></TextBox>
+            <Label Grid.Column="1"
+                   Grid.Row="5"
+                   Grid.ColumnSpan="2"
+                   FontSize="14">Data Sources:</Label>
+            <StackPanel Grid.Column="1"
+                        Grid.Row="6"
+                        Grid.ColumnSpan="2"
+                        Orientation="Vertical">
+                <CheckBox x:Name="CbDataOsm" Content="OSM (OpenStreetMap)" />
+                <CheckBox x:Name="CbDataOa" Content="OA (OpenAddresses)" />
+                <CheckBox x:Name="CbDataWof" Content="WOF (Who's On First)" />
+                <CheckBox x:Name="CbDataGn" Content="GN (GeoNames)" />
+                <CheckBox x:Name="CbDataOt" Content="OT (Overture)" />
+            </StackPanel>
 
             <Button Grid.Column="1"
                     Grid.Row="7"
@@ -82,28 +96,6 @@
                                                    FontWeight="Bold" />
                                     <TextBlock Grid.Row="1"
                                                    Text="{Binding Path=LocationType, StringFormat=Type: {0}}"/>
-                                </Grid>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </TabItem>
-                <TabItem x:Name="NearbyRoadsTabItem"
-                         Header="Road">
-                    <ListBox x:Name="LsbRoads"
-                             SelectionChanged="LsbSearchResults_SelectionChanged">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate DataType="{x:Type code:CloudReverseGeocodingLocation}">
-                                <Grid Width="280">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                    </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="0"
-                                               Text="{Binding Path=Address}"
-                                               TextWrapping="Wrap" 
-                                               FontWeight="Bold" />
-                                    <TextBlock Grid.Row="1"
-                                               Text="{Binding Path=LocationType, StringFormat=Type: {0}}"/>
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -193,13 +185,11 @@
             <Setter Property="Margin"
                     Value="0,10,0,0"></Setter>
         </Style>
-        <Style TargetType="ComboBox">
-            <Setter Property="Height"
-                    Value="20"></Setter>
-        </Style>
-        <Style TargetType="RadioButton">
+        <Style TargetType="CheckBox">
             <Setter Property="Foreground"
                     Value="WhiteSmoke"></Setter>
+            <Setter Property="Margin"
+                    Value="0,2,0,2"></Setter>
         </Style>
     </UserControl.Resources>
 </UserControl>

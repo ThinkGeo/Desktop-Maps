@@ -25,7 +25,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map.
         /// </summary>
-        private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
@@ -33,10 +33,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             Map.MapUnit = GeographyUnit.Meter;
 
-            var thinkGeoCloudVectorMapsOverlay = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
-            Map.Basemap = thinkGeoCloudVectorMapsOverlay;
+            var basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
+            Map.Basemap = basemap;
 
-            Map.MapTools.Logo.Source = new BitmapImage(new Uri(@"..\..\..\Resources\generic-logo.png", UriKind.RelativeOrAbsolute));
+            Map.MapTools.Logo.Source = new BitmapImage(new Uri("/Resources/generic-logo.png", UriKind.RelativeOrAbsolute));
             Map.MapTools.Logo.IsEnabled = true;
             Map.MapTools.Logo.Margin = new Thickness(0, 0, 0, 40);
 
@@ -50,8 +50,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             Map.CenterPoint = new PointShape(-10778000, 3912000);
             Map.CurrentScale = 77000;
-
-            _initialized = true;
 
             _ = Map.RefreshAsync();
         }

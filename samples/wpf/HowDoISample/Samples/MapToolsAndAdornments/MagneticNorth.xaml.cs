@@ -22,7 +22,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay.
         /// </summary>
-        private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
@@ -43,7 +43,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             magneticDeclinationAdornmentLayer.MagneticNorthLineStyle.OuterPen.Width = 5f;
 
             Map.AdornmentOverlay.Layers.Add(magneticDeclinationAdornmentLayer);
-            Map.AdornmentOverlay.Layers.Add(new LogoAdornmentLayer(new GeoImage(@"..\..\..\Resources\generic-logo.png"))
+            Map.AdornmentOverlay.Layers.Add(new LogoAdornmentLayer(new GeoImage(System.IO.Path.Combine(AppContext.BaseDirectory, "Resources", "generic-logo.png")))
             {
                 Location = AdornmentLocation.LowerRight
             });

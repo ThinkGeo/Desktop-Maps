@@ -1,9 +1,8 @@
 using System;
-using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 using ThinkGeo.Core;
 using ThinkGeo.Core.Styling;
 using ThinkGeo.UI.Wpf;
@@ -16,9 +15,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
     /// </summary>
     public partial class Geocoding
     {
-
         private bool _initialized;
         private GeocodingCloudClient _geocodingCloudClient;
+        private readonly DynamicSource _selectedResult = new DynamicSource();
 
         public Geocoding()
         {
@@ -26,31 +25,31 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         }
 
         /// <summary>
-        /// Set up the map with the ThinkGeo Cloud Maps overlay
+        /// Set up the map with the ThinkGeo Cloud Maps basemap
         /// </summary>
-        private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
-
             _initialized = true;
-            // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            var thinkGeoCloudVectorMapsOverlay = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
-            Map.Basemap = thinkGeoCloudVectorMapsOverlay;
 
             Map.MapUnit = GeographyUnit.Meter;
 
-            // Create a marker overlay to display the geocoded locations that will be generated, and add it to the map
-            MarkerOverlay geocodedLocationsOverlay = new SimpleMarkerOverlay();
-            Map.Overlays.Add("Geocoded Locations Overlay", geocodedLocationsOverlay);
+            // The location picked out of the results is drawn with the basemap: a star for a
+            // point, and a street or a boundary as the line or area it is.
+            var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
+            style.Images.Add("match", new PointStyle(PointSymbolType.Star, 24, GeoBrushes.MediumPurple, GeoPens.Purple));
+            style.AddDynamic(_selectedResult);
+            Map.Basemap = new GpuBasemap(style);
 
+            // Set the map extent to Frisco, TX
             Map.CenterPoint = new PointShape(-10778720, 3915154);
             Map.CurrentScale = 202090;
 
             // Initialize the GeocodingCloudClient using our ThinkGeo Cloud credentials
             _geocodingCloudClient = new GeocodingCloudClient
             {
-                ClientId = SampleKeys.ClientId2,
-                ClientSecret = SampleKeys.ClientSecret2,
+                ClientId = SampleShared.ClientId,
+                ClientSecret = SampleShared.ClientSecret,
             };
 
             _ = Map.RefreshAsync();
@@ -66,11 +65,34 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             var options = new CloudGeocodingOptions
             {
-                // Set up the CloudGeocodingOptions object based on the parameters set in the UI
                 MaxResults = int.Parse(TxtMaxResults.Text),
+                Autocomplete = ChkAutocomplete.IsChecked == true,
                 ResultProjectionInSrid = 3857,
-                BBox = Map.CurrentExtent
             };
+            if (ChkRestrictToExtent.IsChecked == true)
+            {
+                options.BBox = Map.CurrentExtent;
+            }
+
+            var countries = (TxtCountryCodes.Text ?? string.Empty)
+                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => s.Trim())
+                .Where(s => s.Length > 0)
+                .ToArray();
+            if (countries.Length > 0)
+            {
+                options.Countries = countries;
+            }
+
+            var languages = (TxtLanguage.Text ?? string.Empty)
+                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => s.Trim())
+                .Where(s => s.Length > 0)
+                .ToArray();
+            if (languages.Length > 0)
+            {
+                options.Language = languages;
+            }
 
             // Run the geocode
             var searchString = TxtSearchString.Text.Trim();
@@ -85,13 +107,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// <summary>
         /// Update the UI based on the results of a Cloud Geocoding Query
         /// </summary>
-        private async Task UpdateSearchResultsOnUIAsync(CloudGeocodingResult searchResult)
+        private void UpdateSearchResultsOnUI(CloudGeocodingResult searchResult)
         {
-            // Clear the locations list and existing location markers on the map
-            var geocodedLocationOverlay = (SimpleMarkerOverlay)Map.Overlays["Geocoded Locations Overlay"];
-            geocodedLocationOverlay.Markers.Clear();
+            // Clear the locations list and the location drawn on the map
+            _selectedResult.Clear();
             LsbLocations.ItemsSource = null;
-            await geocodedLocationOverlay.RefreshAsync();
 
             if (searchResult.Locations != null)
             {
@@ -127,10 +147,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                     }
 
                     // Update the UI based on the results
-                    await UpdateSearchResultsOnUIAsync(searchResult);
+                    UpdateSearchResultsOnUI(searchResult);
                 }
             }
-            catch 
+            catch
             {
                 LoadingImage.Visibility = Visibility.Hidden;
                 // Because async void methods don't return a Task, unhandled exceptions cannot be awaited or caught from outside.
@@ -139,21 +159,32 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         }
 
         /// <summary>
-        /// When a location is selected in the UI, add a marker at that location and center the map on it
+        /// When a location is selected in the UI, draw it on the map and center the map on it
         /// </summary>
         private async void lsbLocations_SelectionChanged(object sender, RoutedEventArgs e)
         {
             try
-            { 
+            {
                 // Get the selected location
                 var chosenLocation = LsbLocations.SelectedItem as CloudGeocodingLocation;
                 if (chosenLocation == null) return;
-                // Get the MarkerOverlay from the Map
-                var geocodedLocationOverlay = (SimpleMarkerOverlay)Map.Overlays["Geocoded Locations Overlay"];
 
-                // Clear the existing markers and add a new marker at the chosen location
-                geocodedLocationOverlay.Markers.Clear();
-                geocodedLocationOverlay.Markers.Add(CreateNewMarker(chosenLocation.LocationPoint));
+                // A found location can be a point, a street or a boundary, so it is drawn
+                // the way its kind is drawn.
+                _selectedResult.Clear();
+                var locationFeature = new Feature(chosenLocation.Shape);
+                switch (chosenLocation.Shape)
+                {
+                    case AreaBaseShape _:
+                        _selectedResult.SetArea("found", locationFeature, new GeoColor(80, GeoColors.MediumPurple), GeoColors.MediumPurple, 2f);
+                        break;
+                    case LineBaseShape _:
+                        _selectedResult.SetLine("found", locationFeature, GeoColors.MediumPurple, 6f);
+                        break;
+                    case PointBaseShape _:
+                        _selectedResult.SetPoint("found", locationFeature, sizeInPixel: 24f, iconName: "match");
+                        break;
+                }
 
                 // Center the map on the chosen location
                 var chosenLocationBBox = chosenLocation.BoundingBox;
@@ -163,7 +194,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 await Map.ZoomToAsync(standardZoomLevelSet.ZoomLevel18.Scale);
                 await Map.RefreshAsync();
             }
-            catch 
+            catch
             {
                 LoadingImage.Visibility = Visibility.Hidden;
                 // Because async void methods don't return a Task, unhandled exceptions cannot be awaited or caught from outside.
@@ -190,21 +221,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             TxtMaxResults.Focus();
             MessageBox.Show("Please enter a number between 1 - 100", "Error");
             return false;
-
-        }
-
-        /// <summary>
-        /// Create a new map marker using preloaded image assets
-        /// </summary>
-        private static Marker CreateNewMarker(PointShape point)
-        {
-            return new Marker(point)
-            {
-                ImageSource = new BitmapImage(new Uri("/Resources/marker.png", UriKind.RelativeOrAbsolute)),
-                Width = 20,
-                Height = 34,
-                YOffset = -17
-            };
         }
     }
 }

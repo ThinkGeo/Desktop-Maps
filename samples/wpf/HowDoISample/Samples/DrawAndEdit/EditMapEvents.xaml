@@ -119,9 +119,6 @@
         <Style TargetType="Grid">
             <Setter Property="Background" Value="DimGray"></Setter>
         </Style>
-        <Style TargetType="TextBox">
-            <Setter Property="Height" Value="20"></Setter>
-        </Style>
         <Style TargetType="TextBlock">
             <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
             <Setter Property="Margin" Value="4"></Setter>
@@ -129,9 +126,6 @@
         <Style TargetType="Button">
             <Setter Property="Height" Value="22"></Setter>
             <Setter Property="Margin" Value="0,10,0,0"></Setter>
-        </Style>
-        <Style TargetType="ComboBox">
-            <Setter Property="Height" Value="20"></Setter>
         </Style>
         <Style TargetType="RadioButton">
             <Setter Property="Foreground" Value="WhiteSmoke"></Setter>

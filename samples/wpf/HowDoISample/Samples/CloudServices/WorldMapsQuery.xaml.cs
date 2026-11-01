@@ -32,16 +32,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay and feature layers for the queried shapes
         /// </summary>
-        private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
             Map.MapUnit = GeographyUnit.Meter;
 
-            // The query shape and its results go to the GPU as geometry with the
-            // basemap; a star icon serves the point results. The query shape is added
-            // last so it draws over what it found.
+            // The query shape and its results are drawn with the basemap; a star serves
+            // the point results. The query shape is added last so it draws over what it
+            // found.
             var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
             style.Images.Add("star-blue", new PointStyle(PointSymbolType.Star, 20, GeoBrushes.Blue));
             style.Images.Add("star-orange", new PointStyle(PointSymbolType.Star, 20, GeoBrushes.OrangeRed));
@@ -58,8 +58,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // Initialize the MapsQueryCloudClient with our ThinkGeo Cloud credentials
             _mapsQueryCloudClient = new MapsQueryCloudClient
             {
-                ClientId = SampleKeys.ClientId2,
-                ClientSecret = SampleKeys.ClientSecret2,
+                ClientId = SampleShared.ClientId,
+                ClientSecret = SampleShared.ClientSecret,
             };
 
             // Create a sample shape to run the first query with

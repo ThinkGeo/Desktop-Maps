@@ -15,7 +15,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
     public partial class MapNavigation
     {
         private readonly ThinkGeoVectorTileSource _cloud = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) };
-        private GpuBasemap _backgroundOverlay;
+        private GpuBasemap _basemap;
         private bool _darkTheme;
         private bool _isSwitchingTheme;
         private PointShape _empireStateBuildingPosition;
@@ -38,9 +38,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // The street style carries its own building extrusions, so the 3D
             // Buildings checkbox is a renderer switch, not a style rebuild.
             Map.IsTiltInteractionEnabled = true;
-            _backgroundOverlay = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, _cloud));
-            _backgroundOverlay.IsExtrusionDrawingEnabled = BuildingCheckBox.IsChecked != false;
-            Map.Basemap = _backgroundOverlay;
+            _basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, _cloud));
+            _basemap.IsExtrusionDrawingEnabled = BuildingCheckBox.IsChecked != false;
+            Map.Basemap = _basemap;
 
             var markerOverlay = new SimpleMarkerOverlay();
             Map.Overlays.Add(markerOverlay);
@@ -89,9 +89,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         private void BuildingCheckBox_CheckedChanged(object sender, RoutedEventArgs e)
         {
-            if (!_initialized || _backgroundOverlay == null) return;
+            if (!_initialized || _basemap == null) return;
 
-            _backgroundOverlay.IsExtrusionDrawingEnabled = BuildingCheckBox.IsChecked == true;
+            _basemap.IsExtrusionDrawingEnabled = BuildingCheckBox.IsChecked == true;
             _ = Map.RefreshAsync();
         }
 
@@ -126,7 +126,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             {
                 _darkTheme = !_darkTheme;
                 DarkThemeButton.Content = _darkTheme ? "Light Theme" : "Dark Theme";
-                await _backgroundOverlay.SetStyleAsync(new MapStyle(_darkTheme ? ThinkGeoVectorStyles.Dark : ThinkGeoVectorStyles.Light, _cloud));
+                await _basemap.SetStyleAsync(new MapStyle(_darkTheme ? ThinkGeoVectorStyles.Dark : ThinkGeoVectorStyles.Light, _cloud));
             }
             finally
             {

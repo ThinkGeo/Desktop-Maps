@@ -27,20 +27,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay and a feature layer for the reprojected features
         /// </summary>
-        private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
             Map.MapUnit = GeographyUnit.Meter;
 
-            // The reprojected shapes go to the GPU with the basemap. Drawn on an overlay
-            // they would be raster tiles, so they would stretch through a fractional
-            // zoom while the map beneath them stayed sharp.
+            // The reprojected shapes are drawn with the basemap, so they stay sharp
+            // through a fractional zoom.
             var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
 
-            // The GPU draws a marker from a named image, so a point style the GPU has no
-            // shape of its own for - a star - is drawn once by the CPU and registered.
+            // The star the points are drawn with, registered under the name they ask for.
             style.Images.Add("star", new PointStyle(PointSymbolType.Star, 24, GeoBrushes.MediumPurple, GeoPens.Purple));
             style.AddDynamic(_reprojected);
             Map.Basemap = new GpuBasemap(style);
@@ -51,8 +49,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // Initialize the ProjectionCloudClient with our ThinkGeo Cloud credentials
             _projectionCloudClient = new ProjectionCloudClient
             {
-                ClientId = SampleKeys.ClientId2,
-                ClientSecret = SampleKeys.ClientSecret2,
+                ClientId = SampleShared.ClientId,
+                ClientSecret = SampleShared.ClientSecret,
             };
 
             _ = Map.RefreshAsync();

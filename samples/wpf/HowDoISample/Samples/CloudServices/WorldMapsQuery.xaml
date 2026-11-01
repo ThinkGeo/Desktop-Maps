@@ -107,8 +107,5 @@
         <Style TargetType="ComboBox">
             <Setter Property="Height" Value="20"></Setter>
         </Style>
-        <Style TargetType="RadioButton">
-            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
-        </Style>
     </UserControl.Resources>
 </UserControl>

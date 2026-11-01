@@ -14,10 +14,6 @@
     </Grid>
     
     <UserControl.Resources>
-        <Style TargetType="Label">
-            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
-            <Setter Property="FontSize" Value="14"></Setter>
-        </Style>
         <Style TargetType="Grid">
             <Setter Property="Background" Value="DimGray"></Setter>
         </Style>

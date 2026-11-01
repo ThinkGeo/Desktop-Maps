@@ -29,22 +29,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay, as well as several feature layers to display the reverse geocoding search area and locations
         /// </summary>
-        private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
             Map.MapUnit = GeographyUnit.Meter;
 
-            // The circle that was searched and the location picked out of the results go
-            // to the GPU with the basemap. Drawn on an overlay they would be raster tiles,
-            // so they would stretch through a fractional zoom while the map under them
-            // stayed sharp.
+            // The circle that was searched and the location picked out of the results are
+            // drawn with the basemap, so they stay sharp through a fractional zoom.
             var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
 
-            // The GPU draws a marker from a named image, so point styles the GPU has no
-            // shape of its own for - a cross, a star - are drawn once by the CPU and
-            // registered under the names the markers ask for.
+            // The cross and the star the points are drawn with, registered under the names
+            // they ask for.
             style.Images.Add("center", new PointStyle(PointSymbolType.Cross, 20, GeoBrushes.Red));
             style.Images.Add("match", new PointStyle(PointSymbolType.Star, 24, GeoBrushes.MediumPurple, GeoPens.Purple));
             style.AddDynamic(_searchRadius);
@@ -60,8 +57,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // Initialize the ReverseGeocodingCloudClient with our ThinkGeo Cloud credentials
             _reverseGeocodingCloudClient = new ReverseGeocodingCloudClient
             {
-                ClientId = SampleKeys.ClientId2,
-                ClientSecret = SampleKeys.ClientSecret2,
+                ClientId = SampleShared.ClientId,
+                ClientSecret = SampleShared.ClientSecret,
             };
 
 
@@ -112,6 +109,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 const int pointProjectionInSrid = 3857;
                 var searchPoint = new PointShape(lon, lat);
                 options.MaxResults = int.Parse(TxtMaxResults.Text);
+                if (CbDataOsm.IsChecked == true) options.DataSources.Add("osm");
+                if (CbDataOa.IsChecked == true) options.DataSources.Add("oa");
+                if (CbDataWof.IsChecked == true) options.DataSources.Add("wof");
+                if (CbDataGn.IsChecked == true) options.DataSources.Add("gn");
+                if (CbDataOt.IsChecked == true) options.DataSources.Add("ot");
 
                 // Show a loading graphic to let users know the request is running
                 LoadingImage.Visibility = Visibility.Visible;
@@ -175,28 +177,24 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 };
                 bestMatchPopupOverlay.Popups.Add(bestMatchPopup);
 
-                // Sort the locations found into three groups (Addresses, Places, Roads) based on their LocationCategory
+                // Sort the locations found into two groups (Addresses, Places) based on their LocationCategory
                 var nearbyLocations = new Collection<CloudReverseGeocodingLocation>(searchResult.NearbyLocations);
                 var nearbyAddresses = new Collection<CloudReverseGeocodingLocation>();
                 var nearbyPlaces = new Collection<CloudReverseGeocodingLocation>();
-                var nearbyRoads = new Collection<CloudReverseGeocodingLocation>();
                 foreach (var foundLocation in nearbyLocations)
                 {
-                    if (foundLocation.LocationCategory.ToLower().Contains("addresspoint"))
+                    var category = (foundLocation.LocationCategory ?? string.Empty).ToLowerInvariant();
+
+                    // Addresses: legacy AddressPoint, Pelias address layer
+                    if (category.Contains("address"))
                     {
                         nearbyAddresses.Add(foundLocation);
                     }
-                    else if (nameof(CloudLocationCategories.Aeroway).Equals(foundLocation.LocationCategory)
-                        || nameof(CloudLocationCategories.Road).Equals(foundLocation.LocationCategory)
-                        || nameof(CloudLocationCategories.Rail).Equals(foundLocation.LocationCategory)
-                        || nameof(CloudLocationCategories.Waterway).Equals(foundLocation.LocationCategory))
+                    // Everything else is a Place (skip intersections)
+                    else if (category != "intersection")
                     {
-                        nearbyRoads.Add(foundLocation);
-                    }
-                    else if (!nameof(CloudLocationCategories.Intersection).Equals(foundLocation.LocationCategory))
-                    {
-                        // Note:  Overture Place data does not have 'address' info, so it's null and we just use lat/lon.
-                        if (foundLocation.LocationCategory == "Overture_Places")
+                        // Overture and Pelias venue/admin results often lack a separate Address; fall back to the name.
+                        if (string.IsNullOrWhiteSpace(foundLocation.Address) && !string.IsNullOrWhiteSpace(foundLocation.LocationName))
                         {
                             foundLocation.Address = foundLocation.LocationName;
                         }
@@ -204,10 +202,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                     }
                 }
 
-                // Set the data sources for the addresses, roads, and places list boxes
+                // Set the data sources for the addresses and places list boxes
                 LsbAddresses.ItemsSource = nearbyAddresses;
-                LsbRoads.ItemsSource = nearbyRoads;
                 LsbPlaces.ItemsSource = nearbyPlaces;
+                LsbAddresses.SelectedIndex = 0;
 
                 TxtSearchResultsBestMatch.Text = "Best Match: " + searchResult.BestMatchLocation.Address;
             }

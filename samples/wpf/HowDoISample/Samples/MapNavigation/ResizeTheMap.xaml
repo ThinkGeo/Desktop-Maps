@@ -26,31 +26,8 @@
             <Setter Property="Background" Value="DimGray"></Setter>
             <Setter Property="Margin" Value="8,8,8,8"></Setter>
         </Style>
-        <Style TargetType="Border">
-            <Setter Property="BorderBrush" Value="Gray"></Setter>
-            <Setter Property="BorderThickness" Value="1"></Setter>
-        </Style>
-        <Style TargetType="Separator">
-            <Setter Property="Height" Value="12"></Setter>
-            <Setter Property="Background" Value="Transparent"></Setter>
-        </Style>
-        <Style TargetType="TextBlock">
-            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
-            <Setter Property="FontSize" Value="14"></Setter>
-            <Setter Property="FontWeight" Value="Bold"></Setter>
-            <Setter Property="Margin" Value="0,0,0,4"></Setter>
-        </Style>
         <Style TargetType="Label">
             <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
-        </Style>
-        <Style TargetType="TextBox">
-            <Setter Property="Margin" Value="4"></Setter>
-        </Style>
-        <Style TargetType="ComboBox">
-            <Setter Property="Margin" Value="4"></Setter>
-        </Style>
-        <Style TargetType="Button">
-            <Setter Property="Margin" Value="4"></Setter>
         </Style>
     </UserControl.Resources>
 </UserControl>

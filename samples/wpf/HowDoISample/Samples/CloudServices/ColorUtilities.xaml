@@ -103,10 +103,6 @@
         <Style TargetType="ComboBox">
             <Setter Property="Height" Value="25"></Setter>
         </Style>
-        <Style TargetType="ListBox">
-            <Setter Property="Height" Value="400"></Setter>
-            <Setter Property="Margin" Value="0,10,0,0"></Setter>
-        </Style>
         <Style TargetType="RadioButton">
             <Setter Property="Foreground" Value="Black"></Setter>
             <Setter Property="Margin" Value="0,5,0,0"></Setter>

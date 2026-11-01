@@ -58,7 +58,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _overlay = new GpuBasemap(_style);
             Map.Basemap = _overlay;
 
-            _seedPoints = LoadCsv(@"./Data/Csv/Frisco_Mosquitos.csv");
+            _seedPoints = LoadCsv(System.IO.Path.Combine(AppContext.BaseDirectory, "Data", "Csv", "Frisco_Mosquitos.csv"));
             var xs = _seedPoints.Keys.Select(p => p.X).ToList();
             var ys = _seedPoints.Keys.Select(p => p.Y).ToList();
             _dataBounds = new RectangleShape(xs.Min(), ys.Max(), xs.Max(), ys.Min());

@@ -27,7 +27,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay
         /// </summary>
-        private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
@@ -41,10 +41,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // Add the overlay to the map
             Map.Overlays.Add("Timezone Info Popup Overlay", timezoneInfoPopupOverlay);
 
-            // The timezone the service answers with goes to the GPU as geometry, drawn
-            // with the basemap in one pass. An overlay would draw it to raster tiles,
-            // and the shape would then stretch through a fractional zoom while the map
-            // under it did not.
+            // The timezone the service answers with is drawn with the basemap, so it
+            // stays sharp through a fractional zoom.
             var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
             style.AddDynamic(_timezoneArea);
             Map.Basemap = new GpuBasemap(style);
@@ -52,8 +50,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // Initialize the TimezoneCloudClient with our ThinkGeo Cloud credentials
             _timeZoneCloudClient = new TimeZoneCloudClient
             {
-                ClientId = SampleKeys.ClientId2,
-                ClientSecret = SampleKeys.ClientSecret2,
+                ClientId = SampleShared.ClientId,
+                ClientSecret = SampleShared.ClientSecret,
             };
 
             // Set the Map Extent

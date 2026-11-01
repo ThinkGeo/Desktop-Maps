@@ -21,8 +21,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private Collection<PointShape> _routingWaypoints;
 
         // The optimized route, its stops, their visit-order labels and the picked
-        // segment all go to the GPU as geometry with the basemap. The labels ride
-        // the side channel: drawn over everything, colliding with nothing.
+        // segment are drawn with the basemap. The labels draw over everything and
+        // collide with nothing.
         private readonly DynamicSource _route = new DynamicSource();
         private readonly DynamicSource _highlight = new DynamicSource();
 
@@ -34,7 +34,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// <summary>
         /// Set up the map with the ThinkGeo Cloud Maps overlay, as well as a feature layer to display the route
         /// </summary>
-        private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
@@ -73,8 +73,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // Initialize the RoutingCloudClient with our ThinkGeo Cloud Client credentials
             _routingCloudClient = new RoutingCloudClient
             {
-                ClientId = SampleKeys.ClientId2,
-                ClientSecret = SampleKeys.ClientSecret2,
+                ClientId = SampleShared.ClientId,
+                ClientSecret = SampleShared.ClientSecret,
             };
 
             // Run the routing request

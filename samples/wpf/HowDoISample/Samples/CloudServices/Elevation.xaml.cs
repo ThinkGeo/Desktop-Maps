@@ -37,13 +37,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             {
                 Map.MapUnit = GeographyUnit.Meter;
 
-                // The shape being asked about and the points that come back go to the GPU
-                // with the basemap. Drawn on an overlay they would be raster tiles, so a
-                // fractional zoom would stretch them while the map under them stayed sharp.
+                // The shape being asked about and the points that come back are drawn with
+                // the basemap, so they stay sharp through a fractional zoom.
                 var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
 
-                // The GPU draws a marker from a named image, so a point style the GPU has
-                // no shape of its own for - a star - is drawn once by the CPU and registered.
+                // The star the points are drawn with, registered under the name they ask for.
                 style.Images.Add("star", new PointStyle(PointSymbolType.Star, 20, GeoBrushes.Blue));
                 style.AddDynamic(_queryShape);
                 style.AddDynamic(_elevationPoints);
@@ -55,8 +53,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 // Initialize the ElevationCloudClient with our ThinkGeo Cloud credentials
                 _elevationCloudClient = new ElevationCloudClient
                 {
-                    ClientId = SampleKeys.ClientId2,
-                    ClientSecret = SampleKeys.ClientSecret2,
+                    ClientId = SampleShared.ClientId,
+                    ClientSecret = SampleShared.ClientSecret,
                 };
 
                 Map.CenterPoint = new PointShape(-10776981, 3912345);
