@@ -15,7 +15,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
     /// Every aircraft in the sky right now: one live fetch from the OpenSky network -
     /// ten-thousand-plus airborne planes with position, track and speed - then dead
     /// reckoning flies them all forward, sped up by the time slider. Each tick is one
-    /// DynamicSource.UpdatePoint per aircraft, and the whole sky lands as one rebuild; the
+    /// DynamicSource.SetPoint per aircraft, and the whole sky lands as one rebuild; the
     /// renderer redraws the markers and nothing else changes. Hover a plane for its
     /// callsign, altitude and speed - and it starts drawing its trail, a line in the
     /// same source.

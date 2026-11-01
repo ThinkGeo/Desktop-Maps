@@ -242,7 +242,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // traffic data because that is what naturally moves, but the group's
             // subject is the channel, not the theme.
             new SampleEntry("Dynamic Data", "Live Flights", "LiveFlights.xaml.cs",
-                "Every airborne aircraft, live from OpenSky, dead-reckoned forward through one DynamicSource - ten thousand moving markers, one UpdatePoint per aircraft per tick",
+                "Every airborne aircraft, live from OpenSky, dead-reckoned forward through one DynamicSource - ten thousand moving markers, one SetPoint per aircraft per tick",
                 "DynamicSource", true, typeof(Samples.LiveFlights), () => new Samples.LiveFlights()),
             new SampleEntry("Dynamic Data", "Wind as a Vector Field", "NdfdWindField.xaml.cs",
                 "The NDFD wind forecast through a VectorFieldSource: 65k tracer particles advected and faded every frame - the streaming weather-map look - or magnitude-scaled arrows from the same source",
@@ -257,8 +257,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // an IMAGE instanced by the marker batch, which is what makes any shape
             // one registration instead of one renderer feature.
             new SampleEntry("Dynamic Data", "Dynamic Rendering", "DynamicRendering.xaml.cs",
-                "A century of state populations as animated circles: size and tint are data, the circle is one registered disc image drawn at every point, and a year change is one UpdatePoint per state",
-                "DynamicSource.UpdatePoint", true, typeof(Samples.DynamicRendering), () => new Samples.DynamicRendering()),
+                "A century of state populations as animated circles: size and tint are data, the circle is one registered disc image drawn at every point, and a year change is one SetPoint per state",
+                "DynamicSource.SetPoint", true, typeof(Samples.DynamicRendering), () => new Samples.DynamicRendering()),
             // Moved from Map Navigation, where "navigation" meant panning the map: a
             // vehicle following GPS fixes is data that moves, which is this group.
             new SampleEntry("Dynamic Data", "Vehicle Navigation", "VehicleNavigation.xaml.cs",
