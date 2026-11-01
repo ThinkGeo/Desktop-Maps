@@ -153,11 +153,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 var size = Math.Max(4f, strength);
                 if (_circles.Contains(abbreviation))
                 {
-                    _circles.UpdatePoint(abbreviation, new Feature(x, y), 0f, color, size, "disc");
+                    _circles.SetPoint(abbreviation, new Feature(x, y), 0f, color, size, "disc");
                 }
                 else
                 {
-                    _circles.AddPoint(abbreviation, new Feature(x, y), 0f, color, size, "disc");
+                    _circles.SetPoint(abbreviation, new Feature(x, y), 0f, color, size, "disc");
                 }
             }
         }

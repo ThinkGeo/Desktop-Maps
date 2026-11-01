@@ -47,7 +47,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             basemap.TileLoadFailed += (_, e) =>
             {
                 e.ShowOnMap = DrawDefault.IsChecked == true;
-                e.Image = DrawCustom.IsChecked == true ? OwnImage(e.PixelSize, e.PixelRatio) : null;
+                e.Image = DrawCustom.IsChecked == true ? OwnImage(e.TileSize, e.DevicePixelRatio) : null;
                 e.Retry = AskAgain.IsChecked == true;
 
                 _failures++;

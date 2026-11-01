@@ -372,11 +372,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             var position = new Feature(x, y);
             if (_aircraft.Contains("plane"))
             {
-                _aircraft.UpdatePoint("plane", position, (float)heading, GeoColors.White, 44f, "plane");
+                _aircraft.SetPoint("plane", position, (float)heading, GeoColors.White, 44f, "plane");
             }
             else
             {
-                _aircraft.AddPoint("plane", position, (float)heading, GeoColors.White, 44f, "plane");
+                _aircraft.SetPoint("plane", position, (float)heading, GeoColors.White, 44f, "plane");
             }
         }
 
@@ -390,8 +390,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 // reads its text from the feature's column.
                 var feature = new Feature(new PointShape(x, y),
                     new Dictionary<string, string> { { "NAME", airport.Code + "  " + airport.Name } });
-                _airports.AddPoint(airport.Code, feature, 0f, GeoColors.White, 14f, "airport");
-                _airports.AddLabel(airport.Code, feature, "NAME", GeoColor.FromHtml("#101317"), 13f, 0f, -14f);
+                _airports.SetPoint(airport.Code, feature, 0f, GeoColors.White, 14f, "airport");
+                _airports.SetLabel(airport.Code, feature, "NAME", GeoColor.FromHtml("#101317"), 13f, 0f, -14f);
             }
         }
 

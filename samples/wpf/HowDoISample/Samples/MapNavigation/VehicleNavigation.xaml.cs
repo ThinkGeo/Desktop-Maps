@@ -125,11 +125,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             var position = new Feature(x, y);
             if (_vehicle.Contains("vehicle"))
             {
-                _vehicle.UpdatePoint("vehicle", position, (float)_vehicleHeading, GeoColors.White, 26f, "vehicle", lieOnMap: true);
+                _vehicle.SetPoint("vehicle", position, (float)_vehicleHeading, GeoColors.White, 26f, "vehicle", lieOnMap: true);
             }
             else
             {
-                _vehicle.AddPoint("vehicle", position, (float)_vehicleHeading, GeoColors.White, 26f, "vehicle", lieOnMap: true);
+                _vehicle.SetPoint("vehicle", position, (float)_vehicleHeading, GeoColors.White, 26f, "vehicle", lieOnMap: true);
             }
         }
 
@@ -138,11 +138,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             if (source.Contains(id))
             {
-                source.UpdateLine(id, line, color, 6f);
+                source.SetLine(id, line, color, 6f);
             }
             else
             {
-                source.AddLine(id, line, color, 6f);
+                source.SetLine(id, line, color, 6f);
             }
         }
 
@@ -168,11 +168,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             var area = new Feature(new PolygonShape(new RingShape(ring)));
             if (_paths.Contains("destination"))
             {
-                _paths.UpdateArea("destination", area, areaColor);
+                _paths.SetArea("destination", area, areaColor);
             }
             else
             {
-                _paths.AddArea("destination", area, areaColor);
+                _paths.SetArea("destination", area, areaColor);
             }
         }
 

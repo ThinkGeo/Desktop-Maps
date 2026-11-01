@@ -163,7 +163,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _stadium.Clear();
             if (MeaShortest.IsChecked == true)
             {
-                _stadium.AddPoint("stadium", new Feature(Stadium), sizeInPixels: 18f, iconName: "stadium");
+                _stadium.SetPoint("stadium", new Feature(Stadium), sizeInPixel: 18f, iconName: "stadium");
             }
 
             // Measure the biggest thing in the file straight away, so the sample says
@@ -287,13 +287,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 switch (measured)
                 {
                     case AreaBaseShape _:
-                        _measured.AddArea(id, measuredFeature, new GeoColor(96, GeoColors.Green), GeoColors.DarkGreen, 2f);
+                        _measured.SetArea(id, measuredFeature, new GeoColor(96, GeoColors.Green), GeoColors.DarkGreen, 2f);
                         break;
                     case LineBaseShape _:
-                        _measured.AddLine(id, measuredFeature, GeoColors.DarkGreen, 5f);
+                        _measured.SetLine(id, measuredFeature, GeoColors.DarkGreen, 5f);
                         break;
                     default:
-                        _measured.AddPoint(id, measuredFeature, sizeInPixels: 16f, iconName: "measured");
+                        _measured.SetPoint(id, measuredFeature, sizeInPixel: 16f, iconName: "measured");
                         break;
                 }
             }

@@ -59,8 +59,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             {
                 _source = new ThinkGeoRasterTileSource(SampleShared.CloudApiKey, ThinkGeoCloudRasterMapsMapType.Aerial_V2_X2);
 
-                Map.Basemap = new GpuBasemap(new MapStyle());
-                Map.Basemap.AddRasterSource("thinkgeo", _source);
+                Map.Basemap = new GpuBasemap(new MapStyle().AddRaster(_source, sourceId: "thinkgeo"));
                 Map.Basemap.DisplayProjection = ThinkGeo.Gpu.DisplayProjection.Globe;
 
                 Map.CurrentExtent = new RectangleShape(

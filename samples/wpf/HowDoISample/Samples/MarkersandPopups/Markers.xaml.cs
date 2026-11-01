@@ -57,7 +57,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             Map.Overlays.Add("simpleMarkerOverlay", simpleMarkerOverlay);
 
             // The dot marks the exact point; the marker's image tip points at it.
-            _centerDot.AddPoint("center", new Feature(Map.CenterPoint), sizeInPixels: 10f, iconName: "dot");
+            _centerDot.SetPoint("center", new Feature(Map.CenterPoint), sizeInPixel: 10f, iconName: "dot");
 
             // Create a marker at the center point
             var marker = new Marker(Map.CenterPoint)

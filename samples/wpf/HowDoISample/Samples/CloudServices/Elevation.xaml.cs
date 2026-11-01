@@ -88,13 +88,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             switch (queryShape)
             {
                 case AreaBaseShape _:
-                    _queryShape.AddArea("asked", asked, new GeoColor(10, GeoColors.Blue), GeoColors.Blue, 2f);
+                    _queryShape.SetArea("asked", asked, new GeoColor(10, GeoColors.Blue), GeoColors.Blue, 2f);
                     break;
                 case LineBaseShape _:
-                    _queryShape.AddLine("asked", asked, GeoColors.Blue, 2f);
+                    _queryShape.SetLine("asked", asked, GeoColors.Blue, 2f);
                     break;
                 case PointBaseShape _:
-                    _queryShape.AddPoint("asked", asked, sizeInPixels: 20f, iconName: "star");
+                    _queryShape.SetPoint("asked", asked, sizeInPixel: 20f, iconName: "star");
                     break;
             }
 
@@ -151,7 +151,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             }
 
             // Add the elevation result points to the map and list box
-            _elevationPoints.Show(elevationPoints.Select(elevationPoint => elevationPoint.Point), pointSizeInPixels: 20f, iconName: "star", idPrefix: "elevation");
+            _elevationPoints.Show(elevationPoints.Select(elevationPoint => elevationPoint.Point), pointSizeInPixel: 20f, iconName: "star", idPrefix: "elevation");
             LsbElevations.ItemsSource = elevationPoints;
 
             // Hide the loading graphic

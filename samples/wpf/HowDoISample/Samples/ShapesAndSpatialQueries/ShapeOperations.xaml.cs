@@ -248,18 +248,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             {
                 for (var i = 0; i < _pieces.Count; i++)
                 {
-                    _sourceArea.AddArea("piece-" + i, _pieces[i], PieceColors[i % PieceColors.Length]);
+                    _sourceArea.SetArea("piece-" + i, _pieces[i], PieceColors[i % PieceColors.Length]);
                 }
             }
             else if (!union)
             {
-                _sourceArea.AddArea("source", new Feature(shape), SourceColor);
+                _sourceArea.SetArea("source", new Feature(shape), SourceColor);
             }
 
             _regionArea.Clear();
             if (paired)
             {
-                _regionArea.AddArea("region", new Feature(_westRegion), RegionColor);
+                _regionArea.SetArea("region", new Feature(_westRegion), RegionColor);
             }
 
             // The result carries an outline: what an operation returned is easier to
@@ -268,7 +268,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _resultArea.Clear();
             if (result is AreaBaseShape)
             {
-                _resultArea.AddArea("result", new Feature(result), ResultColor, GeoColors.DarkGreen, 2f);
+                _resultArea.SetArea("result", new Feature(result), ResultColor, GeoColors.DarkGreen, 2f);
             }
 
             if (union)

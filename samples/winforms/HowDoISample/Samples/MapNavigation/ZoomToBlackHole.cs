@@ -148,7 +148,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 Name = overlayName,
                 TileType = TileType.SingleTile,
                 Opacity = opacity,
-                ThrowingExceptionMode = ThrowingExceptionMode.ThrowException
+                DrawingExceptionMode = DrawingExceptionMode.ThrowException
             };
 
             overlay.Layers.Add(imageLayer);

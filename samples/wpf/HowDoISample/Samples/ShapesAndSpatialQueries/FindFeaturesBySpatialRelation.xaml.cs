@@ -321,13 +321,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             switch (query)
             {
                 case AreaBaseShape _:
-                    _query.AddArea("query", asked, GeoColors.Transparent, GeoColors.Black, 2f);
+                    _query.SetArea("query", asked, GeoColors.Transparent, GeoColors.Black, 2f);
                     break;
                 case LineBaseShape _:
-                    _query.AddLine("query", asked, GeoColors.Black, 2f);
+                    _query.SetLine("query", asked, GeoColors.Black, 2f);
                     break;
                 default:
-                    _query.AddPoint("query", asked, sizeInPixels: 12f, iconName: "pin");
+                    _query.SetPoint("query", asked, sizeInPixel: 12f, iconName: "pin");
                     break;
             }
 

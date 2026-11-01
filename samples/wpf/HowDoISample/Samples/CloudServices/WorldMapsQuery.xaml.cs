@@ -150,9 +150,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                     var id = "result-" + i;
                     switch (shape)
                     {
-                        case AreaBaseShape: _resultsSource.AddArea(id, feature, new GeoColor(10, GeoColors.OrangeRed), GeoColors.OrangeRed, 1f); break;
-                        case LineBaseShape: _resultsSource.AddLine(id, feature, GeoColors.OrangeRed, 2f); break;
-                        default: _resultsSource.AddPoint(id, feature, sizeInPixels: 20f, iconName: "star-orange"); break;
+                        case AreaBaseShape: _resultsSource.SetArea(id, feature, new GeoColor(10, GeoColors.OrangeRed), GeoColors.OrangeRed, 1f); break;
+                        case LineBaseShape: _resultsSource.SetLine(id, feature, GeoColors.OrangeRed, 2f); break;
+                        default: _resultsSource.SetPoint(id, feature, sizeInPixel: 20f, iconName: "star-orange"); break;
                     }
                 }
 
@@ -240,9 +240,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             var query = new Feature(shape);
             switch (shape)
             {
-                case PointShape: _querySource.AddPoint("query", query, sizeInPixels: 20f, iconName: "star-blue"); break;
-                case LineBaseShape: _querySource.AddLine("query", query, GeoColors.Blue, 2f); break;
-                case AreaBaseShape: _querySource.AddArea("query", query, new GeoColor(10, GeoColors.Blue), GeoColors.Blue, 1f); break;
+                case PointShape: _querySource.SetPoint("query", query, sizeInPixel: 20f, iconName: "star-blue"); break;
+                case LineBaseShape: _querySource.SetLine("query", query, GeoColors.Blue, 2f); break;
+                case AreaBaseShape: _querySource.SetArea("query", query, new GeoColor(10, GeoColors.Blue), GeoColors.Blue, 1f); break;
             }
         }
 

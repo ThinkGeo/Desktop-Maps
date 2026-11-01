@@ -192,7 +192,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         public override Task OpenAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
 
-        protected override Task<byte[]> GetTileImageCoreAsync(int zoom, int x, int y, CancellationToken cancellationToken)
+        protected override Task<byte[]> GetTileImageAsyncCore(int zoom, long x, long y, CancellationToken cancellationToken)
         {
             var path = Path.Combine(_root, zoom.ToString(), x.ToString(), y + ".jpg");
             return Task.FromResult(File.Exists(path) ? File.ReadAllBytes(path) : null);

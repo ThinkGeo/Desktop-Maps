@@ -18,11 +18,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// </summary>
         /// <param name="color">Marker tint, line colour and area fill; null takes the source's defaults.</param>
         /// <param name="outlineColor">Area outline; null draws none.</param>
-        /// <param name="widthInPixels">Line width, and area outline width; null draws the defaults.</param>
-        /// <param name="pointSizeInPixels">Marker length on screen.</param>
+        /// <param name="widthInPixel">Line width, and area outline width; null draws the defaults.</param>
+        /// <param name="pointSizeInPixel">Marker length on screen.</param>
         /// <param name="iconName">The marker image, registered in <c>MapStyle.Images</c>; null draws the built-in triangle.</param>
         public static void Show(this DynamicSource source, IEnumerable<BaseShape> shapes, GeoColor color = null,
-            GeoColor outlineColor = null, float? widthInPixels = null, float pointSizeInPixels = 14f, string iconName = null,
+            GeoColor outlineColor = null, float? widthInPixel = null, float pointSizeInPixel = 14f, string iconName = null,
             string idPrefix = "shape")
         {
             source.Clear();
@@ -34,13 +34,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 switch (shape)
                 {
                     case PointBaseShape _:
-                        source.AddPoint(id, feature, color: color, sizeInPixels: pointSizeInPixels, iconName: iconName);
+                        source.SetPoint(id, feature, color: color, sizeInPixel: pointSizeInPixel, iconName: iconName);
                         break;
                     case LineBaseShape _:
-                        source.AddLine(id, feature, color, widthInPixels);
+                        source.SetLine(id, feature, color, widthInPixel);
                         break;
                     case AreaBaseShape _:
-                        source.AddArea(id, feature, color, outlineColor, widthInPixels);
+                        source.SetArea(id, feature, color, outlineColor, widthInPixel);
                         break;
                 }
             }
@@ -48,7 +48,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         /// <summary>The same for features: the shape of each is drawn by its kind.</summary>
         public static void Show(this DynamicSource source, IEnumerable<Feature> features, GeoColor color = null,
-            GeoColor outlineColor = null, float? widthInPixels = null, float pointSizeInPixels = 14f, string iconName = null,
+            GeoColor outlineColor = null, float? widthInPixel = null, float pointSizeInPixel = 14f, string iconName = null,
             string idPrefix = "feature")
         {
             source.Clear();
@@ -59,13 +59,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 switch (feature.GetShape())
                 {
                     case PointBaseShape _:
-                        source.AddPoint(id, feature, color: color, sizeInPixels: pointSizeInPixels, iconName: iconName);
+                        source.SetPoint(id, feature, color: color, sizeInPixel: pointSizeInPixel, iconName: iconName);
                         break;
                     case LineBaseShape _:
-                        source.AddLine(id, feature, color, widthInPixels);
+                        source.SetLine(id, feature, color, widthInPixel);
                         break;
                     case AreaBaseShape _:
-                        source.AddArea(id, feature, color, outlineColor, widthInPixels);
+                        source.SetArea(id, feature, color, outlineColor, widthInPixel);
                         break;
                 }
             }

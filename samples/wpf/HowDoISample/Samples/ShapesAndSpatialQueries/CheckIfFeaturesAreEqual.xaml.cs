@@ -128,7 +128,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             // Show the shape being queried with
             _queryShape.Clear();
-            _queryShape.AddArea("query", new Feature(shape), new GeoColor(75, GeoColors.LightRed), GeoColors.LightRed, 2f);
+            _queryShape.SetArea("query", new Feature(shape), new GeoColor(75, GeoColors.LightRed), GeoColors.LightRed, 2f);
 
             // Perform the spatial query using the drawn shape and highlight features that were found
             var queriedFeatures = PerformSpatialQuery(shape, _zoningSource);

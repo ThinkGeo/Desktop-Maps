@@ -40,7 +40,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             style.AddDynamic(boundary);
             Map.Basemap = new GpuBasemap(style);
             // A border, not a shaded box - a fill is drawn unless one is asked not to be.
-            boundary.AddArea("boundary", new Feature(_restrictExtent), GeoColors.Transparent, new GeoColor(180, GeoColors.Red), 2f);
+            boundary.SetArea("boundary", new Feature(_restrictExtent), GeoColors.Transparent, new GeoColor(180, GeoColors.Red), 2f);
 
             // Apply restrictions and set initial extent
             ApplyRestrictions();

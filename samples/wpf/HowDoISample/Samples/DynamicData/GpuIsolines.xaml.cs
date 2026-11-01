@@ -164,7 +164,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             var display = new IsolineStyle
             {
                 Levels = levels.Select((level, i) => new ColorStop(level, colors[i])).ToList(),
-                LineWidthInPixels = _lineWidth,
+                LineWidthInPixel = _lineWidth,
                 FillOpacity = _fillBands ? 0.45f : 0f,
                 // Labels every second level, the usual contour-map cadence; the value
                 // is the mosquito count the level stands for.

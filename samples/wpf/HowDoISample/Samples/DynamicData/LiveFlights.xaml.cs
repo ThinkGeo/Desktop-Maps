@@ -176,11 +176,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 var color = ColorForAltitude(flight.AltitudeMeters);
                 if (_tracks.Contains(flight.Id))
                 {
-                    _tracks.UpdatePoint(flight.Id, position, flight.TrackDegrees, color, 11f);
+                    _tracks.SetPoint(flight.Id, position, flight.TrackDegrees, color, 11f);
                 }
                 else
                 {
-                    _tracks.AddPoint(flight.Id, position, flight.TrackDegrees, color, 11f);
+                    _tracks.SetPoint(flight.Id, position, flight.TrackDegrees, color, 11f);
                 }
             }
 
@@ -204,11 +204,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                     var color = ColorForAltitude(_trailedFlight.AltitudeMeters);
                     if (_tracks.Contains("trail"))
                     {
-                        _tracks.UpdateLine("trail", trail, color, 2f);
+                        _tracks.SetLine("trail", trail, color, 2f);
                     }
                     else
                     {
-                        _tracks.AddLine("trail", trail, color, 2f);
+                        _tracks.SetLine("trail", trail, color, 2f);
                     }
                 }
             }

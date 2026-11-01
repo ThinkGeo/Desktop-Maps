@@ -54,7 +54,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _overlay.Layers.Add("wmsImageLayer", _wmsAsync);
 
             _wmsAsync.DrawCustomException = false;
-            _overlay.ThrowingExceptionMode = ThrowingExceptionMode.SuppressException;
+            _overlay.DrawingExceptionMode = DrawingExceptionMode.DrawException;
 
             Map.CenterPoint = new PointShape(234655, 1247759);
             Map.CurrentScale = 295830000;
@@ -76,16 +76,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             {
                 case "Draw Custom Exception":
                     _wmsAsync.DrawCustomException = true;
-                    _overlay.ThrowingExceptionMode = ThrowingExceptionMode.SuppressException;
+                    _overlay.DrawingExceptionMode = DrawingExceptionMode.DrawException;
                     break;
 
                 case "Throw Exception":
-                    _overlay.ThrowingExceptionMode = ThrowingExceptionMode.ThrowException;
+                    _overlay.DrawingExceptionMode = DrawingExceptionMode.ThrowException;
                     break;
 
                 default:
                     _wmsAsync.DrawCustomException = false;
-                    _overlay.ThrowingExceptionMode = ThrowingExceptionMode.SuppressException;
+                    _overlay.DrawingExceptionMode = DrawingExceptionMode.DrawException;
                     break;
             }
             _ = Map.RefreshAsync();

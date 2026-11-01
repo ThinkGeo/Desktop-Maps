@@ -44,8 +44,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             };
 
             // One call puts the service on the map - no style JSON is written or needed.
-            Map.Basemap = new GpuBasemap(new MapStyle());
-            Map.Basemap.AddRasterSource("wmts", source);
+            Map.Basemap = new GpuBasemap(new MapStyle().AddRaster(source, sourceId: "wmts"));
 
             // Fit the view to the extent the server declares for this layer.
             // (This public server can be slow.)

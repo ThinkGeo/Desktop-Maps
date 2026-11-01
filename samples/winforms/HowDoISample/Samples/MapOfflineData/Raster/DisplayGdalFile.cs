@@ -33,7 +33,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Create a new overlay that will hold our new layer and add it to the map.
             var staticOverlay = new LayerOverlay
             {
-                ThrowingExceptionMode = ThrowingExceptionMode.ThrowException
+                DrawingExceptionMode = DrawingExceptionMode.ThrowException
             };
 
             staticOverlay.Layers.Add("WorldLayer", worldLayer);

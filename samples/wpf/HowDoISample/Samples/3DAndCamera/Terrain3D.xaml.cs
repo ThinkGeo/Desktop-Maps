@@ -183,12 +183,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 // The first click on its own is a point, so there is something on the
                 // ground to aim the second one from. The last profile goes with it.
                 _profileLine.Clear();
-                _profileLine.AddPoint("start", new Feature(_profileStart), color: GeoColors.Yellow, sizeInPixels: 9f);
+                _profileLine.SetPoint("start", new Feature(_profileStart), color: GeoColors.Yellow, sizeInPixel: 9f);
                 ProfileText.Text = string.Format(CultureInfo.InvariantCulture, "start {0:0} m - click a second point", elevation.Value);
                 return;
             }
 
-            _profileLine.AddPoint("end", new Feature(clicked), color: GeoColors.Yellow, sizeInPixels: 9f);
+            _profileLine.SetPoint("end", new Feature(clicked), color: GeoColors.Yellow, sizeInPixel: 9f);
             await ShowProfileAsync(_profileStart, clicked);
             _profileStart = null;
         }
@@ -206,7 +206,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             if (profile.MinElevationInMeters == null)
             {
                 ProfileText.Text = "not enough elevation along that line";
-                _profileLine.AddLine("profile", new Feature(line), GeoColors.Yellow, 3f);
+                _profileLine.SetLine("profile", new Feature(line), GeoColors.Yellow, 3f);
                 ChartPanel.Visibility = Visibility.Collapsed;
                 return;
             }
@@ -215,7 +215,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // vertex is put on the ground under it, so a two-point line would be lifted
             // only at its ends and tunnel through everything in between.
             var samples = profile.Points.Select(sample => new Vertex(sample.Longitude, sample.Latitude));
-            _profileLine.AddLine("profile", new Feature(new LineShape(ProjectionConverter.Convert(4326, 3857, samples))), GeoColors.Yellow, 3f);
+            _profileLine.SetLine("profile", new Feature(new LineShape(ProjectionConverter.Convert(4326, 3857, samples))), GeoColors.Yellow, 3f);
 
             ProfileText.Text = string.Format(
                 CultureInfo.InvariantCulture,

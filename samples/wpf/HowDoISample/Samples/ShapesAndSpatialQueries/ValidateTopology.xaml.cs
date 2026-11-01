@@ -340,13 +340,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 switch (features[i].GetShape())
                 {
                     case AreaBaseShape _:
-                        into.AddArea(id, features[i], new GeoColor(50, color), color, 2f);
+                        into.SetArea(id, features[i], new GeoColor(50, color), color, 2f);
                         break;
                     case LineBaseShape _:
-                        into.AddLine(id, features[i], color, 3f);
+                        into.SetLine(id, features[i], color, 3f);
                         break;
                     default:
-                        into.AddPoint(id, features[i], color: color, sizeInPixels: 12f);
+                        into.SetPoint(id, features[i], color: color, sizeInPixel: 12f);
                         break;
                 }
             }

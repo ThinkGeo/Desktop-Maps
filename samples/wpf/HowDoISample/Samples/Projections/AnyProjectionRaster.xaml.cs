@@ -63,8 +63,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 // One call puts the raster service on the GPU map. No style JSON, and
                 // no reprojection setup: the projection is a property of the DISPLAY,
                 // set below, not of the data.
-                Map.Basemap = new GpuBasemap(new MapStyle());
-                Map.Basemap.AddRasterSource("thinkgeo", _source);
+                Map.Basemap = new GpuBasemap(new MapStyle().AddRaster(_source, sourceId: "thinkgeo"));
 
                 Map.CurrentExtent = new RectangleShape(-WorldHalfSize, WorldHalfSize, WorldHalfSize, -WorldHalfSize);
                 await Map.RefreshAsync();

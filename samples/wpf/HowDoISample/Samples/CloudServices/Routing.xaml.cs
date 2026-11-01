@@ -114,13 +114,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _route.Clear();
             for (var i = 0; i < routeLines.Count; i++)
             {
-                _route.AddLine("route-" + i, new Feature(routeLines[i]), GeoColors.MediumPurple, 3f);
+                _route.SetLine("route-" + i, new Feature(routeLines[i]), GeoColors.MediumPurple, 3f);
             }
 
             for (var i = 0; i < stops.Count; i++)
             {
-                _route.AddPoint("stop-" + i, stops[i], sizeInPixels: 24f, iconName: "star");
-                _route.AddLabel("stop-" + i, stops[i], "SequenceNumber", sizeInPixels: 15f, offsetYInPixels: -20f);
+                _route.SetPoint("stop-" + i, stops[i], sizeInPixel: 24f, iconName: "star");
+                _route.SetLabel("stop-" + i, stops[i], "SequenceNumber", sizeInPixel: 15f, offsetYInPixel: -20f);
             }
 
             // Set the data source for the list box to the route segments
@@ -177,7 +177,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
                 // Highlight the selected route segment
                 _highlight.Clear();
-                _highlight.AddLine("segment", new Feature(((CloudRoutingSegment)routeSegments.SelectedItem).Shape),
+                _highlight.SetLine("segment", new Feature(((CloudRoutingSegment)routeSegments.SelectedItem).Shape),
                     GeoColors.BrightYellow, 6f);
 
                 // Zoom to the selected feature and zoom out to an appropriate level

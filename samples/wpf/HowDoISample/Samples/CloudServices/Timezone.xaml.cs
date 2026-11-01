@@ -128,7 +128,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // Replace whatever was there with the timezone just returned; the colour
             // rides the feature.
             _timezoneArea.Clear();
-            _timezoneArea.AddArea("timezone", new Feature(converter.ConvertToInternalProjection(result.Shape)),
+            _timezoneArea.SetArea("timezone", new Feature(converter.ConvertToInternalProjection(result.Shape)),
                 new GeoColor(50, GeoColors.MediumPurple), GeoColors.MediumPurple, 2f);
             converter.Close();
 

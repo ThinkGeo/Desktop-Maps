@@ -149,8 +149,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // rebuild on the next frame.
             var searched = new EllipseShape(searchPoint, searchRadius);
             _searchRadius.Clear();
-            _searchRadius.AddArea("searched", new Feature(searched), new GeoColor(10, GeoColors.Blue), new GeoColor(100, GeoColors.Blue), 2f);
-            _searchRadius.AddPoint("center", new Feature(searchPoint), sizeInPixels: 20f, iconName: "center");
+            _searchRadius.SetArea("searched", new Feature(searched), new GeoColor(10, GeoColors.Blue), new GeoColor(100, GeoColors.Blue), 2f);
+            _searchRadius.SetPoint("center", new Feature(searchPoint), sizeInPixel: 20f, iconName: "center");
 
             // Nothing is picked out of the results yet
             _selectedResult.Clear();
@@ -246,13 +246,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                     switch (locationFeature.GetShape())
                     {
                         case AreaBaseShape _:
-                            _selectedResult.AddArea("found", locationFeature, new GeoColor(80, GeoColors.MediumPurple), GeoColors.MediumPurple, 2f);
+                            _selectedResult.SetArea("found", locationFeature, new GeoColor(80, GeoColors.MediumPurple), GeoColors.MediumPurple, 2f);
                             break;
                         case LineBaseShape _:
-                            _selectedResult.AddLine("found", locationFeature, GeoColors.MediumPurple, 6f);
+                            _selectedResult.SetLine("found", locationFeature, GeoColors.MediumPurple, 6f);
                             break;
                         case PointBaseShape _:
-                            _selectedResult.AddPoint("found", locationFeature, sizeInPixels: 24f, iconName: "match");
+                            _selectedResult.SetPoint("found", locationFeature, sizeInPixel: 24f, iconName: "match");
                             break;
                     }
 

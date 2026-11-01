@@ -61,7 +61,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Create an overlay that we will add the layer to.
             var staticOverlay = new LayerOverlay
             {
-                ThrowingExceptionMode = ThrowingExceptionMode.ThrowException
+                DrawingExceptionMode = DrawingExceptionMode.ThrowException
             };
             if (drawingExceptionMode == DrawingExceptionMode.ThrowException)
             {

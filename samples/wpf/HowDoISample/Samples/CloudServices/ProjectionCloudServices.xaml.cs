@@ -111,13 +111,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 switch (features[i].GetShape())
                 {
                     case AreaBaseShape _:
-                        _reprojected.AddArea(id, features[i], new GeoColor(80, GeoColors.MediumPurple), GeoColors.MediumPurple, 2f);
+                        _reprojected.SetArea(id, features[i], new GeoColor(80, GeoColors.MediumPurple), GeoColors.MediumPurple, 2f);
                         break;
                     case LineBaseShape _:
-                        _reprojected.AddLine(id, features[i], GeoColors.MediumPurple, 6f);
+                        _reprojected.SetLine(id, features[i], GeoColors.MediumPurple, 6f);
                         break;
                     case PointBaseShape _:
-                        _reprojected.AddPoint(id, features[i], sizeInPixels: 24f, iconName: "star");
+                        _reprojected.SetPoint(id, features[i], sizeInPixel: 24f, iconName: "star");
                         break;
                 }
             }
