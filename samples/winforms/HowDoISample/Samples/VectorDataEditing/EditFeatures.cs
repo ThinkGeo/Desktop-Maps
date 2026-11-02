@@ -75,7 +75,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void navMode_Click(object sender, EventArgs e)
         {
-            if (sender is RadioButton { Checked: false }) return;
+            if (sender is RadioButton toggled && !toggled.Checked) return;
             var layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
             var featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
 
@@ -91,7 +91,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void drawPoint_Click(object sender, EventArgs e)
         {
-            if (sender is RadioButton { Checked: false }) return;
+            if (sender is RadioButton toggled && !toggled.Checked) return;
             var layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
             var featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
 
@@ -107,7 +107,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void drawLine_Click(object sender, EventArgs e)
         {
-            if (sender is RadioButton { Checked: false }) return;
+            if (sender is RadioButton toggled && !toggled.Checked) return;
             var layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
             var featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
 
@@ -123,7 +123,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void drawPolygon_Click(object sender, EventArgs e)
         {
-            if (sender is RadioButton { Checked: false }) return;
+            if (sender is RadioButton toggled && !toggled.Checked) return;
             var layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
             var featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
 
@@ -169,7 +169,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void deleteShape_Click(object sender, EventArgs e)
         {
-            if (sender is RadioButton { Checked: false }) return;
+            if (sender is RadioButton toggled && !toggled.Checked) return;
             var layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
             var featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
 

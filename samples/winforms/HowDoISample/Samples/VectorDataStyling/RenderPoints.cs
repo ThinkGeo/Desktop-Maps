@@ -56,7 +56,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void pointSymbol_CheckedChanged(object sender, EventArgs e)
         {
-            if (sender is RadioButton { Checked: false }) return;
+            if (sender is RadioButton toggled && !toggled.Checked) return;
             if (!_initialized)
                 return;
 
@@ -82,7 +82,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void icon_CheckedChanged(object sender, EventArgs e)
         {
-            if (sender is RadioButton { Checked: false }) return;
+            if (sender is RadioButton toggled && !toggled.Checked) return;
             var layerOverlay = (LayerOverlay)mapView.Overlays["hotels"];
             var hotelsLayer = (ShapeFileFeatureLayer)layerOverlay.Layers["hotels"];
 
@@ -105,7 +105,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void symbol_CheckedChanged(object sender, EventArgs e)
         {
-            if (sender is RadioButton { Checked: false }) return;
+            if (sender is RadioButton toggled && !toggled.Checked) return;
             var layerOverlay = (LayerOverlay)mapView.Overlays["hotels"];
             var hotelsLayer = (ShapeFileFeatureLayer)layerOverlay.Layers["hotels"];
 
