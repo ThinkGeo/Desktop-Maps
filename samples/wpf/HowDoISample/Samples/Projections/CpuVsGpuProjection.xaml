@@ -70,14 +70,14 @@
                     <Separator Margin="0,10,0,8" />
                     <TextBlock Text="What each side can do" FontWeight="SemiBold" Margin="0,0,0,4" />
                     <TextBlock TextWrapping="Wrap" Foreground="#444" FontSize="11" Margin="0,0,0,6"
-                               Text="A datum shift is arithmetic on the data, so only the side that touches the data can do it. Press this to ask both sides for a historic datum:" />
+                               Text="A datum shift is arithmetic on the data. The CPU side does it on every vertex; the shader families have nowhere to put it, so the GPU side hands such a definition to the PROJ grid path and says so in the log. Press this to ask both sides for a historic datum:" />
                     <Button x:Name="BtnDatum" Content="try +datum=NAD27" Click="Datum_Click" Padding="6,3" />
                     <TextBlock x:Name="DatumReadout" TextWrapping="Wrap" FontFamily="Consolas" FontSize="10.5"
                                Foreground="#444" Margin="0,6,0,0" Text="" />
 
                     <Separator Margin="0,10,0,8" />
                     <TextBlock TextWrapping="Wrap" Foreground="#444" FontSize="11"
-                               Text="Read the two headers as you switch. The CPU side re-reads every feature and pushes every vertex through proj4 - which is why it can honor any datum, and why the cost grows with the data. The GPU side transforms nothing: the tiles it holds are web mercator before and after, and the projection is a line of shader run per vertex per frame - which is why switching is free and why the families it supports are a closed set." />
+                               Text="Read the two headers as you switch. The CPU side re-reads every feature and pushes every vertex through proj4 - which is why it can honor any datum, and why the cost grows with the data. The GPU side transforms nothing: the tiles it holds are web mercator before and after, and the projection is a line of shader run per vertex per frame - which is why switching is free and why the families it supports are a closed set. A definition outside that set is not refused: it is drawn through the PROJ grid path, slower to build and with a warning in the log." />
                 </StackPanel>
             </ScrollViewer>
             <TextBlock DockPanel.Dock="Top" Text="style.json - edit it; the GPU map follows"

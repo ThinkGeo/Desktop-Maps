@@ -192,7 +192,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// <summary>
         /// The same historic datum asked of both sides. The point is not that one
         /// throws - it is WHY: the CPU side owns the data, so it can shift it; the
-        /// GPU side only owns the drawing, and a shader has nowhere to put a datum.
+        /// GPU side only owns the drawing, and a shader has nowhere to put a datum - so such a
+        /// definition leaves the shader families and is drawn through the PROJ grid path, with
+        /// a warning in the log.
         /// </summary>
         private void Datum_Click(object sender, RoutedEventArgs e)
         {
@@ -217,7 +219,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             try
             {
                 ThinkGeo.Gpu.DisplayProjection.FromProjString(historic);
-                gpu = "GPU: accepted (which it should not be - the datum would be ignored)";
+                gpu = "GPU: grid path - no shader family can apply a datum shift, so the definition is drawn through PROJ; the log carries a warning saying so";
             }
             catch (NotSupportedException ex)
             {
