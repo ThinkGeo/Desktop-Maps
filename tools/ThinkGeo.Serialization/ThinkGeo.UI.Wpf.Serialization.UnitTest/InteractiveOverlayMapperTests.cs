@@ -93,10 +93,10 @@ public class InteractiveOverlayMapperTests
             {
                 Name = "extent",
                 PanMode = MapPanMode.Disabled,
-                MapZoomMode = MapZoomMode.Default,
+                MapZoomMode = MapZoomMode.ByZoomLevelSet,
                 MouseWheelMode = MapMouseWheelMode.Disabled,
                 DoubleLeftClickMode = MapDoubleClickMode.Disabled,
-                DoubleRightClickMode = MapDoubleClickMode.Default,
+                DoubleRightClickMode = MapDoubleClickMode.ZoomOut,
                 ZoomPercentage = 75,
                 MinimumTrackZoomInExtentInPixels = 20f,
             };
@@ -110,7 +110,7 @@ public class InteractiveOverlayMapperTests
             Assert.Equal(MapPanMode.Disabled, roundTripped.PanMode);
             Assert.Equal(MapMouseWheelMode.Disabled, roundTripped.MouseWheelMode);
             Assert.Equal(MapDoubleClickMode.Disabled, roundTripped.DoubleLeftClickMode);
-            Assert.Equal(MapDoubleClickMode.Default, roundTripped.DoubleRightClickMode);
+            Assert.Equal(MapDoubleClickMode.ZoomOut, roundTripped.DoubleRightClickMode);
             Assert.Equal(75, roundTripped.ZoomPercentage);
             Assert.Equal(20f, roundTripped.MinimumTrackZoomInExtentInPixels);
             await Task.CompletedTask;

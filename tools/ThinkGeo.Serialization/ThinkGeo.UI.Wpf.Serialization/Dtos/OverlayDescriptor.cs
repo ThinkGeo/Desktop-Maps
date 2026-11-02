@@ -225,17 +225,17 @@ public sealed record TrackInteractiveOverlayDescriptor : OverlayDescriptor
 /// </summary>
 public sealed record ExtentInteractiveOverlayDescriptor : OverlayDescriptor
 {
-    /// <summary>Any <c>MapPanMode</c> enum name: <c>"Default" | "Disabled"</c>.</summary>
-    public string PanMode { get; init; } = "Default";
+    /// <summary>Any <c>MapPanMode</c> enum name: <c>"StandardPanning" | "Disabled"</c>.</summary>
+    public string PanMode { get; init; } = "StandardPanning";
     /// <summary>Any <c>MapZoomMode</c> enum name.</summary>
-    public string MapZoomMode { get; init; } = "Default";
+    public string MapZoomMode { get; init; } = "ByZoomLevelSet";
     /// <summary>Any <c>MapMouseWheelMode</c> enum name.</summary>
-    public string MouseWheelMode { get; init; } = "Default";
-    /// <summary>Any <c>MapDoubleClickMode</c> enum name: <c>"Default" | "Disabled"</c>.</summary>
-    public string DoubleLeftClickMode { get; init; } = "Default";
-    public string DoubleRightClickMode { get; init; } = "Default";
+    public string MouseWheelMode { get; init; } = "Zooming";
+    /// <summary>Any <c>MapDoubleClickMode</c> enum name: <c>"ZoomIn" | "ZoomOut" | "Disabled"</c>.</summary>
+    public string DoubleLeftClickMode { get; init; } = "Disabled";
+    public string DoubleRightClickMode { get; init; } = "Disabled";
     /// <summary>Any <c>ExtentChangedType</c> enum name.</summary>
-    public string ExtentChangedType { get; init; } = "Default";
+    public string ExtentChangedType { get; init; } = "None";
     public int ZoomPercentage { get; init; } = 50;
     public float MinimumTrackZoomInExtentInPixels { get; init; } = 10f;
 }
