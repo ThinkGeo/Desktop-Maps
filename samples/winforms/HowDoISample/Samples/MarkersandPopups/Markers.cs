@@ -37,12 +37,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void staticMode_CheckedChanged(object sender, EventArgs e)
         {
+            if (sender is RadioButton { Checked: false }) return;
             var simpleMarkerOverlay = (SimpleMarkerOverlay)mapView.Overlays["simpleMarkerOverlay"];
             simpleMarkerOverlay.DragMode = MarkerDragMode.None;
         }
 
         private void dragMode_CheckedChanged(object sender, EventArgs e)
         {
+            if (sender is RadioButton { Checked: false }) return;
             var simpleMarkerOverlay = (SimpleMarkerOverlay)mapView.Overlays["simpleMarkerOverlay"];
             simpleMarkerOverlay.DragMode = MarkerDragMode.Drag;
         }

@@ -58,6 +58,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void SwitchRasterLayer_OnCheckedChanged(object sender, EventArgs e)
         {
+            if (sender is RadioButton { Checked: false }) return;
             if (rasterOverlay == null) return;
             var selectedRadioButton = sender as RadioButton;
 

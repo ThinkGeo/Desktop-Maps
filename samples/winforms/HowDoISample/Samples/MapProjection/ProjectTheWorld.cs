@@ -44,6 +44,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void Radial_CheckChanged(object sender, EventArgs e)
         {
+            if (sender is RadioButton { Checked: false }) return;
             if (!_initialized)
                 return;
 

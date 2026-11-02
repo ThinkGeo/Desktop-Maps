@@ -57,6 +57,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void rbEmbeddedStyling_CheckedChanged(object sender, EventArgs e)
         {
+            if (sender is RadioButton { Checked: false }) return;
             if (_cadLayer == null) return;
             // Create an Area style on zoom level 1 and then apply it to all zoom levels up to 20.
             _cadLayer.StylingType = CadStylingType.EmbeddedStyling;
@@ -66,6 +67,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void rbProgrammaticStyling_CheckedChanged(object sender, EventArgs e)
         {
+            if (sender is RadioButton { Checked: false }) return;
             if (_cadLayer == null) return;
             // Create an Area style on zoom level 1 and then apply it to all zoom levels up to 20.
             _cadLayer.StylingType = CadStylingType.StandardStyling;

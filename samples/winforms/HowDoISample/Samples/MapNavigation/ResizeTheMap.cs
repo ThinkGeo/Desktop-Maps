@@ -40,6 +40,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private void ToggleButton_CheckedChanged(object sender, EventArgs e)
         {
+            if (sender is RadioButton { Checked: false }) return;
             var radioButton = sender as RadioButton;
             if (radioButton == null)
                 return;

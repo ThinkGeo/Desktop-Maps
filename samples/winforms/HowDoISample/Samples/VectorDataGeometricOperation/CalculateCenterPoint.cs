@@ -118,6 +118,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// </summary>
         private async void centroidCenter_CheckedChanged(object sender, EventArgs e)
         {
+            if (sender is RadioButton { Checked: false }) return;
             var centerPointOverlay = (LayerOverlay)mapView.Overlays["CenterPointOverlay"];
             var centerPointLayer = (InMemoryFeatureLayer)centerPointOverlay.Layers["CenterPointLayer"];
 
@@ -130,6 +131,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void bboxCenter_CheckedChanged(object sender, EventArgs e)
         {
+            if (sender is RadioButton { Checked: false }) return;
             var centerPointOverlay = (LayerOverlay)mapView.Overlays["CenterPointOverlay"];
             var centerPointLayer = (InMemoryFeatureLayer)centerPointOverlay.Layers["CenterPointLayer"];
 

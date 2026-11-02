@@ -39,6 +39,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
+            if (sender is RadioButton { Checked: false }) return;
             var button = (RadioButton)sender;
             if (mapView.Overlays.Contains("Cloud Overlay"))
             {
@@ -65,6 +66,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
+            if (sender is RadioButton { Checked: false }) return;
             var button = (RadioButton)sender;
             if (mapView.Overlays.Contains("Cloud Overlay"))
             {
@@ -91,6 +93,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void radioButton3_CheckedChanged(object sender, EventArgs e)
         {
+            if (sender is RadioButton { Checked: false }) return;
             var button = (RadioButton)sender;
             if (mapView.Overlays.Contains("Cloud Overlay"))
             {
