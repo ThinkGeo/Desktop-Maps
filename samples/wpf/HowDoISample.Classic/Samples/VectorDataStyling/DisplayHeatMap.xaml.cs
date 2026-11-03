@@ -5,7 +5,7 @@ using ThinkGeo.Core;
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Render a heatmap using a HeatStyle.
+    /// Render a heatmap using a HeatmapStyle.
     /// </summary>
     public partial class DisplayHeatMap : IDisposable
     {
@@ -58,7 +58,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Add the overlay to the map
             Map.Overlays.Add(layerOverlay);
 
-            // Apply HeatStyle
+            // Apply the heatmap style
             AddHeatStyle(coyoteSightings);
 
             _ = Map.RefreshAsync();
@@ -69,11 +69,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// </summary>
         private static void AddHeatStyle(FeatureLayer layer)
         {
-            // Create the heat style, spreading each point's heat over one kilometer on the ground
-            var heatStyle = new HeatStyle(20)
+            // Create the heatmap style: each sighting spreads a Gaussian of heat 22 pixels wide, and
+            // the heat adds up where sightings crowd together.
+            var heatStyle = new HeatmapStyle
             {
-                PointRadius = 1,
-                PointRadiusUnit = DistanceUnit.Kilometer
+                Radius = 22,
+                Intensity = 0.55f,
+                Opacity = 0.85f
             };
 
             // Add the point style to the collection of custom styles for ZoomLevel 1.

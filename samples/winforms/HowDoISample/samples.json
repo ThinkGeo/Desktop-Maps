@@ -478,7 +478,7 @@
       {
         "id": "ThinkGeo.UI.WinForms.HowDoI.DisplayHeatMap",
         "title": "Display HeatMap",
-        "description": "Render a heatmap using a HeatStyle",
+        "description": "Render a heatmap using a HeatmapStyle",
         "source": "Samples/VectorDataStyling/DisplayHeatMap"
       },
       {

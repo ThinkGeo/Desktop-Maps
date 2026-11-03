@@ -48,7 +48,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Add the overlay to the map
             mapView.Overlays.Add(layerOverlay);
 
-            // Apply HeatStyle
+            // Apply the heatmap style
             AddHeatStyle(coyoteSightings);
             await mapView.RefreshAsync();
         }
@@ -58,8 +58,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// </summary>
         private void AddHeatStyle(FeatureLayer layer)
         {
-            // Create the heat style
-            var heatStyle = new HeatStyle(20, 1, DistanceUnit.Kilometer);
+            // Create the heatmap style: each sighting spreads a Gaussian of heat 22 pixels wide, and
+            // the heat adds up where sightings crowd together.
+            var heatStyle = new HeatmapStyle
+            {
+                Radius = 22,
+                Intensity = 0.55f,
+                Opacity = 0.85f
+            };
 
             // Add the point style to the collection of custom styles for ZoomLevel 1.
             layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(heatStyle);
