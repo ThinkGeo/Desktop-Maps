@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ThinkGeo.Core;
+using ThinkGeo.Core.Styling;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
@@ -15,6 +16,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
     /// </summary>
     public partial class GenerateESRIGridFile : UserControl
     {
+        private const string SamplePointsOverlayName = "SamplePointsOverlay";
+        private const string GeneratedGridOverlayName = "GeneratedGridOverlay";
+        private GridOverlay generatedGridOverlay;
+
         public GenerateESRIGridFile()
         {
             InitializeComponent();
@@ -55,13 +60,13 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             samplesLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(classBreakStyle);
             samplesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            //Create an overlay for our points (and later the grid) and add our points layer to it.
-            var gridOverlay = new LayerOverlay
+            // Create an overlay for the sample points and add it to the map.
+            var pointsOverlay = new LayerOverlay
             {
                 TileType = TileType.SingleTile
             };
-            gridOverlay.Layers.Add("GridFeatureLayer", samplesLayer);
-            mapView.Overlays.Add("GridFeatureOverlay", gridOverlay);
+            pointsOverlay.Layers.Add("SamplePointsLayer", samplesLayer);
+            mapView.Overlays.Add(SamplePointsOverlayName, pointsOverlay);
 
             //set the map's current extent to the point shapefile location.
             samplesLayer.Open();
@@ -114,40 +119,55 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             //http://en.wikipedia.org/wiki/Inverse_distance_weighting
             GridInterpolationModel interpolationModel = new InverseDistanceWeightedGridInterpolationModel(2, double.MaxValue);
 
-            var outputStream = new FileStream(filename, FileMode.Create);
-            GridFeatureSource.GenerateGrid(definition, interpolationModel, outputStream);
+            using (var outputStream = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                GridFeatureSource.GenerateGrid(definition, interpolationModel, outputStream);
+            }
         }
 
         private async Task LoadGridAsync(string filename)
         {
-            //Shows how to set the class breaks to display grid cell with color according to its value.
-            var gridFeatureLayer = new GridFeatureLayer(filename);
-            var gridClassBreakStyle = new ClassBreakStyle("CellValue");
-            const byte alpha = 150;
-            gridClassBreakStyle.ClassBreaks.Add(new ClassBreak(double.MinValue, new AreaStyle(new GeoSolidBrush(GeoColors.Transparent))));
-            gridClassBreakStyle.ClassBreaks.Add(new ClassBreak(6.2, new AreaStyle(new GeoSolidBrush(GeoColor.FromArgb(alpha, 255, 0, 0)))));
-            gridClassBreakStyle.ClassBreaks.Add(new ClassBreak(6.83, new AreaStyle(new GeoSolidBrush(GeoColor.FromArgb(alpha, 255, 128, 0)))));
-            gridClassBreakStyle.ClassBreaks.Add(new ClassBreak(7.0, new AreaStyle(new GeoSolidBrush(GeoColor.FromArgb(alpha, 245, 210, 10)))));
-            gridClassBreakStyle.ClassBreaks.Add(new ClassBreak(7.08, new AreaStyle(new GeoSolidBrush(GeoColor.FromArgb(alpha, 225, 255, 0)))));
-            gridClassBreakStyle.ClassBreaks.Add(new ClassBreak(7.15, new AreaStyle(new GeoSolidBrush(GeoColor.FromArgb(alpha, 224, 251, 132)))));
-            gridClassBreakStyle.ClassBreaks.Add(new ClassBreak(7.21, new AreaStyle(new GeoSolidBrush(GeoColor.FromArgb(alpha, 128, 255, 128)))));
-            gridClassBreakStyle.ClassBreaks.Add(new ClassBreak(7.54, new AreaStyle(new GeoSolidBrush(GeoColor.FromArgb(alpha, 0, 255, 0)))));
-            gridFeatureLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(gridClassBreakStyle);
-            gridFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-
-            var layerOverlay = mapView.Overlays["GridFeatureOverlay"] as LayerOverlay;
-            if (layerOverlay != null && layerOverlay.Layers.Contains("GridFeatureLayer"))
+            if (mapView.Overlays.Contains(SamplePointsOverlayName))
             {
-                layerOverlay.Layers.Remove("GridFeatureLayer");
+                var samplePointsOverlay = mapView.Overlays[SamplePointsOverlayName] as LayerOverlay;
+                mapView.Overlays.Remove(SamplePointsOverlayName);
+                samplePointsOverlay?.Dispose();
             }
 
-            if (layerOverlay != null)
+            if (mapView.Overlays.Contains(GeneratedGridOverlayName))
             {
-                layerOverlay.Layers.Add("GridFeatureLayer", gridFeatureLayer);
-
-                await mapView.RefreshAsync(layerOverlay);
+                mapView.Overlays.Remove(GeneratedGridOverlayName);
+                generatedGridOverlay?.Dispose();
+                generatedGridOverlay = null;
             }
+
+            var gridSource = new AscGridSource(filename);
+            generatedGridOverlay = new GridOverlay(gridSource, GridStyle())
+            {
+                ResamplingMode = RasterResamplingMode.NearestNeighbor
+            };
+
+            mapView.Overlays.Add(GeneratedGridOverlayName, generatedGridOverlay);
+            await mapView.RefreshAsync();
         }
+
+        // The pH bands, each colour held from its value up to the next; below 6.2 nothing is drawn.
+        private static GridFillStyle GridStyle() => new GridFillStyle
+        {
+            RampMode = ColorRampMode.Classes,
+            Opacity = 150 / 255f,
+            ColorStops = new[]
+            {
+                new ColorStop(0, GeoColors.Transparent),
+                new ColorStop(6.2, GeoColor.FromArgb(255, 255, 0, 0)),
+                new ColorStop(6.83, GeoColor.FromArgb(255, 255, 128, 0)),
+                new ColorStop(7.0, GeoColor.FromArgb(255, 245, 210, 10)),
+                new ColorStop(7.08, GeoColor.FromArgb(255, 225, 255, 0)),
+                new ColorStop(7.15, GeoColor.FromArgb(255, 224, 251, 132)),
+                new ColorStop(7.21, GeoColor.FromArgb(255, 128, 255, 128)),
+                new ColorStop(7.54, GeoColor.FromArgb(255, 0, 255, 0)),
+            },
+        };
 
         #region Component Designer generated code
         private Panel panel1;
