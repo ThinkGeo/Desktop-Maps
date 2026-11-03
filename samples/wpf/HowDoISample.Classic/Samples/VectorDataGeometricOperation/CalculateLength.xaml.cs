@@ -89,7 +89,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _ = layerOverlay.RefreshAsync();
 
             // Get the length of the first feature. Passing its projection (3857) measures it on the ground, not on the flat map.
-            var length = ((LineBaseShape)feature.GetShape()).GetLength(3857, DistanceUnit.Kilometer);
+            var length = ((LineBaseShape)feature.GetShape()).GetLength(new Projection(3857), DistanceUnit.Kilometer);
 
             // Display the selectedLine's length in the lengthResult TextBox
             LengthResult.Text = $"{length:f3} km";

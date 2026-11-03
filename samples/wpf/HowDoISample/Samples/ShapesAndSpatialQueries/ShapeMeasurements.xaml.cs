@@ -223,13 +223,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             if (MeaArea.IsChecked == true)
             {
                 drawn.Add(shape);
-                var area = ((AreaBaseShape)shape).GetArea(3857, AreaUnit.SquareKilometers);
+                var area = ((AreaBaseShape)shape).GetArea(new Projection(3857), AreaUnit.SquareKilometers);
                 Result.Text = area.ToString("f3", CultureInfo.CurrentCulture) + " sq km";
             }
             else if (MeaLength.IsChecked == true)
             {
                 drawn.Add(shape);
-                var length = ((LineBaseShape)shape).GetLength(3857, DistanceUnit.Kilometer);
+                var length = ((LineBaseShape)shape).GetLength(new Projection(3857), DistanceUnit.Kilometer);
                 Result.Text = length.ToString("f3", CultureInfo.CurrentCulture) + " km";
             }
             else if (MeaCenter.IsChecked == true)
@@ -245,7 +245,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 var line = shape.GetShortestLineTo(Stadium, GeographyUnit.Meter);
                 drawn.Add(shape);
                 drawn.Add(line);
-                var length = line.GetLength(3857, DistanceUnit.Kilometer);
+                var length = line.GetLength(new Projection(3857), DistanceUnit.Kilometer);
                 Result.Text = length.ToString("f3", CultureInfo.CurrentCulture) + " km to the stadium";
             }
             else

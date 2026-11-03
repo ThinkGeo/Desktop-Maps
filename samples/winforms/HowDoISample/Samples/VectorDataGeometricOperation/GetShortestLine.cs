@@ -89,7 +89,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             await layerOverlay.RefreshAsync();
 
             // Get the length of the shortest line. Passing its projection (3857) measures it on the ground, not on the flat map.
-            var length = shortestLine.GetLength(3857, DistanceUnit.Kilometer);
+            var length = shortestLine.GetLength(new Projection(3857), DistanceUnit.Kilometer);
 
             // Display the shortestLine's length in the distanceResult TextBox
             distanceResult.Text = $@"{length:f3} km";

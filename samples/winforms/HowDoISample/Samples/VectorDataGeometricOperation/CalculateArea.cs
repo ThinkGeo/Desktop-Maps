@@ -71,7 +71,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             await layerOverlay.RefreshAsync();
 
             // Get the area of the first feature. Passing its projection (3857) measures it on the ground, not on the flat map.
-            var area = ((AreaBaseShape)feature.GetShape()).GetArea(3857, AreaUnit.SquareKilometers);
+            var area = ((AreaBaseShape)feature.GetShape()).GetArea(new Projection(3857), AreaUnit.SquareKilometers);
 
             // Display the selectedArea's area in the areaResult TextBox
             areaResult.Text = $@"{area:f3} sq km";

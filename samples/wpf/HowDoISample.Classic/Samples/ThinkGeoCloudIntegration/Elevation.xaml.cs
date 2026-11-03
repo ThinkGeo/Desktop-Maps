@@ -189,7 +189,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // (3857 is the projection of the drawn shapes)
             if (e.TrackShape.GetWellKnownType() == WellKnownType.Polygon)
             {
-                if (((PolygonShape)e.TrackShape).GetArea(3857, AreaUnit.SquareKilometers) > 5)
+                if (((PolygonShape)e.TrackShape).GetArea(new Projection(3857), AreaUnit.SquareKilometers) > 5)
                 {
                     MessageBox.Show("Please draw a smaller polygon (limit: 5km^2)", "Error");
                     return;
@@ -197,7 +197,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
             else if (e.TrackShape.GetWellKnownType() == WellKnownType.Line)
             {
-                if (((LineShape)e.TrackShape).GetLength(3857, DistanceUnit.Kilometer) > 5)
+                if (((LineShape)e.TrackShape).GetLength(new Projection(3857), DistanceUnit.Kilometer) > 5)
                 {
                     MessageBox.Show("Please draw a shorter line (limit: 5km)", "Error");
                     return;
