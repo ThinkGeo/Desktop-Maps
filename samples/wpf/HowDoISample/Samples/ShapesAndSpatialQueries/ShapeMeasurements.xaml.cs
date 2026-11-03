@@ -256,10 +256,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                     StartingPoint.FirstPoint,
                     Number(StartingOffset, 500),
                     Number(RunLength, 1000),
-                    GeographyUnit.Meter,
+                    new Projection(3857),
                     DistanceUnit.Meter);
 
-                var got = subLine?.GetLength(GeographyUnit.Meter, DistanceUnit.Meter) ?? 0;
+                var got = subLine?.GetLength(new Projection(3857), DistanceUnit.Meter) ?? 0;
                 if (got > 0)
                 {
                     drawn.Add(subLine);
@@ -270,7 +270,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                     // Asking for a stretch that starts past the end of the line is not an
                     // error; it just has nothing in it.
                     Result.Text = "Nothing there - this trail is "
-                        + line.GetLength(GeographyUnit.Meter, DistanceUnit.Meter).ToString("f0", CultureInfo.CurrentCulture)
+                        + line.GetLength(new Projection(3857), DistanceUnit.Meter).ToString("f0", CultureInfo.CurrentCulture)
                         + " m long";
                 }
             }

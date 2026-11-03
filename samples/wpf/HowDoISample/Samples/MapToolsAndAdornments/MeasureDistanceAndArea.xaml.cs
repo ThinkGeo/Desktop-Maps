@@ -37,7 +37,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             }
 
             _initialized = true;
-            Map.TrackOverlay = new MeasureInteractiveOverlay(DistanceUnit.Kilometer);
+            Map.TrackOverlay = NewRuler();
             Map.CurrentExtent = new RectangleShape(-10_790_000, 3_925_000, -10_770_000, 3_905_000); // Frisco, TX
             await Map.RefreshAsync();
         }
@@ -45,7 +45,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private async void Distance_Checked(object sender, RoutedEventArgs e)
         {
             if (!_initialized) return;
-            Map.TrackOverlay = new MeasureInteractiveOverlay(DistanceUnit.Kilometer);
+            Map.TrackOverlay = NewRuler();
             await Map.RefreshAsync();
         }
 
@@ -60,10 +60,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private async void Clear_Click(object sender, RoutedEventArgs e)
         {
             Map.TrackOverlay = Map.TrackOverlay is MeasureInteractiveOverlay
-                ? new MeasureInteractiveOverlay(DistanceUnit.Kilometer)
+                ? NewRuler()
                 : NewAreaOverlay();
             await Map.RefreshAsync();
         }
+
+        // The map is in 3857; with its projection the ruler measures on the ground, not on the flat map.
+        private static MeasureInteractiveOverlay NewRuler() =>
+            new MeasureInteractiveOverlay(DistanceUnit.Kilometer) { Projection = new Projection(3857) };
 
         private static TrackInteractiveOverlay NewAreaOverlay()
         {
