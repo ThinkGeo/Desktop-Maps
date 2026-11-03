@@ -80,7 +80,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (e.MouseButton == MapMouseButton.Left)
             {
                 // Run the timezone info query
-                _ = GetTimeZoneInfoAsync(e.WorldX, e.WorldY);
+                _ = GetTimeZoneInfoAsync(e.WorldLocation.X, e.WorldLocation.Y);
             }
         }
 

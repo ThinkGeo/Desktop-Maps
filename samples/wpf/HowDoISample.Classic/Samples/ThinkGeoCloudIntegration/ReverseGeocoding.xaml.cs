@@ -88,7 +88,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (e.MouseButton == MapMouseButton.Left)
             {
                 // Set the coordinates in the UI
-                TxtCoordinates.Text = $"{e.WorldY:0.000000},{e.WorldX:0.000000}";
+                TxtCoordinates.Text = $"{e.WorldLocation.Y:0.000000},{e.WorldLocation.X:0.000000}";
 
                 // Run the reverse geocode
                 PerformReverseGeocode();

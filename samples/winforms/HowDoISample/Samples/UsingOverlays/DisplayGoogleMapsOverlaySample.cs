@@ -31,7 +31,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void displayGoogleMaps_Click(object sender, EventArgs e)
         {
-            GoogleMapsOverlay googleMapsOverlay = new GoogleMapsOverlay(googleApiKey.Text);
+            var googleMapsOverlay = new GoogleMapsStaticOverlay(googleApiKey.Text, string.Empty);
             mapView.Overlays.Add(googleMapsOverlay);
             await mapView.RefreshAsync();
         }

@@ -21,7 +21,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
     /// </summary>
     public partial class HatchStyles
     {
-        private static readonly GeoColor Foreground = GeoColors.Black;
+        private static readonly GeoColor HatchColor = GeoColors.Black;
 
         private readonly DispatcherTimer _applyTimer;
         private readonly Dictionary<GeoHatchStyle, BitmapImage> _previews = new Dictionary<GeoHatchStyle, BitmapImage>();
@@ -72,7 +72,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             foreach (GeoHatchStyle style in Enum.GetValues(typeof(GeoHatchStyle)))
             {
-                _brushes[ImageId(style)] = new GeoHatchBrush(style, Foreground);
+                _brushes[ImageId(style)] = new GeoHatchBrush(style, HatchColor);
             }
 
             _parks = new FeatureSourceVectorTileSource();

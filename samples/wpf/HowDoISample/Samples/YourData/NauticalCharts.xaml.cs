@@ -220,18 +220,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                     else if (kind == "RESARE" && shape is AreaBaseShape zone && zone.Contains(here))
                     {
                         var details = Details(feature);
-                        reading.Restricted.Add(details.Length == 0 ? Name(feature) : Name(feature) + " - " + details);
+                        reading.Restricted.Add(details.Length == 0 ? FeatureName(feature) : FeatureName(feature) + " - " + details);
                     }
                     else if (Aids.Contains(kind))
                     {
-                        aids.Add((Name(feature), here.GetDistanceTo(shape, GeographyUnit.Meter, DistanceUnit.Meter)));
+                        aids.Add((FeatureName(feature), here.GetDistanceTo(shape, GeographyUnit.Meter, DistanceUnit.Meter)));
                     }
                     else if (Hazards.Contains(kind))
                     {
                         var distance = here.GetDistanceTo(shape, GeographyUnit.Meter, DistanceUnit.Meter);
                         if (distance > 500) continue;
                         nearestHazard = Math.Min(nearestHazard, distance);
-                        hazards.Add((Name(feature), distance));
+                        hazards.Add((FeatureName(feature), distance));
                     }
                 }
 
@@ -270,7 +270,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         // The object's class name from the S-57 catalogue - "Light", "Lateral buoy", "Underwater
         // rock" - and its own name when the chart gives it one.
-        private string Name(Feature feature)
+        private string FeatureName(Feature feature)
         {
             var description = _chart.GetFeatureDescription(feature);
             var kind = description?.ObjectClassName ?? (feature.ColumnValues.TryGetValue("OBJCLS", out var acronym) ? acronym : "Object");

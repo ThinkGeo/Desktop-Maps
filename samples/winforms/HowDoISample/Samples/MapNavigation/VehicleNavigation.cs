@@ -64,7 +64,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_raster_light")
             };
             mapView.Overlays.Add(_backgroundOverlay);
-            _backgroundOverlay.TileViewInMemoryCache = new XyzLruCache<TileView>();
+            _backgroundOverlay.ZoomOutTileCacheCapacity = 20;
 
             mapView.DefaultAnimationSettings = new MapAnimationSettings
             {

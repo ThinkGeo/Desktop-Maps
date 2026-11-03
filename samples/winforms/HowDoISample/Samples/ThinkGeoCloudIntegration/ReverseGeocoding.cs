@@ -259,7 +259,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             if (e.MouseButton == MapMouseButton.Left)
             {
                 // Set the coordinates in the UI
-                txtCoordinates.Text = string.Format("{0},{1}", e.WorldY.ToString("0.000000"), e.WorldX.ToString("0.000000"));
+                txtCoordinates.Text = string.Format("{0},{1}", e.WorldLocation.Y.ToString("0.000000"), e.WorldLocation.X.ToString("0.000000"));
 
                 // Run the reverse geocode
                 await PerformReverseGeocodeAsync();

@@ -58,7 +58,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             if (e.MouseButton == MapMouseButton.Left)
             {
                 // Run the timezone info query
-                await GetTimeZoneInfoAsync(e.WorldX, e.WorldY);
+                await GetTimeZoneInfoAsync(e.WorldLocation.X, e.WorldLocation.Y);
             }
         }
 
