@@ -110,8 +110,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             shortestLineLayer.InternalFeatures.Add(new Feature(shortestLine));
             _ = shortestLineOverlay.RefreshAsync();
 
-            // Get the area of the first feature
-            var length = shortestLine.GetLength(GeographyUnit.Meter, DistanceUnit.Kilometer);
+            // Get the length of the shortest line. Passing its projection (3857) measures it on the ground, not on the flat map.
+            var length = shortestLine.GetLength(3857, DistanceUnit.Kilometer);
 
             // Display the shortestLine's length in the distanceResult TextBox
             DistanceResult.Text = $"{length:f3} km";
