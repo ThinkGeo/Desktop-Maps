@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ThinkGeo.UI.WinForms" Version="15.0.0-beta258" />
+    <PackageReference Include="ThinkGeo.UI.WinForms" Version="15.0.0-beta264" />
   </ItemGroup>
 
   <ItemGroup>
