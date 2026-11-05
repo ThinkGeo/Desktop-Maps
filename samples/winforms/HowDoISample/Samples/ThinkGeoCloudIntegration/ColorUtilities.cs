@@ -55,7 +55,15 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Get the extent of the features from the housing units shapefile, and set the map extent.
             housingUnitsLayer.Open();
             mapView.CurrentExtent = housingUnitsLayer.GetBoundingBox();
-            await mapView.ZoomOutAsync();
+            // Switching to another sample disposes the map, which cancels the zoom.
+            try
+            {
+                await mapView.ZoomOutAsync();
+            }
+            catch (OperationCanceledException) when (IsDisposed)
+            {
+                return;
+            }
             housingUnitsLayer.Close();
 
             // Initialize the ColorCloudClient using our ThinkGeo Cloud credentials
@@ -63,6 +71,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Set the initial color scheme for the housing units layer
             var colors = await GetColorsFromCloud();
+            if (IsDisposed) return;
             // If colors were successfully generated, update the map
             if (colors.Count > 0)
             {
