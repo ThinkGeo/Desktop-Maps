@@ -262,7 +262,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             {
                 UnitFamily = UnitSystem.Imperial,
                 HasMask = true,
-                DynamicBoundingBox = true
+                DynamicBoundingBox = true,
+                Projection = new Projection(3857)
             };
             scaleBarPrinterLayer.SetPosition(2.15, 0.45, pageCenter.X - 2.35, pageCenter.Y - 0.45, PrintingUnit.Inch);
             printerOverlay.PrinterLayoutAsyncLayers.Add(scaleBarPrinterLayer);

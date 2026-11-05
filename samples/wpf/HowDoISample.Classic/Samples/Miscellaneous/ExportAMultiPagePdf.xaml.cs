@@ -149,7 +149,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             mapLayer.SetPosition(10, 6.5, 0, -0.2, PrintingUnit.Inch);
             page.Layers.Add(mapLayer);
 
-            var scaleBar = new ScaleBarPrinterLayoutAsyncLayer(mapLayer);
+            var scaleBar = new ScaleBarPrinterLayoutAsyncLayer(mapLayer) { Projection = new Projection(3857) };
             scaleBar.SetPosition(2.5, 0.4, -3.5, -3.5, PrintingUnit.Inch);
             page.Layers.Add(scaleBar);
 
