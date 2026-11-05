@@ -139,6 +139,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Run the service area query
             var getServiceAreaResult = await GetServiceArea(point);
+            if (IsDisposed) return;
 
             // Hide the loading graphic
             //loadingImage.Visibility = Visibility.Hidden;

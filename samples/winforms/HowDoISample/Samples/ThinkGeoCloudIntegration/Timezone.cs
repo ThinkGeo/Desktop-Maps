@@ -84,6 +84,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 MessageBox.Show(ex.Message, "Error");
                 return;
             }
+            if (IsDisposed) return;
 
             // Get the timezone info popup overlay from the mapview
             var timezoneInfoPopupOverlay = (PopupOverlay)mapView.Overlays["Timezone Info Popup Overlay"];

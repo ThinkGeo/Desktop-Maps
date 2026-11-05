@@ -49,7 +49,15 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var parksLayerBBox = parksLayer.GetBoundingBox();
             mapView.CenterPoint = parksLayerBBox.GetCenterPoint();
             mapView.CurrentScale = MapUtil.GetScale(mapView.MapUnit, parksLayerBBox, mapView.MapWidth, mapView.MapHeight);
-            await mapView.ZoomInAsync();
+            // Switching to another sample disposes the map, which cancels the zoom.
+            try
+            {
+                await mapView.ZoomInAsync();
+            }
+            catch (OperationCanceledException) when (IsDisposed)
+            {
+                return;
+            }
             parksLayer.Close();
 
             // Refresh and redraw the map

@@ -160,7 +160,15 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             routingLayer.Open();
             mapView.CurrentExtent = routingLayer.GetBoundingBox();
             var standardZoomLevelSet = new ZoomLevelSet();
-            await mapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel13.Scale);
+            // Switching to another sample disposes the map, which cancels the zoom.
+            try
+            {
+                await mapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel13.Scale);
+            }
+            catch (OperationCanceledException) when (IsDisposed)
+            {
+                return;
+            }
             routingLayer.Close();
             await mapView.RefreshAsync();
         }
@@ -175,6 +183,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Run the optimized routing query
             var optimizedRoutingResult = await GetOptimizedRoute();
+            if (IsDisposed) return;
 
             // Hide the loading graphic
             //loadingImage.Visibility = Visibility.Hidden;
