@@ -171,7 +171,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             IntensityReadout.Text = IntensitySlider.Value.ToString("0.00", CultureInfo.InvariantCulture);
             OpacityReadout.Text = OpacitySlider.Value.ToString("0.00", CultureInfo.InvariantCulture);
             PaintPreview.Text = FormattableString.Invariant(
-                $@"style.SetHeatmapPaint(""{HeatLayerId}"", radius: {RadiusSlider.Value:0}, intensity: {IntensitySlider.Value:0.00}, opacity: {OpacitySlider.Value:0.00}, colorRamp: {_ramp.Name})");
+                $@"style.SetHeatmapPaint(""{HeatLayerId}"", radius: {RadiusSlider.Value:0}, intensity: {IntensitySlider.Value:0.00}, opacity: {OpacitySlider.Value:0.00}, colorStops: {_ramp.Name})");
         }
     }
 }
