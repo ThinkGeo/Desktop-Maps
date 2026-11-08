@@ -118,6 +118,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         // circle layer per source-layer it declares, each kept to its own geometry.
         private const string BareLayers = @",
     { ""type"": ""fill"",
+      ""source"": ""archive"",
       ""source-layer"": ""LAYER"",
       ""filter"": [""=="", [""geometry-type""], ""Polygon""],
       ""paint"": {
@@ -126,6 +127,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
     },
 
     { ""type"": ""line"",
+      ""source"": ""archive"",
       ""source-layer"": ""LAYER"",
       ""filter"": [""=="", [""geometry-type""], ""LineString""],
       ""paint"": {
@@ -134,6 +136,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
     },
 
     { ""type"": ""circle"",
+      ""source"": ""archive"",
       ""source-layer"": ""LAYER"",
       ""filter"": [""=="", [""geometry-type""], ""Point""],
       ""paint"": {
@@ -155,7 +158,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 return new MapStyle().AddStyle(stylePath, tiles);
             }
 
-            var layers = new StringBuilder(@"{ ""layers"": [
+            var layers = new StringBuilder(@"{ ""version"": 8,
+  ""sources"": { ""archive"": { ""type"": ""vector"" } },
+  ""layers"": [
     { ""type"": ""background"",
       ""paint"": { ""background-color"": ""#F0F0EC"" }
     }");
