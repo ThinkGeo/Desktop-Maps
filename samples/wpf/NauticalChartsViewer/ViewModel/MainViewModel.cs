@@ -514,7 +514,11 @@ namespace NauticalChartsViewer
                     {
                         TileType = TileType.SingleTile,
                     };
-                    map.Overlays.Insert(1, chartsOverlayName, overlay);
+                    // Under the bounding-box preview, which may still be opening and not on the map yet.
+                    int index = map.Overlays.Contains(boundingBoxPreviewOverlayName)
+                        ? map.Overlays.IndexOf(map.Overlays[boundingBoxPreviewOverlayName])
+                        : map.Overlays.Count;
+                    map.Overlays.Insert(index, chartsOverlayName, overlay);
                 }
 
                 overlay.Layers.Clear();
