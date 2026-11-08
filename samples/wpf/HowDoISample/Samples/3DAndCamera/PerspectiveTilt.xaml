@@ -24,7 +24,7 @@
             <Slider Maximum="60" Value="{Binding TiltAngle, ElementName=Map, Mode=TwoWay}"/>
 
             <TextBlock Foreground="#DDDDDD" TextWrapping="Wrap" FontSize="11" Margin="0,16,0,0"
-                       Text="Right-drag tilts. Left-drag pans, and the ground you grabbed stays under the cursor. Alt and left-drag rotates; the wheel zooms. None of that is in this sample - it is what the MapView does once IsTiltInteractionEnabled is set."/>
+                       Text="Right-drag tilts. Left-drag pans, and the ground you grabbed stays under the cursor. Alt and left-drag rotates; the wheel zooms. None of that is in this sample - it is what the MapView does once IsTiltEnabled is set."/>
 
             <TextBlock Foreground="#DDDDDD" TextWrapping="Wrap" FontSize="11" Margin="0,12,0,0"
                        Text="Raster tiles tilt exactly as vector tiles do. What vector adds is labels that stay upright and tiles that get coarser toward the horizon."/>

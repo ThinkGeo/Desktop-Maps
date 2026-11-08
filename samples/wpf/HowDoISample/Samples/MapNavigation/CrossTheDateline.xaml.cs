@@ -245,7 +245,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             Map.MaximumScale = definition == "3857" ? double.MaxValue : WorldFillScale();
             Map.CurrentExtent = before;
             await Map.RefreshAsync();
-            await Map.Basemap.AnimateDisplayProjectionAsync(target, MorphDuration);
+            try
+            {
+                await Map.Basemap.AnimateDisplayProjectionAsync(target, MorphDuration);
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
             ShowSeam();
         }
 

@@ -106,7 +106,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             if (ChkMorph?.IsChecked == true)
             {
                 await Map.RefreshAsync();
-                await Map.Basemap.AnimateDisplayProjectionAsync(target, MorphDuration);
+                try
+                {
+                    await Map.Basemap.AnimateDisplayProjectionAsync(target, MorphDuration);
+                }
+                catch (OperationCanceledException)
+                {
+                    return;
+                }
             }
             else
             {

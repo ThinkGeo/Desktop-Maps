@@ -12,7 +12,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
     /// <summary>
     /// Open a raster file - GeoTIFF, ECW, JPEG 2000, MrSID, or anything else GDAL
     /// reads - and draw it. Each format has a classic raster source named after it;
-    /// WarpToWebMercator warps the file once at open through a virtual dataset, and
+    /// WarpProjection warps the file once at open through a virtual dataset, and
     /// one ClassicRasterTileSource serves its windowed reads as tiles, so a
     /// multi-gigabyte image with overviews draws at every zoom without ever being
     /// loaded whole.
@@ -74,7 +74,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             {
                 var source = OpenChosen();
                 Status.Text = source.GetType().Name;
-                source.WarpToWebMercator = true;
+                source.WarpProjection = new Projection(3857);
                 _current = new ClassicRasterTileSource(source);
             }
             catch (Exception exception)

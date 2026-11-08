@@ -57,7 +57,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             InitializeComponent();
 
             Map.MapUnit = GeographyUnit.Meter;
-            Map.IsTiltInteractionEnabled = true;
+            Map.IsTiltEnabled = true;
 
             // The profile is two clicks, and two clicks arriving quickly are a double
             // click: under the default MutuallyExclusive the pair raises MapDoubleClick

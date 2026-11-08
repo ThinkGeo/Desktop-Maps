@@ -162,7 +162,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 radius: (float)RadiusSlider.Value,
                 intensity: (float)IntensitySlider.Value,
                 opacity: (float)OpacitySlider.Value,
-                colorRamp: _ramp.Stops);
+                colorStops: _ramp.Stops);
         }
 
         private void ShowPaintPreview()

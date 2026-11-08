@@ -172,7 +172,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
                     if (morphTarget != null)
                     {
-                        await Map.Basemap.AnimateDisplayProjectionAsync(morphTarget, MorphDuration);
+                        try
+                        {
+                            await Map.Basemap.AnimateDisplayProjectionAsync(morphTarget, MorphDuration);
+                        }
+                        catch (OperationCanceledException)
+                        {
+                        }
                     }
                 }
                 finally

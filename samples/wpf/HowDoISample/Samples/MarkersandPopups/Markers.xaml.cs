@@ -41,7 +41,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             // Tilt with the right mouse button or the slider: a marker is a screen
             // element, and it stays on its ground point under perspective.
-            Map.IsTiltInteractionEnabled = true;
+            Map.IsTiltEnabled = true;
 
             var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
             style.Images.Add("dot", PointStyle.CreateSimpleCircleStyle(GeoColors.Red, 10));

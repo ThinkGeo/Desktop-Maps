@@ -265,7 +265,7 @@ public static class OverlayMapper
     {
         var mapType = Enum.TryParse<ThinkGeoCloudRasterMapsMapType>(descriptor.MapType, ignoreCase: true, out var mt)
             ? mt
-            : ThinkGeoCloudRasterMapsMapType.Light;
+            : ThinkGeoCloudRasterMapsMapType.Light_V1_X1;
         return new ThinkGeoCloudRasterMapsOverlay(descriptor.ClientId, descriptor.ClientSecret, mapType);
     }
 

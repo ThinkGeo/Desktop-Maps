@@ -53,7 +53,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             InitializeComponent();
 
             Map.MapUnit = GeographyUnit.Meter;
-            Map.IsTiltInteractionEnabled = true;
+            Map.IsTiltEnabled = true;
             _style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
             _overlay = new GpuBasemap(_style);
             Map.Basemap = _overlay;
@@ -331,7 +331,22 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private async void ExportFeatures()
         {
             Status.Text = "reading the field back...";
-            var field = await _overlay.GetIsolineFieldAsync();
+            IsolineFieldSnapshot field;
+            try
+            {
+                field = await _overlay.GetIsolineFieldAsync();
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
+
+            if (field == null)
+            {
+                Status.Text = "no isoline field on screen";
+                return;
+            }
+
             var levels = IsoLineLayer.GetIsoLineLevels(_currentPoints ?? _seedPoints, _levelCount);
 
             // Off the UI thread: marching squares over a screen-resolution field is

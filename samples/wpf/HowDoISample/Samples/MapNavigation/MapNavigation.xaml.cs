@@ -37,7 +37,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             Map.MapUnit = GeographyUnit.Meter;
             // The street style carries its own building extrusions, so the 3D
             // Buildings checkbox is a renderer switch, not a style rebuild.
-            Map.IsTiltInteractionEnabled = true;
+            Map.IsTiltEnabled = true;
             _basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, _cloud));
             _basemap.IsExtrusionDrawingEnabled = BuildingCheckBox.IsChecked != false;
             Map.Basemap = _basemap;

@@ -61,7 +61,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
-            Map.IsTiltInteractionEnabled = true;
+            Map.IsTiltEnabled = true;
             _cancellationTokenSource = new CancellationTokenSource();
 
             _paths = new DynamicSource();

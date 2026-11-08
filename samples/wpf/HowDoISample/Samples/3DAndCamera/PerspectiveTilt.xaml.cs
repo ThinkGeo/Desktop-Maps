@@ -26,7 +26,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             InitializeComponent();
 
             Map.MapUnit = GeographyUnit.Meter;
-            Map.IsTiltInteractionEnabled = true;
+            Map.IsTiltEnabled = true;
 
         }
 

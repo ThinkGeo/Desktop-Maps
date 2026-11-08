@@ -66,7 +66,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             foreach (var (id, extent) in Pictures)
             {
                 var image = File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "Data", "Jpg", id + ".jpg"));
-                basemap.RasterTileSources.Add(id, new GeoImageRasterTileSource(image, extent, grid));
+                basemap.RasterTileSources.Add(id, new GeoImageRasterTileSource(image, extent, tileMatrixSet: grid));
             }
 
             Map.Basemap = basemap;

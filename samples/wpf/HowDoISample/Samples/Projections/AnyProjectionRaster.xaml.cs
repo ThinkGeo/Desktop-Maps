@@ -136,6 +136,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
                 ShowStatus();
             }
+            catch (OperationCanceledException)
+            {
+            }
             catch (NotSupportedException ex)
             {
                 StatusText.Text = "not a natively projected family:" + Environment.NewLine + ex.Message;
