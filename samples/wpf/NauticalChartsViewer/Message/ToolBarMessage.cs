@@ -1,8 +1,7 @@
 ﻿
-using GalaSoft.MvvmLight.Messaging;
 namespace NauticalChartsViewer
 {
-    public class ToolBarMessage : MessageBase
+    public class ToolBarMessage
     {
         public ToolBarMessage(string action) 
         {

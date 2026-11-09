@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using ThinkGeo.Core;
+using ThinkGeo.Core.Styling;
 
 namespace ThinkGeo.UI.WinForms.HowDoI
 {
@@ -17,54 +18,48 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Create background world map with vector tile requested from ThinkGeo Cloud Service. 
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            var thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey);
+            mapView.Overlays.Add(thinkGeoVectorTileOverlay);
+
+            // Load the grid file; the data is in srid 2276 and our background is srid 3857 (spherical mercator).
+            var gridSource = new AscGridSource(@"..\..\..\data\GridFile\Mosquitos.grd", new Projection(2276));
+
+            // Create an overlay that draws the grid in srid 3857 and add it to the map.
+            var gridOverlay = new GridOverlay(gridSource, GridStyle(), new Projection(3857))
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light
-
+                ResamplingMode = RasterResamplingMode.NearestNeighbor
             };
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            mapView.Overlays.Add(gridOverlay);
 
-            // Create a new overlay that will hold our new layer and add it to the map.
-            var staticOverlay = new LayerOverlay();
-            staticOverlay.TileType = TileType.SingleTile;
-            mapView.Overlays.Add(staticOverlay);
-
-            // Create the new layer and set the projection as the data is in srid 2276 and our background is srid 3857 (spherical mercator).
-            var gridFeatureLayer = new GridFeatureLayer(@"..\..\..\data\GridFile\Mosquitos.grd")
-            {
-                FeatureSource =
-                {
-                    ProjectionConverter = new ProjectionConverter(2276, 3857)
-                }
-            };
-
-            // Add the layer to the overlay we created earlier.
-            staticOverlay.Layers.Add("GridFeatureLayer", gridFeatureLayer);
-
-            // Create a class break style based on the cell values and set area styles based on the values
-            var gridClassBreakStyle = new ClassBreakStyle("CellValue");
-            gridClassBreakStyle.ClassBreaks.Add(new ClassBreak(double.MinValue, new AreaStyle(new GeoSolidBrush(GeoColor.FromArgb(100, 0, 255, 0)))));
-            gridClassBreakStyle.ClassBreaks.Add(new ClassBreak(12, new AreaStyle(new GeoSolidBrush(GeoColor.FromArgb(100, 128, 255, 128)))));
-            gridClassBreakStyle.ClassBreaks.Add(new ClassBreak(24, new AreaStyle(new GeoSolidBrush(GeoColor.FromArgb(100, 224, 251, 132)))));
-            gridClassBreakStyle.ClassBreaks.Add(new ClassBreak(36, new AreaStyle(new GeoSolidBrush(GeoColor.FromArgb(100, 225, 255, 0)))));
-            gridClassBreakStyle.ClassBreaks.Add(new ClassBreak(48, new AreaStyle(new GeoSolidBrush(GeoColor.FromArgb(100, 245, 210, 10)))));
-            gridClassBreakStyle.ClassBreaks.Add(new ClassBreak(60, new AreaStyle(new GeoSolidBrush(GeoColor.FromArgb(100, 255, 128, 0)))));
-            gridClassBreakStyle.ClassBreaks.Add(new ClassBreak(72, new AreaStyle(new GeoSolidBrush(GeoColor.FromArgb(100, 255, 0, 0)))));
-            gridClassBreakStyle.ClassBreaks.Add(new ClassBreak(double.MaxValue, new AreaStyle(new GeoSolidBrush(GeoColors.Transparent))));
-
-            // Take the class break style we created above and set it on zoom level 1 and then apply it to all zoom levels up to 20.
-            gridFeatureLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(gridClassBreakStyle);
-            gridFeatureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-
-            // Open the layer and set the map view current extent to the bounding box of the layer.  
-            gridFeatureLayer.Open();
-            mapView.CurrentExtent = gridFeatureLayer.GetBoundingBox();
+            // Set the map view current extent to the bounding box of the grid, in srid 3857.
+            var projectionConverter = new ProjectionConverter(2276, 3857);
+            projectionConverter.Open();
+            var gridBBox = projectionConverter.ConvertToExternalProjection(gridSource.Extent);
+            projectionConverter.Close();
+            mapView.CenterPoint = gridBBox.GetCenterPoint();
+            var MapScale = MapUtil.GetScale(mapView.MapUnit, gridBBox, mapView.MapWidth, mapView.MapHeight);
+            mapView.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
 
             // Refresh the map.
             await mapView.RefreshAsync();
         }
+
+        // The mosquito count bands, each colour held from its value up to the next.
+        private static GridFillStyle GridStyle() => new GridFillStyle
+        {
+            RampMode = ColorRampMode.Classes,
+            Opacity = 100 / 255f,
+            ColorStops = new[]
+            {
+                new ColorStop(0, GeoColor.FromArgb(255, 0, 255, 0)),
+                new ColorStop(12, GeoColor.FromArgb(255, 128, 255, 128)),
+                new ColorStop(24, GeoColor.FromArgb(255, 224, 251, 132)),
+                new ColorStop(36, GeoColor.FromArgb(255, 225, 255, 0)),
+                new ColorStop(48, GeoColor.FromArgb(255, 245, 210, 10)),
+                new ColorStop(60, GeoColor.FromArgb(255, 255, 128, 0)),
+                new ColorStop(72, GeoColor.FromArgb(255, 255, 0, 0)),
+            },
+        };
 
         #region Create Sample Data
 

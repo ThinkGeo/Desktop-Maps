@@ -89,6 +89,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void Projection_CheckedChanged(object sender, EventArgs e)
         {
+            if (sender is RadioButton toggled && !toggled.Checked) return;
             try
             {
                 if (_thinkGeoRasterMapsAsyncLayer == null) return;

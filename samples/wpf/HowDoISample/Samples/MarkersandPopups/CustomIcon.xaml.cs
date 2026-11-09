@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 
-namespace ThinkGeo.UI.Wpf.HowDoI
+using ThinkGeo.UI.Wpf;
+namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
     /// Interaction logic for CustomIcon.xaml

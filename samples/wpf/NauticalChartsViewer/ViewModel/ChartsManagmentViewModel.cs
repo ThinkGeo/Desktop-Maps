@@ -1,7 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.CommandWpf;
-using GalaSoft.MvvmLight.Messaging;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -74,7 +71,7 @@ namespace NauticalChartsViewer
                 if (isProgressBarVisible != value)
                 {
                     isProgressBarVisible = value;
-                    RaisePropertyChanged("IsProgressBarVisible");
+                    OnPropertyChanged("IsProgressBarVisible");
                 }
             }
         }
@@ -111,7 +108,7 @@ namespace NauticalChartsViewer
                 if (selectedItem != value)
                 {
                     selectedItem = value;
-                    RaisePropertyChanged("SelectedItem");
+                    OnPropertyChanged("SelectedItem");
                 }
             }
         }
@@ -190,7 +187,7 @@ namespace NauticalChartsViewer
 
         private void HandleCancelCommand()
         {
-            Messenger.Default.Send<WindowStateMessage>(new WindowStateMessage(S57WindowState.Close));
+            Messenger.Default.Send(new WindowStateMessage(S57WindowState.Close));
         }
 
         private void HandleDoubleClickCommand()
@@ -202,7 +199,7 @@ namespace NauticalChartsViewer
 
             ChartMessage message = new ChartMessage(new[] { SelectedItem });
 
-            Messenger.Default.Send<ChartMessage>(message, "LoadCharts");
+            Messenger.Default.Send(message, "LoadCharts");
         }
 
         private void HandleLoadCommand()
@@ -246,11 +243,11 @@ namespace NauticalChartsViewer
 
         private void HandleLoadDirectoryCommand()
         {
-            System.Windows.Forms.FolderBrowserDialog folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            Microsoft.Win32.OpenFolderDialog folderBrowserDialog = new Microsoft.Win32.OpenFolderDialog();
 
-            if (folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (folderBrowserDialog.ShowDialog() == true)
             {
-                string directory = folderBrowserDialog.SelectedPath;
+                string directory = folderBrowserDialog.FolderName;
                 Collection<string> files = new Collection<string>();
                 LoadFileRecursively(directory, files);
                 Collection<string> filesWithIndexFile = new Collection<string>();
@@ -292,8 +289,8 @@ namespace NauticalChartsViewer
         public void HandleOkCommand()
         {
             ChartMessage message = new ChartMessage(selectedItems);
-            Messenger.Default.Send<WindowStateMessage>(new WindowStateMessage(S57WindowState.Close));
-            Messenger.Default.Send<ChartMessage>(message, "LoadCharts");
+            Messenger.Default.Send(new WindowStateMessage(S57WindowState.Close));
+            Messenger.Default.Send(message, "LoadCharts");
             selectedItems.Clear();
         }
 
@@ -303,7 +300,7 @@ namespace NauticalChartsViewer
             if (result == MessageBoxResult.Yes)
             {
                 ChartMessage message = new ChartMessage(selectedItems);
-                Messenger.Default.Send<ChartMessage>(message, "UnloadCharts");
+                Messenger.Default.Send(message, "UnloadCharts");
                 for (int i = selectedItems.Count - 1; i >= 0; i--)
                 {
                     ChartItem chart = selectedItems[i];

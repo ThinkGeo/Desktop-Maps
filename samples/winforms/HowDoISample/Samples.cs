@@ -111,8 +111,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             currentUserControl.Size = pnlOption.Size;               
 
             if (pnlOption.Controls.Count > 0)
-            {                
+            {
+                // Clear only takes the old sample off the panel; disposing it closes its map
+                // and the files its layers hold open.
+                Control[] previous = new Control[pnlOption.Controls.Count];
+                pnlOption.Controls.CopyTo(previous, 0);
                 pnlOption.Controls.Clear();
+                foreach (Control control in previous)
+                {
+                    control.Dispose();
+                }
             }
 
             pnlOption.Controls.Add(currentUserControl);

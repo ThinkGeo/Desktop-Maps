@@ -1,7 +1,5 @@
 ﻿using System.Windows;
-using GalaSoft.MvvmLight.Threading;
-
-
+using System.Windows.Threading;
 
 namespace NauticalChartsViewer
 {
@@ -10,16 +8,13 @@ namespace NauticalChartsViewer
     /// </summary>
     public partial class App : Application
     {
-        static App()
+        public App()
         {
-
-            DispatcherHelper.Initialize();
-            DispatcherHelper.UIDispatcher.UnhandledException += (sender, e) =>
+            DispatcherUnhandledException += (sender, e) =>
             {
                 e.Handled = true;
                 MessageBox.Show(e.Exception.Message, string.Empty, MessageBoxButton.OK, MessageBoxImage.Error);
             };
         }
     }
-
 }

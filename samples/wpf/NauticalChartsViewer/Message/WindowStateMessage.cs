@@ -1,8 +1,7 @@
-﻿using GalaSoft.MvvmLight.Messaging;
-
+﻿
 namespace NauticalChartsViewer
 {
-    public class WindowStateMessage : MessageBase
+    public class WindowStateMessage
     {
         public WindowStateMessage() { }
 

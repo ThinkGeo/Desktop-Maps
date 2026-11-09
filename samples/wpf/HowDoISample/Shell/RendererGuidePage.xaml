@@ -1,0 +1,103 @@
+<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.RendererGuidePage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <UserControl.Resources>
+        <Style x:Key="H1" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+        <Style x:Key="H2" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="0,16,0,4"/>
+        </Style>
+        <Style x:Key="Body" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12.5"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Foreground" Value="#3C4043"/>
+            <Setter Property="LineHeight" Value="19"/>
+        </Style>
+        <Style x:Key="Cell" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Margin" Value="8,5"/>
+        </Style>
+        <Style x:Key="HeadCell" TargetType="TextBlock" BasedOn="{StaticResource Cell}">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+        <Style x:Key="RowBorder" TargetType="Border">
+            <Setter Property="BorderBrush" Value="#E3E5E8"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+        </Style>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="16,14,24,20" MaxWidth="880" HorizontalAlignment="Left">
+            <TextBlock Style="{StaticResource H1}" Text="GPU or Classic?"/>
+            <TextBlock Style="{StaticResource Body}" Margin="0,4,0,0"
+                       Text="Two renderers, both permanent, each with a home ground. The GPU renderer keeps GEOMETRY and re-rasterizes every frame at the exact current scale; the classic overlays deliver BITMAPS the CPU has drawn. Every visible difference below follows from that one distinction."/>
+
+            <TextBlock Style="{StaticResource H2}" Text="What the user sees"/>
+            <Border BorderBrush="#E3E5E8" BorderThickness="1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="190"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/><RowDefinition/><RowDefinition/><RowDefinition/><RowDefinition/><RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Border Style="{StaticResource RowBorder}" Grid.Row="0" Grid.ColumnSpan="3" Background="#F6F7F8"/>
+                    <TextBlock Style="{StaticResource HeadCell}" Grid.Row="0" Grid.Column="0" Text="Interaction"/>
+                    <TextBlock Style="{StaticResource HeadCell}" Grid.Row="0" Grid.Column="1" Text="Classic overlays"/>
+                    <TextBlock Style="{StaticResource HeadCell}" Grid.Row="0" Grid.Column="2" Text="GPU renderer"/>
+
+                    <Border Style="{StaticResource RowBorder}" Grid.Row="1" Grid.ColumnSpan="3"/>
+                    <TextBlock Style="{StaticResource Cell}" Grid.Row="1" Grid.Column="0" Text="Zooming"/>
+                    <TextBlock Style="{StaticResource Cell}" Grid.Row="1" Grid.Column="1" Text="Old tiles stretch and blur, then snap sharp when new tiles arrive"/>
+                    <TextBlock Style="{StaticResource Cell}" Grid.Row="1" Grid.Column="2" Text="Continuously sharp at every fractional zoom"/>
+
+                    <Border Style="{StaticResource RowBorder}" Grid.Row="2" Grid.ColumnSpan="3"/>
+                    <TextBlock Style="{StaticResource Cell}" Grid.Row="2" Grid.Column="0" Text="Rotating"/>
+                    <TextBlock Style="{StaticResource Cell}" Grid.Row="2" Grid.Column="1" Text="The bitmap rotates, labels and all"/>
+                    <TextBlock Style="{StaticResource Cell}" Grid.Row="2" Grid.Column="2" Text="Geometry turns, labels stay upright"/>
+
+                    <Border Style="{StaticResource RowBorder}" Grid.Row="3" Grid.ColumnSpan="3"/>
+                    <TextBlock Style="{StaticResource Cell}" Grid.Row="3" Grid.Column="0" Text="Zooming past the data's deepest level"/>
+                    <TextBlock Style="{StaticResource Cell}" Grid.Row="3" Grid.Column="1" Text="Upscaled pixels, blurrier the deeper you go"/>
+                    <TextBlock Style="{StaticResource Cell}" Grid.Row="3" Grid.Column="2" Text="Redrawn from vectors, lines stay one pixel crisp"/>
+
+                    <Border Style="{StaticResource RowBorder}" Grid.Row="4" Grid.ColumnSpan="3"/>
+                    <TextBlock Style="{StaticResource Cell}" Grid.Row="4" Grid.Column="0" Text="Tilt, perspective, globe"/>
+                    <TextBlock Style="{StaticResource Cell}" Grid.Row="4" Grid.Column="1" Text="Not native (tile overlays drape into the GPU scene as textures)"/>
+                    <TextBlock Style="{StaticResource Cell}" Grid.Row="4" Grid.Column="2" Text="Native"/>
+
+                    <TextBlock Style="{StaticResource Cell}" Grid.Row="5" Grid.Column="0" Text="Restyling (color by a slider, live data)"/>
+                    <TextBlock Style="{StaticResource Cell}" Grid.Row="5" Grid.Column="1" Text="Every affected tile redraws on the CPU"/>
+                    <TextBlock Style="{StaticResource Cell}" Grid.Row="5" Grid.Column="2" Text="Paint delegates re-evaluate next frame; nothing re-uploads"/>
+                </Grid>
+            </Border>
+
+            <TextBlock Style="{StaticResource H2}" Text="Where the time goes"/>
+            <TextBlock Style="{StaticResource Body}"
+                       Text="Classic pays the full CPU style pipeline for every tile at every zoom level it visits, forever - with large data that is visible as blank or stale tiles chasing the view. The GPU pays once: features are cut into vector tiles on the fly (an encoder cache makes this a warm-up cost, not a recurring one), uploaded, and from then on navigation re-rasterizes for free. Small data inverts the ledger: fifty features cost nothing to redraw whole-viewport on the CPU, and the GPU's tiling machinery buys nothing back."/>
+
+            <TextBlock Style="{StaticResource H2}" Text="The four rules"/>
+            <TextBlock Style="{StaticResource Body}"
+                       xml:space="preserve"><Run FontWeight="SemiBold">1. Thousands of geometries, styles that change</Run> — GPU. Cut once, restyle per frame. (See: Style in Code, Render Based on Rules.)
+<Run FontWeight="SemiBold">2. A handful of features with big screen-space shapes</Run> — classic per-frame overlay. Screen-space radii larger than a tile's overhang clip into pie slices on the tile path. (See: Dynamic Rendering, whose header documents the failed GPU conversion.)
+<Run FontWeight="SemiBold">3. Geometry that changes every frame</Run> — classic per-frame overlay. The vector tile path has no per-tile invalidation; a growing GPS trail would re-cut tiles per tick. (See: Vehicle Navigation's visited trail.)
+<Run FontWeight="SemiBold">4. Content generated from the whole view</Run> — classic per-frame overlay. A graticule's line density follows the viewport and its degree labels sit at screen edges; no tile owns the screen edge. (See: Display Graticule.)</TextBlock>
+
+            <TextBlock Style="{StaticResource H2}" Text="They compose"/>
+            <TextBlock Style="{StaticResource Body}"
+                       Text="This is not either/or per application. The idiomatic map in this gallery is a GPU basemap carrying the heavy cartography, with small classic overlays on top for the application's own handful of features - and when the camera tilts, tile overlays drape into the GPU scene automatically. Rasters (GeoTiff, ECW, MrSid) stay on classic raster layers: their data is already pixels, so the GPU adds nothing until tilt, and drape covers that."/>
+
+            <TextBlock Style="{StaticResource H2}" Text="See it side by side"/>
+            <TextBlock Style="{StaticResource Body}"
+                       Text="Open “Shapefile: GPU vs Classic” (Map Navigation) - the same shapefile through both pipelines in one window. Zoom, and watch one side stretch while the other stays sharp."/>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

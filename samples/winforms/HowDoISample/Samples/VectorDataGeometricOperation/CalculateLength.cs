@@ -18,13 +18,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-            {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light
-            };
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            var thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey);
+            mapView.Overlays.Add(thinkGeoVectorTileOverlay);
 
             var friscoTrails = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hike_Bike.shp");
             var selectedLineLayer = new InMemoryFeatureLayer();
@@ -73,8 +68,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             selectedLineLayer.InternalFeatures.Add(feature);
             await layerOverlay.RefreshAsync();
 
-            // Get the length of the first feature
-            var length = ((LineBaseShape)feature.GetShape()).GetLength(GeographyUnit.Meter, DistanceUnit.Kilometer);
+            // Get the length of the first feature. Passing its projection (3857) measures it on the ground, not on the flat map.
+            var length = ((LineBaseShape)feature.GetShape()).GetLength(new Projection(3857), DistanceUnit.Kilometer);
 
             // Display the selectedLine's length in the lengthResult TextBox
             lengthResult.Text = $@"{length:f3} km";

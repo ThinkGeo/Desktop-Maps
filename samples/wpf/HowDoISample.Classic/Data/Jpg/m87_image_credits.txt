@@ -1,0 +1,36 @@
+Image Credits: 
+m87_0:
+	https://science.nasa.gov/mission/hubble/science/explore-the-night-sky/hubble-messier-catalog/messier-87/
+
+m87_1:
+	https://www.eso.org/public/images/eso1907b/
+m87_2:
+	http://www.messier.seds.org/more/m087_nrao.html
+	http://www.messier.seds.org/Pics/More/m87b_nrao.jpg
+m87_3:
+	https://esahubble.org/images/opo9943b/
+	https://earthsky.org/upl/2016/06/M87-jet-1989-e1467230777150.jpg
+m87_4:
+	https://ned.ipac.caltech.edu/level5/ESSAYS/Eilek/eilek.html
+	https://ned.ipac.caltech.edu/level5/ESSAYS/Eilek/figure2.jpeg
+m87_5:
+	http://www.messier.seds.org/more/m087_nrao.html
+	http://www.messier.seds.org/Pics/Jpg/m87jet_nrao.jpg
+m87_6:
+	https://ekaprdweb01.eurekalert.org/pub_releases/2019-03/miop-qjc031319.php
+m87_7:
+	https://science.nrao.edu/facilities/vlba/introduction-to-vlba
+	https://science.nrao.edu/facilities/vlba/jet_formation.jpg
+m87_8:
+	https://iopscience.iop.org/article/10.3847/1538-4357/aaafcc
+m87_9: 
+	https://www.eso.org/public/images/eso2105a/
+
+
+References:
+	https://web.archive.org/web/20210119145246/https://www.aoc.nrao.edu/~fowen/M87_layout.html
+	https://www.aoc.nrao.edu/~fowen/M87_jet.html
+	https://www.researchgate.net/figure/M87-hosts-the-supermassive-black-hole-captured-by-the-Event-Horizon-Telescope-in-the_fig2_360079794
+
+YouTube: 
+	https://www.youtube.com/watch?v=C628xyDN40o

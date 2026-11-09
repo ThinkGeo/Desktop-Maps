@@ -1,0 +1,222 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using ThinkGeo.Core;
+using ThinkGeo.Core.Styling;
+
+namespace ThinkGeo.UI.Wpf.HowDoI
+{
+    /// <summary>
+    /// Learn how to generate and display an ESRI Grid Layer on the map
+    /// We start with a shapefile of points with each point containing a soil PH value.
+    /// Clicking the Generate button will build a .asc file using an Inverse Distance Weighted (IDW) interpolation model and then displays the grid.
+    /// Although this sample is a soil map, this same technique can be used to translate any other point-based data to a grid
+    /// </summary>
+    public partial class GenerateESRIGridFile : IDisposable
+    {
+        private const string SamplePointsOverlayName = "SamplePointsOverlay";
+        private const string GeneratedGridOverlayName = "GeneratedGridOverlay";
+        private bool _initialized;
+        private GridOverlay generatedGridOverlay;
+
+        public GenerateESRIGridFile()
+        {
+            InitializeComponent();
+        }
+
+        private void ResamplingMode_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ApplyResamplingSelection();
+        }
+
+        /// <summary>
+        /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the ESRI Grid layer to the map
+        /// </summary>
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
+            Map.MapUnit = GeographyUnit.Meter;
+            Map.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColors.Snow);
+
+            // Create background hybrid satellite map requested from ThinkGeo Cloud Service. 
+            var cloudOverlay = new ThinkGeoCloudRasterMapsOverlay
+            {
+                ClientId = SampleKeys.ClientId,
+                ClientSecret = SampleKeys.ClientSecret,
+                MapType = ThinkGeoCloudRasterMapsMapType.Hybrid2_V2_X1
+            };
+            Map.Overlays.Add("Cloud Overlay", cloudOverlay);
+
+            //Applies class break style to show sample points of pH level of a field.
+            var classBreakStyle = new ClassBreakStyle("PH");
+            const byte alpha = 180;
+            const int symbolSize = 10;
+            classBreakStyle.ClassBreaks.Add(new ClassBreak(double.MinValue, new PointStyle(PointSymbolType.Circle, symbolSize, new GeoSolidBrush(GeoColors.Transparent))));
+            classBreakStyle.ClassBreaks.Add(new ClassBreak(6.2, new PointStyle(PointSymbolType.Circle, symbolSize, new GeoSolidBrush(GeoColor.FromArgb(alpha, 255, 0, 0)))));
+            classBreakStyle.ClassBreaks.Add(new ClassBreak(6.83, new PointStyle(PointSymbolType.Circle, symbolSize, new GeoSolidBrush(GeoColor.FromArgb(alpha, 255, 128, 0)))));
+            classBreakStyle.ClassBreaks.Add(new ClassBreak(7.0, new PointStyle(PointSymbolType.Circle, symbolSize, new GeoSolidBrush(GeoColor.FromArgb(alpha, 245, 210, 10)))));
+            classBreakStyle.ClassBreaks.Add(new ClassBreak(7.08, new PointStyle(PointSymbolType.Circle, symbolSize, new GeoSolidBrush(GeoColor.FromArgb(alpha, 225, 255, 0)))));
+            classBreakStyle.ClassBreaks.Add(new ClassBreak(7.15, new PointStyle(PointSymbolType.Circle, symbolSize, new GeoSolidBrush(GeoColor.FromArgb(alpha, 224, 251, 132)))));
+            classBreakStyle.ClassBreaks.Add(new ClassBreak(7.21, new PointStyle(PointSymbolType.Circle, symbolSize, new GeoSolidBrush(GeoColor.FromArgb(alpha, 128, 255, 128)))));
+            classBreakStyle.ClassBreaks.Add(new ClassBreak(7.54, new PointStyle(PointSymbolType.Circle, symbolSize, new GeoSolidBrush(GeoColor.FromArgb(alpha, 0, 255, 0)))));
+
+            //load the point shapefile containing ph values in different points of a field.
+            var samplesLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/sample_ph_2.shp");
+            samplesLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(classBreakStyle);
+            samplesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
+            // Create an overlay for the sample points and add it to the map.
+            var pointsOverlay = new LayerOverlay
+            {
+                TileType = TileType.SingleTile
+            };
+            pointsOverlay.Layers.Add("SamplePointsLayer", samplesLayer);
+            Map.Overlays.Add(SamplePointsOverlayName, pointsOverlay);
+
+            //set the map's current extent to the point shapefile location.
+            samplesLayer.Open();
+            var samplesLayerBBox = samplesLayer.GetBoundingBox();
+            Map.CenterPoint = samplesLayerBBox.GetCenterPoint();
+            Map.CurrentScale = MapUtil.GetScale(Map.MapUnit, samplesLayerBBox, Map.MapWidth, Map.MapHeight);
+            samplesLayer.Close();
+
+            _ = Map.RefreshAsync();
+        }
+
+        private void BtnGenerateGridFile_Click(object sender, RoutedEventArgs e)
+        {
+            // call the functions to generate the grid file and render it.
+            const string filename = @"./Data/GridFile/generated.asc";
+            GenerateGrid(filename);
+            _ = LoadGridAsync(filename);
+        }
+
+        private static void GenerateGrid(string filename)
+        {
+            //Point based shapefile used to create the GRID (sample points of pH level of a field)
+            var pointLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/sample_ph_2.shp");
+
+            //Sets the extent of the grid based on the extent of the sample points shapefile and slightly larger.
+            pointLayer.Open();
+            var gridExtent = pointLayer.GetBoundingBox();
+            gridExtent.ScaleUp(5);
+
+            //Gets the data (points with their pH value) to build the GRID.
+            var features = pointLayer.FeatureSource.GetAllFeatures(new[] { "PH" });
+            var dataPoints = new Dictionary<PointShape, double>();
+            pointLayer.Close();
+
+            foreach (var feature in features)
+            {
+                var pointShape = (PointShape)feature.GetShape();
+                var value = double.Parse(feature.ColumnValues["PH"]);
+                dataPoints.Add(pointShape, value);
+            }
+
+            //Cell size based on the width of the extent divided by 100.
+            var cellSize = gridExtent.Width / 100;
+            //Sets the definition of the GRID with its extent, the cell size, the non value, and the data (point locations with their value)
+            //For more information on GRID definition see http://en.wikipedia.org/wiki/ASCII_GRID
+            var definition = new GridDefinition(gridExtent, cellSize, -9999, dataPoints);
+
+            //Inverse Distance Weighted (IDW) is the interpolation model used for the GRID for assigning values to unknown points 
+            //based on known neighbor points.
+            //http://en.wikipedia.org/wiki/Inverse_distance_weighting
+            GridInterpolationModel interpolationModel = new InverseDistanceWeightedGridInterpolationModel(2, double.MaxValue);
+
+            using (var outputStream = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                GridFeatureSource.GenerateGrid(definition, interpolationModel, outputStream);
+            }
+        }
+
+        private async Task LoadGridAsync(string filename)
+        {
+            if (Map.Overlays.Contains(SamplePointsOverlayName))
+            {
+                var samplePointsOverlay = Map.Overlays[SamplePointsOverlayName] as LayerOverlay;
+                Map.Overlays.Remove(SamplePointsOverlayName);
+                samplePointsOverlay?.Dispose();
+            }
+
+            if (Map.Overlays.Contains(GeneratedGridOverlayName))
+            {
+                Map.Overlays.Remove(GeneratedGridOverlayName);
+                generatedGridOverlay?.Dispose();
+                generatedGridOverlay = null;
+            }
+
+            var gridSource = new AscGridSource(filename);
+            generatedGridOverlay = new GridOverlay(gridSource, GridStyle());
+            ApplyResamplingSelection();
+
+            Map.Overlays.Add(GeneratedGridOverlayName, generatedGridOverlay);
+            await Map.RefreshAsync();
+        }
+
+        private void ApplyResamplingSelection()
+        {
+            if (generatedGridOverlay == null || ResamplingMode == null)
+                return;
+
+            ComboBoxItem selectedItem = ResamplingMode.SelectedItem as ComboBoxItem;
+            if (selectedItem == null)
+                return;
+
+            switch (selectedItem.Tag as string)
+            {
+                case "Auto":
+                    generatedGridOverlay.ResamplingMode = RasterResamplingMode.Auto;
+                    break;
+                case "CartographicAuto":
+                    generatedGridOverlay.ResamplingMode = RasterResamplingMode.CartographicAuto;
+                    break;
+                case "Bicubic":
+                    generatedGridOverlay.ResamplingMode = RasterResamplingMode.Bicubic;
+                    break;
+                case "Trilinear":
+                    generatedGridOverlay.ResamplingMode = RasterResamplingMode.Trilinear;
+                    break;
+                case "Bilinear":
+                    generatedGridOverlay.ResamplingMode = RasterResamplingMode.Bilinear;
+                    break;
+                case "NearestNeighbor":
+                default:
+                    generatedGridOverlay.ResamplingMode = RasterResamplingMode.NearestNeighbor;
+                    break;
+            }
+        }
+
+        // The pH bands, each colour held from its value up to the next; below 6.2 nothing is drawn.
+        private static GridFillStyle GridStyle() => new GridFillStyle
+        {
+            RampMode = ColorRampMode.Classes,
+            Opacity = 150 / 255f,
+            ColorStops = new[]
+            {
+                new ColorStop(0, GeoColors.Transparent),
+                new ColorStop(6.2, GeoColor.FromArgb(255, 255, 0, 0)),
+                new ColorStop(6.83, GeoColor.FromArgb(255, 255, 128, 0)),
+                new ColorStop(7.0, GeoColor.FromArgb(255, 245, 210, 10)),
+                new ColorStop(7.08, GeoColor.FromArgb(255, 225, 255, 0)),
+                new ColorStop(7.15, GeoColor.FromArgb(255, 224, 251, 132)),
+                new ColorStop(7.21, GeoColor.FromArgb(255, 128, 255, 128)),
+                new ColorStop(7.54, GeoColor.FromArgb(255, 0, 255, 0)),
+            },
+        };
+
+        public void Dispose()
+        {
+            generatedGridOverlay?.Dispose();
+            generatedGridOverlay = null;
+
+            Map.Dispose();
+            GC.SuppressFinalize(this);
+        }
+    }
+}

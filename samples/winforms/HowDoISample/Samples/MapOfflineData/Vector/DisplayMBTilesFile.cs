@@ -43,6 +43,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void SwitchStyleJson_OnCheckedChanged(object sender, EventArgs e)
         {
+            if (sender is RadioButton toggled && !toggled.Checked) return;
             if (!_initialized || _mvtLayer == null)
                 return;
 
@@ -67,6 +68,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void Projection_Checked(object sender, EventArgs e)
         {
+            if (sender is RadioButton toggled && !toggled.Checked) return;
             if (!_initialized)
                 return;
 

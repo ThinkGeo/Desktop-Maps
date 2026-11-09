@@ -19,13 +19,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-            {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light
-            };
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            var thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey);
+            mapView.Overlays.Add(thinkGeoVectorTileOverlay);
 
             // Create a feature layer to hold the Census Housing data
             var censusHousingLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco 2010 Census Housing Units.shp")
@@ -123,6 +118,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// </summary>
         private async void centroidCenter_CheckedChanged(object sender, EventArgs e)
         {
+            if (sender is RadioButton toggled && !toggled.Checked) return;
             var centerPointOverlay = (LayerOverlay)mapView.Overlays["CenterPointOverlay"];
             var centerPointLayer = (InMemoryFeatureLayer)centerPointOverlay.Layers["CenterPointLayer"];
 
@@ -135,6 +131,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void bboxCenter_CheckedChanged(object sender, EventArgs e)
         {
+            if (sender is RadioButton toggled && !toggled.Checked) return;
             var centerPointOverlay = (LayerOverlay)mapView.Overlays["CenterPointOverlay"];
             var centerPointLayer = (InMemoryFeatureLayer)centerPointOverlay.Layers["CenterPointLayer"];
 

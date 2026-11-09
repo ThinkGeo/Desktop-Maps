@@ -1,14 +1,17 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using System.Windows;
 using ThinkGeo.Core;
+using ThinkGeo.Core.Styling;
+using ThinkGeo.UI.Wpf;
+using ThinkGeo.Gpu;
 
-namespace ThinkGeo.UI.Wpf.HowDoI
+namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
     /// Learn to add, edit, or remove popups on the map using the PopupOverlay.
     /// </summary>
-    public partial class Popups : IDisposable
+    public partial class Popups
     {
 
         private bool _initialized;
@@ -25,21 +28,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
-            // Set the map's unit of measurement to meters(Spherical Mercator)
             Map.MapUnit = GeographyUnit.Meter;
 
-            // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-            {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-            };
-            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            var basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
+            Map.Basemap = basemap;
 
-            // Set the map extent
             Map.CenterPoint = new PointShape(-10777290, 3908740);
             Map.CurrentScale = 9030;
 
@@ -55,7 +48,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var popupOverlay = new PopupOverlay();
 
             // Create a layer in order to query the data
-            var hotelsLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Hotels.shp")
+            var hotelsLayer = new ShapeFileFeatureLayer(SampleShared.Shapefile("Hotels.shp"))
             {
                 FeatureSource =
                 {
@@ -87,14 +80,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             Map.Overlays.Add(popupOverlay);
 
             await Map.RefreshAsync();
-        }
-
-        public void Dispose()
-        {
-            // Dispose of unmanaged resources.
-            Map.Dispose();
-            // Suppress finalization.
-            GC.SuppressFinalize(this);
         }
     }
 }

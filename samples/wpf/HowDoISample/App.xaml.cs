@@ -1,9 +1,8 @@
-﻿namespace ThinkGeo.UI.Wpf.HowDoI
+﻿using System.Windows;
+
+namespace ThinkGeo.UI.Wpf.HowDoI
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App
+    public partial class App : Application
     {
     }
 }

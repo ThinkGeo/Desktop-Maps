@@ -17,36 +17,24 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            var thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey);
+            mapView.Overlays.Add(thinkGeoVectorTileOverlay);
+
+            // Create the new layer. It generates its lines in srid 4326, so set the projection our background is in, srid 3857 (spherical mercator).
+            var graticuleLayer = new GraticuleAdornmentLayer
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light
-
-            };
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
-
-            // Create a new overlay that will hold our new layer and add it to the map.
-            var layerOverlay = new LayerOverlay();
-            mapView.Overlays.Add(layerOverlay);
-
-            // Create the new layer and set the projection as the data is in srid 4326 and our background is srid 3857 (spherical mercator).
-            var graticuleFeatureLayer = new GraticuleFeatureLayer
-            {
-                FeatureSource =
-                {
-                    ProjectionConverter = new ProjectionConverter(4326, 3857)
-                }
+                Projection = new Projection(3857)
             };
 
             // We set the pen color to the graticule layer.
-            graticuleFeatureLayer.GraticuleLineStyle.OuterPen.Color = GeoColor.FromArgb(125, GeoColors.Navy);
+            graticuleLayer.GraticuleLineStyle.OuterPen.Color = GeoColor.FromArgb(125, GeoColors.Navy);
 
-            // Add the layer to the overlay we created earlier.
-            layerOverlay.Layers.Add("graticule", graticuleFeatureLayer);
+            // Add the layer to the map's adornment overlay, so its labels stay pinned to the edges of the map while panning.
+            mapView.AdornmentOverlay.Layers.Add("graticule", graticuleLayer);
 
             // Set the current extent of the map to start in Frisco TX
-            mapView.CurrentExtent = new RectangleShape(-10782364.041857453, 3914916.6811720245, -10772029.75569071, 3908067.923475721);
+            mapView.CenterPoint = new PointShape(-10777200, 3911500);
+            mapView.CurrentScale = 36200;
 
             //Refresh the map.
             await mapView.RefreshAsync();

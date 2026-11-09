@@ -11,7 +11,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             InitializeComponent();
         }
 
-        private async void Form_Load(object sender, EventArgs e)
+        private void Form_Load(object sender, EventArgs e)
         {
             // It is important to set the map unit first to either feet, meters or decimal degrees.
             mapView.MapUnit = GeographyUnit.Meter;
@@ -32,10 +32,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             layerOverlay.Layers.Add(openStreetMapLayer);
 
             // Set the current extent to a local area.
-            mapView.CurrentExtent = new RectangleShape(-10789388.4602951, 3923878.18083465, -10768258.7082788, 3906668.46719412);
+            mapView.CenterPoint = new PointShape(-10778800, 3915300);
+            mapView.CurrentScale = 91000;
 
             // Refresh the map.
-            await mapView.RefreshAsync();
+            _= mapView.RefreshAsync();
         }
 
         #region Component Designer generated code

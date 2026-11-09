@@ -19,13 +19,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-            {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light
-            };
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            var thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey);
+            mapView.Overlays.Add(thinkGeoVectorTileOverlay);
 
             // Set the map extent
             mapView.CenterPoint = new PointShape(-10778000, 3912000);
@@ -80,6 +75,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void navMode_Click(object sender, EventArgs e)
         {
+            if (sender is RadioButton toggled && !toggled.Checked) return;
             var layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
             var featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
 
@@ -95,6 +91,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void drawPoint_Click(object sender, EventArgs e)
         {
+            if (sender is RadioButton toggled && !toggled.Checked) return;
             var layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
             var featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
 
@@ -110,6 +107,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void drawLine_Click(object sender, EventArgs e)
         {
+            if (sender is RadioButton toggled && !toggled.Checked) return;
             var layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
             var featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
 
@@ -125,6 +123,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void drawPolygon_Click(object sender, EventArgs e)
         {
+            if (sender is RadioButton toggled && !toggled.Checked) return;
             var layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
             var featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
 
@@ -170,6 +169,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void deleteShape_Click(object sender, EventArgs e)
         {
+            if (sender is RadioButton toggled && !toggled.Checked) return;
             var layerOverlay = (LayerOverlay)mapView.Overlays["layerOverlay"];
             var featureLayer = (InMemoryFeatureLayer)layerOverlay.Layers["featureLayer"];
 

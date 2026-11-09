@@ -1,5 +1,4 @@
-﻿using GalaSoft.MvvmLight.Messaging;
-using System.Windows;
+﻿using System.Windows;
 using ThinkGeo.MapSuite;
 using ThinkGeo.UI.Wpf;
 using ThinkGeo.Core;
@@ -48,7 +47,7 @@ namespace NauticalChartsViewer
                                     layers.Clear();
 
                                     ChartMessage chartMessage = new ChartMessage(ChartsManagmentViewModel.Instance.Charts);
-                                    Messenger.Default.Send<ChartMessage>(chartMessage, "UnloadCharts");
+                                    Messenger.Default.Send(chartMessage, "UnloadCharts");
                                     ChartsManagmentViewModel.Instance.Charts.Clear();
                                     ChartsManagmentViewModel.Instance.SelectedItem = null;
                                     ChartsManagmentViewModel.Instance.SelectedItems.Clear();

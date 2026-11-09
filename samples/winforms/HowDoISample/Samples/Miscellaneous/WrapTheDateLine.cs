@@ -28,8 +28,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             };
 
             mapView.MapUnit = GeographyUnit.Meter;
+            mapView.CurrentScale = 300000000;
             mapView.Overlays.Add(overlay);
-            mapView.CurrentExtent = MaxExtents.ThinkGeoMaps;
 
             var zoomLevelSet = new SphericalMercatorZoomLevelSet();
             var selectedScales = new List<double>

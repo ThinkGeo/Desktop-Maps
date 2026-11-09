@@ -21,14 +21,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             try
             {
                 // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-                var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-                {
-                    ClientId = SampleKeys.ClientId,
-                    ClientSecret = SampleKeys.ClientSecret,
-                    MapType = ThinkGeoCloudVectorMapsMapType.Light
-
-                };
-                mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+                var thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey);
+                mapView.Overlays.Add(thinkGeoVectorTileOverlay);
 
                 // Set the map's unit of measurement to meters (Spherical Mercator)
                 mapView.MapUnit = GeographyUnit.Meter;
@@ -161,11 +155,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
 
             // Validate shape size to avoid queries that are too large
-            // Maximum length of a line is 10km
-            // Maximum area of a polygon is 10km^2
+            // Maximum length of a line is 5km and maximum area of a polygon is 5km^2, measured on the ground
+            // (3857 is the projection of the drawn shapes)
             if (e.TrackShape.GetWellKnownType() == WellKnownType.Polygon)
             {
-                if (((PolygonShape)e.TrackShape).GetArea(GeographyUnit.Meter, AreaUnit.SquareKilometers) > 5)
+                if (((PolygonShape)e.TrackShape).GetArea(new Projection(3857), AreaUnit.SquareKilometers) > 5)
                 {
                     MessageBox.Show("Please draw a smaller polygon (limit: 5km^2)", "Error");
                     return;
@@ -173,7 +167,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             }
             else if (e.TrackShape.GetWellKnownType() == WellKnownType.Line)
             {
-                if (((LineShape)e.TrackShape).GetLength(GeographyUnit.Meter, DistanceUnit.Kilometer) > 5)
+                if (((LineShape)e.TrackShape).GetLength(new Projection(3857), DistanceUnit.Kilometer) > 5)
                 {
                     MessageBox.Show("Please draw a shorter line (limit: 5km)", "Error");
                     return;

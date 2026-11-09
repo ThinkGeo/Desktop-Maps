@@ -513,9 +513,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             this.panel1.Controls.Add(this.rdoCheckLinesMustOverlapPolygonBoundaries);
             this.panel1.Controls.Add(this.rdoCheckLineEndpointsMustTouchPoints);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(822, 10);
+            this.panel1.Location = new System.Drawing.Point(852, 10);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(390, 692);
+            this.panel1.Size = new System.Drawing.Size(360, 692);
             this.panel1.TabIndex = 1;
             // 
             // txtValidationInfo

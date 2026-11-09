@@ -19,13 +19,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-            {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light
-            };
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            var thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey);
+            mapView.Overlays.Add(thinkGeoVectorTileOverlay);
 
             var friscoParks = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
             var selectedAreaLayer = new InMemoryFeatureLayer();
@@ -75,8 +70,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             selectedAreaLayer.InternalFeatures.Add(feature);
             await layerOverlay.RefreshAsync();
 
-            // Get the area of the first feature
-            var area = ((AreaBaseShape)feature.GetShape()).GetArea(GeographyUnit.Meter, AreaUnit.SquareKilometers);
+            // Get the area of the first feature. Passing its projection (3857) measures it on the ground, not on the flat map.
+            var area = ((AreaBaseShape)feature.GetShape()).GetArea(new Projection(3857), AreaUnit.SquareKilometers);
 
             // Display the selectedArea's area in the areaResult TextBox
             areaResult.Text = $@"{area:f3} sq km";

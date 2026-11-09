@@ -19,14 +19,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void Form_Load(object sender, EventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-            {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light
-
-            };
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            var thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey);
+            mapView.Overlays.Add(thinkGeoVectorTileOverlay);
 
             // Set the map's unit of measurement to meters (Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
@@ -54,13 +48,22 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 },
                 Location = AdornmentLocation.LowerRight
             };
+            legend.YOffsetInPixel = -15;
 
             mapView.AdornmentOverlay.Layers.Add("Legend", legend);
 
             // Get the extent of the features from the housing units shapefile, and set the map extent.
             housingUnitsLayer.Open();
             mapView.CurrentExtent = housingUnitsLayer.GetBoundingBox();
-            await mapView.ZoomOutAsync();
+            // Switching to another sample disposes the map, which cancels the zoom.
+            try
+            {
+                await mapView.ZoomOutAsync();
+            }
+            catch (OperationCanceledException) when (IsDisposed)
+            {
+                return;
+            }
             housingUnitsLayer.Close();
 
             // Initialize the ColorCloudClient using our ThinkGeo Cloud credentials
@@ -68,6 +71,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Set the initial color scheme for the housing units layer
             var colors = await GetColorsFromCloud();
+            if (IsDisposed) return;
             // If colors were successfully generated, update the map
             if (colors.Count > 0)
             {
@@ -665,6 +669,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // rdoDefaultColor
             // 
             this.rdoDefaultColor.AutoSize = true;
+            this.rdoDefaultColor.Checked = true;
             this.rdoDefaultColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rdoDefaultColor.ForeColor = System.Drawing.Color.White;
             this.rdoDefaultColor.Location = new System.Drawing.Point(17, 286);
@@ -691,7 +696,6 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // rdoRandomColor
             // 
             this.rdoRandomColor.AutoSize = true;
-            this.rdoRandomColor.Checked = true;
             this.rdoRandomColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rdoRandomColor.ForeColor = System.Drawing.Color.White;
             this.rdoRandomColor.Location = new System.Drawing.Point(17, 232);

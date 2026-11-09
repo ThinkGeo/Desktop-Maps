@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using ThinkGeo.Core;
+using ThinkGeo.UI.Wpf;
 
 namespace WpfSample
 {
@@ -17,8 +18,7 @@ namespace WpfSample
         {            
             mapView.MapUnit = GeographyUnit.Meter;
             // Add a base map overlay.
-            var baseOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~",
-                "xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+            var baseOverlay = new ThinkGeoVectorTileOverlay("SGjwpxF60knqZi3R0A9RRE3GqiuRA1LsnxHMot7rJ58~");
             // Set up the tile cache for the base overlay, passing in the location and an ID to distinguish the cache. 
             baseOverlay.TileCache = new FileRasterTileCache(@".\cache", "basemap");
             mapView.Overlays.Add(baseOverlay);

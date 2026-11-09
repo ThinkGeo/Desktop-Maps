@@ -17,13 +17,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void Form_Load(object sender, EventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-            {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light
-            };
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            var thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey);
+            mapView.Overlays.Add(thinkGeoVectorTileOverlay);
 
             // Set the Map Unit to meters (used in Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
@@ -54,7 +49,15 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var parksLayerBBox = parksLayer.GetBoundingBox();
             mapView.CenterPoint = parksLayerBBox.GetCenterPoint();
             mapView.CurrentScale = MapUtil.GetScale(mapView.MapUnit, parksLayerBBox, mapView.MapWidth, mapView.MapHeight);
-            await mapView.ZoomInAsync();
+            // Switching to another sample disposes the map, which cancels the zoom.
+            try
+            {
+                await mapView.ZoomInAsync();
+            }
+            catch (OperationCanceledException) when (IsDisposed)
+            {
+                return;
+            }
             parksLayer.Close();
 
             // Refresh and redraw the map

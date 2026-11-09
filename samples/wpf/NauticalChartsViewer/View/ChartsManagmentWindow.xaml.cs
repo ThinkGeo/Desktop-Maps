@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using GalaSoft.MvvmLight.Messaging;
 
 namespace NauticalChartsViewer
 {
@@ -21,7 +20,7 @@ namespace NauticalChartsViewer
 
             Unloaded += (sender, e) =>
             {
-                Messenger.Default.Unregister<WindowStateMessage>(this, HandleChartWindowMessage);
+                Messenger.Default.UnregisterAll(this);
             };
         }
 

@@ -15,6 +15,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private int _currentZoomLevel = 0;
         private double _currentScale = 0;
         private double _lastRotationAngle = 0;
+        private bool _isSyncingRotationAngle;
 
         public ZoomToExtents()
         {
@@ -32,15 +33,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             MapView_CurrentExtentChanged(null, null);
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            var thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey)
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                // Set up the tile cache for the ThinkGeoVectorTileOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_tile_light")
             };
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            mapView.Overlays.Add(thinkGeoVectorTileOverlay);
 
             // Load the Frisco data to a layer
             _friscoCityBoundary = new ShapeFileFeatureLayer(@"./Data/Shapefile/City_ETJ.shp")
@@ -144,6 +142,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 _lastRotationAngle = currentRotation;
                 _currentRotationAngle = (float)currentRotation;
                 rotateAngleTextBox.Text = currentRotation.ToString("F0");
+                _isSyncingRotationAngle = true;
+                rotateAngleTrackBar.Value = (int)Math.Round(currentRotation, MidpointRounding.AwayFromZero);
+                _isSyncingRotationAngle = false;
                 UpdateStatusLabel();
             }
         }
@@ -153,6 +154,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// </summary>
         private void RotateAngleTrackBar_ValueChanged(object sender, EventArgs e)
         {
+            if (_isSyncingRotationAngle) return;
+
             int angle = ((TrackBar)sender).Value;
             rotateAngleTextBox.Text = angle.ToString();
             _ = mapView.ZoomToAsync(mapView.CenterPoint, mapView.CurrentScale, angle);
@@ -167,7 +170,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                     angle = Math.Max(-180, Math.Min(180, angle));
                     int intAngle = (int)Math.Round(angle, MidpointRounding.AwayFromZero);
 
+                    _isSyncingRotationAngle = true;
                     rotateAngleTrackBar.Value = intAngle;
+                    _isSyncingRotationAngle = false;
                     rotateAngleTextBox.Text = intAngle.ToString();
                     _ = mapView.ZoomToAsync(mapView.CenterPoint, mapView.CurrentScale, angle);
                 }
@@ -412,8 +417,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // 
             rotateAngleTrackBar.Name = "rotateAngleTrackBar";
             rotateAngleTrackBar.Location = new Point(17, 350);
-            rotateAngleTrackBar.Minimum = 0;
-            rotateAngleTrackBar.Maximum = 360;
+            rotateAngleTrackBar.Minimum = -180;
+            rotateAngleTrackBar.Maximum = 180;
             rotateAngleTrackBar.Value = 0;
             rotateAngleTrackBar.TickFrequency = 15;
             rotateAngleTrackBar.SmallChange = 1;
@@ -436,9 +441,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             ((System.ComponentModel.ISupportInitialize)rotateAngleTrackBar).EndInit();
             ResumeLayout(false);
 
+            consolePanel.BringToFront();
             centerPointLabel.BringToFront();
             statusLabel.BringToFront();
-            consolePanel.BringToFront();
         }
 
         #endregion Component Designer generated code

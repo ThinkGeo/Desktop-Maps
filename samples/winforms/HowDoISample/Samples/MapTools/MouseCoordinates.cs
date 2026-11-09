@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Media;
 using ThinkGeo.Core;
@@ -18,21 +19,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-            {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light
-
-            };
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            var thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey);
+            mapView.Overlays.Add(thinkGeoVectorTileOverlay);
 
             // Set the map extent
-            mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
+            mapView.CenterPoint = new PointShape(-10778000, 3912000);
+            mapView.CurrentScale = 77000;
 
             mapView.MapTools.MouseCoordinate.IsEnabled = true;
-            mapView.MapTools.MouseCoordinate.Margin = new System.Windows.Thickness(0,0,0,20);
-            mapView.MapTools.MouseCoordinate.FontSize = 14;
+            mapView.MapTools.MouseCoordinate.Margin = new Thickness(0,0,0,20);
+            mapView.MapTools.MouseCoordinate.FontSize = 18;
 
             await mapView.RefreshAsync();
         }

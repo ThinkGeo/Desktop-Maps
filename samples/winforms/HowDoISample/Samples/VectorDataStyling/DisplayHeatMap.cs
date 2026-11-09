@@ -19,14 +19,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            var thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey)
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_tile_light")
             };
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            mapView.Overlays.Add(thinkGeoVectorTileOverlay);
 
             // Set the map extent
             mapView.CenterPoint = new PointShape(-10778000, 3912500);
@@ -51,7 +48,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             // Add the overlay to the map
             mapView.Overlays.Add(layerOverlay);
 
-            // Apply HeatStyle
+            // Apply the heatmap style
             AddHeatStyle(coyoteSightings);
             await mapView.RefreshAsync();
         }
@@ -61,8 +58,14 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         /// </summary>
         private void AddHeatStyle(FeatureLayer layer)
         {
-            // Create the heat style
-            var heatStyle = new HeatStyle(20, 1, DistanceUnit.Kilometer);
+            // Create the heatmap style: each sighting spreads a Gaussian of heat 22 pixels wide, and
+            // the heat adds up where sightings crowd together.
+            var heatStyle = new HeatmapStyle
+            {
+                Radius = 22,
+                Intensity = 0.55f,
+                Opacity = 0.85f
+            };
 
             // Add the point style to the collection of custom styles for ZoomLevel 1.
             layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(heatStyle);

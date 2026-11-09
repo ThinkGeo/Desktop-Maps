@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -6,11 +6,12 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media.Imaging;
 using ThinkGeo.Core;
-using Point = System.Windows.Point;
+using ThinkGeo.Core.Styling;
+using ThinkGeo.Gpu;
+using ThinkGeo.UI.Wpf;
 
-namespace ThinkGeo.UI.Wpf.HowDoI
+namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
     /// Learn how to programmatically zoom, pan, and rotate the map control.
@@ -20,20 +21,26 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private Collection<Vertex> _gpsPoints;
         private readonly List<Vertex> _visitedVertices = new List<Vertex>();
         private int _currentGpsPointIndex;
-        private Marker _vehicleMarker;
         private bool _disposed;
         private bool _showOverview;
         private bool _holdAnimation = false;
 
         private CancellationTokenSource _cancellationTokenSource;
-        private ThinkGeoCloudRasterMapsOverlay _backgroundOverlay;
+        private readonly ThinkGeoVectorTileSource _cloud = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) };
+        private GpuBasemap _basemap;
 
-        private FeatureLayerWpfDrawingOverlay _routesOverlay;
-        private SimpleMarkerOverlay _markerOverlay;
-        private InMemoryFeatureLayer _routeLayer;
-        private InMemoryFeatureLayer _visitedRoutesLayer;
+        // The route, the growing trail and the vehicle all ride dynamic sources:
+        // two lines and one icon marker, each kept under its id and updated per
+        // animation tick.
+        private DynamicSource _paths;
+        private DynamicSource _vehicle;
+        private GeoImage _vehicleImage;
+        private double _vehicleHeading;
         private bool _initialized;
+        private bool _darkTheme;
+        private bool _isSwitchingTheme;
 
+        private const double DefaultPitch = 45;
         private const double DefaultScale = 5000;
 
         public VehicleNavigation()
@@ -45,6 +52,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void VehicleNavigation_Unloaded(object sender, RoutedEventArgs e)
         {
             this._disposed = true;
+            _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource?.Dispose();
         }
 
         private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -52,17 +61,21 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
+            Map.IsTiltEnabled = true;
             _cancellationTokenSource = new CancellationTokenSource();
-            // Add Cloud Maps as a background overlay
-            _backgroundOverlay = new ThinkGeoCloudRasterMapsOverlay
-            {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudRasterMapsMapType.Light_V2_X2,
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_raster_light")
-            };
-            Map.Overlays.Add(_backgroundOverlay);
-            _backgroundOverlay.TileViewInMemoryCache = new XyzLruCache<TileView>();
+
+            _paths = new DynamicSource();
+            _vehicle = new DynamicSource();
+            // From the file beside the app, not the assembly's embedded resources: an
+            // embedded pack URI resolves against whichever EXE is hosting the sample,
+            // and a second host (the Checks harness) does not embed it.
+            _vehicleImage = new GeoImage("./Resources/vehicle_location.png");
+
+            _basemap = new GpuBasemap(ComposeStyle());
+            _basemap.IsExtrusionDrawingEnabled = BuildingCheckBox.IsChecked != false;
+            Map.Basemap = _basemap;
+            Map.TiltAngle = DefaultPitch;
+            UpdatePitchValueText(DefaultPitch);
 
             Map.DefaultAnimationSettings = new MapAnimationSettings
             {
@@ -72,39 +85,94 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             };
 
             _gpsPoints = CollectGpsData();
-
-            // Create the Layer for the Route
-            _routeLayer = InitRouteLayerFromGpsPoints(_gpsPoints);
-            _visitedRoutesLayer = new InMemoryFeatureLayer();
-            _visitedRoutesLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle =
-                LineStyle.CreateSimpleLineStyle(GeoColors.Green, 6, true);
-            _visitedRoutesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-
-            _routesOverlay = new FeatureLayerWpfDrawingOverlay();
-            _routesOverlay.FeatureLayers.Add(_routeLayer);
-            _routesOverlay.FeatureLayers.Add(_visitedRoutesLayer);
-            Map.Overlays.Add(_routesOverlay);
-
-            // Create a marker overlay to show where the vehicle is
-            _markerOverlay = new SimpleMarkerOverlay();
-            Map.Overlays.Add(_markerOverlay);
+            PushRoutesAndVehicle(_gpsPoints[0].X, _gpsPoints[0].Y);
 
             Map.CurrentExtentChangedInAnimation += Map_CurrentExtentChangedInAnimation;
 
             Map.CenterPoint = new PointShape(_gpsPoints[0]);
             Map.CurrentScale = DefaultScale;
 
-            // Create the marker of the vehicle
-            _vehicleMarker = new Marker()
-            {
-                Position = new Point(_gpsPoints[0].X, _gpsPoints[0].Y),
-                ImageSource = new BitmapImage(new Uri("/Resources/vehicle_location.png", UriKind.RelativeOrAbsolute)),
-                Width = 24,
-                Height = 24
-            };
-            _markerOverlay.Markers.Add(_vehicleMarker);
-
             _ = ZoomToGpsPointsAsync(_gpsPoints);
+        }
+
+        /// <summary>
+        /// The whole scene state: both route lines through the path source, the
+        /// vehicle through the track source, each under its own id. Runs every
+        /// animation tick; nothing else about the map changes.
+        /// </summary>
+        private void PushRoutesAndVehicle(double x, double y)
+        {
+            if (_paths == null || _gpsPoints == null)
+            {
+                return;
+            }
+
+            var routeColor = _darkTheme ? GeoColor.FromHtml("#41F3FF") : GeoColor.FromHtml("#FFD400");
+            var visitedColor = _darkTheme ? GeoColor.FromHtml("#21FF8F") : GeoColors.Green;
+
+            PutLine(_paths, "route", new Feature(new LineShape(_gpsPoints)), routeColor);
+            if (_visitedVertices.Count >= 2)
+            {
+                PutLine(_paths, "visited", new Feature(new LineShape(_visitedVertices)), visitedColor);
+            }
+            else
+            {
+                _paths.Remove("visited");
+            }
+
+            PushDestinationArea();
+            var position = new Feature(x, y);
+            if (_vehicle.Contains("vehicle"))
+            {
+                _vehicle.SetPoint("vehicle", position, (float)_vehicleHeading, GeoColors.White, 26f, "vehicle", lieOnMap: true);
+            }
+            else
+            {
+                _vehicle.SetPoint("vehicle", position, (float)_vehicleHeading, GeoColors.White, 26f, "vehicle", lieOnMap: true);
+            }
+        }
+
+        /// <summary>Adds the line under the id, or moves the one already there.</summary>
+        private static void PutLine(DynamicSource source, string id, Feature line, GeoColor color)
+        {
+            if (source.Contains(id))
+            {
+                source.SetLine(id, line, color, 6f);
+            }
+            else
+            {
+                source.SetLine(id, line, color, 6f);
+            }
+        }
+
+        /// <summary>
+        /// A translucent circle-ish polygon around the route's end - the same source
+        /// carries it, and being ground geometry it is occluded by 3D buildings the
+        /// way the route is.
+        /// </summary>
+        private void PushDestinationArea()
+        {
+            var end = _gpsPoints[_gpsPoints.Count - 1];
+            const double radius = 55;
+            const int segments = 36;
+            var ring = new List<Vertex>(segments + 1);
+            for (var i = 0; i < segments; i++)
+            {
+                var angle = i * 2 * Math.PI / segments;
+                ring.Add(new Vertex(end.X + (radius * Math.Cos(angle)), end.Y + (radius * Math.Sin(angle))));
+            }
+
+            ring.Add(ring[0]);
+            var areaColor = _darkTheme ? GeoColor.FromArgb(70, 33, 255, 143) : GeoColor.FromArgb(70, 0, 150, 60);
+            var area = new Feature(new PolygonShape(new RingShape(ring)));
+            if (_paths.Contains("destination"))
+            {
+                _paths.SetArea("destination", area, areaColor);
+            }
+            else
+            {
+                _paths.SetArea("destination", area, areaColor);
+            }
         }
 
         private async Task ZoomToGpsPointsAsync(Collection<Vertex> gpsPoints)
@@ -139,7 +207,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             UpdateRoutesAndMarker(e.Progress);
         }
 
-        private void UpdateRoutesAndMarker(double progress, double angle = 0)
+        private void UpdateRoutesAndMarker(double progress)
         {
             if (_currentGpsPointIndex == 0)
                 return;
@@ -158,24 +226,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 _visitedVertices.RemoveAt(_visitedVertices.Count - 1);
             }
 
-            UpdateVisitedRoutes(new Vertex(x, y));
+            _visitedVertices.Add(new Vertex(x, y));
 
-            _vehicleMarker.RotationAngle = -angle;
-            _vehicleMarker.Position = new Point(x, y);
-
-            _ = _routesOverlay.RefreshAsync();
-        }
-
-        private void UpdateVisitedRoutes(Vertex newVertex)
-        {
-            _visitedVertices.Add(newVertex);
-
-            if (_visitedVertices.Count < 2)
-                return;
-
-            var lineShape = new LineShape(_visitedVertices);
-            _visitedRoutesLayer.InternalFeatures.Clear();
-            _visitedRoutesLayer.InternalFeatures.Add(new Feature(lineShape));
+            // The vehicle carries the TRUE bearing of the segment it is on; the
+            // marker batch counters the view rotation itself, so in tracking mode
+            // (map rotated to put this bearing up) the icon points up, and in
+            // overview mode it points along the road.
+            _vehicleHeading = Math.Atan2(toPoint.X - fromPoint.X, toPoint.Y - fromPoint.Y) * 180 / Math.PI;
+            PushRoutesAndVehicle(x, y);
         }
 
         private async Task ZoomToGpsPointAsync(Collection<Vertex> gpsPoints, int gpsPointIndex, CancellationToken cancellationToken)
@@ -193,16 +251,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 while (true)
                 {
                     if (cancellationToken.IsCancellationRequested)
-                        await Task.Delay(500);
+                        return;
                     double duration = (DateTime.Now - currentTime).TotalMilliseconds;
                     var process = duration / totalTime;
 
                     if (process > 1)
                         break;
 
-                    UpdateRoutesAndMarker(process, angle);
+                    UpdateRoutesAndMarker(process);
 
-                    await _routesOverlay.RefreshAsync();
                     await Task.Delay(10); // update every 10 ms
                 }
             }
@@ -213,7 +270,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 // Recenter the map to display the GPS location 200 pixels towards the bottom for improved visibility.
                 centerPoint = MapUtil.OffsetPointWithScreenOffset(centerPoint, 0, 200, angle, DefaultScale, Map.MapUnit);
 
-                //UpdateRoutesAndMarker(0, angle);
                 await Map.ZoomToAsync(centerPoint, DefaultScale, angle, cancellationToken);
             }
         }
@@ -221,7 +277,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private static Collection<Vertex> CollectGpsData()
         {
             var gpsPoints = new Collection<Vertex>();
-            var lines = File.ReadAllLines(@"./Data/Csv/vehicle-route.csv");
+
+            var dataPath = System.IO.Path.Combine(AppContext.BaseDirectory, "Data", "Csv", "vehicle-route.csv");
+
+            var lines = File.ReadAllLines(dataPath);
 
             // Convert GPS Points from Lat/Lon (srid:4326) to Spherical Mercator (Srid:3857), which is the projection of the base map
             var converter = new ProjectionConverter(4326, 3857);
@@ -238,21 +297,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             converter.Close();
             return gpsPoints;
-        }
-
-        private static InMemoryFeatureLayer InitRouteLayerFromGpsPoints(Collection<Vertex> gpsPoints)
-        {
-            var lineShape = new LineShape();
-            foreach (var gpsPoint in gpsPoints)
-                lineShape.Vertices.Add(gpsPoint);
-
-            // create the layers for the routes.
-            var routeLayer = new InMemoryFeatureLayer();
-            routeLayer.InternalFeatures.Add(new Feature(lineShape));
-            routeLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.Yellow, 6, true);
-            routeLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-
-            return routeLayer;
         }
 
         private static double GetRotationAngle(int currentIndex, IReadOnlyList<Vertex> gpsPoints)
@@ -277,7 +321,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var dx = nextLocation.X - currentLocation.X;
                 var dy = nextLocation.Y - currentLocation.Y;
 
-                angle = -Math.Atan2(dx, dy) / Math.PI * 180; // get the angle in degrees 
+                angle = -Math.Atan2(dx, dy) / Math.PI * 180; // get the angle in degrees
             }
             else
             {
@@ -294,25 +338,84 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _cancellationTokenSource = new CancellationTokenSource();
         }
 
-        private void AerialBackgroundCheckBox_CheckedChanged(object sender, RoutedEventArgs e)
+        private void BuildingCheckBox_CheckedChanged(object sender, RoutedEventArgs e)
         {
-            _ = UpdateBackground();
-        }
-
-        private async Task UpdateBackground()
-        {
-            if (AerialBackgroundCheckBox.IsChecked == null)
+            if (!_initialized || _basemap == null)
                 return;
 
-            _holdAnimation = true;
+            _basemap.IsExtrusionDrawingEnabled = BuildingCheckBox.IsChecked == true;
+            _ = Map.RefreshAsync();
+        }
 
-            RefreshCancellationTokenAsync();
-            _backgroundOverlay.MapType = AerialBackgroundCheckBox.IsChecked.Value
-                ? ThinkGeoCloudRasterMapsMapType.Aerial2_V2_X2
-                : ThinkGeoCloudRasterMapsMapType.Light_V2_X2;
-            await _backgroundOverlay.RefreshAsync(Map.CancellationTokenSource.Token);
+        private void PitchSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            var pitch = Math.Max(0, Math.Min(80, e.NewValue));
+            UpdatePitchValueText(pitch);
 
-            _holdAnimation = false;
+            if (_initialized)
+            {
+                Map.TiltAngle = pitch;
+                _ = Map.RefreshAsync();
+            }
+        }
+
+        private void DarkThemeButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            _ = ToggleThemeAsync();
+        }
+
+        private async Task ToggleThemeAsync()
+        {
+            if (!_initialized || _isSwitchingTheme)
+                return;
+
+            _isSwitchingTheme = true;
+            try
+            {
+                _darkTheme = !_darkTheme;
+                DarkThemeButton.Content = _darkTheme ? "Light Theme" : "Dark Theme";
+
+                // Light and dark read the SAME vector tiles - a theme is a restyle,
+                // not a new basemap. SetStyleAsync keeps the map, the camera, the
+                // running animation and the fetched tiles; only the styling recompiles
+                // and the tile buffers rebuild, replacing on screen as they arrive.
+                await _basemap.SetStyleAsync(ComposeStyle());
+
+                // The route colors are theme-inked into the paths, so re-push them.
+                if (_visitedVertices.Count > 0)
+                {
+                    var last = _visitedVertices[_visitedVertices.Count - 1];
+                    PushRoutesAndVehicle(last.X, last.Y);
+                }
+                else if (_gpsPoints != null)
+                {
+                    PushRoutesAndVehicle(_gpsPoints[0].X, _gpsPoints[0].Y);
+                }
+            }
+            finally
+            {
+                _isSwitchingTheme = false;
+            }
+        }
+
+        /// <summary>
+        /// The style for the current theme: the basemap document, buildings included.
+        /// The routes and the vehicle ride this style's marker batch, so they register
+        /// on every build.
+        /// </summary>
+        private MapStyle ComposeStyle()
+        {
+            var style = new MapStyle(_darkTheme ? ThinkGeoVectorStyles.Dark : ThinkGeoVectorStyles.Light, _cloud);
+            style.Images.Add("vehicle", _vehicleImage);
+            style.AddDynamic(_paths)
+                .AddDynamic(_vehicle);
+            return style;
+        }
+
+        private void UpdatePitchValueText(double pitch)
+        {
+            if (PitchValueText != null)
+                PitchValueText.Text = $"{pitch:0}°";
         }
 
         private void OverviewButton_OnClick(object sender, RoutedEventArgs e)
@@ -331,7 +434,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
                 RefreshCancellationTokenAsync();
 
-                var boundingBox = _routeLayer.GetBoundingBox();
+                var route = new LineShape(_gpsPoints);
+                var boundingBox = route.GetBoundingBox();
                 var center = boundingBox.GetCenterPoint();
 
                 // Multiply the current scale by 1.5 to zoom out 50%.
@@ -342,19 +446,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             else
             {
                 OverviewButton.Content = "Overview Mode";
+
+                // Once the drive is over nothing moves the camera, so bring it back to the vehicle.
+                if (_currentGpsPointIndex >= _gpsPoints.Count)
+                {
+                    await ZoomToGpsPointAsync(_gpsPoints, _gpsPoints.Count - 1, _cancellationTokenSource.Token);
+                }
             }
 
             _holdAnimation = false;
-        }
-
-        public void Dispose()
-        {
-            // Dispose of unmanaged resources.
-            Map.Dispose();
-            // Suppress finalization.
-            GC.SuppressFinalize(this);
-
-            _disposed = true;
         }
     }
 }

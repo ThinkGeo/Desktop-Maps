@@ -42,9 +42,10 @@ Import the namespace at the top of 'MainWindow.xaml.cs` file.
 
 ```csharp
 using ThinkGeo.Core;
+using ThinkGeo.UI.Wpf;
 ```
 
-Add the following code to the mapView_Loaded event, which is triggered when the map view is fully loaded and ready to use. (The key passed in ThinkGeoCloudVectorMapsOverlay is for test only, you can apply for your own key from [ThinkGeo Cloud](https://cloud.thinkgeo.com/clients.html))
+Add the following code to the mapView_Loaded event, which is triggered when the map view is fully loaded and ready to use. (The key passed in ThinkGeoVectorTileOverlay is for test only, you can apply for your own key from [ThinkGeo Cloud](https://cloud.thinkgeo.com/clients.html))
 
 We have set up a tile cache for the base overlay to improve performance. The cache retrieves tiles from the local disk instead of downloading them from the internet each time they are needed.
 
@@ -53,8 +54,7 @@ private async void mapView_Loaded(object sender, RoutedEventArgs e)
 {
 mapView.MapUnit = GeographyUnit.Meter;
 // Add a base map overlay.
-var baseOverlay = new ThinkGeoCloudVectorMapsOverlay("AOf22-EmFgIEeK4qkdx5HhwbkBjiRCmIDbIYuP8jWbc~",
-"xK0pbuywjaZx4sqauaga8DMlzZprz0qQSjLTow90EhBx5D8gFd2krw~~", ThinkGeoCloudVectorMapsMapType.Light);
+var baseOverlay = new ThinkGeoVectorTileOverlay("SGjwpxF60knqZi3R0A9RRE3GqiuRA1LsnxHMot7rJ58~");
 // Set up the tile cache for the base overlay, passing in the location and an ID to distinguish the cache. 
 baseOverlay.TileCache = new FileRasterTileCache(@".\cache", "basemap");
 mapView.Overlays.Add(baseOverlay);

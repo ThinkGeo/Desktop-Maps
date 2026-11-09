@@ -18,13 +18,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-            {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light
-            };
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            var thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey);
+            mapView.Overlays.Add(thinkGeoVectorTileOverlay);
 
             var friscoParks = new ShapeFileFeatureLayer(@"./Data/Shapefile/Parks.shp");
             var stadiumLayer = new InMemoryFeatureLayer();
@@ -93,8 +88,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             shortestLineLayer.InternalFeatures.Add(new Feature(shortestLine));
             await layerOverlay.RefreshAsync();
 
-            // Get the area of the first feature
-            var length = shortestLine.GetLength(GeographyUnit.Meter, DistanceUnit.Kilometer);
+            // Get the length of the shortest line. Passing its projection (3857) measures it on the ground, not on the flat map.
+            var length = shortestLine.GetLength(new Projection(3857), DistanceUnit.Kilometer);
 
             // Display the shortestLine's length in the distanceResult TextBox
             distanceResult.Text = $@"{length:f3} km";

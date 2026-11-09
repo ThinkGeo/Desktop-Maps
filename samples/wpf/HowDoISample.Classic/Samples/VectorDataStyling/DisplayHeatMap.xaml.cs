@@ -1,0 +1,96 @@
+﻿using System;
+using System.Windows;
+using ThinkGeo.Core;
+
+namespace ThinkGeo.UI.Wpf.HowDoI
+{
+    /// <summary>
+    /// Render a heatmap using a HeatmapStyle.
+    /// </summary>
+    public partial class DisplayHeatMap : IDisposable
+    {
+
+        private bool _initialized;
+        public DisplayHeatMap()
+        {
+            InitializeComponent();
+        }
+
+        /// <summary>
+        /// Set up the map with the ThinkGeo Cloud Maps overlay.
+        /// </summary>
+        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
+
+            _initialized = true;
+            // Set the map's unit of measurement to meters(Spherical Mercator)
+            Map.MapUnit = GeographyUnit.Meter;
+
+            // Add Cloud Maps as a background overlay
+            var thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey)
+            {
+                // Set up the tile cache for the ThinkGeoVectorTileOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_tile_light")
+            };
+            Map.Overlays.Add(thinkGeoVectorTileOverlay);
+
+            // Set the map extent
+            Map.CenterPoint = new PointShape(-10778000, 3912500);
+            Map.CurrentScale = 68000;
+
+            // Project the layer's data to match the projection of the map
+            var coyoteSightings = new ShapeFileFeatureLayer(@"./Data/Shapefile/Frisco_Coyote_Sightings.shp")
+            {
+                FeatureSource =
+                    {
+                        ProjectionConverter = new ProjectionConverter(2276, 3857)
+                    }
+            };
+
+            // Add the layer to a layer overlay
+            var layerOverlay = new LayerOverlay
+            {
+                TileType = TileType.SingleTile
+            };
+            layerOverlay.Layers.Add(coyoteSightings);
+
+            // Add the overlay to the map
+            Map.Overlays.Add(layerOverlay);
+
+            // Apply the heatmap style
+            AddHeatStyle(coyoteSightings);
+
+            _ = Map.RefreshAsync();
+        }
+
+        /// <summary>
+        /// Create a heat style that bases the color intensity on the proximity of surrounding points
+        /// </summary>
+        private static void AddHeatStyle(FeatureLayer layer)
+        {
+            // Create the heatmap style: each sighting spreads a Gaussian of heat 22 pixels wide, and
+            // the heat adds up where sightings crowd together.
+            var heatStyle = new HeatmapStyle
+            {
+                Radius = 22,
+                Intensity = 0.55f,
+                Opacity = 0.85f
+            };
+
+            // Add the point style to the collection of custom styles for ZoomLevel 1.
+            layer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(heatStyle);
+
+            // Apply the styles for ZoomLevel 1 down to ZoomLevel 20. This effectively applies the point style on every zoom level on the map. 
+            layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+        }
+
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            Map.Dispose();
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
+        }
+    }
+}

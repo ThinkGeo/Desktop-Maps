@@ -1,0 +1,104 @@
+﻿<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.Samples.NOAAWeatherStations"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <!-- One dot layer per temperature band, told apart by filters: a filter is
+             evaluated per feature, a circle paint once per layer. -->
+        <sys:String x:Key="StyleJson" xml:space="preserve">{
+  "layers": [
+
+    { "type": "circle",
+      "source-layer": "stations",
+      "filter": ["&lt;", ["to-number", ["get", "Temperature"]], 32],
+      "paint": {
+          "circle-radius": 4.5,
+          "circle-color": "rgba(69,117,180,1)",
+          "circle-stroke-color": "rgba(255,255,255,1)",
+          "circle-stroke-width": 1.5 }
+    },
+
+    { "type": "circle",
+      "source-layer": "stations",
+      "filter": ["all", [">=", ["to-number", ["get", "Temperature"]], 32], ["&lt;", ["to-number", ["get", "Temperature"]], 50]],
+      "paint": {
+          "circle-radius": 4.5,
+          "circle-color": "rgba(145,191,219,1)",
+          "circle-stroke-color": "rgba(255,255,255,1)",
+          "circle-stroke-width": 1.5 }
+    },
+
+    { "type": "circle",
+      "source-layer": "stations",
+      "filter": ["all", [">=", ["to-number", ["get", "Temperature"]], 50], ["&lt;", ["to-number", ["get", "Temperature"]], 70]],
+      "paint": {
+          "circle-radius": 4.5,
+          "circle-color": "rgba(255,255,191,1)",
+          "circle-stroke-color": "rgba(120,120,120,1)",
+          "circle-stroke-width": 1.5 }
+    },
+
+    { "type": "circle",
+      "source-layer": "stations",
+      "filter": ["all", [">=", ["to-number", ["get", "Temperature"]], 70], ["&lt;", ["to-number", ["get", "Temperature"]], 85]],
+      "paint": {
+          "circle-radius": 4.5,
+          "circle-color": "rgba(252,141,89,1)",
+          "circle-stroke-color": "rgba(255,255,255,1)",
+          "circle-stroke-width": 1.5 }
+    },
+
+    { "type": "circle",
+      "source-layer": "stations",
+      "filter": [">=", ["to-number", ["get", "Temperature"]], 85],
+      "paint": {
+          "circle-radius": 4.5,
+          "circle-color": "rgba(215,48,39,1)",
+          "circle-stroke-color": "rgba(255,255,255,1)",
+          "circle-stroke-width": 1.5 }
+    },
+
+    { "type": "symbol",
+      "source-layer": "stations",
+      "layout": {
+          "text-field": ["concat", ["get", "Temperature"], "\u00b0"],
+          "text-font": ["Segoe UI Bold"],
+          "text-size": 11,
+          "text-offset": [0, -0.9],
+          "text-anchor": "bottom" },
+      "paint": {
+          "text-color": "rgba(40,40,40,1)",
+          "text-halo-color": "rgba(255,255,255,1)",
+          "text-halo-width": 1.5 }
+    }
+  ]
+}</sys:String>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="240"/>
+            <ColumnDefinition Width="420"/>
+        </Grid.ColumnDefinitions>
+
+        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
+
+        <DockPanel Grid.Column="1" Background="#F6F6F4">
+            <TextBlock DockPanel.Dock="Top" Text="style.json - edit it; the map follows"
+                       FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
+            <TextBlock x:Name="Status" DockPanel.Dock="Bottom" FontSize="11" Margin="8,4,8,6"
+                       TextWrapping="Wrap" Foreground="DarkGreen"/>
+            <TextBox x:Name="Editor" TextChanged="Editor_TextChanged"
+                     Text="{StaticResource StyleJson}"
+                     AcceptsReturn="True" AcceptsTab="True"
+                     FontFamily="Consolas" FontSize="11.5" Padding="6"
+                     TextWrapping="NoWrap" BorderThickness="1,0,0,0" BorderBrush="#CCCCCC"
+                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
+        </DockPanel>
+    </Grid>
+</UserControl>

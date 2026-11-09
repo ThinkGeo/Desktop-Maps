@@ -1,20 +1,27 @@
-﻿using System;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using ThinkGeo.Core;
+using ThinkGeo.Core.Styling;
+using ThinkGeo.UI.Wpf;
+using ThinkGeo.Gpu;
 
-namespace ThinkGeo.UI.Wpf.HowDoI
+namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
     /// Learn to add, edit, or remove markers on the map using the MarkerOverlay.
     /// </summary>
-    public partial class Markers : IDisposable
+    public partial class Markers
     {
 
         private bool _initialized;
         public ObservableCollection<string> LogMessages { get; } = new ObservableCollection<string>();
         private int _logIndex = 0;
+
+        // A dot drawn AT the center point, for contrast with the marker: the marker
+        // is a screen element anchored by its image's tip, the dot is geometry.
+        private readonly DynamicSource _centerDot = new DynamicSource();
 
         public Markers()
         {
@@ -30,21 +37,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
-            // Set the map's unit of measurement to meters(Spherical Mercator)
             Map.MapUnit = GeographyUnit.Meter;
 
-            // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-            {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-            };
-            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            // Tilt with the right mouse button or the slider: a marker is a screen
+            // element, and it stays on its ground point under perspective.
+            Map.IsTiltEnabled = true;
 
-            // Set the map extent
+            var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
+            style.Images.Add("dot", PointStyle.CreateSimpleCircleStyle(GeoColors.Red, 10));
+            style.AddDynamic(_centerDot);
+            Map.Basemap = new GpuBasemap(style);
+
             Map.CenterPoint = new PointShape(-10777290, 3908740);
             Map.CurrentScale = 9030;
 
@@ -53,15 +56,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             simpleMarkerOverlay.MarkerDragging += SimpleMarkerOverlay_MarkerDragging;
             Map.Overlays.Add("simpleMarkerOverlay", simpleMarkerOverlay);
 
-            // create a point at the center point
-            InMemoryFeatureLayer layer = new InMemoryFeatureLayer();
-            layer.InternalFeatures.Add(new Feature(Map.CenterPoint)); 
-            layer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Red, 10);
-            layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-
-            var overlay = new LayerOverlay();
-            overlay.Layers.Add(layer);
-            Map.Overlays.Add(overlay);
+            // The dot marks the exact point; the marker's image tip points at it.
+            _centerDot.SetPoint("center", new Feature(Map.CenterPoint), sizeInPixel: 10f, iconName: "dot");
 
             // Create a marker at the center point
             var marker = new Marker(Map.CenterPoint)
@@ -141,14 +137,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Add log message to the observable collection
             LogMessages.Add($"{_logIndex++}: {message}");
             LogListBox.ScrollIntoView(LogMessages[LogMessages.Count - 1]);
-        }
-
-        public void Dispose()
-        {
-            // Dispose of unmanaged resources.
-            Map.Dispose();
-            // Suppress finalization.
-            GC.SuppressFinalize(this);
         }
     }
 }

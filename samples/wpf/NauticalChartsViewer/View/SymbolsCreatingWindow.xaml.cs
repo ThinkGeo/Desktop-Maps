@@ -1,5 +1,4 @@
-﻿using GalaSoft.MvvmLight.Messaging;
-using System.Windows;
+﻿using System.Windows;
 
 namespace NauticalChartsViewer
 {
@@ -14,7 +13,7 @@ namespace NauticalChartsViewer
 
             Loaded += (sender, e) =>
             {
-                Messenger.Default.Register<WindowStateMessage>(this, "SymbolsCreatingWindow", (u) =>
+                Messenger.Default.Register<WindowStateMessage>(this, "SymbolsCreatingWindow", u =>
                 {
                     if (u.WindowState == S57WindowState.Close)
                     {
@@ -24,7 +23,7 @@ namespace NauticalChartsViewer
             };
             Unloaded += (sender, e) =>
             {
-                Messenger.Default.Unregister(this);
+                Messenger.Default.UnregisterAll(this);
                 symbolsCreatingViewModel.Cleanup();
             };
             symbolsCreatingViewModel = new SymbolsCreatingViewModel();

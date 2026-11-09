@@ -19,14 +19,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-            {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light
-
-            };
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            var thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey);
+            mapView.Overlays.Add(thinkGeoVectorTileOverlay);
 
             // Create a new overlay that will hold our new layer and add it to the map.
             var inMemoryOverlay = new LayerOverlay();
@@ -72,7 +66,9 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Open the layer and set the map view current extent to the bounding box of the layer.  
             inMemoryFeatureLayer.Open();
-            mapView.CurrentExtent = inMemoryFeatureLayer.GetBoundingBox();
+            var inMemoryFeatureLayerBBox = inMemoryFeatureLayer.GetBoundingBox();
+            mapView.CenterPoint = inMemoryFeatureLayerBBox.GetCenterPoint();
+            mapView.CurrentScale = MapUtil.GetScale(mapView.MapUnit, inMemoryFeatureLayerBBox, mapView.MapWidth, mapView.MapHeight);
 
             //Refresh the map.
             await mapView.RefreshAsync();

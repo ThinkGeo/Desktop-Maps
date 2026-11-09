@@ -20,13 +20,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         private async void Form_Load(object sender, EventArgs e)
         {
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service. 
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-            {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light
-            };
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            var thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey);
+            mapView.Overlays.Add(thinkGeoVectorTileOverlay);
 
             // Set the map's unit of measurement to meters (Spherical Mercator)
             mapView.MapUnit = GeographyUnit.Meter;
@@ -165,7 +160,15 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             routingLayer.Open();
             mapView.CurrentExtent = routingLayer.GetBoundingBox();
             var standardZoomLevelSet = new ZoomLevelSet();
-            await mapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel13.Scale);
+            // Switching to another sample disposes the map, which cancels the zoom.
+            try
+            {
+                await mapView.ZoomToAsync(standardZoomLevelSet.ZoomLevel13.Scale);
+            }
+            catch (OperationCanceledException) when (IsDisposed)
+            {
+                return;
+            }
             routingLayer.Close();
             await mapView.RefreshAsync();
         }
@@ -180,6 +183,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
             // Run the optimized routing query
             var optimizedRoutingResult = await GetOptimizedRoute();
+            if (IsDisposed) return;
 
             // Hide the loading graphic
             //loadingImage.Visibility = Visibility.Hidden;

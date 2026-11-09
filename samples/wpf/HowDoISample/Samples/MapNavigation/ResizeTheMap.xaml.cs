@@ -1,14 +1,17 @@
-﻿using System;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
+using ThinkGeo.Core.Styling;
+using ThinkGeo.UI.Wpf;
+using ThinkGeo.Gpu;
 
-namespace ThinkGeo.UI.Wpf.HowDoI
+namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
     /// Learn to resize the map while preserving the world extent with various map resize modes.
     /// </summary>
-    public partial class ResizeTheMap : IDisposable
+    public partial class ResizeTheMap
     {
         private bool _initialized;
 
@@ -18,28 +21,19 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         }
 
         /// <summary>
-        /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map and a shapefile with simple data to work with
+        /// Set up the map with the GpuStyleOverlay to show a basic map and a shapefile with simple data to work with
         /// </summary>
         private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
-            // Set the map's unit of measurement to meters(Spherical Mercator)
             Map.MapUnit = GeographyUnit.Meter;
 
-            // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-            {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-            };
-            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            // Add GpuStyleOverlay as a background overlay
+            var gpuStyleOverlay = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
+            Map.Basemap = gpuStyleOverlay;
 
-            // Set the map extent
             Map.CenterPoint = new PointShape(-10336000, 5260000);
             Map.CurrentScale = 37000000;
 
@@ -63,14 +57,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     Map.MapResizeMode = MapResizeMode.PreserveExtent;
                     break;
             }
-        }
-
-        public void Dispose()
-        {
-            // Dispose of unmanaged resources.
-            Map.Dispose();
-            // Suppress finalization.
-            GC.SuppressFinalize(this);
         }
     }
 }

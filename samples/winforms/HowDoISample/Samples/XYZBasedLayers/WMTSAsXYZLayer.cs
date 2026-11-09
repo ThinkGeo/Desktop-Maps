@@ -108,12 +108,16 @@ namespace ThinkGeo.UI.WinForms.HowDoI
 
         private async void Projection_CheckedChanged(object sender, EventArgs e)
         {
+            if (sender is RadioButton toggled && !toggled.Checked) return;
             try
             {
                 if (wmtsAsyncLayer == null) return;
 
-                var radioButton = sender as RadioButton;
-                if (radioButton?.Tag == null) return;
+                var radioButton = (RadioButton)sender;
+
+                // CheckedChanged fires twice per click (old=false, then new=true); only run on
+                // the new one — otherwise the two async-void handlers race and corrupt MapUnit.
+                if (!radioButton.Checked) return;
 
                 switch (radioButton.Tag.ToString())
                 {
@@ -332,6 +336,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             consolePanel.ResumeLayout(false);
             consolePanel.PerformLayout();
             ResumeLayout(false);
+            consolePanel.BringToFront();
             //
             // Attach VisibleChanged event
             //

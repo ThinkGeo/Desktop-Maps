@@ -17,21 +17,21 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-            {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light
-
-            };
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            var thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey);
+            mapView.Overlays.Add(thinkGeoVectorTileOverlay);
 
             // Create a new overlay that will hold our new layer and add it to the map.
             var layerOverlay = new LayerOverlay();
             mapView.Overlays.Add(layerOverlay);
 
-            // Create the new layer and dd the layer to the overlay we created earlier.
-            var layer = new KmlGdalFeatureLayer("./Data/Kml/Frisco.kml");
+            // Create the new layer and set the projection as the data is in srid 4326 and our background is srid 3857 (spherical mercator).
+            var layer = new KmlGdalFeatureLayer("./Data/Kml/Frisco.kml")
+            {
+                FeatureSource =
+                {
+                    ProjectionConverter = new ProjectionConverter(4326, 3857)
+                }
+            };
             layer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimplePointStyle(PointSymbolType.Diamond, GeoColors.Black, 10);
             layer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.Red, 4, true);
             layer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.Blue);
@@ -39,7 +39,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             layerOverlay.Layers.Add(layer);
 
             // Set the map view current extent to a slightly zoomed in area of the image.
-            mapView.CurrentExtent = new RectangleShape(-10777998.2731192, 3913070.41013283, -10774999.3141042, 3911542.86390418);
+            mapView.CenterPoint = new PointShape(-10776500, 3912300);
+            mapView.CurrentScale = 10500;
 
             // Refresh the map.
             await mapView.RefreshAsync();

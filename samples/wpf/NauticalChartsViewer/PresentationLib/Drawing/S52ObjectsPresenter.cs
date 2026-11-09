@@ -1,60 +1,68 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Drawing;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace ThinkGeo.MapSuite
 {
+    // Renders an S-52 symbol preview using WPF drawing (DrawingGroup -> RenderTargetBitmap).
+    // Drawing calls are accumulated into a DrawingGroup and rasterized on GetBitmap().
     internal class S52ObjectsPresenter : IDisposable
     {
-        private Graphics graphics;
-        private Bitmap bitmap;
+        private readonly int imageWidth;
+        private readonly int imageHeight;
+        private readonly DrawingGroup drawingGroup;
 
         public S52ObjectsPresenter(int imageWidth, int imageHeight)
         {
-            this.bitmap = new Bitmap(imageWidth, imageHeight);
-            this.graphics = Graphics.FromImage(bitmap);
+            this.imageWidth = imageWidth;
+            this.imageHeight = imageHeight;
+            this.drawingGroup = new DrawingGroup();
         }
 
-    
         public void Clear(RGBColor backgroundColor)
         {
-            Color color = Color.FromArgb(backgroundColor.R, backgroundColor.G, backgroundColor.B);
-            graphics.Clear(color);
+            drawingGroup.Children.Clear();
+            Brush background = new SolidColorBrush(ToColor(backgroundColor));
+            drawingGroup.Children.Add(new GeometryDrawing(background, null,
+                new RectangleGeometry(new Rect(0, 0, imageWidth, imageHeight))));
         }
 
         public void Draw(S52Object drawingObject, RGBColor backgroundColor)
         {
             MappingConverter converter = new MappingConverter(drawingObject.UpperLeftVertex,
-            drawingObject.PivotVertex,
-            drawingObject.Width + drawingObject.UpperLeftVertex.X,
-            drawingObject.Height + drawingObject.UpperLeftVertex.Y,
-            graphics.VisibleClipBounds.Width,
-            graphics.VisibleClipBounds.Height);
+                drawingObject.PivotVertex,
+                drawingObject.Width + drawingObject.UpperLeftVertex.X,
+                drawingObject.Height + drawingObject.UpperLeftVertex.Y,
+                imageWidth,
+                imageHeight);
 
             DrawShapes(drawingObject.Shapes, backgroundColor, converter);
             DrawPivot(drawingObject.PivotVertex, converter);
-            
         }
 
-        public Bitmap GetBitmap() 
+        public BitmapSource GetBitmap()
         {
+            DrawingVisual visual = new DrawingVisual();
+            using (DrawingContext dc = visual.RenderOpen())
+            {
+                dc.DrawDrawing(drawingGroup);
+            }
+
+            RenderTargetBitmap bitmap = new RenderTargetBitmap(imageWidth, imageHeight, 96, 96, PixelFormats.Pbgra32);
+            bitmap.Render(visual);
+            bitmap.Freeze();
             return bitmap;
         }
 
         private void DrawPivot(Vertex pivotVertex, MappingConverter converter)
         {
-            Color fillColor = Color.Red;
-            Color outLineColor = Color.DarkBlue;
-            SolidBrush brush = new SolidBrush(fillColor);
-            Pen pen = new Pen(outLineColor, 2);
-
-            PointF point = converter.GetMappingPoint(pivotVertex);
-            Vertex rightMostVertex = new Vertex(pivotVertex.X + 10, pivotVertex.Y);
-            //float radius = converter.GetMappingDistance(pivotVertex, rightMostVertex);
-            float radius = 5f;
-
-            graphics.FillEllipse(brush, point.X - radius, point.Y - radius, radius * 2, radius * 2);
-            graphics.DrawEllipse(pen, point.X - radius, point.Y - radius, radius * 2, radius * 2);
+            Brush brush = new SolidColorBrush(Colors.Red);
+            Pen pen = new Pen(new SolidColorBrush(Colors.DarkBlue), 2);
+            Point point = converter.GetMappingPoint(pivotVertex);
+            AddEllipse(point, 5d, brush, pen);
         }
 
         private void DrawShapes(Collection<DAIShape> shapes, RGBColor backgroundColor, MappingConverter converter)
@@ -86,34 +94,25 @@ namespace ThinkGeo.MapSuite
 
         private void DrawPoint(PointShape shape, MappingConverter converter)
         {
-            Color color = Color.FromArgb(shape.Color.R, shape.Color.G, shape.Color.B);
-            SolidBrush brush = new SolidBrush(color);
+            Brush brush = new SolidColorBrush(ToColor(shape.Color));
+            Point point = converter.GetMappingPoint(new Vertex(shape.X, shape.Y));
+            double radius = converter.GetPenWidth(shape.Width) / 2d;
 
-            Vertex center = new Vertex(shape.X, shape.Y);
-            PointF point = converter.GetMappingPoint(center);
-            float radius = converter.GetPenWidth(shape.Width) / 2f;
-
-            graphics.FillEllipse(brush, point.X - radius, point.Y - radius, radius * 2, radius * 2);
+            AddEllipse(point, radius, brush, null);
         }
 
         private void DrawLine(LineShape shape, MappingConverter converter)
         {
-            Color color = Color.FromArgb(shape.Color.R, shape.Color.G, shape.Color.B);
-            Pen pen = new Pen(color, converter.GetPenWidth(shape.Width));
-
-            PointF[] points = new PointF[shape.Vertexes.Count];
-            for (int i = 0; i < shape.Vertexes.Count; i++)
-            {
-                points[i] = converter.GetMappingPoint(shape.Vertexes[i]);
-            }
+            Pen pen = new Pen(new SolidColorBrush(ToColor(shape.Color)), converter.GetPenWidth(shape.Width));
+            List<Point> points = MapVertexes(shape.Vertexes, converter);
 
             if (shape.Vertexes[0].GeometryEqual(shape.Vertexes[shape.Vertexes.Count - 1]))
             {
-                graphics.DrawPolygon(pen, points);
+                AddPolyline(points, pen, true, null);
             }
             else
             {
-                graphics.DrawLines(pen, points);
+                AddPolyline(points, pen, false, null);
                 DrawPoint(new PointShape(shape.Vertexes[0], shape.Width, shape.Color), converter);
                 DrawPoint(new PointShape(shape.Vertexes[shape.Vertexes.Count - 1], shape.Width, shape.Color), converter);
             }
@@ -121,22 +120,19 @@ namespace ThinkGeo.MapSuite
 
         private void DrawCircle(CircleShape shape, MappingConverter converter)
         {
-            Color color = Color.FromArgb(shape.Color.R, shape.Color.G, shape.Color.B);
-            Pen pen = new Pen(color, converter.GetPenWidth(shape.Width));
-            PointF center = converter.GetMappingPoint(shape.Center);
+            Pen pen = new Pen(new SolidColorBrush(ToColor(shape.Color)), converter.GetPenWidth(shape.Width));
+            Point center = converter.GetMappingPoint(shape.Center);
+            double radius = converter.GetMappingDistance(shape.Center, new Vertex(shape.Center.X + shape.Raduis, shape.Center.Y));
 
-            Vertex rightMostVertex = new Vertex(shape.Center.X + shape.Raduis, shape.Center.Y);
-            float radius = converter.GetMappingDistance(shape.Center, rightMostVertex);
-
-            graphics.DrawEllipse(pen, center.X - radius, center.Y - radius, radius * 2, radius * 2);
+            AddEllipse(center, radius, null, pen);
         }
 
         private void DrawArea(AreaShape shape, RGBColor backgroundColor, MappingConverter converter)
         {
             if (shape.FillPattern == AreaShapeFillPattern.Fill)
             {
-                Color fillOuterColor = Color.FromArgb(shape.Color.R, shape.Color.G, shape.Color.B);
-                Color fillInnerColor = Color.FromArgb(backgroundColor.R, backgroundColor.G, backgroundColor.B);
+                Color fillOuterColor = ToColor(shape.Color);
+                Color fillInnerColor = ToColor(backgroundColor);
 
                 foreach (RingShape ring in shape.OuterRings)
                 {
@@ -183,8 +179,6 @@ namespace ThinkGeo.MapSuite
 
         private void FillRing(RingShape ring, Color fillColor, MappingConverter converter)
         {
-            Collection<LineShape> lineShapes = new Collection<LineShape>();
-
             foreach (DAIShape shape in ring.Shapes)
             {
                 if (shape.ShapeType == DAIShapeType.Line)
@@ -204,32 +198,63 @@ namespace ThinkGeo.MapSuite
 
         private void FillLineShape(LineShape shape, Color fillColor, MappingConverter converter)
         {
-            SolidBrush brush = new SolidBrush(fillColor);
-            PointF[] points = new PointF[shape.Vertexes.Count];
-
-            for (int i = 0; i < shape.Vertexes.Count; i++)
-            {
-                points[i] = converter.GetMappingPoint(shape.Vertexes[i]);
-            }
-
-            graphics.FillPolygon(brush, points);
+            Brush brush = new SolidColorBrush(fillColor);
+            List<Point> points = MapVertexes(shape.Vertexes, converter);
+            AddPolyline(points, null, true, brush);
         }
 
         private void FillCircleShape(CircleShape shape, Color fillColor, MappingConverter converter)
         {
-            SolidBrush brush = new SolidBrush(fillColor);
-            PointF center = converter.GetMappingPoint(shape.Center);
+            Brush brush = new SolidColorBrush(fillColor);
+            Point center = converter.GetMappingPoint(shape.Center);
+            double radius = converter.GetMappingDistance(shape.Center, new Vertex(shape.Center.X + shape.Raduis, shape.Center.Y));
 
-            Vertex rightMostVertex = new Vertex(shape.Center.X + shape.Raduis, shape.Center.Y);
-            float radius = converter.GetMappingDistance(shape.Center, rightMostVertex);
+            AddEllipse(center, radius, brush, null);
+        }
 
-            graphics.FillEllipse(brush, center.X - radius, center.Y - radius, radius * 2, radius * 2);
+        private static List<Point> MapVertexes(Collection<Vertex> vertexes, MappingConverter converter)
+        {
+            List<Point> points = new List<Point>(vertexes.Count);
+            foreach (Vertex vertex in vertexes)
+            {
+                points.Add(converter.GetMappingPoint(vertex));
+            }
+            return points;
+        }
+
+        private void AddEllipse(Point center, double radius, Brush fill, Pen pen)
+        {
+            if (radius <= 0) radius = 0.5d;
+            drawingGroup.Children.Add(new GeometryDrawing(fill, pen, new EllipseGeometry(center, radius, radius)));
+        }
+
+        // Adds an accumulated poly-figure. closed=true closes the figure; fill!=null fills it;
+        // pen!=null strokes it -- covering GDI+ DrawPolygon / DrawLines / FillPolygon.
+        private void AddPolyline(List<Point> points, Pen pen, bool closed, Brush fill)
+        {
+            if (points.Count == 0) return;
+
+            StreamGeometry geometry = new StreamGeometry();
+            using (StreamGeometryContext ctx = geometry.Open())
+            {
+                ctx.BeginFigure(points[0], fill != null, closed);
+                if (points.Count > 1)
+                {
+                    ctx.PolyLineTo(points.GetRange(1, points.Count - 1), pen != null, false);
+                }
+            }
+            geometry.Freeze();
+            drawingGroup.Children.Add(new GeometryDrawing(fill, pen, geometry));
+        }
+
+        private static Color ToColor(RGBColor color)
+        {
+            return Color.FromRgb((byte)color.R, (byte)color.G, (byte)color.B);
         }
 
         public void Close()
         {
-            graphics.Dispose();
-            bitmap.Dispose();
+            drawingGroup.Children.Clear();
         }
 
         public void Dispose()

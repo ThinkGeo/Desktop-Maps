@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:model="clr-namespace:NauticalChartsViewer"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:Command="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
         x:Class="NauticalChartsViewer.ChartsManagmentWindow"
         WindowStartupLocation="CenterOwner"
         WindowStyle="ToolWindow"

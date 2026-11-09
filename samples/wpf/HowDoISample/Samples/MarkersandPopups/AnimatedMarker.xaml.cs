@@ -1,13 +1,16 @@
-﻿using System;
+using System;
 using System.Windows;
 using ThinkGeo.Core;
+using ThinkGeo.Core.Styling;
+using ThinkGeo.UI.Wpf;
+using ThinkGeo.Gpu;
 
-namespace ThinkGeo.UI.Wpf.HowDoI
+namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
     /// Interaction logic for AnimatedMarker.xaml
     /// </summary>
-    public partial class AnimatedMarker : IDisposable
+    public partial class AnimatedMarker
     {
 
         private bool _initialized;
@@ -23,19 +26,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
-            // Set the map's unit of measurement to meters(Spherical Mercator)
             Map.MapUnit = GeographyUnit.Meter;
 
-            // Add Cloud Maps as a background overlay
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
-            {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-            };
-            Map.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            var basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
+            Map.Basemap = basemap;
 
             _icon = new CustomIcon();
             _icon.AnimationStarted = true;
@@ -43,7 +37,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var markerOverlay = new SimpleMarkerOverlay();
             Map.Overlays.Add(markerOverlay);
             
-            // Set the map extent
             Map.CenterPoint = new PointShape(-10778000, 3912000);
             Map.CurrentScale = 77000;
 
@@ -62,14 +55,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
             _icon.AnimationStarted = !_icon.AnimationStarted;
-        }
-
-        public void Dispose()
-        {
-            // Dispose of unmanaged resources.
-            Map.Dispose();
-            // Suppress finalization.
-            GC.SuppressFinalize(this);
         }
     }
 }

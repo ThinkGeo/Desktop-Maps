@@ -1,6 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.CommandWpf;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
@@ -48,7 +46,7 @@ namespace NauticalChartsViewer
                 if (isEnalbed != value)
                 {
                     isEnalbed = value;
-                    RaisePropertyChanged("IsEnabled");
+                    OnPropertyChanged("IsEnabled");
                 }
             }
         }
@@ -62,7 +60,7 @@ namespace NauticalChartsViewer
                 {
                     selectedColorItem = value;
                     EditionColorItem = value != null ? (ColorItem)value.Clone() : null;
-                    RaisePropertyChanged("SelectedColorItem");
+                    OnPropertyChanged("SelectedColorItem");
                 }
             }
         }
@@ -75,7 +73,7 @@ namespace NauticalChartsViewer
                 if (editionColorItem != value)
                 {
                     editionColorItem = value;
-                    RaisePropertyChanged("EditionColorItem");
+                    OnPropertyChanged("EditionColorItem");
                 }
             }
         }
@@ -106,7 +104,7 @@ namespace NauticalChartsViewer
                 {
                     selectedColorSchema = value;
                     LoadCurrentSchemaColorItems();
-                    RaisePropertyChanged("SelectedColorSchema");
+                    OnPropertyChanged("SelectedColorSchema");
                 }
             }
         }
@@ -150,13 +148,12 @@ namespace NauticalChartsViewer
             {
                 return showColorPicker ?? (showColorPicker = new RelayCommand(() =>
                 {
-                    System.Windows.Forms.ColorDialog colorDialog = new System.Windows.Forms.ColorDialog();
-                    if (colorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    ColorPickerWindow colorDialog = new ColorPickerWindow(editionColorItem.R, editionColorItem.G, editionColorItem.B);
+                    if (colorDialog.ShowDialog() == true)
                     {
-                        System.Drawing.Color color = colorDialog.Color;
-                        editionColorItem.R = color.R;
-                        editionColorItem.G = color.G;
-                        editionColorItem.B = color.B;
+                        editionColorItem.R = (short)colorDialog.R;
+                        editionColorItem.G = (short)colorDialog.G;
+                        editionColorItem.B = (short)colorDialog.B;
                     }
                 }, () => EditionColorItem != null));
             }
@@ -177,6 +174,10 @@ namespace NauticalChartsViewer
             }
             LoadCurrentSchemaColorItems();
             MessageBox.Show("Commit succeed.", string.Empty, MessageBoxButton.OK, MessageBoxImage.Information);
+
+            // The edit was written to Globals.StyleFilePath, which the loaded charts are styled
+            // from; reload them (keeping the current view) so the change shows on the map now.
+            Messenger.Default.Send(new ChartMessage(), "ReloadCharts");
         }
 
         private void LoadColorTables()

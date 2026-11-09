@@ -1,13 +1,16 @@
-﻿using System;
+using System;
 using System.Windows;
 using ThinkGeo.Core;
+using ThinkGeo.Core.Styling;
+using ThinkGeo.UI.Wpf;
+using ThinkGeo.Gpu;
 
-namespace ThinkGeo.UI.Wpf.HowDoI
+namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
     /// Learn how to restrict the map's panning area and zoom range using RestrictExtent, MaximumScale, and MinimumScale.
     /// </summary>
-    public partial class RestrictMapExtent : IDisposable
+    public partial class RestrictMapExtent
     {
         // Restrict extent: Dallas/Frisco, TX area in meters (EPSG:3857)
         private readonly RectangleShape _restrictExtent = new RectangleShape(-10809000, 3900000, -10747000, 3840000);
@@ -25,29 +28,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
-            // Set the map's unit of measurement to meters (Spherical Mercator)
             Map.MapUnit = GeographyUnit.Meter;
 
-            // Add ThinkGeo Cloud Maps as the background
-            var backgroundOverlay = new ThinkGeoCloudRasterMapsOverlay
-            {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudRasterMapsMapType.Light_V2_X2,
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
-            };
-            Map.Overlays.Add(backgroundOverlay);
-
-            // Add a boundary layer to visualize the restrict extent as a red border
-            var boundaryLayer = new InMemoryFeatureLayer();
-            boundaryLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(
-                GeoColors.Transparent, GeoColor.FromArgb(180, GeoColors.Red), 2);
-            boundaryLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-            boundaryLayer.InternalFeatures.Add(new Feature(_restrictExtent));
-
-            var highlightOverlay = new LayerOverlay();
-            highlightOverlay.Layers.Add("BoundaryLayer", boundaryLayer);
-            Map.Overlays.Add(highlightOverlay);
+            // The red border marking the restricted extent goes to the GPU with the
+            // basemap. Drawn on an overlay it would be a raster, and this sample is
+            // about zooming - the one thing that would show the border stretching while
+            // the map under it stayed sharp.
+            var boundary = new DynamicSource();
+            var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
+            style.AddDynamic(boundary);
+            Map.Basemap = new GpuBasemap(style);
+            // A border, not a shaded box - a fill is drawn unless one is asked not to be.
+            boundary.SetArea("boundary", new Feature(_restrictExtent), GeoColors.Transparent, new GeoColor(180, GeoColors.Red), 2f);
 
             // Apply restrictions and set initial extent
             ApplyRestrictions();
@@ -72,12 +64,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             if (!Map.IsLoaded) return;
             ApplyRestrictions();
             _ = Map.RefreshAsync();
-        }
-
-        public void Dispose()
-        {
-            Map.Dispose();
-            GC.SuppressFinalize(this);
         }
     }
 }

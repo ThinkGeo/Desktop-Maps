@@ -21,13 +21,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.ZoomScales = zoomLevelSet.GetScales();
 
             // Create the layer overlay with some additional settings and add to the map.
-            var cloudOverlay = new ThinkGeoCloudVectorMapsOverlay
-            {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light
-
-            };
+            var cloudOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey);
             mapView.Overlays.Add("Cloud Overlay", cloudOverlay);
 
             // Set the current extent to a neighborhood in Frisco Texas.

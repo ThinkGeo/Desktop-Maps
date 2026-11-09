@@ -1,8 +1,7 @@
-﻿using GalaSoft.MvvmLight.Messaging;
-
+﻿
 namespace NauticalChartsViewer
 {
-    internal class MenuItemMessage : MessageBase
+    internal class MenuItemMessage
     {
         public MenuItemMessage(BaseMenuItem menuItem) 
         {

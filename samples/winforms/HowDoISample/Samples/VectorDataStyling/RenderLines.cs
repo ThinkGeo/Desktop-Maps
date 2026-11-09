@@ -26,7 +26,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 ClientId = SampleKeys.ClientId,
                 ClientSecret = SampleKeys.ClientSecret,
                 MapType = ThinkGeoCloudRasterMapsMapType.Aerial2_V2_X1,
-                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                 TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_raster_light")
             };
             mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
 

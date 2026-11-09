@@ -27,15 +27,12 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             mapView.MapUnit = GeographyUnit.Meter;
 
             // Create the background world maps using vector tiles requested from the ThinkGeo Cloud Service and add it to the map.
-            var thinkGeoCloudVectorMapsOverlay = new ThinkGeoCloudVectorMapsOverlay
+            var thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey)
             {
-                ClientId = SampleKeys.ClientId,
-                ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudVectorMapsMapType.Light,
-                // Set up the tile cache for the ThinkGeoCloudVectorMapsOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_light")
+                // Set up the tile cache for the ThinkGeoVectorTileOverlay, passing in the location and an ID to distinguish the cache. 
+                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_tile_light")
             };
-            mapView.Overlays.Add(thinkGeoCloudVectorMapsOverlay);
+            mapView.Overlays.Add(thinkGeoVectorTileOverlay);
 
             // Create an overlay for the raster layers
             rasterOverlay = new LayerOverlay { TileType = TileType.SingleTile };
@@ -53,13 +50,15 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             rasterOverlay.Layers.Add(skiaRasterLayer);
 
             // Set the map view current extent to a slightly zoomed in area of the image.
-            mapView.CurrentExtent = new RectangleShape(-10782910.2966461, 3918274.29233111, -10776309.4670677, 3913119.9131963);
+            mapView.CenterPoint = new PointShape(-10780600, 3914700);
+            mapView.CurrentScale = 27250;
 
             await mapView.RefreshAsync();
         }
 
         private async void SwitchRasterLayer_OnCheckedChanged(object sender, EventArgs e)
         {
+            if (sender is RadioButton toggled && !toggled.Checked) return;
             if (rasterOverlay == null) return;
             var selectedRadioButton = sender as RadioButton;
 

@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.Samples.WFS"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:wpf="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <sys:String x:Key="StyleJson" xml:space="preserve">{
+  "layers": [
+
+    { "type": "fill",
+      "source-layer": "parcels",
+      "paint": { "fill-color": "rgba(255,140,0,0.18)" } },
+
+    { "type": "line",
+      "source-layer": "parcels",
+      "paint": {
+          "line-color": "rgba(255,69,0,1)",
+          "line-width": 2 }
+    },
+
+    { "type": "symbol",
+      "source-layer": "parcels",
+      "layout": {
+          "text-field": ["get", "perceelnummer"],
+          "text-font": ["Segoe UI Bold"],
+          "text-size": 11 },
+      "paint": {
+          "text-color": "rgba(150,40,0,1)",
+          "text-halo-color": "rgba(255,255,255,1)",
+          "text-halo-width": 1.5 }
+    }
+  ]
+}</sys:String>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="240"/>
+            <ColumnDefinition Width="420"/>
+        </Grid.ColumnDefinitions>
+
+        <wpf:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
+
+        <DockPanel Grid.Column="1" Background="#F6F6F4">
+            <TextBlock DockPanel.Dock="Top" Text="style.json - edit it; the map follows"
+                       FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
+            <TextBlock x:Name="Status" DockPanel.Dock="Bottom" FontSize="11" Margin="8,4,8,6"
+                       TextWrapping="Wrap" Foreground="DarkGreen"/>
+            <TextBox x:Name="Editor" TextChanged="Editor_TextChanged"
+                     Text="{StaticResource StyleJson}"
+                     AcceptsReturn="True" AcceptsTab="True"
+                     FontFamily="Consolas" FontSize="11.5" Padding="6"
+                     TextWrapping="NoWrap" BorderThickness="1,0,0,0" BorderBrush="#CCCCCC"
+                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
+        </DockPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,91 @@
+<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.Samples.CrossTheDateline"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <sys:String x:Key="StyleJson" xml:space="preserve">{
+  "layers": [
+
+    { "type": "line",
+      "source-layer": "corridor",
+      "paint": {
+          "line-color": "#3b74ff",
+          "line-width": 1.2,
+          "line-opacity": 0.8,
+          "line-dasharray": [3, 3] }
+    },
+
+    { "type": "line",
+      "source-layer": "route",
+      "layout": { "line-cap": "round", "line-join": "round" },
+      "paint": {
+          "line-color": "#ffffff",
+          "line-width": 5,
+          "line-opacity": 0.9 }
+    },
+
+    { "type": "line",
+      "source-layer": "route",
+      "layout": { "line-cap": "round", "line-join": "round" },
+      "paint": {
+          "line-color": "#1f4fd6",
+          "line-width": 2.5 }
+    }
+  ]
+}</sys:String>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="240"/>
+            <ColumnDefinition Width="420"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <thinkGeoUi:MapView x:Name="Map" MapUnit="Meter" Background="#0b1f33" SizeChanged="Map_SizeChanged"/>
+            <Border HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,12,12,0"
+                    Background="#E6101317" CornerRadius="8" Padding="14,10" MinWidth="230">
+                <StackPanel>
+                    <TextBlock Text="LAX  →  PVG" Foreground="White" FontSize="17" FontWeight="SemiBold"/>
+                    <TextBlock Text="Los Angeles to Shanghai Pudong, great circle" Foreground="#9aa4ae" FontSize="11" Margin="0,2,0,8"/>
+                    <TextBlock x:Name="PositionText" Foreground="#e6ebf0" FontSize="12" FontFamily="Consolas"/>
+                    <TextBlock x:Name="ProgressText" Foreground="#e6ebf0" FontSize="12" FontFamily="Consolas" Margin="0,4,0,0"/>
+                    <TextBlock x:Name="SeamText" Foreground="#f7c948" FontSize="12" Margin="0,6,0,0" TextWrapping="Wrap" MaxWidth="260"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <DockPanel Grid.Column="1" Background="#F6F6F4">
+            <TextBlock DockPanel.Dock="Top" Text="style.json - edit it; the map follows"
+                       FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
+            <StackPanel DockPanel.Dock="Top" Margin="8,0,8,4">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Projection:" FontSize="11.5" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <RadioButton x:Name="ProjGlobe" Content="Globe" Tag="globe" IsChecked="True"
+                                 Checked="Projection_Checked" VerticalAlignment="Center"/>
+                    <RadioButton x:Name="ProjMercator" Content="Web Mercator (EPSG:3857)" Tag="3857"
+                                 Checked="Projection_Checked" VerticalAlignment="Center" Margin="14,0,0,0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                    <Button x:Name="FlyButton" Content="Fly" Width="72" Click="Fly_Click"/>
+                    <Button Content="Reset" Width="72" Margin="8,0,0,0" Click="Reset_Click"/>
+                </StackPanel>
+                <TextBlock Margin="0,6,0,0" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"
+                           Text="A flight from Los Angeles to Shanghai crosses the antimeridian. The route, the edges of its 100-nautical-mile corridor and the aircraft's position are all stored with continuous longitudes, running past -180 the way a navigator writes them. On the globe there is no seam. In Web Mercator there is one, and the SDK folds the geometry back into the world at the tile cut, so the same data draws whole on both sides of it."/>
+            </StackPanel>
+            <TextBlock x:Name="Status" DockPanel.Dock="Bottom" FontSize="11" Margin="8,4,8,6"
+                       TextWrapping="Wrap" Foreground="DarkGreen"/>
+            <TextBox x:Name="Editor" TextChanged="Editor_TextChanged"
+                     Text="{StaticResource StyleJson}"
+                     AcceptsReturn="True" AcceptsTab="True"
+                     FontFamily="Consolas" FontSize="11.5" Padding="6"
+                     TextWrapping="NoWrap" BorderThickness="1,0,0,0" BorderBrush="#CCCCCC"
+                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
+        </DockPanel>
+    </Grid>
+</UserControl>
