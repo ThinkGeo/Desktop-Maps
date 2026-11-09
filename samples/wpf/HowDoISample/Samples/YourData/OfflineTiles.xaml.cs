@@ -1,8 +1,6 @@
 using System;
 using System.IO;
 using System.IO.Compression;
-using System.Text;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -75,14 +73,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             {
                 var tiles = new MbTilesVectorTileSource(Data("Mbtiles", "maplibre.mbtiles"));
                 await tiles.OpenAsync();
-                return (tiles, VectorStyle(Data("Mbtiles", "style.json"), tiles, tiles.MetadataJson), tiles.GetBoundingBox());
+                return (tiles, VectorStyle(Data("Mbtiles", "style.json"), tiles), tiles.GetBoundingBox());
             }
 
             if (SrcVectorPmTiles.IsChecked == true)
             {
                 var tiles = new PmTilesVectorTileSource(Data("Pmtiles", "frisco.pmtiles"));
                 await tiles.OpenAsync();
-                return (tiles, VectorStyle(Data("Pmtiles", "style.json"), tiles, tiles.MetadataJson), tiles.GetBoundingBox());
+                return (tiles, VectorStyle(Data("Pmtiles", "style.json"), tiles), tiles.GetBoundingBox());
             }
 
             // The raster archives are opened before they are handed over: open is where
@@ -114,65 +112,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             return (files, new MapStyle().AddRaster(files), MaxExtents.SphericalMercator);
         }
 
-        // The bare look for an archive drawn without its document: a fill, a line and a
-        // circle layer per source-layer it declares, each kept to its own geometry.
-        private const string BareLayers = @",
-    { ""type"": ""fill"",
-      ""source"": ""archive"",
-      ""source-layer"": ""LAYER"",
-      ""filter"": [""=="", [""geometry-type""], ""Polygon""],
-      ""paint"": {
-          ""fill-color"": ""rgba(90,140,200,0.35)"",
-          ""fill-outline-color"": ""#2A4A7A"" }
-    },
-
-    { ""type"": ""line"",
-      ""source"": ""archive"",
-      ""source-layer"": ""LAYER"",
-      ""filter"": [""=="", [""geometry-type""], ""LineString""],
-      ""paint"": {
-          ""line-color"": ""#2A4A7A"",
-          ""line-width"": 1 }
-    },
-
-    { ""type"": ""circle"",
-      ""source"": ""archive"",
-      ""source-layer"": ""LAYER"",
-      ""filter"": [""=="", [""geometry-type""], ""Point""],
-      ""paint"": {
-          ""circle-radius"": 4,
-          ""circle-color"": ""#C0392B"",
-          ""circle-stroke-color"": ""#FFFFFF"",
-          ""circle-stroke-width"": 1.5 }
-    }";
-
         /// <summary>
-        /// The archive's own style document, or - with the box unchecked - the bare
-        /// layers over every source-layer the archive declares, so the geometry shows
-        /// as geometry.
+        /// The archive's own style document, or - with the box unchecked - the default
+        /// look, which draws every layer of the archive by its geometry.
         /// </summary>
-        private MapStyle VectorStyle(string stylePath, IVectorTileSource tiles, string metadataJson)
+        private MapStyle VectorStyle(string stylePath, IVectorTileSource tiles)
         {
-            if (ApplyStyle.IsChecked == true)
-            {
-                return new MapStyle().AddStyle(stylePath, tiles);
-            }
-
-            var layers = new StringBuilder(@"{ ""version"": 8,
-  ""sources"": { ""archive"": { ""type"": ""vector"" } },
-  ""layers"": [
-    { ""type"": ""background"",
-      ""paint"": { ""background-color"": ""#F0F0EC"" }
-    }");
-            using (var metadata = JsonDocument.Parse(metadataJson))
-            {
-                foreach (var declared in metadata.RootElement.GetProperty("vector_layers").EnumerateArray())
-                {
-                    layers.Append(BareLayers.Replace("LAYER", declared.GetProperty("id").GetString()));
-                }
-            }
-
-            return new MapStyle().AddStyle(layers.Append(" ] }").ToString(), tiles);
+            return ApplyStyle.IsChecked == true
+                ? new MapStyle().AddStyle(stylePath, tiles)
+                : new MapStyle().AddVectorTiles(tiles);
         }
 
         private static string Data(params string[] path) =>
