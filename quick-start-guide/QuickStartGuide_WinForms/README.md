@@ -75,7 +75,7 @@ Add the form's load event in the `Form1` constructor to display the map.
  this.Load += new System.EventHandler(this.Form_Load);
 ```
 
-Add the following code to the `Form_Load` event, which is triggered when `Form1` is fully loaded and ready to use. (The key passed to ThinkGeoVectorTileOverlay is for test only; you can apply for your own key from [ThinkGeo Cloud](https://cloud.thinkgeo.com/clients.html))
+Add the following code to the `Form_Load` event, which is triggered when `Form1` is fully loaded and ready to use. (The key passed to ThinkGeoVectorTileOverlay is a ThinkGeo Cloud key for the background map, for testing only; it is not your ThinkGeo license key. You can apply for your own Cloud key from [ThinkGeo Cloud](https://cloud.thinkgeo.com/clients.html))
 
 We have set up a tile cache for the base overlay to improve performance. This cache retrieves tiles from the local disk instead of downloading them from the internet each time they are needed.
 
@@ -98,17 +98,16 @@ private async void Form_Load(object? sender, EventArgs e)
     await mapView.RefreshAsync();
 }
 ```
-### Step 6: Run the Sample & Register for Your Free Evaluation
+### Step 6: Run the Sample
 
-The first time you run your application, if you have not installed a license, you may encounter a 'licenses not installed' exception. 
+Press F5 to build and run the project. You don't need to register or install anything first: ThinkGeo 15 checks its license when your project **builds**, not when it runs.
 
-![Registration Exception](https://docs.thinkgeo.com/products/desktop-maps/assets/WPF_LicenseNotInstalledException.png "Registration Exception")
+- **Without a license key**, the first build on your machine starts a free 30-day trial. The build succeeds with warning `TG0001`, which tells you how many days of the trial are left, and the map shows a *Not Licensed for Runtime* watermark. After 30 days the build stops with error `TG0002` until a key is in place.
+- **With a license key**, the watermark goes away. Sign in at [helpdesk.thinkgeo.com](https://helpdesk.thinkgeo.com), download your Desktop key (`desktop.thinkgeokey`) and save it, with its name unchanged, in `%LOCALAPPDATA%\ThinkGeo\`. Then build again. There is nothing to activate, and you don't need to restart Visual Studio.
 
-You can open [ThinkGeo's Registration Website](https://helpdesk.thinkgeo.com/register) to create an account and start a 30-day free evaluation. From there, you can download and install the Product Center to manage licenses for ThinkGeo products.  
+The [License Guide for ThinkGeo 15](https://docs.thinkgeo.com/products/misc/license-guide-v15/) explains [how to get your key](https://docs.thinkgeo.com/products/misc/license-guide-v15/#get-your-license-key), [what each `TG` build message means](https://docs.thinkgeo.com/products/misc/license-guide-v15/#what-the-build-tells-you) and [how to build on a build server](https://docs.thinkgeo.com/products/misc/license-guide-v15/#build-servers-ci-and-containers). If you used ThinkGeo 14 before: Product Center and runtime license files are no longer used, see [What Changed from ThinkGeo 14](https://docs.thinkgeo.com/products/misc/license-guide-v15/#what-changed-from-thinkgeo-14).
 
-<img src="https://docs.thinkgeo.com/products/desktop-maps/assets/WPF_Create_ThinkGeo_Account.png"  width="840" height="570">
-
-Once you activate the 'ThinkGeo UI WinForms' license to start your evaluation, you should be able to see the map with our Cloud Maps layer! You can double-click to zoom in, use the mouse wheel to zoom in/out, and track zoom in by holding down the Shift key and tracking the map. Additionally, you can rotate the map by holding down the Alt key and dragging the map.
+Now you should see the map with our Cloud Maps layer! You can double-click to zoom in, use the mouse wheel to zoom in/out, and track zoom in by holding down the Shift key and tracking the map. Additionally, you can rotate the map by holding down the Alt key and dragging the map.
 
 <img src="https://docs.thinkgeo.com/products/desktop-maps/assets/WinForms_Cloud_Maps_Layer_ScreenShot.gif"  width="840" height="580">
 
