@@ -25,11 +25,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             var layersToDraw = new Collection<LayerBase>();
 
-			var wvtServerUri = "https://tiles.preludemaps.com/styles/WorldStreets_Light/style.json";
-			var mbTilesLayer = new MvtTilesAsyncLayer(wvtServerUri);
+			var basemapLayer = new ThinkGeoVectorTileAsyncLayer(SampleKeys.ApiKey, ThinkGeoVectorStyles.Light);
 
-			await mbTilesLayer.OpenAsync();
-            layersToDraw.Add(mbTilesLayer);
+			await basemapLayer.OpenAsync();
+            layersToDraw.Add(basemapLayer);
 
             // Create the new layer and set the projection as the data is in srid 2276 and our background is srid 3857 (spherical mercator).
             var zoningLayer = new ShapeFileFeatureLayer(@"./Data/Shapefile/Zoning.shp")
