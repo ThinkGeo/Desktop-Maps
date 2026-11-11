@@ -324,12 +324,6 @@
         "source": "Samples/MapOfflineData/Database/DisplayTableFromSQLServer"
       },
       {
-        "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayTableFromOracle",
-        "title": "Display a table from Oracle",
-        "description": "This sample shows how to display an Oracle Spatial layer.",
-        "source": "Samples/MapOfflineData/Database/DisplayTableFromOracle"
-      },
-      {
         "id": "ThinkGeo.UI.Wpf.HowDoI.GenerateESRIGridFile",
         "title": "Generate an ESRI Grid File",
         "description": "This sample shows how to generate an ESRI .asc Grid File from point data and display it on the map.",
@@ -975,45 +969,4 @@
       //}
     ]
   }
-  //{
-  //  "title": "Using Overlays",
-  //  "children": [
-  //    {
-  //      "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayAzureMapsOverlaySample",
-  //      "title": "Display Azure Maps Overlay",
-  //      "description": "Learn to render Azure Maps using the AzureMapsRasterOverlay. A valid Azure Maps ApplicationID is required. Visit the Azure Maps Dev Portal to sign up for a key (https://portal.azure.com/#browse/Microsoft.Maps%2Faccounts).",
-  //      "source": "Samples/UsingOverlays/DisplayAzureMapsOverlaySample"
-  //    },
-  //    {
-  //      "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayCloudMapsRasterOverlaySample",
-  //      "title": "Display Cloud Maps Raster Overlay",
-  //      "description": "Learn to render ThinkGeo Cloud Maps in raster format. Sign up for your own ThinkGeo Cloud API key at https://cloud.thinkgeo.com!",
-  //      "source": "Samples/UsingOverlays/DisplayCloudMapsRasterOverlaySample"
-  //    },
-  //    {
-  //      "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayCloudMapsVectorOverlaySample",
-  //      "title": "Display Cloud Maps Vector Overlay",
-  //      "description": "Learn to render ThinkGeo Cloud Maps in vector format. Sign up for your own ThinkGeo Cloud API key at https://cloud.thinkgeo.com!",
-  //      "source": "Samples/UsingOverlays/DisplayCloudMapsVectorOverlaySample"
-  //    },
-  //    {
-  //      "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayGoogleMapsOverlaySample",
-  //      "title": "Display Google Maps Overlay",
-  //      "description": "Learn to render Google Maps using the GoogleMapsOverlay. A Google Maps API key is required. Visit the Google Maps Platform page to sign up for a key (https://cloud.google.com/maps-platform/ *The default Google Maps Static API Key returns images up to 640 x 640 pixels).",
-  //      "source": "Samples/UsingOverlays/DisplayGoogleMapsOverlaySample"
-  //    },
-  //    {
-  //      "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayOpenStreetMapOverlaySample",
-  //      "title": "Display OpenStreetMap Overlay",
-  //      "description": "Learn to render OpenStreetMap using the OpenStreetMapOverlay. OpenStreetMap Tiles are not meant for heavy production use without express permission from the OpenStreetMap Foundation. See https://operations.osmfoundation.org/ for details about their usage policies.",
-  //      "source": "Samples/UsingOverlays/DisplayOpenStreetMapOverlaySample"
-  //    },
-  //    {
-  //      "id": "ThinkGeo.UI.Wpf.HowDoI.DisplayWmsOverlaySample",
-  //      "title": "Display a WMS Overlay",
-  //      "description": "Learn to render a Web Map Service using the WMSOverlay. Please be aware that this is a publicly available WMS server and it may be slow to load.",
-  //      "source": "Samples/UsingOverlays/DisplayWmsOverlaySample"
-  //    }
-  //  ]
-  //}
 ]
