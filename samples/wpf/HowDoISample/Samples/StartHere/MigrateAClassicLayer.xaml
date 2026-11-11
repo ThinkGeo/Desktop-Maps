@@ -10,28 +10,28 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="340"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <DockPanel Grid.Column="0">
-            <Border DockPanel.Dock="Top" Background="#F2F2F2" BorderBrush="#CCCCCC" BorderThickness="0,0,1,1">
-                <TextBlock Text="MapStyle.AddFeatureLayer" FontWeight="SemiBold" Margin="10,6"/>
+            <Border DockPanel.Dock="Top" Background="{DynamicResource Shell.Panel}" BorderBrush="{DynamicResource Shell.Divider}" BorderThickness="0,0,1,1">
+                <TextBlock Text="MapStyle.AddFeatureLayer" FontWeight="SemiBold" Margin="10,6" Foreground="{DynamicResource Shell.Text}"/>
             </Border>
             <thinkGeoUi:MapView x:Name="NewMap" Loaded="NewMap_Loaded"/>
         </DockPanel>
 
         <DockPanel Grid.Column="1">
-            <Border DockPanel.Dock="Top" Background="#F2F2F2" BorderBrush="#CCCCCC" BorderThickness="0,0,0,1">
-                <TextBlock Text="Classic LayerOverlay" FontWeight="SemiBold" Margin="10,6"/>
+            <Border DockPanel.Dock="Top" Background="{DynamicResource Shell.Panel}" BorderBrush="{DynamicResource Shell.Divider}" BorderThickness="0,0,0,1">
+                <TextBlock Text="Classic LayerOverlay" FontWeight="SemiBold" Margin="10,6" Foreground="{DynamicResource Shell.Text}"/>
             </Border>
             <thinkGeoUi:MapView x:Name="ClassicMap" Background="#EAE8E2" Loaded="ClassicMap_Loaded"/>
         </DockPanel>
 
-        <Border Grid.Column="2" Background="#F6F6F4" BorderBrush="#CCCCCC" BorderThickness="1,0,0,0" Padding="12">
+        <Border Grid.Column="2" Style="{DynamicResource Shell.SamplePanel}">
             <DockPanel LastChildFill="False">
-                <TextBlock DockPanel.Dock="Top" FontSize="11.5" Foreground="#555B62" TextWrapping="Wrap"
+                <TextBlock DockPanel.Dock="Top" FontSize="11.5" TextWrapping="Wrap"
                            Text="Five shapefile layers styled the classic way, on their ZoomLevelSets: the left map adds them to a MapStyle with AddFeatureLayer, the right map draws them with a LayerOverlay, and the two move together. AreaStyle (hatches included), LineStyle, PointStyle, TextStyle, ValueStyle, ClassBreakStyle, RegexStyle and CompositeStyle translate; FilterStyle, ClusterPointStyle and a Style subclass of your own are named in the translation's Warnings and stay on a classic overlay."/>
-                <TextBlock x:Name="Status" DockPanel.Dock="Bottom" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"/>
+                <TextBlock x:Name="Status" DockPanel.Dock="Bottom" FontSize="11" TextWrapping="Wrap"/>
             </DockPanel>
         </Border>
     </Grid>

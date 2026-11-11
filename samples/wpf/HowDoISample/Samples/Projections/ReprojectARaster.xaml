@@ -9,25 +9,27 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="240"/>
-            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
 
-        <DockPanel Grid.Column="1" Background="#F6F6F4">
-            <TextBlock DockPanel.Dock="Top" Text="Raster" FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
-            <StackPanel DockPanel.Dock="Top" Margin="8,0,8,4">
-                <RadioButton x:Name="RasterFile" Content="A raster file - World.tif into EPSG:9311" Tag="file" IsChecked="True" Checked="Raster_Checked"/>
-                <RadioButton x:Name="TileService" Content="A tile service - EPSG:3857 tiles into EPSG:4326" Tag="tiles" Checked="Raster_Checked"/>
+        <Border Grid.Column="1" Style="{DynamicResource Shell.SamplePanel}">
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Top" Text="Raster" FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
+                <StackPanel DockPanel.Dock="Top" Margin="8,0,8,4">
+                    <RadioButton x:Name="RasterFile" Content="A raster file - World.tif into EPSG:9311" Tag="file" IsChecked="True" Checked="Raster_Checked"/>
+                    <RadioButton x:Name="TileService" Content="A tile service - EPSG:3857 tiles into EPSG:4326" Tag="tiles" Checked="Raster_Checked"/>
 
-                <StackPanel x:Name="ServerPanel" Margin="18,4,0,0" Visibility="Collapsed">
-                    <RadioButton x:Name="ServerThinkGeo" Content="ThinkGeo Cloud" GroupName="Server" Tag="thinkgeo" IsChecked="True" Checked="Server_Checked"/>
-                    <RadioButton x:Name="ServerOsm" Content="OpenStreetMap" GroupName="Server" Tag="osm" Checked="Server_Checked"/>
+                    <StackPanel x:Name="ServerPanel" Margin="18,4,0,0" Visibility="Collapsed">
+                        <RadioButton x:Name="ServerThinkGeo" Content="ThinkGeo Cloud" GroupName="Server" Tag="thinkgeo" IsChecked="True" Checked="Server_Checked"/>
+                        <RadioButton x:Name="ServerOsm" Content="OpenStreetMap" GroupName="Server" Tag="osm" Checked="Server_Checked"/>
+                    </StackPanel>
+
+                    <TextBlock TextWrapping="Wrap" FontSize="11" Margin="0,8,0,0"
+                               Text="Both are the same recipe: a GdalProjectionConverter on the layer, in a SingleTile LayerOverlay. A raster has no vertices to convert, so the image is resampled pixel by pixel as the layer draws; the tile service is fetched on its own grid and the tiles are merged and warped. Switching the server keeps the view."/>
                 </StackPanel>
-
-                <TextBlock Foreground="#444A52" TextWrapping="Wrap" FontSize="11" Margin="0,8,0,0"
-                           Text="Both are the same recipe: a GdalProjectionConverter on the layer, in a SingleTile LayerOverlay. A raster has no vertices to convert, so the image is resampled pixel by pixel as the layer draws; the tile service is fetched on its own grid and the tiles are merged and warped. Switching the server keeps the view."/>
-            </StackPanel>
-        </DockPanel>
+            </DockPanel>
+        </Border>
     </Grid>
 </UserControl>

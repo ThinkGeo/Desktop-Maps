@@ -22,12 +22,12 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="240"/>
-            <ColumnDefinition Width="340"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged" MapClick="Map_MapClick"/>
 
-        <Border Grid.Column="1" Background="#F6F6F4" BorderBrush="#CCCCCC" BorderThickness="1,0,0,0" Padding="12">
+        <Border Grid.Column="1" Style="{DynamicResource Shell.SamplePanel}">
             <StackPanel>
                 <CheckBox x:Name="TerrainToggle" Content="Terrain" IsChecked="True"
                           Checked="TerrainToggle_Checked" Unchecked="TerrainToggle_Unchecked"/>
@@ -36,16 +36,16 @@
 
                 <!-- The profile chart: distance along the line across, elevation up. -->
                 <Border x:Name="ChartPanel" Visibility="Collapsed" HorizontalAlignment="Left"
-                        Margin="0,8,0,0" Padding="8" Background="White" BorderBrush="#CCCCCC" BorderThickness="1">
+                        Margin="0,8,0,0" Padding="8" Background="{DynamicResource Shell.Panel.Input}" BorderBrush="{DynamicResource Shell.Divider}" BorderThickness="1">
                     <StackPanel>
                         <TextBlock x:Name="ChartTitle" FontSize="11" Margin="0,0,0,4"/>
                         <Canvas x:Name="Chart" Width="296" Height="110" ClipToBounds="True">
-                            <Polyline x:Name="ChartLine" Stroke="DarkGreen" StrokeThickness="1.5"/>
+                            <Polyline x:Name="ChartLine" Stroke="LightGreen" StrokeThickness="1.5"/>
                         </Canvas>
                     </StackPanel>
                 </Border>
 
-                <TextBlock Foreground="#606060" TextWrapping="Wrap" FontSize="11" Margin="0,16,0,0"
+                <TextBlock TextWrapping="Wrap" FontSize="11" Margin="0,16,0,0"
                            Text="Elevation: AWS open terrain tiles (terrarium encoding). Imagery: ThinkGeo Cloud aerial."/>
             </StackPanel>
         </Border>

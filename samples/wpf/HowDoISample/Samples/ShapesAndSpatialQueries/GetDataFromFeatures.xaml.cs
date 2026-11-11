@@ -46,7 +46,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 _parks = parks.ConcurrentAccess == ConcurrentAccess.Safe ? parks : parks.CloneDeep();
 
                 var cloud = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) };
-                Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, cloud).AddStyle((string)Resources["StyleJson"], tiles));
+                Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Dark, cloud).AddStyle((string)Resources["StyleJson"], tiles));
                 Map.Overlays.Add(_popups);
 
                 _parks.Open();

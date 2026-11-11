@@ -8,8 +8,7 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <DockPanel LastChildFill="True">
-        <Border DockPanel.Dock="Right" Width="290" Background="#F6F6F4" Padding="12,10"
-                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+        <Border DockPanel.Dock="Right" Style="{DynamicResource Shell.SamplePanel}">
             <DockPanel>
                 <StackPanel DockPanel.Dock="Top">
                     <RadioButton Content="Route through the stops in order" Tag="route" GroupName="Mode" IsChecked="True" Margin="0,2"
@@ -19,7 +18,7 @@
                     <RadioButton Content="How far you can drive from a point" Tag="area" GroupName="Mode" Margin="0,2"
                                  Checked="Mode_Checked"/>
 
-                    <TextBlock x:Name="Status" Margin="0,10,0,6" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"/>
+                    <TextBlock x:Name="Status" Margin="0,10,0,6" FontSize="11" TextWrapping="Wrap"/>
 
                     <StackPanel x:Name="TravelTimeLegend" Visibility="Collapsed" Margin="0,0,0,6">
                         <TextBlock Text="Travel time" FontWeight="SemiBold" Margin="0,0,0,4"/>
@@ -48,7 +47,7 @@
                         <DataTemplate DataType="{x:Type core:CloudRoutingSegment}">
                             <StackPanel Margin="0,2,0,4">
                                 <TextBlock Text="{Binding Instruction}" FontWeight="SemiBold" TextWrapping="Wrap"/>
-                                <TextBlock Text="{Binding Distance, StringFormat=Distance: {0:0} meters}" FontSize="11" Foreground="#555B62"/>
+                                <TextBlock Text="{Binding Distance, StringFormat=Distance: {0:0} meters}" FontSize="11"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

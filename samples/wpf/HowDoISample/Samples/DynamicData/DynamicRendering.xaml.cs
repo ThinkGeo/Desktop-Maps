@@ -44,7 +44,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
                 // One white disc image is every circle; the marker's color tints it.
                 var style = new MapStyle()
-                    .SetBackground(GeoColors.White)
+                    .SetBackground(GeoColor.FromHtml("#1F2226"))
                     .AddStyle((string)Resources["StyleJson"], states)
                     .AddDynamic(_circles);
                 style.Images.Add("disc", new PointStyle(PointSymbolType.Circle, 62, GeoBrushes.White));

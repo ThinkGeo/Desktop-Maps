@@ -31,7 +31,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             // The red border is drawn with the basemap, so it stays sharp at every zoom.
             var boundary = new DynamicSource();
-            var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
+            var style = new MapStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
             style.AddDynamic(boundary);
             Map.Basemap = new GpuBasemap(style);
             // A border, not a shaded box - a fill is drawn unless one is asked not to be.

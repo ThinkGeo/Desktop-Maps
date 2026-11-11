@@ -13,12 +13,12 @@
 
     { "type": "fill",
       "source-layer": "states",
-      "paint": { "fill-color": "rgba(248,248,248,1)" } },
+      "paint": { "fill-color": "rgba(46,50,56,1)" } },
 
     { "type": "line",
       "source-layer": "states",
       "paint": {
-          "line-color": "rgba(60,60,60,1)",
+          "line-color": "rgba(120,126,134,1)",
           "line-width": 1 }
     }
   ]
@@ -26,15 +26,11 @@
     </UserControl.Resources>
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="340"/>
-        </Grid.ColumnDefinitions>
+        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
 
-        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
-
-        <Border Grid.Column="1" Background="#F6F6F4" BorderBrush="#CCCCCC" BorderThickness="1,0,0,0" Padding="12">
-            <DockPanel VerticalAlignment="Top">
+        <Border Style="{DynamicResource Shell.MapCard}" Width="340"
+                HorizontalAlignment="Center" VerticalAlignment="Bottom">
+            <DockPanel>
                 <Button x:Name="PlayButton" DockPanel.Dock="Left" Padding="12,4" Content="Play" Click="PlayButton_Click"/>
                 <TextBlock x:Name="YearLabel" DockPanel.Dock="Left" Width="44" VerticalAlignment="Center" Margin="8,0,4,0" Text="1950"/>
                 <Slider x:Name="YearSlider" Minimum="1950" Maximum="2020" Value="1950" IsSnapToTickEnabled="True" TickFrequency="1"

@@ -7,10 +7,9 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <DockPanel LastChildFill="True">
-        <Border DockPanel.Dock="Right" Width="340" Background="#F6F6F4" Padding="12"
-                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+        <Border DockPanel.Dock="Right" Style="{DynamicResource Shell.SamplePanel}">
             <StackPanel>
-                <TextBlock FontSize="11" Foreground="#555B62" TextWrapping="Wrap" Margin="0,0,0,12"
+                <TextBlock FontSize="11" TextWrapping="Wrap" Margin="0,0,0,12"
                            Text="Distance: press, drag and release, and the ruler labels the length and the bearing. Area: click the corners of a polygon and double-click the last one; the finished shape is labelled with its area."/>
                 <TextBlock Text="Measure" FontWeight="SemiBold" Margin="0,0,0,6"/>
                 <RadioButton Content="Distance" IsChecked="True" Margin="0,2" Checked="Distance_Checked"/>

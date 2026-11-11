@@ -105,13 +105,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private MapStyle ComposeStyle()
         {
             var style = new MapStyle();
-            style.AddStyle(ThinkGeoVectorStyles.Light, _cloud);
+            style.AddStyle(ThinkGeoVectorStyles.Dark, _cloud);
             style.AddStyle((string)Resources["StyleJson"], _tiles);
 
             // Ringed circles are no shape the renderer has of its own, so they are drawn
             // once and registered under the names the point markers ask for.
             style.Images.Add("stadium", PointStyle.CreateSimpleCircleStyle(GeoColors.Blue, 14, GeoColors.White, 3));
-            style.Images.Add("measured", PointStyle.CreateSimpleCircleStyle(GeoColors.DarkGreen, 12, GeoColors.White, 3));
+            style.Images.Add("measured", PointStyle.CreateSimpleCircleStyle(GeoColors.LimeGreen, 12, GeoColors.White, 3));
             style.AddDynamic(_stadium);
             style.AddDynamic(_measured);
             return style;
@@ -258,10 +258,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 switch (measured)
                 {
                     case AreaBaseShape _:
-                        _measured.SetArea(id, measuredFeature, new GeoColor(96, GeoColors.Green), GeoColors.DarkGreen, 2f);
+                        _measured.SetArea(id, measuredFeature, new GeoColor(96, GeoColors.Green), GeoColors.LimeGreen, 2f);
                         break;
                     case LineBaseShape _:
-                        _measured.SetLine(id, measuredFeature, GeoColors.DarkGreen, 5f);
+                        _measured.SetLine(id, measuredFeature, GeoColors.LimeGreen, 5f);
                         break;
                     default:
                         _measured.SetPoint(id, measuredFeature, sizeInPixel: 16f, iconName: "measured");

@@ -15,12 +15,12 @@
         </Grid>
     </UserControl.Resources>
 
-    <DockPanel LastChildFill="True">
-        <Border DockPanel.Dock="Right" Width="340" Background="#F6F6F4" Padding="12"
-                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
-            <TextBlock FontSize="11" Foreground="#555B62" TextWrapping="Wrap"
-                       Text="The sightings are bucketed on a screen-pixel grid for the current view, one marker per bucket. Zoom and the clusters split; click one to zoom into it."/>
-        </Border>
+    <Grid>
         <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
-    </DockPanel>
+
+        <Border Style="{DynamicResource Shell.MapCard}" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+            <TextBlock FontSize="11" TextWrapping="Wrap"
+                       Text="Sightings are bucketed on a screen-pixel grid, one marker per bucket. Zoom and the clusters split; click one to zoom into it."/>
+        </Border>
+    </Grid>
 </UserControl>

@@ -15,7 +15,7 @@
       "source-layer": "vehicle-route",
       "paint": {
           "circle-radius": 5,
-          "circle-color": "#0000FF",
+          "circle-color": "#1E90FF",
           "circle-stroke-color": "#FFFFFF",
           "circle-stroke-width": 2 }
     }

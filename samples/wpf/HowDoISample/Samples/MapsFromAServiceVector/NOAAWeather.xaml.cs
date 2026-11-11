@@ -31,7 +31,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             _initialized = true;
             Map.MapUnit = GeographyUnit.Meter;
-            Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, _cloud));
+            Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Dark, _cloud));
             Map.CenterPoint = new PointShape(-10807050, 5045070);
             Map.CurrentScale = 34016000;
             await ShowChosenAsync();
@@ -58,7 +58,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 if (request != _request) return;
 
                 var style = new MapStyle();
-                style.AddStyle(ThinkGeoVectorStyles.Light, _cloud);
+                style.AddStyle(ThinkGeoVectorStyles.Dark, _cloud);
                 style.AddStyle(styleJson, data);
                 await Map.Basemap.SetStyleAsync(style);
                 Status.Text = status;

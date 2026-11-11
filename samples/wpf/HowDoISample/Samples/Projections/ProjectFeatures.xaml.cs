@@ -82,7 +82,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 var fromSource = ModeSource.IsChecked == true;
                 WktPanel.Visibility = fromSource ? Visibility.Collapsed : Visibility.Visible;
 
-                var style = new MapStyle(ThinkGeoVectorStyles.Light, _cloud);
+                var style = new MapStyle(ThinkGeoVectorStyles.Dark, _cloud);
                 if (fromSource)
                 {
                     style.AddStyle((string)Resources["StyleJson"], _tiles);

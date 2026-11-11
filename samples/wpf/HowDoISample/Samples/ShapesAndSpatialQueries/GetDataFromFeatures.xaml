@@ -24,29 +24,31 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="240"/>
-            <ColumnDefinition Width="340"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged" MapClick="Map_MapClick"/>
 
-        <DockPanel Grid.Column="1" Background="#F6F6F4">
-            <TextBlock DockPanel.Dock="Top" Text="Frisco parks" FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
-            <StackPanel DockPanel.Dock="Top" Margin="8,0,8,4">
-                <RadioButton x:Name="ClickOne" Content="Click a park" Tag="click" IsChecked="True" Checked="Mode_Checked"/>
-                <RadioButton x:Name="ListAll" Content="List every park" Tag="all" Checked="Mode_Checked"/>
-                <TextBlock Foreground="#444A52" TextWrapping="Wrap" FontSize="11" Margin="0,6,0,0"
-                           Text="Every column of a feature is in its ColumnValues. Click a park to read the one under the mouse, or list all of them and pick one."/>
-            </StackPanel>
+        <Border Grid.Column="1" Style="{DynamicResource Shell.SamplePanel}">
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Top" Text="Frisco parks" FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
+                <StackPanel DockPanel.Dock="Top" Margin="8,0,8,4">
+                    <RadioButton x:Name="ClickOne" Content="Click a park" Tag="click" IsChecked="True" Checked="Mode_Checked"/>
+                    <RadioButton x:Name="ListAll" Content="List every park" Tag="all" Checked="Mode_Checked"/>
+                    <TextBlock TextWrapping="Wrap" FontSize="11" Margin="0,6,0,0"
+                               Text="Every column of a feature is in its ColumnValues. Click a park to read the one under the mouse, or list all of them and pick one."/>
+                </StackPanel>
 
-            <ListBox x:Name="ParkList" Visibility="Collapsed" Margin="8,4,8,8" FontSize="11"
-                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                     SelectionChanged="ParkList_SelectionChanged">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding}" TextWrapping="Wrap" Margin="0,2,0,4"/>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </DockPanel>
+                <ListBox x:Name="ParkList" Visibility="Collapsed" Margin="8,4,8,8" FontSize="11"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         SelectionChanged="ParkList_SelectionChanged">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" TextWrapping="Wrap" Margin="0,2,0,4"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+        </Border>
     </Grid>
 </UserControl>

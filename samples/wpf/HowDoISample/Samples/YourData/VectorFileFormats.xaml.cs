@@ -60,7 +60,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             var request = ++_request;
             var style = new MapStyle();
-            style.AddStyle(ThinkGeoVectorStyles.Light, _cloud);
+            style.AddStyle(ThinkGeoVectorStyles.Dark, _cloud);
             FeatureSourceVectorTileSource data = null;
             RectangleShape bounds = null;
 
@@ -79,7 +79,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 data = new FeatureSourceVectorTileSource();
                 data.FeatureSources.Add("data", source);
                 style.AddStyle((string)Resources["StyleJson"], data);
-                Status.Foreground = Brushes.DarkGreen;
+                Status.Foreground = Brushes.LightGreen;
                 Status.Text = source.GetType().Name;
             }
             catch (Exception exception)
@@ -94,7 +94,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                     exception = exception.InnerException;
                 }
 
-                Status.Foreground = Brushes.Firebrick;
+                Status.Foreground = Brushes.Salmon;
                 Status.Text = "Unavailable: " + exception.Message.Split('\n')[0];
             }
 

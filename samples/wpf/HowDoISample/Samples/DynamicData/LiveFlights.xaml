@@ -9,7 +9,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="340"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0">
@@ -22,9 +22,9 @@
             </Border>
         </Grid>
 
-        <Border Grid.Column="1" Background="#F6F6F4" BorderBrush="#CCCCCC" BorderThickness="1,0,0,0" Padding="12">
+        <Border Grid.Column="1" Style="{DynamicResource Shell.SamplePanel}">
             <DockPanel LastChildFill="False">
-                <TextBlock DockPanel.Dock="Top" Foreground="#606060" TextWrapping="Wrap"
+                <TextBlock DockPanel.Dock="Top" TextWrapping="Wrap"
                            Text="color = altitude:  amber &lt; 3 km   green 3-8 km   blue cruise"/>
                 <DockPanel DockPanel.Dock="Top" Margin="0,10,0,0">
                     <TextBlock x:Name="SpeedLabel" Text="time x120" Width="70"

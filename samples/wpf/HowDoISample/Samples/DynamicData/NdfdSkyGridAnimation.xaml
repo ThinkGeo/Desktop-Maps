@@ -9,25 +9,27 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="230"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
 
-        <StackPanel Grid.Column="1" Background="#F6F6F4">
-            <TextBlock Text="Sky cover forecast" FontWeight="SemiBold" Margin="8,8,8,2"/>
-            <TextBlock x:Name="TimeText" Text="Reading the forecast…" FontSize="16" Margin="8,0,8,2" TextWrapping="Wrap"/>
-            <TextBlock x:Name="HourText" Foreground="#606060" Margin="8,0,8,6"/>
-            <Slider x:Name="FrameSlider" Minimum="0" Maximum="0" IsSnapToTickEnabled="True" TickFrequency="1"
-                    IsEnabled="False" Margin="8,0,8,4" ValueChanged="FrameSlider_ValueChanged"/>
-            <Button x:Name="PlayButton" Content="Pause" IsEnabled="False" Margin="8,4,8,12" Click="PlayButton_Click"/>
+        <Border Grid.Column="1" Style="{DynamicResource Shell.SamplePanel}">
+            <StackPanel>
+                <TextBlock Text="Sky cover forecast" FontWeight="SemiBold" Margin="0,8,0,2"/>
+                <TextBlock x:Name="TimeText" Text="Reading the forecast…" FontSize="16" Margin="0,0,0,2" TextWrapping="Wrap"/>
+                <TextBlock x:Name="HourText" Margin="0,0,0,6"/>
+                <Slider x:Name="FrameSlider" Minimum="0" Maximum="0" IsSnapToTickEnabled="True" TickFrequency="1"
+                        IsEnabled="False" Margin="0,0,0,4" ValueChanged="FrameSlider_ValueChanged"/>
+                <Button x:Name="PlayButton" Content="Pause" IsEnabled="False" Margin="0,4,0,12" Click="PlayButton_Click"/>
 
-            <TextBlock Text="Color ramp" FontWeight="SemiBold" Margin="8,0,8,4"/>
-            <RadioButton Content="Weather Rainbow" GroupName="palette" IsChecked="True" Margin="8,2,8,2" Checked="Palette_Checked"/>
-            <RadioButton Content="Cloud Gray" GroupName="palette" Margin="8,2,8,2" Checked="Palette_Checked"/>
-            <RadioButton Content="Warm Tones" GroupName="palette" Margin="8,2,8,2" Checked="Palette_Checked"/>
-            <RadioButton Content="Cool Tones" GroupName="palette" Margin="8,2,8,2" Checked="Palette_Checked"/>
-            <RadioButton Content="Viridis" GroupName="palette" Margin="8,2,8,2" Checked="Palette_Checked"/>
-        </StackPanel>
+                <TextBlock Text="Color ramp" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                <RadioButton Content="Weather Rainbow" GroupName="palette" IsChecked="True" Margin="0,2,0,2" Checked="Palette_Checked"/>
+                <RadioButton Content="Cloud Gray" GroupName="palette" Margin="0,2,0,2" Checked="Palette_Checked"/>
+                <RadioButton Content="Warm Tones" GroupName="palette" Margin="0,2,0,2" Checked="Palette_Checked"/>
+                <RadioButton Content="Cool Tones" GroupName="palette" Margin="0,2,0,2" Checked="Palette_Checked"/>
+                <RadioButton Content="Viridis" GroupName="palette" Margin="0,2,0,2" Checked="Palette_Checked"/>
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>

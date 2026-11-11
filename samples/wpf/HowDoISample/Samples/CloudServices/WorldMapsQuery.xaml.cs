@@ -35,8 +35,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             Map.MapUnit = GeographyUnit.Meter;
 
-            var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
-            style.Images.Add("star-blue", new PointStyle(PointSymbolType.Star, 20, GeoBrushes.Blue));
+            var style = new MapStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
+            style.Images.Add("star-blue", new PointStyle(PointSymbolType.Star, 20, GeoBrushes.DodgerBlue));
             style.Images.Add("star-orange", new PointStyle(PointSymbolType.Star, 20, GeoBrushes.OrangeRed));
             style.AddDynamic(_resultsSource);
             style.AddDynamic(_querySource);
@@ -174,8 +174,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             switch (shape)
             {
                 case PointShape: _querySource.SetPoint("query", query, sizeInPixel: 20f, iconName: "star-blue"); break;
-                case LineBaseShape: _querySource.SetLine("query", query, GeoColors.Blue, 2f); break;
-                case AreaBaseShape: _querySource.SetArea("query", query, new GeoColor(10, GeoColors.Blue), GeoColors.Blue, 1f); break;
+                case LineBaseShape: _querySource.SetLine("query", query, GeoColors.DodgerBlue, 2f); break;
+                case AreaBaseShape: _querySource.SetArea("query", query, new GeoColor(10, GeoColors.DodgerBlue), GeoColors.DodgerBlue, 1f); break;
             }
         }
 

@@ -15,7 +15,7 @@
     { "type": "line",
       "source-layer": "corridor",
       "paint": {
-          "line-color": "#3b74ff",
+          "line-color": "#6f9bff",
           "line-width": 1.2,
           "line-opacity": 0.8,
           "line-dasharray": [3, 3] }
@@ -44,23 +44,22 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="240"/>
-            <ColumnDefinition Width="340"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" MapUnit="Meter" Background="#0b1f33" SizeChanged="Map_SizeChanged"/>
 
-        <Border Grid.Column="1" Background="#F6F6F4" Padding="12"
-                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+        <Border Grid.Column="1" Style="{DynamicResource Shell.SamplePanel}">
             <DockPanel>
                 <StackPanel DockPanel.Dock="Bottom" Margin="0,8,0,0">
                     <TextBlock Text="LAX  →  PVG" FontWeight="SemiBold"/>
-                    <TextBlock Text="Los Angeles to Shanghai Pudong, great circle" FontSize="11" Foreground="#555B62" Margin="0,2,0,6"/>
+                    <TextBlock Text="Los Angeles to Shanghai Pudong, great circle" FontSize="11" Margin="0,2,0,6"/>
                     <TextBlock x:Name="PositionText" FontSize="11" FontFamily="Consolas"/>
                     <TextBlock x:Name="ProgressText" FontSize="11" FontFamily="Consolas" Margin="0,4,0,0"/>
                     <TextBlock x:Name="SeamText" FontSize="11" Margin="0,6,0,0" TextWrapping="Wrap"/>
                 </StackPanel>
                 <StackPanel>
-                    <TextBlock FontSize="11" Foreground="#555B62" TextWrapping="Wrap" Margin="0,0,0,12"
+                    <TextBlock FontSize="11" TextWrapping="Wrap" Margin="0,0,0,12"
                                Text="A flight from Los Angeles to Shanghai crosses the antimeridian. The route, the edges of its 100-nautical-mile corridor and the aircraft's position are all stored with continuous longitudes, running past -180 the way a navigator writes them. On the globe there is no seam. In Web Mercator there is one, and the SDK folds the geometry back into the world at the tile cut, so the same data draws whole on both sides of it."/>
                     <TextBlock Text="Projection" FontWeight="SemiBold" Margin="0,0,0,6"/>
                     <RadioButton x:Name="ProjGlobe" Content="Globe" Tag="globe" IsChecked="True" Margin="0,2"

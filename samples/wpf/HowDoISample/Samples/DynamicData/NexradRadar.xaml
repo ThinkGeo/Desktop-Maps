@@ -7,15 +7,12 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="340"/>
-        </Grid.ColumnDefinitions>
+        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
 
-        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
-
-        <Border Grid.Column="1" Background="#F6F6F4" BorderBrush="#CCCCCC" BorderThickness="1,0,0,0" Padding="12">
-            <TextBlock x:Name="Status" Text="Loading the latest composite…" TextWrapping="Wrap"/>
+        <!-- One line of status needs no panel: it sits on the map. -->
+        <Border HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="12" Padding="10,6"
+                Background="#CC26282C" CornerRadius="3" IsHitTestVisible="False">
+            <TextBlock x:Name="Status" Text="Loading the latest composite…" Foreground="#E7E9EC"/>
         </Border>
     </Grid>
 </UserControl>

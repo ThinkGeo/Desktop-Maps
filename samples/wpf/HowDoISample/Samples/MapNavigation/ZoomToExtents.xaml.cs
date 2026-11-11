@@ -45,7 +45,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 ProjectionConverter = new ProjectionConverter(2276, 3857),
             });
             var cloud = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) };
-            Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, cloud).AddStyle((string)Resources["StyleJson"], boundary));
+            Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Dark, cloud).AddStyle((string)Resources["StyleJson"], boundary));
 
             // Read a second time, for the extent the zoom buttons target. Nothing draws
             // it, so it is a FeatureSource and not a layer.

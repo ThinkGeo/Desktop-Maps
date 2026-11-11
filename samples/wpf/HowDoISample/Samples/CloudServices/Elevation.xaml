@@ -7,8 +7,7 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <DockPanel LastChildFill="True">
-        <Border DockPanel.Dock="Right" Width="290" Background="#F6F6F4" Padding="12,10"
-                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+        <Border DockPanel.Dock="Right" Style="{DynamicResource Shell.SamplePanel}">
             <DockPanel>
                 <StackPanel DockPanel.Dock="Top">
                     <TextBlock Text="Sample every (meters)" FontSize="11.5"/>
@@ -32,7 +31,7 @@
                         <DataTemplate>
                             <StackPanel Margin="0,2,0,4">
                                 <TextBlock Text="{Binding Where}" FontWeight="SemiBold"/>
-                                <TextBlock Text="{Binding Elevation, StringFormat=Elevation: {0:0.0} feet}" FontSize="11" Foreground="#555B62"/>
+                                <TextBlock Text="{Binding Elevation, StringFormat=Elevation: {0:0.0} feet}" FontSize="11"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

@@ -27,12 +27,12 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="340"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
 
-        <Border Grid.Column="1" Background="#F6F6F4" BorderBrush="#CCCCCC" BorderThickness="1,0,0,0" Padding="12">
+        <Border Grid.Column="1" Style="{DynamicResource Shell.SamplePanel}">
             <DockPanel LastChildFill="False">
                 <StackPanel DockPanel.Dock="Top">
                     <CheckBox Content="fill bands" Margin="0,2"

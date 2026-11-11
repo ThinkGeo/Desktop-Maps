@@ -33,7 +33,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
                 MainMap.MapUnit = GeographyUnit.Meter;
                 MainMap.MapTools.PanZoomBar.Visibility = Visibility.Collapsed;
-                MainMap.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
+                MainMap.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
                 MainMap.CenterPoint = new PointShape(-9338030, 3300450);
                 MainMap.CurrentScale = 4622340;
 
@@ -45,7 +45,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 PreviewMap.ExtentOverlay.DoubleLeftClickMode = MapDoubleClickMode.Disabled;
                 PreviewMap.ExtentOverlay.MouseWheelMode = MapMouseWheelMode.Disabled;
 
-                var previewStyle = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
+                var previewStyle = new MapStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
                 previewStyle.AddDynamic(_frame);
                 PreviewMap.Basemap = new GpuBasemap(previewStyle);
                 PreviewMap.CenterPoint = new PointShape(-10502930, 4330070);

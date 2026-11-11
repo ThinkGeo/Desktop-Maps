@@ -59,7 +59,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // Built once; _ready is only set after the first draw.
             Map.SizeChanged -= Map_SizeChanged;
             Map.MapUnit = GeographyUnit.Meter;
-            Map.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColor.FromHtml("#DCE8EF"));
+            Map.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColor.FromHtml("#1F2226"));
 
             Map.CurrentExtentChanged += (_, _) =>
             {
@@ -116,7 +116,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             var style = MapSatellite.IsChecked == true
                 ? new MapStyle().AddRaster(new ThinkGeoRasterTileSource(SampleShared.CloudApiKey, ThinkGeoCloudRasterMapsMapType.Aerial_V2_X2), sourceId: "thinkgeo")
-                : new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
+                : new MapStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
             Map.Basemap = new GpuBasemap(style);
             Map.Basemap.DisplayProjection = ProjectionFor(_choice.Definition);
         }
@@ -262,8 +262,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             var regionName = isMga ? "eastern Australia" : "the US region shown by this sample";
             WarningText.Foreground = new System.Windows.Media.SolidColorBrush(
                 entirelyOutside
-                    ? System.Windows.Media.Color.FromRgb(0xB0, 0x4A, 0x2A)
-                    : System.Windows.Media.Color.FromRgb(0x8A, 0x5A, 0x00));
+                    ? System.Windows.Media.Color.FromRgb(0xFA, 0x80, 0x72)
+                    : System.Windows.Media.Color.FromRgb(0xE8, 0xB8, 0x4A));
             WarningText.Text = entirelyOutside
                 ? $"The current view is outside this projection's intended region. Return to {regionName}."
                 : $"{projectionName} is intended for {regionName}. This view extends beyond that region, where distortion may increase. Zoom into the region for a more representative view.";

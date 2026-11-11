@@ -34,8 +34,8 @@
           "text-offset": [0, -0.9],
           "text-anchor": "bottom" },
       "paint": {
-          "text-color": "rgba(40,40,40,1)",
-          "text-halo-color": "rgba(255,255,255,1)",
+          "text-color": "rgba(235,235,235,1)",
+          "text-halo-color": "rgba(20,20,20,1)",
           "text-halo-width": 1.5 }
     }
   ]
@@ -74,8 +74,8 @@
           "text-font": ["Segoe UI Bold"],
           "text-size": 11 },
       "paint": {
-          "text-color": "rgba(60,60,60,1)",
-          "text-halo-color": "rgba(255,255,255,1)",
+          "text-color": "rgba(235,235,235,1)",
+          "text-halo-color": "rgba(20,20,20,1)",
           "text-halo-width": 1.5 }
     }
   ]
@@ -85,22 +85,24 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="260"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
 
-        <StackPanel Grid.Column="1" Background="#F6F6F4">
-            <TextBlock Text="NOAA feed" FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
-            <StackPanel Margin="8,0,8,4">
-                <RadioButton x:Name="Stations" Content="Weather stations - temperature" IsChecked="True" Checked="Feed_Checked"/>
-                <RadioButton x:Name="Warnings" Content="Weather warnings - by severity" Checked="Feed_Checked"/>
+        <Border Grid.Column="1" Style="{DynamicResource Shell.SamplePanel}">
+            <StackPanel>
+                <TextBlock Text="NOAA feed" FontWeight="SemiBold" FontSize="11.5" Margin="0,6,0,4"/>
+                <StackPanel Margin="0,0,0,4">
+                    <RadioButton x:Name="Stations" Content="Weather stations - temperature" IsChecked="True" Checked="Feed_Checked"/>
+                    <RadioButton x:Name="Warnings" Content="Weather warnings - by severity" Checked="Feed_Checked"/>
+                </StackPanel>
+
+                <TextBlock x:Name="Status" FontFamily="Consolas" FontSize="11" Margin="0,10,0,0" TextWrapping="Wrap"/>
+
+                <TextBlock TextWrapping="Wrap" FontSize="11" Margin="0,10,0,6"
+                           Text="Each feed is a FeatureSource that downloads NOAA's current data when it opens. It is cut into tiles and drawn by a style document, with the colors taken from the feed's own attributes."/>
             </StackPanel>
-
-            <TextBlock x:Name="Status" FontFamily="Consolas" FontSize="11" Margin="8,10,8,0" TextWrapping="Wrap"/>
-
-            <TextBlock Foreground="#444A52" TextWrapping="Wrap" FontSize="11" Margin="8,10,8,6"
-                       Text="Each feed is a FeatureSource that downloads NOAA's current data when it opens. It is cut into tiles and drawn by a style document, with the colors taken from the feed's own attributes."/>
-        </StackPanel>
+        </Border>
     </Grid>
 </UserControl>

@@ -61,7 +61,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="340"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" MapUnit="Meter" Background="#101317" SizeChanged="Map_SizeChanged"/>
@@ -92,11 +92,11 @@
             </Image.RenderTransform>
         </Image>
 
-        <Border Grid.Column="1" Background="#F6F6F4" BorderBrush="#CCCCCC" BorderThickness="1,0,0,0" Padding="12">
+        <Border Grid.Column="1" Style="{DynamicResource Shell.SamplePanel}">
             <StackPanel>
                 <TextBlock Text="Wolfsburg, OpenDRIVE HD map" FontWeight="SemiBold"/>
-                <TextBlock x:Name="StatsText" Text="" Foreground="#555B62" FontSize="11" TextWrapping="Wrap"/>
-                <TextBlock x:Name="AttributionText" Text="" Foreground="#555B62" FontSize="11" TextWrapping="Wrap"/>
+                <TextBlock x:Name="StatsText" Text="" FontSize="11" TextWrapping="Wrap"/>
+                <TextBlock x:Name="AttributionText" Text="" FontSize="11" TextWrapping="Wrap"/>
 
                 <DockPanel Margin="0,12,0,0">
                     <TextBlock Text="Pitch" VerticalAlignment="Center" Margin="0,0,8,0"/>
@@ -107,7 +107,7 @@
                 </DockPanel>
                 <Button x:Name="OverviewButton" Content="Overview Mode" Height="28" Margin="0,8,0,0" Click="OverviewButton_OnClick"/>
                 <TextBlock Text="Wheel: zoom   |   right-drag: tilt   |   Alt+drag: rotate"
-                           Foreground="#555B62" FontSize="11" Margin="0,8,0,0"/>
+                           FontSize="11" Margin="0,8,0,0"/>
             </StackPanel>
         </Border>
     </Grid>

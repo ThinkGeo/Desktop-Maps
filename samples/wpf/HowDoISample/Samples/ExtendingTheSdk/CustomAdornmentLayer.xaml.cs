@@ -26,7 +26,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _initialized = true;
 
             Map.MapUnit = GeographyUnit.Meter;
-            Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
+            Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
 
             Map.AdornmentOverlay.Layers.Add(new RangeRingsAdornmentLayer { RingDistanceInMiles = 5 });
 
@@ -45,7 +45,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
     {
         public double RingDistanceInMiles { get; set; } = 1;
 
-        public GeoPen RingPen { get; set; } = new GeoPen(GeoColor.FromArgb(140, GeoColors.Blue), 3);
+        public GeoPen RingPen { get; set; } = new GeoPen(GeoColor.FromArgb(160, GeoColors.DodgerBlue), 3);
 
         protected override void DrawCore(GeoCanvas canvas, Collection<SimpleCandidate> labelsInAllLayers)
         {
@@ -58,7 +58,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             var ringInMapMeters = Conversion.ConvertMeasureUnits(RingDistanceInMiles, DistanceUnit.Mile, DistanceUnit.Meter) / Math.Cos(latitude);
 
             var font = new GeoFont("Arial", 10, DrawingFontStyles.Bold);
-            var halo = new GeoPen(GeoColors.White, 3);
+            var halo = new GeoPen(GeoColors.Black, 3);
 
             // Ring after ring until one reaches past the view; zoomed far out, at most 50.
             for (var i = 1; i <= 50; i++)
@@ -66,7 +66,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 var radius = ringInMapMeters * i;
                 var ring = new EllipseShape(center, radius);
                 canvas.DrawArea(ring, RingPen, DrawingLevel.LevelOne);
-                canvas.DrawTextWithWorldCoordinate($"{RingDistanceInMiles * i} mi", font, GeoBrushes.DarkBlue, halo, center.X, center.Y + radius, DrawingLevel.LabelLevel);
+                canvas.DrawTextWithWorldCoordinate($"{RingDistanceInMiles * i} mi", font, GeoBrushes.LightSkyBlue, halo, center.X, center.Y + radius, DrawingLevel.LabelLevel);
 
                 if (!extent.Contains(ring)) break;
             }

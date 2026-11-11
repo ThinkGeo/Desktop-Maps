@@ -9,38 +9,39 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="240"/>
-            <ColumnDefinition Width="420"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
 
-        <DockPanel Grid.Column="1" Background="#F6F6F4">
-            <StackPanel DockPanel.Dock="Top" Margin="8,6,8,6">
-                <TextBlock FontSize="11" Foreground="#555B62" TextWrapping="Wrap"
-                           Text="The dots are generated once and drawn as data - a per-tile scatter would re-arrange itself at every zoom. Where a dot sits inside its state is invented; how many there are is not."/>
-                <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
-                    <Ellipse Width="10" Height="10" Fill="#1F78B4" VerticalAlignment="Center"/>
-                    <TextBlock Text="Owner-occupied" FontSize="11.5" Margin="6,0,18,0" VerticalAlignment="Center"/>
-                    <Ellipse Width="10" Height="10" Fill="#F07814" VerticalAlignment="Center"/>
-                    <TextBlock Text="Renter-occupied" FontSize="11.5" Margin="6,0,0,0" VerticalAlignment="Center"/>
+        <Border Grid.Column="1" Style="{DynamicResource Shell.SamplePanel.Wide}">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Top" Margin="0,6,0,6">
+                    <TextBlock FontSize="11" TextWrapping="Wrap"
+                               Text="The dots are generated once and drawn as data - a per-tile scatter would re-arrange itself at every zoom. Where a dot sits inside its state is invented; how many there are is not."/>
+                    <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                        <Ellipse Width="10" Height="10" Fill="#1F78B4" VerticalAlignment="Center"/>
+                        <TextBlock Text="Owner-occupied" FontSize="11.5" Margin="6,0,18,0" VerticalAlignment="Center"/>
+                        <Ellipse Width="10" Height="10" Fill="#F07814" VerticalAlignment="Center"/>
+                        <TextBlock Text="Renter-occupied" FontSize="11.5" Margin="6,0,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBlock Text="1 dot = 25,000 housing units (1990 census)" FontSize="11.5"
+                               FontWeight="SemiBold" Margin="0,4,0,0"/>
                 </StackPanel>
-                <TextBlock Text="1 dot = 25,000 housing units (1990 census)" FontSize="11.5"
-                           FontWeight="SemiBold" Margin="0,4,0,0"/>
-            </StackPanel>
-            <TextBlock DockPanel.Dock="Top" Text="style.json - edit it and the map follows"
-                       FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
-            <TextBlock x:Name="Status" DockPanel.Dock="Bottom" FontSize="11" Margin="8,4,8,6"
-                       TextWrapping="Wrap" Foreground="DarkGreen"/>
-            <TextBox x:Name="Editor" TextChanged="Editor_TextChanged"
-                     AcceptsReturn="True" AcceptsTab="True"
-                     FontFamily="Consolas" FontSize="11.5" Padding="6"
-                     TextWrapping="NoWrap" BorderThickness="1,0,0,0" BorderBrush="#CCCCCC"
-                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
-                     xml:space="preserve">{
+                <TextBlock DockPanel.Dock="Top" Text="style.json - edit it and the map follows"
+                           FontWeight="SemiBold" FontSize="11.5" Margin="0,6,0,4"/>
+                <TextBlock x:Name="Status" DockPanel.Dock="Bottom" FontSize="11" Margin="0,4,0,6"
+                           TextWrapping="Wrap" Foreground="LightGreen"/>
+                <TextBox x:Name="Editor" TextChanged="Editor_TextChanged"
+                         AcceptsReturn="True" AcceptsTab="True"
+                         FontFamily="Consolas" FontSize="11.5" Padding="6"
+                         TextWrapping="NoWrap"
+                         VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                         xml:space="preserve">{
   "layers": [
 
     { "type": "background",
-      "paint": { "background-color": "#DDE8F0" } },
+      "paint": { "background-color": "#1F2226" } },
 
     { "type": "fill",
       "source-layer": "USStates_3857",
@@ -64,6 +65,7 @@
     }
   ]
 }</TextBox>
-        </DockPanel>
+            </DockPanel>
+        </Border>
     </Grid>
 </UserControl>

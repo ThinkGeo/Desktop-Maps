@@ -35,7 +35,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             try
             {
-                Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
+                Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
                 Map.MapUnit = GeographyUnit.Meter;
 
                 // The census data is in Texas North Central (2276); the map is in Spherical Mercator (3857).

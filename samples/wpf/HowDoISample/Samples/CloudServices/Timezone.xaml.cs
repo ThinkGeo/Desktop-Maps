@@ -30,7 +30,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             Map.MapUnit = GeographyUnit.Meter;
 
-            var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
+            var style = new MapStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
             style.AddDynamic(_timezoneArea);
             Map.Basemap = new GpuBasemap(style);
             Map.Overlays.Add(_popupOverlay);

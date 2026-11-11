@@ -18,13 +18,13 @@
       "filter": ["==", ["geometry-type"], "Polygon"],
       "paint": {
           "fill-color": "rgba(90,140,200,0.35)",
-          "fill-outline-color": "#2A4A7A" }
+          "fill-outline-color": "#8AB4F0" }
     },
 
     { "type": "line",
       "source-layer": "data",
       "paint": {
-          "line-color": "#2A4A7A",
+          "line-color": "#8AB4F0",
           "line-width": 2 }
     },
 
@@ -44,25 +44,27 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="260"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
 
-        <StackPanel Grid.Column="1" Background="#F6F6F4">
-            <TextBlock Text="Database" FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
-            <StackPanel Margin="8,0,8,4">
-                <RadioButton x:Name="DbSqlite" Content="SQLite" IsChecked="True" Checked="Database_Checked"/>
-                <RadioButton x:Name="DbGeoPackage" Content="GeoPackage" Checked="Database_Checked"/>
-                <RadioButton x:Name="DbFileGeoDatabase" Content="Esri File Geodatabase" Checked="Database_Checked"/>
-                <RadioButton x:Name="DbPostgres" Content="PostgreSQL / PostGIS" Checked="Database_Checked"/>
-                <RadioButton x:Name="DbSqlServer" Content="SQL Server" Checked="Database_Checked"/>
+        <Border Grid.Column="1" Style="{DynamicResource Shell.SamplePanel}">
+            <StackPanel>
+                <TextBlock Text="Database" FontWeight="SemiBold" FontSize="11.5" Margin="0,6,0,4"/>
+                <StackPanel Margin="0,0,0,4">
+                    <RadioButton x:Name="DbSqlite" Content="SQLite" IsChecked="True" Checked="Database_Checked"/>
+                    <RadioButton x:Name="DbGeoPackage" Content="GeoPackage" Checked="Database_Checked"/>
+                    <RadioButton x:Name="DbFileGeoDatabase" Content="Esri File Geodatabase" Checked="Database_Checked"/>
+                    <RadioButton x:Name="DbPostgres" Content="PostgreSQL / PostGIS" Checked="Database_Checked"/>
+                    <RadioButton x:Name="DbSqlServer" Content="SQL Server" Checked="Database_Checked"/>
+                </StackPanel>
+
+                <TextBlock x:Name="Status" FontFamily="Consolas" FontSize="11" Margin="0,10,0,0" TextWrapping="Wrap"/>
+
+                <TextBlock TextWrapping="Wrap" FontSize="11" Margin="0,10,0,6"
+                           Text="A FeatureSource reads the table, a FeatureSourceVectorTileSource cuts it into tiles, and the style draws them. Only the first line differs between these - a file on disk for the first three, a server connection for the last two."/>
             </StackPanel>
-
-            <TextBlock x:Name="Status" FontFamily="Consolas" FontSize="11" Margin="8,10,8,0" TextWrapping="Wrap"/>
-
-            <TextBlock Foreground="#444A52" TextWrapping="Wrap" FontSize="11" Margin="8,10,8,6"
-                       Text="A FeatureSource reads the table, a FeatureSourceVectorTileSource cuts it into tiles, and the style draws them. Only the first line differs between these - a file on disk for the first three, a server connection for the last two."/>
-        </StackPanel>
+        </Border>
     </Grid>
 </UserControl>

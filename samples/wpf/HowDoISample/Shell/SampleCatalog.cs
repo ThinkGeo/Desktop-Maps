@@ -162,10 +162,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 "Serve tiles off disk with no network - an MBTiles or PMTiles archive, vector or raster, or a folder of z/x/y images written by QGIS; opening the archive is the only line that differs",
                 "MbTilesVectorTileSource", SampleDraws.Style, typeof(Samples.OfflineTiles), () => new Samples.OfflineTiles(),
                 aliases: "Offline Basemap from Files, Offline Vector Tiles, Offline Raster Tiles, MbTilesVectorTileSource, PmTilesVectorTileSource, MbTilesRasterTileSource, PmTilesRasterTileSource, MBTiles, PMTiles, z/x/y folder, RasterTileSource"),
-            new SampleEntry("Your Data", "Pre-Generate a Tile Cache", "PreGenerateTileCache.xaml.cs",
-                "Render Frisco's city limits, parks and streets into a folder of z/x/y PNG tiles, with progress and cancel, then draw the map from that folder",
-                "CpuTileRenderer", SampleDraws.Style, typeof(Samples.PreGenerateTileCache), () => new Samples.PreGenerateTileCache(),
-                aliases: "PreGenerateTileCache, tile cache, generate tiles, seed a cache, RenderTileAsync, GenerateTileCacheAsync, FileRasterTileCache, z/x/y, offline"),
             // The one row in the group that keeps a classic overlay: an S-57 chart is
             // drawn by its S-52 symbology, which lives in NauticalChartsFeatureLayer,
             // not in a style document.

@@ -27,7 +27,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         private static readonly GeoColor SourceColor = new GeoColor(128, GeoColors.LightOrange);
         private static readonly GeoColor ResultColor = new GeoColor(96, GeoColors.Green);
-        private static readonly GeoColor RegionColor = new GeoColor(32, GeoColors.Blue);
+        private static readonly GeoColor RegionColor = new GeoColor(64, GeoColors.DodgerBlue);
 
         private readonly PolygonShape _westRegion = new PolygonShape(WestRegionWkt);
 
@@ -60,7 +60,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             Map.MapUnit = GeographyUnit.Meter;
 
             var style = new MapStyle();
-            style.AddStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
+            style.AddStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
             style.AddDynamic(_sourceArea).AddDynamic(_regionArea).AddDynamic(_resultArea);
             Map.Basemap = new GpuBasemap(style);
 
@@ -254,7 +254,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _resultArea.Clear();
             if (result is AreaBaseShape)
             {
-                _resultArea.SetArea("result", new Feature(result), ResultColor, GeoColors.DarkGreen, 2f);
+                _resultArea.SetArea("result", new Feature(result), ResultColor, GeoColors.LimeGreen, 2f);
             }
 
             if (union)

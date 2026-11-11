@@ -7,14 +7,10 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="340"/>
-        </Grid.ColumnDefinitions>
+        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
 
-        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
-
-        <Border Grid.Column="1" Background="#F6F6F4" BorderBrush="#CCCCCC" BorderThickness="1,0,0,0" Padding="12">
+        <Border Style="{DynamicResource Shell.MapCard}" Margin="72,12,12,12"
+                HorizontalAlignment="Left" VerticalAlignment="Top">
             <StackPanel>
                 <TextBlock x:Name="Status" TextWrapping="Wrap"/>
                 <ToggleButton x:Name="Mode" Content="Arrows" HorizontalAlignment="Left"

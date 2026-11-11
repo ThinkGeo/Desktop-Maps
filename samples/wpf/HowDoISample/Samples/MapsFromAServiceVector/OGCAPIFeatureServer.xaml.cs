@@ -43,7 +43,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             var basemapTiles = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) };
             var style = new MapStyle();
-            style.AddStyle(ThinkGeoVectorStyles.Light, basemapTiles);
+            style.AddStyle(ThinkGeoVectorStyles.Dark, basemapTiles);
             style.AddStyle((string)Resources["StyleJson"], places);
             Map.Basemap = new GpuBasemap(style);
 

@@ -168,16 +168,6 @@
         "service": ""
       },
       {
-        "id": "PreGenerateTileCache",
-        "title": "Pre-Generate a Tile Cache",
-        "description": "Render Frisco's city limits, parks and streets into a folder of z/x/y PNG tiles, with progress and cancel, then draw the map from that folder",
-        "source": "Samples/YourData/PreGenerateTileCache",
-        "keyApi": "CpuTileRenderer",
-        "aliases": "PreGenerateTileCache, tile cache, generate tiles, seed a cache, RenderTileAsync, GenerateTileCacheAsync, FileRasterTileCache, z/x/y, offline",
-        "draws": "Style",
-        "service": ""
-      },
-      {
         "id": "NauticalCharts",
         "title": "Nautical Charts",
         "description": "Draw an S-57 chart with its embedded S-52 styling, colored for the ship's draft, and ask it at every step of a ship's route about the depth under her keel, the aids to navigation and hazards nearby, and the restricted areas she is in",

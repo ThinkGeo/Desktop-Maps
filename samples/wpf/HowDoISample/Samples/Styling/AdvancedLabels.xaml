@@ -14,7 +14,7 @@
   "layers": [
 
     { "type": "background",
-      "paint": { "background-color": "#F4F2EC" } },
+      "paint": { "background-color": "#1F2226" } },
 
     { "type": "line",
       "source-layer": "lessons",
@@ -30,8 +30,8 @@
           "text-font": ["Noto Sans Bold"],
           "text-size": 15 },
       "paint": {
-          "text-color": "#4E342E",
-          "text-halo-color": "#FFFFFF",
+          "text-color": "#D7CCC8",
+          "text-halo-color": "#1A1A1A",
           "text-halo-width": 1.4 }
     }
   ]
@@ -44,7 +44,7 @@
   "layers": [
 
     { "type": "background",
-      "paint": { "background-color": "#F4F2EC" } },
+      "paint": { "background-color": "#1F2226" } },
 
     { "type": "circle",
       "source-layer": "lessons",
@@ -61,8 +61,8 @@
           "text-offset": [0, 0],
           "text-size": 12 },
       "paint": {
-          "text-color": "#37474F",
-          "text-halo-color": "#FFFFFF",
+          "text-color": "#CFD8DC",
+          "text-halo-color": "#1A1A1A",
           "text-halo-width": 1.2 }
     }
   ]
@@ -74,7 +74,7 @@
   "layers": [
 
     { "type": "background",
-      "paint": { "background-color": "#F4F2EC" } },
+      "paint": { "background-color": "#1F2226" } },
 
     { "type": "circle",
       "source-layer": "lessons",
@@ -91,9 +91,9 @@
           "text-size": 15 },
       "paint": {
           "text-color": ["step", ["to-number", ["get", "RANK"]],
-              "#B71C1C",
-              4, "#37474F"],
-          "text-halo-color": "#FFFFFF",
+              "#EF5350",
+              4, "#CFD8DC"],
+          "text-halo-color": "#1A1A1A",
           "text-halo-width": 1.4 }
     }
   ]
@@ -105,7 +105,7 @@
   "layers": [
 
     { "type": "background",
-      "paint": { "background-color": "#F4F2EC" } },
+      "paint": { "background-color": "#1F2226" } },
 
     { "type": "circle",
       "source-layer": "lessons",
@@ -124,8 +124,8 @@
           "text-offset": [0, 0.5],
           "text-size": 12 },
       "paint": {
-          "text-color": "#1B5E20",
-          "text-halo-color": "#FFFFFF",
+          "text-color": "#A5D6A7",
+          "text-halo-color": "#1A1A1A",
           "text-halo-width": 1.2 }
     }
   ]
@@ -138,7 +138,7 @@
   "layers": [
 
     { "type": "background",
-      "paint": { "background-color": "#F4F2EC" } },
+      "paint": { "background-color": "#1F2226" } },
 
     { "type": "symbol",
       "source-layer": "lessons",
@@ -152,8 +152,8 @@
           "text-offset": [0, 0.7],
           "text-size": 13 },
       "paint": {
-          "text-color": "#4527A0",
-          "text-halo-color": "#FFFFFF",
+          "text-color": "#B39DDB",
+          "text-halo-color": "#1A1A1A",
           "text-halo-width": 1.2 }
     }
   ]
@@ -166,7 +166,7 @@
   "layers": [
 
     { "type": "background",
-      "paint": { "background-color": "#F4F2EC" } },
+      "paint": { "background-color": "#1F2226" } },
 
     { "type": "line",
       "source-layer": "lessons",
@@ -182,8 +182,8 @@
           "text-font": ["Noto Sans Regular"],
           "text-size": 18 },
       "paint": {
-          "text-color": "#00695C",
-          "text-halo-color": "#FFFFFF",
+          "text-color": "#B2DFDB",
+          "text-halo-color": "#1A1A1A",
           "text-halo-width": 1.4 }
     }
   ]
@@ -195,14 +195,14 @@
   "layers": [
 
     { "type": "background",
-      "paint": { "background-color": "#F4F2EC" } },
+      "paint": { "background-color": "#1F2226" } },
 
     { "type": "circle",
       "source-layer": "lessons",
       "filter": ["==", ["get", "KIND"], "town"],
       "paint": {
           "circle-radius": 4,
-          "circle-color": "#6D4C41" }
+          "circle-color": "#BCAAA4" }
     },
 
     { "type": "symbol",
@@ -217,8 +217,8 @@
           "text-offset": [0, 0.6],
           "text-size": 12 },
       "paint": {
-          "text-color": "#3E2723",
-          "text-halo-color": "#FFFFFF",
+          "text-color": "#D7CCC8",
+          "text-halo-color": "#1A1A1A",
           "text-halo-width": 1.2 }
     }
   ]
@@ -228,31 +228,33 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="240"/>
-            <ColumnDefinition Width="420"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
 
-        <DockPanel Grid.Column="1" Background="#F6F6F4">
-            <TextBlock DockPanel.Dock="Top" Text="labels - pick a lesson, or edit its document; the map follows"
-                       FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
-            <StackPanel DockPanel.Dock="Top" Margin="8,0,8,4">
-                <RadioButton Content="Along a line - curved text" Tag="LessonCurved" IsChecked="True" Checked="Lesson_Checked"/>
-                <RadioButton Content="Anchors from the data" Tag="LessonAnchors" Checked="Lesson_Checked"/>
-                <RadioButton Content="Priority - who survives the crowd" Tag="LessonPriority" Checked="Lesson_Checked"/>
-                <RadioButton Content="Wrap and transform" Tag="LessonWrap" Checked="Lesson_Checked"/>
-                <RadioButton Content="Icon stays, text yields" Tag="LessonOptional" Checked="Lesson_Checked"/>
-                <RadioButton Content="CJK writes vertically" Tag="LessonCjk" Checked="Lesson_Checked"/>
-                <RadioButton Content="Several columns in one label - concat" Tag="LessonColumns" Checked="Lesson_Checked"/>
-            </StackPanel>
-            <TextBlock x:Name="Status" DockPanel.Dock="Bottom" FontSize="11" Margin="8,4,8,6"
-                       TextWrapping="Wrap" Foreground="DarkGreen"/>
-            <TextBox x:Name="Editor" TextChanged="Editor_TextChanged"
-                     Text="{StaticResource LessonCurved}"
-                     AcceptsReturn="True" AcceptsTab="True"
-                     FontFamily="Consolas" FontSize="11.5" Padding="6"
-                     TextWrapping="NoWrap" BorderThickness="1,0,0,0" BorderBrush="#CCCCCC"
-                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
-        </DockPanel>
+        <Border Grid.Column="1" Style="{DynamicResource Shell.SamplePanel.Wide}">
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Top" Text="labels - pick a lesson, or edit its document; the map follows"
+                           FontWeight="SemiBold" FontSize="11.5" Margin="0,6,0,4"/>
+                <StackPanel DockPanel.Dock="Top" Margin="0,0,0,4">
+                    <RadioButton Content="Along a line - curved text" Tag="LessonCurved" IsChecked="True" Checked="Lesson_Checked"/>
+                    <RadioButton Content="Anchors from the data" Tag="LessonAnchors" Checked="Lesson_Checked"/>
+                    <RadioButton Content="Priority - who survives the crowd" Tag="LessonPriority" Checked="Lesson_Checked"/>
+                    <RadioButton Content="Wrap and transform" Tag="LessonWrap" Checked="Lesson_Checked"/>
+                    <RadioButton Content="Icon stays, text yields" Tag="LessonOptional" Checked="Lesson_Checked"/>
+                    <RadioButton Content="CJK writes vertically" Tag="LessonCjk" Checked="Lesson_Checked"/>
+                    <RadioButton Content="Several columns in one label - concat" Tag="LessonColumns" Checked="Lesson_Checked"/>
+                </StackPanel>
+                <TextBlock x:Name="Status" DockPanel.Dock="Bottom" FontSize="11" Margin="0,4,0,6"
+                           TextWrapping="Wrap" Foreground="LightGreen"/>
+                <TextBox x:Name="Editor" TextChanged="Editor_TextChanged"
+                         Text="{StaticResource LessonCurved}"
+                         AcceptsReturn="True" AcceptsTab="True"
+                         FontFamily="Consolas" FontSize="11.5" Padding="6"
+                         TextWrapping="NoWrap"
+                         VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
+            </DockPanel>
+        </Border>
     </Grid>
 </UserControl>

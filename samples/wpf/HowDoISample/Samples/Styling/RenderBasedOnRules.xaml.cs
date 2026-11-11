@@ -73,12 +73,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             try
             {
                 await Map.Basemap.SetStyleAsync(new MapStyle(Editor.Text, _tiles));
-                Status.Foreground = Brushes.DarkGreen;
+                Status.Foreground = Brushes.LightGreen;
                 Status.Text = FormattableString.Invariant($"applied at {DateTime.Now:HH:mm:ss}");
             }
             catch (Exception exception)
             {
-                Status.Foreground = Brushes.Firebrick;
+                Status.Foreground = Brushes.Salmon;
                 Status.Text = "not applied - " + exception.Message.Split('\n')[0].TrimEnd('\r') +
                               "   (the map is still drawing the last document that worked)";
             }

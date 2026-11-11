@@ -8,29 +8,35 @@
              d:DesignHeight="450" d:DesignWidth="800" x:Name="ThisControl">
 
     <DockPanel LastChildFill="True">
-        <Border DockPanel.Dock="Right" Width="340" Background="#F6F6F4" Padding="12"
-                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+        <Border DockPanel.Dock="Right" Style="{DynamicResource Shell.SamplePanel}">
             <DockPanel>
                 <StackPanel DockPanel.Dock="Top">
-                    <TextBlock FontSize="11" Foreground="#555B62" TextWrapping="Wrap" Margin="0,0,0,12"
+                    <TextBlock FontSize="11" TextWrapping="Wrap" Margin="0,0,0,12"
                                Text="Drag to pan, use the wheel to zoom, and right-drag to turn and tilt the map. Every event the map raises is listed below."/>
 
                     <TextBlock Text="View" FontWeight="SemiBold" Margin="0,0,0,6"/>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="CompassButton" Padding="6,2" Click="CompassButton_Click">
                             <StackPanel Orientation="Horizontal">
-                                <Image Source="/Resources/icon_north_arrow.png" Width="18" Height="18" Stretch="Fill"
-                                       RenderTransformOrigin="0.5,0.5">
-                                    <Image.RenderTransform>
+                                <!-- The icon is black; used as a mask over a light fill it reads on the dark button. -->
+                                <Rectangle Width="18" Height="18" Fill="#E7E9EC" RenderTransformOrigin="0.5,0.5">
+                                    <Rectangle.OpacityMask>
+                                        <ImageBrush ImageSource="pack://application:,,,/ThinkGeo.UI.Wpf.HowDoI.v15;component/Resources/icon_north_arrow.png"/>
+                                    </Rectangle.OpacityMask>
+                                    <Rectangle.RenderTransform>
                                         <RotateTransform Angle="{Binding ElementName=Map, Path=RotationAngle}"/>
-                                    </Image.RenderTransform>
-                                </Image>
+                                    </Rectangle.RenderTransform>
+                                </Rectangle>
                                 <TextBlock Text="Reset north" VerticalAlignment="Center" Margin="6,0,0,0"/>
                             </StackPanel>
                         </Button>
                         <Button x:Name="DefaultExtentButton" Padding="6,2" Margin="8,0,0,0" Click="DefaultExtentButton_Click">
                             <StackPanel Orientation="Horizontal">
-                                <Image Source="/Resources/icon_globe_black.png" Width="18" Height="18"/>
+                                <Rectangle Width="18" Height="18" Fill="#E7E9EC">
+                                    <Rectangle.OpacityMask>
+                                        <ImageBrush ImageSource="pack://application:,,,/ThinkGeo.UI.Wpf.HowDoI.v15;component/Resources/icon_globe_black.png"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
                                 <TextBlock Text="Back to the start" VerticalAlignment="Center" Margin="6,0,0,0"/>
                             </StackPanel>
                         </Button>
@@ -39,7 +45,7 @@
                     <TextBlock Text="Touch" FontWeight="SemiBold" Margin="0,14,0,6"/>
                     <CheckBox x:Name="TouchScreen" Content="Touch screen"
                               IsChecked="{Binding IsManipulationEnabled, ElementName=Map}"/>
-                    <TextBlock FontSize="11" Foreground="#555B62" TextWrapping="Wrap" Margin="0,4,0,0"
+                    <TextBlock FontSize="11" TextWrapping="Wrap" Margin="0,4,0,0"
                                Text="Sets IsManipulationEnabled, so the map takes touch gestures. It is off by default."/>
 
                     <TextBlock Text="Map events" FontWeight="SemiBold" Margin="0,14,0,6"/>

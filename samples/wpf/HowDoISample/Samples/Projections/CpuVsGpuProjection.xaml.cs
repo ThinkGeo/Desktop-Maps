@@ -54,12 +54,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // ---- left: projected on the way in ----
             _cpuLayer = new ShapeFileFeatureLayer(SampleShared.Shapefile(CountriesFile));
             _cpuLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle =
-                new AreaStyle(new GeoPen(GeoColor.FromHtml("#7A7568"), 1), new GeoSolidBrush(GeoColor.FromHtml("#D8D3C6")));
+                new AreaStyle(new GeoPen(GeoColor.FromHtml("#8A8F96"), 1), new GeoSolidBrush(GeoColor.FromHtml("#4A4D52")));
             _cpuLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
             var cpuOverlay = new LayerOverlay { TileType = TileType.SingleTile };
             cpuOverlay.Layers.Add(_cpuLayer);
             CpuMap.Overlays.Add(cpuOverlay);
-            CpuMap.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColor.FromHtml("#EAE8E2"));
+            CpuMap.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColor.FromHtml("#1F2226"));
 
             // ---- right: projected on the way out ----
             // The one CPU transform this side does: 4326 to web mercator, once, so

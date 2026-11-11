@@ -15,7 +15,7 @@
       "source-layer": "places",
       "paint": {
           "circle-radius": 5,
-          "circle-color": "rgba(139,0,0,1)" }
+          "circle-color": "rgba(255,99,71,1)" }
     },
 
     { "type": "symbol",
@@ -27,8 +27,8 @@
           "text-offset": [0, -0.9],
           "text-anchor": "bottom" },
       "paint": {
-          "text-color": "rgba(139,0,0,1)",
-          "text-halo-color": "rgba(245,245,245,1)",
+          "text-color": "rgba(255,138,115,1)",
+          "text-halo-color": "rgba(20,20,20,1)",
           "text-halo-width": 2 }
     }
   ]

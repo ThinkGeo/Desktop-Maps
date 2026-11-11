@@ -30,7 +30,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _initialized = true;
             Map.MapUnit = GeographyUnit.Meter;
 
-            _style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
+            _style = new MapStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
             Map.Basemap = new GpuBasemap(_style);
             Map.CurrentExtent = new RectangleShape(-8_240_000, 4_975_000, -8_228_000, 4_965_000); // Manhattan
 

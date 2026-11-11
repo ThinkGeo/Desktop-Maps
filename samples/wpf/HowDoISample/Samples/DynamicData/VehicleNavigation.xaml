@@ -7,14 +7,9 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="340"/>
-        </Grid.ColumnDefinitions>
+        <thinkGeoUi:MapView x:Name="Map" MapUnit="Meter" SizeChanged="Map_SizeChanged"/>
 
-        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" MapUnit="Meter" SizeChanged="Map_SizeChanged"/>
-
-        <Image Grid.Column="0" Source="/Resources/icon_north_arrow.png"
+        <Image Source="/Resources/icon_north_arrow.png"
                VerticalAlignment="Top" HorizontalAlignment="Right"
                Width="40" Height="40" Margin="5"
                RenderTransformOrigin="0.5,0.5">
@@ -23,12 +18,12 @@
             </Image.RenderTransform>
         </Image>
 
-        <Border Grid.Column="1" Background="#F6F6F4" BorderBrush="#CCCCCC" BorderThickness="1,0,0,0" Padding="12">
-            <Button x:Name="OverviewButton"
-                    Width="100" Height="40"
-                    Content="Overview Mode"
-                    HorizontalAlignment="Left" VerticalAlignment="Top"
-                    Click="OverviewButton_OnClick"/>
+        <Border Style="{DynamicResource Shell.MapCard}" Margin="72,12,12,12"
+                HorizontalAlignment="Left" VerticalAlignment="Top">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="OverviewButton" MinWidth="110" Content="Overview Mode" Click="OverviewButton_OnClick"/>
+                <Button x:Name="ThemeButton" MinWidth="110" Margin="6,0,0,0" Content="Light Theme" Click="ThemeButton_OnClick"/>
+            </StackPanel>
         </Border>
     </Grid>
 </UserControl>

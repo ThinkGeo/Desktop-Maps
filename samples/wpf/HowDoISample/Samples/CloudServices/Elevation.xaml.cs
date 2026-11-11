@@ -39,8 +39,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             {
                 Map.MapUnit = GeographyUnit.Meter;
 
-                var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
-                style.Images.Add("star", new PointStyle(PointSymbolType.Star, 20, GeoBrushes.Blue));
+                var style = new MapStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
+                style.Images.Add("star", new PointStyle(PointSymbolType.Star, 20, GeoBrushes.DodgerBlue));
                 style.AddDynamic(_queryShape);
                 style.AddDynamic(_elevationPoints);
                 Map.Basemap = new GpuBasemap(style);
@@ -74,10 +74,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             switch (queryShape)
             {
                 case AreaBaseShape _:
-                    _queryShape.SetArea("asked", asked, new GeoColor(10, GeoColors.Blue), GeoColors.Blue, 2f);
+                    _queryShape.SetArea("asked", asked, new GeoColor(10, GeoColors.DodgerBlue), GeoColors.DodgerBlue, 2f);
                     break;
                 case LineBaseShape _:
-                    _queryShape.SetLine("asked", asked, GeoColors.Blue, 2f);
+                    _queryShape.SetLine("asked", asked, GeoColors.DodgerBlue, 2f);
                     break;
                 case PointBaseShape _:
                     _queryShape.SetPoint("asked", asked, sizeInPixel: 20f, iconName: "star");

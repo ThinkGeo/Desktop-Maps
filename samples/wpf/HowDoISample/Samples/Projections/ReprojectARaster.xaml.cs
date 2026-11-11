@@ -104,7 +104,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             RasterXyzTileAsyncLayer layer = ServerOsm.IsChecked == true
                 ? new OpenStreetMapAsyncLayer("ThinkGeo Samples")
-                : new ThinkGeoRasterMapsAsyncLayer(SampleShared.ClientId, SampleShared.ClientSecret, ThinkGeoCloudRasterMapsMapType.Light_V2_X1);
+                : new ThinkGeoRasterMapsAsyncLayer(SampleShared.ClientId, SampleShared.ClientSecret, ThinkGeoCloudRasterMapsMapType.Dark_V2_X1);
 
             // The tiles are fetched on their own web-mercator grid and warped into degrees as they draw.
             layer.ProjectionConverter = new GdalProjectionConverter(3857, 4326);

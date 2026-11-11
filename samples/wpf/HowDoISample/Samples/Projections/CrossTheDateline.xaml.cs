@@ -85,7 +85,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             // The two airports and the aircraft are drawn over everything, and move
             // without a tile being cut.
-            var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
+            var style = new MapStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
             style.AddStyle((string)Resources["StyleJson"], _flight);
             style.Images.Add("airport", RenderDotImage());
             style.Images.Add("plane", RenderPlaneImage());

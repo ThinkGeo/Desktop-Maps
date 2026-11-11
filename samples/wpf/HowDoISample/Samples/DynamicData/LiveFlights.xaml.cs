@@ -64,7 +64,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _tracks = new DynamicSource(new Projection(4326));
 
             var style = new MapStyle();
-            style.AddStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
+            style.AddStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
             style.AddDynamic(_tracks);
             Map.Basemap = new GpuBasemap(style);
 

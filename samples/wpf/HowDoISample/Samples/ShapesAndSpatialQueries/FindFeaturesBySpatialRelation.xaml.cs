@@ -60,12 +60,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _zoningQuery = new QueryTools(_zoning);
 
             var style = new MapStyle();
-            style.AddStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
+            style.AddStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
             style.AddStyle((string)Resources["StyleJson"], tiles);
 
             // A ringed circle is no shape the renderer has of its own, so it is drawn
             // once and registered under the name the point marker asks for.
-            style.Images.Add("pin", PointStyle.CreateSimpleCircleStyle(GeoColors.Black, 8, GeoColors.White, 2));
+            style.Images.Add("pin", PointStyle.CreateSimpleCircleStyle(GeoColors.White, 8, GeoColors.Black, 2));
             style.AddDynamic(_matches);
             style.AddDynamic(_query);
             Map.Basemap = new GpuBasemap(style);
@@ -307,7 +307,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// <summary>
         /// Hands both results over. The query shape is whatever the relation reads - a
         /// point, a line or a polygon - so it is added by its kind: an outline with no
-        /// fill, a black line, or the pin.
+        /// fill, a white line, or the pin.
         /// </summary>
         private void Paint(BaseShape query, IEnumerable<Feature> matches)
         {
@@ -315,7 +315,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             var matchIndex = 0;
             foreach (var match in matches)
             {
-                _matches.SetArea("match-" + matchIndex++, match, new GeoColor(90, GeoColors.MidnightBlue), GeoColors.MidnightBlue, 2f);
+                _matches.SetArea("match-" + matchIndex++, match, new GeoColor(90, GeoColors.DodgerBlue), GeoColors.DodgerBlue, 2f);
             }
 
             _query.Clear();
@@ -323,10 +323,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             switch (query)
             {
                 case AreaBaseShape _:
-                    _query.SetArea("query", asked, GeoColors.Transparent, GeoColors.Black, 2f);
+                    _query.SetArea("query", asked, GeoColors.Transparent, GeoColors.White, 2f);
                     break;
                 case LineBaseShape _:
-                    _query.SetLine("query", asked, GeoColors.Black, 2f);
+                    _query.SetLine("query", asked, GeoColors.White, 2f);
                     break;
                 default:
                     _query.SetPoint("query", asked, sizeInPixel: 12f, iconName: "pin");

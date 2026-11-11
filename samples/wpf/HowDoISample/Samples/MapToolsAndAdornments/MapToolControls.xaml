@@ -7,10 +7,9 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <DockPanel LastChildFill="True">
-        <Border DockPanel.Dock="Right" Width="290" Background="#F6F6F4" Padding="12,10"
-                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+        <Border DockPanel.Dock="Right" Style="{DynamicResource Shell.SamplePanel}">
             <StackPanel>
-                <TextBlock FontSize="11" Foreground="#555B62" TextWrapping="Wrap" Margin="0,0,0,12"
+                <TextBlock FontSize="11" TextWrapping="Wrap" Margin="0,0,0,12"
                            Text="Map.MapTools are WPF controls laid over the map, shown here. An AdornmentLayer is drawn by the map into one of its corners, like the scale bar, legend and north arrow in Drag/Resize Adornments. The measure overlay is interactive: it draws and labels as you drag, in Measure Distance and Area."/>
 
                 <TextBlock Text="Map tools" FontWeight="SemiBold" Margin="0,0,0,6"/>

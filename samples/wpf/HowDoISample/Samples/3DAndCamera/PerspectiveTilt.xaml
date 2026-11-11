@@ -9,30 +9,32 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
 
-        <StackPanel Grid.Column="1" Background="#F6F6F4">
-            <TextBlock Text="Basemap" FontWeight="SemiBold" Margin="8,8,8,4"/>
-            <RadioButton x:Name="TiltVector" Content="Vector tiles - midtown Manhattan" IsChecked="True" Margin="8,2,8,2" Checked="Basemap_Checked"/>
-            <RadioButton x:Name="TiltRaster" Content="Raster tiles - San Francisco Bay" Margin="8,2,8,2" Checked="Basemap_Checked"/>
+        <Border Grid.Column="1" Style="{DynamicResource Shell.SamplePanel}">
+            <StackPanel>
+                <TextBlock Text="Basemap" FontWeight="SemiBold" Margin="0,8,0,4"/>
+                <RadioButton x:Name="TiltVector" Content="Vector tiles - midtown Manhattan" IsChecked="True" Margin="0,2,0,2" Checked="Basemap_Checked"/>
+                <RadioButton x:Name="TiltRaster" Content="Raster tiles - San Francisco Bay" Margin="0,2,0,2" Checked="Basemap_Checked"/>
 
-            <CheckBox x:Name="BuildingCheckBox" Content="Buildings from the basemap style" IsChecked="True" Margin="8,10,8,2"
-                      IsEnabled="{Binding IsChecked, ElementName=TiltVector}"
-                      Checked="BuildingCheckBox_Changed" Unchecked="BuildingCheckBox_Changed"/>
-            <TextBlock Foreground="#606060" TextWrapping="Wrap" FontSize="11" Margin="26,0,8,0"
-                       Text="The vector style already carries a fill-extrusion layer for buildings; the check box draws or skips it. It does not extrude footprints of your own."/>
+                <CheckBox x:Name="BuildingCheckBox" Content="Buildings from the basemap style" IsChecked="True" Margin="0,10,0,2"
+                          IsEnabled="{Binding IsChecked, ElementName=TiltVector}"
+                          Checked="BuildingCheckBox_Changed" Unchecked="BuildingCheckBox_Changed"/>
+                <TextBlock TextWrapping="Wrap" FontSize="11" Margin="18,0,0,0"
+                           Text="The vector style already carries a fill-extrusion layer for buildings; the check box draws or skips it. It does not extrude footprints of your own."/>
 
-            <TextBlock Text="Tilt" FontWeight="SemiBold" Margin="8,16,8,4"/>
-            <Slider Maximum="60" Margin="8,0,8,0" Value="{Binding TiltAngle, ElementName=Map, Mode=TwoWay}"/>
+                <TextBlock Text="Tilt" FontWeight="SemiBold" Margin="0,16,0,4"/>
+                <Slider Maximum="60" Value="{Binding TiltAngle, ElementName=Map, Mode=TwoWay}"/>
 
-            <TextBlock Foreground="#606060" TextWrapping="Wrap" FontSize="11" Margin="8,16,8,0"
-                       Text="Right-drag tilts. Left-drag pans, and the ground you grabbed stays under the cursor. Alt and left-drag rotates; the wheel zooms. None of that is in this sample - it is what the MapView does once IsTiltEnabled is set."/>
+                <TextBlock TextWrapping="Wrap" FontSize="11" Margin="0,16,0,0"
+                           Text="Right-drag tilts. Left-drag pans, and the ground you grabbed stays under the cursor. Alt and left-drag rotates; the wheel zooms. None of that is in this sample - it is what the MapView does once IsTiltEnabled is set."/>
 
-            <TextBlock Foreground="#606060" TextWrapping="Wrap" FontSize="11" Margin="8,12,8,0"
-                       Text="Raster tiles tilt exactly as vector tiles do. What vector adds is labels that stay upright, tiles that get coarser toward the horizon, and buildings that stand up."/>
-        </StackPanel>
+                <TextBlock TextWrapping="Wrap" FontSize="11" Margin="0,12,0,0"
+                           Text="Raster tiles tilt exactly as vector tiles do. What vector adds is labels that stay upright, tiles that get coarser toward the horizon, and buildings that stand up."/>
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>

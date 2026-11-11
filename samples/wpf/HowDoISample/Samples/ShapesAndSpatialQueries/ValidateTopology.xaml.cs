@@ -282,8 +282,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // A rule's answer is whatever geometry it happens to be - a point where two
             // lines meet, a stretch of line, the hole between polygons - so each feature
             // is added by its kind: a fill, a line or a marker.
-            Paint(_against, against ?? new Collection<Feature>(), GeoColors.Blue);
-            Paint(_checked, subject, GeoColors.Green);
+            Paint(_against, against ?? new Collection<Feature>(), GeoColors.DodgerBlue);
+            Paint(_checked, subject, GeoColors.LimeGreen);
             Paint(_broken, broken, GeoColors.Red);
 
             Result.Text = broken.Count == 0 ? "Nothing breaks this rule. " + note : broken.Count + " in red. " + note;

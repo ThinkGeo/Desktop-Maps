@@ -7,8 +7,7 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <DockPanel LastChildFill="True">
-        <Border DockPanel.Dock="Right" Width="290" Background="#F6F6F4" Padding="12,10"
-                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+        <Border DockPanel.Dock="Right" Style="{DynamicResource Shell.SamplePanel}">
             <StackPanel>
                 <TextBlock Text="Draggable" FontWeight="SemiBold" Margin="0,0,0,6"/>
                 <RadioButton x:Name="RdoDragYes" GroupName="DragMode" Content="Yes" IsChecked="True" Margin="0,2" Checked="DragMode_Checked"/>
@@ -18,7 +17,7 @@
                 <RadioButton x:Name="RdoResizeYes" GroupName="ResizeMode" Content="Yes" Margin="0,2" Checked="ResizeMode_Checked"/>
                 <RadioButton x:Name="RdoResizeNo" GroupName="ResizeMode" Content="No" IsChecked="True" Margin="0,2" Checked="ResizeMode_Checked"/>
 
-                <TextBlock FontSize="11" Foreground="#555B62" TextWrapping="Wrap" Margin="0,12,0,0"
+                <TextBlock FontSize="11" TextWrapping="Wrap" Margin="0,12,0,0"
                            Text="The scale line, scale bar, logo, legend and the compass that shows true north and magnetic north are all adornment layers."/>
             </StackPanel>
         </Border>

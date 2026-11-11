@@ -48,7 +48,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // slot is found by walking the layers the style already declared.
             var basemapTiles = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) };
             var style = new MapStyle();
-            style.AddStyle(ThinkGeoVectorStyles.Light, basemapTiles);
+            style.AddStyle(ThinkGeoVectorStyles.Dark, basemapTiles);
             style.AddRaster(imagery, slot: StyleLayerSlot.AboveFills);
             Map.Basemap = new GpuBasemap(style);
 

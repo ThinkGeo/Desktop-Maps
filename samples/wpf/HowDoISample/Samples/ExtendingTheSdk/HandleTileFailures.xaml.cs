@@ -35,7 +35,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private async Task BuildMapAsync()
         {
             var style = new MapStyle();
-            style.AddStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
+            style.AddStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
 
             // The key is wrong on purpose: the service answers 401 for every tile.
             _aerial = new ThinkGeoRasterTileSource("not-a-valid-key", ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1);

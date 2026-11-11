@@ -7,8 +7,7 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <DockPanel LastChildFill="True">
-        <Border DockPanel.Dock="Right" Width="340" Background="#F6F6F4" Padding="12"
-                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+        <Border DockPanel.Dock="Right" Style="{DynamicResource Shell.SamplePanel}">
             <DockPanel>
                 <StackPanel DockPanel.Dock="Top">
                     <TextBlock Text="Mouse" FontWeight="SemiBold" Margin="0,0,0,6"/>
@@ -23,7 +22,7 @@
                     <Slider Maximum="60" Value="{Binding TiltAngle, ElementName=Map, Mode=TwoWay}"/>
 
                     <TextBlock Text="Any WPF element" FontWeight="SemiBold" Margin="0,14,0,6"/>
-                    <TextBlock FontSize="11" Foreground="#555B62" TextWrapping="Wrap"
+                    <TextBlock FontSize="11" TextWrapping="Wrap"
                                Text="The pulsing red dot is a marker whose Content is a WPF control with its own storyboard, instead of an image."/>
                     <CheckBox x:Name="Animate" Content="Animate it" IsChecked="True" Margin="0,6,0,0"
                               Checked="Animate_Changed" Unchecked="Animate_Changed"/>

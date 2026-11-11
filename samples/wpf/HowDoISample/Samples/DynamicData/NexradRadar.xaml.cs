@@ -10,7 +10,7 @@ using ThinkGeo.UI.Wpf;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// The NEXRAD radar composite, one georeferenced PNG in a GeoImageRasterTileSource, looping through the last half hour.
+    /// The NEXRAD radar composite, one georeferenced PNG per GeoImageRasterTileSource, looping through the last half hour.
     /// </summary>
     public partial class NexradRadar : IDisposable
     {
@@ -23,8 +23,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private static readonly HttpClient HttpClient = new HttpClient();
 
         private readonly DispatcherTimer _timer;
-        private GeoImageRasterTileSource _radar;
-        private byte[][] _frames;
+        private readonly GeoImageRasterTileSource[] _frames = new GeoImageRasterTileSource[FrameCount];
+        private MapStyle _style;
         private int _frameIndex;
         private bool _built;
 
@@ -48,29 +48,29 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _built = true;
             try
             {
-                // Oldest first, so the newest frame is the last one in the loop.
-                _frames = new byte[FrameCount][];
-                _frames[FrameCount - 1] = await HttpClient.GetByteArrayAsync(string.Format(FrameUrlTemplate, 0));
-
-                // The mosaic is a black-backed palette PNG; black is its "no echo".
-                _radar = new GeoImageRasterTileSource(_frames[FrameCount - 1], ImageExtent, new Projection(4326));
-                _radar.TransparentColor = GeoColors.Black;
-
-                var style = new MapStyle();
-                style.AddStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
-                style.AddRaster(_radar, new RasterPaint(0.75f), "radar");
-                Map.Basemap = new GpuBasemap(style);
-
-                Map.CurrentExtent = new RectangleShape(-14026255, 6446275, -7235766, 2632018);
-                Status.Text = "NEXRAD composite, courtesy of Iowa State Mesonet - now";
-                await Map.RefreshAsync();
-
-                for (var i = 1; i < FrameCount; i++)
+                // One source and one layer per frame, oldest first. Stepping the loop only
+                // switches which layer is visible: a frame's tiles stay loaded, so nothing is
+                // fetched again and the map never shows a gap between two frames.
+                _style = new MapStyle();
+                _style.AddStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
+                for (var i = 0; i < FrameCount; i++)
                 {
-                    _frames[FrameCount - 1 - i] = await HttpClient.GetByteArrayAsync(string.Format(FrameUrlTemplate, i));
+                    var minutesAgo = (FrameCount - 1 - i) * 5;
+                    Status.Text = FormattableString.Invariant($"Loading the radar, {i + 1} of {FrameCount}…");
+                    var png = await HttpClient.GetByteArrayAsync(string.Format(FrameUrlTemplate, minutesAgo / 5));
+
+                    // The mosaic is a black-backed palette PNG; black is its "no echo".
+                    _frames[i] = new GeoImageRasterTileSource(png, ImageExtent, new Projection(4326)) { TransparentColor = GeoColors.Black };
+                    _style.AddRaster(_frames[i], new RasterPaint(0.75f), FrameId(i));
+                    _style.SetLayerVisibility(FrameId(i), i == FrameCount - 1);
                 }
 
-                _frameIndex = 0;
+                Map.Basemap = new GpuBasemap(_style);
+                Map.CurrentExtent = new RectangleShape(-14026255, 6446275, -7235766, 2632018);
+                ShowStatus(FrameCount - 1);
+                await Map.RefreshAsync();
+
+                _frameIndex = FrameCount - 1;
                 _timer.Start();
             }
             catch (Exception ex)
@@ -82,20 +82,32 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         private void ShowNextFrame()
         {
-            // Update swaps the image; the source tells every map drawing it to refetch.
-            _radar.Update(_frames[_frameIndex]);
-            var minutesAgo = (_frames.Length - 1 - _frameIndex) * 5;
+            var next = (_frameIndex + 1) % FrameCount;
+            _style.SetLayerVisibility(FrameId(_frameIndex), false);
+            _style.SetLayerVisibility(FrameId(next), true);
+            _frameIndex = next;
+            ShowStatus(next);
+        }
+
+        private void ShowStatus(int frame)
+        {
+            var minutesAgo = (FrameCount - 1 - frame) * 5;
             Status.Text = minutesAgo == 0
                 ? "NEXRAD composite, courtesy of Iowa State Mesonet - now"
                 : FormattableString.Invariant($"NEXRAD composite, courtesy of Iowa State Mesonet - {minutesAgo} minutes ago");
-            _frameIndex = (_frameIndex + 1) % _frames.Length;
         }
+
+        private static string FrameId(int frame) => FormattableString.Invariant($"radar-{frame}");
 
         public void Dispose()
         {
             _timer.Stop();
             Map.Dispose();
-            _radar?.Dispose();
+            foreach (var frame in _frames)
+            {
+                frame?.Dispose();
+            }
+
             GC.SuppressFinalize(this);
         }
     }

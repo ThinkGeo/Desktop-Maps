@@ -6,19 +6,18 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="240" />
-            <ColumnDefinition Width="340" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
         <wpf:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged" />
 
-        <Border Grid.Column="1" Background="#F6F6F4" Padding="12"
-                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+        <Border Grid.Column="1" Style="{DynamicResource Shell.SamplePanel}">
             <DockPanel>
                 <TextBlock x:Name="StatusText" DockPanel.Dock="Bottom" TextWrapping="Wrap" FontFamily="Consolas" FontSize="11"
-                           Foreground="#444" Text="" />
+                           Text="" />
                 <StackPanel>
                     <TextBlock Text="The globe" FontSize="16" FontWeight="Bold" Margin="0,0,0,6" />
-                    <TextBlock TextWrapping="Wrap" Foreground="#666" Margin="0,0,0,10"
+                    <TextBlock TextWrapping="Wrap" Margin="0,0,0,10"
                                Text="The same web-mercator satellite tiles a flat map is made of, drawn on a ball. Every coordinate the API speaks is still EPSG:3857." />
 
                     <RadioButton x:Name="RdoGlobe" Content="Globe" IsChecked="True" Checked="Projection_Checked" Margin="0,3" />
@@ -28,7 +27,7 @@
 
                     <Separator Margin="0,12,0,8" />
                     <TextBlock Text="Zoom in and watch it let go" FontWeight="SemiBold" Margin="0,0,0,4" />
-                    <TextBlock TextWrapping="Wrap" Foreground="#444" FontSize="11" Margin="0,0,0,6"
+                    <TextBlock TextWrapping="Wrap" FontSize="11" Margin="0,0,0,6"
                                Text="Between zoom 5 and 6 the ball eases into flat web mercator, then hands over to it completely." />
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="BtnWorld" Content="world" Click="World_Click" Padding="8,3" Margin="0,0,4,0" />
@@ -37,7 +36,7 @@
                     </StackPanel>
 
                     <Separator Margin="0,12,0,8" />
-                    <TextBlock TextWrapping="Wrap" Foreground="#444" FontSize="11"
+                    <TextBlock TextWrapping="Wrap" FontSize="11"
                                Text="The ground under the screen center is drawn at the size a flat map would draw it, so dragging north changes the scale rather than the ball. Web mercator stops at 85 degrees; the caps above it are filled from the tiles at the edge." />
                 </StackPanel>
             </DockPanel>

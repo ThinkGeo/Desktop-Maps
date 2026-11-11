@@ -14,8 +14,8 @@
     { "type": "fill",
       "source-layer": "boundary",
       "paint": {
-          "fill-color": "rgba(0,0,255,0.06)",
-          "fill-outline-color": "#696969" }
+          "fill-color": "rgba(100,150,255,0.10)",
+          "fill-outline-color": "#C8C8C8" }
     }
   ]
 }</sys:String>
@@ -24,13 +24,12 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="240"/>
-            <ColumnDefinition Width="340"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
 
-        <Border Grid.Column="1" Background="#F6F6F4" Padding="12"
-                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+        <Border Grid.Column="1" Style="{DynamicResource Shell.SamplePanel}">
             <DockPanel>
                 <StackPanel DockPanel.Dock="Bottom" Margin="0,8,0,0">
                     <TextBlock FontFamily="Consolas" FontSize="11" TextWrapping="Wrap"

@@ -97,7 +97,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 ProjectionConverter = new ProjectionConverter(2276, 3857),
             });
 
-            _style = new MapStyle(ThinkGeoVectorStyles.Light, _cloud).AddStyle(Editor.Text, _coyote);
+            _style = new MapStyle(ThinkGeoVectorStyles.Dark, _cloud).AddStyle(Editor.Text, _coyote);
             ApplyPaint();
             Map.Basemap = new GpuBasemap(_style);
             await Map.RefreshAsync();
@@ -136,17 +136,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             {
                 // The new document carries its own paint; the controls keep theirs, laid
                 // on before the map takes it so its first frame already draws them.
-                var style = new MapStyle(ThinkGeoVectorStyles.Light, _cloud).AddStyle(Editor.Text, _coyote);
+                var style = new MapStyle(ThinkGeoVectorStyles.Dark, _cloud).AddStyle(Editor.Text, _coyote);
                 ApplyPaint(style);
                 await Map.Basemap.SetStyleAsync(style);
                 _style = style;
                 ApplyPaint(); // a slider moved while the map was taking it
-                Status.Foreground = Brushes.DarkGreen;
+                Status.Foreground = Brushes.LightGreen;
                 Status.Text = FormattableString.Invariant($"applied at {DateTime.Now:HH:mm:ss}");
             }
             catch (Exception exception)
             {
-                Status.Foreground = Brushes.Firebrick;
+                Status.Foreground = Brushes.Salmon;
                 Status.Text = "not applied - " + exception.Message.Split('\n')[0].TrimEnd('\r');
             }
         }

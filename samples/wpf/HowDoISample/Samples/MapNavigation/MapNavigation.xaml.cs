@@ -34,7 +34,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             // Right-drag turns and tilts the map.
             Map.IsTiltEnabled = true;
-            Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
+            Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
 
             var markerOverlay = new SimpleMarkerOverlay();
             Map.Overlays.Add(markerOverlay);

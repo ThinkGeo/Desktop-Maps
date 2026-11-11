@@ -7,8 +7,7 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <DockPanel LastChildFill="True">
-        <Border DockPanel.Dock="Right" Width="270" Background="#F6F6F4" Padding="12,10"
-                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+        <Border DockPanel.Dock="Right" Style="{DynamicResource Shell.SamplePanel}">
             <StackPanel>
                 <TextBlock Text="Color family" FontWeight="SemiBold" Margin="0,0,0,4"/>
                 <ComboBox x:Name="CboColorType" SelectionChanged="CboColorType_SelectionChanged">
@@ -20,7 +19,7 @@
                     <ComboBoxItem>Contrasting</ComboBoxItem>
                     <ComboBoxItem>Complementary</ComboBoxItem>
                 </ComboBox>
-                <TextBlock x:Name="TxtColorCategoryDescription" Margin="0,4,0,10" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"
+                <TextBlock x:Name="TxtColorCategoryDescription" Margin="0,4,0,10" FontSize="11" TextWrapping="Wrap"
                            Text="Get a family of colors with the same hue and sequential variances in lightness and saturation"/>
 
                 <TextBlock Text="Base color" FontWeight="SemiBold" Margin="0,0,0,4"/>
@@ -38,7 +37,7 @@
                 <RadioButton x:Name="RdoRandomColor" GroupName="SelectedColor" Content="Let the service choose" Margin="0,2"/>
 
                 <Button Content="Generate" Click="GenerateColors_Click" Margin="0,10,0,0" Padding="0,3"/>
-                <TextBlock x:Name="Status" Margin="0,8,0,0" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"/>
+                <TextBlock x:Name="Status" Margin="0,8,0,0" FontSize="11" TextWrapping="Wrap"/>
             </StackPanel>
         </Border>
 

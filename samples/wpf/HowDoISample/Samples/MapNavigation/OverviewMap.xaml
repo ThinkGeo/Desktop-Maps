@@ -6,35 +6,35 @@
              xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
              mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800">
 
-    <DockPanel LastChildFill="True">
-        <Border DockPanel.Dock="Right" Width="340" Background="#F6F6F4" Padding="12"
-                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+    <Grid>
+        <thinkGeoUi:MapView x:Name="MainMap" SizeChanged="MainMap_SizeChanged"
+                            CurrentExtentChanged="MainMap_CurrentExtentChanged"
+                            RotationAngleChanging="MainMap_RotationAngleChanging"/>
+
+        <Border BorderBrush="#FF333333" BorderThickness="5" CornerRadius="6" Margin="8" Width="220" Height="220"
+                HorizontalAlignment="Left" VerticalAlignment="Bottom" ToolTip="Click to move the main map there">
+            <thinkGeoUi:MapView x:Name="PreviewMap" MapMouseDown="PreviewMap_MapMouseDown"/>
+        </Border>
+
+        <Border Style="{DynamicResource Shell.MapCard}" HorizontalAlignment="Left" VerticalAlignment="Top">
             <StackPanel>
-                <TextBlock FontSize="11" Foreground="#555B62" TextWrapping="Wrap" Margin="0,0,0,12"
+                <TextBlock FontSize="11" TextWrapping="Wrap" Margin="0,0,0,8"
                            Text="The red frame on the overview follows the main map's view and turns with it. Click the overview to move the main map there."/>
                 <Button x:Name="CompassButton" HorizontalAlignment="Left" Padding="6,2" Click="CompassButton_Click">
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Resources/icon_north_arrow.png" Width="18" Height="18" Stretch="Fill"
-                               RenderTransformOrigin="0.5,0.5">
-                            <Image.RenderTransform>
+                        <!-- The icon is black; used as a mask over a light fill it reads on the dark card. -->
+                        <Rectangle Width="18" Height="18" Fill="#E7E9EC" RenderTransformOrigin="0.5,0.5">
+                            <Rectangle.OpacityMask>
+                                <ImageBrush ImageSource="pack://application:,,,/ThinkGeo.UI.Wpf.HowDoI.v15;component/Resources/icon_north_arrow.png"/>
+                            </Rectangle.OpacityMask>
+                            <Rectangle.RenderTransform>
                                 <RotateTransform Angle="{Binding ElementName=MainMap, Path=RotationAngle}"/>
-                            </Image.RenderTransform>
-                        </Image>
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
                         <TextBlock Text="Reset north" VerticalAlignment="Center" Margin="6,0,0,0"/>
                     </StackPanel>
                 </Button>
             </StackPanel>
         </Border>
-
-        <Grid>
-            <thinkGeoUi:MapView x:Name="MainMap" SizeChanged="MainMap_SizeChanged"
-                                CurrentExtentChanged="MainMap_CurrentExtentChanged"
-                                RotationAngleChanging="MainMap_RotationAngleChanging"/>
-
-            <Border BorderBrush="#FF333333" BorderThickness="5" CornerRadius="6" Margin="8" Width="220" Height="220"
-                    HorizontalAlignment="Left" VerticalAlignment="Bottom" ToolTip="Click to move the main map there">
-                <thinkGeoUi:MapView x:Name="PreviewMap" MapMouseDown="PreviewMap_MapMouseDown"/>
-            </Border>
-        </Grid>
-    </DockPanel>
+    </Grid>
 </UserControl>

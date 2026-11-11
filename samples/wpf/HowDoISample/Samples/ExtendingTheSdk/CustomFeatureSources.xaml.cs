@@ -47,7 +47,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             tileSource.FeatureSources.Add("vehicle-route", vehicleRoute);
 
             var cloud = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) };
-            Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, cloud).AddStyle((string)FindResource("StyleJson"), tileSource));
+            Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Dark, cloud).AddStyle((string)FindResource("StyleJson"), tileSource));
 
             _ = Map.RefreshAsync();
         }

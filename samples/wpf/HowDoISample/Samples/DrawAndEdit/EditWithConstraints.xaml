@@ -10,15 +10,13 @@
         <BooleanToVisibilityConverter x:Key="VisibleWhenChecked"/>
         <Style x:Key="Instruction" TargetType="TextBlock">
             <Setter Property="FontSize" Value="11"/>
-            <Setter Property="Foreground" Value="#555B62"/>
             <Setter Property="TextWrapping" Value="Wrap"/>
             <Setter Property="Margin" Value="18,2,0,6"/>
         </Style>
     </UserControl.Resources>
 
     <DockPanel LastChildFill="True">
-        <Border DockPanel.Dock="Right" Width="290" Background="#F6F6F4" Padding="12,10"
-                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+        <Border DockPanel.Dock="Right" Style="{DynamicResource Shell.SamplePanel}">
             <StackPanel>
                 <TextBlock Text="Mode" FontWeight="SemiBold" Margin="0,0,0,6"/>
 

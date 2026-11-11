@@ -15,7 +15,7 @@
       "source-layer": "zoning",
       "paint": {
           "fill-color": "rgba(147,112,219,0.35)",
-          "fill-outline-color": "#6A4FA3" }
+          "fill-outline-color": "#B39DDB" }
     }
   ]
 }</sys:String>
@@ -24,38 +24,40 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="240"/>
-            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
 
-        <DockPanel Grid.Column="1" Background="#F6F6F4">
-            <TextBlock DockPanel.Dock="Top" Text="Relation" FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
-            <StackPanel DockPanel.Dock="Top" Margin="8,0,8,4">
-                <RadioButton x:Name="RelContaining" Content="Containing" IsChecked="True" Checked="Relation_Checked"/>
-                <RadioButton x:Name="RelCrossing" Content="Crossing" Checked="Relation_Checked"/>
-                <RadioButton x:Name="RelDisjoint" Content="Disjoint" Checked="Relation_Checked"/>
-                <RadioButton x:Name="RelIntersecting" Content="Intersecting" Checked="Relation_Checked"/>
-                <RadioButton x:Name="RelOverlapping" Content="Overlapping" Checked="Relation_Checked"/>
-                <RadioButton x:Name="RelTouching" Content="Touching" Checked="Relation_Checked"/>
-                <RadioButton x:Name="RelWithin" Content="Within the shape" Checked="Relation_Checked"/>
-                <RadioButton x:Name="RelWithinDistance" Content="Within a distance" Checked="Relation_Checked"/>
-                <RadioButton x:Name="RelEqual" Content="Equal" Checked="Relation_Checked"/>
+        <Border Grid.Column="1" Style="{DynamicResource Shell.SamplePanel}">
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Top" Text="Relation" FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
+                <StackPanel DockPanel.Dock="Top" Margin="8,0,8,4">
+                    <RadioButton x:Name="RelContaining" Content="Containing" IsChecked="True" Checked="Relation_Checked"/>
+                    <RadioButton x:Name="RelCrossing" Content="Crossing" Checked="Relation_Checked"/>
+                    <RadioButton x:Name="RelDisjoint" Content="Disjoint" Checked="Relation_Checked"/>
+                    <RadioButton x:Name="RelIntersecting" Content="Intersecting" Checked="Relation_Checked"/>
+                    <RadioButton x:Name="RelOverlapping" Content="Overlapping" Checked="Relation_Checked"/>
+                    <RadioButton x:Name="RelTouching" Content="Touching" Checked="Relation_Checked"/>
+                    <RadioButton x:Name="RelWithin" Content="Within the shape" Checked="Relation_Checked"/>
+                    <RadioButton x:Name="RelWithinDistance" Content="Within a distance" Checked="Relation_Checked"/>
+                    <RadioButton x:Name="RelEqual" Content="Equal" Checked="Relation_Checked"/>
 
-                <StackPanel x:Name="RadiusPanel" Margin="0,8,0,0" Visibility="Collapsed">
-                    <TextBlock Text="Distance (meters)" FontSize="11.5"/>
-                    <Slider x:Name="Radius" Minimum="100" Maximum="2000" Value="500"
-                            IsSnapToTickEnabled="True" TickFrequency="100"
-                            ValueChanged="Radius_ValueChanged"/>
+                    <StackPanel x:Name="RadiusPanel" Margin="0,8,0,0" Visibility="Collapsed">
+                        <TextBlock Text="Distance (meters)" FontSize="11.5"/>
+                        <Slider x:Name="Radius" Minimum="100" Maximum="2000" Value="500"
+                                IsSnapToTickEnabled="True" TickFrequency="100"
+                                ValueChanged="Radius_ValueChanged"/>
+                    </StackPanel>
+
+                    <TextBlock x:Name="Result" FontWeight="SemiBold" Margin="0,8,0,0" TextWrapping="Wrap"/>
+
+                    <TextBlock x:Name="Hint" TextWrapping="Wrap" FontSize="11" Margin="0,4,0,0"/>
+
+                    <TextBlock TextWrapping="Wrap" FontSize="11" Margin="0,6,0,0"
+                               Text="Purple is Frisco's zoning. The white outline, line or pin is the query; blue is what the relation matched. Every relation is the same call on the same QueryTools with a different name."/>
                 </StackPanel>
-
-                <TextBlock x:Name="Result" FontWeight="SemiBold" Margin="0,8,0,0" TextWrapping="Wrap"/>
-
-                <TextBlock x:Name="Hint" Foreground="#444A52" TextWrapping="Wrap" FontSize="11" Margin="0,4,0,0"/>
-
-                <TextBlock Foreground="#444A52" TextWrapping="Wrap" FontSize="11" Margin="0,6,0,0"
-                           Text="Purple is Frisco's zoning. The black outline, line or pin is the query; blue is what the relation matched. Every relation is the same call on the same QueryTools with a different name."/>
-            </StackPanel>
-        </DockPanel>
+            </DockPanel>
+        </Border>
     </Grid>
 </UserControl>

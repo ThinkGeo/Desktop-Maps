@@ -58,8 +58,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // A raster basemap and a vector one are different styles over different
             // sources, so this is the one case where the basemap really is rebuilt.
             _basemap = new GpuBasemap(vector
-                ? new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) })
-                : new MapStyle().AddRaster(new ThinkGeoRasterTileSource(SampleShared.CloudApiKey), sourceId: "thinkgeo"));
+                ? new MapStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) })
+                : new MapStyle().AddRaster(new ThinkGeoRasterTileSource(SampleShared.CloudApiKey, ThinkGeoCloudRasterMapsMapType.Dark_V2_X1), sourceId: "thinkgeo"));
             _basemap.IsExtrusionDrawingEnabled = BuildingCheckBox.IsChecked == true;
             Map.Basemap = _basemap;
 

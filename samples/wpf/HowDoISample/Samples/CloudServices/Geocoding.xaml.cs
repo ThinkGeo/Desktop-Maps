@@ -38,7 +38,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             Map.MapUnit = GeographyUnit.Meter;
 
-            var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
+            var style = new MapStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
             style.Images.Add("center", new PointStyle(PointSymbolType.Cross, 20, GeoBrushes.Red));
             style.Images.Add("match", new PointStyle(PointSymbolType.Star, 24, GeoBrushes.MediumPurple, GeoPens.Purple));
             style.AddDynamic(_searchedArea);
@@ -207,7 +207,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             var searched = new EllipseShape(point, searchRadius);
             _searchedArea.Clear();
-            _searchedArea.SetArea("searched", new Feature(searched), new GeoColor(10, GeoColors.Blue), new GeoColor(100, GeoColors.Blue), 2f);
+            _searchedArea.SetArea("searched", new Feature(searched), new GeoColor(10, GeoColors.DodgerBlue), new GeoColor(100, GeoColors.DodgerBlue), 2f);
             _searchedArea.SetPoint("center", new Feature(point), sizeInPixel: 20f, iconName: "center");
             _selectedResult.Clear();
 

@@ -32,7 +32,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _initialized = true;
 
             Map.MapUnit = GeographyUnit.Meter;
-            Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
+            Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
 
             Map.CenterPoint = new PointShape(-10779270, 3911750);
             Map.CurrentScale = 288900;

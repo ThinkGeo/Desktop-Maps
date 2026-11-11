@@ -6,18 +6,16 @@
              xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
-    <DockPanel LastChildFill="True">
-        <Border DockPanel.Dock="Right" Width="260" Background="#F6F6F4" Padding="12,10"
-                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+    <Grid>
+        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged" MapClick="Map_MapClick"/>
+        <Image x:Name="LoadingImage" Height="64" Width="64" Visibility="Visible" Source="..\..\Resources\loading.png"/>
+
+        <Border Style="{DynamicResource Shell.MapCard}" Margin="72,12,12,12"
+                HorizontalAlignment="Left" VerticalAlignment="Top">
             <StackPanel>
                 <TextBlock Text="Click the map to get the time zone there" FontWeight="SemiBold" TextWrapping="Wrap"/>
-                <TextBlock x:Name="Status" Margin="0,8,0,0" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"/>
+                <TextBlock x:Name="Status" Margin="0,6,0,0" FontSize="11" TextWrapping="Wrap"/>
             </StackPanel>
         </Border>
-
-        <Grid>
-            <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged" MapClick="Map_MapClick"/>
-            <Image x:Name="LoadingImage" Height="64" Width="64" Visibility="Visible" Source="..\..\Resources\loading.png"/>
-        </Grid>
-    </DockPanel>
+    </Grid>
 </UserControl>

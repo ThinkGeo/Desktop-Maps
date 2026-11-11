@@ -26,6 +26,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private int _currentGpsPointIndex;
         private bool _showOverview;
         private bool _initialized;
+        private bool _isDark = true;
+        private ThinkGeoVectorTileSource _tileSource;
         private DynamicSource _paths;
         private DynamicSource _vehicle;
         private CancellationTokenSource _drive;
@@ -46,10 +48,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             _paths = new DynamicSource();
             _vehicle = new DynamicSource();
-            var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
-            style.Images.Add("vehicle", new GeoImage(Path.Combine(AppContext.BaseDirectory, "Resources", "vehicle_location.png")));
-            style.AddDynamic(_paths).AddDynamic(_vehicle);
-            Map.Basemap = new GpuBasemap(style);
+            _tileSource = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) };
+            Map.Basemap = new GpuBasemap(CreateStyle(ThinkGeoVectorStyles.Dark));
             Map.TiltAngle = 45;
 
             Map.DefaultAnimationSettings = new MapAnimationSettings
@@ -202,6 +202,40 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             catch (OperationCanceledException)
             {
                 // A newer camera move took over.
+            }
+        }
+
+        /// <summary>
+        /// The same tile source and the same dynamic sources under either theme, so the route,
+        /// the destination and the vehicle carry over a switch.
+        /// </summary>
+        private MapStyle CreateStyle(string styleJson)
+        {
+            var style = new MapStyle(styleJson, _tileSource);
+            style.Images.Add("vehicle", new GeoImage(Path.Combine(AppContext.BaseDirectory, "Resources", "vehicle_location.png")));
+            style.AddDynamic(_paths).AddDynamic(_vehicle);
+            return style;
+        }
+
+        private async void ThemeButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (!_initialized)
+                return;
+
+            ThemeButton.IsEnabled = false;
+            try
+            {
+                await Map.Basemap.SetStyleAsync(CreateStyle(_isDark ? ThinkGeoVectorStyles.Light : ThinkGeoVectorStyles.Dark));
+                _isDark = !_isDark;
+                ThemeButton.Content = _isDark ? "Light Theme" : "Dark Theme";
+            }
+            catch (Exception)
+            {
+                // The style could not be loaded; the map keeps the theme it had.
+            }
+            finally
+            {
+                ThemeButton.IsEnabled = true;
             }
         }
 

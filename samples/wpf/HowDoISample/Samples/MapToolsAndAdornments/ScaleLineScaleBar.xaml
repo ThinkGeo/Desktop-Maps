@@ -7,8 +7,7 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <DockPanel LastChildFill="True">
-        <Border DockPanel.Dock="Right" Width="290" Background="#F6F6F4" Padding="12,10"
-                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+        <Border DockPanel.Dock="Right" Style="{DynamicResource Shell.SamplePanel}">
             <StackPanel>
                 <TextBlock Text="Scale line unit system" FontWeight="SemiBold" Margin="0,0,0,6"/>
                 <RadioButton Content="ImperialAndMetric" Tag="ImperialAndMetric" IsChecked="True" Margin="0,2" Checked="UnitSystem_Checked"/>
@@ -19,7 +18,7 @@
                 <CheckBox x:Name="ChkCustomTextStyles" Content="Custom text styles for the scale line" Margin="0,12,0,0"
                           Checked="ChkCustomTextStyles_OnChecked" Unchecked="ChkCustomTextStyles_OnUnchecked"/>
 
-                <TextBlock FontSize="11" Foreground="#555B62" TextWrapping="Wrap" Margin="0,12,0,0"
+                <TextBlock FontSize="11" TextWrapping="Wrap" Margin="0,12,0,0"
                            Text="Both adornments are given a Projection, and that is what makes the distance they report the real one. Mercator stretches distances more the further you go from the equator, so without it the bar would report map units - here in Frisco, at 33 degrees north, about a fifth longer than the ground distance."/>
             </StackPanel>
         </Border>
