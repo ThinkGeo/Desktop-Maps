@@ -316,9 +316,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             // ---- Map Tools & Adornments ----
             new SampleEntry("Map Tools & Adornments", "Map Tool Controls", "MapToolControls.xaml.cs",
-                "Turn the map's built-in tools on and off - pan zoom bar, logo, scale line, mouse coordinates - format the coordinates, and read how MapTools differ from adornment layers and the measure overlay",
+                "Turn the map's built-in tools on and off - pan zoom bar, logo, mouse coordinates - format the coordinates, and read how MapTools differ from adornment layers and the measure overlay",
                 "MapTools", SampleDraws.Style, typeof(Samples.MapToolControls), () => new Samples.MapToolControls(),
-                aliases: "MouseCoordinateMapTool, PanZoomBar, Logo, ScaleLine, MouseCoordinateType, CustomFormatted, AdornmentLayer, MeasureInteractiveOverlay, map tools vs adornments"),
+                aliases: "MouseCoordinateMapTool, PanZoomBar, Logo, MouseCoordinateType, CustomFormatted, AdornmentLayer, MeasureInteractiveOverlay, map tools vs adornments"),
             new SampleEntry("Map Tools & Adornments", "Drag/Resize Adornments", "DragResizeAdornments.xaml.cs",
                 "Let the user drag and resize the scale line, scale bar, logo, legend and a compass showing true north and magnetic north",
                 "AdornmentLayer", SampleDraws.StyleAndOverlay, typeof(Samples.DragResizeAdornments), () => new Samples.DragResizeAdornments(),

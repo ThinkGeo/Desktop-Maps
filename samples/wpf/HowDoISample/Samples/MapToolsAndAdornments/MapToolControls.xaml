@@ -10,15 +10,13 @@
         <Border DockPanel.Dock="Right" Style="{DynamicResource Shell.SamplePanel}">
             <StackPanel>
                 <TextBlock FontSize="11" TextWrapping="Wrap" Margin="0,0,0,12"
-                           Text="Map.MapTools are WPF controls laid over the map, shown here. An AdornmentLayer is drawn by the map into one of its corners, like the scale bar, legend and north arrow in Drag/Resize Adornments. The measure overlay is interactive: it draws and labels as you drag, in Measure Distance and Area."/>
+                           Text="Map.MapTools are WPF controls laid over the map, shown here. An AdornmentLayer is drawn by the map into one of its corners, like the scale line, scale bar, legend and north arrow in Drag/Resize Adornments and ScaleLine and ScaleBar. The measure overlay is interactive: it draws and labels as you drag, in Measure Distance and Area."/>
 
                 <TextBlock Text="Map tools" FontWeight="SemiBold" Margin="0,0,0,6"/>
                 <CheckBox Content="Pan zoom bar" Margin="0,2"
                           IsChecked="{Binding ElementName=Map, Path=MapTools.PanZoomBar.IsEnabled, Mode=TwoWay}"/>
                 <CheckBox Content="Logo" Margin="0,2"
                           IsChecked="{Binding ElementName=Map, Path=MapTools.Logo.IsEnabled, Mode=TwoWay}"/>
-                <CheckBox Content="Scale line" Margin="0,2"
-                          IsChecked="{Binding ElementName=Map, Path=MapTools.ScaleLine.IsEnabled, Mode=TwoWay}"/>
                 <CheckBox Content="Mouse coordinates" Margin="0,2"
                           IsChecked="{Binding ElementName=Map, Path=MapTools.MouseCoordinate.IsEnabled, Mode=TwoWay}"/>
 

@@ -373,10 +373,10 @@
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.MapToolControls",
         "title": "Map Tool Controls",
-        "description": "Turn the map's built-in tools on and off - pan zoom bar, logo, scale line, mouse coordinates - and choose how the coordinates are shown.",
+        "description": "Turn the map's built-in tools on and off - pan zoom bar, logo, mouse coordinates - and choose how the coordinates are shown.",
         "source": "Samples/MapToolsAndAdornments/MapToolControls",
         "keyApi": "MapView.MapTools",
-        "aliases": "Map Tool Controls, MapToolControls, MapTools, PanZoomBar, Logo, ScaleLine, MouseCoordinate, MouseCoordinateType, LatitudeLongitude, DegreesMinutesSeconds, CustomFormatted"
+        "aliases": "Map Tool Controls, MapToolControls, MapTools, PanZoomBar, Logo, MouseCoordinate, MouseCoordinateType, LatitudeLongitude, DegreesMinutesSeconds, CustomFormatted"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.DragResizeAdornments",

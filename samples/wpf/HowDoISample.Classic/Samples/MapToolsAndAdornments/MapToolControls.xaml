@@ -22,8 +22,6 @@
                     <CheckBox Content="Display Logo"
                               IsChecked="{Binding ElementName=Map, Path=MapTools.Logo.IsEnabled, Mode=TwoWay}" />
 
-                    <CheckBox Content="Display Scale Line"
-                              IsChecked="{Binding ElementName=Map, Path=MapTools.ScaleLine.IsEnabled, Mode=TwoWay}" />
 
                     <StackPanel>
                         <CheckBox Content="Display Mouse Coordinate"

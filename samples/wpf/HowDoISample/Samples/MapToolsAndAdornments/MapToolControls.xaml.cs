@@ -10,7 +10,7 @@ using ThinkGeo.Gpu;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// Turn the map's built-in tools on and off - pan zoom bar, logo, scale line, mouse coordinates - and format the coordinates.
+    /// Turn the map's built-in tools on and off - pan zoom bar, logo, mouse coordinates - and format the coordinates.
     /// </summary>
     public partial class MapToolControls
     {
@@ -39,7 +39,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             Map.MapTools.PanZoomBar.IsEnabled = true;
 
-            Map.MapTools.ScaleLine.IsEnabled = true;
 
             Map.CenterPoint = new PointShape(-10778000, 3912000);
             Map.CurrentScale = 77000;
