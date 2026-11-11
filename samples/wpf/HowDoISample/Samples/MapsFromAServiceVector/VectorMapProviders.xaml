@@ -16,28 +16,28 @@
         <!-- The keyed providers are a page over the map: without your key most of them draw nothing. -->
         <ContentControl x:Name="OtherProvidersPage" Grid.Column="0" Visibility="Collapsed"/>
 
-        <StackPanel Grid.Column="1" Background="DimGray" Margin="10">
-            <TextBlock Text="Provider" FontSize="16" FontWeight="Bold" Foreground="WhiteSmoke" Margin="0,0,0,6"/>
+        <StackPanel Grid.Column="1" Background="#F6F6F4">
+            <TextBlock Text="Provider" FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
+            <StackPanel Margin="8,0,8,4">
+                <RadioButton x:Name="ThinkGeoLight" Content="ThinkGeo Cloud - Light" IsChecked="True" Checked="Provider_Checked"/>
+                <RadioButton x:Name="ThinkGeoDark" Content="ThinkGeo Cloud - Dark" Checked="Provider_Checked"/>
+                <RadioButton x:Name="OpenFreeMapLiberty" Content="OpenFreeMap - Liberty" Checked="Provider_Checked"/>
+                <RadioButton x:Name="OpenFreeMapPositron" Content="OpenFreeMap - Positron" Checked="Provider_Checked"/>
+                <RadioButton x:Name="OpenFreeMapDark" Content="OpenFreeMap - Dark" Checked="Provider_Checked"/>
+                <RadioButton x:Name="OtherProviders" Content="Mapbox, Esri, TomTom and More" Checked="Provider_Checked"/>
+                <RadioButton x:Name="CustomServer" Content="Custom map server" Checked="Provider_Checked"/>
+            </StackPanel>
 
-            <RadioButton x:Name="ThinkGeoLight" Content="ThinkGeo Maps - Light" IsChecked="True" Checked="Provider_Checked"/>
-            <RadioButton x:Name="ThinkGeoDark" Content="ThinkGeo Maps - Dark" Checked="Provider_Checked"/>
-            <RadioButton x:Name="OpenFreeMapLiberty" Content="OpenFreeMap - Liberty" Checked="Provider_Checked"/>
-            <RadioButton x:Name="OpenFreeMapPositron" Content="OpenFreeMap - Positron" Checked="Provider_Checked"/>
-            <RadioButton x:Name="OpenFreeMapDark" Content="OpenFreeMap - Dark" Checked="Provider_Checked"/>
-            <RadioButton x:Name="OtherProviders" Content="Mapbox, Esri, TomTom and More" Checked="Provider_Checked"/>
-            <RadioButton x:Name="CustomServer" Content="Custom map server" Checked="Provider_Checked"/>
-
-            <StackPanel x:Name="CustomPanel" Visibility="Collapsed" Margin="0,10,0,0">
-                <TextBlock Text="Style document URL" Foreground="WhiteSmoke" Margin="0,0,0,4"/>
+            <StackPanel x:Name="CustomPanel" Visibility="Collapsed" Margin="8,6,8,0">
+                <TextBlock Text="Style document URL" Margin="0,0,0,4"/>
                 <TextBox x:Name="StyleUriBox" Text="https://demotiles.maplibre.org/style.json" TextWrapping="Wrap" MinHeight="48"/>
                 <Button Content="Load" Click="Load_Click" Margin="0,6,0,0"/>
             </StackPanel>
 
-            <TextBlock x:Name="Status" Foreground="#DDDDDD" FontFamily="Consolas" FontSize="11"
-                       Margin="0,12,0,0" TextWrapping="Wrap"/>
+            <TextBlock x:Name="Status" FontFamily="Consolas" FontSize="11" Margin="8,10,8,0" TextWrapping="Wrap"/>
 
-            <TextBlock Foreground="#DDDDDD" TextWrapping="Wrap" FontSize="11" Margin="0,12,0,0"
-                       Text="A vector basemap is its style document: the document names the tiles, the fonts and the sprites, and the map follows it. ThinkGeo Maps binds its keyed tile source to a published style; OpenFreeMap and any other MVT server are a style URL alone."/>
+            <TextBlock Foreground="#444A52" TextWrapping="Wrap" FontSize="11" Margin="8,10,8,6"
+                       Text="A vector basemap is its style document: the document names the tiles, the fonts and the sprites, and the map follows it. ThinkGeo Cloud binds its keyed tile source to a published style; OpenFreeMap and any other MVT server are a style URL alone."/>
         </StackPanel>
     </Grid>
 </UserControl>

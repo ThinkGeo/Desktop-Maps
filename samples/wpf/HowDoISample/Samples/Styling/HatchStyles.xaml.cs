@@ -1,10 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -16,17 +15,13 @@ using ThinkGeo.UI.Wpf;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// The classic GeoHatchStyle catalog as fill patterns: each hatch brush is registered
-    /// with MapStyle.Images as a pattern image, and named by fill-pattern.
+    /// The classic GeoHatchStyle catalog as fill patterns: the picked hatch brush is registered
+    /// with MapStyle.Images under the name the document's fill-pattern uses.
     /// </summary>
     public partial class HatchStyles
     {
-        private static readonly GeoColor HatchColor = GeoColors.Black;
-
         private readonly DispatcherTimer _applyTimer;
-        private readonly Dictionary<GeoHatchStyle, BitmapImage> _previews = new Dictionary<GeoHatchStyle, BitmapImage>();
-        private readonly Dictionary<string, GeoHatchBrush> _brushes = new Dictionary<string, GeoHatchBrush>();
-
+        private GeoHatchStyle _hatch = GeoHatchStyle.Cross;
         private bool _initialized;
         // Every restyle passes this same source: a document on its own has no data to draw.
         private FeatureSourceVectorTileSource _parks;
@@ -38,27 +33,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _applyTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(400) };
             _applyTimer.Tick += async (_, _) => { _applyTimer.Stop(); await ApplyEditorStyleAsync(); };
 
-            foreach (var style in Enum.GetValues(typeof(GeoHatchStyle)).Cast<GeoHatchStyle>()
-                         .OrderBy(style => style.ToString(), StringComparer.OrdinalIgnoreCase))
-            {
-                HatchPicker.Items.Add(style);
-            }
-
-            HatchPicker.SelectedItem = GeoHatchStyle.Cross;
-            HatchPicker.SelectionChanged += (_, _) => Pick(SelectedHatch);
-
-            // Hovering a row previews it on the map, through the same document edit.
-            var rowStyle = new System.Windows.Style(typeof(ComboBoxItem));
-            rowStyle.Setters.Add(new EventSetter(UIElement.PreviewMouseMoveEvent,
-                new System.Windows.Input.MouseEventHandler((sender, _) =>
-                {
-                    if (sender is ComboBoxItem row && row.Content is GeoHatchStyle hovered)
-                    {
-                        Pick(hovered);
-                    }
-                })));
-            HatchPicker.ItemContainerStyle = rowStyle;
-            HatchPicker.DropDownClosed += (_, _) => Pick(SelectedHatch);
+            HatchPicker.ItemsSource = Enum.GetValues(typeof(GeoHatchStyle)).Cast<GeoHatchStyle>()
+                .OrderBy(style => style.ToString(), StringComparer.OrdinalIgnoreCase)
+                .ToList();
+            HatchPicker.SelectedItem = _hatch;
         }
 
         private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -70,35 +48,52 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             Map.CenterPoint = new PointShape(-10777610, 3909120);
             Map.CurrentScale = 2260;
 
-            foreach (GeoHatchStyle style in Enum.GetValues(typeof(GeoHatchStyle)))
-            {
-                _brushes[ImageId(style)] = new GeoHatchBrush(style, HatchColor);
-            }
-
             _parks = new FeatureSourceVectorTileSource();
             _parks.FeatureSources.Add(new ShapeFileFeatureSource(SampleShared.Shapefile("Parks.shp"))
             {
                 ProjectionConverter = new ProjectionConverter(2276, 3857),
             });
 
-            var mapStyle = new MapStyle(Editor.Text, _parks);
-            AddPatternImages(mapStyle);
-            foreach (GeoHatchStyle style in Enum.GetValues(typeof(GeoHatchStyle)))
-            {
-                if (mapStyle.Images.TryGetImage(ImageId(style), out var image, out _))
-                {
-                    _previews[style] = ToBitmap(image.GetImageBytes());
-                }
-            }
-
-            Map.Basemap = new GpuBasemap(mapStyle);
-
-            ShowSwatch(SelectedHatch);
+            Map.Basemap = new GpuBasemap(ComposeStyle());
             _ = Map.RefreshAsync();
+        }
+
+        private void HatchPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (HatchPicker.SelectedItem is GeoHatchStyle hatch)
+            {
+                Pick(hatch);
+            }
+        }
+
+        // Hovering a row previews it on the map; closing the list goes back to the selection.
+        private void HatchRow_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (sender is ComboBoxItem { Content: GeoHatchStyle hovered })
+            {
+                Pick(hovered);
+            }
+        }
+
+        private void HatchPicker_DropDownClosed(object sender, EventArgs e)
+        {
+            if (HatchPicker.SelectedItem is GeoHatchStyle hatch)
+            {
+                Pick(hatch);
+            }
         }
 
         private void Editor_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (!_initialized) return;
+            _applyTimer.Stop();
+            _applyTimer.Start();
+        }
+
+        private void Pick(GeoHatchStyle hatch)
+        {
+            if (hatch == _hatch) return;
+            _hatch = hatch;
             if (!_initialized) return;
             _applyTimer.Stop();
             _applyTimer.Start();
@@ -111,9 +106,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             try
             {
-                var style = new MapStyle(Editor.Text, _parks);
-                AddPatternImages(style);
-                await Map.Basemap.SetStyleAsync(style);
+                await Map.Basemap.SetStyleAsync(ComposeStyle());
                 Status.Foreground = Brushes.DarkGreen;
                 Status.Text = FormattableString.Invariant($"applied at {DateTime.Now:HH:mm:ss}");
             }
@@ -124,61 +117,34 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             }
         }
 
-        /// <summary>Rewrites fill-pattern in the document; the editor pipeline applies it.</summary>
-        private void Pick(GeoHatchStyle hatch)
+        /// <summary>
+        /// The document plus the one image it names: the picked hatch, stroked into a pattern
+        /// image and registered as "hatch". The swatch shows that image, tiled at the size the
+        /// map draws it.
+        /// </summary>
+        private MapStyle ComposeStyle()
         {
-            ShowSwatch(hatch);
+            var style = new MapStyle(Editor.Text, _parks);
+            style.Images.Add("hatch", new GeoHatchBrush(_hatch, GeoColors.Black));
 
-            var updated = Regex.Replace(Editor.Text,
-                "\"fill-pattern\":\\s*\"[^\"]*\"",
-                "\"fill-pattern\": \"" + ImageId(hatch) + "\"");
-            if (updated != Editor.Text)
+            if (style.Images.TryGetImage("hatch", out var image, out _))
             {
-                Editor.Text = updated;
-            }
-        }
-
-        private void AddPatternImages(MapStyle style)
-        {
-            foreach (var brush in _brushes)
-            {
-                style.Images.Add(brush.Key, brush.Value);
-            }
-        }
-
-        private GeoHatchStyle SelectedHatch =>
-            HatchPicker.SelectedItem is GeoHatchStyle style ? style : GeoHatchStyle.Cross;
-
-        private static string ImageId(GeoHatchStyle style) =>
-            "hatch-" + style.ToString().ToLowerInvariant();
-
-        /// <summary>The registered image itself, tiled at the size the map draws it at.</summary>
-        private void ShowSwatch(GeoHatchStyle hatch)
-        {
-            if (!_previews.TryGetValue(hatch, out var preview))
-            {
-                return;
+                var preview = new BitmapImage();
+                preview.BeginInit();
+                preview.StreamSource = new System.IO.MemoryStream(image.GetImageBytes());
+                preview.CacheOption = BitmapCacheOption.OnLoad;
+                preview.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
+                preview.EndInit();
+                Swatch.Background = new ImageBrush(preview)
+                {
+                    TileMode = TileMode.Tile,
+                    ViewportUnits = BrushMappingMode.Absolute,
+                    Viewport = new Rect(0, 0, preview.PixelWidth, preview.PixelHeight),
+                    Stretch = Stretch.Fill,
+                };
             }
 
-            Swatch.Background = new ImageBrush(preview)
-            {
-                TileMode = TileMode.Tile,
-                ViewportUnits = BrushMappingMode.Absolute,
-                Viewport = new Rect(0, 0, preview.PixelWidth, preview.PixelHeight),
-                Stretch = Stretch.Fill,
-            };
-        }
-
-        private static BitmapImage ToBitmap(byte[] png)
-        {
-            var bitmap = new BitmapImage();
-            bitmap.BeginInit();
-            bitmap.StreamSource = new System.IO.MemoryStream(png);
-            bitmap.CacheOption = BitmapCacheOption.OnLoad;
-            bitmap.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
-            bitmap.EndInit();
-            bitmap.Freeze();
-            return bitmap;
+            return style;
         }
     }
 }

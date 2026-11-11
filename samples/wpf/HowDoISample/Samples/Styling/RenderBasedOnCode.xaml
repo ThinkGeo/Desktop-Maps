@@ -16,12 +16,17 @@
                     <RadioButton x:Name="ModeRamp" Content="The data - a choropleth ramp" Tag="Ramp"
                                  Checked="Mode_Checked" VerticalAlignment="Center" Margin="18,0,0,0"/>
                 </StackPanel>
-                <StackPanel x:Name="ClockRow" Orientation="Horizontal" Margin="0,6,0,0">
-                    <TextBlock Text="UTC:" FontSize="11.5" VerticalAlignment="Center" Margin="0,0,6,0"/>
-                    <Slider x:Name="HourSlider" Minimum="0" Maximum="24" Width="320" VerticalAlignment="Center"/>
-                    <TextBlock x:Name="HourLabel" Width="74" FontSize="11.5" VerticalAlignment="Center" Margin="6,0,0,0"/>
+                <StackPanel x:Name="ClockRow">
+                    <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                        <TextBlock Text="UTC:" FontSize="11.5" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                        <Slider x:Name="HourSlider" Minimum="0" Maximum="24" Width="320" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="HourLabel" Width="74" FontSize="11.5" VerticalAlignment="Center" Margin="6,0,0,0"/>
+                    </StackPanel>
+                    <TextBlock Margin="0,4,0,0" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"
+                               Text="A style document has no clock. Each timezone is a pair of circle layers built in code, one for day and one for night, and the UTC hour switches which of the two is visible. A paint is fixed once its tile is built, so switching visibility is how the map changes with time without rebuilding a tile. Drag the slider to take over."/>
                 </StackPanel>
-                <TextBlock x:Name="Blurb" Margin="0,4,0,0" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"/>
+                <TextBlock x:Name="RampText" Visibility="Collapsed" Margin="0,4,0,0" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"
+                           Text="A paint lambda reads each state's 1990 population density and answers with a color from a five-step ramp, with the column name checked by the compiler. It runs when the tiles are built, not on every frame. The fill and its white outline are inserted above the basemap's own fills, so the roads and labels stay on top."/>
             </StackPanel>
         </Border>
         <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>

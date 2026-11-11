@@ -14,21 +14,21 @@
 
         <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
 
-        <StackPanel Grid.Column="1" Background="DimGray" Margin="10">
-            <TextBlock Text="File" FontSize="16" FontWeight="Bold" Foreground="WhiteSmoke" Margin="0,0,0,6"/>
+        <StackPanel Grid.Column="1" Background="#F6F6F4">
+            <TextBlock Text="File" FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
+            <StackPanel Margin="8,0,8,4">
+                <RadioButton x:Name="FmtGeoTiff" Content="GeoTIFF - NAIP aerial" IsChecked="True" Checked="Format_Checked"/>
+                <RadioButton x:Name="FmtJpeg2000" Content="JPEG 2000 - the same aerial" Checked="Format_Checked"/>
+                <RadioButton x:Name="FmtJpeg" Content="Plain JPEG + world file" Checked="Format_Checked"/>
+                <RadioButton x:Name="FmtMrSid" Content="MrSID - world imagery" Checked="Format_Checked"/>
+                <RadioButton x:Name="FmtEcw" Content="ECW - world imagery" Checked="Format_Checked"/>
+                <RadioButton x:Name="FmtAsciiGrid" Content="ESRI ASCII grid - plain GdalRasterSource" Checked="Format_Checked"/>
+            </StackPanel>
 
-            <RadioButton x:Name="FmtGeoTiff" Content="GeoTIFF - NAIP aerial" IsChecked="True" Checked="Format_Checked"/>
-            <RadioButton x:Name="FmtJpeg2000" Content="JPEG 2000 - the same aerial" Checked="Format_Checked"/>
-            <RadioButton x:Name="FmtJpeg" Content="Plain JPEG + world file" Checked="Format_Checked"/>
-            <RadioButton x:Name="FmtMrSid" Content="MrSID - world imagery" Checked="Format_Checked"/>
-            <RadioButton x:Name="FmtEcw" Content="ECW - world imagery" Checked="Format_Checked"/>
-            <RadioButton x:Name="FmtOther" Content="Anything else GDAL reads" Checked="Format_Checked"/>
+            <TextBlock x:Name="Status" FontFamily="Consolas" FontSize="11" Margin="8,10,8,0" TextWrapping="Wrap"/>
 
-            <TextBlock x:Name="Status" Foreground="#DDDDDD" FontFamily="Consolas" FontSize="11"
-                       Margin="0,12,0,0" TextWrapping="Wrap"/>
-
-            <TextBlock Foreground="#DDDDDD" TextWrapping="Wrap" FontSize="11" Margin="0,12,0,0"
-                       Text="Every format goes through the same one-line registration - a tile source for the file, handed to AddRaster. The class named after the format is a GdalRasterTileSource underneath; it exists so the one you want is the one you find."/>
+            <TextBlock Foreground="#444A52" TextWrapping="Wrap" FontSize="11" Margin="8,10,8,6"
+                       Text="Every format goes through the same one-line registration - a tile source for the file, handed to AddRaster. The class named after the format is a GdalRasterSource underneath; it exists so the one you want is the one you find. A format with no class of its own, such as an ESRI ASCII grid, opens with GdalRasterSource itself."/>
         </StackPanel>
     </Grid>
 </UserControl>

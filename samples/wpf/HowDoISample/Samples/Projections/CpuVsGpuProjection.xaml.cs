@@ -1,11 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Threading;
 using ThinkGeo.Core;
 using ThinkGeo.Core.Styling;
 using ThinkGeo.Gpu;
@@ -14,17 +13,17 @@ using ThinkGeo.UI.Wpf;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// The same shapefile drawn twice, with the projection in a different place.
+    /// The same shapefile drawn twice, projected by the CPU as it is read on the left and by the GPU as it is drawn on the right.
     /// </summary>
-    public partial class CpuVsGpuProjection : UserControl, IDisposable
+    public partial class CpuVsGpuProjection : UserControl
     {
         private const string CountriesFile = "Countries02.shp";
         private const int SourceSrid = 4326;
         private const double WorldHalfSize = 20037508.342789244;
 
         /// <summary>What each radio asks both sides for.</summary>
-        private static readonly System.Collections.Generic.Dictionary<string, string> Choices =
-            new System.Collections.Generic.Dictionary<string, string>
+        private static readonly Dictionary<string, string> Choices =
+            new Dictionary<string, string>
             {
                 ["RdoRobinson"] = "+proj=robin +datum=WGS84 +units=m +no_defs",
                 ["RdoMollweide"] = "+proj=moll +datum=WGS84 +units=m +no_defs",
@@ -34,18 +33,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 ["RdoMercator"] = "+proj=merc +datum=WGS84 +units=m +no_defs",
             };
 
-        private readonly DispatcherTimer _applyTimer;
         private ShapeFileFeatureLayer _cpuLayer;
-        private LayerOverlay _cpuOverlay;
-        private int _featureCount;
         private bool _ready;
 
         public CpuVsGpuProjection()
         {
             InitializeComponent();
-
-            _applyTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(400) };
-            _applyTimer.Tick += async (_, _) => { _applyTimer.Stop(); await ApplyEditorStyleAsync(); };
         }
 
         private async void Maps_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -58,21 +51,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             CpuMap.MapUnit = GeographyUnit.Meter;
             GpuMap.MapUnit = GeographyUnit.Meter;
 
-            // How many features the CPU side has to push through proj4 every time
-            // it is asked for the view - the number the readout reports.
-            var counter = new ShapeFileFeatureSource(SampleShared.Shapefile(CountriesFile));
-            counter.Open();
-            _featureCount = counter.GetAllFeatures(ReturningColumnsType.NoColumns).Count;
-            counter.Close();
-
             // ---- left: projected on the way in ----
             _cpuLayer = new ShapeFileFeatureLayer(SampleShared.Shapefile(CountriesFile));
             _cpuLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle =
                 new AreaStyle(new GeoPen(GeoColor.FromHtml("#7A7568"), 1), new GeoSolidBrush(GeoColor.FromHtml("#D8D3C6")));
             _cpuLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-            _cpuOverlay = new LayerOverlay { TileType = TileType.SingleTile };
-            _cpuOverlay.Layers.Add(_cpuLayer);
-            CpuMap.Overlays.Add(_cpuOverlay);
+            var cpuOverlay = new LayerOverlay { TileType = TileType.SingleTile };
+            cpuOverlay.Layers.Add(_cpuLayer);
+            CpuMap.Overlays.Add(cpuOverlay);
             CpuMap.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColor.FromHtml("#EAE8E2"));
 
             // ---- right: projected on the way out ----
@@ -84,10 +70,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             {
                 ProjectionConverter = new ProjectionConverter(SourceSrid, 3857),
             });
-
-            var basemap = new GpuBasemap(new MapStyle().AddStyle(Editor.Text));
-            basemap.TileSources.Add("features", tiles);
-            GpuMap.Basemap = basemap;
+            GpuMap.Basemap = new GpuBasemap(new MapStyle((string)Resources["StyleJson"], tiles));
 
             _ready = true;
             await ApplyAsync(Choices["RdoRobinson"]);
@@ -118,14 +101,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             cpuClock.Stop();
 
             CpuReadout.Text = string.Create(CultureInfo.InvariantCulture,
-                $"switch {cpuClock.ElapsedMilliseconds,4} ms   features through proj4: {_featureCount}   data re-read: yes");
+                $"switch {cpuClock.ElapsedMilliseconds,4} ms   data read and reprojected again: yes");
 
             // ---- the GPU side: a different shader, and not one byte of data ----
             var gpuClock = Stopwatch.StartNew();
             var failed = string.Empty;
             try
             {
-                var projection = ThinkGeo.Gpu.DisplayProjection.FromProjString(projString);
+                var projection = DisplayProjection.FromProjString(projString);
                 GpuMap.Basemap.DisplayProjection = projection;
                 GpuMap.CurrentExtent = ProjectedWorldBounds(projection);
                 await GpuMap.RefreshAsync();
@@ -139,7 +122,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             GpuReadout.Text = failed.Length > 0
                 ? "not a family this side implements - see the message on the right"
                 : string.Create(CultureInfo.InvariantCulture,
-                    $"switch {gpuClock.ElapsedMilliseconds,4} ms   features through proj4: 0     data re-read: no");
+                    $"switch {gpuClock.ElapsedMilliseconds,4} ms   data read and reprojected again: no");
 
             if (failed.Length > 0)
             {
@@ -151,7 +134,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// The world's outline after this projection, so the GPU side frames what
         /// it draws the way the CPU side frames what it read.
         /// </summary>
-        private static RectangleShape ProjectedWorldBounds(ThinkGeo.Gpu.DisplayProjection projection)
+        private static RectangleShape ProjectedWorldBounds(DisplayProjection projection)
         {
             var minX = double.MaxValue;
             var maxX = double.MinValue;
@@ -218,7 +201,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             string gpu;
             try
             {
-                ThinkGeo.Gpu.DisplayProjection.FromProjString(historic);
+                DisplayProjection.FromProjString(historic);
                 gpu = "GPU: grid path - no shader family can apply a datum shift, so the definition is drawn through PROJ; the log carries a warning saying so";
             }
             catch (NotSupportedException ex)
@@ -227,38 +210,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             }
 
             DatumReadout.Text = cpu + Environment.NewLine + Environment.NewLine + gpu;
-        }
-
-        private void Editor_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (!_ready) return;
-            _applyTimer.Stop();
-            _applyTimer.Start();
-        }
-
-        // A document that does not compile changes nothing; the map keeps the last one that worked.
-        private async Task ApplyEditorStyleAsync()
-        {
-            if (!IsLoaded) return;
-
-            try
-            {
-                await GpuMap.Basemap.SetStyleAsync(new MapStyle(Editor.Text));
-                Status.Foreground = Brushes.DarkGreen;
-                Status.Text = FormattableString.Invariant($"applied at {DateTime.Now:HH:mm:ss}");
-            }
-            catch (Exception exception)
-            {
-                Status.Foreground = Brushes.Firebrick;
-                Status.Text = "not applied - " + exception.Message.Split('\n')[0].TrimEnd('\r');
-            }
-        }
-
-        public void Dispose()
-        {
-            _cpuLayer?.Close();
-            CpuMap.Dispose();
-            GpuMap.Dispose();
         }
     }
 }

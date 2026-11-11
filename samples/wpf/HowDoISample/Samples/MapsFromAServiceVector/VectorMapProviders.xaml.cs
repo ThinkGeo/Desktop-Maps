@@ -9,20 +9,21 @@ using ThinkGeo.UI.Wpf;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// The hosted vector maps, each a style document: ThinkGeo Maps binds its keyed
+    /// The hosted vector maps, each a style document: ThinkGeo Cloud binds its keyed
     /// tile source to a published style, OpenFreeMap and any other MVT server are a
     /// style URL alone. The keyed commercial providers are a page of their style URLs.
     /// </summary>
     public partial class VectorMapProviders
     {
-        private ThinkGeoVectorTileSource _thinkGeo;
+        private readonly ThinkGeoVectorTileSource _thinkGeo =
+            new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) };
+
         private bool _ready;
 
         public VectorMapProviders()
         {
             InitializeComponent();
             Map.MapUnit = GeographyUnit.Meter;
-            Map.IsTiltEnabled = true;
         }
 
         private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -32,7 +33,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _ready = true;
             Map.CenterPoint = new PointShape(-10779700, 3912000);
             Map.CurrentScale = 18100;
-            Map.TiltAngle = 45;
             await ShowChosenAsync();
         }
 
@@ -47,8 +47,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         }
 
         /// <summary>
-        /// Light and dark are two documents over the same ThinkGeo tiles, so they restyle
-        /// in place; any other server is a different source, and that is a new basemap.
+        /// A new provider is a new style over the same map: the basemap is restyled in
+        /// place and the camera holds. Light and dark share the one ThinkGeo tile source.
         /// </summary>
         private async Task ShowChosenAsync()
         {
@@ -64,19 +64,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             OtherProvidersPage.Visibility = Visibility.Collapsed;
             try
             {
-                var thinkGeo = ThinkGeoLight.IsChecked == true || ThinkGeoDark.IsChecked == true;
-                if (thinkGeo && _thinkGeo != null)
+                var style = ThinkGeoLight.IsChecked == true ? new MapStyle(ThinkGeoVectorStyles.Light, _thinkGeo)
+                    : ThinkGeoDark.IsChecked == true ? new MapStyle(ThinkGeoVectorStyles.Dark, _thinkGeo)
+                    : new MapStyle(ChosenStyleUri());
+                if (Map.Basemap == null)
                 {
-                    var restyle = new MapStyle().AddStyle(ThinkGeoLight.IsChecked == true ? ThinkGeoVectorStyles.Light : ThinkGeoVectorStyles.Dark, _thinkGeo);
-                    await Map.Basemap.SetStyleAsync(restyle);
+                    Map.Basemap = new GpuBasemap(style);
                 }
                 else
                 {
-                    _thinkGeo = thinkGeo ? new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) } : null;
-                    var style = thinkGeo
-                        ? new MapStyle().AddStyle(ThinkGeoLight.IsChecked == true ? ThinkGeoVectorStyles.Light : ThinkGeoVectorStyles.Dark, _thinkGeo)
-                        : new MapStyle().AddStyle(ChosenStyleUri());
-                    Map.Basemap = new GpuBasemap(await style.OpenAsync());
+                    await Map.Basemap.SetStyleAsync(style);
                 }
 
                 // A server whose coverage is unknown opens on the whole world.
@@ -85,7 +82,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                     Map.CurrentExtent = MaxExtents.SphericalMercator;
                 }
 
-                Status.Text = thinkGeo ? nameof(ThinkGeoVectorTileSource) : ChosenStyleUri();
+                Status.Text = ThinkGeoLight.IsChecked == true || ThinkGeoDark.IsChecked == true
+                    ? nameof(ThinkGeoVectorTileSource)
+                    : ChosenStyleUri();
             }
             catch (Exception exception)
             {

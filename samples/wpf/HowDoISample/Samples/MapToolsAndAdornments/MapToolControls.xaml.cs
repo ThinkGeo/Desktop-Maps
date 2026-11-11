@@ -5,15 +5,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ThinkGeo.Core;
 using ThinkGeo.Core.Styling;
-using ThinkGeo.UI.Wpf;
 using ThinkGeo.Gpu;
 
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// Showcase how to toggle and customize multiple map tools at once.
+    /// Turn the map's built-in tools on and off - pan zoom bar, logo, scale line, mouse coordinates - and format the coordinates.
     /// </summary>
-    public partial class MapToolControls : IDisposable
+    public partial class MapToolControls
     {
         private bool _initialized;
 
@@ -22,19 +21,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             InitializeComponent();
         }
 
-        /// <summary>
-        /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map.
-        /// </summary>
         private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
-
             Map.MapUnit = GeographyUnit.Meter;
-
-            var basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
-            Map.Basemap = basemap;
+            Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
 
             Map.MapTools.Logo.Source = new BitmapImage(new Uri("/Resources/generic-logo.png", UriKind.RelativeOrAbsolute));
             Map.MapTools.Logo.IsEnabled = true;
@@ -54,43 +47,31 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _ = Map.RefreshAsync();
         }
 
-        private void CoordinateType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void CoordinateType_Checked(object sender, RoutedEventArgs e)
         {
             if (!_initialized) return;
 
-            Map.MapTools.MouseCoordinate.CustomFormatted -= MouseCoordinate_CustomMouseCoordinateFormat;
+            Map.MapTools.MouseCoordinate.CustomFormatted -= MouseCoordinate_CustomFormatted;
 
-            var selectedValue = ((ComboBoxItem)CoordinateType.SelectedItem).Content.ToString();
-            switch (selectedValue)
+            switch ((string)((RadioButton)sender).Tag)
             {
                 case "DMS":
                     Map.MapTools.MouseCoordinate.MouseCoordinateType = MouseCoordinateType.DegreesMinutesSeconds;
                     break;
-                case "Lat, Lon":
+                case "LonLat":
                     Map.MapTools.MouseCoordinate.MouseCoordinateType = MouseCoordinateType.LongitudeLatitude;
                     break;
                 default:
                     Map.MapTools.MouseCoordinate.MouseCoordinateType = MouseCoordinateType.Custom;
-                    Map.MapTools.MouseCoordinate.CustomFormatted += MouseCoordinate_CustomMouseCoordinateFormat;
+                    Map.MapTools.MouseCoordinate.CustomFormatted += MouseCoordinate_CustomFormatted;
                     break;
             }
         }
 
-        /// <summary>
-        /// Event handler that formats the MouseCoordinates to use WorldCoordinates.
-        /// </summary>
-        private static void MouseCoordinate_CustomMouseCoordinateFormat(object sender, CustomFormattedMouseCoordinateMapToolEventArgs e)
+        private static void MouseCoordinate_CustomFormatted(object sender, CustomFormattedMouseCoordinateMapToolEventArgs e)
         {
             ((MouseCoordinateMapTool)sender).Foreground = new SolidColorBrush(Colors.Black);
             e.Result = $"X: {e.WorldCoordinate.X:N2}, Y: {e.WorldCoordinate.Y:N2}";
-        }
-
-        public void Dispose()
-        {
-            Map.MapTools.MouseCoordinate.CustomFormatted -= MouseCoordinate_CustomMouseCoordinateFormat;
-
-            Map.Dispose();
-            GC.SuppressFinalize(this);
         }
     }
 }

@@ -12,11 +12,7 @@ using ThinkGeo.UI.Wpf;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// One dataset, four expressions - match, step, filter and case: the classic
-    /// ValueStyle, ClassBreakStyle, FilterStyle and boolean-expression styles are one
-    /// mechanism, an expression in the layer's paint. Every rule ends in a default,
-    /// so a feature no condition matches still has a look. Pick a rule or edit it;
-    /// text that does not compile changes nothing.
+    /// Style one dataset by rules - match, step, filter, case and zoom level - written in the style document beside the map.
     /// </summary>
     public partial class RenderBasedOnRules
     {

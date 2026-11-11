@@ -6,18 +6,18 @@ using System.IO;
 using System.Windows;
 using ThinkGeo.Core;
 using ThinkGeo.Core.Styling;
-using ThinkGeo.UI.Wpf;
 using ThinkGeo.Gpu;
+using ThinkGeo.UI.Wpf;
 
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// Interaction logic for SampleTemplate.xaml
+    /// A feature source of your own - here over a CSV file of points - drawn by the style document like any other.
     /// </summary>
     public partial class CustomFeatureSources
     {
-
         private bool _initialized;
+
         public CustomFeatureSources()
         {
             InitializeComponent();
@@ -26,86 +26,64 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
-
             _initialized = true;
+
             Map.MapUnit = GeographyUnit.Meter;
 
-            var basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
-            Map.Basemap = basemap;
-
-            // Load CSV data in EPSG:4326 and convert to EPSG:3857 for the map
-            var csvLayer = new SimpleCsvFeatureLayer(System.IO.Path.Combine(AppContext.BaseDirectory, "Data", "Csv", "vehicle-route.csv"))
+            // The CSV is in latitude and longitude (4326); the map is in Spherical Mercator (3857).
+            var vehicleRoute = new SimpleCsvFeatureSource(Path.Combine(AppContext.BaseDirectory, "Data", "Csv", "vehicle-route.csv"))
             {
-                FeatureSource = { ProjectionConverter = new ProjectionConverter(4326, 3857) }
+                ProjectionConverter = new ProjectionConverter(4326, 3857)
             };
 
-            var vehiclePointStyle = new PointStyle
-            {
-                SymbolType = PointSymbolType.Circle,
-                SymbolSize = 10, // adjust size as needed
-                FillBrush = new GeoSolidBrush(GeoColors.Blue),
-                OutlinePen = new GeoPen(GeoColors.White, 2)
-            };
+            vehicleRoute.Open();
+            var extent = vehicleRoute.GetBoundingBox();
+            vehicleRoute.Close();
+            Map.CenterPoint = extent.GetCenterPoint();
+            Map.CurrentScale = MapUtil.GetScale(Map.MapUnit, extent, Map.MapWidth, Map.MapHeight) * 1.5;
 
-            csvLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = vehiclePointStyle;
-            csvLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            // The source has no file name of its own to be known by, so the style is given one.
+            var tileSource = new FeatureSourceVectorTileSource();
+            tileSource.FeatureSources.Add("vehicle-route", vehicleRoute);
 
-            var layerOverlay = new LayerOverlay
-            {
-                TileType = TileType.SingleTile
-            };
-            layerOverlay.Layers.Add(csvLayer);
-            Map.Overlays.Add(layerOverlay);
-
-            csvLayer.Open();
-            var csvLayerBBox = csvLayer.GetBoundingBox();
-            Map.CenterPoint = csvLayerBBox.GetCenterPoint();
-            var MapScale = MapUtil.GetScale(Map.MapUnit, csvLayerBBox, Map.MapWidth, Map.MapHeight);
-            Map.CurrentScale = MapScale * 1.5; // Multiply the current scale by 1.5 to zoom out 50%.
+            var cloud = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) };
+            Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, cloud).AddStyle((string)FindResource("StyleJson"), tileSource));
 
             _ = Map.RefreshAsync();
         }
     }
 
-    // Here we are creating a simple CVS feature source using the minimum set of overloads.
-    // Since CSV doesn't include a way to do spatial queries we only need to return all the features
-    // in the method below and the base class will do the rest.  Of course if you had large dataset this
-    // would be slow, so I recommend you look at other overloads and implement optimized versions of these methods
+    /// <summary>
+    /// A CSV feature source with the least a FeatureSource needs: all of its features. The base
+    /// class answers every other query from them, which is fine for a small file; for a large one,
+    /// override the spatial query methods as well.
+    /// </summary>
     public class SimpleCsvFeatureSource : FeatureSource
     {
-        public string CsvPathFileName { get; set; }
-
-        private readonly Collection<Feature> _features;
+        private Collection<Feature> _features = new Collection<Feature>();
 
         public SimpleCsvFeatureSource(string csvPathFileName)
         {
-            this.CsvPathFileName = csvPathFileName;
-            _features = new Collection<Feature>();
+            CsvPathFileName = csvPathFileName;
+        }
+
+        public string CsvPathFileName { get; }
+
+        // Each line is "latitude,longitude". The file is read once, on open: tiles can be cut from the source on several threads at once.
+        protected override void OpenCore()
+        {
+            var features = new Collection<Feature>();
+            foreach (var line in File.ReadAllLines(CsvPathFileName))
+            {
+                var parts = line.Split(',');
+                features.Add(new Feature(double.Parse(parts[1], CultureInfo.InvariantCulture), double.Parse(parts[0], CultureInfo.InvariantCulture)));
+            }
+            _features = features;
         }
 
         protected override Collection<Feature> GetAllFeaturesCore(IEnumerable<string> returningColumnNames)
         {
-            // If we haven't loaded the CSV then load it and return all the features
-            if (_features.Count != 0) return _features;
-            var locations = File.ReadAllLines(CsvPathFileName);
-
-            foreach (var location in locations)
-            {
-                var parts = location.Split(',');
-                _features.Add(new Feature(double.Parse(parts[1], CultureInfo.InvariantCulture), double.Parse(parts[0], CultureInfo.InvariantCulture)));
-            }
             return _features;
         }
-    }
-
-    // We need to create a layer that wraps the feature source.  FeatureLayer has everything we need we just need
-    // to provide a constructor and set the feature source and all the methods on the feature layer just work.
-    public class SimpleCsvFeatureLayer : FeatureLayer
-    {
-        public SimpleCsvFeatureLayer(string csvPathFileName)
-        {
-            this.FeatureSource = new SimpleCsvFeatureSource(csvPathFileName);
-        }
-        public override bool HasBoundingBox => true;
     }
 }

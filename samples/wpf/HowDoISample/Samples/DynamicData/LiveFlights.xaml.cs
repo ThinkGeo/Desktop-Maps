@@ -12,13 +12,7 @@ using ThinkGeo.UI.Wpf;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// Every aircraft in the sky right now: one live fetch from the OpenSky network -
-    /// ten-thousand-plus airborne planes with position, track and speed - then dead
-    /// reckoning flies them all forward, sped up by the time slider. Each tick is one
-    /// DynamicSource.SetPoint per aircraft, and the whole sky lands as one rebuild; the
-    /// renderer redraws the markers and nothing else changes. Hover a plane for its
-    /// callsign, altitude and speed - and it starts drawing its trail, a line in the
-    /// same source.
+    /// Every airborne aircraft from OpenSky, flown forward by dead reckoning through one DynamicSource.
     /// </summary>
     public partial class LiveFlights : IDisposable
     {
@@ -33,14 +27,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private DateTime _lastTick;
         private bool _built;
 
-        // The hovered aircraft keeps a trail: a ring buffer of where it has been,
-        // pushed through the same source's line channel each tick.
         private Flight _trailedFlight;
         private readonly List<Vertex> _trail = new List<Vertex>();
 
         private sealed class Flight
         {
-            // The id the aircraft's marker is kept under in the source.
             public string Id;
             public string Callsign;
             public double Lon;
@@ -68,33 +59,39 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             }
 
             _built = true;
+
+            // Coordinates arrive in WGS84 and the source converts.
+            _tracks = new DynamicSource(new Projection(4326));
+
+            var style = new MapStyle();
+            style.AddStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
+            style.AddDynamic(_tracks);
+            Map.Basemap = new GpuBasemap(style);
+
+            Map.CurrentExtent = new RectangleShape(-14026255, 6446275, -7235766, 2632018);
+            await Map.RefreshAsync();
+
+            Status.Text = "Fetching the sky…";
             try
             {
-                // Coordinates arrive in WGS84 and the source converts.
-                _tracks = new DynamicSource(new Projection(4326));
-
-                var style = new MapStyle();
-                style.AddStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
-                style.AddDynamic(_tracks);
-                Map.Basemap = new GpuBasemap(style);
-
-                // The lower 48, the densest continuous airspace; zoom out for the world.
-                Map.CurrentExtent = new RectangleShape(-14026255, 6446275, -7235766, 2632018);
-
-                Status.Text = "Fetching the sky…";
                 var json = await HttpClient.GetStringAsync(OpenSkyUrl);
                 _flights = ParseOpenSky(json);
-                Status.Text = FormattableString.Invariant($"{_flights.Length} aircraft airborne right now");
-
-                _lastTick = DateTime.UtcNow;
-                _timer.Start();
             }
             catch (Exception ex)
             {
-                Status.Text = "OpenSky unreachable: " + ex.Message;
+                Status.Text = "OpenSky (opensky-network.org) did not answer, so there are no aircraft to show. Try again later. (" + ex.Message + ")";
+                return;
             }
 
-            await Map.RefreshAsync();
+            if (_flights.Length == 0)
+            {
+                Status.Text = "OpenSky (opensky-network.org) answered without any aircraft. Try again later.";
+                return;
+            }
+
+            Status.Text = FormattableString.Invariant($"{_flights.Length} aircraft airborne right now");
+            _lastTick = DateTime.UtcNow;
+            _timer.Start();
         }
 
         private void SpeedSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -112,7 +109,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             using var document = JsonDocument.Parse(json);
             var flights = new List<Flight>(16384);
-            foreach (var state in document.RootElement.GetProperty("states").EnumerateArray())
+            var states = document.RootElement.GetProperty("states");
+            if (states.ValueKind != JsonValueKind.Array)
+            {
+                return flights.ToArray();
+            }
+
+            foreach (var state in states.EnumerateArray())
             {
                 // Indexes per the OpenSky API: 1 callsign, 5 lon, 6 lat,
                 // 7 baro altitude, 8 on-ground, 9 velocity, 10 true track.
@@ -140,19 +143,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             return flights.ToArray();
         }
 
-        /// <summary>
-        /// One tick: every aircraft flies straight ahead at its reported speed and
-        /// track (dead reckoning), sped up by the time slider, and its marker is moved
-        /// in place; the whole sky lands as one rebuild on the next frame. Longitudes
-        /// wrap, so the Pacific crossings keep going.
-        /// </summary>
         private void Advance()
         {
-            if (_flights == null || _tracks == null)
-            {
-                return;
-            }
-
             var now = DateTime.UtcNow;
             var dt = (now - _lastTick).TotalSeconds * SpeedSlider.Value;
             _lastTick = now;
@@ -172,16 +164,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 if (flight.Lon > 180) flight.Lon -= 360;
                 if (flight.Lon < -180) flight.Lon += 360;
 
-                var position = new Feature(flight.Lon, flight.Lat);
-                var color = ColorForAltitude(flight.AltitudeMeters);
-                if (_tracks.Contains(flight.Id))
-                {
-                    _tracks.SetPoint(flight.Id, position, flight.TrackDegrees, color, 11f);
-                }
-                else
-                {
-                    _tracks.SetPoint(flight.Id, position, flight.TrackDegrees, color, 11f);
-                }
+                _tracks.SetPoint(flight.Id, new Feature(flight.Lon, flight.Lat), flight.TrackDegrees, ColorForAltitude(flight.AltitudeMeters), 11f);
             }
 
             if (_trailedFlight != null)
@@ -200,16 +183,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
                 if (_trail.Count > 1)
                 {
-                    var trail = new Feature(new LineShape(_trail));
-                    var color = ColorForAltitude(_trailedFlight.AltitudeMeters);
-                    if (_tracks.Contains("trail"))
-                    {
-                        _tracks.SetLine("trail", trail, color, 2f);
-                    }
-                    else
-                    {
-                        _tracks.SetLine("trail", trail, color, 2f);
-                    }
+                    _tracks.SetLine("trail", new Feature(new LineShape(_trail)), ColorForAltitude(_trailedFlight.AltitudeMeters), 2f);
                 }
             }
         }
@@ -248,9 +222,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             if (nearest == null)
             {
-                // The card hides, but the last hovered aircraft keeps its trail - a
-                // trail you had to keep the cursor on would never grow long enough
-                // to say anything.
+                // The last hovered aircraft keeps its trail after the card hides.
                 HoverCard.Visibility = Visibility.Collapsed;
                 return;
             }
@@ -268,7 +240,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             HoverCard.Visibility = Visibility.Visible;
         }
 
-        /// <summary>Climbing out amber, mid-level green, cruising blue.</summary>
         private static GeoColor ColorForAltitude(float meters) => meters switch
         {
             < 3000f => GeoColor.FromArgb(235, 240, 150, 30),

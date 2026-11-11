@@ -14,22 +14,22 @@
 
         <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
 
-        <StackPanel Grid.Column="1" Background="DimGray" Margin="10">
-            <TextBlock Text="Archive" FontSize="16" FontWeight="Bold" Foreground="WhiteSmoke" Margin="0,0,0,6"/>
+        <StackPanel Grid.Column="1" Background="#F6F6F4">
+            <TextBlock Text="Archive" FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
+            <StackPanel Margin="8,0,8,4">
+                <RadioButton x:Name="SrcVectorMbTiles" Content="Vector MBTiles + style.json" IsChecked="True" Checked="Archive_Checked"/>
+                <RadioButton x:Name="SrcVectorPmTiles" Content="Vector PMTiles + style.json" Checked="Archive_Checked"/>
+                <RadioButton x:Name="SrcRasterMbTiles" Content="Raster MBTiles" Checked="Archive_Checked"/>
+                <RadioButton x:Name="SrcRasterPmTiles" Content="Raster PMTiles" Checked="Archive_Checked"/>
+                <RadioButton x:Name="SrcFolder" Content="A folder of z/x/y tiles from QGIS" Checked="Archive_Checked"/>
+            </StackPanel>
 
-            <RadioButton x:Name="SrcVectorMbTiles" Content="Vector MBTiles + style.json" IsChecked="True" Checked="Archive_Checked"/>
-            <RadioButton x:Name="SrcVectorPmTiles" Content="Vector PMTiles + style.json" Checked="Archive_Checked"/>
-            <RadioButton x:Name="SrcRasterMbTiles" Content="Raster MBTiles" Checked="Archive_Checked"/>
-            <RadioButton x:Name="SrcRasterPmTiles" Content="Raster PMTiles" Checked="Archive_Checked"/>
-            <RadioButton x:Name="SrcFolder" Content="A folder of z/x/y tiles from QGIS" Checked="Archive_Checked"/>
-
-            <CheckBox x:Name="ApplyStyle" Content="Draw with its style.json" IsChecked="True" Margin="0,10,0,0"
+            <CheckBox x:Name="ApplyStyle" Content="Draw with its style.json" IsChecked="True" Margin="8,6,8,0"
                       Checked="Archive_Checked" Unchecked="Archive_Checked"/>
 
-            <TextBlock x:Name="Status" Foreground="#DDDDDD" FontFamily="Consolas" FontSize="11"
-                       Margin="0,12,0,0" TextWrapping="Wrap"/>
+            <TextBlock x:Name="Status" FontFamily="Consolas" FontSize="11" Margin="8,10,8,0" TextWrapping="Wrap"/>
 
-            <TextBlock Foreground="#DDDDDD" TextWrapping="Wrap" FontSize="11" Margin="0,12,0,0"
+            <TextBlock Foreground="#444A52" TextWrapping="Wrap" FontSize="11" Margin="8,10,8,6"
                        Text="Vector tiles carry geometry, so a style document says how to draw them; raster tiles are pictures, so what is in the archive is what you see. Either way the archive is one tile source handed to the style, and nothing is fetched from a network."/>
         </StackPanel>
     </Grid>

@@ -15,7 +15,8 @@
                        VerticalAlignment="Center" Margin="8,0,4,0"/>
             <TextBlock DockPanel.Dock="Right" VerticalAlignment="Center" Foreground="#606060" Margin="0,0,8,0"
                        Text="color = altitude:  amber &lt; 3 km   green 3-8 km   blue cruise"/>
-            <TextBlock x:Name="Status" VerticalAlignment="Center" Margin="12,0,8,0"/>
+            <TextBlock x:Name="Status" VerticalAlignment="Center" Margin="12,0,8,0" TextTrimming="CharacterEllipsis"
+                       ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"/>
         </DockPanel>
 
         <Grid>

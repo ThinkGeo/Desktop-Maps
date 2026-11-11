@@ -101,14 +101,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             }
 
             // The shape any tile writer produces: z/x/y image files. This folder came
-            // out of QGIS and stops at zoom 5.
-            var folder = Data("OSM_Tiles_z0-z5_Created_By_QGIS");
+            // out of QGIS as JPEGs and stops at zoom 5; it ships zipped and is unpacked
+            // once into the user's own folder, since the application folder may be
+            // read-only.
+            var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "ThinkGeo", "HowDoI", "OfflineTiles", "OSM_Tiles_z0-z5_Created_By_QGIS");
             if (!Directory.Exists(folder))
             {
-                ZipFile.ExtractToDirectory(folder + ".zip", folder);
+                ZipFile.ExtractToDirectory(Data("OSM_Tiles_z0-z5_Created_By_QGIS.zip"), folder);
             }
 
-            var files = new FolderRasterTileSource(folder, maxZoom: 5);
+            var files = new FolderRasterTileSource(folder, ".jpg", maxZoom: 5);
             return (files, new MapStyle().AddRaster(files), MaxExtents.SphericalMercator);
         }
 
@@ -134,10 +137,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
     internal sealed class FolderRasterTileSource : RasterTileSource
     {
         private readonly string _root;
+        private readonly string _extension;
 
-        public FolderRasterTileSource(string root, int maxZoom)
+        public FolderRasterTileSource(string root, string extension, int maxZoom)
         {
             _root = root;
+            _extension = extension;
             SetDataZoomRange(0, maxZoom);
         }
 
@@ -147,7 +152,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         protected override Task<byte[]> GetTileImageAsyncCore(int zoom, long x, long y, CancellationToken cancellationToken)
         {
-            var path = Path.Combine(_root, zoom.ToString(), x.ToString(), y + ".jpg");
+            var path = Path.Combine(_root, zoom.ToString(), x.ToString(), y + _extension);
             return Task.FromResult(File.Exists(path) ? File.ReadAllBytes(path) : null);
         }
     }

@@ -3,27 +3,27 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using ThinkGeo.Core;
 using ThinkGeo.Core.Styling;
-using ThinkGeo.UI.Wpf;
 using ThinkGeo.Gpu;
 
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// Learn to draw, edit, or delete shapes using the map's TrackOverlay and EditOverlay.
+    /// Draw, edit and delete shapes with the map's TrackOverlay and EditOverlay, and log the events they raise.
     /// </summary>
     public partial class EditFeatures
     {
+        private LayerOverlay _layerOverlay;
+        private int _logIndex;
+        private bool _initialized;
+
+        public ObservableCollection<string> LogMessages { get; } = new ObservableCollection<string>();
+
         public EditFeatures()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
-        private bool _initialized;
-        LayerOverlay _layerOverlay = null;
-
-        /// <summary>
-        /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map
-        /// </summary>
         private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
@@ -36,7 +36,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             Map.CenterPoint = new PointShape(-10778000, 3912000);
             Map.CurrentScale = 77000;
-            Map.MapClick += Map_MapClick;
 
             var demoPolygon = new Feature("POLYGON((-10778500 3915600,-10778500 3910000,-10774040 3910000,-10774040 3915600,-10778500 3915600))");
             var demoPoint = new Feature("POINT(-10773220 3913230)");
@@ -64,11 +63,28 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             Map.TrackOverlay.MouseMoved += TrackOverlay_MouseMoved;
             Map.EditOverlay.VertexMoved += EditOverlay_VertexMoved;
 
-            // Update instructions
-            Instructions.Text =
-                "Edit Shapes Mode — Use anchor handles to translate, rotate, or scale shapes. Drag an existing vertex to move it. Click on a segment to add a vertex. Double-click an existing vertex to remove it.";
+            Map.TrackOverlay.TrackStarted += (_, args) => AppendLog($"TrackOverlay.TrackStarted at ({args.StartedVertex.X:N0}, {args.StartedVertex.Y:N0})");
+            Map.TrackOverlay.VertexAdded += (_, args) => AppendLog($"TrackOverlay.VertexAdded at ({args.AddedVertex.X:N0}, {args.AddedVertex.Y:N0})");
+            Map.TrackOverlay.TrackEnded += (_, args) => AppendLog($"TrackOverlay.TrackEnded: {args.TrackShape.GetType().Name}");
+            Map.EditOverlay.FeatureDragged += (_, args) => AppendLog($"EditOverlay.FeatureDragged: {args.DraggedFeature.GetShape().GetType().Name}");
+            Map.EditOverlay.FeatureResized += (_, args) => AppendLog($"EditOverlay.FeatureResized: {args.ResizedFeature.GetShape().GetType().Name}");
+            Map.EditOverlay.FeatureRotated += (_, args) => AppendLog($"EditOverlay.FeatureRotated: {args.RotatedFeature.GetShape().GetType().Name}");
+            Map.EditOverlay.VertexAdded += (_, args) => AppendLog($"EditOverlay.VertexAdded at ({args.AddedVertex.X:N0}, {args.AddedVertex.Y:N0})");
+            Map.EditOverlay.VertexMoved += (_, args) => AppendLog($"EditOverlay.VertexMoved to ({args.MovedVertex.X:N0}, {args.MovedVertex.Y:N0})");
+            Map.EditOverlay.VertexRemoved += (_, args) => AppendLog($"EditOverlay.VertexRemoved at ({args.RemovedVertex.X:N0}, {args.RemovedVertex.Y:N0})");
 
             _ = Map.RefreshAsync();
+        }
+
+        private void AppendLog(string message)
+        {
+            LogMessages.Add($"{_logIndex++}: {message}");
+            LogListBox.ScrollIntoView(LogMessages[LogMessages.Count - 1]);
+        }
+
+        private void ClearLog_Click(object sender, RoutedEventArgs e)
+        {
+            LogMessages.Clear();
         }
 
         private void EditOverlay_VertexMoved(object sender, VertexMovedEditInteractiveOverlayEventArgs e)
@@ -105,7 +121,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         }
 
         /// <summary>
-        /// Set the mode to normal navigation. This is the default.
+        /// Save the shapes to the layer and return the mouse to panning and zooming.
         /// </summary>
         private void NavMode_Click(object sender, RoutedEventArgs e)
         {
@@ -124,9 +140,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // Set TrackMode to None, so that the user will no longer draw shapes and will be able to navigate the map normally
             Map.TrackOverlay.TrackMode = TrackMode.None;
 
-            // Update instructions
-            Instructions.Text = "Navigation Mode — Default map state. Use mouse to pan and zoom the map.";
-
             _ = Map.RefreshAsync(new Overlay[] { Map.TrackOverlay, Map.EditOverlay, _layerOverlay });
         }
 
@@ -137,9 +150,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             // Set TrackMode to Point, which draws a new point on the map on mouse click
             Map.TrackOverlay.TrackMode = TrackMode.Point;
-
-            // Update instructions
-            Instructions.Text = "Draw Point Mode — Click anywhere on the map to create a point. Hold the middle mouse button to pan.";
         }
 
         /// <summary>
@@ -149,9 +159,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             // Set TrackMode to Line, which draws a new line on the map on mouse click. Double click to finish drawing the line.
             Map.TrackOverlay.TrackMode = TrackMode.Line;
-
-            // Update instructions
-            Instructions.Text = "Draw Line Mode — Click to add vertices; double-click to finish the line. Hold the middle mouse button to pan. Hold Shift to enable North–South / East–West snapping.";
         }
 
         /// <summary>
@@ -161,10 +168,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             // Set TrackMode to Polygon, which draws a new polygon on the map on mouse click. Double click to finish drawing the polygon.
             Map.TrackOverlay.TrackMode = TrackMode.Polygon;
-
-            // Update instructions
-            Instructions.Text =
-                "Draw Polygon Mode — Click to add vertices; double-click to finish the polygon. Hold the middle mouse button to pan. Hold Shift to enable North–South / East–West snapping.";
         }
 
         private void EditShape_OnChecked(object sender, RoutedEventArgs e)
@@ -191,10 +194,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             // Refresh the map so that the features properly show that they are in edit mode
             _ = Map.RefreshAsync(new Overlay[] { Map.TrackOverlay, Map.EditOverlay, _layerOverlay });
-
-            // Update instructions
-            Instructions.Text =
-                "Edit Shapes Mode — Use anchor handles to translate, rotate, or scale shapes. Drag an existing vertex to move it. Click on a segment to add a vertex. Double-click an existing vertex to remove it.";
         }
 
         private void EditShape_OnUnchecked(object sender, RoutedEventArgs e)
@@ -215,8 +214,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// </summary>
         private void Map_MapClick(object sender, MapClickMapViewEventArgs e)
         {
-            if (DeleteShape.IsChecked != null && !DeleteShape.IsChecked.Value)
-                return;
+            if (DeleteShape.IsChecked != true) return;
 
             var featureLayer = (InMemoryFeatureLayer)_layerOverlay.Layers["featureLayer"];
 

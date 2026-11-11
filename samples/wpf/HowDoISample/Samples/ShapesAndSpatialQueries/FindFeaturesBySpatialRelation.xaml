@@ -24,7 +24,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="240"/>
-            <ColumnDefinition Width="420"/>
+            <ColumnDefinition Width="300"/>
         </Grid.ColumnDefinitions>
 
         <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
@@ -40,6 +40,7 @@
                 <RadioButton x:Name="RelTouching" Content="Touching" Checked="Relation_Checked"/>
                 <RadioButton x:Name="RelWithin" Content="Within the shape" Checked="Relation_Checked"/>
                 <RadioButton x:Name="RelWithinDistance" Content="Within a distance" Checked="Relation_Checked"/>
+                <RadioButton x:Name="RelEqual" Content="Equal" Checked="Relation_Checked"/>
 
                 <StackPanel x:Name="RadiusPanel" Margin="0,8,0,0" Visibility="Collapsed">
                     <TextBlock Text="Distance (meters)" FontSize="11.5"/>
@@ -53,19 +54,8 @@
                 <TextBlock x:Name="Hint" Foreground="#444A52" TextWrapping="Wrap" FontSize="11" Margin="0,4,0,0"/>
 
                 <TextBlock Foreground="#444A52" TextWrapping="Wrap" FontSize="11" Margin="0,6,0,0"
-                           Text="Purple is Frisco's zoning. The dashed shape is the query; blue is what the relation matched. Every relation is the same call on the same QueryTools with a different name."/>
+                           Text="Purple is Frisco's zoning. The black outline, line or pin is the query; blue is what the relation matched. Every relation is the same call on the same QueryTools with a different name."/>
             </StackPanel>
-            <TextBlock DockPanel.Dock="Top" Text="style.json - edit it; the map follows"
-                       FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
-
-            <TextBlock x:Name="Status" DockPanel.Dock="Bottom" FontSize="11" Margin="8,4,8,6"
-                       TextWrapping="Wrap" Foreground="DarkGreen"/>
-            <TextBox x:Name="Editor" TextChanged="Editor_TextChanged"
-                     Text="{StaticResource StyleJson}"
-                     AcceptsReturn="True" AcceptsTab="True"
-                     FontFamily="Consolas" FontSize="11.5" Padding="6"
-                     TextWrapping="NoWrap" BorderThickness="1,0,0,0" BorderBrush="#CCCCCC"
-                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
         </DockPanel>
     </Grid>
 </UserControl>

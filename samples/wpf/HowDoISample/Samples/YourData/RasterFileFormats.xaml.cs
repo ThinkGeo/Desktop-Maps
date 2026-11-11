@@ -10,8 +10,9 @@ using ThinkGeo.UI.Wpf;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// Open a raster file - GeoTIFF, ECW, JPEG 2000, MrSID, or anything else GDAL
-    /// reads - and draw it. Each format has a classic raster source named after it;
+    /// Open a raster file - GeoTIFF, ECW, JPEG 2000, MrSID, or a format with no class
+    /// of its own such as an ESRI ASCII grid - and draw it. Each common format has a
+    /// classic raster source named after it, and GdalRasterSource reads the rest;
     /// WarpProjection warps the file once at open through a virtual dataset, and
     /// one ClassicRasterTileSource serves its windowed reads as tiles, so a
     /// multi-gigabyte image with overviews draws at every zoom without ever being
@@ -22,6 +23,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         // Frisco, TX - the NAIP aerial's own ground.
         private static readonly RectangleShape Frisco =
             new RectangleShape(-10784079, 3920222, -10777116, 3911905);
+
+        // The whole of Frisco - the ground the ASCII grid covers.
+        private static readonly RectangleShape FriscoGrid =
+            new RectangleShape(-10790111, 3922979, -10766804, 3906269);
 
         // The basemap under the imagery. One source for the life of the sample: a
         // restyle keeps the sources it recognizes, so the map below holds still
@@ -66,7 +71,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         /// <summary>
         /// The chosen file as a tile source, read by the class named after its
-        /// format, over the cloud basemap.
+        /// format - or by GdalRasterSource itself - over the cloud basemap.
         /// </summary>
         private MapStyle ComposeStyle()
         {
@@ -120,13 +125,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 // This ECW's own projection record is broken; its world file is degrees.
                 return new EcwGdalRasterSource(Data("Ecw", "World.ecw")) { SourceProjection = new Projection(4326) };
 
-            return new GdalRasterSource(Data("GeoTiff", "World.tif")) { SourceProjection = new Projection(4326) };
+            // A format with no class of its own opens with the base class. This grid is
+            // single-band values in Texas North Central state plane feet.
+            return new GdalRasterSource(Data("GridFile", "Mosquitos.asc")) { SourceProjection = new Projection(2276) };
         }
 
-        private RectangleShape StartExtent() =>
-            FmtGeoTiff.IsChecked == true || FmtJpeg2000.IsChecked == true || FmtJpeg.IsChecked == true
-                ? Frisco
-                : MaxExtents.SphericalMercator;
+        private RectangleShape StartExtent()
+        {
+            if (FmtGeoTiff.IsChecked == true || FmtJpeg2000.IsChecked == true || FmtJpeg.IsChecked == true) return Frisco;
+            if (FmtAsciiGrid.IsChecked == true) return FriscoGrid;
+            return MaxExtents.SphericalMercator;
+        }
 
         private static string Data(string folder, string file) =>
             Path.Combine(AppContext.BaseDirectory, "Data", folder, file);

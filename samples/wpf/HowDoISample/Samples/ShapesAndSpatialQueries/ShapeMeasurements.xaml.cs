@@ -2,11 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Threading;
 using ThinkGeo.Core;
 using ThinkGeo.Core.Styling;
 using ThinkGeo.UI.Wpf;
@@ -15,9 +11,7 @@ using ThinkGeo.Gpu;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// Measure a shape: its area, its length, its center point, the shortest line from
-    /// it to somewhere else, or a stretch of it starting a given distance along. Click
-    /// a feature and the answer is one call on the shape it carries.
+    /// Measure a shape - its area, length, center point, the shortest line to somewhere else, or a stretch of a line - with one call on the shape you click.
     /// </summary>
     public partial class ShapeMeasurements
     {
@@ -27,7 +21,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private readonly ThinkGeoVectorTileSource _cloud =
             new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) };
 
-        private readonly DispatcherTimer _applyTimer;
         private GpuBasemap _basemap;
         private FeatureSource _data;
         private FeatureSourceVectorTileSource _tiles;
@@ -38,9 +31,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         public ShapeMeasurements()
         {
             InitializeComponent();
-
-            _applyTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(400) };
-            _applyTimer.Tick += async (_, _) => { _applyTimer.Stop(); await ApplyEditorStyleAsync(); };
         }
 
         private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -84,31 +74,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             if (_ready) Measure(_measuring);
         }
 
-        private void Editor_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (!_ready) return;
-            _applyTimer.Stop();
-            _applyTimer.Start();
-        }
-
-        // A document that does not compile changes nothing; the map keeps the last one that worked.
-        private async Task ApplyEditorStyleAsync()
-        {
-            if (!IsLoaded) return;
-
-            try
-            {
-                await _basemap.SetStyleAsync(ComposeStyle());
-                Status.Foreground = Brushes.DarkGreen;
-                Status.Text = FormattableString.Invariant($"applied at {DateTime.Now:HH:mm:ss}");
-            }
-            catch (Exception exception)
-            {
-                Status.Foreground = Brushes.Firebrick;
-                Status.Text = "not applied - " + exception.Message.Split('\n')[0].TrimEnd('\r');
-            }
-        }
-
         /// <summary>
         /// The data the chosen measurement reads, and the tiles it is cut into. Parks
         /// for the ones that measure an area, trails for the ones that measure along a
@@ -134,14 +99,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         }
 
         /// <summary>
-        /// The chosen data under the document, over the cloud basemap, with what was
-        /// measured and the stadium as geometry.
+        /// The chosen data over the cloud basemap, with what was measured and the
+        /// stadium as geometry.
         /// </summary>
         private MapStyle ComposeStyle()
         {
             var style = new MapStyle();
             style.AddStyle(ThinkGeoVectorStyles.Light, _cloud);
-            style.AddStyle(Editor.Text, _tiles);
+            style.AddStyle((string)Resources["StyleJson"], _tiles);
 
             // Ringed circles are no shape the renderer has of its own, so they are drawn
             // once and registered under the names the point markers ask for.
@@ -237,8 +202,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 var center = shape.GetCenterPoint();
                 drawn.Add(shape);
                 drawn.Add(center);
-                Result.Text = center.X.ToString("f0", CultureInfo.CurrentCulture) + ", " +
-                              center.Y.ToString("f0", CultureInfo.CurrentCulture);
+
+                // The map is in web-mercator meters; a center point is read in longitude and latitude.
+                var toLonLat = new ProjectionConverter(3857, 4326);
+                toLonLat.Open();
+                var lonLat = (PointShape)toLonLat.ConvertToExternalProjection(center);
+                toLonLat.Close();
+                Result.Text = "lon " + lonLat.X.ToString("f5", CultureInfo.CurrentCulture) +
+                              ", lat " + lonLat.Y.ToString("f5", CultureInfo.CurrentCulture);
             }
             else if (MeaShortest.IsChecked == true)
             {

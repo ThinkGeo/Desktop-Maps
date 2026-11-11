@@ -1,0 +1,37 @@
+﻿using System.ComponentModel;
+
+using ThinkGeo.UI.Wpf;
+namespace ThinkGeo.UI.Wpf.HowDoI.Samples
+{
+    /// <summary>
+    /// A pulsing dot the Markers sample uses as a marker's content.
+    /// </summary>
+    public partial class CustomIcon : INotifyPropertyChanged
+    {
+        private bool _animationStarted;
+        public CustomIcon()
+        {
+            InitializeComponent();
+        }
+
+        public bool AnimationStarted
+        {
+            get => _animationStarted;
+            set
+            {
+                if (_animationStarted != value)
+                {
+                    _animationStarted = value;
+                    OnPropertyChanged(nameof(AnimationStarted));
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+}

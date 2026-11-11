@@ -23,7 +23,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="240"/>
-            <ColumnDefinition Width="420"/>
+            <ColumnDefinition Width="340"/>
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0">
@@ -54,7 +54,7 @@
         </Grid>
 
         <DockPanel Grid.Column="1" Background="#F6F6F4">
-            <ScrollViewer DockPanel.Dock="Top" MaxHeight="400" VerticalScrollBarVisibility="Auto">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Margin="8,6,8,4">
                     <TextBlock Text="Same data, both ways" FontSize="16" FontWeight="Bold" Margin="0,0,0,6" />
                     <TextBlock TextWrapping="Wrap" Foreground="#666" Margin="0,0,0,10"
@@ -77,19 +77,9 @@
 
                     <Separator Margin="0,10,0,8" />
                     <TextBlock TextWrapping="Wrap" Foreground="#444" FontSize="11"
-                               Text="Read the two headers as you switch. The CPU side re-reads every feature and pushes every vertex through proj4 - which is why it can honor any datum, and why the cost grows with the data. The GPU side transforms nothing: the tiles it holds are web mercator before and after, and the projection is a line of shader run per vertex per frame - which is why switching is free and why the families it supports are a closed set. A definition outside that set is not refused: it is drawn through the PROJ grid path, slower to build and with a warning in the log." />
+                               Text="Read the two headers as you switch. The CPU side reads every feature again and pushes every vertex through proj4 - which is why it can honor any datum, and why the cost grows with the data. The GPU side converted the shapefile to web mercator once, when its tiles were cut, and projects those tiles as it draws - which is why switching reads no data and why the families it codes are a closed set. A definition outside that set is not refused: it is drawn through the PROJ grid path, slower to build and with a warning in the log." />
                 </StackPanel>
             </ScrollViewer>
-            <TextBlock DockPanel.Dock="Top" Text="style.json - edit it; the GPU map follows"
-                       FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
-            <TextBlock x:Name="Status" DockPanel.Dock="Bottom" FontSize="11" Margin="8,4,8,6"
-                       TextWrapping="Wrap" Foreground="DarkGreen"/>
-            <TextBox x:Name="Editor" TextChanged="Editor_TextChanged"
-                     Text="{StaticResource StyleJson}"
-                     AcceptsReturn="True" AcceptsTab="True"
-                     FontFamily="Consolas" FontSize="11.5" Padding="6"
-                     TextWrapping="NoWrap" BorderThickness="1,0,0,0" BorderBrush="#CCCCCC"
-                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
         </DockPanel>
     </Grid>
 </UserControl>

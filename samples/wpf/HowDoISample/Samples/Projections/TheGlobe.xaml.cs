@@ -13,9 +13,9 @@ using ThinkGeo.Gpu;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// The map as a ball.
+    /// Show the map as a globe, and watch it flatten into web mercator as you zoom in.
     /// </summary>
-    public partial class TheGlobe : UserControl, IDisposable
+    public partial class TheGlobe : UserControl
     {
         private const double WorldHalfSize = 20037508.342789244;
 
@@ -163,7 +163,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             }
             catch (OperationCanceledException) when (cancellation.IsCancellationRequested)
             {
-                // A newer zoom, projection change or sample disposal superseded
+                // A newer zoom, projection change or closing the sample superseded
                 // this request. Other cancellations and failures still propagate.
             }
             finally
@@ -201,11 +201,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 $"projection  {_choice}\nzoom        {zoom:F2}\nscale       1:{Map.CurrentScale:N0}\nshowing     {shape}");
         }
 
-        public void Dispose()
+        private void Sample_Unloaded(object sender, RoutedEventArgs e)
         {
             _ready = false;
             _zoomCancellation?.Cancel();
-            Map.Dispose();
         }
     }
 }

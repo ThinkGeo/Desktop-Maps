@@ -4,19 +4,18 @@ using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
 using ThinkGeo.Core.Styling;
-using ThinkGeo.UI.Wpf;
 using ThinkGeo.Gpu;
 
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// Interaction logic for EditWithSnapping.xaml
+    /// Drag a vertex of the line near a school and it snaps onto it.
     /// </summary>
     public partial class EditWithSnapping : UserControl
     {
         private bool _initialized;
         private const float Tolerance = 25;
-        private ShapeFileFeatureLayer _parksLayer;
+        private ShapeFileFeatureLayer _schoolsLayer;
 
         public EditWithSnapping()
         {
@@ -34,17 +33,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             var basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
             Map.Basemap = basemap;
 
-            // Load the Frisco data to a layer
-            _parksLayer = new ShapeFileFeatureLayer(SampleShared.Shapefile("Schools.shp"));
-            _parksLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(new TolerancePointStyle(Tolerance));
-            _parksLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            _schoolsLayer = new ShapeFileFeatureLayer(SampleShared.Shapefile("Schools.shp"));
+            _schoolsLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(new TolerancePointStyle(Tolerance));
+            _schoolsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            _schoolsLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
 
-            // Project the layer's data from its native projection (2276) to spherical mercator(3857)
-            _parksLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
-
-            var inMemoryOverlay = new LayerOverlay();
-            inMemoryOverlay.Layers.Add(_parksLayer);
-            Map.Overlays.Add("Parks Overlay", inMemoryOverlay);
+            var schoolsOverlay = new LayerOverlay();
+            schoolsOverlay.Layers.Add(_schoolsLayer);
+            Map.Overlays.Add(schoolsOverlay);
 
             Map.EditOverlay.VertexMoving += EditOverlay_VertexMoving;
 
@@ -64,21 +60,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         private void EditOverlay_VertexMoving(object sender, VertexMovingEditInteractiveOverlayEventArgs e)
         {
-            var toSnapInMemoryFeatures = _parksLayer.QueryTools.GetFeaturesNearestTo(e.TargetVertex, GeographyUnit.Meter, 1, ReturningColumnsType.AllColumns);
+            var nearest = _schoolsLayer.QueryTools.GetFeaturesNearestTo(e.TargetVertex, GeographyUnit.Meter, 1, ReturningColumnsType.NoColumns);
+            if (nearest.Count == 0 || nearest[0].GetShape() is not PointShape school) return;
 
-            if (toSnapInMemoryFeatures.Count == 0)
-                return;
-
-            var toSnapPointShape = toSnapInMemoryFeatures[0].GetShape() as PointShape;
             var screenDistance = MapUtil.GetScreenDistanceBetweenTwoWorldPoints(
-                Map.CurrentExtent, toSnapPointShape, e.TargetVertex,
+                Map.CurrentExtent, school, e.TargetVertex,
                 (float)Map.ActualWidth, (float)Map.ActualHeight);
-
             if (screenDistance >= Tolerance) return;
-            if (toSnapPointShape == null) return;
 
-            e.TargetVertex.X = toSnapPointShape.X;
-            e.TargetVertex.Y = toSnapPointShape.Y;
+            e.TargetVertex.X = school.X;
+            e.TargetVertex.Y = school.Y;
         }
     }
 

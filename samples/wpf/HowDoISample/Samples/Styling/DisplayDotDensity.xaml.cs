@@ -50,7 +50,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             states.Close();
 
             _tiles = new FeatureSourceVectorTileSource();
-            _tiles.FeatureSources.Add(new ShapeFileFeatureSource(SampleShared.Shapefile("USStates_3857.shp")));
+            _tiles.FeatureSources.Add(states);
             _tiles.FeatureSources.Add("owner", Scatter(features, "OWNER_OCC", seed: 1));
             _tiles.FeatureSources.Add("renter", Scatter(features, "RENTER_OCC", seed: 2));
 

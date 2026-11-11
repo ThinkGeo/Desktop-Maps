@@ -188,6 +188,41 @@
     }
   ]
 }</sys:String>
+
+        <!-- One label from several columns: concat joins the name, a line break and
+             the population, where the classic TextStyle wrote "{NAME}" templates. -->
+        <sys:String x:Key="LessonColumns" xml:space="preserve">{
+  "layers": [
+
+    { "type": "background",
+      "paint": { "background-color": "#F4F2EC" } },
+
+    { "type": "circle",
+      "source-layer": "lessons",
+      "filter": ["==", ["get", "KIND"], "town"],
+      "paint": {
+          "circle-radius": 4,
+          "circle-color": "#6D4C41" }
+    },
+
+    { "type": "symbol",
+      "source-layer": "lessons",
+      "filter": ["==", ["get", "KIND"], "town"],
+      "layout": {
+          "text-field": ["concat",
+              ["get", "NAME"], "\n",
+              "Population: ", ["get", "POPULATION"]],
+          "text-font": ["Noto Sans Bold"],
+          "text-anchor": "top",
+          "text-offset": [0, 0.6],
+          "text-size": 12 },
+      "paint": {
+          "text-color": "#3E2723",
+          "text-halo-color": "#FFFFFF",
+          "text-halo-width": 1.2 }
+    }
+  ]
+}</sys:String>
     </UserControl.Resources>
 
     <Grid>
@@ -208,6 +243,7 @@
                 <RadioButton Content="Wrap and transform" Tag="LessonWrap" Checked="Lesson_Checked"/>
                 <RadioButton Content="Icon stays, text yields" Tag="LessonOptional" Checked="Lesson_Checked"/>
                 <RadioButton Content="CJK writes vertically" Tag="LessonCjk" Checked="Lesson_Checked"/>
+                <RadioButton Content="Several columns in one label - concat" Tag="LessonColumns" Checked="Lesson_Checked"/>
             </StackPanel>
             <TextBlock x:Name="Status" DockPanel.Dock="Bottom" FontSize="11" Margin="8,4,8,6"
                        TextWrapping="Wrap" Foreground="DarkGreen"/>

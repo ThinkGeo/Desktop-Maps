@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
@@ -13,24 +14,18 @@ using ThinkGeo.Gpu;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// The NDFD sky-cover forecast (the classic PerfTest grid sample), re-based on the
-    /// value-grid layer. GDAL decodes each GRIB frame once; after that a frame of
-    /// animation is one small texture upload - the Lambert reprojection, the resampling
-    /// and the color ramp all run in the fragment shader, so pan/zoom never rebuild a
-    /// projection cache and the palette swaps instantly.
+    /// The NDFD sky-cover forecast, one forecast hour at a time through an InMemoryGridSource.
     /// </summary>
     public partial class NdfdSkyGridAnimation : IDisposable
     {
         private bool _initialized;
-        private bool _disposed;
         private bool _playing;
+        private bool _loading;
+        private int _wantedFrame;
         private string _path;
         private float[][,] _frames;
         private string[] _frameTimes;
-        private int _gridWidth;
-        private int _gridHeight;
-        private int _frameIndex;
-        private readonly GpuBasemap _overlay;
+        private readonly GpuBasemap _basemap;
         private readonly MapStyle _style;
         private InMemoryGridSource _grid;
         private IReadOnlyList<ColorStop> _palette;
@@ -42,15 +37,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             Map.MapUnit = GeographyUnit.Meter;
             _style = new MapStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
-            _overlay = new GpuBasemap(_style);
-            Map.Basemap = _overlay;
+            _basemap = new GpuBasemap(_style);
+            Map.Basemap = _basemap;
 
-            _timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(33) };
+            _timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(600) };
             _timer.Tick += (_, __) =>
             {
-                if (_playing)
+                // A frame still being read holds the animation, so no hour is skipped.
+                if (_playing && !_loading)
                 {
-                    ShowFrame(_frameIndex + 1);
+                    FrameSlider.Value = (FrameSlider.Value + 1) % _frames.Length;
                 }
             };
         }
@@ -65,28 +61,80 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _initialized = true;
             Map.CurrentExtent = new RectangleShape(-14_100_000, 6_800_000, -7_300_000, 2_500_000);
             await Map.RefreshAsync();
+
+            _path = Path.Combine(AppContext.BaseDirectory, "Data", "Ndfd", "ds.sky.bin");
+            GdalGridBand first;
             try
             {
-                LoadGrid();
+                (first, _frameTimes) = await Task.Run(() => (GdalGrid.ReadBand(_path, 1), FrameTimes(_path)));
             }
             catch (Exception ex)
             {
-                Status.Text = "Failed to load NDFD grid: " + ex.Message;
+                TimeText.Text = "Failed to load the NDFD grid: " + ex.Message;
                 return;
             }
 
+            _frames = new float[_frameTimes.Length][,];
+            _frames[0] = SkyCover(first.Values);
+            _grid = new InMemoryGridSource(_frames[0], first.Extent, first.Projection);
+            _palette ??= CreatePalette("Weather Rainbow");
+            _style.AddGridFill(_grid, new GridFillStyle { ColorStops = _palette });
+            await _basemap.SetStyleAsync(_style);
+            ShowTime(0);
+
+            FrameSlider.Maximum = _frames.Length - 1;
+            FrameSlider.IsEnabled = true;
+            PlayButton.IsEnabled = true;
             _playing = true;
             _timer.Start();
         }
 
-        // A palette change is a 256-texel ramp upload; the values never move.
+        // Dragging the slider asks for an hour; the one asked for last is read off the UI
+        // thread and shown, and the hours dragged past on the way are skipped.
+        private async void FrameSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (_grid == null)
+            {
+                return;
+            }
+
+            _wantedFrame = (int)e.NewValue;
+            if (_loading)
+            {
+                return;
+            }
+
+            _loading = true;
+            try
+            {
+                int index;
+                do
+                {
+                    index = _wantedFrame;
+                    _frames[index] ??= await Task.Run(() => SkyCover(GdalGrid.ReadBand(_path, index + 1).Values));
+                }
+                while (index != _wantedFrame);
+
+                _grid.SetValues(_frames[index]);
+                ShowTime(index);
+            }
+            catch (Exception ex)
+            {
+                TimeText.Text = "Failed to read the forecast hour: " + ex.Message;
+            }
+            finally
+            {
+                _loading = false;
+            }
+        }
+
         private async void Palette_Checked(object sender, RoutedEventArgs e)
         {
             _palette = CreatePalette((sender as RadioButton)?.Content as string);
             if (_grid != null)
             {
                 _style.RemoveGridFill(_grid).AddGridFill(_grid, new GridFillStyle { ColorStops = _palette });
-                await _overlay.SetStyleAsync(_style);
+                await _basemap.SetStyleAsync(_style);
             }
         }
 
@@ -96,23 +144,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             PlayButton.Content = _playing ? "Pause" : "Play";
         }
 
-        private void LoadGrid()
+        private void ShowTime(int index)
         {
-            _path = Path.Combine(AppContext.BaseDirectory, "Data", "Ndfd", "ds.sky.bin");
-            var first = GdalGrid.ReadBand(_path, 1);
-            _gridHeight = first.Values.GetLength(0);
-            _gridWidth = first.Values.GetLength(1);
-            _frameTimes = FrameTimes(_path);
-            _frames = new float[_frameTimes.Length][,];
-            _frames[0] = SkyCover(first.Values);
-
-            // One call bakes the Lambert->Mercator mesh; every animation frame after
-            // this is SetValues - a single texture upload.
-            _grid = new InMemoryGridSource(_frames[0], first.Extent, first.Projection);
-            _palette ??= CreatePalette("Weather Rainbow");
-            _style.AddGridFill(_grid, new GridFillStyle { ColorStops = _palette });
-            _ = _overlay.SetStyleAsync(_style);
-            ShowFrame(0);
+            TimeText.Text = _frameTimes[index] ?? "(no time)";
+            HourText.Text = string.Format("forecast hour {0} of {1}", index + 1, _frames.Length);
         }
 
         // Each band is one forecast hour. GdalGrid reads the band; the hour it is valid for is
@@ -135,8 +170,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             return times;
         }
 
-        private float[,] GetFrame(int index) => _frames[index] ??= SkyCover(GdalGrid.ReadBand(_path, index + 1).Values);
-
         // GRIB sky cover is a percentage, 1..100; 0 and anything above 100 is no data,
         // which the grid draws as nothing.
         private static float[,] SkyCover(float[,] band)
@@ -152,26 +185,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             }
 
             return values;
-        }
-
-        private void ShowFrame(int index)
-        {
-            if (_disposed || _frames == null || _frames.Length == 0)
-            {
-                return;
-            }
-
-            var bounded = ((index % _frames.Length) + _frames.Length) % _frames.Length;
-            _frameIndex = bounded;
-            _grid.SetValues(GetFrame(bounded));
-
-            Status.Text = string.Format(
-                "Frame {0}/{1}\n{2}\nGrid {3} x {4}",
-                bounded + 1,
-                _frames.Length,
-                _frameTimes[bounded] ?? "(no time)",
-                _gridWidth,
-                _gridHeight);
         }
 
         private static IReadOnlyList<ColorStop> CreatePalette(string name)
@@ -225,7 +238,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         public void Dispose()
         {
-            _disposed = true;
             _playing = false;
             _timer.Stop();
             Map.Dispose();

@@ -37,25 +37,5 @@
 }</sys:String>
     </UserControl.Resources>
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" MinWidth="240"/>
-            <ColumnDefinition Width="420"/>
-        </Grid.ColumnDefinitions>
-
-        <wpf:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
-
-        <DockPanel Grid.Column="1" Background="#F6F6F4">
-            <TextBlock DockPanel.Dock="Top" Text="style.json - edit it; the map follows"
-                       FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
-            <TextBlock x:Name="Status" DockPanel.Dock="Bottom" FontSize="11" Margin="8,4,8,6"
-                       TextWrapping="Wrap" Foreground="DarkGreen"/>
-            <TextBox x:Name="Editor" TextChanged="Editor_TextChanged"
-                     Text="{StaticResource StyleJson}"
-                     AcceptsReturn="True" AcceptsTab="True"
-                     FontFamily="Consolas" FontSize="11.5" Padding="6"
-                     TextWrapping="NoWrap" BorderThickness="1,0,0,0" BorderBrush="#CCCCCC"
-                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
-        </DockPanel>
-    </Grid>
+    <wpf:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
 </UserControl>

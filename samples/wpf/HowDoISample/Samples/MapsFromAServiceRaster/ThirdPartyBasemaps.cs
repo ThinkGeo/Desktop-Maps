@@ -3,8 +3,8 @@ using System;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// ThinkGeo also supports the other commercial basemap providers - Azure, Bing,
-    /// Google, Here, Mapbox - each behind its own overlay/layer pair and each needing
+    /// ThinkGeo also supports the other commercial basemap providers - Azure, Google,
+    /// HERE, Mapbox - each behind its own overlay/layer pair and each needing
     /// your own API key. A documentation page rather than a running map: without a key
     /// none of them draws, so the page names the classes and shows the one-line usage.
     /// </summary>
@@ -15,8 +15,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         { }
         private const string PageMarkdown = @"# Azure, Google & Other Map Providers
 
-ThinkGeo also supports the commercial basemap providers below. Each needs **your own
-API key** - with a key in hand, putting one on the map is one line.
+ThinkGeo also supports the commercial basemap providers below. Each needs your own
+API key - with a key in hand, putting one on the map is one line.
 
 | Provider | Turn-key overlay | Async layer |
 |---|---|---|
@@ -42,8 +42,7 @@ _ = Map.RefreshAsync();
 ```
 
 The async layer of any provider can also go inside a `LayerOverlay` when it needs a
-tile cache or a projection converter, or feed the basemap the way the XYZ Tile
-Server sample shows.
+tile cache or a projection converter.
 ";
     }
 }

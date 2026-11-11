@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Windows;
 using ThinkGeo.Core;
@@ -9,12 +9,7 @@ using ThinkGeo.UI.Wpf;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// The NDFD wind forecast as a VectorFieldSource, drawn the way weather apps
-    /// draw wind: sixty-five thousand tracer particles advected through the field,
-    /// streaming and fading continuously - AddParticleFlow is one call and the
-    /// simulation runs itself from there. The toggle switches to the
-    /// field's other rendering, magnitude-scaled arrows, and both read the same
-    /// source object: one field, two renderings, the ValueGridSource pattern again.
+    /// The NDFD wind forecast in one VectorFieldSource, drawn as streaming particles or as arrows.
     /// </summary>
     public partial class NdfdWindField
     {
@@ -47,7 +42,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 _basemap = new GpuBasemap(_style);
                 Map.Basemap = _basemap;
 
-                // The lower 48, where the forecast grid lives.
                 Map.CurrentExtent = new RectangleShape(-14026255, 6446275, -7235766, 2632018);
                 Status.Text = "NDFD surface wind - 65k particles advected, color is speed";
             }
@@ -61,8 +55,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         /// <summary>
         /// Reads the first forecast hour of speed and direction into one
-        /// VectorFieldSource, in the grid's own Lambert projection - the renderings
-        /// reproject, not this code.
+        /// VectorFieldSource, in the grid's own Lambert projection.
         /// </summary>
         private void LoadField()
         {
@@ -87,13 +80,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         private void Mode_Unchecked(object sender, RoutedEventArgs e)
         {
+            Mode.Content = "Arrows";
             if (_style == null)
             {
                 return;
             }
 
-            // The document never changes, so this SetStyleAsync only re-applies the
-            // registrations - no tile is rebuilt for the switch.
             _style.RemoveVectorField(_field).AddParticleFlow(_field);
             _ = _basemap.SetStyleAsync(_style);
             Status.Text = "NDFD surface wind - 65k particles advected, color is speed";
@@ -101,6 +93,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         private void Mode_Checked(object sender, RoutedEventArgs e)
         {
+            Mode.Content = "Particles";
             if (_style == null)
             {
                 return;

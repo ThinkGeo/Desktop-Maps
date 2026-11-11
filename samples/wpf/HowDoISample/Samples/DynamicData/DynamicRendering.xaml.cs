@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Threading;
 using ThinkGeo.Core;
 using ThinkGeo.Core.Styling;
 using ThinkGeo.Gpu;
@@ -14,18 +11,10 @@ using ThinkGeo.Gpu;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// A century of state populations as animated circles, entirely. Each
-    /// circle is a marker in a DynamicSource whose size and tint are data; the circle
-    /// SHAPE is one white image registered with the style and instanced by the renderer -
-    /// any marker shape is an image, so the renderer never grows per-shape code. Dragging
-    /// the year updates fifty markers, which land as one rebuild: no recompile, no tile
-    /// rebuilds, and none of the tile-edge clipping that kept the old screen-space
-    /// circles on the per-frame CPU overlay.
+    /// State populations from 1950 to 2020 as circles in a DynamicSource, sized and tinted by the year's population.
     /// </summary>
     public partial class DynamicRendering
     {
-        private readonly DispatcherTimer _applyTimer;
-        private FeatureSourceVectorTileSource _states;
         private DynamicSource _circles;
         private List<(double X, double Y, string Abbreviation)> _stateCenters;
         private Dictionary<(string State, int Year), int> _population;
@@ -34,9 +23,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         public DynamicRendering()
         {
             InitializeComponent();
-
-            _applyTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(400) };
-            _applyTimer.Tick += async (_, _) => { _applyTimer.Stop(); await ApplyEditorStyleAsync(); };
         }
 
         private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -53,9 +39,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 _population = ReadPopulation(Path.Combine(AppContext.BaseDirectory, "Data", "historical_state_population_by_year.csv"));
 
                 _circles = new DynamicSource();
-                _states = new FeatureSourceVectorTileSource();
-                _states.FeatureSources.Add("states", new ShapeFileFeatureSource(shapefilePath));
-                Map.Basemap = new ThinkGeo.UI.Wpf.GpuBasemap(ComposeStyle());
+                var states = new FeatureSourceVectorTileSource();
+                states.FeatureSources.Add("states", new ShapeFileFeatureSource(shapefilePath));
+
+                // One white disc image is every circle; the marker's color tints it.
+                var style = new MapStyle()
+                    .SetBackground(GeoColors.White)
+                    .AddStyle((string)Resources["StyleJson"], states)
+                    .AddDynamic(_circles);
+                style.Images.Add("disc", new PointStyle(PointSymbolType.Circle, 62, GeoBrushes.White));
+                Map.Basemap = new ThinkGeo.UI.Wpf.GpuBasemap(style);
 
                 Map.CenterPoint = new PointShape(-10650000, 4770000);
                 Map.CurrentScale = 37000000;
@@ -68,45 +61,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             }
 
             await Map.RefreshAsync();
-        }
-
-        /// <summary>
-        /// The state polygons cut into tiles; the circles ride the marker batch over
-        /// them. One white disc image is every circle.
-        /// </summary>
-        private MapStyle ComposeStyle()
-        {
-            var style = new MapStyle()
-                .SetBackground(GeoColors.White)
-                .AddStyle(Editor.Text, _states)
-                .AddDynamic(_circles);
-            style.Images.Add("disc", new PointStyle(PointSymbolType.Circle, 62, GeoBrushes.White));
-            return style;
-        }
-
-        private void Editor_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (!_initialized) return;
-            _applyTimer.Stop();
-            _applyTimer.Start();
-        }
-
-        // A document that does not compile changes nothing; the map keeps the last one that worked.
-        private async Task ApplyEditorStyleAsync()
-        {
-            if (!IsLoaded) return;
-
-            try
-            {
-                await Map.Basemap.SetStyleAsync(ComposeStyle());
-                Status.Foreground = Brushes.DarkGreen;
-                Status.Text = FormattableString.Invariant($"applied at {DateTime.Now:HH:mm:ss}");
-            }
-            catch (Exception exception)
-            {
-                Status.Foreground = Brushes.Firebrick;
-                Status.Text = "not applied - " + exception.Message.Split('\n')[0].TrimEnd('\r');
-            }
         }
 
         private void YearSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -130,8 +84,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         }
 
         /// <summary>
-        /// One year: every state's marker, kept under the state's abbreviation, takes
-        /// the size and color of its population. The fifty updates land as one rebuild.
+        /// Every state's marker, kept under the state's abbreviation, takes the size
+        /// and color of its population that year.
         /// </summary>
         private void ShowYear(int year)
         {
@@ -150,15 +104,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
                 var strength = Math.Min(population / 300000f, 150f);
                 var color = GeoColor.FromArgb(150, (byte)(255 * (1 - (strength / 150))), (byte)(255 * strength / 150), 0);
-                var size = Math.Max(4f, strength);
-                if (_circles.Contains(abbreviation))
-                {
-                    _circles.SetPoint(abbreviation, new Feature(x, y), 0f, color, size, "disc");
-                }
-                else
-                {
-                    _circles.SetPoint(abbreviation, new Feature(x, y), 0f, color, size, "disc");
-                }
+                _circles.SetPoint(abbreviation, new Feature(x, y), 0f, color, Math.Max(4f, strength), "disc");
             }
         }
 

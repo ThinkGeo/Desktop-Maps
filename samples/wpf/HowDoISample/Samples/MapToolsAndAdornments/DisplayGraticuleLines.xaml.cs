@@ -8,7 +8,7 @@ using ThinkGeo.Gpu;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// Learn how to display a Graticule Layer on the map
+    /// Display graticule lines - a latitude/longitude grid labelled at the edges of the view.
     /// </summary>
     public partial class DisplayGraticuleLines
     {
@@ -19,9 +19,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             InitializeComponent();
         }
 
-        /// <summary>
-        /// Set up the map with the ThinkGeo Cloud Maps overlay. Also, add the graticule layer to the map
-        /// </summary>
         private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;

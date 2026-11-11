@@ -29,7 +29,7 @@
 
                 <DockPanel>
                     <TextBlock Text="Draft" VerticalAlignment="Center"/>
-                    <TextBox x:Name="DraftBox" Text="6.5" Width="52" Margin="8,0,4,0" VerticalContentAlignment="Center"/>
+                    <TextBox x:Name="DraftBox" Text="6.5" Width="52" Margin="8,0,4,0" VerticalContentAlignment="Center" TextChanged="DraftBox_TextChanged"/>
                     <TextBlock Text="m" VerticalAlignment="Center"/>
                     <Button x:Name="DrawButton" Content="Draw a route" DockPanel.Dock="Right" Padding="10,3" Click="DrawButton_Click"/>
                     <Button x:Name="SailButton" Content="Stop" DockPanel.Dock="Right" Padding="14,3" Margin="0,0,6,0" Click="SailButton_Click"/>

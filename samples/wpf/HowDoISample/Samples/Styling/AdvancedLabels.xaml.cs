@@ -14,11 +14,7 @@ using ThinkGeo.UI.Wpf;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// Everything a label will do, one lesson per document: bend along its line,
-    /// anchor where its own data says, yield to a higher priority, wrap and recase,
-    /// keep its icon when its name cannot fit, and write CJK vertically. The data is
-    /// built in code to give each lesson exactly the situation it is about; the
-    /// document sits beside the map, editable while it runs.
+    /// Seven label lessons on data built for each of them, one style document per lesson, editable beside the map.
     /// </summary>
     public partial class AdvancedLabels
     {
@@ -111,6 +107,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 "LessonWrap" => (new PointShape(-10770000, 3904000), 30000d),
                 "LessonOptional" => (new PointShape(-10786000, 3892000), 20000d),
                 "LessonCjk" => (new PointShape(-10770000, 3892000), 45000d),
+                "LessonColumns" => (new PointShape(-10786000, 3880000), 30000d),
                 _ => (new PointShape(-10786000, 3916000), 45000d),
             };
 
@@ -123,19 +120,21 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// The lessons' data, crafted rather than loaded: winding lines for the text
         /// to bend along, a grid of points whose positions match the anchors they
         /// name, a crowd for priority to thin, long names to wrap, close-set places
-        /// for text-optional, and a north-running line with a Chinese name.
+        /// for text-optional, a north-running line with a Chinese name, and towns
+        /// with a population column.
         /// </summary>
         private static InMemoryFeatureSource BuildLessons()
         {
             var features = new List<Feature>();
 
-            void Add(BaseShape shape, string kind, string name, string rank = "", string anchor = "")
+            void Add(BaseShape shape, string kind, string name, string rank = "", string anchor = "", string population = "")
             {
                 var feature = new Feature(shape);
                 feature.ColumnValues["KIND"] = kind;
                 feature.ColumnValues["NAME"] = name;
                 feature.ColumnValues["RANK"] = rank;
                 feature.ColumnValues["ANCHOR"] = anchor;
+                feature.ColumnValues["POPULATION"] = population;
                 features.Add(feature);
             }
 
@@ -191,10 +190,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // CJK vertical: the line runs north, so the name writes downward.
             Add(WindingNorth(-10770000, 3892000), "cjk", "银杏河滨绿道");
 
+            // Several columns: each town's label is its name and its population.
+            Add(new PointShape(-10788000, 3881200), "town", "Cedar Hill", population: "48200");
+            Add(new PointShape(-10783800, 3881600), "town", "Maple Grove", population: "12750");
+            Add(new PointShape(-10788400, 3878400), "town", "Stone Ridge", population: "3900");
+            Add(new PointShape(-10784000, 3878800), "town", "Willow Bend", population: "27600");
+
             var columns = new[]
             {
                 new FeatureSourceColumn("NAME"), new FeatureSourceColumn("KIND"),
                 new FeatureSourceColumn("RANK"), new FeatureSourceColumn("ANCHOR"),
+                new FeatureSourceColumn("POPULATION"),
             };
             return new InMemoryFeatureSource(columns, features);
         }

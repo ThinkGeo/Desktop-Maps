@@ -6,76 +6,49 @@
              xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="Map" SizeChanged="Map_SizeChanged"/>
-        <Grid Grid.Column="1" Grid.Row="0">
-            <Label Grid.Row="0" Content="Interactive Controls:" FontWeight="Bold" FontSize="16"/>
-
-            <RadioButton Grid.Row="1" Content="Edit Shapes" IsChecked="True" Checked="EditShapes_Checked"/>
-            <RadioButton Grid.Row="2" Content="Draw Polygon" Click="DrawPolygon_Click"/>
-
-            <Label Grid.Row="3" Content="Moved Vertex:" FontWeight="Bold" FontSize="16"/>
-            <Grid Grid.Row="4" Margin="8,0,8,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="X:"/>
-                <TextBox Grid.Column="1" x:Name="VertexX" VerticalAlignment="Center"/>
-                <TextBlock Grid.Column="2" Text="Y:"/>
-                <TextBox Grid.Column="3" x:Name="VertexY" VerticalAlignment="Center"/>
-            </Grid>
-            <Button Grid.Row="5" Content="Apply Exact Coordinates" Margin="8,10,8,0" Click="ApplyCoordinates_Click"/>
-
-            <Label Grid.Row="6" Content="Instructions:" FontWeight="Bold" FontSize="16"/>
-            <TextBlock x:Name="Instructions" TextWrapping="Wrap" Grid.Row="7"></TextBlock>
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="250" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-        </Grid>
-        <!-- Grid Layout -->
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-    </Grid>
-
     <UserControl.Resources>
-        <Style TargetType="Label">
-            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
-        </Style>
-        <Style TargetType="Grid">
-            <Setter Property="Background" Value="DimGray"></Setter>
-        </Style>
-        <Style TargetType="TextBox">
-            <Setter Property="Height" Value="20"></Setter>
-        </Style>
-        <Style TargetType="TextBlock">
-            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
-            <Setter Property="Margin" Value="4"></Setter>
-        </Style>
-        <Style TargetType="Button">
-            <Setter Property="Height" Value="22"></Setter>
-        </Style>
-        <Style TargetType="RadioButton">
-            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
-            <Setter Property="Margin" Value="8,0,0,0"></Setter>
+        <BooleanToVisibilityConverter x:Key="VisibleWhenChecked"/>
+        <Style x:Key="Instruction" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Foreground" Value="#555B62"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Margin" Value="18,2,0,6"/>
         </Style>
     </UserControl.Resources>
+
+    <DockPanel LastChildFill="True">
+        <Border DockPanel.Dock="Right" Width="290" Background="#F6F6F4" Padding="12,10"
+                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+            <StackPanel>
+                <TextBlock Text="Mode" FontWeight="SemiBold" Margin="0,0,0,6"/>
+
+                <RadioButton x:Name="EditShapes" Content="Edit shapes" IsChecked="True" Margin="0,2" Checked="EditShapes_Checked"/>
+                <TextBlock Style="{StaticResource Instruction}"
+                           Visibility="{Binding IsChecked, ElementName=EditShapes, Converter={StaticResource VisibleWhenChecked}}"
+                           Text="The upper shape is tagged as a rectangle: drag any corner and its two neighbors follow. Click a segment to add a vertex; the click is rejected within 300 m on the ground of an existing vertex. After dragging a vertex, its coordinates appear below - correct them and click Apply to place it exactly."/>
+
+                <RadioButton x:Name="DrawPolygon" Content="Draw polygon" Margin="0,2" Click="DrawPolygon_Click"/>
+                <TextBlock Style="{StaticResource Instruction}"
+                           Visibility="{Binding IsChecked, ElementName=DrawPolygon, Converter={StaticResource VisibleWhenChecked}}"
+                           Text="Click to add vertices; a click within 300 m on the ground of the previous vertex is rejected. Double-click to finish, Esc to cancel, right-click to undo the last vertex. Switch back to Edit shapes to edit the result."/>
+
+                <TextBlock Text="Moved vertex (EPSG:3857)" FontWeight="SemiBold" Margin="0,12,0,6"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="X:" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                    <TextBox Grid.Column="1" x:Name="VertexX" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="2" Text="Y:" VerticalAlignment="Center" Margin="8,0,4,0"/>
+                    <TextBox Grid.Column="3" x:Name="VertexY" VerticalAlignment="Center"/>
+                </Grid>
+                <Button Content="Apply exact coordinates" Margin="0,8,0,0" Padding="4" Click="ApplyCoordinates_Click"/>
+            </StackPanel>
+        </Border>
+
+        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
+    </DockPanel>
 </UserControl>

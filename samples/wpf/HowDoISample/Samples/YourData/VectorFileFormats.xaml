@@ -43,15 +43,15 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" MinWidth="240"/>
-            <ColumnDefinition Width="420"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="260"/>
         </Grid.ColumnDefinitions>
 
         <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
 
-        <DockPanel Grid.Column="1" Background="#F6F6F4">
-            <TextBlock DockPanel.Dock="Top" Text="File" FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
-            <StackPanel DockPanel.Dock="Top" Margin="8,0,8,4">
+        <StackPanel Grid.Column="1" Background="#F6F6F4">
+            <TextBlock Text="File" FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
+            <StackPanel Margin="8,0,8,4">
                 <RadioButton x:Name="FmtShapefile" Content="Shapefile" IsChecked="True" Checked="Format_Checked"/>
                 <RadioButton x:Name="FmtGeoJson" Content="GeoJSON" Checked="Format_Checked"/>
                 <RadioButton x:Name="FmtKml" Content="KML" Checked="Format_Checked"/>
@@ -62,19 +62,11 @@
                 <RadioButton x:Name="FmtGeoPdf" Content="GeoPDF" Checked="Format_Checked"/>
                 <RadioButton x:Name="FmtInMemory" Content="In memory (built in code)" Checked="Format_Checked"/>
             </StackPanel>
-            <TextBlock DockPanel.Dock="Top" Text="style.json - edit it; the map follows"
-                       FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
 
-            <TextBlock DockPanel.Dock="Bottom" Foreground="#444A52" TextWrapping="Wrap" FontSize="11" Margin="8,0,8,6"
+            <TextBlock x:Name="Status" FontFamily="Consolas" FontSize="11" Margin="8,10,8,0" TextWrapping="Wrap"/>
+
+            <TextBlock Foreground="#444A52" TextWrapping="Wrap" FontSize="11" Margin="8,10,8,6"
                        Text="A FeatureSource reads the file, a FeatureSourceVectorTileSource cuts it into tiles, and the style draws them. Only the first line differs between these - swap the source and nothing else changes."/>
-            <TextBlock x:Name="Status" DockPanel.Dock="Bottom" FontSize="11" FontFamily="Consolas" Margin="8,4,8,6"
-                       TextWrapping="Wrap" Foreground="DarkGreen"/>
-            <TextBox x:Name="Editor" TextChanged="Editor_TextChanged"
-                     Text="{StaticResource StyleJson}"
-                     AcceptsReturn="True" AcceptsTab="True"
-                     FontFamily="Consolas" FontSize="11.5" Padding="6"
-                     TextWrapping="NoWrap" BorderThickness="1,0,0,0" BorderBrush="#CCCCCC"
-                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
-        </DockPanel>
+        </StackPanel>
     </Grid>
 </UserControl>

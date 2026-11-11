@@ -14,20 +14,25 @@
 
         <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
 
-        <StackPanel Grid.Column="1" Background="DimGray" Margin="10">
-            <TextBlock Text="Basemap" FontSize="16" FontWeight="Bold" Foreground="WhiteSmoke" Margin="0,0,0,6"/>
+        <StackPanel Grid.Column="1" Background="#F6F6F4">
+            <TextBlock Text="Basemap" FontWeight="SemiBold" Margin="8,8,8,4"/>
+            <RadioButton x:Name="TiltVector" Content="Vector tiles - midtown Manhattan" IsChecked="True" Margin="8,2,8,2" Checked="Basemap_Checked"/>
+            <RadioButton x:Name="TiltRaster" Content="Raster tiles - San Francisco Bay" Margin="8,2,8,2" Checked="Basemap_Checked"/>
 
-            <RadioButton x:Name="TiltVector" Content="Vector tiles - Manhattan" IsChecked="True" Checked="Basemap_Checked"/>
-            <RadioButton x:Name="TiltRaster" Content="Raster tiles - San Francisco Bay" Checked="Basemap_Checked"/>
-            <TextBlock Text="Tilt" FontSize="16" FontWeight="Bold" Foreground="WhiteSmoke" Margin="0,16,0,6"/>
-            <!-- A Slider bound to the map's TiltAngle: it drives the camera and follows the right-drag gesture. -->
-            <Slider Maximum="60" Value="{Binding TiltAngle, ElementName=Map, Mode=TwoWay}"/>
+            <CheckBox x:Name="BuildingCheckBox" Content="Buildings from the basemap style" IsChecked="True" Margin="8,10,8,2"
+                      IsEnabled="{Binding IsChecked, ElementName=TiltVector}"
+                      Checked="BuildingCheckBox_Changed" Unchecked="BuildingCheckBox_Changed"/>
+            <TextBlock Foreground="#606060" TextWrapping="Wrap" FontSize="11" Margin="26,0,8,0"
+                       Text="The vector style already carries a fill-extrusion layer for buildings; the check box draws or skips it. It does not extrude footprints of your own."/>
 
-            <TextBlock Foreground="#DDDDDD" TextWrapping="Wrap" FontSize="11" Margin="0,16,0,0"
+            <TextBlock Text="Tilt" FontWeight="SemiBold" Margin="8,16,8,4"/>
+            <Slider Maximum="60" Margin="8,0,8,0" Value="{Binding TiltAngle, ElementName=Map, Mode=TwoWay}"/>
+
+            <TextBlock Foreground="#606060" TextWrapping="Wrap" FontSize="11" Margin="8,16,8,0"
                        Text="Right-drag tilts. Left-drag pans, and the ground you grabbed stays under the cursor. Alt and left-drag rotates; the wheel zooms. None of that is in this sample - it is what the MapView does once IsTiltEnabled is set."/>
 
-            <TextBlock Foreground="#DDDDDD" TextWrapping="Wrap" FontSize="11" Margin="0,12,0,0"
-                       Text="Raster tiles tilt exactly as vector tiles do. What vector adds is labels that stay upright and tiles that get coarser toward the horizon."/>
+            <TextBlock Foreground="#606060" TextWrapping="Wrap" FontSize="11" Margin="8,12,8,0"
+                       Text="Raster tiles tilt exactly as vector tiles do. What vector adds is labels that stay upright, tiles that get coarser toward the horizon, and buildings that stand up."/>
         </StackPanel>
     </Grid>
 </UserControl>

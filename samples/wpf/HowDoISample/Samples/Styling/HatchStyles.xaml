@@ -12,12 +12,19 @@
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Hatch pattern:" FontSize="11.5" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                    <ComboBox x:Name="HatchPicker" Width="190" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="HatchPicker" Width="190" VerticalAlignment="Center"
+                              SelectionChanged="HatchPicker_SelectionChanged" DropDownClosed="HatchPicker_DropDownClosed">
+                        <ComboBox.ItemContainerStyle>
+                            <Style TargetType="ComboBoxItem">
+                                <EventSetter Event="PreviewMouseMove" Handler="HatchRow_PreviewMouseMove"/>
+                            </Style>
+                        </ComboBox.ItemContainerStyle>
+                    </ComboBox>
                     <Border x:Name="Swatch" Width="44" Height="26" Margin="10,0,0,0" VerticalAlignment="Center"
                             BorderBrush="#AAAAAA" BorderThickness="1" Background="White"/>
                 </StackPanel>
                 <TextBlock Margin="0,4,0,0" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"
-                           Text="Every GeoHatchStyle is stroked into a small image, registered with MapStyle.Images, and named by fill-pattern. The swatch is that image, tiled at the size the map draws it. Picking a row rewrites fill-pattern in the document beside the map."/>
+                           Text="The picked GeoHatchStyle is stroked into a small image and registered with MapStyle.Images as &quot;hatch&quot;, the name the document's fill-pattern uses. The swatch is that image, tiled at the size the map draws it. Hover a row to preview it."/>
             </StackPanel>
         </Border>
 
@@ -47,7 +54,7 @@
 
     { "type": "fill",
       "source-layer": "Parks",
-      "paint": { "fill-pattern": "hatch-cross" } },
+      "paint": { "fill-pattern": "hatch" } },
 
     { "type": "line",
       "source-layer": "Parks",

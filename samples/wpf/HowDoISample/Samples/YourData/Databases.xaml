@@ -43,34 +43,26 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" MinWidth="240"/>
-            <ColumnDefinition Width="420"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="260"/>
         </Grid.ColumnDefinitions>
 
         <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
 
-        <DockPanel Grid.Column="1" Background="#F6F6F4">
-            <TextBlock DockPanel.Dock="Top" Text="Database" FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
-            <StackPanel DockPanel.Dock="Top" Margin="8,0,8,4">
+        <StackPanel Grid.Column="1" Background="#F6F6F4">
+            <TextBlock Text="Database" FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
+            <StackPanel Margin="8,0,8,4">
                 <RadioButton x:Name="DbSqlite" Content="SQLite" IsChecked="True" Checked="Database_Checked"/>
                 <RadioButton x:Name="DbGeoPackage" Content="GeoPackage" Checked="Database_Checked"/>
                 <RadioButton x:Name="DbFileGeoDatabase" Content="Esri File Geodatabase" Checked="Database_Checked"/>
                 <RadioButton x:Name="DbPostgres" Content="PostgreSQL / PostGIS" Checked="Database_Checked"/>
                 <RadioButton x:Name="DbSqlServer" Content="SQL Server" Checked="Database_Checked"/>
             </StackPanel>
-            <TextBlock DockPanel.Dock="Top" Text="style.json - edit it; the map follows"
-                       FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
 
-            <TextBlock DockPanel.Dock="Bottom" Foreground="#444A52" TextWrapping="Wrap" FontSize="11" Margin="8,0,8,6"
-                       Text="A FeatureSource reads the table, a FeatureSourceVectorTileSource cuts it into tiles, and the style draws them. Only the first line differs between these - a file path for the first three, a connection string for the two servers."/>
-            <TextBlock x:Name="Status" DockPanel.Dock="Bottom" FontSize="11" FontFamily="Consolas" Margin="8,4,8,6"
-                       TextWrapping="Wrap" Foreground="DarkGreen"/>
-            <TextBox x:Name="Editor" TextChanged="Editor_TextChanged"
-                     Text="{StaticResource StyleJson}"
-                     AcceptsReturn="True" AcceptsTab="True"
-                     FontFamily="Consolas" FontSize="11.5" Padding="6"
-                     TextWrapping="NoWrap" BorderThickness="1,0,0,0" BorderBrush="#CCCCCC"
-                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
-        </DockPanel>
+            <TextBlock x:Name="Status" FontFamily="Consolas" FontSize="11" Margin="8,10,8,0" TextWrapping="Wrap"/>
+
+            <TextBlock Foreground="#444A52" TextWrapping="Wrap" FontSize="11" Margin="8,10,8,6"
+                       Text="A FeatureSource reads the table, a FeatureSourceVectorTileSource cuts it into tiles, and the style draws them. Only the first line differs between these - a file on disk for the first three, a server connection for the last two."/>
+        </StackPanel>
     </Grid>
 </UserControl>

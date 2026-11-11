@@ -39,6 +39,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // Yesterday: today's mosaic is still being assembled as the satellite flies.
             imagery.Client.Parameters["TIME"] = DateTime.UtcNow.AddDays(-1).ToString("yyyy-MM-dd",
                 System.Globalization.CultureInfo.InvariantCulture);
+            // A server that needs credentials gets them on every request here, for example:
+            // imagery.SendingHttpRequest += (_, e) => e.HttpRequestMessage.Headers.Authorization =
+            //     new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", "your-token");
 
             // The basemap's own layers first, then the imagery inserted into them -
             // above the fills, below the lines and labels. Nothing is reordered: the

@@ -89,6 +89,50 @@
     }
   ]
 }</sys:String>
+
+        <sys:String x:Key="RuleZoom" xml:space="preserve">{
+  "layers": [
+
+    { "type": "background",
+      "paint": { "background-color": "#DDE8F0" } },
+
+    { "type": "fill",
+      "source-layer": "Countries02",
+      "paint": { "fill-color": "rgba(233,232,214,0.8)" } },
+
+    { "type": "line",
+      "source-layer": "Countries02",
+      "paint": {
+          "line-color": "#8C8C7A",
+          "line-width": ["interpolate", ["linear"], ["zoom"],
+              1, 0.5,
+              6, 4] }
+    },
+
+    { "type": "symbol",
+      "source-layer": "Countries02",
+      "minzoom": 2,
+      "maxzoom": 4,
+      "layout": {
+          "text-field": ["get", "ISO_3DIGIT"],
+          "text-font": ["Noto Sans Bold"],
+          "text-size": 11 },
+      "paint": { "text-color": "#5A5A50" }
+    },
+
+    { "type": "symbol",
+      "source-layer": "Countries02",
+      "minzoom": 4,
+      "layout": {
+          "text-field": ["get", "CNTRY_NAME"],
+          "text-font": ["Noto Sans Regular"],
+          "text-size": ["step", ["zoom"],
+              12,
+              6, 15] },
+      "paint": { "text-color": "#333333" }
+    }
+  ]
+}</sys:String>
     </UserControl.Resources>
 
     <Grid>
@@ -107,6 +151,7 @@
                 <RadioButton x:Name="StepRule" Content="Ranges - step" Tag="RuleStep" Checked="Rule_Checked"/>
                 <RadioButton x:Name="FilterRule" Content="Only what passes - filter" Tag="RuleFilter" Checked="Rule_Checked"/>
                 <RadioButton x:Name="CaseRule" Content="Any condition - case" Tag="RuleCase" Checked="Rule_Checked"/>
+                <RadioButton x:Name="ZoomRule" Content="By zoom level - minzoom, maxzoom and zoom" Tag="RuleZoom" Checked="Rule_Checked"/>
             </StackPanel>
             <TextBlock x:Name="Status" DockPanel.Dock="Bottom" FontSize="11" Margin="8,4,8,6"
                        TextWrapping="Wrap" Foreground="DarkGreen"/>

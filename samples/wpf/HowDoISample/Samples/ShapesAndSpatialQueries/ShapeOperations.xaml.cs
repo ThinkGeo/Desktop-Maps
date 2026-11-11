@@ -13,23 +13,9 @@ using ThinkGeo.Gpu;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// Transform a shape: buffer, simplify, rotate, scale, translate, convex hull,
-    /// envelope, intersection, difference and union. Every one of them is a single
-    /// call on the shape - what changes between them is which call, which is why they
-    /// are one sample rather than ten.
-    /// <para>
-    /// Only the shapes an operation actually reads are drawn. Nine of the ten work on
-    /// one polygon, so one polygon is what you see; union is the exception and comes
-    /// last for that reason.
-    /// </para>
-    /// <para>
-    /// The five that take a number animate by default. Each frame runs the operation
-    /// again on a swept value and hands the polygons straight to the GPU, which is
-    /// what shows the difference between an operation you read about and one you can
-    /// see the shape of.
-    /// </para>
+    /// Transform a shape - buffer, simplify, rotate, scale, translate, convex hull, envelope, intersection, difference or union - with one call on the shape.
     /// </summary>
-    public partial class ShapeOperations : IDisposable
+    public partial class ShapeOperations
     {
         // The area the intersection and difference work against, drawn in blue.
         private const string WestRegionWkt =
@@ -305,11 +291,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private static double Number(System.Windows.Controls.TextBox box, double fallback) =>
             double.TryParse(box.Text, NumberStyles.Float, CultureInfo.InvariantCulture, out var value) ? value : fallback;
 
-        public void Dispose()
+        private void Sample_Unloaded(object sender, RoutedEventArgs e)
         {
             _timer?.Stop();
-            Map.Dispose();
-            GC.SuppressFinalize(this);
         }
     }
 }

@@ -30,14 +30,19 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="240"/>
-            <ColumnDefinition Width="420"/>
+            <ColumnDefinition Width="300"/>
         </Grid.ColumnDefinitions>
 
         <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
 
         <DockPanel Grid.Column="1" Background="#F6F6F4">
             <TextBlock DockPanel.Dock="Top" Text="Rule" FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
-            <ScrollViewer DockPanel.Dock="Top" Height="220" VerticalScrollBarVisibility="Auto" Margin="8,0,8,4">
+            <StackPanel DockPanel.Dock="Bottom" Margin="8,4,8,8">
+                <TextBlock x:Name="Result" FontWeight="SemiBold" TextWrapping="Wrap"/>
+                <TextBlock Foreground="#444A52" TextWrapping="Wrap" FontSize="11" Margin="0,4,0,0"
+                           Text="Blue is what the rule is checked against. Green is what is being checked. Red is what the validator handed back as breaking the rule - sometimes a whole feature, sometimes only the part of it that is wrong."/>
+            </StackPanel>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="8,0,8,4">
                 <StackPanel>
                     <TextBlock Text="Points" Style="{StaticResource GroupHeading}" Margin="0,0,0,4"/>
                     <RadioButton x:Name="RulePointsTouchLines" Content="Must touch lines" IsChecked="True" Checked="Rule_Checked"/>
@@ -71,22 +76,6 @@
                     <RadioButton x:Name="RulePolygonsNoOverlapPolygons" Content="Must not overlap other polygons" Checked="Rule_Checked"/>
                 </StackPanel>
             </ScrollViewer>
-            <StackPanel DockPanel.Dock="Top" Margin="8,0,8,4">
-                <TextBlock x:Name="Result" FontWeight="SemiBold" TextWrapping="Wrap"/>
-                <TextBlock Foreground="#444A52" TextWrapping="Wrap" FontSize="11" Margin="0,4,0,0"
-                           Text="Blue is what the rule is checked against. Green is what is being checked. Red is what the validator handed back as breaking the rule - sometimes a whole feature, sometimes only the part of it that is wrong."/>
-            </StackPanel>
-            <TextBlock DockPanel.Dock="Top" Text="style.json - edit it; the map follows"
-                       FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
-
-            <TextBlock x:Name="Status" DockPanel.Dock="Bottom" FontSize="11" Margin="8,4,8,6"
-                       TextWrapping="Wrap" Foreground="DarkGreen"/>
-            <TextBox x:Name="Editor" TextChanged="Editor_TextChanged"
-                     Text="{StaticResource StyleJson}"
-                     AcceptsReturn="True" AcceptsTab="True"
-                     FontFamily="Consolas" FontSize="11.5" Padding="6"
-                     TextWrapping="NoWrap" BorderThickness="1,0,0,0" BorderBrush="#CCCCCC"
-                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
         </DockPanel>
     </Grid>
 </UserControl>

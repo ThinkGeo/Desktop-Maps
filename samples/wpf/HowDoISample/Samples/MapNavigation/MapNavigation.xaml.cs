@@ -1,25 +1,23 @@
 using System;
-using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using ThinkGeo.Core;
 using ThinkGeo.Core.Styling;
 using ThinkGeo.Gpu;
-using ThinkGeo.UI.Wpf;
 
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// Learn how to zoom, pan, rotate and tilt the map control.
+    /// Pan, zoom, rotate and tilt the map with the mouse or touch, and watch the events the map raises.
     /// </summary>
     public partial class MapNavigation
     {
-        private readonly ThinkGeoVectorTileSource _cloud = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) };
-        private GpuBasemap _basemap;
-        private bool _darkTheme;
-        private bool _isSwitchingTheme;
         private PointShape _empireStateBuildingPosition;
+        private int _logIndex;
         private bool _initialized;
+
+        public ObservableCollection<string> LogMessages { get; } = new ObservableCollection<string>();
 
         public MapNavigation()
         {
@@ -32,15 +30,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
-            Map.CurrentExtentChanged += Map_CurrentExtentChanged;
-
             Map.MapUnit = GeographyUnit.Meter;
-            // The street style carries its own building extrusions, so the 3D
-            // Buildings checkbox is a renderer switch, not a style rebuild.
+
+            // Right-drag turns and tilts the map.
             Map.IsTiltEnabled = true;
-            _basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, _cloud));
-            _basemap.IsExtrusionDrawingEnabled = BuildingCheckBox.IsChecked != false;
-            Map.Basemap = _basemap;
+            Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
 
             var markerOverlay = new SimpleMarkerOverlay();
             Map.Overlays.Add(markerOverlay);
@@ -51,14 +45,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             Map.CurrentScale = 100000;
             Map.CenterPoint = _empireStateBuildingPosition;
 
-            var marker = new Marker(_empireStateBuildingPosition)
+            markerOverlay.Markers.Add(new Marker(_empireStateBuildingPosition)
             {
                 ImageSource = new BitmapImage(new Uri("/Resources/empire_state_building.png", UriKind.RelativeOrAbsolute)),
                 Width = 32,
                 Height = 64,
                 YOffset = -32
-            };
-            markerOverlay.Markers.Add(marker);
+            });
 
             _ = Map.RefreshAsync();
         }
@@ -79,59 +72,42 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         private void Map_CurrentExtentChanged(object sender, CurrentExtentChangedMapViewEventArgs e)
         {
+            if (!_initialized) return;
+
             var currentExtent = e.NewExtent ?? Map.CurrentExtent;
             if (currentExtent == null) return;
 
-            var center = currentExtent.GetCenterPoint();
-            var centerInDecimalDegrees = ProjectionConverter.Convert(3857, 4326, center);
+            var centerInDecimalDegrees = ProjectionConverter.Convert(3857, 4326, currentExtent.GetCenterPoint());
             TxtCoordinates = $"Center Point: (Lat: {centerInDecimalDegrees.Y:N4}, Lon: {centerInDecimalDegrees.X:N4})";
+            AppendLog($"CurrentExtentChanged: center {centerInDecimalDegrees.Y:N4}, {centerInDecimalDegrees.X:N4}");
         }
 
-        private void BuildingCheckBox_CheckedChanged(object sender, RoutedEventArgs e)
+        private void Map_CurrentScaleChanged(object sender, CurrentScaleChangedMapViewEventArgs e)
         {
-            if (!_initialized || _basemap == null) return;
+            if (!_initialized) return;
 
-            _basemap.IsExtrusionDrawingEnabled = BuildingCheckBox.IsChecked == true;
-            _ = Map.RefreshAsync();
+            AppendLog($"CurrentScaleChanged: 1:{e.OldScale:N0} to 1:{e.NewScale:N0}");
         }
 
-        private void PitchSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void Map_MapClick(object sender, MapClickMapViewEventArgs e)
         {
-            var pitch = Math.Max(0, Math.Min(80, e.NewValue));
-            if (PitchValueText != null)
-            {
-                PitchValueText.Text = $"{pitch:0}°";
-            }
-
-            if (_initialized)
-            {
-                Map.TiltAngle = pitch;
-                _ = Map.RefreshAsync();
-            }
+            AppendLog($"MapClick: {e.MouseButton} at ({e.WorldX:N0}, {e.WorldY:N0})");
         }
 
-        private void DarkThemeButton_OnClick(object sender, RoutedEventArgs e)
+        private void Map_MapDoubleClick(object sender, MapClickMapViewEventArgs e)
         {
-            _ = ToggleThemeAsync();
+            AppendLog($"MapDoubleClick: {e.MouseButton} at ({e.WorldX:N0}, {e.WorldY:N0})");
         }
 
-        // Light and dark read the SAME vector tiles - a theme is a restyle, not a new
-        // basemap, so the camera (pitch included) and the fetched tiles carry over.
-        private async Task ToggleThemeAsync()
+        private void AppendLog(string message)
         {
-            if (!_initialized || _isSwitchingTheme) return;
+            LogMessages.Add($"{_logIndex++}: {message}");
+            LogListBox.ScrollIntoView(LogMessages[LogMessages.Count - 1]);
+        }
 
-            _isSwitchingTheme = true;
-            try
-            {
-                _darkTheme = !_darkTheme;
-                DarkThemeButton.Content = _darkTheme ? "Light Theme" : "Dark Theme";
-                await _basemap.SetStyleAsync(new MapStyle(_darkTheme ? ThinkGeoVectorStyles.Dark : ThinkGeoVectorStyles.Light, _cloud));
-            }
-            finally
-            {
-                _isSwitchingTheme = false;
-            }
+        private void ClearLog_Click(object sender, RoutedEventArgs e)
+        {
+            LogMessages.Clear();
         }
 
         private void CompassButton_Click(object sender, RoutedEventArgs e)

@@ -1,7 +1,8 @@
 ﻿<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.Samples.TheGlobe"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:wpf="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf">
+             xmlns:wpf="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             Unloaded="Sample_Unloaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -13,7 +14,7 @@
         <StackPanel Grid.Column="1" Width="270" Margin="8">
             <TextBlock Text="The globe" FontSize="16" FontWeight="Bold" Margin="0,0,0,6" />
             <TextBlock TextWrapping="Wrap" Foreground="#666" Margin="0,0,0,10"
-                       Text="A ball, from the same web-mercator satellite tiles a flat map is made of. Nothing about the data changes: the sphere happens in the vertex shader and the camera, and every coordinate the API speaks is still EPSG:3857." />
+                       Text="The same web-mercator satellite tiles a flat map is made of, drawn on a ball. Every coordinate the API speaks is still EPSG:3857." />
 
             <RadioButton x:Name="RdoGlobe" Content="Globe" IsChecked="True" Checked="Projection_Checked" Margin="0,3" />
             <RadioButton x:Name="RdoMercator" Content="Web Mercator (what it flattens into)" Checked="Projection_Checked" Margin="0,3" />
@@ -23,7 +24,7 @@
             <Separator Margin="0,12,0,8" />
             <TextBlock Text="Zoom in and watch it let go" FontWeight="SemiBold" Margin="0,0,0,4" />
             <TextBlock TextWrapping="Wrap" Foreground="#444" FontSize="11" Margin="0,0,0,6"
-                       Text="Between zoom 5 and 6 the ball eases into flat mercator and then hands over completely. A flattened globe IS web mercator - that is what the tangent plane at the center comes out as - so the handover has nothing to hide." />
+                       Text="Between zoom 5 and 6 the ball eases into flat web mercator, then hands over to it completely." />
             <StackPanel Orientation="Horizontal">
                 <Button x:Name="BtnWorld" Content="world" Click="World_Click" Padding="8,3" Margin="0,0,4,0" />
                 <Button x:Name="BtnBand" Content="the band" Click="Band_Click" Padding="8,3" Margin="0,0,4,0" />
@@ -35,7 +36,7 @@
 
             <Separator Margin="0,12,0,8" />
             <TextBlock TextWrapping="Wrap" Foreground="#444" FontSize="11"
-                       Text="Three things worth knowing. The ball is FITTED to the map's scale: the ground under the screen center is drawn at the size a flat map would draw it, which is what makes the handover seamless. Dragging holds that size - move north and the scale changes rather than the ball, because a mercator meter is less ground the further north it is. And web mercator stops at 85 degrees, so the sphere above that has no tile: the caps are drawn from the top row of the tiles that reach the edge." />
+                       Text="The ground under the screen center is drawn at the size a flat map would draw it, so dragging north changes the scale rather than the ball. Web mercator stops at 85 degrees; the caps above it are filled from the tiles at the edge." />
         </StackPanel>
     </Grid>
 </UserControl>

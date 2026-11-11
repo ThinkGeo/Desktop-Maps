@@ -1,0 +1,64 @@
+<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.Samples.Isolines"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <sys:String x:Key="DataPointsStyle" xml:space="preserve">{
+  "layers": [
+
+    { "id": "data-points",
+      "type": "circle",
+      "source-layer": "points",
+      "paint": {
+          "circle-radius": 5,
+          "circle-color": "#000000",
+          "circle-stroke-color": "#FFFFFF",
+          "circle-stroke-width": 2 }
+    }
+  ]
+}</sys:String>
+    </UserControl.Resources>
+
+    <DockPanel LastChildFill="True">
+        <WrapPanel DockPanel.Dock="Bottom" Background="WhiteSmoke" Orientation="Horizontal">
+            <CheckBox Content="fill bands" VerticalAlignment="Center" Margin="12,4,0,4"
+                      Checked="FillToggle_Changed" Unchecked="FillToggle_Changed"/>
+            <CheckBox Content="labels" IsChecked="True" VerticalAlignment="Center" Margin="12,4,0,4"
+                      Checked="LabelToggle_Changed" Unchecked="LabelToggle_Changed"/>
+            <CheckBox x:Name="PointToggle" Content="data points" IsChecked="True" VerticalAlignment="Center" Margin="12,4,0,4"
+                      Checked="PointToggle_Changed" Unchecked="PointToggle_Changed"/>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,4,0,4">
+                <TextBlock Text="levels" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                <Slider x:Name="LevelSlider" Minimum="2" Maximum="60" Value="25" Width="150"
+                        VerticalAlignment="Center" IsSnapToTickEnabled="True" TickFrequency="1"
+                        ValueChanged="LevelSlider_ValueChanged"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,4,0,4">
+                <TextBlock Text="line width" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                <Slider x:Name="WidthSlider" Minimum="1" Maximum="8" Value="3" Width="100"
+                        VerticalAlignment="Center" ValueChanged="WidthSlider_ValueChanged"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,4,0,4">
+                <TextBlock Text="interpolation power" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                <Slider x:Name="PowerSlider" Minimum="1" Maximum="4" Value="2" Width="100"
+                        VerticalAlignment="Center" ValueChanged="PowerSlider_ValueChanged"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,4,0,4">
+                <TextBlock Text="search radius" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                <!-- In widths of the data area; 0 uses every point. -->
+                <Slider x:Name="RadiusSlider" Minimum="0" Maximum="1.5" Value="0" Width="100"
+                        VerticalAlignment="Center" ValueChanged="RadiusSlider_ValueChanged"/>
+            </StackPanel>
+        </WrapPanel>
+
+        <TextBlock x:Name="Status" DockPanel.Dock="Bottom" Background="WhiteSmoke" Padding="12,4,12,4"
+                   Text="drag the sliders - updates land on the next frame"/>
+
+        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
+    </DockPanel>
+</UserControl>

@@ -1,276 +1,315 @@
 using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
-using System.IO;
 using System.Drawing;
 using System.Drawing.Printing;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using ThinkGeo.Core;
+using ThinkGeo.Core.Styling;
+using ThinkGeo.Gpu;
 using ThinkGeo.UI.Wpf;
 
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// Learn to print maps using the PrintOverlay.
+    /// Compose a page of map, legend, scale bar, title and data grid on the map, then print it or export it as a PDF.
     /// </summary>
     public partial class PrintTheMap
     {
+        private const string Title = "Frisco Mosquito Report - 5/5/2020";
+
+        private static readonly AreaStyle CityLimitsStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.Transparent, GeoColors.Black, 2);
+        private static readonly LineStyle MajorStreetsStyle = LineStyle.CreateSimpleLineStyle(GeoColors.DarkGray, 1, true);
+        private static readonly AreaStyle ParksStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.LightGray, GeoColors.Transparent);
+        private static readonly PointStyle TrapSiteStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Black, 10, GeoColors.White, 2);
 
         private bool _initialized;
+        private bool _useStyleDocument;
+        private PrinterInteractiveOverlay _printerOverlay;
+        private MapPrinterLayoutAsyncLayer _mapPrinterLayer;
+        private RectangleShape _cityExtent;
+
         public PrintTheMap()
         {
             InitializeComponent();
         }
 
-        /// <summary>
-        /// Set up the map to display a print preview
-        /// </summary>
         private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
-
             _initialized = true;
-            SetupMapForPrinting();
-            AddPageTitleLabel();
-            AddMapLayers();
-            AddMosquitoDataGrid();
+
+            // The map shows a sheet of paper, and zooms in the steps a printed page is read at.
+            Map.MapUnit = GeographyUnit.Meter;
+            Map.ZoomScales = new PrinterZoomLevelSet(GeographyUnit.Meter, PrinterLayoutHelper.GetPointsPerGeographyUnit(GeographyUnit.Meter)).GetScales();
+            Map.MinimumScale = Map.ZoomScales[Map.ZoomScales.Count - 1];
+
+            var cityLimits = new ShapeFileFeatureSource(SampleShared.Shapefile("FriscoCityLimits.shp")) { ProjectionConverter = new ProjectionConverter(2276, 3857) };
+            cityLimits.Open();
+            _cityExtent = cityLimits.GetBoundingBox();
+            cityLimits.Close();
+
+            // The sheet is drawn on screen to show where the paper is; it is not printed.
+            var pageLayer = new PagePrinterLayoutAsyncLayer(PrinterPageSize.AnsiA, PrinterOrientation.Portrait)
+            {
+                BackgroundMask = AreaStyle.CreateSimpleAreaStyle(GeoColors.White, GeoColors.Black)
+            };
+            _printerOverlay = new PrinterInteractiveOverlay { IsEditable = true };
+            _printerOverlay.PrinterLayoutAsyncLayers.Add(pageLayer);
+            var page = CreatePage(pageLayer, CreateMapLayers(), _cityExtent, Title);
+            foreach (var layer in page.Layers)
+            {
+                _printerOverlay.PrinterLayoutAsyncLayers.Add(layer);
+            }
+            _mapPrinterLayer = page.Layers.OfType<MapPrinterLayoutAsyncLayer>().First();
+            Map.InteractiveOverlays.Add(_printerOverlay);
+
+            var pageExtent = pageLayer.GetPosition().GetBoundingBox();
+            Map.CenterPoint = pageExtent.GetCenterPoint();
+            Map.CurrentScale = MapUtil.GetScale(Map.MapUnit, pageExtent, Map.MapWidth, Map.MapHeight);
 
             _ = Map.RefreshAsync();
         }
 
-        /// <summary>
-        /// Creates a PrintDocument and draws all the layers for it to print onto.
-        /// </summary>
-        private async void PrintMap_OnClick(object sender, RoutedEventArgs e)
+        private async void MapContent_Checked(object sender, RoutedEventArgs e)
         {
-            var printerOverlay = (PrinterInteractiveOverlay)Map.InteractiveOverlays["printerOverlay"];
-            var pageLayer = (PagePrinterLayoutAsyncLayer)printerOverlay.PrinterLayoutAsyncLayers["pageLayer"];
+            if (!_initialized) return;
 
-            // Create a printDocument that matches the size of our pageLayer
-            var printDocument = new PrintDocument
+            try
             {
-                DefaultPageSettings =
+                _useStyleDocument = (string)((RadioButton)sender).Tag == "style";
+                _mapPrinterLayer.Layers.Clear();
+                foreach (var layer in CreateMapLayers())
                 {
-                    Landscape = pageLayer.Orientation == PrinterOrientation.Landscape,
-                    PaperSize = new PaperSize("AnsiA", 850, 1100)
+                    _mapPrinterLayer.Layers.Add(layer);
                 }
-            };
-
-            // Create a printerGeoCanvas that will allow us to print Layers onto the printDocument
-            var printerGeoCanvas = new PrinterGeoCanvas
+                _mapPrinterLayer.InvalidateInnerContentCache();
+                await Map.RefreshAsync();
+            }
+            catch (Exception ex)
             {
-                DrawingArea = new Rectangle(0, 0, (int)printDocument.DefaultPageSettings.PrintableArea.Width, (int)printDocument.DefaultPageSettings.PrintableArea.Height)
-            };
-
-            // Start drawing on the printDocument
-            printerGeoCanvas.BeginDrawing(printDocument, pageLayer.GetPosition(), Map.MapUnit);
-
-            // Draw the layout, then send the print commands to the printer
-            await BuildLayoutDocument(printerOverlay).DrawAsync(printerGeoCanvas);
-            printerGeoCanvas.EndDrawing();
+                Status.Text = ex.Message;
+            }
         }
 
-        /// <summary>
-        /// Exports the same layout as a cross-platform vector PDF.
-        /// </summary>
-        private async void ExportPdf_OnClick(object sender, RoutedEventArgs e)
+        private async void PrintMap_Click(object sender, RoutedEventArgs e)
         {
-            var printerOverlay = (PrinterInteractiveOverlay)Map.InteractiveOverlays["printerOverlay"];
+            try
+            {
+                var printDocument = new PrintDocument
+                {
+                    DefaultPageSettings =
+                    {
+                        Landscape = false,
+                        PaperSize = new PaperSize("AnsiA", 850, 1100)
+                    }
+                };
+                var printDialog = new System.Windows.Forms.PrintDialog { Document = printDocument, UseEXDialog = true };
+                if (printDialog.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
 
+                var printableArea = printDocument.DefaultPageSettings.PrintableArea;
+                var printerGeoCanvas = new PrinterGeoCanvas
+                {
+                    DrawingArea = new Rectangle(0, 0, (int)printableArea.Width, (int)printableArea.Height)
+                };
+
+                // EndDrawing sends the page to the printer.
+                Status.Text = "Printing...";
+                var page = PageOnScreen();
+                printerGeoCanvas.BeginDrawing(printDocument, page.Page.GetPosition(), Map.MapUnit);
+                var document = new PrinterLayoutDocument();
+                document.Pages.Add(page);
+                await document.DrawAsync(printerGeoCanvas);
+                printerGeoCanvas.EndDrawing();
+                Status.Text = "Sent to the printer.";
+            }
+            catch (Exception ex)
+            {
+                Status.Text = ex.Message;
+            }
+        }
+
+        private async void ExportPdf_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var document = new PrinterLayoutDocument();
+                document.Pages.Add(PageOnScreen());
+                await ExportAsync(document, "FriscoMosquitoReport.pdf");
+            }
+            catch (Exception ex)
+            {
+                Status.Text = ex.Message;
+            }
+        }
+
+        private async void ExportMapBook_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // One page for the whole city, then one for each quarter of it. The pages are
+                // written one after another, so they can share one set of map layers.
+                var center = _cityExtent.GetCenterPoint();
+                var left = _cityExtent.UpperLeftPoint.X;
+                var top = _cityExtent.UpperLeftPoint.Y;
+                var right = _cityExtent.LowerRightPoint.X;
+                var bottom = _cityExtent.LowerRightPoint.Y;
+                var extents = new (string Name, RectangleShape Extent)[]
+                {
+                    ("Frisco", _cityExtent),
+                    ("North West", new RectangleShape(left, top, center.X, center.Y)),
+                    ("North East", new RectangleShape(center.X, top, right, center.Y)),
+                    ("South West", new RectangleShape(left, center.Y, center.X, bottom)),
+                    ("South East", new RectangleShape(center.X, center.Y, right, bottom)),
+                };
+
+                var mapLayers = CreateMapLayers();
+                var document = new PrinterLayoutDocument();
+                for (var i = 0; i < extents.Length; i++)
+                {
+                    var title = $"{Title} - {extents[i].Name} (page {i + 1} of {extents.Length})";
+                    var sheet = new PagePrinterLayoutAsyncLayer(PrinterPageSize.AnsiA, PrinterOrientation.Portrait);
+                    document.Pages.Add(CreatePage(sheet, mapLayers, extents[i].Extent, title));
+                }
+                await ExportAsync(document, "FriscoMosquitoMapBook.pdf");
+            }
+            catch (Exception ex)
+            {
+                Status.Text = ex.Message;
+            }
+        }
+
+        private async Task ExportAsync(PrinterLayoutDocument document, string fileName)
+        {
             var saveFileDialog = new Microsoft.Win32.SaveFileDialog
             {
                 Filter = "PDF Document|*.pdf",
-                FileName = "FriscoMosquitoReport.pdf"
+                FileName = fileName,
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
             };
             if (saveFileDialog.ShowDialog() != true) return;
 
-            // The PDF page takes the size of the layout's sheet.
+            // Each PDF page takes the size of its page's sheet.
+            Status.Text = $"Writing {document.Pages.Count} page(s)...";
             using (var stream = File.Create(saveFileDialog.FileName))
             {
-                await BuildLayoutDocument(printerOverlay).ExportPdfAsync(stream);
+                await document.ExportPdfAsync(stream);
             }
+            Status.Text = "Saved " + saveFileDialog.FileName;
 
             Process.Start(new ProcessStartInfo(saveFileDialog.FileName) { UseShellExecute = true });
         }
 
         /// <summary>
-        /// Collects what is on screen into a one page document for output.
+        /// The page as it is on screen, with whatever was moved or resized there.
         /// </summary>
-        private static PrinterLayoutDocument BuildLayoutDocument(PrinterInteractiveOverlay printerOverlay)
+        private PrinterLayoutPage PageOnScreen()
         {
-            // The page layer is the sheet, so it stays out of the layers: it is drawn on screen to
-            // show where the paper is, not printed onto the paper.
-            var page = new PrinterLayoutPage((PagePrinterLayoutAsyncLayer)printerOverlay.PrinterLayoutAsyncLayers["pageLayer"]);
-            foreach (var layoutLayer in printerOverlay.PrinterLayoutAsyncLayers)
+            var sheet = _printerOverlay.PrinterLayoutAsyncLayers.OfType<PagePrinterLayoutAsyncLayer>().First();
+            var page = new PrinterLayoutPage(sheet);
+            foreach (var layer in _printerOverlay.PrinterLayoutAsyncLayers.Where(layer => layer != sheet))
             {
-                if (!(layoutLayer is PagePrinterLayoutAsyncLayer))
+                page.Layers.Add(layer);
+            }
+            return page;
+        }
+
+        /// <summary>
+        /// The map's content: the Frisco shapefiles, styled in code or by the style document.
+        /// </summary>
+        private IEnumerable<LayerBase> CreateMapLayers()
+        {
+            // The shapefiles are in Texas North Central (2276); the page is in Spherical Mercator (3857).
+            if (_useStyleDocument)
+            {
+                var sources = new GeoCollection<FeatureSource>();
+                foreach (var name in new[] { "Parks", "Streets", "FriscoCityLimits", "Frisco_Mosquitos" })
                 {
-                    page.Layers.Add(layoutLayer);
+                    sources.Add(name, new ShapeFileFeatureSource(SampleShared.Shapefile(name + ".shp")) { ProjectionConverter = new ProjectionConverter(2276, 3857) });
                 }
+                return new LayerBase[] { new MapStyleAsyncLayer(new MapStyle((string)FindResource("StyleJson")), sources) };
             }
 
-            var document = new PrinterLayoutDocument();
-            document.Pages.Add(page);
-            return document;
-        }
+            var cityLimits = new ShapeFileFeatureLayer(SampleShared.Shapefile("FriscoCityLimits.shp"));
+            cityLimits.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = CityLimitsStyle;
+            cityLimits.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle.DrawingLevel = DrawingLevel.LevelFour;
 
-        /// <summary>
-        /// Set up the map for a print preview and add a printerOverlay to hold various print layers
-        /// </summary>
-        private void SetupMapForPrinting()
-        {
-            // Set the map's unit of measurement to meters(Spherical Mercator)
-            Map.MapUnit = GeographyUnit.Meter;
+            var streets = new ShapeFileFeatureLayer(SampleShared.Shapefile("Streets.shp"));
+            var majorStreets = new FilterStyle();
+            majorStreets.Conditions.Add(new FilterCondition("SUBTYPE", "<= 6"));
+            majorStreets.Styles.Add(MajorStreetsStyle);
+            streets.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(majorStreets);
 
-            // Set the map's ZoomLevelSet to a set of common printer zoom settings
-            Map.ZoomScales =
-                new PrinterZoomLevelSet(GeographyUnit.Meter, PrinterLayoutHelper.GetPointsPerGeographyUnit(GeographyUnit.Meter)).GetScales();
-            Map.MinimumScale = Map.ZoomScales[Map.ZoomScales.Count - 1];
+            var parks = new ShapeFileFeatureLayer(SampleShared.Shapefile("Parks.shp"));
+            parks.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = ParksStyle;
 
-            var printerOverlay = new PrinterInteractiveOverlay();
-            printerOverlay.IsEditable = true;
+            var trapSites = new ShapeFileFeatureLayer(SampleShared.Shapefile("Frisco_Mosquitos.shp"));
+            var mayFifth = new FilterStyle();
+            mayFifth.Conditions.Add(new FilterCondition("DateCollec", "20200505"));
+            mayFifth.Styles.Add(TrapSiteStyle);
+            mayFifth.Styles.Add(TextStyle.CreateSimpleTextStyle("TrapSite", "Verdana", 8, DrawingFontStyles.Bold, GeoColors.Black, GeoColors.White, 2, 0, 6));
+            trapSites.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(mayFifth);
+            trapSites.ZoomLevelSet.ZoomLevel01.DefaultPointStyle.DrawingLevel = DrawingLevel.LevelFour;
 
-            var pageLayer = new PagePrinterLayoutAsyncLayer(PrinterPageSize.AnsiA, PrinterOrientation.Portrait)
+            var layers = new[] { cityLimits, streets, parks, trapSites };
+            foreach (var layer in layers)
             {
-                // Style the pageLayer to appear to look like a piece of paper
-                BackgroundMask = AreaStyle.CreateSimpleAreaStyle(GeoColors.White, GeoColors.Black)
-            };
-
-            // Add the pageLayer to the printerOverlay
-            printerOverlay.PrinterLayoutAsyncLayers.Add("pageLayer", pageLayer);
-            // Add the printerOverlay to the map
-            Map.InteractiveOverlays.Add("printerOverlay", printerOverlay);
-
-            // Set the map extent
-            var pageLayerBBox = pageLayer.GetPosition().GetBoundingBox();
-            Map.CenterPoint = pageLayerBBox.GetCenterPoint();
-            Map.CurrentScale = MapUtil.GetScale(Map.MapUnit, pageLayerBBox, Map.MapWidth, Map.MapHeight);
+                layer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
+                layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+            }
+            return layers;
         }
 
         /// <summary>
-        /// Adds a title to the top of the page
+        /// One page: the title, the map of the extent, its legend and scale bar, and the table of trap sites.
+        /// Positions are in inches from the centre of the sheet.
         /// </summary>
-        private void AddPageTitleLabel()
+        private static PrinterLayoutPage CreatePage(PagePrinterLayoutAsyncLayer sheet, IEnumerable<LayerBase> mapLayers, RectangleShape mapExtent, string title)
         {
-            var printerOverlay = (PrinterInteractiveOverlay)Map.InteractiveOverlays["printerOverlay"];
+            var center = sheet.GetPosition().GetCenterPoint();
+            var page = new PrinterLayoutPage(sheet);
 
-            var titleLabel = new LabelPrinterLayoutAsyncLayer("Frisco Mosquito Report - 5/5/2020", new GeoFont("Verdana", 8), GeoBrushes.Black)
+            var titleLabel = new LabelPrinterLayoutAsyncLayer(title, new GeoFont("Verdana", 8), GeoBrushes.Black)
             {
                 PrinterWrapMode = PrinterWrapMode.AutoSizeText
             };
-            titleLabel.SetPosition(7.5, .5, 0, 4.75, PrintingUnit.Inch);
+            titleLabel.SetPosition(7.5, .5, center.X, center.Y + 4.75, PrintingUnit.Inch);
+            page.Layers.Add(titleLabel);
 
-            printerOverlay.PrinterLayoutAsyncLayers.Add(titleLabel);
+            var mapPrinterLayer = new MapPrinterLayoutAsyncLayer(mapLayers, mapExtent, GeographyUnit.Meter)
+            {
+                DrawingMode = MapPrinterDrawingMode.Vector
+            };
+            mapPrinterLayer.SetPosition(7.5, 5, center.X, center.Y + 1.75, PrintingUnit.Inch);
+            page.Layers.Add(mapPrinterLayer);
 
-        }
+            var legend = CreateLegend();
+            legend.SetPosition(1.40, 1.05, center.X + 2.95, center.Y - 0.12, PrintingUnit.Inch);
+            page.Layers.Add(legend);
 
-        /// <summary>
-        /// Creates various layers from shapefile data and adds them to a mapPrinterLayer that will be able to translate the layers into print commands
-        /// </summary>
-        private void AddMapLayers()
-        {
-            var printerOverlay = (PrinterInteractiveOverlay)Map.InteractiveOverlays["printerOverlay"];
-            var pageLayer = (PagePrinterLayoutAsyncLayer)printerOverlay.PrinterLayoutAsyncLayers["pageLayer"];
-
-            /***************************
-             * Create cityLimits layer *
-             ***************************/
-            var cityLimits = new ShapeFileFeatureLayer(SampleShared.Shapefile("FriscoCityLimits.shp"));
-
-            // Style cityLimits layer
-            var cityLimitsStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.Transparent, GeoColors.Black, 2);
-            cityLimits.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = cityLimitsStyle;
-            cityLimits.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle.DrawingLevel = DrawingLevel.LevelFour;
-            cityLimits.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-
-            // Project cityLimits layer to Spherical Mercator to match the mapLayer projection
-            cityLimits.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
-
-            /************************
-             * Create streets layer *
-             ************************/
-            var streets = new ShapeFileFeatureLayer(SampleShared.Shapefile("Streets.shp"));
-
-            // Style streets layer
-            var majorStreetsStyle = new FilterStyle();
-            var majorStreetsLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.DarkGray, 1, true);
-            majorStreetsStyle.Conditions.Add(new FilterCondition("SUBTYPE", "<= 6"));
-            majorStreetsStyle.Styles.Add(majorStreetsLineStyle);
-            streets.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(majorStreetsStyle);
-            streets.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-
-            // Project streets layer to Spherical Mercator to match the mapLayer projection
-            streets.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
-
-            /**********************
-             * Create parks layer *
-             **********************/
-            var parks = new ShapeFileFeatureLayer(SampleShared.Shapefile("Parks.shp"));
-
-            // Style parks layer
-            var parksStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.LightGray, GeoColors.Transparent);
-            parks.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = parksStyle;
-            parks.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-
-            // Project parks layer to Spherical Mercator to match the mapLayer projection
-            parks.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
-
-            /*************************
-             * Create mosquitoSightings layer *
-             *************************/
-            var mosquitoSightings = new ShapeFileFeatureLayer(SampleShared.Shapefile("Frisco_Mosquitos.shp"));
-
-            // Style mosquitoSightings layer
-            var mayFifthSightings = new FilterStyle();
-            var mosquitoSightingsPointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Black, 10, GeoColors.White, 2);
-            mayFifthSightings.Conditions.Add(new FilterCondition("DateCollec", "20200505"));
-            mayFifthSightings.Styles.Add(mosquitoSightingsPointStyle);
-            mayFifthSightings.Styles.Add(TextStyle.CreateSimpleTextStyle("TrapSite", "Verdana", 8, DrawingFontStyles.Bold, GeoColors.Black, GeoColors.White, 2, 0, 6));
-            mosquitoSightings.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(mayFifthSightings);
-            mosquitoSightings.ZoomLevelSet.ZoomLevel01.DefaultPointStyle.DrawingLevel = DrawingLevel.LevelFour;
-            mosquitoSightings.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-
-            // Project mosquitoSightings layer to Spherical Mercator to match the mapLayer projection
-            mosquitoSightings.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
-
-            /********************************
-             * Create mapPrinterLayer layer *
-             *******************************/
-            // Open cityLimits layer to get the bounding box for the mapLayer
-            cityLimits.Open();
-            var mapExtent = cityLimits.GetBoundingBox();
-            cityLimits.Close();
-
-            // Create the mapPrinterLayer, adding the FeatureLayers that we want to print
-            var mapPrinterLayer = new MapPrinterLayoutAsyncLayer(new LayerBase[] { cityLimits, streets, parks, mosquitoSightings }, mapExtent, GeographyUnit.Meter);
-            mapPrinterLayer.DrawingMode = MapPrinterDrawingMode.Vector;
-
-            // Set the position of the map using the pageLayer's centerPoint
-            var pageCenter = pageLayer.GetPosition().GetCenterPoint();
-            mapPrinterLayer.SetPosition(7.5, 5, pageCenter.X, pageCenter.Y + 1.75, PrintingUnit.Inch);
-
-            printerOverlay.PrinterLayoutAsyncLayers.Add(mapPrinterLayer);
-
-            // Add a legend describing the map symbology.
-            var legendPrinterLayer = CreateLegendPrinterLayoutAsyncLayer(cityLimitsStyle, majorStreetsLineStyle, parksStyle, mosquitoSightingsPointStyle);
-            // Place a compact legend near the bottom-right corner of the printed map.
-            legendPrinterLayer.SetPosition(1.40, 1.05, pageCenter.X + 2.95, pageCenter.Y - 0.12, PrintingUnit.Inch);
-            printerOverlay.PrinterLayoutAsyncLayers.Add(legendPrinterLayer);
-
-            // Add a scale bar that reflects the map printer layer extent and scale.
-            var scaleBarPrinterLayer = new ScaleBarPrinterLayoutAsyncLayer(mapPrinterLayer)
+            var scaleBar = new ScaleBarPrinterLayoutAsyncLayer(mapPrinterLayer)
             {
                 UnitFamily = UnitSystem.Imperial,
                 HasMask = true,
                 DynamicBoundingBox = true,
                 Projection = new Projection(3857)
             };
-            scaleBarPrinterLayer.SetPosition(2.15, 0.45, pageCenter.X - 2.35, pageCenter.Y - 0.45, PrintingUnit.Inch);
-            printerOverlay.PrinterLayoutAsyncLayers.Add(scaleBarPrinterLayer);
+            scaleBar.SetPosition(2.15, 0.45, center.X - 2.35, center.Y - 0.45, PrintingUnit.Inch);
+            page.Layers.Add(scaleBar);
+
+            var dataGrid = CreateTrapSiteTable();
+            dataGrid.SetPosition(7.5, 4, center.X, center.Y - 3, PrintingUnit.Inch);
+            page.Layers.Add(dataGrid);
+
+            return page;
         }
 
-        private static LegendPrinterLayoutAsyncLayer CreateLegendPrinterLayoutAsyncLayer(AreaStyle cityLimitsStyle, LineStyle majorStreetsLineStyle, AreaStyle parksStyle, PointStyle mosquitoSightingsPointStyle)
+        private static LegendPrinterLayoutAsyncLayer CreateLegend()
         {
             var legendAdornment = new LegendAdornmentLayer
             {
@@ -288,10 +327,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 }
             };
 
-            legendAdornment.LegendItems.Add(CreateLegendItem("City Limits", cityLimitsStyle));
-            legendAdornment.LegendItems.Add(CreateLegendItem("Major Streets", majorStreetsLineStyle));
-            legendAdornment.LegendItems.Add(CreateLegendItem("Parks", parksStyle));
-            legendAdornment.LegendItems.Add(CreateLegendItem("Mosquito Site", mosquitoSightingsPointStyle));
+            legendAdornment.LegendItems.Add(CreateLegendItem("City Limits", CityLimitsStyle));
+            legendAdornment.LegendItems.Add(CreateLegendItem("Major Streets", MajorStreetsStyle));
+            legendAdornment.LegendItems.Add(CreateLegendItem("Parks", ParksStyle));
+            legendAdornment.LegendItems.Add(CreateLegendItem("Mosquito Site", TrapSiteStyle));
 
             return new LegendPrinterLayoutAsyncLayer(legendAdornment);
         }
@@ -322,14 +361,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         }
 
         /// <summary>
-        /// Creates a DataGridLayer containing mosquito trap data collected on 5/5/2020
+        /// The trap sites sampled on 5/5/2020, one row each.
         /// </summary>
-        private void AddMosquitoDataGrid()
+        private static DataGridPrinterLayoutAsyncLayer CreateTrapSiteTable()
         {
-            var printerOverlay = (PrinterInteractiveOverlay)Map.InteractiveOverlays["printerOverlay"];
-            var pageLayer = (PagePrinterLayoutAsyncLayer)printerOverlay.PrinterLayoutAsyncLayers["pageLayer"];
-
-            // Create a table with columns
             var table = new DataTable();
             table.Columns.Add("TRAP SITE");
             table.Columns.Add("ADDRESS");
@@ -337,29 +372,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             table.Columns.Add("FEMALES");
             table.Columns.Add("WEST NILE DETECTED");
 
-            // Load in the mosquito feature source data
             var mosquitoFeatureSource = new ShapeFileFeatureSource(SampleShared.Shapefile("Frisco_Mosquitos.shp"));
-
-            // Query the data for all features whose data was collected on 5/5/2020
             mosquitoFeatureSource.Open();
             var trapSites = mosquitoFeatureSource.GetFeaturesByColumnValue("DateCollec", "20200505", ReturningColumnsType.AllColumns);
             mosquitoFeatureSource.Close();
 
-            // Add a row to the table for every feature
             foreach (var trapSite in trapSites)
             {
                 table.Rows.Add(trapSite.ColumnValues["TrapSite"], trapSite.ColumnValues["Address"], trapSite.ColumnValues["Male"], trapSite.ColumnValues["Female"], trapSite.ColumnValues["WestNileMo"]);
             }
 
-            // Create the dataGridLayer that will display the mosquito data
-            var dataGridLayer = new DataGridPrinterLayoutAsyncLayer(table, new GeoFont("Verdana", 8), new GeoFont("Verdana", 8, DrawingFontStyles.Bold));
-
-            // Set the position of the map using the pageLayer's centerPoint
-            var pageCenter = pageLayer.GetPosition().GetCenterPoint();
-            dataGridLayer.SetPosition(7.5, 4, pageCenter.X, pageCenter.Y - 3, PrintingUnit.Inch);
-
-            // Add the dataGridLayer to the PrinterLayoutAsyncLayers collection to print later
-            printerOverlay.PrinterLayoutAsyncLayers.Add(dataGridLayer);
+            return new DataGridPrinterLayoutAsyncLayer(table, new GeoFont("Verdana", 8), new GeoFont("Verdana", 8, DrawingFontStyles.Bold));
         }
     }
 }

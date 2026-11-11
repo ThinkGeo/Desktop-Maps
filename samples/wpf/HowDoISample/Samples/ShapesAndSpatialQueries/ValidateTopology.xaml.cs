@@ -1,11 +1,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Threading;
 using ThinkGeo.Core;
 using ThinkGeo.Core.Styling;
 using ThinkGeo.UI.Wpf;
@@ -14,25 +10,18 @@ using ThinkGeo.Gpu;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// Every rule TopologyValidator can check, on shapes small enough to see the answer:
-    /// what points may touch, what lines may cross, what polygons may leave between
-    /// them. Each rule is one call that hands back the features - or the parts of them -
-    /// that break it.
+    /// Check shapes against every TopologyValidator rule and see which features, or which parts of them, break it.
     /// </summary>
     public partial class ValidateTopology
     {
         private readonly DynamicSource _against = new DynamicSource();
         private readonly DynamicSource _checked = new DynamicSource();
         private readonly DynamicSource _broken = new DynamicSource();
-        private readonly DispatcherTimer _applyTimer;
         private bool _ready;
 
         public ValidateTopology()
         {
             InitializeComponent();
-
-            _applyTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(400) };
-            _applyTimer.Tick += async (_, _) => { _applyTimer.Stop(); await ApplyEditorStyleAsync(); };
         }
 
         private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -44,7 +33,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // Three sets of shapes that change with every rule, so they are geometry
             // rather than an overlay's raster tiles, which a zoom between two levels
             // would stretch.
-            Map.Basemap = new GpuBasemap(new MapStyle(Editor.Text).AddDynamic(_against).AddDynamic(_checked).AddDynamic(_broken));
+            Map.Basemap = new GpuBasemap(new MapStyle((string)Resources["StyleJson"]).AddDynamic(_against).AddDynamic(_checked).AddDynamic(_broken));
 
             _ready = true;
             Run();
@@ -52,31 +41,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         }
 
         private void Rule_Checked(object sender, RoutedEventArgs e) => Run();
-
-        private void Editor_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (!_ready) return;
-            _applyTimer.Stop();
-            _applyTimer.Start();
-        }
-
-        // A document that does not compile changes nothing; the map keeps the last one that worked.
-        private async Task ApplyEditorStyleAsync()
-        {
-            if (!IsLoaded) return;
-
-            try
-            {
-                await Map.Basemap.SetStyleAsync(new MapStyle(Editor.Text).AddDynamic(_against).AddDynamic(_checked).AddDynamic(_broken));
-                Status.Foreground = Brushes.DarkGreen;
-                Status.Text = FormattableString.Invariant($"applied at {DateTime.Now:HH:mm:ss}");
-            }
-            catch (Exception exception)
-            {
-                Status.Foreground = Brushes.Firebrick;
-                Status.Text = "not applied - " + exception.Message.Split('\n')[0].TrimEnd('\r');
-            }
-        }
 
         private static Collection<Feature> Wkt(params string[] wellKnownText)
         {

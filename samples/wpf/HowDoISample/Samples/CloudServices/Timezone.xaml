@@ -1,50 +1,23 @@
-﻿<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.Samples.Timezone"
+<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.Samples.Timezone"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <thinkGeoUi:MapView  Grid.Column="0" Grid.Row="0"  x:Name="Map" SizeChanged="Map_SizeChanged" MapClick="Map_MapClick"></thinkGeoUi:MapView>
-        <Image Grid.Column="0" x:Name="LoadingImage"  Height="64" Width="64" Visibility="Visible" Source="..\..\Resources\loading.png" />
-        <Grid Grid.Column="1" Grid.Row="0">
-            <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2">
-                <Label.Content>
-                    <AccessText HorizontalAlignment="Center" FontSize="16" TextWrapping="Wrap"   Text="Click on the Map to Get Timezone Information"/>
-                </Label.Content>
-            </Label>
+    <DockPanel LastChildFill="True">
+        <Border DockPanel.Dock="Right" Width="260" Background="#F6F6F4" Padding="12,10"
+                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+            <StackPanel>
+                <TextBlock Text="Click the map to get the time zone there" FontWeight="SemiBold" TextWrapping="Wrap"/>
+                <TextBlock x:Name="Status" Margin="0,8,0,0" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"/>
+            </StackPanel>
+        </Border>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="5" />
-                <ColumnDefinition Width="120" />
-                <ColumnDefinition Width="120" />
-                <ColumnDefinition Width="5" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+        <Grid>
+            <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged" MapClick="Map_MapClick"/>
+            <Image x:Name="LoadingImage" Height="64" Width="64" Visibility="Visible" Source="..\..\Resources\loading.png"/>
         </Grid>
-
-
-        <!-- Grid Layout -->
-
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-    </Grid>
-    <UserControl.Resources>
-        <Style TargetType="Label">
-            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
-            <Setter Property="FontSize" Value="14"></Setter>
-        </Style>
-        <Style TargetType="Grid">
-            <Setter Property="Background" Value="DimGray"></Setter>
-        </Style>
-    </UserControl.Resources>
+    </DockPanel>
 </UserControl>
