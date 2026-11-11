@@ -62,17 +62,13 @@
         <Border DockPanel.Dock="Right" Style="{DynamicResource Shell.SamplePanel}">
             <StackPanel>
                 <TextBlock Text="Draw the map on the page with" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                <RadioButton Content="Feature layers styled in code" Tag="layers" GroupName="MapContent" IsChecked="True" Margin="0,2"
+                <RadioButton x:Name="ContentLayers" Content="Feature layers styled in code" Tag="layers" GroupName="MapContent" IsChecked="True" Margin="0,2"
                              Checked="MapContent_Checked"/>
-                <RadioButton Content="A style document (style.json)" Tag="style" GroupName="MapContent" Margin="0,2"
+                <RadioButton x:Name="ContentStyle" Content="A style document (style.json)" Tag="style" GroupName="MapContent" Margin="0,2"
                              Checked="MapContent_Checked"/>
 
                 <TextBlock Text="Output" FontWeight="SemiBold" Margin="0,14,0,4"/>
-                <Button Content="Print..." Click="PrintMap_Click" Margin="0,2" Padding="0,3"/>
                 <Button Content="Export this page as a PDF..." Click="ExportPdf_Click" Margin="0,2" Padding="0,3"/>
-                <Button Content="Export a map book as a PDF..." Click="ExportMapBook_Click" Margin="0,2" Padding="0,3"/>
-                <TextBlock Margin="0,4,0,0" FontSize="11" TextWrapping="Wrap"
-                           Text="The map book is one PDF of five pages: the whole city, then each quarter of it on a page of its own."/>
                 <TextBlock x:Name="Status" Margin="0,10,0,0" FontSize="11" TextWrapping="Wrap"/>
             </StackPanel>
         </Border>

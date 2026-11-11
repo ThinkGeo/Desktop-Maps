@@ -4,8 +4,6 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
-    <!-- The Print The Map sample prints through System.Drawing.Printing. -->
-    <UseWindowsForms>true</UseWindowsForms>
     <Nullable>disable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
     <LangVersion>latest</LangVersion>
@@ -31,7 +29,6 @@
     <PackageReference Include="ThinkGeo.NauticalCharts" Version="15.1.0-beta002" />
     <PackageReference Include="ThinkGeo.Oracle" Version="15.1.0-beta002" />
     <PackageReference Include="ThinkGeo.PostgreSql" Version="15.1.0-beta002" />
-    <PackageReference Include="ThinkGeo.Printers" Version="15.1.0-beta002" />
     <PackageReference Include="ThinkGeo.SqlServer" Version="15.1.0-beta002" />
     <!-- The documentation samples render markdown and show source. -->
     <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
