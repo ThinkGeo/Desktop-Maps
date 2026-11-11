@@ -441,6 +441,14 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <Style TargetType="ComboBox">
+                <Setter Property="Foreground" Value="#1F2226" />
+                <Style.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Foreground" Value="#1F2226" />
+                    </Style>
+                </Style.Resources>
+            </Style>
             <Style TargetType="ToggleButton">
                 <Setter Property="Foreground" Value="{StaticResource Shell.Text}" />
                 <Setter Property="Background" Value="{StaticResource Shell.Hover}" />

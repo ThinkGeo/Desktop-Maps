@@ -36,7 +36,7 @@
     </UserControl.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel Margin="16,14,24,20" MaxWidth="880" HorizontalAlignment="Left">
+        <StackPanel Margin="16,14,24,20">
             <TextBlock Style="{StaticResource H1}" Text="GPU or Classic?"/>
             <TextBlock Style="{StaticResource Body}" Margin="0,4,0,0"
                        Text="Draw the map with a style document: a GpuBasemap holding a MapStyle, with your own data added to the style as sources. Reach for the classic overlays only for the jobs listed under &#x201C;Where the classic overlays still belong&#x201D; below. An application that already has classic FeatureLayers can bring them across: FeatureLayerTranslator.Translate turns a layer and its ZoomLevelSet styles into style layers, MapStyle.AddFeatureLayer adds them, and whatever could not be translated is listed in the translation's Warnings. See Migrate a Classic Layer."/>

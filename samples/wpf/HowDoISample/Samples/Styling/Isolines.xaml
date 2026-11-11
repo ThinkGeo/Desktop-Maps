@@ -16,8 +16,8 @@
       "source-layer": "points",
       "paint": {
           "circle-radius": 5,
-          "circle-color": "#000000",
-          "circle-stroke-color": "#FFFFFF",
+          "circle-color": "#FFFFFF",
+          "circle-stroke-color": "#1E2329",
           "circle-stroke-width": 2 }
     }
   ]

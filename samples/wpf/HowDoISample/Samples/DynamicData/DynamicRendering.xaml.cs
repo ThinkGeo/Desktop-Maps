@@ -52,7 +52,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
                 Map.CenterPoint = new PointShape(-10650000, 4770000);
                 Map.CurrentScale = 37000000;
-                ShowYear((int)YearSlider.Value);
+                ShowYear(YearSlider.Value);
             }
             catch (Exception ex)
             {
@@ -69,7 +69,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 return;
 
             YearLabel.Text = ((int)e.NewValue).ToString();
-            ShowYear((int)e.NewValue);
+            ShowYear(e.NewValue);
         }
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
@@ -85,10 +85,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         /// <summary>
         /// Every state's marker, kept under the state's abbreviation, takes the size
-        /// and color of its population that year.
+        /// and color of its population at that moment - between two census years the
+        /// population is interpolated, so a played animation grows smoothly instead of
+        /// jumping once a year.
         /// </summary>
-        private void ShowYear(int year)
+        private void ShowYear(double moment)
         {
+            var year = (int)Math.Floor(moment);
+            var fraction = moment - year;
             if (_circles == null || _stateCenters == null)
             {
                 return;
@@ -96,13 +100,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             foreach (var (x, y, abbreviation) in _stateCenters)
             {
-                if (!_population.TryGetValue((abbreviation, year), out var population))
+                if (!_population.TryGetValue((abbreviation, year), out var before))
                 {
                     _circles.Remove(abbreviation);
                     continue;
                 }
 
-                var strength = Math.Min(population / 300000f, 150f);
+                var after = _population.TryGetValue((abbreviation, year + 1), out var next) ? next : before;
+                var population = before + ((after - before) * fraction);
+
+                var strength = (float)Math.Min(population / 300000d, 150d);
                 var color = GeoColor.FromArgb(150, (byte)(255 * (1 - (strength / 150))), (byte)(255 * strength / 150), 0);
                 _circles.SetPoint(abbreviation, new Feature(x, y), 0f, color, Math.Max(4f, strength), "disc");
             }

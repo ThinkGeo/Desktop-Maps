@@ -47,7 +47,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             pointTiles.FeatureSources.Add("points", new InMemoryFeatureSource(
                 Array.Empty<FeatureSourceColumn>(), _points.Keys.Select(point => new Feature(point)).ToList()));
 
-            _style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) })
+            _style = new MapStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) })
                 .AddStyle((string)FindResource("DataPointsStyle"), pointTiles);
             _basemap = new GpuBasemap(_style);
             Map.Basemap = _basemap;
@@ -120,10 +120,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 return;
             }
 
-            // Breaks over the data, colored blue to red.
+            // Breaks over the data, colored light blue to red.
             var levels = IsoLineLayer.GetIsoLineLevels(_points, _levelCount);
             var colors = GeoColor.GetColorsInQualityFamily(
-                GeoColors.Blue, GeoColors.Red, levels.Count, ColorWheelDirection.Clockwise);
+                GeoColor.FromHtml("#4EA8FF"), GeoColors.Red, levels.Count, ColorWheelDirection.Clockwise);
 
             var display = new IsolineStyle
             {
@@ -132,6 +132,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 FillOpacity = _fillBands ? 0.45f : 0f,
                 ShowLabels = _showLabels,
                 LabelEveryNthLevel = 2,
+                LabelColor = GeoColor.FromHtml("#E7E9EC"),
+                LabelHaloColor = GeoColor.FromHtml("#1E2329"),
             };
 
             // The document did not change, so SetStyleAsync only re-sends the isoline

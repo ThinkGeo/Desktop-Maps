@@ -32,10 +32,21 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="GridViewColumnHeader">
-                        <Border Background="{StaticResource Shell.Header}" BorderBrush="{StaticResource Shell.Divider}"
-                                BorderThickness="0,0,1,1" Padding="6,5">
-                            <ContentPresenter />
-                        </Border>
+                        <Grid>
+                            <Border Background="{StaticResource Shell.Header}" BorderBrush="{StaticResource Shell.Divider}"
+                                    BorderThickness="0,0,1,1" Padding="6,5">
+                                <ContentPresenter />
+                            </Border>
+                            <!-- The grip a column is dragged wider or narrower by; GridView looks for it by name. -->
+                            <Thumb x:Name="PART_HeaderGripper" HorizontalAlignment="Right" Width="8" Margin="0,0,-4,0"
+                                   Cursor="SizeWE">
+                                <Thumb.Template>
+                                    <ControlTemplate TargetType="Thumb">
+                                        <Border Background="Transparent" />
+                                    </ControlTemplate>
+                                </Thumb.Template>
+                            </Thumb>
+                        </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -94,11 +105,15 @@
                 <GridView>
                     <GridViewColumn Header="Group" Width="170" DisplayMemberBinding="{Binding Category}"/>
                     <GridViewColumn Header="Sample" Width="220" DisplayMemberBinding="{Binding Title}"/>
-                    <GridViewColumn Header="Does what" Width="430" DisplayMemberBinding="{Binding Focus}"/>
-                    <GridViewColumn Header="Key API" Width="200" DisplayMemberBinding="{Binding KeyApi}"/>
-                    <!-- What the map is drawn with - see GPU or Classic? in Start Here. -->
-                    <GridViewColumn Header="Draws" Width="110" DisplayMemberBinding="{Binding DrawsLabel}"/>
-                    <GridViewColumn Header="Needs" Width="130" DisplayMemberBinding="{Binding Service}"/>
+                    <!-- Hover a row for the whole sentence; drag a header's edge to widen the column. -->
+                    <GridViewColumn Header="Does what" Width="560">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Focus}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Focus}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Key API" Width="220" DisplayMemberBinding="{Binding KeyApi}"/>
                 </GridView>
             </ListView.View>
         </ListView>

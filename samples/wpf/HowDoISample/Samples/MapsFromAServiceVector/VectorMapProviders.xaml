@@ -20,8 +20,8 @@
             <StackPanel>
                 <TextBlock Text="Provider" FontWeight="SemiBold" FontSize="11.5" Margin="0,6,0,4"/>
                 <StackPanel Margin="0,0,0,4">
-                    <RadioButton x:Name="ThinkGeoLight" Content="ThinkGeo Cloud - Light" IsChecked="True" Checked="Provider_Checked"/>
-                    <RadioButton x:Name="ThinkGeoDark" Content="ThinkGeo Cloud - Dark" Checked="Provider_Checked"/>
+                    <RadioButton x:Name="ThinkGeoDark" Content="ThinkGeo Cloud - Dark" IsChecked="True" Checked="Provider_Checked"/>
+                    <RadioButton x:Name="ThinkGeoLight" Content="ThinkGeo Cloud - Light" Checked="Provider_Checked"/>
                     <RadioButton x:Name="OpenFreeMapLiberty" Content="OpenFreeMap - Liberty" Checked="Provider_Checked"/>
                     <RadioButton x:Name="OpenFreeMapPositron" Content="OpenFreeMap - Positron" Checked="Provider_Checked"/>
                     <RadioButton x:Name="OpenFreeMapDark" Content="OpenFreeMap - Dark" Checked="Provider_Checked"/>
