@@ -21,6 +21,8 @@
     <SolidColorBrush x:Key="Shell.Text" Color="#E7E9EC" />
     <SolidColorBrush x:Key="Shell.TextDim" Color="#9AA0A6" />
     <SolidColorBrush x:Key="Shell.Code.Background" Color="#1E1E1E" />
+    <!-- The pages about the gallery (Start here, GPU or Classic?) - dark like the rest of the shell. -->
+    <SolidColorBrush x:Key="Shell.Page" Color="#202225" />
     <SolidColorBrush x:Key="Shell.Code.Bar" Color="#26282C" />
     <SolidColorBrush x:Key="Shell.Code.Border" Color="#3B3F45" />
     <SolidColorBrush x:Key="Shell.Code.Text" Color="#9AA0A6" />

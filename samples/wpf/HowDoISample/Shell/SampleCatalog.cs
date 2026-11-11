@@ -121,7 +121,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 aliases: "XYZ Tile Server, XyzTileServer, XyzRasterTileSource, OpenStreetMapRasterTileSource, custom XYZ URL, tile URL template, UserAgent, AddRaster, ThinkGeo Raster Map, Azure Maps, Google Maps, HERE, Mapbox",
                 service: "OpenStreetMap"),
             new SampleEntry("Maps from a Service - Raster", "WMS", "WMS.xaml.cs",
-                "NASA GIBS true-color imagery of yesterday's Earth over the basemap - one GetMap request per web-mercator tile",
+                "NASA GIBS true-color imagery of the Earth two days ago over the basemap - one GetMap request per web-mercator tile",
                 "WmsRasterTileSource", SampleDraws.Style, typeof(Samples.WMS), () => new Samples.WMS(),
                 aliases: "Web Map Service, WmsRasterTileSource, WmsClient, SendingHttpRequest, authentication, credentials, StyleLayerSlot, NASA GIBS",
                 service: "NASA GIBS"),
@@ -148,9 +148,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 "FeatureSourceVectorTileSource", SampleDraws.Style, typeof(Samples.VectorFileFormats), () => new Samples.VectorFileFormats(),
                 aliases: "ShapeFileFeatureSource, GeoJsonFeatureSource, KmlGdalFeatureSource, GpxFeatureSource, TabFeatureSource, TinyGeoFeatureSource, CadFeatureSource, DWG, GeoPdfGdalFeatureSource, InMemoryFeatureSource, shapefile, build features in code"),
             new SampleEntry("Your Data", "Raster File Formats", "RasterFileFormats.xaml.cs",
-                "Open a raster file - GeoTIFF, JPEG 2000, a plain JPEG, MrSID, ECW, or an ESRI ASCII grid read by GdalRasterSource itself - warped to Web Mercator once and served as tiles",
+                "Open a raster file - GeoTIFF, JPEG 2000, a plain JPEG, MrSID or ECW, or a plain JPEG read by GdalRasterSource itself - warped to Web Mercator once and served as tiles",
                 "ClassicRasterTileSource", SampleDraws.Style, typeof(Samples.RasterFileFormats), () => new Samples.RasterFileFormats(),
-                aliases: "GdalRasterSource, GeoTiffGdalRasterSource, Jpeg2000GdalRasterSource, MrSidRasterSource, EcwGdalRasterSource, WarpProjection, world file, ESRI ASCII grid, .asc, GeoTIFF"),
+                aliases: "GdalRasterSource, GeoTiffGdalRasterSource, Jpeg2000GdalRasterSource, MrSidRasterSource, EcwGdalRasterSource, WarpProjection, world file, GeoTIFF"),
             // A GeoPackage and an Esri file geodatabase sit here rather than with the
             // vector files: you open them by table, the way you open SQLite or Postgres,
             // and a GeoPackage IS a SQLite file.
@@ -487,6 +487,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             typeof(Samples.TheGlobe),
             typeof(Samples.AdvancedLabels),
             typeof(Samples.LiveFlights),
+            typeof(Samples.NdfdWindField),
+            typeof(Samples.NdfdSkyGridAnimation),
         };
 
         /// <summary>The menu groups, in menu order.</summary>

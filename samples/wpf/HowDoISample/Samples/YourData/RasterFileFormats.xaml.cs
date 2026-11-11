@@ -11,7 +11,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
     /// Open a raster file - GeoTIFF, ECW, JPEG 2000, MrSID, or a format with no class
-    /// of its own such as an ESRI ASCII grid - and draw it. Each common format has a
+    /// of its own such as a plain JPEG - and draw it. Each common format has a
     /// classic raster source named after it, and GdalRasterSource reads the rest;
     /// WarpProjection warps the file once at open through a virtual dataset, and
     /// one ClassicRasterTileSource serves its windowed reads as tiles, so a
@@ -23,10 +23,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         // Frisco, TX - the NAIP aerial's own ground.
         private static readonly RectangleShape Frisco =
             new RectangleShape(-10784079, 3920222, -10777116, 3911905);
-
-        // The whole of Frisco - the ground the ASCII grid covers.
-        private static readonly RectangleShape FriscoGrid =
-            new RectangleShape(-10790111, 3922979, -10766804, 3906269);
 
         // The basemap under the imagery. One source for the life of the sample: a
         // restyle keeps the sources it recognizes, so the map below holds still
@@ -121,19 +117,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             if (FmtMrSid.IsChecked == true)
                 // No projection in the file; its degree-shaped extent reads as WGS84.
                 return new MrSidRasterSource(Data("MrSid", "World.sid"));
-            if (FmtEcw.IsChecked == true)
-                // This ECW's own projection record is broken; its world file is degrees.
-                return new EcwGdalRasterSource(Data("Ecw", "World.ecw")) { SourceProjection = new Projection(4326) };
-
-            // A format with no class of its own opens with the base class. This grid is
-            // single-band values in Texas North Central state plane feet.
-            return new GdalRasterSource(Data("GridFile", "Mosquitos.asc")) { SourceProjection = new Projection(2276) };
+            // This ECW's own projection record is broken; its world file is degrees.
+            return new EcwGdalRasterSource(Data("Ecw", "World.ecw")) { SourceProjection = new Projection(4326) };
         }
 
         private RectangleShape StartExtent()
         {
             if (FmtGeoTiff.IsChecked == true || FmtJpeg2000.IsChecked == true || FmtJpeg.IsChecked == true) return Frisco;
-            if (FmtAsciiGrid.IsChecked == true) return FriscoGrid;
             return MaxExtents.SphericalMercator;
         }
 

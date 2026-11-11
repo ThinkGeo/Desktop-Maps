@@ -1,32 +1,36 @@
 <UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.RendererGuidePage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="{StaticResource Shell.Page}" Foreground="{StaticResource Shell.Text}">
     <UserControl.Resources>
         <Style x:Key="H1" TargetType="TextBlock">
             <Setter Property="FontSize" Value="20"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
         </Style>
         <Style x:Key="H2" TargetType="TextBlock">
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="Margin" Value="0,16,0,4"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
         </Style>
         <Style x:Key="Body" TargetType="TextBlock">
             <Setter Property="FontSize" Value="12.5"/>
             <Setter Property="TextWrapping" Value="Wrap"/>
-            <Setter Property="Foreground" Value="#3C4043"/>
+            <Setter Property="Foreground" Value="{StaticResource Shell.Text}"/>
             <Setter Property="LineHeight" Value="19"/>
         </Style>
         <Style x:Key="Cell" TargetType="TextBlock">
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="TextWrapping" Value="Wrap"/>
             <Setter Property="Margin" Value="8,5"/>
+            <Setter Property="Foreground" Value="{StaticResource Shell.Text}"/>
         </Style>
         <Style x:Key="HeadCell" TargetType="TextBlock" BasedOn="{StaticResource Cell}">
             <Setter Property="FontWeight" Value="SemiBold"/>
         </Style>
         <Style x:Key="RowBorder" TargetType="Border">
-            <Setter Property="BorderBrush" Value="#E3E5E8"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Shell.Divider}"/>
             <Setter Property="BorderThickness" Value="0,0,0,1"/>
         </Style>
     </UserControl.Resources>
@@ -38,7 +42,7 @@
                        Text="Draw the map with a style document: a GpuBasemap holding a MapStyle, with your own data added to the style as sources. Reach for the classic overlays only for the jobs listed under &#x201C;Where the classic overlays still belong&#x201D; below. An application that already has classic FeatureLayers can bring them across: FeatureLayerTranslator.Translate turns a layer and its ZoomLevelSet styles into style layers, MapStyle.AddFeatureLayer adds them, and whatever could not be translated is listed in the translation's Warnings. See Migrate a Classic Layer."/>
 
             <TextBlock Style="{StaticResource H2}" Text="What the user sees"/>
-            <Border BorderBrush="#E3E5E8" BorderThickness="1">
+            <Border BorderBrush="{StaticResource Shell.Divider}" BorderThickness="1">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="170"/>
@@ -49,7 +53,7 @@
                         <RowDefinition/><RowDefinition/><RowDefinition/><RowDefinition/><RowDefinition/>
                     </Grid.RowDefinitions>
 
-                    <Border Style="{StaticResource RowBorder}" Grid.Row="0" Grid.ColumnSpan="3" Background="#F6F7F8"/>
+                    <Border Style="{StaticResource RowBorder}" Grid.Row="0" Grid.ColumnSpan="3" Background="{StaticResource Shell.Header}"/>
                     <TextBlock Style="{StaticResource HeadCell}" Grid.Row="0" Grid.Column="1" Text="Classic overlays"/>
                     <TextBlock Style="{StaticResource HeadCell}" Grid.Row="0" Grid.Column="2" Text="Style document"/>
 

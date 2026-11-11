@@ -9,7 +9,7 @@ using ThinkGeo.UI.Wpf;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// NASA's view of the planet yesterday, over the basemap: the VIIRS true-color
+    /// NASA's view of the planet two days ago, over the basemap: the VIIRS true-color
     /// mosaic from NASA GIBS, a WMS service that re-renders the whole Earth every day.
     /// </summary>
     public partial class WMS
@@ -35,9 +35,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             var imagery = new WmsRasterTileSource(new Uri("https://gibs.earthdata.nasa.gov/wms/epsg3857/best/wms.cgi"));
             imagery.Client.OutputFormat = "image/png";
-            imagery.Client.ActiveLayerNames.Add("VIIRS_SNPP_CorrectedReflectance_TrueColor");
-            // Yesterday: today's mosaic is still being assembled as the satellite flies.
-            imagery.Client.Parameters["TIME"] = DateTime.UtcNow.AddDays(-1).ToString("yyyy-MM-dd",
+            imagery.Client.ActiveLayerNames.Add("VIIRS_NOAA20_CorrectedReflectance_TrueColor");
+            // Two days back: the newest day's mosaic can still be empty while it is assembled.
+            imagery.Client.Parameters["TIME"] = DateTime.UtcNow.AddDays(-2).ToString("yyyy-MM-dd",
                 System.Globalization.CultureInfo.InvariantCulture);
             // A server that needs credentials gets them on every request here, for example:
             // imagery.SendingHttpRequest += (_, e) => e.HttpRequestMessage.Headers.Authorization =

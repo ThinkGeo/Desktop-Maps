@@ -90,13 +90,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _applyTimer.Start();
         }
 
+        // A pick applies at once; only typing in the editor waits for a pause.
         private void Pick(GeoHatchStyle hatch)
         {
             if (hatch == _hatch) return;
             _hatch = hatch;
             if (!_initialized) return;
             _applyTimer.Stop();
-            _applyTimer.Start();
+            _ = ApplyEditorStyleAsync();
         }
 
         // A document that does not compile changes nothing; the map keeps the last one that worked.

@@ -35,9 +35,14 @@
                      home page ever said it. -->
                 <Border x:Name="KeyApiChip" DockPanel.Dock="Right"
                         Background="#33383E" BorderBrush="{StaticResource Shell.Divider}" BorderThickness="1"
-                        CornerRadius="3" Padding="8,3" VerticalAlignment="Center">
-                    <TextBlock x:Name="KeyApiText" Foreground="{StaticResource Shell.Accent}"
-                               FontFamily="Consolas" FontSize="11.5" />
+                        CornerRadius="3" Padding="8,3" VerticalAlignment="Center"
+                        ToolTip="The class or member this sample is about - the name to look up in the API docs">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Key API" Foreground="{StaticResource Shell.TextDim}" FontSize="11" Margin="0,0,6,0"
+                                   VerticalAlignment="Center" />
+                        <TextBlock x:Name="KeyApiText" Foreground="{StaticResource Shell.Accent}"
+                                   FontFamily="Consolas" FontSize="11.5" VerticalAlignment="Center" />
+                    </StackPanel>
                 </Border>
 
                 <StackPanel Margin="16,0,16,0" VerticalAlignment="Center">
