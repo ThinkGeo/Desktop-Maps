@@ -6,7 +6,7 @@ using ThinkGeo.Core;
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Draw a world vector tile map in different projections with a ProjectionConverter on the layer.
+    /// Draw the ThinkGeo vector basemap in different projections with a GdalProjectionConverter on the layer.
     /// </summary>
     public partial class ProjectTheWorld : IDisposable
     {
@@ -16,7 +16,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private const string CylindricalEqualArea = "+proj=cea +lon_0=0 +x_0=0 +y_0=0 +lat_ts=45 +ellps=WGS84 +datum=WGS84 +units=m +no_defs";
 
         private bool _initialized;
-        private MvtTilesAsyncLayer _worldLayer;
+        private ThinkGeoVectorTileAsyncLayer _worldLayer;
 
         public ProjectTheWorld()
         {
@@ -31,9 +31,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             Map.MapUnit = GeographyUnit.DecimalDegree;
             Map.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColor.FromHtml("#42B2EE"));
 
-            _worldLayer = new MvtTilesAsyncLayer("https://tiles.preludemaps.com/styles/WorldStreets_Light/style.json")
+            // The layer warps the web-mercator picture it draws, so the converter has to be
+            // GDAL's: the managed ProjectionConverter converts shapes, not images.
+            _worldLayer = new ThinkGeoVectorTileAsyncLayer(SampleKeys.ApiKey, ThinkGeoVectorStyles.Light)
             {
-                ProjectionConverter = new ProjectionConverter(3857, 4326)
+                ProjectionConverter = new GdalProjectionConverter(3857, 4326)
             };
             var layerOverlay = new LayerOverlay { TileType = TileType.SingleTile };
             layerOverlay.Layers.Add(_worldLayer);
@@ -52,31 +54,31 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             switch ((string)((RadioButton)sender).Tag)
             {
                 case "mga55":
-                    _worldLayer.ProjectionConverter = new ProjectionConverter(3857, MgaZone55);
+                    _worldLayer.ProjectionConverter = new GdalProjectionConverter(Projection.GetSphericalMercatorProjString(), MgaZone55);
                     Map.MapUnit = GeographyUnit.Meter;
                     Map.CenterPoint = new PointShape(-945060, 7010600);
                     Map.CurrentScale = 18489350;
                     break;
                 case "albers":
-                    _worldLayer.ProjectionConverter = new ProjectionConverter(3857, AlbersEqualAreaConic);
+                    _worldLayer.ProjectionConverter = new GdalProjectionConverter(Projection.GetSphericalMercatorProjString(), AlbersEqualAreaConic);
                     Map.MapUnit = GeographyUnit.Meter;
                     Map.CenterPoint = new PointShape(-107570, -246560);
                     Map.CurrentScale = 36978690;
                     break;
                 case "polar":
-                    _worldLayer.ProjectionConverter = new ProjectionConverter(3857, PolarStereographic);
+                    _worldLayer.ProjectionConverter = new GdalProjectionConverter(Projection.GetSphericalMercatorProjString(), PolarStereographic);
                     Map.MapUnit = GeographyUnit.Meter;
                     Map.CenterPoint = new PointShape(176160, -818530);
                     Map.CurrentScale = 73957380;
                     break;
                 case "cylindrical":
-                    _worldLayer.ProjectionConverter = new ProjectionConverter(3857, CylindricalEqualArea);
+                    _worldLayer.ProjectionConverter = new GdalProjectionConverter(Projection.GetSphericalMercatorProjString(), CylindricalEqualArea);
                     Map.MapUnit = GeographyUnit.Meter;
                     Map.CenterPoint = new PointShape(-1152760, 796980);
                     Map.CurrentScale = 147648000;
                     break;
                 default:
-                    _worldLayer.ProjectionConverter = new ProjectionConverter(3857, 4326);
+                    _worldLayer.ProjectionConverter = new GdalProjectionConverter(3857, 4326);
                     Map.MapUnit = GeographyUnit.DecimalDegree;
                     Map.CenterPoint = new PointShape(5.92651, 14.58364);
                     Map.CurrentScale = 147648000;

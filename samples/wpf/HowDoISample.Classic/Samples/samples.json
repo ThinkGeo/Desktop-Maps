@@ -180,7 +180,7 @@
         "description": "Draw the labels of a tile overlay with font files from a folder, for characters the system fonts lack.",
         "source": "Samples/Styling/LocalFonts",
         "keyApi": "TileOverlay.CreatingSKTypefacesForCharacter",
-        "aliases": "MVT with Local Fonts, Display Vector from MVT with Local Fonts, MVTWithLocalFonts, CreatingSKTypefacesForCharacter, CreatingSKTypefaceForCharacterEventArgs, SKTypeface, custom fonts, ttf, otf, MvtTilesAsyncLayer"
+        "aliases": "MVT with Local Fonts, Display Vector from MVT with Local Fonts, MVTWithLocalFonts, CreatingSKTypefacesForCharacter, CreatingSKTypefaceForCharacterEventArgs, SKTypeface, custom fonts, ttf, otf, MvtTilesAsyncLayer, ThinkGeoVectorTileAsyncLayer"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.RenderBasedOnScales",
@@ -524,10 +524,10 @@
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.ProjectTheWorld",
         "title": "Project the World",
-        "description": "Pick a projection to redraw a world vector tile map in decimal degrees, MGA zone 55, Albers conic, polar stereographic or cylindrical equal area.",
+        "description": "The ThinkGeo vector basemap warped into other projections - degrees, MGA Zone 55, Albers, polar stereographic, cylindrical equal-area - by a GdalProjectionConverter on the layer.",
         "source": "Samples/Projections/ProjectTheWorld",
-        "keyApi": "MvtTilesAsyncLayer.ProjectionConverter",
-        "aliases": "Project the World (Vector), ProjectTheWorldVector, MvtTilesAsyncLayer, ProjectionConverter, proj string, Albers, Polar Stereographic, MGA Zone 55, Cylindrical Equal Area"
+        "keyApi": "ThinkGeoVectorTileAsyncLayer.ProjectionConverter, GdalProjectionConverter",
+        "aliases": "Project the World (Vector), ProjectTheWorldVector, MvtTilesAsyncLayer, ProjectionConverter, proj string, Albers, Polar Stereographic, MGA Zone 55, Cylindrical Equal Area, ThinkGeoVectorTileAsyncLayer, GdalProjectionConverter"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.WrapTheDateLine",

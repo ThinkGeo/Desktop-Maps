@@ -34,7 +34,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             var layerOverlay = new LayerOverlay();
             layerOverlay.CreatingSKTypefacesForCharacter += LayerOverlay_CreatingSKTypefacesForCharacter;
-            layerOverlay.Layers.Add(new MvtTilesAsyncLayer("https://tiles.preludemaps.com/styles/WorldStreets_Light/style.json"));
+            layerOverlay.Layers.Add(new ThinkGeoVectorTileAsyncLayer(SampleKeys.ApiKey, ThinkGeoVectorStyles.Light));
             Map.Overlays.Add(layerOverlay);
 
             Map.CurrentExtent = MaxExtents.ThinkGeoMaps;
