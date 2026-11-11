@@ -133,6 +133,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- The code pane shows each sample's own source from these embedded copies; the
+         source files are not beside the executable. -->
+    <EmbeddedResource Include="Samples\**\*.cs" LogicalName="SampleSource.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Samples\**\*.xaml" LogicalName="SampleSource.%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
     <PackageReference Include="Jint" Version="4.5.0" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3800.47" />
@@ -141,7 +148,6 @@
     <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="15.1.0-beta002" />
     <PackageReference Include="ThinkGeo.Gdal" Version="15.1.0-beta002" />
     <PackageReference Include="ThinkGeo.NauticalCharts" Version="15.1.0-beta002" />
-    <PackageReference Include="ThinkGeo.Oracle" Version="15.1.0-beta002" />
     <PackageReference Include="ThinkGeo.PostgreSql" Version="15.1.0-beta002" />
     <PackageReference Include="ThinkGeo.Printers" Version="15.1.0-beta002" />
     <PackageReference Include="ThinkGeo.SqlServer" Version="15.1.0-beta002" />
