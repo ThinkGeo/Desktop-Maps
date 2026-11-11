@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <DockPanel Margin="16,14,16,10">
         <StackPanel DockPanel.Dock="Top">
-            <TextBlock Text="GpuBasemap HowDoI" FontSize="20" FontWeight="SemiBold"/>
+            <TextBlock Text="ThinkGeo Desktop Maps for WPF - How Do I" FontSize="20" FontWeight="SemiBold"/>
             <TextBlock x:Name="Subtitle" Foreground="#5F6368" FontSize="12" Margin="0,3,0,0"/>
 
             <!-- New in 15: one sample each, built from SampleCatalog.Featured. -->
@@ -31,13 +31,9 @@
                     <GridViewColumn Header="Sample" Width="220" DisplayMemberBinding="{Binding Title}"/>
                     <GridViewColumn Header="Does what" Width="430" DisplayMemberBinding="{Binding Focus}"/>
                     <GridViewColumn Header="Key API" Width="200" DisplayMemberBinding="{Binding KeyApi}"/>
-                    <GridViewColumn Header="GPU" Width="42">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding GpuMark}" HorizontalAlignment="Center" Foreground="#2B6CB0"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                    <!-- What the map is drawn with - see GPU or Classic? in Start Here. -->
+                    <GridViewColumn Header="Draws" Width="110" DisplayMemberBinding="{Binding DrawsLabel}"/>
+                    <GridViewColumn Header="Needs" Width="130" DisplayMemberBinding="{Binding Service}"/>
                 </GridView>
             </ListView.View>
         </ListView>

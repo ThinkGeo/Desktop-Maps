@@ -166,16 +166,6 @@
 
     <DataTemplate x:Key="Shell.SampleRow">
         <DockPanel LastChildFill="True" ToolTip="{Binding Focus}">
-            <!-- SampleEntry.GpuMark: a dot on the rows that draw through the GPU
-                 renderer rather than the classic overlays. Its own tooltip, or the
-                 mark means nothing to anyone who did not write the catalog. -->
-            <TextBlock DockPanel.Dock="Right"
-                       Text="{Binding GpuMark}"
-                       ToolTip="Draws through the GPU renderer"
-                       Foreground="{StaticResource Shell.Accent}"
-                       FontSize="9"
-                       Margin="6,0,0,0"
-                       VerticalAlignment="Center" />
             <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" />
         </DockPanel>
     </DataTemplate>

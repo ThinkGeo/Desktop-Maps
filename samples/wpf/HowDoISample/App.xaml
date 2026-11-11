@@ -1,7 +1,6 @@
 ﻿<Application x:Class="ThinkGeo.UI.Wpf.HowDoI.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             StartupUri="Shell/MainWindow.xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Application.Resources>
         <!-- Shell chrome only, and every key in it is prefixed "Shell." - a sample
              must render exactly as the classic one it was ported from. -->
