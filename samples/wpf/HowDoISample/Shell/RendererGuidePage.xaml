@@ -35,69 +35,68 @@
         <StackPanel Margin="16,14,24,20" MaxWidth="880" HorizontalAlignment="Left">
             <TextBlock Style="{StaticResource H1}" Text="GPU or Classic?"/>
             <TextBlock Style="{StaticResource Body}" Margin="0,4,0,0"
-                       Text="Two renderers, both permanent, each with a home ground. The GPU renderer keeps GEOMETRY and re-rasterizes every frame at the exact current scale; the classic overlays deliver BITMAPS the CPU has drawn. Every visible difference below follows from that one distinction."/>
+                       Text="Draw the map with a style document: a GpuBasemap holding a MapStyle, with your own data added to the style as sources. Reach for the classic overlays only for the jobs listed under &#x201C;Where the classic overlays still belong&#x201D; below. An application that already has classic FeatureLayers can bring them across: FeatureLayerTranslator.Translate turns a layer and its ZoomLevelSet styles into style layers, MapStyle.AddFeatureLayer adds them, and whatever could not be translated is listed in the translation's Warnings. See Migrate a Classic Layer."/>
 
             <TextBlock Style="{StaticResource H2}" Text="What the user sees"/>
             <Border BorderBrush="#E3E5E8" BorderThickness="1">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="190"/>
+                        <ColumnDefinition Width="170"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition/><RowDefinition/><RowDefinition/><RowDefinition/><RowDefinition/><RowDefinition/>
+                        <RowDefinition/><RowDefinition/><RowDefinition/><RowDefinition/><RowDefinition/>
                     </Grid.RowDefinitions>
 
                     <Border Style="{StaticResource RowBorder}" Grid.Row="0" Grid.ColumnSpan="3" Background="#F6F7F8"/>
-                    <TextBlock Style="{StaticResource HeadCell}" Grid.Row="0" Grid.Column="0" Text="Interaction"/>
                     <TextBlock Style="{StaticResource HeadCell}" Grid.Row="0" Grid.Column="1" Text="Classic overlays"/>
-                    <TextBlock Style="{StaticResource HeadCell}" Grid.Row="0" Grid.Column="2" Text="GPU renderer"/>
+                    <TextBlock Style="{StaticResource HeadCell}" Grid.Row="0" Grid.Column="2" Text="Style document"/>
 
                     <Border Style="{StaticResource RowBorder}" Grid.Row="1" Grid.ColumnSpan="3"/>
                     <TextBlock Style="{StaticResource Cell}" Grid.Row="1" Grid.Column="0" Text="Zooming"/>
-                    <TextBlock Style="{StaticResource Cell}" Grid.Row="1" Grid.Column="1" Text="Old tiles stretch and blur, then snap sharp when new tiles arrive"/>
-                    <TextBlock Style="{StaticResource Cell}" Grid.Row="1" Grid.Column="2" Text="Continuously sharp at every fractional zoom"/>
+                    <TextBlock Style="{StaticResource Cell}" Grid.Row="1" Grid.Column="1" Text="Tiles stretch and blur, then turn sharp when the new tiles arrive"/>
+                    <TextBlock Style="{StaticResource Cell}" Grid.Row="1" Grid.Column="2" Text="Sharp at every zoom in between"/>
 
                     <Border Style="{StaticResource RowBorder}" Grid.Row="2" Grid.ColumnSpan="3"/>
                     <TextBlock Style="{StaticResource Cell}" Grid.Row="2" Grid.Column="0" Text="Rotating"/>
-                    <TextBlock Style="{StaticResource Cell}" Grid.Row="2" Grid.Column="1" Text="The bitmap rotates, labels and all"/>
-                    <TextBlock Style="{StaticResource Cell}" Grid.Row="2" Grid.Column="2" Text="Geometry turns, labels stay upright"/>
+                    <TextBlock Style="{StaticResource Cell}" Grid.Row="2" Grid.Column="1" Text="The picture turns, labels and all"/>
+                    <TextBlock Style="{StaticResource Cell}" Grid.Row="2" Grid.Column="2" Text="The map turns, labels stay upright"/>
 
                     <Border Style="{StaticResource RowBorder}" Grid.Row="3" Grid.ColumnSpan="3"/>
-                    <TextBlock Style="{StaticResource Cell}" Grid.Row="3" Grid.Column="0" Text="Zooming past the data's deepest level"/>
-                    <TextBlock Style="{StaticResource Cell}" Grid.Row="3" Grid.Column="1" Text="Upscaled pixels, blurrier the deeper you go"/>
-                    <TextBlock Style="{StaticResource Cell}" Grid.Row="3" Grid.Column="2" Text="Redrawn from vectors, lines stay one pixel crisp"/>
+                    <TextBlock Style="{StaticResource Cell}" Grid.Row="3" Grid.Column="0" Text="Tilt, terrain, globe"/>
+                    <TextBlock Style="{StaticResource Cell}" Grid.Row="3" Grid.Column="1" Text="No"/>
+                    <TextBlock Style="{StaticResource Cell}" Grid.Row="3" Grid.Column="2" Text="Yes"/>
 
-                    <Border Style="{StaticResource RowBorder}" Grid.Row="4" Grid.ColumnSpan="3"/>
-                    <TextBlock Style="{StaticResource Cell}" Grid.Row="4" Grid.Column="0" Text="Tilt, perspective, globe"/>
-                    <TextBlock Style="{StaticResource Cell}" Grid.Row="4" Grid.Column="1" Text="Not native (tile overlays drape into the GPU scene as textures)"/>
-                    <TextBlock Style="{StaticResource Cell}" Grid.Row="4" Grid.Column="2" Text="Native"/>
-
-                    <TextBlock Style="{StaticResource Cell}" Grid.Row="5" Grid.Column="0" Text="Restyling (color by a slider, live data)"/>
-                    <TextBlock Style="{StaticResource Cell}" Grid.Row="5" Grid.Column="1" Text="Every affected tile redraws on the CPU"/>
-                    <TextBlock Style="{StaticResource Cell}" Grid.Row="5" Grid.Column="2" Text="Paint delegates re-evaluate next frame; nothing re-uploads"/>
+                    <TextBlock Style="{StaticResource Cell}" Grid.Row="4" Grid.Column="0" Text="Changing the style"/>
+                    <TextBlock Style="{StaticResource Cell}" Grid.Row="4" Grid.Column="1" Text="Every affected tile is drawn again"/>
+                    <TextBlock Style="{StaticResource Cell}" Grid.Row="4" Grid.Column="2" xml:space="preserve"><Run FontWeight="SemiBold">SetLayerVisibility</Run>, <Run FontWeight="SemiBold">SetHeatmapPaint</Run>: the next frame, nothing rebuilt.
+<Run FontWeight="SemiBold">SetStyleAsync</Run>: the new style is compiled and the map is rebuilt from the tiles it already holds; nothing is downloaded again.</TextBlock>
                 </Grid>
             </Border>
 
-            <TextBlock Style="{StaticResource H2}" Text="Where the time goes"/>
-            <TextBlock Style="{StaticResource Body}"
-                       Text="Classic pays the full CPU style pipeline for every tile at every zoom level it visits, forever - with large data that is visible as blank or stale tiles chasing the view. The GPU pays once: features are cut into vector tiles on the fly (an encoder cache makes this a warm-up cost, not a recurring one), uploaded, and from then on navigation re-rasterizes for free. Small data inverts the ledger: fifty features cost nothing to redraw whole-viewport on the CPU, and the GPU's tiling machinery buys nothing back."/>
+            <TextBlock Style="{StaticResource H2}" Text="Which way for which data"/>
+            <TextBlock Style="{StaticResource Body}" xml:space="preserve"><Run FontWeight="SemiBold">Basemaps, your files and databases, tile archives, map services</Run> - a source in the style document. (Your Data, Maps from a Service.)
+<Run FontWeight="SemiBold">Things that move every frame</Run> - vehicles, aircraft, animated circles, a growing track: a DynamicSource in the style, updated one feature at a time. (Dynamic Rendering, Live Flights, Vehicle Navigation.)
+<Run FontWeight="SemiBold">Feature state that changes over time</Run> - not a paint delegate that reads the clock: what a delegate returns for a feature is baked into the tile when the tile is built, and does not change after that. Use a DynamicSource, or build the variants as layers and switch their visibility. (Render Based on Code.)
+<Run FontWeight="SemiBold">Fields</Run> - a grid of values, wind, readings at points: GridSource, VectorFieldSource, PointValueSource. (Animate a Weather Grid, Wind as a Vector Field, Isolines.)</TextBlock>
 
-            <TextBlock Style="{StaticResource H2}" Text="The four rules"/>
-            <TextBlock Style="{StaticResource Body}"
-                       xml:space="preserve"><Run FontWeight="SemiBold">1. Thousands of geometries, styles that change</Run> — GPU. Cut once, restyle per frame. (See: Style in Code, Render Based on Rules.)
-<Run FontWeight="SemiBold">2. A handful of features with big screen-space shapes</Run> — classic per-frame overlay. Screen-space radii larger than a tile's overhang clip into pie slices on the tile path. (See: Dynamic Rendering, whose header documents the failed GPU conversion.)
-<Run FontWeight="SemiBold">3. Geometry that changes every frame</Run> — classic per-frame overlay. The vector tile path has no per-tile invalidation; a growing GPS trail would re-cut tiles per tick. (See: Vehicle Navigation's visited trail.)
-<Run FontWeight="SemiBold">4. Content generated from the whole view</Run> — classic per-frame overlay. A graticule's line density follows the viewport and its degree labels sit at screen edges; no tile owns the screen edge. (See: Display Graticule.)</TextBlock>
+            <TextBlock Style="{StaticResource H2}" Text="Where the classic overlays still belong"/>
+            <TextBlock Style="{StaticResource Body}" xml:space="preserve"><Run FontWeight="SemiBold">Content made from the whole view</Run> - graticule lines, whose spacing and edge labels follow the viewport. (Display Graticule Lines.)
+<Run FontWeight="SemiBold">WPF elements and interaction</Run> - markers (any WPF content; tens of them, not thousands), popups, drawing and editing shapes, measuring, scale bars, legends and north arrows. (Markers &amp; Popups, Draw &amp; Edit, Map Tools &amp; Adornments.)
+<Run FontWeight="SemiBold">Drawing only the classic layers do</Run> - S-52 nautical charts, raster tiles reprojected as they are read, and the keyed commercial raster providers. (Nautical Charts, Reproject a Raster.)
+Printing is not on this list: MapStyleAsyncLayer draws a style document wherever a classic layer can be drawn, a printed page included. (Print the Map.)</TextBlock>
 
-            <TextBlock Style="{StaticResource H2}" Text="They compose"/>
-            <TextBlock Style="{StaticResource Body}"
-                       Text="This is not either/or per application. The idiomatic map in this gallery is a GPU basemap carrying the heavy cartography, with small classic overlays on top for the application's own handful of features - and when the camera tilts, tile overlays drape into the GPU scene automatically. Rasters (GeoTiff, ECW, MrSid) stay on classic raster layers: their data is already pixels, so the GPU adds nothing until tilt, and drape covers that."/>
+            <TextBlock Style="{StaticResource H2}" Text="When the map tilts"/>
+            <TextBlock Style="{StaticResource Body}" xml:space="preserve"><Run FontWeight="SemiBold">Markers and popups</Run> move with the ground and stay where they belong. (Markers.)
+<Run FontWeight="SemiBold">Tile and layer overlays</Run> are laid onto the ground as a picture, above all of the style's layers, labels included.
+<Run FontWeight="SemiBold">FeatureLayerWpfDrawingOverlay</Run> is hidden.
+<Run FontWeight="SemiBold">Drawing, editing and measuring</Run> overlays are neither hidden nor tilted: use them on the flat map.
+<Run FontWeight="SemiBold">ExtentOverlay.PanMode</Run> is set to Disabled while the map is tilted - the camera pans instead - and given back when it is flat again.</TextBlock>
 
             <TextBlock Style="{StaticResource H2}" Text="See it side by side"/>
             <TextBlock Style="{StaticResource Body}"
-                       Text="Open “Shapefile: GPU vs Classic” (Map Navigation) - the same shapefile through both pipelines in one window. Zoom, and watch one side stretch while the other stays sharp."/>
+                       Text="Migrate a Classic Layer draws the same layers both ways, the two maps moving together. CPU vs GPU Projection does the same for projecting data: on the left the data is projected as it is read, on the right as it is drawn."/>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

@@ -13,6 +13,12 @@
                        Text="Five shapefile layers styled the classic way - AreaStyle, LineStyle, PointStyle, TextStyle and a ValueStyle on their ZoomLevelSets. The left map adds them to a MapStyle with AddFeatureLayer; the right map draws them with a LayerOverlay. Pan or zoom either map; the school names and the street names arrive at the same zoom levels on both."/>
         </Border>
 
+        <Border DockPanel.Dock="Top" Background="#F6F6F4" Padding="12,6"
+                BorderBrush="#CCCCCC" BorderThickness="0,0,0,1">
+            <TextBlock FontSize="11.5" Foreground="#555B62" TextWrapping="Wrap"
+                       Text="What translates: AreaStyle (hatches included), LineStyle, PointStyle, TextStyle, ValueStyle, ClassBreakStyle, RegexStyle and CompositeStyle. What does not: FilterStyle, ClusterPointStyle and a Style subclass of your own that overrides DrawCore - each is named in the translation's Warnings, and keeps drawing on a classic overlay above the style. The background is the style's own: SetBackground."/>
+        </Border>
+
         <Border DockPanel.Dock="Bottom" Background="#F6F6F4" Padding="12,6"
                 BorderBrush="#CCCCCC" BorderThickness="0,1,0,0">
             <TextBlock x:Name="Status" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"/>

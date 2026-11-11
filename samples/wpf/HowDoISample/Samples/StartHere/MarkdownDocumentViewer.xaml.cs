@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -83,6 +85,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 if (!_webMessageAttached)
                 {
                     MarkdownWebView.CoreWebView2.WebMessageReceived += OnWebMessageReceived;
+                    MarkdownWebView.CoreWebView2.NavigationStarting += OnNavigationStarting;
                     _webMessageAttached = true;
                 }
 
@@ -94,6 +97,17 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             catch
             {
                 return false;
+            }
+        }
+
+        // A link opens in the browser rather than replacing the page in the viewer.
+        private static void OnNavigationStarting(object sender, CoreWebView2NavigationStartingEventArgs e)
+        {
+            if (e.Uri.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+                e.Uri.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+            {
+                e.Cancel = true;
+                Process.Start(new ProcessStartInfo(e.Uri) { UseShellExecute = true });
             }
         }
 
@@ -152,7 +166,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             var lines = (markdownText ?? string.Empty).Replace("\r\n", "\n").Split('\n');
             var html = new StringBuilder();
-            bool inList = false, inParagraph = false, inCodeBlock = false;
+            string listTag = null;
+            bool inParagraph = false, inCodeBlock = false;
             string codeFence = null;
             int headingIndex = 0;
 
@@ -164,7 +179,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 if (!inCodeBlock && line.Length >= 3 &&
                     (line.StartsWith("```", StringComparison.Ordinal) || line.StartsWith("~~~", StringComparison.Ordinal)))
                 {
-                    CloseParagraphAndList(html, ref inParagraph, ref inList);
+                    CloseParagraphAndList(html, ref inParagraph, ref listTag);
                     codeFence = line.Substring(0, 3);
                     html.Append("<pre><code>");
                     inCodeBlock = true;
@@ -191,13 +206,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
                 if (line.Length == 0)
                 {
-                    CloseParagraphAndList(html, ref inParagraph, ref inList);
+                    CloseParagraphAndList(html, ref inParagraph, ref listTag);
                     continue;
                 }
 
                 if (line == "---" || line == "***" || line == "___")
                 {
-                    CloseParagraphAndList(html, ref inParagraph, ref inList);
+                    CloseParagraphAndList(html, ref inParagraph, ref listTag);
                     html.Append("<hr/>");
                     continue;
                 }
@@ -207,7 +222,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 // and the following line is a valid Markdown table separator.
                 if (IsTableStart(lines, i))
                 {
-                    CloseParagraphAndList(html, ref inParagraph, ref inList);
+                    CloseParagraphAndList(html, ref inParagraph, ref listTag);
                     i = AppendMarkdownTable(lines, i, html);
                     continue;
                 }
@@ -216,7 +231,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                     line.StartsWith("## ", StringComparison.Ordinal) ||
                     line.StartsWith("# ", StringComparison.Ordinal))
                 {
-                    CloseParagraphAndList(html, ref inParagraph, ref inList);
+                    CloseParagraphAndList(html, ref inParagraph, ref listTag);
 
                     var heading = headings[headingIndex++];
                     html.Append("<h")
@@ -231,7 +246,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                     continue;
                 }
 
-                if (line.StartsWith("- ", StringComparison.Ordinal))
+                var ordered = OrderedListItem.Match(line);
+                if (line.StartsWith("- ", StringComparison.Ordinal) || ordered.Success)
                 {
                     if (inParagraph)
                     {
@@ -239,22 +255,30 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                         inParagraph = false;
                     }
 
-                    if (!inList)
+                    var tag = ordered.Success ? "ol" : "ul";
+                    if (listTag != tag)
                     {
-                        html.Append("<ul>");
-                        inList = true;
+                        if (listTag != null)
+                            html.Append("</").Append(listTag).Append('>');
+                        // An ordered item keeps its own number: a code block between
+                        // "1." and "2." closes the list, and the next one must not restart at 1.
+                        html.Append('<').Append(tag);
+                        if (ordered.Success)
+                            html.Append(" start=\"").Append(ordered.Value.TrimEnd().TrimEnd('.')).Append('"');
+                        html.Append('>');
+                        listTag = tag;
                     }
 
                     html.Append("<li>")
-                        .Append(ConvertInline(line.Substring(2)))
+                        .Append(ConvertInline(ordered.Success ? line.Substring(ordered.Length) : line.Substring(2)))
                         .Append("</li>");
                     continue;
                 }
 
-                if (inList)
+                if (listTag != null)
                 {
-                    html.Append("</ul>");
-                    inList = false;
+                    html.Append("</").Append(listTag).Append('>');
+                    listTag = null;
                 }
 
                 if (!inParagraph)
@@ -276,8 +300,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             if (inParagraph)
                 html.Append("</p>");
 
-            if (inList)
-                html.Append("</ul>");
+            if (listTag != null)
+                html.Append("</").Append(listTag).Append('>');
 
             return html.ToString();
         }
@@ -642,7 +666,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private static void CloseParagraphAndList(
             StringBuilder html,
             ref bool inParagraph,
-            ref bool inList)
+            ref string listTag)
         {
             if (inParagraph)
             {
@@ -650,10 +674,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 inParagraph = false;
             }
 
-            if (inList)
+            if (listTag != null)
             {
-                html.Append("</ul>");
-                inList = false;
+                html.Append("</").Append(listTag).Append('>');
+                listTag = null;
             }
         }
 
@@ -683,8 +707,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                     {
                         if (token.Length > 0)
                         {
-                            result.Append(
-                                WebUtility.HtmlEncode(token.ToString()));
+                            result.Append(FormatText(token.ToString()));
 
                             token.Clear();
                         }
@@ -703,10 +726,22 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 result.Append(
                     inCode
                         ? "<code>" + WebUtility.HtmlEncode(token.ToString()) + "</code>"
-                        : WebUtility.HtmlEncode(token.ToString()));
+                        : FormatText(token.ToString()));
             }
 
             return result.ToString();
+        }
+
+        private static readonly Regex OrderedListItem = new Regex(@"^\d+\.\s+");
+        private static readonly Regex Bold = new Regex(@"\*\*(.+?)\*\*");
+        private static readonly Regex Link = new Regex(@"\[([^\]]+)\]\((https?://[^)\s]+)\)");
+
+        /// <summary>Text outside code spans: **bold** and [links](https://...).</summary>
+        private static string FormatText(string text)
+        {
+            var html = WebUtility.HtmlEncode(text);
+            html = Bold.Replace(html, "<strong>$1</strong>");
+            return Link.Replace(html, "<a href=\"$2\">$1</a>");
         }
 
         private sealed class MarkdownDocument
