@@ -1,4 +1,6 @@
-﻿using System;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using ThinkGeo.Core;
@@ -6,13 +8,15 @@ using ThinkGeo.Core;
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Learn how to zoom, pan, and rotate the map control.
+    /// Pan, zoom and rotate the map with the mouse or touch, and watch the events the map raises.
     /// </summary>
     public partial class NavigationMap : IDisposable
     {
-        private ThinkGeoCloudRasterMapsOverlay _backgroundOverlay;
         private PointShape _empireStateBuildingPosition;
+        private int _logIndex;
         private bool _initialized;
+
+        public ObservableCollection<string> LogMessages { get; } = new ObservableCollection<string>();
 
         public NavigationMap()
         {
@@ -20,54 +24,42 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             DataContext = this;
         }
 
-        /// <summary>
-        /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map
-        /// </summary>
         private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
-            Map.CurrentExtentChanged += Map_CurrentExtentChanged;
-
-            // Set the map's unit of measurement to meters(Spherical Mercator)
             Map.MapUnit = GeographyUnit.Meter;
-            // Add ThinkGeo Cloud Maps as the background 
-            _backgroundOverlay = new ThinkGeoCloudRasterMapsOverlay
+
+            Map.Overlays.Add(new ThinkGeoCloudRasterMapsOverlay
             {
                 ClientId = SampleKeys.ClientId,
                 ClientSecret = SampleKeys.ClientSecret,
-                MapType = ThinkGeoCloudRasterMapsMapType.Light_V2_X2,
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_raster_light")
-            };
-            Map.Overlays.Add(_backgroundOverlay);
+                MapType = ThinkGeoCloudRasterMapsMapType.Light_V2_X2
+            });
 
-            // Create the marker overlay to hold UI elements like labels
             var markerOverlay = new SimpleMarkerOverlay();
             Map.Overlays.Add(markerOverlay);
 
-            // Convert Lat/Lon (EPSG:4326) to Spherical Mercator (EPSG:3857)
+            Map.ExtentOverlay.MapMouseWheel += ExtentOverlay_MapMouseWheel;
+
             _empireStateBuildingPosition = ProjectionConverter.Convert(4326, 3857, new PointShape(-73.9856654, 40.74843661));
 
-            // set up the map extent and refresh
             Map.RotationAngle = -30;
             Map.CurrentScale = 100000;
             Map.CenterPoint = _empireStateBuildingPosition;
 
-            // Create a marker with both label and image content
-            var marker = new Marker(_empireStateBuildingPosition)
+            markerOverlay.Markers.Add(new Marker(_empireStateBuildingPosition)
             {
                 ImageSource = new BitmapImage(new Uri("/Resources/empire_state_building.png", UriKind.RelativeOrAbsolute)),
                 Width = 32,
                 Height = 64,
                 YOffset = -32
-            };
-            markerOverlay.Markers.Add(marker);
+            });
 
             _ = Map.RefreshAsync();
         }
 
-        // Register the dependency property.
         public static readonly DependencyProperty TxtCoordinatesProperty =
             DependencyProperty.Register(
                 nameof(TxtCoordinates),
@@ -75,10 +67,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 typeof(NavigationMap),
                 null);
 
-        /// <summary>
-        /// Gets or sets the text that represents the coordinates.
-        /// This is a bindable property.
-        /// </summary>
         public string TxtCoordinates
         {
             get => (string)GetValue(TxtCoordinatesProperty);
@@ -87,26 +75,55 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private void Map_CurrentExtentChanged(object sender, CurrentExtentChangedMapViewEventArgs e)
         {
+            if (!_initialized) return;
+
             var currentExtent = e.NewExtent ?? Map.CurrentExtent;
             if (currentExtent == null) return;
 
-            var center = currentExtent.GetCenterPoint();
-            var centerInDecimalDegrees = ProjectionConverter.Convert(3857, 4326, center);
+            var centerInDecimalDegrees = ProjectionConverter.Convert(3857, 4326, currentExtent.GetCenterPoint());
             TxtCoordinates = $"Center Point: (Lat: {centerInDecimalDegrees.Y:N4}, Lon: {centerInDecimalDegrees.X:N4})";
+            AppendLog($"CurrentExtentChanged: center {centerInDecimalDegrees.Y:N4}, {centerInDecimalDegrees.X:N4}");
         }
 
-        private void ThemeCheckBox_Click(object sender, RoutedEventArgs e)
+        private void Map_CurrentScaleChanged(object sender, CurrentScaleChangedMapViewEventArgs e)
         {
-            _backgroundOverlay.MapType = ThemeCheckBox.IsChecked == true
-                ? ThinkGeoCloudRasterMapsMapType.Dark_V2_X2
-                : ThinkGeoCloudRasterMapsMapType.Light_V2_X2;
+            if (!_initialized) return;
 
-            // You may need to reset the tile cache ID to avoid mixing dark/light tiles:
-            _backgroundOverlay.TileCache = new FileRasterTileCache(@".\cache",
-                ThemeCheckBox.IsChecked == true ? "thinkgeo_raster_dark" : "thinkgeo_raster_light");
+            AppendLog($"CurrentScaleChanged: 1:{e.OldScale:N0} to 1:{e.NewScale:N0}");
+        }
 
-            Map.CancellationTokenSource.Cancel(); // Cancel the ongoing rendering
-            _ = _backgroundOverlay.RefreshAsync();
+        private void Map_MapClick(object sender, MapClickMapViewEventArgs e)
+        {
+            AppendLog($"MapClick: {e.MouseButton} at ({e.WorldLocation.X:N0}, {e.WorldLocation.Y:N0})");
+        }
+
+        private void Map_MapDoubleClick(object sender, MapClickMapViewEventArgs e)
+        {
+            AppendLog($"MapDoubleClick: {e.MouseButton} at ({e.WorldLocation.X:N0}, {e.WorldLocation.Y:N0})");
+        }
+
+        private void Map_OverlaysDrawn(object sender, OverlaysDrawnMapViewEventArgs e)
+        {
+            if (!_initialized) return;
+
+            AppendLog($"OverlaysDrawn: {e.Overlays.Count()} overlays");
+        }
+
+        private void ExtentOverlay_MapMouseWheel(object sender, MapMouseWheelInteractiveOverlayEventArgs e)
+        {
+            var args = e.InteractionArguments;
+            AppendLog($"ExtentOverlay.MapMouseWheel: {(args.MouseWheelDelta > 0 ? "zoom in" : "zoom out")} at ({args.WorldX:N0}, {args.WorldY:N0})");
+        }
+
+        private void AppendLog(string message)
+        {
+            LogMessages.Add($"{_logIndex++}: {message}");
+            LogListBox.ScrollIntoView(LogMessages[LogMessages.Count - 1]);
+        }
+
+        private void ClearLog_Click(object sender, RoutedEventArgs e)
+        {
+            LogMessages.Clear();
         }
 
         private void CompassButton_Click(object sender, RoutedEventArgs e)
@@ -121,11 +138,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         public void Dispose()
         {
-            // Dispose of unmanaged resources.
             Map.Dispose();
-            // Suppress finalization.
             GC.SuppressFinalize(this);
         }
     }
 }
-

@@ -1,0 +1,44 @@
+<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.ColorUtilities"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <DockPanel LastChildFill="True">
+        <Border DockPanel.Dock="Right" Width="290" Background="#F6F6F4" Padding="12,10"
+                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+            <StackPanel>
+                <TextBlock Text="Color family" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                <RadioButton x:Name="FamilyHue" GroupName="Family" IsChecked="True" Margin="0,2"
+                             Content="Hue: one hue, lighter and darker"/>
+                <RadioButton x:Name="FamilyQuality" GroupName="Family" Margin="0,2"
+                             Content="Quality: different hues, alike in lightness"/>
+                <RadioButton x:Name="FamilyAnalogous" GroupName="Family" Margin="0,2"
+                             Content="Analogous: neighboring hues"/>
+                <RadioButton x:Name="FamilyComplementary" GroupName="Family" Margin="0,2"
+                             Content="Complementary: opposite hues"/>
+                <RadioButton x:Name="FamilyContrasting" GroupName="Family" Margin="0,2"
+                             Content="Contrasting: hues far apart"/>
+                <RadioButton x:Name="FamilyTriad" GroupName="Family" Margin="0,2"
+                             Content="Triad: three hues evenly spaced"/>
+                <RadioButton x:Name="FamilyTetrad" GroupName="Family" Margin="0,2"
+                             Content="Tetrad: four hues evenly spaced"/>
+
+                <TextBlock Text="Base color" FontWeight="SemiBold" Margin="0,12,0,4"/>
+                <RadioButton x:Name="SpecificColor" GroupName="BaseColor" IsChecked="True" Content="This HTML color:" Margin="0,2"/>
+                <TextBox x:Name="TxtSpecificColor" Text="#FF0000" Margin="18,2,0,4"/>
+                <RadioButton x:Name="RandomColor" GroupName="BaseColor" Content="Let the service choose" Margin="0,2"/>
+
+                <Button Content="Generate" Click="GenerateColors_Click" Margin="0,10,0,0" Padding="0,3"/>
+                <TextBlock x:Name="Status" Margin="0,8,0,0" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"/>
+            </StackPanel>
+        </Border>
+
+        <Grid>
+            <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
+            <Image x:Name="LoadingImage" Height="64" Width="64" Visibility="Hidden" Source="..\..\Resources\loading.png"/>
+        </Grid>
+    </DockPanel>
+</UserControl>

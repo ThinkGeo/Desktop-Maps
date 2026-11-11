@@ -1,0 +1,33 @@
+<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.RasterFileFormats"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <DockPanel LastChildFill="True">
+        <Border DockPanel.Dock="Right" Width="300" Background="#F6F6F4" Padding="12,10"
+                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+            <StackPanel>
+                <TextBlock Text="The world, in decimal degrees" FontSize="11.5" FontWeight="SemiBold" Margin="0,0,0,2"/>
+                <RadioButton x:Name="GeoTiff" Content="GeoTIFF" GroupName="Format" IsChecked="True" Margin="0,2" Checked="Format_Checked"/>
+                <RadioButton x:Name="Gdal" Content="Any format GDAL reads" GroupName="Format" Margin="0,2" Checked="Format_Checked"/>
+                <RadioButton x:Name="Ecw" Content="ECW" GroupName="Format" Margin="0,2" Checked="Format_Checked"/>
+                <RadioButton x:Name="MrSid" Content="MrSID" GroupName="Format" Margin="0,2" Checked="Format_Checked"/>
+
+                <TextBlock Text="An aerial photo of Frisco, over a basemap" FontSize="11.5" FontWeight="SemiBold" Margin="0,10,0,2"/>
+                <RadioButton x:Name="Jpeg2000" Content="JPEG 2000" GroupName="Format" Margin="0,2" Checked="Format_Checked"/>
+                <RadioButton x:Name="Jpeg" Content="JPEG with a world file (Skia)" GroupName="Format" Margin="0,2" Checked="Format_Checked"/>
+                <RadioButton x:Name="WpfTiff" Content="TIFF with a world file (WPF)" GroupName="Format" Margin="0,2" Checked="Format_Checked"/>
+
+                <TextBlock x:Name="Status" Margin="0,10,0,4" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"/>
+
+                <TextBlock Margin="0,10,0,0" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"
+                           Text="Each format has its own raster layer class; the GDAL layers read the formats GDAL supports. Plain images such as JPEG, PNG or TIFF are placed on the map by their world file."/>
+            </StackPanel>
+        </Border>
+
+        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
+    </DockPanel>
+</UserControl>

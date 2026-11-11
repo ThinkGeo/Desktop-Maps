@@ -1,0 +1,39 @@
+<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.FindFeaturesBySpatialRelation"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <DockPanel LastChildFill="True">
+        <Border DockPanel.Dock="Right" Width="290" Background="#F6F6F4" Padding="12,10"
+                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+            <StackPanel>
+                <TextBlock Text="Find the zoning areas that are..." FontWeight="SemiBold" Margin="0,0,0,4"/>
+                <RadioButton Content="Containing a point" Tag="containing" GroupName="Relation" Margin="0,2" Checked="Relation_Checked"/>
+                <RadioButton Content="Crossing a line" Tag="crossing" GroupName="Relation" Margin="0,2" Checked="Relation_Checked"/>
+                <RadioButton Content="Disjoint from a polygon" Tag="disjoint" GroupName="Relation" Margin="0,2" Checked="Relation_Checked"/>
+                <RadioButton Content="Within a distance of a point" Tag="distance" GroupName="Relation" Margin="0,2" Checked="Relation_Checked"/>
+                <RadioButton Content="Within a polygon" Tag="within" GroupName="Relation" Margin="0,2" Checked="Relation_Checked"/>
+                <RadioButton Content="Intersecting a polygon" Tag="intersecting" GroupName="Relation" IsChecked="True" Margin="0,2" Checked="Relation_Checked"/>
+                <RadioButton Content="Overlapping a polygon" Tag="overlapping" GroupName="Relation" Margin="0,2" Checked="Relation_Checked"/>
+                <RadioButton Content="Touching a shape" Tag="touching" GroupName="Relation" Margin="0,2" Checked="Relation_Checked"/>
+                <RadioButton Content="Equal to a subdivision plat" Tag="equal" GroupName="Relation" Margin="0,2" Checked="Relation_Checked"/>
+
+                <StackPanel x:Name="DistancePanel" Margin="0,8,0,0" Visibility="Collapsed">
+                    <TextBlock Text="{Binding ElementName=SearchRadius, Path=Value, StringFormat=Distance: {0:0} meters}" FontSize="11"/>
+                    <Slider x:Name="SearchRadius" Minimum="100" Maximum="1600" Value="400"
+                            TickFrequency="50" IsSnapToTickEnabled="True" ValueChanged="SearchRadius_ValueChanged"/>
+                </StackPanel>
+
+                <TextBlock x:Name="Result" Margin="0,10,0,0" FontWeight="SemiBold" TextWrapping="Wrap"/>
+                <TextBlock x:Name="Status" Margin="0,6,0,0" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"/>
+                <TextBlock Margin="0,6,0,0" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"
+                           Text="Red is the query shape; blue is what the query found. Hold the middle mouse button to pan while drawing."/>
+            </StackPanel>
+        </Border>
+
+        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged" MapClick="Map_MapClick"/>
+    </DockPanel>
+</UserControl>

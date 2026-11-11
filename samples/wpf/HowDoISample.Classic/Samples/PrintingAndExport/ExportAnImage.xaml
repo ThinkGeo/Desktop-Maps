@@ -1,0 +1,27 @@
+<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.ExportAnImage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <DockPanel LastChildFill="True">
+        <Border DockPanel.Dock="Right" Width="290" Background="#F6F6F4" Padding="12,10"
+                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+            <StackPanel>
+                <RadioButton x:Name="Snapshot" Content="The map as it is on screen" GroupName="Mode" IsChecked="True" Margin="0,2"/>
+                <TextBlock Margin="18,0,0,6" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"
+                           Text="Everything on the map, the marker included, copied into an image the size of the map."/>
+                <RadioButton x:Name="OffScreen" Content="Layers drawn off screen" GroupName="Mode" Margin="0,2"/>
+                <TextBlock Margin="18,0,0,6" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"
+                           Text="The ThinkGeo raster basemap and Frisco's zoning drawn straight into an image with a GeoCanvas, at the map's extent and size. Nothing on screen is copied."/>
+                <Button Content="Export..." Click="Export_Click" Margin="0,6,0,0" Padding="0,3"/>
+                <TextBlock x:Name="Status" Margin="0,8,0,8" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"/>
+                <Image x:Name="Preview" Stretch="Uniform" MaxHeight="300"/>
+            </StackPanel>
+        </Border>
+
+        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
+    </DockPanel>
+</UserControl>

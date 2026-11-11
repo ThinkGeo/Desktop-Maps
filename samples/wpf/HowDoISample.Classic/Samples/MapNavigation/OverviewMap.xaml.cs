@@ -5,7 +5,7 @@ using ThinkGeo.Core;
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
 	/// <summary>
-	/// Interaction logic for OverviewMap.xaml
+	/// A small overview map that shows where the main map is looking; click it to move the main map there.
 	/// </summary>
 	public partial class OverviewMap : IDisposable
 	{
@@ -176,8 +176,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
 		public void Dispose()
 		{
-			ThinkGeoDebugger.DisplayTileId = false;
 			MainMap.Dispose();
+			PreviewMap.Dispose();
 			GC.SuppressFinalize(this);
 		}
 	}

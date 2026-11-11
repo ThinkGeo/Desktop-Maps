@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -9,7 +10,7 @@ using ThinkGeo.Core;
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Learn how to programmatically zoom, pan, and rotate the map control.
+    /// Fly with ZoomToAsync from galaxy M87 down to the shadow of its black hole, through ten pictures nested inside each other.
     /// </summary>
     public partial class ZoomToBlackHole : IDisposable
     {
@@ -23,15 +24,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InitializeComponent();
         }
 
-        /// <summary>
-        /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map
-        /// </summary>
         private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
             _cancellationTokenSource = new CancellationTokenSource();
+
+            foreach (var overlay in Map.Overlays)
+            {
+                if (overlay is LayerOverlay layerOverlay && layerOverlay.Layers[0] is GeoImageLayer geoImageLayer)
+                    geoImageLayer.ImagePathFilename = Path.Combine(AppContext.BaseDirectory, geoImageLayer.ImagePathFilename);
+            }
 
             Map.DefaultAnimationSettings.Duration = 2000;
             Map.DefaultAnimationSettings.Type = MapAnimationType.DrawWithAnimation;
@@ -81,10 +85,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _ = ZoomToBlackHoleAsync(_cancellationTokenSource.Token);
         }
 
-        private void DefaultExtentButton_Click(object sender, RoutedEventArgs e)
+        private async void DefaultExtentButton_Click(object sender, RoutedEventArgs e)
         {
             StopCurrentAnimation();
-            _ = Map.ZoomToAsync(_zoomingExtents[0].centerPoint, _zoomingExtents[0].scale, 0, _cancellationTokenSource.Token);
+            try
+            {
+                await Map.ZoomToAsync(_zoomingExtents[0].centerPoint, _zoomingExtents[0].scale, 0, _cancellationTokenSource.Token);
+            }
+            catch (OperationCanceledException)
+            {
+            }
         }
 
         private async Task ZoomToBlackHoleAsync(CancellationToken cancellationToken)
@@ -97,7 +107,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 {
                     await Map.ZoomToAsync(centerPoint, scale, 0, cancellationToken);
                 }
-                catch (TaskCanceledException)
+                catch (OperationCanceledException)
                 {
                     break;
                 }
@@ -113,13 +123,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             for (var i = 1; i < Map.Overlays.Count; i++)
             {
-                var overlay = Map.Overlays[i];
-                if (!(overlay is LayerOverlay layerOverlay))
+                if (!(Map.Overlays[i] is LayerOverlay layerOverlay))
                     continue;
-                if (layerOverlay.Layers.Count < 0)
+                if (layerOverlay.Layers.Count == 0)
                     continue;
-                var geoImageLayer = (GeoImageLayer)layerOverlay.Layers[0];
-                if (geoImageLayer == null)
+                if (!(layerOverlay.Layers[0] is GeoImageLayer geoImageLayer))
                     continue;
                 zoomingExtents.Add((geoImageLayer.CenterPoint, geoImageLayer.UpperScale));
             }
@@ -131,7 +139,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private Collection<double> GetDefaultZoomLevelSet()
         {
-            if (_zoomingExtents != null)
+            if (_zoomingExtents == null)
                 _zoomingExtents = GetZoomingExtents();
 
             var zoomLevelSet = new Collection<double>();
@@ -143,7 +151,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private void StopCurrentAnimation()
         {
-            // _cancellationTokenSource.CancelAsync stops all the Async Methods which are using _cancellationTokenSource.Token
             _cancellationTokenSource.Cancel();
             _cancellationTokenSource.Dispose();
             _cancellationTokenSource = new CancellationTokenSource();
@@ -151,11 +158,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         public void Dispose()
         {
-            // Dispose of unmanaged resources.
+            _cancellationTokenSource?.Cancel();
             Map.Dispose();
-            // Suppress finalization.
             GC.SuppressFinalize(this);
         }
     }
 }
-
