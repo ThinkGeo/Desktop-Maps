@@ -7,21 +7,20 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <DockPanel LastChildFill="True">
-        <Border DockPanel.Dock="Right" Width="290" Background="#F6F6F4" Padding="12,10"
+        <Border DockPanel.Dock="Right" Width="340" Background="#F6F6F4" Padding="12"
                 BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
-            <StackPanel>
-                <TextBlock Text="Restrictions" FontWeight="SemiBold" Margin="0,0,0,6"/>
-                <CheckBox x:Name="ChkRestrictExtent" Content="RestrictExtent (the red box)" IsChecked="True" Margin="0,2" Click="ChkRestriction_Click"/>
-                <CheckBox x:Name="ChkMaximumScale" Content="MaximumScale (1:500,000)" IsChecked="True" Margin="0,2" Click="ChkRestriction_Click"/>
-                <CheckBox x:Name="ChkMinimumScale" Content="MinimumScale (1:10,000)" IsChecked="True" Margin="0,2" Click="ChkRestriction_Click"/>
-            </StackPanel>
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Bottom" FontFamily="Consolas" FontSize="11"
+                           Text="{Binding ElementName=Map, Path=CurrentScale, StringFormat={}Scale: {0:N0}}"/>
+                <StackPanel>
+                    <TextBlock Text="Restrictions" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                    <CheckBox x:Name="ChkRestrictExtent" Content="RestrictExtent (the red box)" IsChecked="True" Margin="0,2" Click="ChkRestriction_Click"/>
+                    <CheckBox x:Name="ChkMaximumScale" Content="MaximumScale (1:500,000)" IsChecked="True" Margin="0,2" Click="ChkRestriction_Click"/>
+                    <CheckBox x:Name="ChkMinimumScale" Content="MinimumScale (1:10,000)" IsChecked="True" Margin="0,2" Click="ChkRestriction_Click"/>
+                </StackPanel>
+            </DockPanel>
         </Border>
 
-        <Grid>
-            <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
-            <TextBlock Background="Gray" Foreground="WhiteSmoke" VerticalAlignment="Bottom" HorizontalAlignment="Center"
-                       Width="180" Height="30" FontSize="20" TextAlignment="Center" Margin="0,0,0,10"
-                       Text="{Binding ElementName=Map, Path=CurrentScale, StringFormat={}Scale: {0:N0}}"/>
-        </Grid>
+        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
     </DockPanel>
 </UserControl>

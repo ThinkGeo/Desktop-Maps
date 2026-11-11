@@ -25,13 +25,21 @@
 }</sys:String>
     </UserControl.Resources>
 
-    <DockPanel LastChildFill="True">
-        <DockPanel DockPanel.Dock="Top" Background="#F2F2F2">
-            <Button x:Name="PlayButton" DockPanel.Dock="Left" Padding="12,4" Margin="8,6,0,6" Content="Play" Click="PlayButton_Click"/>
-            <TextBlock x:Name="YearLabel" DockPanel.Dock="Left" Width="44" VerticalAlignment="Center" Margin="8,0,4,0" Text="1950"/>
-            <Slider x:Name="YearSlider" Minimum="1950" Maximum="2020" Value="1950" IsSnapToTickEnabled="True" TickFrequency="1"
-                    VerticalAlignment="Center" Margin="0,0,12,0" ValueChanged="YearSlider_ValueChanged"/>
-        </DockPanel>
-        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
-    </DockPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="340"/>
+        </Grid.ColumnDefinitions>
+
+        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
+
+        <Border Grid.Column="1" Background="#F6F6F4" BorderBrush="#CCCCCC" BorderThickness="1,0,0,0" Padding="12">
+            <DockPanel VerticalAlignment="Top">
+                <Button x:Name="PlayButton" DockPanel.Dock="Left" Padding="12,4" Content="Play" Click="PlayButton_Click"/>
+                <TextBlock x:Name="YearLabel" DockPanel.Dock="Left" Width="44" VerticalAlignment="Center" Margin="8,0,4,0" Text="1950"/>
+                <Slider x:Name="YearSlider" Minimum="1950" Maximum="2020" Value="1950" IsSnapToTickEnabled="True" TickFrequency="1"
+                        VerticalAlignment="Center" ValueChanged="YearSlider_ValueChanged"/>
+            </DockPanel>
+        </Border>
+    </Grid>
 </UserControl>

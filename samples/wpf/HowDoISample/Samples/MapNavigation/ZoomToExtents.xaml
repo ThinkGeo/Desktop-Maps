@@ -24,81 +24,72 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="240"/>
-            <ColumnDefinition Width="290"/>
+            <ColumnDefinition Width="340"/>
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0">
-            <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
+        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
 
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10">
-                <TextBlock Background="Gray" Foreground="WhiteSmoke" IsEnabled="False"
-                           VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="0,0,0,5"
-                           Height="30" Width="400" FontSize="20" TextAlignment="Center"
-                           Text="{Binding ElementName=ThisControl, Path=TxtCoordinates}"/>
-
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock Background="Gray" Foreground="WhiteSmoke" VerticalAlignment="Bottom"
-                               Width="140" Height="30" FontSize="20"
+        <Border Grid.Column="1" Background="#F6F6F4" Padding="12"
+                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Bottom" Margin="0,8,0,0">
+                    <TextBlock FontFamily="Consolas" FontSize="11" TextWrapping="Wrap"
+                               Text="{Binding ElementName=ThisControl, Path=TxtCoordinates}"/>
+                    <TextBlock FontFamily="Consolas" FontSize="11"
                                Text="{Binding ElementName=Map, Path=RotationAngle, StringFormat={}Rotation: {0:N0}}"/>
-                    <TextBlock Background="Gray" Foreground="WhiteSmoke" VerticalAlignment="Bottom"
-                               Width="140" Height="30" FontSize="20"
+                    <TextBlock FontFamily="Consolas" FontSize="11"
                                Text="{Binding ElementName=Map, Path=CurrentZoom, StringFormat={}Zoom: {0:N2}}"/>
-                    <TextBlock Background="Gray" Foreground="WhiteSmoke" VerticalAlignment="Bottom"
-                               Width="180" Height="30" FontSize="20"
+                    <TextBlock FontFamily="Consolas" FontSize="11"
                                Text="{Binding ElementName=Map, Path=CurrentScale, StringFormat={}Scale: {0:N0}}"/>
                 </StackPanel>
-            </StackPanel>
-        </Grid>
+                <StackPanel>
+                    <TextBlock Text="Zooming" FontWeight="SemiBold" FontSize="11.5"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Button x:Name="ZoomIn" Content="Zoom In" Click="ZoomIn_Click"
+                                Grid.Row="0" Grid.Column="0" Margin="0,2,2,2" Padding="4"/>
+                        <Button x:Name="ZoomOut" Content="Zoom Out" Click="ZoomOut_Click"
+                                Grid.Row="0" Grid.Column="1" Margin="2,2,0,2" Padding="4"/>
+                        <Button x:Name="ZoomToScale" Content="Zoom To Scale" Click="ZoomToScale_Click"
+                                Grid.Row="1" Grid.Column="0" Margin="0,2,2,2" Padding="4"/>
+                        <TextBox x:Name="ZoomScale" Text="10000" Grid.Row="1" Grid.Column="1" Margin="2,2,0,2" Padding="4"/>
+                    </Grid>
 
-        <Border Grid.Column="1" Background="#F6F6F4" Padding="12,10"
-                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
-            <StackPanel>
-                <TextBlock Text="Zooming" FontWeight="SemiBold" FontSize="11.5"/>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Button x:Name="ZoomIn" Content="Zoom In" Click="ZoomIn_Click"
-                            Grid.Row="0" Grid.Column="0" Margin="0,2,2,2" Padding="4"/>
-                    <Button x:Name="ZoomOut" Content="Zoom Out" Click="ZoomOut_Click"
-                            Grid.Row="0" Grid.Column="1" Margin="2,2,0,2" Padding="4"/>
-                    <Button x:Name="ZoomToScale" Content="Zoom To Scale" Click="ZoomToScale_Click"
-                            Grid.Row="1" Grid.Column="0" Margin="0,2,2,2" Padding="4"/>
-                    <TextBox x:Name="ZoomScale" Text="10000" Grid.Row="1" Grid.Column="1" Margin="2,2,0,2" Padding="4"/>
-                </Grid>
+                    <TextBlock Text="Layer bounding box" FontWeight="SemiBold" FontSize="11.5" Margin="0,6,0,0"/>
+                    <Button x:Name="LayerBoundingBox" Content="Set Extent to Layer BBox" Click="LayerBoundingBox_Click" Margin="0,2,0,2" Padding="4"/>
 
-                <TextBlock Text="Layer bounding box" FontWeight="SemiBold" FontSize="11.5" Margin="0,6,0,0"/>
-                <Button x:Name="LayerBoundingBox" Content="Set Extent to Layer BBox" Click="LayerBoundingBox_Click" Margin="0,2,0,2" Padding="4"/>
+                    <TextBlock Text="Center at" FontWeight="SemiBold" FontSize="11.5" Margin="0,6,0,0"/>
+                    <Button x:Name="CenterAt" Content="Center At (33.15,-96.82)" Click="CenterAt_Click" Margin="0,2,0,2" Padding="4"/>
 
-                <TextBlock Text="Center at" FontWeight="SemiBold" FontSize="11.5" Margin="0,6,0,0"/>
-                <Button x:Name="CenterAt" Content="Center At (33.15,-96.82)" Click="CenterAt_Click" Margin="0,2,0,2" Padding="4"/>
+                    <TextBlock Text="Rotating" FontWeight="SemiBold" FontSize="11.5" Margin="0,6,0,0"/>
+                    <Grid Margin="0,2,0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Slider Grid.Column="0" x:Name="RotateAngle"
+                                Minimum="-180" Maximum="180"
+                                Value="0"
+                                ValueChanged="RotateAngle_OnValueChanged"
+                                AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0"
+                                TickFrequency="15" IsSnapToTickEnabled="True" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" x:Name="RotationTextBox"
+                                 Text="{Binding ElementName=RotateAngle, Path=Value, StringFormat={}{0:F0}, UpdateSourceTrigger=LostFocus}"
+                                 Width="40" Margin="4,0,0,0" KeyDown="RotationTextBox_KeyDown"/>
+                    </Grid>
 
-                <TextBlock Text="Rotating" FontWeight="SemiBold" FontSize="11.5" Margin="0,6,0,0"/>
-                <Grid Margin="0,2,0,2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Slider Grid.Column="0" x:Name="RotateAngle"
-                            Minimum="-180" Maximum="180"
-                            Value="0"
-                            ValueChanged="RotateAngle_OnValueChanged"
-                            AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0"
-                            TickFrequency="15" IsSnapToTickEnabled="True" VerticalAlignment="Center"/>
-                    <TextBox Grid.Column="1" x:Name="RotationTextBox"
-                             Text="{Binding ElementName=RotateAngle, Path=Value, StringFormat={}{0:F0}, UpdateSourceTrigger=LostFocus}"
-                             Width="40" Margin="4,0,0,0" KeyDown="RotationTextBox_KeyDown"/>
-                </Grid>
-
-                <TextBlock Text="Wheel stops at" FontWeight="SemiBold" FontSize="11.5" Margin="0,6,0,0"/>
-                <RadioButton x:Name="DefaultScales" Content="Default scales" IsChecked="True" Margin="0,2,0,0" Checked="ZoomScales_Checked"/>
-                <RadioButton x:Name="PrintScales" Content="Printed map scales" Margin="0,2,0,0" Checked="ZoomScales_Checked"/>
-            </StackPanel>
+                    <TextBlock Text="Wheel stops at" FontWeight="SemiBold" FontSize="11.5" Margin="0,6,0,0"/>
+                    <RadioButton x:Name="DefaultScales" Content="Default scales" IsChecked="True" Margin="0,2,0,0" Checked="ZoomScales_Checked"/>
+                    <RadioButton x:Name="PrintScales" Content="Printed map scales" Margin="0,2,0,0" Checked="ZoomScales_Checked"/>
+                </StackPanel>
+            </DockPanel>
         </Border>
     </Grid>
 </UserControl>

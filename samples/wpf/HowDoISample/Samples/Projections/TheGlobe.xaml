@@ -5,38 +5,42 @@
              Unloaded="Sample_Unloaded">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" MinWidth="240" />
+            <ColumnDefinition Width="340" />
         </Grid.ColumnDefinitions>
 
         <wpf:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged" />
 
-        <StackPanel Grid.Column="1" Width="270" Margin="8">
-            <TextBlock Text="The globe" FontSize="16" FontWeight="Bold" Margin="0,0,0,6" />
-            <TextBlock TextWrapping="Wrap" Foreground="#666" Margin="0,0,0,10"
-                       Text="The same web-mercator satellite tiles a flat map is made of, drawn on a ball. Every coordinate the API speaks is still EPSG:3857." />
+        <Border Grid.Column="1" Background="#F6F6F4" Padding="12"
+                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+            <DockPanel>
+                <TextBlock x:Name="StatusText" DockPanel.Dock="Bottom" TextWrapping="Wrap" FontFamily="Consolas" FontSize="11"
+                           Foreground="#444" Text="" />
+                <StackPanel>
+                    <TextBlock Text="The globe" FontSize="16" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBlock TextWrapping="Wrap" Foreground="#666" Margin="0,0,0,10"
+                               Text="The same web-mercator satellite tiles a flat map is made of, drawn on a ball. Every coordinate the API speaks is still EPSG:3857." />
 
-            <RadioButton x:Name="RdoGlobe" Content="Globe" IsChecked="True" Checked="Projection_Checked" Margin="0,3" />
-            <RadioButton x:Name="RdoMercator" Content="Web Mercator (what it flattens into)" Checked="Projection_Checked" Margin="0,3" />
-            <RadioButton x:Name="RdoRobinson" Content="Robinson (reached through mercator)" Checked="Projection_Checked" Margin="0,3" />
-            <CheckBox x:Name="ChkMorph" Content="Animate the change" IsChecked="True" Margin="0,8,0,0" />
+                    <RadioButton x:Name="RdoGlobe" Content="Globe" IsChecked="True" Checked="Projection_Checked" Margin="0,3" />
+                    <RadioButton x:Name="RdoMercator" Content="Web Mercator (what it flattens into)" Checked="Projection_Checked" Margin="0,3" />
+                    <RadioButton x:Name="RdoRobinson" Content="Robinson (reached through mercator)" Checked="Projection_Checked" Margin="0,3" />
+                    <CheckBox x:Name="ChkMorph" Content="Animate the change" IsChecked="True" Margin="0,8,0,0" />
 
-            <Separator Margin="0,12,0,8" />
-            <TextBlock Text="Zoom in and watch it let go" FontWeight="SemiBold" Margin="0,0,0,4" />
-            <TextBlock TextWrapping="Wrap" Foreground="#444" FontSize="11" Margin="0,0,0,6"
-                       Text="Between zoom 5 and 6 the ball eases into flat web mercator, then hands over to it completely." />
-            <StackPanel Orientation="Horizontal">
-                <Button x:Name="BtnWorld" Content="world" Click="World_Click" Padding="8,3" Margin="0,0,4,0" />
-                <Button x:Name="BtnBand" Content="the band" Click="Band_Click" Padding="8,3" Margin="0,0,4,0" />
-                <Button x:Name="BtnStreet" Content="past it" Click="Street_Click" Padding="8,3" />
-            </StackPanel>
+                    <Separator Margin="0,12,0,8" />
+                    <TextBlock Text="Zoom in and watch it let go" FontWeight="SemiBold" Margin="0,0,0,4" />
+                    <TextBlock TextWrapping="Wrap" Foreground="#444" FontSize="11" Margin="0,0,0,6"
+                               Text="Between zoom 5 and 6 the ball eases into flat web mercator, then hands over to it completely." />
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="BtnWorld" Content="world" Click="World_Click" Padding="8,3" Margin="0,0,4,0" />
+                        <Button x:Name="BtnBand" Content="the band" Click="Band_Click" Padding="8,3" Margin="0,0,4,0" />
+                        <Button x:Name="BtnStreet" Content="past it" Click="Street_Click" Padding="8,3" />
+                    </StackPanel>
 
-            <TextBlock x:Name="StatusText" TextWrapping="Wrap" FontFamily="Consolas" FontSize="11"
-                       Foreground="#444" Margin="0,10,0,0" Text="" />
-
-            <Separator Margin="0,12,0,8" />
-            <TextBlock TextWrapping="Wrap" Foreground="#444" FontSize="11"
-                       Text="The ground under the screen center is drawn at the size a flat map would draw it, so dragging north changes the scale rather than the ball. Web mercator stops at 85 degrees; the caps above it are filled from the tiles at the edge." />
-        </StackPanel>
+                    <Separator Margin="0,12,0,8" />
+                    <TextBlock TextWrapping="Wrap" Foreground="#444" FontSize="11"
+                               Text="The ground under the screen center is drawn at the size a flat map would draw it, so dragging north changes the scale rather than the ball. Web mercator stops at 85 degrees; the caps above it are filled from the tiles at the edge." />
+                </StackPanel>
+            </DockPanel>
+        </Border>
     </Grid>
 </UserControl>

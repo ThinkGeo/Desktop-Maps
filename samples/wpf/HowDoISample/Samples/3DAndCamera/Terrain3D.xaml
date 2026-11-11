@@ -22,32 +22,32 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="240"/>
-            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="340"/>
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0">
-            <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged" MapClick="Map_MapClick"/>
+        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged" MapClick="Map_MapClick"/>
 
-            <!-- The profile chart: distance along the line across, elevation up. -->
-            <Border x:Name="ChartPanel" Visibility="Collapsed"
-                    HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                    Margin="0,0,12,12" Padding="8" Background="#E6FFFFFF" CornerRadius="4">
-                <StackPanel>
-                    <TextBlock x:Name="ChartTitle" FontSize="11" Margin="0,0,0,4"/>
-                    <Canvas x:Name="Chart" Width="320" Height="110" ClipToBounds="True">
-                        <Polyline x:Name="ChartLine" Stroke="DarkGreen" StrokeThickness="1.5"/>
-                    </Canvas>
-                </StackPanel>
-            </Border>
-        </Grid>
+        <Border Grid.Column="1" Background="#F6F6F4" BorderBrush="#CCCCCC" BorderThickness="1,0,0,0" Padding="12">
+            <StackPanel>
+                <CheckBox x:Name="TerrainToggle" Content="Terrain" IsChecked="True"
+                          Checked="TerrainToggle_Checked" Unchecked="TerrainToggle_Unchecked"/>
+                <TextBlock x:Name="ProfileText" Text="Click two points for an elevation profile."
+                           TextWrapping="Wrap" Margin="0,8,0,0"/>
 
-        <StackPanel Grid.Column="1" Background="#F6F6F4">
-            <CheckBox x:Name="TerrainToggle" Content="Terrain" IsChecked="True" Margin="8,8,8,2"
-                      Checked="TerrainToggle_Checked" Unchecked="TerrainToggle_Unchecked"/>
-            <TextBlock x:Name="ProfileText" Text="Click two points for an elevation profile."
-                       TextWrapping="Wrap" Margin="8,8,8,0"/>
-            <TextBlock Foreground="#606060" TextWrapping="Wrap" FontSize="11" Margin="8,16,8,0"
-                       Text="Elevation: AWS open terrain tiles (terrarium encoding). Imagery: ThinkGeo Cloud aerial."/>
-        </StackPanel>
+                <!-- The profile chart: distance along the line across, elevation up. -->
+                <Border x:Name="ChartPanel" Visibility="Collapsed" HorizontalAlignment="Left"
+                        Margin="0,8,0,0" Padding="8" Background="White" BorderBrush="#CCCCCC" BorderThickness="1">
+                    <StackPanel>
+                        <TextBlock x:Name="ChartTitle" FontSize="11" Margin="0,0,0,4"/>
+                        <Canvas x:Name="Chart" Width="296" Height="110" ClipToBounds="True">
+                            <Polyline x:Name="ChartLine" Stroke="DarkGreen" StrokeThickness="1.5"/>
+                        </Canvas>
+                    </StackPanel>
+                </Border>
+
+                <TextBlock Foreground="#606060" TextWrapping="Wrap" FontSize="11" Margin="0,16,0,0"
+                           Text="Elevation: AWS open terrain tiles (terrarium encoding). Imagery: ThinkGeo Cloud aerial."/>
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>

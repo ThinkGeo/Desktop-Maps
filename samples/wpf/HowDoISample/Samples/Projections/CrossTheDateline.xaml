@@ -44,37 +44,35 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="240"/>
-            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="340"/>
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0">
-            <thinkGeoUi:MapView x:Name="Map" MapUnit="Meter" Background="#0b1f33" SizeChanged="Map_SizeChanged"/>
-            <Border HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,12,12,0"
-                    Background="#E6101317" CornerRadius="8" Padding="14,10" MinWidth="230">
-                <StackPanel>
-                    <TextBlock Text="LAX  →  PVG" Foreground="White" FontSize="17" FontWeight="SemiBold"/>
-                    <TextBlock Text="Los Angeles to Shanghai Pudong, great circle" Foreground="#9aa4ae" FontSize="11" Margin="0,2,0,8"/>
-                    <TextBlock x:Name="PositionText" Foreground="#e6ebf0" FontSize="12" FontFamily="Consolas"/>
-                    <TextBlock x:Name="ProgressText" Foreground="#e6ebf0" FontSize="12" FontFamily="Consolas" Margin="0,4,0,0"/>
-                    <TextBlock x:Name="SeamText" Foreground="#f7c948" FontSize="12" Margin="0,6,0,0" TextWrapping="Wrap" MaxWidth="260"/>
-                </StackPanel>
-            </Border>
-        </Grid>
+        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" MapUnit="Meter" Background="#0b1f33" SizeChanged="Map_SizeChanged"/>
 
-        <DockPanel Grid.Column="1" Background="#F6F6F4">
-            <StackPanel DockPanel.Dock="Top" Margin="8,6,8,4">
-                <TextBlock Text="Projection" FontWeight="SemiBold" FontSize="11.5" Margin="0,0,0,4"/>
-                <RadioButton x:Name="ProjGlobe" Content="Globe" Tag="globe" IsChecked="True"
-                             Checked="Projection_Checked"/>
-                <RadioButton x:Name="ProjMercator" Content="Web Mercator (EPSG:3857)" Tag="3857"
-                             Checked="Projection_Checked"/>
-                <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
-                    <Button x:Name="FlyButton" Content="Fly" Width="72" Click="Fly_Click"/>
-                    <Button Content="Reset" Width="72" Margin="8,0,0,0" Click="Reset_Click"/>
+        <Border Grid.Column="1" Background="#F6F6F4" Padding="12"
+                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Bottom" Margin="0,8,0,0">
+                    <TextBlock Text="LAX  →  PVG" FontWeight="SemiBold"/>
+                    <TextBlock Text="Los Angeles to Shanghai Pudong, great circle" FontSize="11" Foreground="#555B62" Margin="0,2,0,6"/>
+                    <TextBlock x:Name="PositionText" FontSize="11" FontFamily="Consolas"/>
+                    <TextBlock x:Name="ProgressText" FontSize="11" FontFamily="Consolas" Margin="0,4,0,0"/>
+                    <TextBlock x:Name="SeamText" FontSize="11" Margin="0,6,0,0" TextWrapping="Wrap"/>
                 </StackPanel>
-                <TextBlock Margin="0,6,0,0" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"
-                           Text="A flight from Los Angeles to Shanghai crosses the antimeridian. The route, the edges of its 100-nautical-mile corridor and the aircraft's position are all stored with continuous longitudes, running past -180 the way a navigator writes them. On the globe there is no seam. In Web Mercator there is one, and the SDK folds the geometry back into the world at the tile cut, so the same data draws whole on both sides of it."/>
-            </StackPanel>
-        </DockPanel>
+                <StackPanel>
+                    <TextBlock FontSize="11" Foreground="#555B62" TextWrapping="Wrap" Margin="0,0,0,12"
+                               Text="A flight from Los Angeles to Shanghai crosses the antimeridian. The route, the edges of its 100-nautical-mile corridor and the aircraft's position are all stored with continuous longitudes, running past -180 the way a navigator writes them. On the globe there is no seam. In Web Mercator there is one, and the SDK folds the geometry back into the world at the tile cut, so the same data draws whole on both sides of it."/>
+                    <TextBlock Text="Projection" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                    <RadioButton x:Name="ProjGlobe" Content="Globe" Tag="globe" IsChecked="True" Margin="0,2"
+                                 Checked="Projection_Checked"/>
+                    <RadioButton x:Name="ProjMercator" Content="Web Mercator (EPSG:3857)" Tag="3857" Margin="0,2"
+                                 Checked="Projection_Checked"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <Button x:Name="FlyButton" Content="Fly" Width="72" Click="Fly_Click"/>
+                        <Button Content="Reset" Width="72" Margin="8,0,0,0" Click="Reset_Click"/>
+                    </StackPanel>
+                </StackPanel>
+            </DockPanel>
+        </Border>
     </Grid>
 </UserControl>

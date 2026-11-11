@@ -6,13 +6,21 @@
              xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
-    <DockPanel LastChildFill="True">
-        <DockPanel DockPanel.Dock="Top" Background="#F2F2F2">
-            <ToggleButton x:Name="Mode" DockPanel.Dock="Right" Content="Arrows"
-                          Margin="8" Padding="12,4,12,4"
-                          Checked="Mode_Checked" Unchecked="Mode_Unchecked"/>
-            <TextBlock x:Name="Status" VerticalAlignment="Center" Margin="12,0,0,0"/>
-        </DockPanel>
-        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
-    </DockPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="340"/>
+        </Grid.ColumnDefinitions>
+
+        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
+
+        <Border Grid.Column="1" Background="#F6F6F4" BorderBrush="#CCCCCC" BorderThickness="1,0,0,0" Padding="12">
+            <StackPanel>
+                <TextBlock x:Name="Status" TextWrapping="Wrap"/>
+                <ToggleButton x:Name="Mode" Content="Arrows" HorizontalAlignment="Left"
+                              Margin="0,10,0,0" Padding="12,4,12,4"
+                              Checked="Mode_Checked" Unchecked="Mode_Unchecked"/>
+            </StackPanel>
+        </Border>
+    </Grid>
 </UserControl>

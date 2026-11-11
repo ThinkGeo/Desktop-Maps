@@ -8,50 +8,56 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" MinWidth="240" />
+            <ColumnDefinition Width="340" />
         </Grid.ColumnDefinitions>
 
         <thinkGeoUi:MapView Grid.Column="0" x:Name="Map" SizeChanged="Map_SizeChanged" />
 
-        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
-            <StackPanel Width="250" Margin="8,8,8,8">
-                <TextBlock Text="Map" FontSize="16" FontWeight="Bold" Margin="0,0,0,6" />
-                <RadioButton x:Name="MapVector" Content="Vector tiles" GroupName="Map" IsChecked="True" Checked="Basemap_Checked" Margin="0,3" />
-                <RadioButton x:Name="MapSatellite" Content="Satellite imagery" GroupName="Map" Checked="Basemap_Checked" Margin="0,3" />
+        <Border Grid.Column="1" Background="#F6F6F4" Padding="12"
+                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Bottom">
+                    <Separator Margin="0,8,0,8" />
+                    <TextBlock x:Name="StatusText" TextWrapping="Wrap" FontFamily="Consolas" FontSize="11" Foreground="#444"
+                               Text="opening the map..." />
+                </StackPanel>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBlock Text="Map" FontSize="16" FontWeight="Bold" Margin="0,0,0,6" />
+                        <RadioButton x:Name="MapVector" Content="Vector tiles" GroupName="Map" IsChecked="True" Checked="Basemap_Checked" Margin="0,3" />
+                        <RadioButton x:Name="MapSatellite" Content="Satellite imagery" GroupName="Map" Checked="Basemap_Checked" Margin="0,3" />
 
-                <TextBlock Text="Projection" FontSize="16" FontWeight="Bold" Margin="0,12,0,6" />
-                <TextBlock TextWrapping="Wrap" Foreground="#666" Margin="0,0,0,10"
-                           Text="An ordinary map in whichever projection you pick - zoom, pan, the style as drawn - from the same web-mercator tiles. Global projections keep your current view; regional projections start on their own ground." />
+                        <TextBlock Text="Projection" FontSize="16" FontWeight="Bold" Margin="0,12,0,6" />
+                        <TextBlock TextWrapping="Wrap" Foreground="#666" Margin="0,0,0,10"
+                                   Text="An ordinary map in whichever projection you pick - zoom, pan, the style as drawn - from the same web-mercator tiles. Global projections keep your current view; regional projections start on their own ground." />
 
-                <RadioButton x:Name="RdoMercator" Content="Spherical Mercator" GroupName="Projection" IsChecked="True" Checked="Projection_Checked" Margin="0,3" />
-                <RadioButton x:Name="RdoEquirectangular" Content="Equirectangular (degrees)" GroupName="Projection" Checked="Projection_Checked" Margin="0,3" />
-                <RadioButton x:Name="RdoRobinson" Content="Robinson" GroupName="Projection" Checked="Projection_Checked" Margin="0,3" />
-                <RadioButton x:Name="RdoMollweide" Content="Mollweide" GroupName="Projection" Checked="Projection_Checked" Margin="0,3" />
-                <RadioButton x:Name="RdoEckert" Content="Equal Area - Eckert IV" GroupName="Projection" Checked="Projection_Checked" Margin="0,3" />
-                <RadioButton x:Name="RdoCylindrical" Content="Equal Area - Cylindrical" GroupName="Projection" Checked="Projection_Checked" Margin="0,3" />
-                <RadioButton x:Name="RdoSinusoidal" Content="Equal Area - Sinusoidal" GroupName="Projection" Checked="Projection_Checked" Margin="0,3" />
-                <RadioButton x:Name="RdoBonne" Content="Equal Area - Bonne" GroupName="Projection" Checked="Projection_Checked" Margin="0,3" />
-                <TextBlock TextWrapping="Wrap" Foreground="#666" Margin="0,2,0,0" FontSize="11"
-                           Text="Each projection is a proj4 definition; any other definition works the same way." />
+                        <RadioButton x:Name="RdoMercator" Content="Spherical Mercator" GroupName="Projection" IsChecked="True" Checked="Projection_Checked" Margin="0,3" />
+                        <RadioButton x:Name="RdoEquirectangular" Content="Equirectangular (degrees)" GroupName="Projection" Checked="Projection_Checked" Margin="0,3" />
+                        <RadioButton x:Name="RdoRobinson" Content="Robinson" GroupName="Projection" Checked="Projection_Checked" Margin="0,3" />
+                        <RadioButton x:Name="RdoMollweide" Content="Mollweide" GroupName="Projection" Checked="Projection_Checked" Margin="0,3" />
+                        <RadioButton x:Name="RdoEckert" Content="Equal Area - Eckert IV" GroupName="Projection" Checked="Projection_Checked" Margin="0,3" />
+                        <RadioButton x:Name="RdoCylindrical" Content="Equal Area - Cylindrical" GroupName="Projection" Checked="Projection_Checked" Margin="0,3" />
+                        <RadioButton x:Name="RdoSinusoidal" Content="Equal Area - Sinusoidal" GroupName="Projection" Checked="Projection_Checked" Margin="0,3" />
+                        <RadioButton x:Name="RdoBonne" Content="Equal Area - Bonne" GroupName="Projection" Checked="Projection_Checked" Margin="0,3" />
+                        <TextBlock TextWrapping="Wrap" Foreground="#666" Margin="0,2,0,0" FontSize="11"
+                                   Text="Each projection is a proj4 definition; any other definition works the same way." />
 
-                <TextBlock Text="Region only" FontWeight="Bold" Margin="0,12,0,4" />
-                <TextBlock TextWrapping="Wrap" Foreground="#666" Margin="0,0,0,4" FontSize="11"
-                           Text="Selecting a regional projection frames its ground automatically. You can still zoom and pan; a warning appears when the view extends outside that region." />
-                <RadioButton x:Name="RdoAlbers" Content="Equal Area - Albers Conic (US)" GroupName="Projection" Checked="Projection_Checked" Margin="0,3" />
-                <RadioButton x:Name="RdoMga55" Content="MGA Zone 55 (E Australia)" GroupName="Projection" Checked="Projection_Checked" Margin="0,3" />
+                        <TextBlock Text="Region only" FontWeight="Bold" Margin="0,12,0,4" />
+                        <TextBlock TextWrapping="Wrap" Foreground="#666" Margin="0,0,0,4" FontSize="11"
+                                   Text="Selecting a regional projection frames its ground automatically. You can still zoom and pan; a warning appears when the view extends outside that region." />
+                        <RadioButton x:Name="RdoAlbers" Content="Equal Area - Albers Conic (US)" GroupName="Projection" Checked="Projection_Checked" Margin="0,3" />
+                        <RadioButton x:Name="RdoMga55" Content="MGA Zone 55 (E Australia)" GroupName="Projection" Checked="Projection_Checked" Margin="0,3" />
 
-                <CheckBox x:Name="ChkMorph" Content="Animate the change" IsChecked="True" Margin="0,12,0,0" />
-                <TextBlock TextWrapping="Wrap" Foreground="#666" Margin="0,2,0,0" FontSize="11"
-                           Text="The map changes projection smoothly. Loaded tiles are reused; moving to a regional view loads tiles for that area." />
+                        <CheckBox x:Name="ChkMorph" Content="Animate the change" IsChecked="True" Margin="0,12,0,0" />
+                        <TextBlock TextWrapping="Wrap" Foreground="#666" Margin="0,2,0,0" FontSize="11"
+                                   Text="The map changes projection smoothly. Loaded tiles are reused; moving to a regional view loads tiles for that area." />
 
-                <TextBlock x:Name="WarningText" TextWrapping="Wrap" Margin="0,10,0,0" FontSize="11"
-                           Foreground="#B04A2A" Visibility="Collapsed" />
-
-                <Separator Margin="0,12,0,8" />
-                <TextBlock x:Name="StatusText" TextWrapping="Wrap" FontFamily="Consolas" FontSize="11" Foreground="#444"
-                           Text="opening the map..." />
-            </StackPanel>
-        </ScrollViewer>
+                        <TextBlock x:Name="WarningText" TextWrapping="Wrap" Margin="0,10,0,0" FontSize="11"
+                                   Foreground="#B04A2A" Visibility="Collapsed" />
+                    </StackPanel>
+                </ScrollViewer>
+            </DockPanel>
+        </Border>
     </Grid>
 </UserControl>

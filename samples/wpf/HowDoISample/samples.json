@@ -105,7 +105,7 @@
       {
         "id": "WMS",
         "title": "WMS",
-        "description": "NASA GIBS true-color imagery of yesterday's Earth over the basemap - one GetMap request per web-mercator tile",
+        "description": "NASA GIBS true-color imagery of the Earth two days ago over the basemap - one GetMap request per web-mercator tile",
         "source": "Samples/MapsFromAServiceRaster/WMS",
         "keyApi": "WmsRasterTileSource",
         "aliases": "Web Map Service, WmsRasterTileSource, WmsClient, SendingHttpRequest, authentication, credentials, StyleLayerSlot, NASA GIBS",
@@ -140,10 +140,10 @@
       {
         "id": "RasterFileFormats",
         "title": "Raster File Formats",
-        "description": "Open a raster file - GeoTIFF, JPEG 2000, a plain JPEG, MrSID, ECW, or an ESRI ASCII grid read by GdalRasterSource itself - warped to Web Mercator once and served as tiles",
+        "description": "Open a raster file - GeoTIFF, JPEG 2000, a plain JPEG, MrSID or ECW, or a plain JPEG read by GdalRasterSource itself - warped to Web Mercator once and served as tiles",
         "source": "Samples/YourData/RasterFileFormats",
         "keyApi": "ClassicRasterTileSource",
-        "aliases": "GdalRasterSource, GeoTiffGdalRasterSource, Jpeg2000GdalRasterSource, MrSidRasterSource, EcwGdalRasterSource, WarpProjection, world file, ESRI ASCII grid, .asc, GeoTIFF",
+        "aliases": "GdalRasterSource, GeoTiffGdalRasterSource, Jpeg2000GdalRasterSource, MrSidRasterSource, EcwGdalRasterSource, WarpProjection, world file, GeoTIFF",
         "draws": "Style",
         "service": ""
       },

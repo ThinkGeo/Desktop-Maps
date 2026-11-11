@@ -7,9 +7,14 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <thinkGeoUi:MapView x:Name="Map" MapUnit="Meter" SizeChanged="Map_SizeChanged"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="340"/>
+        </Grid.ColumnDefinitions>
 
-        <Image Source="/Resources/icon_north_arrow.png"
+        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" MapUnit="Meter" SizeChanged="Map_SizeChanged"/>
+
+        <Image Grid.Column="0" Source="/Resources/icon_north_arrow.png"
                VerticalAlignment="Top" HorizontalAlignment="Right"
                Width="40" Height="40" Margin="5"
                RenderTransformOrigin="0.5,0.5">
@@ -18,11 +23,12 @@
             </Image.RenderTransform>
         </Image>
 
-        <Button x:Name="OverviewButton"
-                Margin="10"
-                Width="100" Height="40"
-                Content="Overview Mode"
-                HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                Click="OverviewButton_OnClick"/>
+        <Border Grid.Column="1" Background="#F6F6F4" BorderBrush="#CCCCCC" BorderThickness="1,0,0,0" Padding="12">
+            <Button x:Name="OverviewButton"
+                    Width="100" Height="40"
+                    Content="Overview Mode"
+                    HorizontalAlignment="Left" VerticalAlignment="Top"
+                    Click="OverviewButton_OnClick"/>
+        </Border>
     </Grid>
 </UserControl>

@@ -59,11 +59,16 @@
     </UserControl.Resources>
 
     <Grid>
-        <thinkGeoUi:MapView x:Name="Map" MapUnit="Meter" Background="#101317" SizeChanged="Map_SizeChanged"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="340"/>
+        </Grid.ColumnDefinitions>
+
+        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" MapUnit="Meter" Background="#101317" SizeChanged="Map_SizeChanged"/>
 
         <!-- The navigation card: the lane the vehicle is in, the lane change or
              intersection ahead and how far away it is, read off the route's lane data. -->
-        <Border HorizontalAlignment="Left" VerticalAlignment="Top"
+        <Border Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top"
                 Margin="16" Width="340" Padding="18"
                 CornerRadius="16" Background="#E6111917" BorderBrush="#33584F" BorderThickness="1"
                 IsHitTestVisible="False">
@@ -78,19 +83,7 @@
             </StackPanel>
         </Border>
 
-        <!-- Where the lanes come from, and under which license. -->
-        <Border HorizontalAlignment="Right" VerticalAlignment="Top"
-                Margin="16,62,16,16" Padding="12"
-                CornerRadius="12" Background="#E6111917" BorderBrush="#33584F" BorderThickness="1"
-                IsHitTestVisible="False">
-            <StackPanel>
-                <TextBlock Text="Wolfsburg, OpenDRIVE HD map" Foreground="#7EF2D9" FontSize="14" FontWeight="SemiBold"/>
-                <TextBlock x:Name="StatsText" Text="" Foreground="#C9D4D0" FontSize="12"/>
-                <TextBlock x:Name="AttributionText" Text="" Foreground="#C9D4D0" FontSize="12"/>
-            </StackPanel>
-        </Border>
-
-        <Image Source="/Resources/icon_north_arrow.png"
+        <Image Grid.Column="0" Source="/Resources/icon_north_arrow.png"
                VerticalAlignment="Top" HorizontalAlignment="Right"
                Width="40" Height="40" Margin="5"
                RenderTransformOrigin="0.5,0.5">
@@ -99,20 +92,22 @@
             </Image.RenderTransform>
         </Image>
 
-        <Border HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                Margin="16" Padding="12"
-                CornerRadius="12" Background="#E6111917" BorderBrush="#33584F" BorderThickness="1">
+        <Border Grid.Column="1" Background="#F6F6F4" BorderBrush="#CCCCCC" BorderThickness="1,0,0,0" Padding="12">
             <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Pitch" Foreground="#C9D4D0" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                    <Slider x:Name="PitchSlider" Minimum="0" Maximum="60" Value="58" Width="150"
-                            VerticalAlignment="Center" ValueChanged="PitchSlider_ValueChanged"/>
-                    <TextBlock x:Name="PitchValueText" Text="58°" Foreground="#C9D4D0" Width="36"
+                <TextBlock Text="Wolfsburg, OpenDRIVE HD map" FontWeight="SemiBold"/>
+                <TextBlock x:Name="StatsText" Text="" Foreground="#555B62" FontSize="11" TextWrapping="Wrap"/>
+                <TextBlock x:Name="AttributionText" Text="" Foreground="#555B62" FontSize="11" TextWrapping="Wrap"/>
+
+                <DockPanel Margin="0,12,0,0">
+                    <TextBlock Text="Pitch" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <TextBlock x:Name="PitchValueText" DockPanel.Dock="Right" Text="58°" Width="36"
                                VerticalAlignment="Center" Margin="8,0,0,0"/>
-                </StackPanel>
+                    <Slider x:Name="PitchSlider" Minimum="0" Maximum="60" Value="58"
+                            VerticalAlignment="Center" ValueChanged="PitchSlider_ValueChanged"/>
+                </DockPanel>
                 <Button x:Name="OverviewButton" Content="Overview Mode" Height="28" Margin="0,8,0,0" Click="OverviewButton_OnClick"/>
                 <TextBlock Text="Wheel: zoom   |   right-drag: tilt   |   Alt+drag: rotate"
-                           Foreground="#8FA39D" FontSize="11" Margin="0,8,0,0"/>
+                           Foreground="#555B62" FontSize="11" Margin="0,8,0,0"/>
             </StackPanel>
         </Border>
     </Grid>

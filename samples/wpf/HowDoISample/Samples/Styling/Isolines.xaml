@@ -24,41 +24,59 @@
 }</sys:String>
     </UserControl.Resources>
 
-    <DockPanel LastChildFill="True">
-        <WrapPanel DockPanel.Dock="Bottom" Background="WhiteSmoke" Orientation="Horizontal">
-            <CheckBox Content="fill bands" VerticalAlignment="Center" Margin="12,4,0,4"
-                      Checked="FillToggle_Changed" Unchecked="FillToggle_Changed"/>
-            <CheckBox Content="labels" IsChecked="True" VerticalAlignment="Center" Margin="12,4,0,4"
-                      Checked="LabelToggle_Changed" Unchecked="LabelToggle_Changed"/>
-            <CheckBox x:Name="PointToggle" Content="data points" IsChecked="True" VerticalAlignment="Center" Margin="12,4,0,4"
-                      Checked="PointToggle_Changed" Unchecked="PointToggle_Changed"/>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,4,0,4">
-                <TextBlock Text="levels" VerticalAlignment="Center" Margin="0,0,4,0"/>
-                <Slider x:Name="LevelSlider" Minimum="2" Maximum="60" Value="25" Width="150"
-                        VerticalAlignment="Center" IsSnapToTickEnabled="True" TickFrequency="1"
-                        ValueChanged="LevelSlider_ValueChanged"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,4,0,4">
-                <TextBlock Text="line width" VerticalAlignment="Center" Margin="0,0,4,0"/>
-                <Slider x:Name="WidthSlider" Minimum="1" Maximum="8" Value="3" Width="100"
-                        VerticalAlignment="Center" ValueChanged="WidthSlider_ValueChanged"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,4,0,4">
-                <TextBlock Text="interpolation power" VerticalAlignment="Center" Margin="0,0,4,0"/>
-                <Slider x:Name="PowerSlider" Minimum="1" Maximum="4" Value="2" Width="100"
-                        VerticalAlignment="Center" ValueChanged="PowerSlider_ValueChanged"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,4,0,4">
-                <TextBlock Text="search radius" VerticalAlignment="Center" Margin="0,0,4,0"/>
-                <!-- In widths of the data area; 0 uses every point. -->
-                <Slider x:Name="RadiusSlider" Minimum="0" Maximum="1.5" Value="0" Width="100"
-                        VerticalAlignment="Center" ValueChanged="RadiusSlider_ValueChanged"/>
-            </StackPanel>
-        </WrapPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="340"/>
+        </Grid.ColumnDefinitions>
 
-        <TextBlock x:Name="Status" DockPanel.Dock="Bottom" Background="WhiteSmoke" Padding="12,4,12,4"
-                   Text="drag the sliders - updates land on the next frame"/>
+        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
 
-        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
-    </DockPanel>
+        <Border Grid.Column="1" Background="#F6F6F4" BorderBrush="#CCCCCC" BorderThickness="1,0,0,0" Padding="12">
+            <DockPanel LastChildFill="False">
+                <StackPanel DockPanel.Dock="Top">
+                    <CheckBox Content="fill bands" Margin="0,2"
+                              Checked="FillToggle_Changed" Unchecked="FillToggle_Changed"/>
+                    <CheckBox Content="labels" IsChecked="True" Margin="0,2"
+                              Checked="LabelToggle_Changed" Unchecked="LabelToggle_Changed"/>
+                    <CheckBox x:Name="PointToggle" Content="data points" IsChecked="True" Margin="0,2"
+                              Checked="PointToggle_Changed" Unchecked="PointToggle_Changed"/>
+                </StackPanel>
+
+                <Grid DockPanel.Dock="Top" Margin="0,10,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="levels" VerticalAlignment="Center" Margin="0,4,8,4"/>
+                    <Slider Grid.Row="0" Grid.Column="1" x:Name="LevelSlider" Minimum="2" Maximum="60" Value="25"
+                            VerticalAlignment="Center" IsSnapToTickEnabled="True" TickFrequency="1"
+                            ValueChanged="LevelSlider_ValueChanged"/>
+
+                    <TextBlock Grid.Row="1" Text="line width" VerticalAlignment="Center" Margin="0,4,8,4"/>
+                    <Slider Grid.Row="1" Grid.Column="1" x:Name="WidthSlider" Minimum="1" Maximum="8" Value="3"
+                            VerticalAlignment="Center" ValueChanged="WidthSlider_ValueChanged"/>
+
+                    <TextBlock Grid.Row="2" Text="interpolation power" VerticalAlignment="Center" Margin="0,4,8,4"/>
+                    <Slider Grid.Row="2" Grid.Column="1" x:Name="PowerSlider" Minimum="1" Maximum="4" Value="2"
+                            VerticalAlignment="Center" ValueChanged="PowerSlider_ValueChanged"/>
+
+                    <TextBlock Grid.Row="3" Text="search radius" VerticalAlignment="Center" Margin="0,4,8,4"/>
+                    <!-- In widths of the data area; 0 uses every point. -->
+                    <Slider Grid.Row="3" Grid.Column="1" x:Name="RadiusSlider" Minimum="0" Maximum="1.5" Value="0"
+                            VerticalAlignment="Center" ValueChanged="RadiusSlider_ValueChanged"/>
+                </Grid>
+
+                <TextBlock x:Name="Status" DockPanel.Dock="Bottom" TextWrapping="Wrap"
+                           Text="drag the sliders - updates land on the next frame"/>
+            </DockPanel>
+        </Border>
+    </Grid>
 </UserControl>
