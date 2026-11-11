@@ -59,7 +59,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // Built once; _ready is only set after the first draw.
             Map.SizeChanged -= Map_SizeChanged;
             Map.MapUnit = GeographyUnit.Meter;
-            Map.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColor.FromHtml("#1F2226"));
+            Map.BackgroundOverlay.BackgroundBrush = new GeoSolidBrush(GeoColor.FromHtml("#DCE8EF"));
 
             Map.CurrentExtentChanged += (_, _) =>
             {
@@ -116,7 +116,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             var style = MapSatellite.IsChecked == true
                 ? new MapStyle().AddRaster(new ThinkGeoRasterTileSource(SampleShared.CloudApiKey, ThinkGeoCloudRasterMapsMapType.Aerial_V2_X2), sourceId: "thinkgeo")
-                : new MapStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
+                : new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
             Map.Basemap = new GpuBasemap(style);
             Map.Basemap.DisplayProjection = ProjectionFor(_choice.Definition);
         }

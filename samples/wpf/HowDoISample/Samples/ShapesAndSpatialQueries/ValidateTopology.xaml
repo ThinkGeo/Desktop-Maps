@@ -45,6 +45,7 @@
                         <StackPanel.Resources>
                             <Style TargetType="RadioButton">
                                 <Setter Property="Margin" Value="0,1,0,1"/>
+                                <Setter Property="Foreground" Value="{DynamicResource Shell.Text}"/>
                             </Style>
                         </StackPanel.Resources>
                         <TextBlock Text="Points" Style="{StaticResource GroupHeading}" Margin="0,0,0,4"/>
