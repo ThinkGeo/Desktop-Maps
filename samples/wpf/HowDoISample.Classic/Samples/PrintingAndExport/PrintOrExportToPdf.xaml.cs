@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,7 +11,7 @@ using ThinkGeo.Core;
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Compose a page of map, legend, scale bar, title and data grid on the map, then print it or export it as a PDF.
+    /// Compose a page of map, legend, scale bar, title and data grid on the map, then export it as a PDF.
     /// </summary>
     public partial class PrintOrExportToPdf : IDisposable
     {
@@ -70,40 +68,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _ = Map.RefreshAsync();
         }
 
-        private async void PrintMap_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var printDialog = new System.Windows.Controls.PrintDialog();
-                if (printDialog.ShowDialog() != true) return;
-
-                var printDocument = new PrintDocument();
-                printDocument.PrinterSettings.PrinterName = printDialog.PrintQueue.FullName;
-                printDocument.DefaultPageSettings.Landscape = false;
-                printDocument.DefaultPageSettings.PaperSize = new PaperSize("AnsiA", 850, 1100);
-
-                var printableArea = printDocument.DefaultPageSettings.PrintableArea;
-                var printerGeoCanvas = new PrinterGeoCanvas
-                {
-                    DrawingArea = new Rectangle(0, 0, (int)printableArea.Width, (int)printableArea.Height)
-                };
-
-                // EndDrawing sends the page to the printer.
-                Status.Text = "Printing...";
-                var page = PageOnScreen();
-                printerGeoCanvas.BeginDrawing(printDocument, page.Page.GetPosition(), Map.MapUnit);
-                var document = new PrinterLayoutDocument();
-                document.Pages.Add(page);
-                await document.DrawAsync(printerGeoCanvas);
-                printerGeoCanvas.EndDrawing();
-                Status.Text = "Sent to " + printDialog.PrintQueue.FullName;
-            }
-            catch (Exception ex)
-            {
-                Status.Text = ex.Message;
-            }
-        }
-
         private async void ExportPdf_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -111,42 +75,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var document = new PrinterLayoutDocument();
                 document.Pages.Add(PageOnScreen());
                 await ExportAsync(document, "FriscoMosquitoReport.pdf");
-            }
-            catch (Exception ex)
-            {
-                Status.Text = ex.Message;
-            }
-        }
-
-        private async void ExportMapBook_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                // One page for the whole city, then one for each quarter of it. The pages are
-                // written one after another, so they can share one set of map layers.
-                var center = _cityExtent.GetCenterPoint();
-                var left = _cityExtent.UpperLeftPoint.X;
-                var top = _cityExtent.UpperLeftPoint.Y;
-                var right = _cityExtent.LowerRightPoint.X;
-                var bottom = _cityExtent.LowerRightPoint.Y;
-                var sheets = new[]
-                {
-                    Tuple.Create("Frisco", _cityExtent),
-                    Tuple.Create("North West", new RectangleShape(left, top, center.X, center.Y)),
-                    Tuple.Create("North East", new RectangleShape(center.X, top, right, center.Y)),
-                    Tuple.Create("South West", new RectangleShape(left, center.Y, center.X, bottom)),
-                    Tuple.Create("South East", new RectangleShape(center.X, center.Y, right, bottom)),
-                };
-
-                var mapLayers = CreateMapLayers();
-                var document = new PrinterLayoutDocument();
-                for (var i = 0; i < sheets.Length; i++)
-                {
-                    var title = $"{Title} - {sheets[i].Item1} (page {i + 1} of {sheets.Length})";
-                    var sheet = new PagePrinterLayoutAsyncLayer(PrinterPageSize.AnsiA, PrinterOrientation.Portrait);
-                    document.Pages.Add(CreatePage(sheet, mapLayers, sheets[i].Item2, title));
-                }
-                await ExportAsync(document, "FriscoMosquitoMapBook.pdf");
             }
             catch (Exception ex)
             {

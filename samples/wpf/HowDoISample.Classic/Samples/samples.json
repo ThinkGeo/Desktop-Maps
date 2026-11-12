@@ -589,11 +589,11 @@
     "children": [
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.PrintOrExportToPdf",
-        "title": "Print or Export to PDF",
-        "description": "Lay out a page of map, legend, scale bar, title and table, then print it, export it as a PDF, or export a five-page map book.",
+        "title": "Export to PDF",
+        "description": "Lay out a page of map, legend, scale bar, title and table on the map, move or resize any of it, then export the page as a PDF.",
         "source": "Samples/PrintingAndExport/PrintOrExportToPdf",
-        "keyApi": "PrinterLayoutDocument.ExportPdfAsync, PrinterGeoCanvas",
-        "aliases": "Print or Export the Map to PDF, Export a Multi-Page PDF, map book, PrintOrExportTheMap, ExportAMultiPagePdf, PrinterInteractiveOverlay, PagePrinterLayoutAsyncLayer, MapPrinterLayoutAsyncLayer, LegendPrinterLayoutAsyncLayer, ScaleBarPrinterLayoutAsyncLayer, DataGridPrinterLayoutAsyncLayer, LabelPrinterLayoutAsyncLayer, PrinterLayoutPage, PdfGeoCanvas, print, PDF"
+        "keyApi": "PrinterLayoutDocument.ExportPdfAsync",
+        "aliases": "Print or Export to PDF, Print or Export the Map to PDF, PrintOrExportTheMap, PrinterInteractiveOverlay, PagePrinterLayoutAsyncLayer, MapPrinterLayoutAsyncLayer, LegendPrinterLayoutAsyncLayer, ScaleBarPrinterLayoutAsyncLayer, DataGridPrinterLayoutAsyncLayer, LabelPrinterLayoutAsyncLayer, PrinterLayoutPage, PdfGeoCanvas, print, PDF"
       },
       {
         "id": "ThinkGeo.UI.Wpf.HowDoI.ExportAnImage",

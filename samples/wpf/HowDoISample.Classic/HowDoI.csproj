@@ -81,7 +81,6 @@
     <PackageReference Include="ThinkGeo.Gdal" Version="15.1.0-beta008" />
     <PackageReference Include="ThinkGeo.NauticalCharts" Version="15.1.0-beta008" />
     <PackageReference Include="ThinkGeo.PostgreSql" Version="15.1.0-beta008" />
-    <PackageReference Include="ThinkGeo.Printers" Version="15.1.0-beta008" />
     <PackageReference Include="ThinkGeo.SqlServer" Version="15.1.0-beta008" />
     <PackageReference Include="ThinkGeo.UI.Wpf" Version="15.1.0-beta008" />
   </ItemGroup>
