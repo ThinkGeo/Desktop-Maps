@@ -102,7 +102,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             _parksLayer.Open();
             var parksBBox = _parksLayer.GetBoundingBox();
-            _parksLayer.Close();
             Map.CenterPoint = parksBBox.GetCenterPoint();
             Map.CurrentScale = MapUtil.GetScale(Map.MapUnit, parksBBox, Map.MapWidth, Map.MapHeight);
             await Map.ZoomInAsync();
@@ -115,7 +114,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             _parksLayer.Open();
             var park = _parksLayer.QueryTools.GetFeaturesContaining(e.WorldLocation, ReturningColumnsType.AllColumns).FirstOrDefault();
-            _parksLayer.Close();
             if (park == null) return;
 
             var parkInfo = new StringBuilder();
@@ -145,7 +143,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _hotelsLayer.Open();
             LsbHotels.ItemsSource = _hotelsLayer.QueryTools.GetAllFeatures(ReturningColumnsType.AllColumns);
             var hotelsBBox = _hotelsLayer.GetBoundingBox();
-            _hotelsLayer.Close();
 
             Map.CenterPoint = hotelsBBox.GetCenterPoint();
             Map.CurrentScale = MapUtil.GetScale(Map.MapUnit, hotelsBBox, Map.MapWidth, Map.MapHeight);

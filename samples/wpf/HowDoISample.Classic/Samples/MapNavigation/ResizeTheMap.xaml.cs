@@ -23,6 +23,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             _initialized = true;
             Map.MapUnit = GeographyUnit.Meter;
+            Map.MapResizeMode = MapResizeMode.PreserveScale;
 
             Map.Overlays.Add(new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey));
 
@@ -34,6 +35,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
         {
+            if (!_initialized) return;
+
             var radioButton = sender as RadioButton;
             if (radioButton == null)
                 return;

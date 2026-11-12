@@ -6,16 +6,18 @@
              xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged" />
-
-        <TextBlock Text="{Binding ElementName=YearSlider, Path=Value, StringFormat='State Population in {0:F0}'}"
-                   FontSize="26" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0" />
-
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10">
-            <Slider x:Name="YearSlider" Width="200" Minimum="1950" Maximum="2024"
-                    VerticalAlignment="Center" ValueChanged="YearSlider_ValueChanged" />
-            <Button Content="Play" Click="Play_Click" Margin="8,0,0,0" Padding="8,0" />
-        </StackPanel>
-    </Grid>
+    <DockPanel LastChildFill="True">
+        <Border DockPanel.Dock="Right" Width="270" Background="#F6F6F4" Padding="12,10"
+                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+            <StackPanel>
+                <TextBlock Text="{Binding ElementName=YearSlider, Path=Value, StringFormat='State population in {0:F0}'}"
+                           FontWeight="SemiBold" Margin="0,0,0,6"/>
+                <Slider x:Name="YearSlider" Minimum="1950" Maximum="2024" ValueChanged="YearSlider_ValueChanged"/>
+                <Button Content="Play" Click="Play_Click" Margin="0,8,0,0" Padding="0,3"/>
+                <TextBlock Margin="0,10,0,0" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"
+                           Text="Each state's circle is sized by its population in the year shown; Play runs through the years."/>
+            </StackPanel>
+        </Border>
+        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
+    </DockPanel>
 </UserControl>

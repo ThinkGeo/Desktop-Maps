@@ -19,12 +19,12 @@
                            Text="Generating draws every tile of Frisco from zoom 10 to 14 and saves it in this folder. The map is set to draw only from the cache, so it shows only the tiles that were generated."/>
                 <TextBlock x:Name="CacheFolderText" FontFamily="Consolas" FontSize="11" TextWrapping="Wrap" Margin="0,0,0,8"/>
 
-                <StackPanel Orientation="Horizontal">
-                    <Button x:Name="GenerateButton" Content="Generate" Padding="12,3" Click="GenerateButton_Click"/>
-                    <Button x:Name="CancelButton" Content="Cancel" Padding="12,3" Margin="6,0,0,0" IsEnabled="False" Click="CancelButton_Click"/>
-                    <Button x:Name="ClearButton" Content="Clear" Padding="12,3" Margin="6,0,0,0" Click="ClearButton_Click"/>
-                    <Button Content="Open Folder" Padding="12,3" Margin="6,0,0,0" Click="OpenFolderButton_Click"/>
-                </StackPanel>
+                <WrapPanel>
+                    <Button x:Name="GenerateButton" Content="Generate" Padding="12,3" Margin="0,0,6,6" Click="GenerateButton_Click"/>
+                    <Button x:Name="CancelButton" Content="Cancel" Padding="12,3" Margin="0,0,6,6" IsEnabled="False" Click="CancelButton_Click"/>
+                    <Button x:Name="ClearButton" Content="Clear" Padding="12,3" Margin="0,0,6,6" Click="ClearButton_Click"/>
+                    <Button Content="Open Folder" Padding="12,3" Margin="0,0,6,6" Click="OpenFolderButton_Click"/>
+                </WrapPanel>
                 <ProgressBar x:Name="GenerateProgress" Height="8" Margin="0,8,0,0"/>
 
                 <TextBlock x:Name="Status" Margin="0,10,0,4" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"/>

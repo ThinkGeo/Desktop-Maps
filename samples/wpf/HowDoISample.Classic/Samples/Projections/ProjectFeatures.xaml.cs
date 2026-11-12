@@ -107,7 +107,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             _subdivisionsLayer.Open();
             var subdivisionsBBox = _subdivisionsLayer.GetBoundingBox();
-            _subdivisionsLayer.Close();
 
             Map.CenterPoint = subdivisionsBBox.GetCenterPoint();
             Map.CurrentScale = MapUtil.GetScale(Map.MapUnit, subdivisionsBBox, Map.MapWidth, Map.MapHeight) * 1.5;

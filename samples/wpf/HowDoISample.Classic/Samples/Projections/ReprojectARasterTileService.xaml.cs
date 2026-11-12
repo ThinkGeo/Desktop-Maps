@@ -14,7 +14,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private const string PolarStereographic = "+proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +k=1 +x_0=0 +y_0=0 +a=6378273 +b=6356889.449 +units=m +no_defs";
         private const string AlbersEqualAreaConic = "+proj=aea +lat_1=20 +lat_2=60 +lat_0=40 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs";
 
-        private static readonly RectangleShape Utm32NExtent = new RectangleShape(166021.4, 9328006, 833978, 0);
+        // Germany and its neighbours: the zone itself is a strip 6 degrees wide and 84 tall, which
+        // fills a map badly.
+        private static readonly RectangleShape Utm32NExtent = new RectangleShape(100000, 6200000, 900000, 5200000);
 
         private bool _initialized;
         private OpenStreetMapAsyncLayer _osmLayer;

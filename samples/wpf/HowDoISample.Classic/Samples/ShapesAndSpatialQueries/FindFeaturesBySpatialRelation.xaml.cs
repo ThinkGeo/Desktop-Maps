@@ -269,7 +269,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             var plat = _platsLayer.QueryTools.GetFeaturesContaining(point, ReturningColumnsType.NoColumns)
                 .OrderBy(feature => ((AreaBaseShape)feature.GetShape()).GetArea(GeographyUnit.Meter, AreaUnit.SquareMeters))
                 .FirstOrDefault();
-            _platsLayer.Close();
 
             return plat?.GetShape();
         }
