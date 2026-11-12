@@ -95,7 +95,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _cpuLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(SourceSrid, projString);
             _cpuLayer.Open();
             var projectedExtent = _cpuLayer.GetBoundingBox();
-            _cpuLayer.Close();
             CpuMap.CurrentExtent = projectedExtent;
             await CpuMap.RefreshAsync();
             cpuClock.Stop();
