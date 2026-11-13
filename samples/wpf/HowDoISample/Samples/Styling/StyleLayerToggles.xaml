@@ -9,12 +9,29 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
-        <ScrollViewer Grid.Column="1" Background="#FAFAF7" VerticalScrollBarVisibility="Auto">
-            <StackPanel x:Name="LayerPanel" Margin="6"/>
-        </ScrollViewer>
+        <Border Grid.Column="1" Style="{DynamicResource Shell.SamplePanel}">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="6">
+                    <TextBlock x:Name="LayerCount" FontWeight="SemiBold" Margin="2,0,0,6"/>
+                    <ItemsControl x:Name="LayerList">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="True" Margin="2,1,0,1"
+                                          Checked="Layer_Changed" Unchecked="Layer_Changed">
+                                    <TextBlock TextTrimming="CharacterEllipsis">
+                                        <Run Text="{Binding Id, Mode=OneWay}"/>
+                                        <Run Text="{Binding Type, Mode=OneWay, StringFormat=' ({0})'}"/>
+                                    </TextBlock>
+                                </CheckBox>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
     </Grid>
 </UserControl>

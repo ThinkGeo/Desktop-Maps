@@ -1,0 +1,54 @@
+<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.Samples.GetDataFromFeatures"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <sys:String x:Key="StyleJson" xml:space="preserve">{
+  "layers": [
+
+    { "type": "fill",
+      "source-layer": "parks",
+      "paint": {
+          "fill-color": "rgba(147,112,219,0.2)",
+          "fill-outline-color": "#9370DB" }
+    }
+  ]
+}</sys:String>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="240"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged" MapClick="Map_MapClick"/>
+
+        <Border Grid.Column="1" Style="{DynamicResource Shell.SamplePanel}">
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Top" Text="Frisco parks" FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
+                <StackPanel DockPanel.Dock="Top" Margin="8,0,8,4">
+                    <RadioButton x:Name="ClickOne" Content="Click a park" Tag="click" IsChecked="True" Checked="Mode_Checked"/>
+                    <RadioButton x:Name="ListAll" Content="List every park" Tag="all" Checked="Mode_Checked"/>
+                    <TextBlock TextWrapping="Wrap" FontSize="11" Margin="0,6,0,0"
+                               Text="Every column of a feature is in its ColumnValues. Click a park to read the one under the mouse, or list all of them and pick one."/>
+                </StackPanel>
+
+                <ListBox x:Name="ParkList" Visibility="Collapsed" Margin="8,4,8,8" FontSize="11"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         SelectionChanged="ParkList_SelectionChanged">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" TextWrapping="Wrap" Margin="0,2,0,4"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+        </Border>
+    </Grid>
+</UserControl>

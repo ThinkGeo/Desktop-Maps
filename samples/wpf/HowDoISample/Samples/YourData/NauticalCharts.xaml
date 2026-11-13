@@ -16,20 +16,19 @@
             <Setter Property="HorizontalAlignment" Value="Right"/>
         </Style>
         <Style x:Key="List" TargetType="ItemsControl">
-            <Setter Property="Foreground" Value="#444444"/>
             <Setter Property="Margin" Value="12,0,0,0"/>
         </Style>
     </UserControl.Resources>
     <DockPanel LastChildFill="True">
-        <StackPanel DockPanel.Dock="Right" Width="340" Background="#F7F7F7">
-            <StackPanel Margin="14,12,14,12">
+        <Border DockPanel.Dock="Right" Style="{DynamicResource Shell.SamplePanel}">
+            <StackPanel>
                 <TextBlock Text="Nautical charts" FontSize="18" FontWeight="SemiBold"/>
-                <TextBlock TextWrapping="Wrap" Foreground="#505050" Margin="0,6,0,10"
+                <TextBlock TextWrapping="Wrap" Margin="0,6,0,10"
                            Text="An S-57 chart of Chicago Harbor drawn by the NauticalChartsFeatureLayer with its embedded S-52 styling: depth areas coloured by the safety depths, contours, lights, buoys and wrecks. A ship under way asks the chart at every step what the water she is in holds for a vessel of her draft."/>
 
                 <DockPanel>
                     <TextBlock Text="Draft" VerticalAlignment="Center"/>
-                    <TextBox x:Name="DraftBox" Text="6.5" Width="52" Margin="8,0,4,0" VerticalContentAlignment="Center"/>
+                    <TextBox x:Name="DraftBox" Text="6.5" Width="52" Margin="8,0,4,0" VerticalContentAlignment="Center" TextChanged="DraftBox_TextChanged"/>
                     <TextBlock Text="m" VerticalAlignment="Center"/>
                     <Button x:Name="DrawButton" Content="Draw a route" DockPanel.Dock="Right" Padding="10,3" Click="DrawButton_Click"/>
                     <Button x:Name="SailButton" Content="Stop" DockPanel.Dock="Right" Padding="14,3" Margin="0,0,6,0" Click="SailButton_Click"/>
@@ -57,10 +56,10 @@
                 <TextBlock Text="Restricted areas here" Style="{StaticResource Heading}"/>
                 <ItemsControl x:Name="RestrictedList" Style="{StaticResource List}"/>
 
-                <TextBlock x:Name="Hint" TextWrapping="Wrap" Foreground="#808080" Margin="0,14,0,0"
+                <TextBlock x:Name="Hint" TextWrapping="Wrap" Margin="0,14,0,0"
                            Text="Draw a route: click the vertices, double-click to finish; the ship sails it in a loop."/>
             </StackPanel>
-        </StackPanel>
+        </Border>
         <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
     </DockPanel>
 </UserControl>

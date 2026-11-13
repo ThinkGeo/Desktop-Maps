@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using ThinkGeo.Core;
 using ThinkGeo.Core.Styling;
@@ -9,7 +8,7 @@ using ThinkGeo.Core.Styling;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// A powers-of-ten dive into galaxy M87, down to the shadow of its black hole, through ten pictures nested inside each other to illustrate the scale.
+    /// Fly with ZoomToAsync from galaxy M87 down to the shadow of its black hole, through ten pictures nested inside each other.
     /// </summary>
     public partial class ZoomToBlackHole
     {
@@ -88,7 +87,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                     await Map.ZoomToAsync(new PointShape(Stops[i].X, Stops[i].Y), Stops[i].Scale, 0, cancellationToken);
                 }
             }
-            catch (TaskCanceledException)
+            catch (OperationCanceledException)
             {
             }
         }
@@ -102,7 +101,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             {
                 await Map.ZoomToAsync(new PointShape(Stops[0].X, Stops[0].Y), Stops[0].Scale, 0, _dive.Token);
             }
-            catch (TaskCanceledException)
+            catch (OperationCanceledException)
             {
             }
         }

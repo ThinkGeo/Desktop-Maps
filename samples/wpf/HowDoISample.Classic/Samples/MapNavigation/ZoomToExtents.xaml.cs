@@ -1,4 +1,6 @@
-﻿using System;
+using System;
+using System.Globalization;
+using System.IO;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
@@ -8,7 +10,7 @@ using ThinkGeo.Core;
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Learn how to set the map extent using a variety of different methods.
+    /// Zoom in and out, to a scale, to a layer's extent, to a point and to a rotation.
     /// </summary>
     public partial class ZoomToExtents : IDisposable
     {
@@ -22,101 +24,70 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InitializeComponent();
         }
 
-        /// <summary>
-        /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map and a shapefile with simple data to work with
-        /// </summary>
         private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
-            // Set the map's unit of measurement to meters(Spherical Mercator)
             Map.MapUnit = GeographyUnit.Meter;
             Map.CurrentExtentChanged += Map_CurrentExtentChanged;
             Map.RotationAngleChanging += Map_RotationAngleChanging;
 
-            // Add Cloud Maps as a background overlay
-            var thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey)
-            {
-                // Set up the tile cache for the ThinkGeoVectorTileOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_tile_light")
-            };
-            Map.Overlays.Add(thinkGeoVectorTileOverlay);
+            Map.Overlays.Add(new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey));
 
-            // Load the Frisco data to a layer
-            _friscoCityBoundary = new ShapeFileFeatureLayer(@"./Data/Shapefile/City_ETJ.shp")
+            _friscoCityBoundary = new ShapeFileFeatureLayer(Path.Combine(AppContext.BaseDirectory, "Data", "Shapefile", "City_ETJ.shp"))
             {
                 FeatureSource =
                     {
-                        // Convert the Frisco shapefile from its native projection to Spherical Mercator, to match the map
                         ProjectionConverter = new ProjectionConverter(2276, 3857)
                     }
             };
 
-            // Style the data so that we can see it on the map
             _friscoCityBoundary.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(16, GeoColors.Blue), GeoColors.DimGray, 2);
             _friscoCityBoundary.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
-            // Add Frisco data to a LayerOverlay and add it to the map
             var layerOverlay = new LayerOverlay();
             layerOverlay.TileType = TileType.SingleTile;
             layerOverlay.Layers.Add(_friscoCityBoundary);
             Map.Overlays.Add(layerOverlay);
 
-            // Set the map extent
             Map.CenterPoint = new PointShape(-10778000, 3912000);
             Map.CurrentScale = 180000;
 
             _ = Map.RefreshAsync();
         }
 
-        /// <summary>
-        /// Zoom in on the map
-        /// The same effect can be achieved by using the ZoomPanBar bar on the upper left of the map, double left-clicking on the map, or by using the scroll wheel.
-        /// </summary>
         private void ZoomIn_Click(object sender, RoutedEventArgs e)
         {
             _ = Map.ZoomInAsync();
         }
 
-        /// <summary>
-        /// Zoom out on the map
-        /// The same effect can be achieved by using the ZoomPanBar bar on the upper left of the map, double right-clicking on the map, or by using the scroll wheel.
-        /// </summary>
         private void ZoomOut_Click(object sender, RoutedEventArgs e)
         {
             _ = Map.ZoomOutAsync();
         }
 
-        /// <summary>
-        /// Zoom to a scale programmatically. Note that the scales are bound by a ZoomLevelSet.
-        /// </summary>
         private void ZoomToScale_Click(object sender, RoutedEventArgs e)
         {
-            _ = Map.ZoomToAsync(Convert.ToDouble(ZoomScale.Text));
+            if (!double.TryParse(ZoomScale.Text, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out var scale) || scale <= 0) return;
+
+            _ = Map.ZoomToAsync(scale);
         }
 
-        /// <summary>
-        /// Set the map extent to fix a layer's bounding box
-        /// </summary>
         private void LayerBoundingBox_Click(object sender, RoutedEventArgs e)
         {
             var friscoCityBoundaryBBox = _friscoCityBoundary.GetBoundingBox();
             Map.CenterPoint = friscoCityBoundaryBBox.GetCenterPoint();
-            Map.CurrentScale = MapUtil.GetScale(Map.MapUnit,friscoCityBoundaryBBox, Map.MapWidth, Map.MapHeight);
+            Map.CurrentScale = MapUtil.GetScale(Map.MapUnit, friscoCityBoundaryBBox, Map.MapWidth, Map.MapHeight);
             _ = Map.RefreshAsync();
         }
 
-        /// <summary>
-        /// Set the map extent to center at a point
-        /// </summary>
         private void CenterAt_Click(object sender, RoutedEventArgs e)
         {
             var pointInMercator = ProjectionConverter.Convert(4326, 3857, new PointShape(-96.82, 33.15));
             _ = Map.CenterAtAsync(pointInMercator);
         }
 
-        // Register the dependency property.
         public static readonly DependencyProperty TxtCoordinatesProperty =
             DependencyProperty.Register(
                 nameof(TxtCoordinates),
@@ -124,10 +95,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 typeof(ZoomToExtents),
                 null);
 
-        /// <summary>
-        /// Gets or sets the text that represents the coordinates.
-        /// This is a bindable property.
-        /// </summary>
         public string TxtCoordinates
         {
             get => (string)GetValue(TxtCoordinatesProperty);
@@ -171,7 +138,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             }
         }
 
-        private void RotationTextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        private void RotationTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
@@ -182,15 +149,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         public void Dispose()
         {
-            // Dispose of unmanaged resources.
             Map.CurrentExtentChanged -= Map_CurrentExtentChanged;
             Map.RotationAngleChanging -= Map_RotationAngleChanging;
             _cancellationTokenSource.Cancel();
             _cancellationTokenSource.Dispose();
             Map.Dispose();
-            // Suppress finalization.
             GC.SuppressFinalize(this);
         }
     }
 }
-

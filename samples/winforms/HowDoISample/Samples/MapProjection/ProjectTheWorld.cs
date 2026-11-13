@@ -7,7 +7,7 @@ namespace ThinkGeo.UI.WinForms.HowDoI
     public class ProjectTheWorld : UserControl
     {
         private bool _initialized;
-        private MvtTilesAsyncLayer _worldLayer;
+        private ThinkGeoVectorTileAsyncLayer _worldLayer;
 
         public ProjectTheWorld()
         {
@@ -28,9 +28,10 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             layerOverlay.TileType = TileType.SingleTile;
             mapView.Overlays.Add("world overlay", layerOverlay);
 
-            var wvtServerUri = "https://tiles.preludemaps.com/styles/WorldStreets_Light/style.json";
-            _worldLayer = new MvtTilesAsyncLayer(wvtServerUri);
-            _worldLayer.ProjectionConverter = new ProjectionConverter(3857, 4326);
+            // The layer warps the web-mercator picture it draws, so the converter has to be
+            // GDAL's: the managed ProjectionConverter converts shapes, not images.
+            _worldLayer = new ThinkGeoVectorTileAsyncLayer(SampleKeys.ApiKey, ThinkGeoVectorStyles.Light);
+            _worldLayer.ProjectionConverter = new GdalProjectionConverter(3857, 4326);
 
             // Add the layer to the overlay we created earlier.
             layerOverlay.Layers.Add("world layer", _worldLayer);
@@ -55,35 +56,35 @@ namespace ThinkGeo.UI.WinForms.HowDoI
                 // Set the new projection converter and open it. Next, set the map to the correct map unit and lastly, set the new extent.
 
                 case "Decimal Degrees":
-                    _worldLayer.ProjectionConverter = new ProjectionConverter(3857, 4326);
+                    _worldLayer.ProjectionConverter = new GdalProjectionConverter(3857, 4326);
                     _worldLayer.ProjectionConverter.Open();
                     mapView.MapUnit = GeographyUnit.DecimalDegree;
                     mapView.CenterPoint = new PointShape(5.92651, 14.58364);
                     mapView.CurrentScale = 147648000;
                     break;
                 case "MGA Zone 55":
-                    _worldLayer.ProjectionConverter = new ProjectionConverter(3857, SampleKeys.ProjString1);
+                    _worldLayer.ProjectionConverter = new GdalProjectionConverter(Projection.GetSphericalMercatorProjString(), SampleKeys.ProjString1);
                     _worldLayer.ProjectionConverter.Open();
                     mapView.MapUnit = GeographyUnit.Meter;
                     mapView.CenterPoint = new PointShape(-945060, 7010600);
                     mapView.CurrentScale = 18489350;
                     break;
                 case "Equal Area - Albers Conic":
-                    _worldLayer.ProjectionConverter = new ProjectionConverter(3857, SampleKeys.ProjString2);
+                    _worldLayer.ProjectionConverter = new GdalProjectionConverter(Projection.GetSphericalMercatorProjString(), SampleKeys.ProjString2);
                     _worldLayer.ProjectionConverter.Open();
                     mapView.MapUnit = GeographyUnit.Meter;
                     mapView.CenterPoint = new PointShape(-107570, -246560);
                     mapView.CurrentScale = 36978690;
                     break;
                 case "Polar Stereographic":
-                    _worldLayer.ProjectionConverter = new ProjectionConverter(3857, SampleKeys.ProjString3);
+                    _worldLayer.ProjectionConverter = new GdalProjectionConverter(Projection.GetSphericalMercatorProjString(), SampleKeys.ProjString3);
                     _worldLayer.ProjectionConverter.Open();
                     mapView.MapUnit = GeographyUnit.Meter;
                     mapView.CenterPoint = new PointShape(176160, -818530);
                     mapView.CurrentScale = 73957380;
                     break;
                 case "Equal Area - Cylindrical":
-                    _worldLayer.ProjectionConverter = new ProjectionConverter(3857, SampleKeys.ProjString4);
+                    _worldLayer.ProjectionConverter = new GdalProjectionConverter(Projection.GetSphericalMercatorProjString(), SampleKeys.ProjString4);
                     _worldLayer.ProjectionConverter.Open();
                     mapView.MapUnit = GeographyUnit.Meter;
                     mapView.CenterPoint = new PointShape(-1152760, 796980);

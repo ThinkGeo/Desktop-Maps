@@ -27,10 +27,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             _view = new ListCollectionView(SampleCatalog.All.ToList());
             Rows.ItemsSource = _view;
 
-            var gpu = SampleCatalog.All.Count(e => e.IsGpu);
+            var samples = SampleCatalog.All.Count(e => e.Draws != SampleDraws.Page);
             var groups = SampleCatalog.All.Select(e => e.Category).Distinct(StringComparer.Ordinal).Count();
             Subtitle.Text = FormattableString.Invariant(
-                $"{SampleCatalog.All.Count} samples in {groups} groups, {gpu} of them on the GPU renderer. Double-click a row to open it.");
+                $"{samples} samples in {groups} groups, for .NET 8 and later. On .NET Framework, open the Classic gallery (HowDoISample.Classic) instead. Double-click a row to open it.");
 
             foreach (var entry in SampleCatalog.Featured.Select(t => SampleCatalog.All.First(e => e.SampleType == t)))
             {

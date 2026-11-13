@@ -6,20 +6,21 @@
              xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
-    <DockPanel LastChildFill="True">
-        <Border DockPanel.Dock="Top" Background="#F2F2F2" Padding="12,8"
-                BorderBrush="#CCCCCC" BorderThickness="0,0,0,1">
+    <Grid>
+        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
+
+        <Border Style="{DynamicResource Shell.MapCard}" Margin="72,12,12,12"
+                HorizontalAlignment="Left" VerticalAlignment="Top">
             <StackPanel>
-                <StackPanel Orientation="Horizontal">
+                <TextBlock FontSize="11" TextWrapping="Wrap"
+                           Text="aerial -> roads -> white wash -> labels: the wash mutes the imagery and the roads, the labels stay crisp. An overlay would cover the labels too."/>
+                <DockPanel Margin="0,8,0,0">
                     <TextBlock Text="wash opacity:" FontSize="11.5" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                    <TextBlock x:Name="WashReadout" DockPanel.Dock="Right" Width="40" FontSize="11.5" VerticalAlignment="Center" Margin="6,0,0,0"/>
                     <Slider x:Name="WashSlider" Minimum="0" Maximum="0.9" Value="0.45"
-                            TickFrequency="0.05" IsSnapToTickEnabled="True" Width="220" VerticalAlignment="Center"/>
-                    <TextBlock x:Name="WashReadout" Width="40" FontSize="11.5" VerticalAlignment="Center" Margin="6,0,0,0"/>
-                </StackPanel>
-                <TextBlock Margin="0,4,0,0" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"
-                           Text="aerial (raster) -> roads (vector) -> white wash (fill) -> labels (vector). The wash mutes the imagery and the roads while the labels stay crisp; an overlay could only ever sit above everything, labels included."/>
+                            TickFrequency="0.05" IsSnapToTickEnabled="True" VerticalAlignment="Center"/>
+                </DockPanel>
             </StackPanel>
         </Border>
-        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
-    </DockPanel>
+    </Grid>
 </UserControl>

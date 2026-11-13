@@ -1,0 +1,64 @@
+<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.ValidateTopology"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="RadioButton">
+            <Setter Property="GroupName" Value="Rule"/>
+            <Setter Property="Margin" Value="0,2"/>
+        </Style>
+        <Style x:Key="GroupHeading" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="0,10,0,2"/>
+        </Style>
+    </UserControl.Resources>
+
+    <DockPanel LastChildFill="True">
+        <Border DockPanel.Dock="Right" Width="290" Background="#F6F6F4" Padding="12,10"
+                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+            <DockPanel>
+                <TextBlock x:Name="TxtValidationInfo" DockPanel.Dock="Bottom" Margin="0,10,0,0" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"/>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBlock Text="Points" Style="{StaticResource GroupHeading}" Margin="0,0,0,2"/>
+                        <RadioButton x:Name="RdoCheckIfPointsAreTouchingLines" Content="Points Must Be Touching Lines" Checked="CheckIfPointsAreTouchingLines"/>
+                        <RadioButton Content="Points Must Be Touching Line Endpoints" Checked="CheckIfPointsAreTouchingLineEndpoints"/>
+                        <RadioButton Content="Points Must Be Touching Polygon Boundaries" Checked="CheckIfPointsAreTouchingPolygonBoundaries"/>
+                        <RadioButton Content="Points Must Be Within Polygons" Checked="CheckIfPointsAreWithinPolygons"/>
+
+                        <TextBlock Text="Lines" Style="{StaticResource GroupHeading}"/>
+                        <RadioButton Content="Line Endpoints Must Touch Points" Checked="CheckLineEndpointsMustTouchPoints"/>
+                        <RadioButton Content="Lines Must Overlap Polygon Boundaries" Checked="CheckLinesMustOverlapPolygonBoundaries"/>
+                        <RadioButton Content="Lines Must Be Covered By Lines" Checked="CheckLinesMustBeCoveredByLines"/>
+                        <RadioButton Content="Lines Must Be Single Part" Checked="CheckLinesMustBeSinglePart"/>
+                        <RadioButton Content="Lines Must Form Closed Polygons" Checked="CheckLinesMustFormClosedPolygon"/>
+                        <RadioButton Content="Lines Must Not Have Pseudonodes" Checked="CheckLinesMustNotHavePseudonodes"/>
+                        <RadioButton Content="Lines Must Not Intersect" Checked="CheckLinesMustNotIntersect"/>
+                        <RadioButton Content="Lines Must Not Self-Intersect Or Touch" Checked="CheckLinesMustNotSelfIntersectOrTouch"/>
+                        <RadioButton Content="Lines Must Not Overlap" Checked="CheckLinesMustNotOverlap"/>
+                        <RadioButton Content="Lines Must Not Overlap With Lines" Checked="CheckLinesMustNotOverlapLines"/>
+                        <RadioButton Content="Lines Must Not Self-Intersect" Checked="CheckLinesMustNotSelfIntersect"/>
+                        <RadioButton Content="Lines Must Not Self-Overlap" Checked="CheckLinesMustNotSelfOverlap"/>
+
+                        <TextBlock Text="Polygons" Style="{StaticResource GroupHeading}"/>
+                        <RadioButton Content="Polygon Boundaries Must Overlap Polygon Boundaries" Checked="CheckIfPolygonBoundariesOverlapPolygonBoundaries"/>
+                        <RadioButton Content="Polygon Boundaries Must Overlap Lines" Checked="CheckIfPolygonBoundariesOverlapLines"/>
+                        <RadioButton Content="Polygons Must Overlap Polygons" Checked="CheckIfPolygonsOverlapPolygons"/>
+                        <RadioButton Content="Polygons Must Be Within Polygons" Checked="CheckIfPolygonsAreWithinPolygons"/>
+                        <RadioButton Content="Polygons Must Contain Points" Checked="CheckIfPolygonsContainPoints"/>
+                        <RadioButton Content="Polygons Must Overlap Each Other" Checked="CheckIfPolygonsCoverEachOther"/>
+                        <RadioButton Content="Union of Polygons Must Not Have Gaps" Checked="CheckIfPolygonsHaveGaps"/>
+                        <RadioButton Content="Polygons Must Not Overlap" Checked="CheckPolygonsMustNotOverlap"/>
+                        <RadioButton Content="Polygons Must Not Overlap Other Polygons" Checked="CheckPolygonsMustNotOverlapPolygons"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </DockPanel>
+        </Border>
+
+        <thinkGeoUi:MapView x:Name="Map" Background="White" SizeChanged="Map_SizeChanged"/>
+    </DockPanel>
+</UserControl>

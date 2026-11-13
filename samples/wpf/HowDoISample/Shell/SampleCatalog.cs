@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Controls;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
@@ -28,7 +30,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     /// from a Service; a store you own, file or database = Your Data) and what
     /// the data IS (raster or vector, the sub-split of Maps from a Service).
     /// Everything else groups by task, and the renderer is not a group at all -
-    /// it is a property of a row (see <see cref="SampleEntry.IsGpu"/>), because
+    /// it is a property of a row (see <see cref="SampleEntry.Draws"/>), because
     /// nobody browses for "the GPU samples", they browse for tilt or terrain or
     /// labels.
     /// </para>
@@ -52,19 +54,23 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // a "Documentation" at the tail - the tail is where a new user never
             // scrolls.
             new SampleEntry("Start Here", "Start here", "HomePage.xaml.cs",
-                "Every sample in one table, with what it does and the API to search for",
-                "SampleCatalog", false, typeof(HomePage), () => new HomePage()),
+                "Every sample in one table, with what it does, the API to search for and what it draws with",
+                "SampleCatalog", SampleDraws.Page, typeof(HomePage), () => new HomePage(),
+                aliases: "home, index, which gallery, .NET Framework, Classic gallery"),
             new SampleEntry("Start Here", "GPU or Classic?", "RendererGuidePage.xaml",
-                "When the GPU tile path wins, when the per-frame classic overlays do, and the four rules that decide",
-                "GpuBasemap", false, typeof(RendererGuidePage), () => new RendererGuidePage()),
+                "Why a map is drawn with a style document, which way each kind of data goes, where the classic overlays still belong, and what overlays do when the map tilts",
+                "GpuBasemap", SampleDraws.Page, typeof(RendererGuidePage), () => new RendererGuidePage(),
+                aliases: "renderer, style document, classic overlay, DynamicSource, paint delegate, tilt, drape"),
             // Moving a classic application across is the first thing an existing
             // customer asks, so the bridge opens the menu rather than closing it.
             new SampleEntry("Start Here", "Migrate a Classic Layer", "MigrateAClassicLayer.xaml.cs",
-                "Translate a FeatureLayer styled on its ZoomLevelSet and add it to a MapStyle, beside the classic renderer drawing the same layers",
-                "AddFeatureLayer", true, typeof(Samples.MigrateAClassicLayer), () => new Samples.MigrateAClassicLayer()),
+                "Translate FeatureLayers styled on their ZoomLevelSets and add them to a MapStyle, beside the classic renderer drawing the same layers, with what does not translate listed",
+                "AddFeatureLayer", SampleDraws.SideBySide, typeof(Samples.MigrateAClassicLayer), () => new Samples.MigrateAClassicLayer(),
+                aliases: "FeatureLayerTranslator, Translate, Warnings, ZoomLevelSet, LayerOverlay, migrate, v14, Custom Background, CustomBackground, background, BackgroundOverlay, SetBackground, GeoLinearGradientBrush"),
             new SampleEntry("Start Here", "Frequently Asked Questions", "FaqViewer.cs",
-                "Frequently asked questions about the samples and the SDK",
-                "MarkdownDocumentViewer", false, typeof(Samples.FaqViewer), () => new Samples.FaqViewer()),
+                "Which gallery to open, API keys, tile caches, blank maps, style.json errors, touch, cancelling async calls and click events",
+                "MarkdownDocumentViewer", SampleDraws.Page, typeof(Samples.FaqViewer), () => new Samples.FaqViewer(),
+                aliases: "FAQ, CloudApiKey, ClientId, ClientSecret, VectorTileCache, FileTileCache, TileLoadFailed, OperationCanceledException, MapClickDoubleClickMode"),
 
             // ---- Maps from a Service - Vector / Maps from a Service - Raster ----
             // Everything served from a URL somebody else operates. Whether an
@@ -76,47 +82,54 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // features you style yourself) or RASTER (pixels the server already
             // drew). Vector leads, because the style document it introduces is
             // what every later chapter builds on. Turn-key providers open each
-            // side, protocol servers follow, and the rows about living with
-            // tiled services close the raster side.
+            // side, protocol servers follow.
             // One row for the turn-key providers, where three (ThinkGeo Vector Map, MVT
             // Server, and a documentation page for the bring-your-own-key ones) split
             // one lesson by vendor: a vector basemap is its style document, and the map
             // follows it. The keyed providers stay a page, shown behind a radio button.
             new SampleEntry("Maps from a Service - Vector", "Vector Map Providers", "VectorMapProviders.xaml.cs",
-                "ThinkGeo Maps (light, dark), OpenFreeMap's free keyless styles, the keyed providers - Mapbox, Esri, TomTom and more - as a page of their style URLs, and any MVT server by the URL of its style document",
-                "ThinkGeoVectorTileSource", true, typeof(Samples.VectorMapProviders), () => new Samples.VectorMapProviders()),
+                "ThinkGeo Cloud (light, dark) and OpenFreeMap's free keyless styles, any MVT server by the URL of its style document, and the keyed providers - Mapbox, Esri, TomTom and more - as a page of their style URLs",
+                "ThinkGeoVectorTileSource", SampleDraws.Style, typeof(Samples.VectorMapProviders), () => new Samples.VectorMapProviders(),
+                aliases: "ThinkGeo Vector Map, MVT Server, MapStyle, style.json, style URL, OpenFreeMap, Mapbox, Esri, TomTom, MapTiler, Stadia, dark, dark theme, light theme, switch style, ThinkGeoVectorStyles, SetStyleAsync",
+                service: "OpenFreeMap"),
             // From here down the server sends features rather than tiles -
             // geometry and attributes you style yourself, which is why these
             // rows lead straight into Styling.
             new SampleEntry("Maps from a Service - Vector", "WFS", "WFS.xaml.cs",
-                "Merge a WFS V2 service into the basemap style - Dutch cadastral parcels from PDOK, numbered from their own attributes",
-                "WfsV2AsyncFeatureSource", true, typeof(Samples.WFS), () => new Samples.WFS()),
+                "Dutch cadastral parcels from PDOK's WFS V2 service merged into the basemap style, numbered from their own attributes once you zoom in",
+                "WfsV2AsyncFeatureSource", SampleDraws.Style, typeof(Samples.WFS), () => new Samples.WFS(),
+                aliases: "Web Feature Service, WfsV2AsyncFeatureSource, WfsV2FeatureSource, MinDataZoom, FeatureSourceVectorTileSource, PDOK, cadastre",
+                service: "PDOK"),
             new SampleEntry("Maps from a Service - Vector", "OGC API Feature Server", "OGCAPIFeatureServer.xaml.cs",
-                "Merge an OGC API Features collection into the basemap style, labeled from its own attributes",
-                "OgcApiAsyncFeatureSource", true, typeof(Samples.OGCAPIFeatureServer), () => new Samples.OGCAPIFeatureServer()),
-            new SampleEntry("Maps from a Service - Vector", "NOAA Weather Stations", "NOAAWeatherStations.xaml.cs",
-                "NOAA weather stations' current readings - dots colored by temperature, labeled from the data",
-                "NoaaWeatherStationFeatureSource", true, typeof(Samples.NOAAWeatherStations), () => new Samples.NOAAWeatherStations()),
-            new SampleEntry("Maps from a Service - Vector", "NOAA Weather Warnings", "NOAAWeatherWarnings.xaml.cs",
-                "NOAA weather warnings merged into the basemap style - polygons colored by severity, labeled by event",
-                "NoaaWeatherWarningsFeatureSource", true, typeof(Samples.NOAAWeatherWarnings), () => new Samples.NOAAWeatherWarnings()),
+                "The named places of Spain from IGN's OGC API Features service, merged into the basemap style as dots labeled from their own attributes",
+                "OgcApiAsyncFeatureSource", SampleDraws.Style, typeof(Samples.OGCAPIFeatureServer), () => new Samples.OGCAPIFeatureServer(),
+                aliases: "OGC API Features, OgcApiAsyncFeatureSource, OgcApiFeatureSource, MinDataZoom, IGN, named places",
+                service: "IGN Spain"),
+            new SampleEntry("Maps from a Service - Vector", "NOAA Weather", "NOAAWeather.xaml.cs",
+                "NOAA's live feeds over the basemap - weather stations as dots colored by their current temperature, or the active weather warnings as areas colored by severity",
+                "NoaaWeatherStationFeatureSource", SampleDraws.Style, typeof(Samples.NOAAWeather), () => new Samples.NOAAWeather(),
+                aliases: "NOAA Weather Stations, NOAA Weather Warnings, NOAAWeatherStations, NOAAWeatherWarnings, NoaaWeatherStationFeatureSource, NoaaWeatherWarningsFeatureSource, temperature, step, circle-color, severity, match",
+                service: "NOAA"),
 
-            // One row for the turn-key providers, where three (ThinkGeo Raster Map, Open
-            // Street Map, and a documentation page for the bring-your-own-key ones) split
-            // the same one-line registration by vendor. The keyed providers stay a page,
-            // shown behind a radio button: without a key none of them draws.
+            // One row for the turn-key providers, where four (ThinkGeo Raster Map, Open
+            // Street Map, XYZ Tile Server, and a documentation page for the bring-your-own-key
+            // ones) split the same one-line registration by vendor. The keyed providers stay
+            // a page, shown behind a radio button: without a key none of them draws.
             new SampleEntry("Maps from a Service - Raster", "Raster Map Providers", "RasterMapProviders.xaml.cs",
-                "ThinkGeo Cloud (light, dark, aerial, hybrid) and OpenStreetMap as one tile source each, and the keyed providers - Azure Maps, Google Maps, HERE and Mapbox - as a page of their classes and one-line usage",
-                "ThinkGeoRasterTileSource", true, typeof(Samples.RasterMapProviders), () => new Samples.RasterMapProviders()),
-            new SampleEntry("Maps from a Service - Raster", "XYZ Tile Server", "XyzTileServer.xaml.cs",
-                "Draw any {z}/{x}/{y} tile server as one XyzRasterTileSource - here OpenStreetMap, with the user agent its tile policy asks for",
-                "XyzRasterTileSource", true, typeof(Samples.XyzTileServer), () => new Samples.XyzTileServer()),
+                "ThinkGeo Cloud (light, dark, aerial, hybrid), OpenStreetMap and any {z}/{x}/{y} tile server you type the URL of, one tile source each, and the keyed providers - Azure Maps, Google Maps, HERE and Mapbox - as a page of their classes and one-line usage",
+                "ThinkGeoRasterTileSource", SampleDraws.Style, typeof(Samples.RasterMapProviders), () => new Samples.RasterMapProviders(),
+                aliases: "XYZ Tile Server, XyzTileServer, XyzRasterTileSource, OpenStreetMapRasterTileSource, custom XYZ URL, tile URL template, UserAgent, AddRaster, ThinkGeo Raster Map, Azure Maps, Google Maps, HERE, Mapbox",
+                service: "OpenStreetMap"),
             new SampleEntry("Maps from a Service - Raster", "WMS", "WMS.xaml.cs",
-                "NASA GIBS true-color imagery of yesterday's Earth over the basemap - one GetMap request per web-mercator tile",
-                "WmsRasterTileSource", true, typeof(Samples.WMS), () => new Samples.WMS()),
+                "NASA GIBS true-color imagery of the Earth two days ago over the basemap - one GetMap request per web-mercator tile",
+                "WmsRasterTileSource", SampleDraws.Style, typeof(Samples.WMS), () => new Samples.WMS(),
+                aliases: "Web Map Service, WmsRasterTileSource, WmsClient, SendingHttpRequest, authentication, credentials, StyleLayerSlot, NASA GIBS",
+                service: "NASA GIBS"),
             new SampleEntry("Maps from a Service - Raster", "WMTS", "WMTS.xaml.cs",
-                "Display a WMTS server as the basemap through its web-mercator tile matrix set",
-                "WmtsRasterTileSource", true, typeof(Samples.WMTS), () => new Samples.WMTS()),
+                "The Swiss national map from swisstopo's WMTS server as the basemap, read through its web-mercator tile matrix set",
+                "WmtsRasterTileSource", SampleDraws.Style, typeof(Samples.WMTS), () => new Samples.WMTS(),
+                aliases: "Web Map Tile Service, WmtsRasterTileSource, TileMatrixSetName, swisstopo",
+                service: "swisstopo"),
 
             // ---- Your Data ----
             // The store you own: files on disk, your own databases, tiles you cut
@@ -124,364 +137,333 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // groups. Four rows open it - vector files, raster files, database
             // tables, offline tiles - each a picker over every format the SDK
             // reads, because the format is one line and everything after it is
-            // the same. They replaced the one-row-per-format list (Display a
-            // Shapefile, Display a SQLite File, Offline Raster Tiles on the GPU,
-            // ...), a screen of menu rows demonstrating one mechanism; what those
-            // rows did not absorb is the Misc group below.
+            // the same.
             //
-            // Every row here draws through the GPU renderer, with the data in the
-            // same style document as the basemap rather than in a classic
-            // LayerOverlay above it: FeatureSourceVectorTileSource cuts any
+            // Every row here but Nautical Charts draws with the data in the same
+            // style document as the basemap: FeatureSourceVectorTileSource cuts any
             // FeatureSource into vector tiles, ClassicRasterTileSource serves any
             // RasterSource, and an archive of tiles is a tile source already.
             new SampleEntry("Your Data", "Vector File Formats", "VectorFileFormats.xaml.cs",
-                "Open a vector file - a shapefile, GeoJSON, KML, GPX, MapInfo TAB, TinyGeo, CAD, a GeoPDF - or build features in code; reading the format is the only line that differs",
-                "FeatureSourceVectorTileSource", true, typeof(Samples.VectorFileFormats), () => new Samples.VectorFileFormats()),
+                "Open a vector file - a shapefile, GeoJSON, KML, GPX, MapInfo TAB, TinyGeo, CAD, a GeoPDF - or features built in code, all drawn by one style; reading the format is the only line that differs",
+                "FeatureSourceVectorTileSource", SampleDraws.Style, typeof(Samples.VectorFileFormats), () => new Samples.VectorFileFormats(),
+                aliases: "ShapeFileFeatureSource, GeoJsonFeatureSource, KmlGdalFeatureSource, GpxFeatureSource, TabFeatureSource, TinyGeoFeatureSource, CadFeatureSource, DWG, GeoPdfGdalFeatureSource, InMemoryFeatureSource, shapefile, build features in code"),
             new SampleEntry("Your Data", "Raster File Formats", "RasterFileFormats.xaml.cs",
-                "Open a raster file - GeoTIFF, ECW, JPEG 2000, MrSID or anything else GDAL reads - through the classic source named after the format, warped to Web Mercator once and served as tiles",
-                "ClassicRasterTileSource", true, typeof(Samples.RasterFileFormats), () => new Samples.RasterFileFormats()),
+                "Open a raster file - GeoTIFF, JPEG 2000, a plain JPEG, MrSID or ECW, or a plain JPEG read by GdalRasterSource itself - warped to Web Mercator once and served as tiles",
+                "ClassicRasterTileSource", SampleDraws.Style, typeof(Samples.RasterFileFormats), () => new Samples.RasterFileFormats(),
+                aliases: "GdalRasterSource, GeoTiffGdalRasterSource, Jpeg2000GdalRasterSource, MrSidRasterSource, EcwGdalRasterSource, WarpProjection, world file, GeoTIFF"),
             // A GeoPackage and an Esri file geodatabase sit here rather than with the
             // vector files: you open them by table, the way you open SQLite or Postgres,
             // and a GeoPackage IS a SQLite file.
             new SampleEntry("Your Data", "Databases", "Databases.xaml.cs",
                 "Open a table from a database - SQLite, a GeoPackage, an Esri file geodatabase, PostgreSQL / PostGIS or SQL Server; the connection is the only line that differs",
-                "FeatureSourceVectorTileSource", true, typeof(Samples.Databases), () => new Samples.Databases()),
-            // One row for every archive on disk, where three (Offline Basemap from
-            // Files, Offline Vector Tiles on the GPU, Offline Raster Tiles on the GPU)
-            // split one lesson by renderer and by kind. Tiles are tiles already, so
-            // the row is GPU; what the classic row taught besides - tiles reprojected
-            // to degrees, tile caches - lives in Projections and Pre-Generate a Tile
-            // Cache.
+                "FeatureSourceVectorTileSource", SampleDraws.Style, typeof(Samples.Databases), () => new Samples.Databases(),
+                aliases: "SqliteFeatureSource, GdalFeatureSource, GeoPackage, FileGeoDatabaseFeatureSource, PostgreSqlFeatureSource, PostGIS, SqlServerFeatureSource, connection string"),
             new SampleEntry("Your Data", "Offline Tiles", "OfflineTiles.xaml.cs",
                 "Serve tiles off disk with no network - an MBTiles or PMTiles archive, vector or raster, or a folder of z/x/y images written by QGIS; opening the archive is the only line that differs",
-                "MbTilesVectorTileSource", true, typeof(Samples.OfflineTiles), () => new Samples.OfflineTiles()),
+                "MbTilesVectorTileSource", SampleDraws.Style, typeof(Samples.OfflineTiles), () => new Samples.OfflineTiles(),
+                aliases: "Offline Basemap from Files, Offline Vector Tiles, Offline Raster Tiles, MbTilesVectorTileSource, PmTilesVectorTileSource, MbTilesRasterTileSource, PmTilesRasterTileSource, MBTiles, PMTiles, z/x/y folder, RasterTileSource"),
             // The one row in the group that keeps a classic overlay: an S-57 chart is
             // drawn by its S-52 symbology, which lives in NauticalChartsFeatureLayer,
             // not in a style document.
             new SampleEntry("Your Data", "Nautical Charts", "NauticalCharts.xaml.cs",
-                "Draw an S-57 chart with its embedded S-52 styling, and ask it at every step of a ship's route about the depth under her keel, the aids to navigation and hazards nearby, and the restricted areas she is in",
-                "NauticalChartsFeatureLayer", false, typeof(Samples.NauticalCharts), () => new Samples.NauticalCharts()),
+                "Draw an S-57 chart with its embedded S-52 styling, colored for the ship's draft, and ask it at every step of a ship's route about the depth under her keel, the aids to navigation and hazards nearby, and the restricted areas she is in",
+                "NauticalChartsFeatureLayer", SampleDraws.StyleAndOverlay, typeof(Samples.NauticalCharts), () => new Samples.NauticalCharts(),
+                aliases: "NauticalChartsFeatureSource, S-57, S-52, ENC, safety contour, safety depth, draft, under-keel clearance"),
+
             // ---- Styling ----
             // One row, not four: this sample already styles a point layer, a line
-            // layer and a polygon layer and labels each of them, so "Render Points",
-            // "Render Lines" and "Render Areas" were three menu rows demonstrating a
-            // strict subset of it.
+            // layer and a polygon layer and labels each of them. The PDF export stays here
+            // until Print the Map gets a style-document mode (plan G1).
             new SampleEntry("Styling", "Render Points, Lines and Polygons", "RenderPointsLinesAndPolygons.xaml.cs",
-                "Style points, lines and polygons and label each of them - the style document sits beside the map, editable while it runs",
-                "GpuBasemap", true, typeof(Samples.RenderPointsLinesAndPolygons), () => new Samples.RenderPointsLinesAndPolygons()),
-            // One row, not four. ValueStyle, ClassBreakStyle, FilterStyle and a boolean
-            // expression style are four class names for one idea - an expression in the
-            // layer's paint - so they are one sample over one dataset with a picker for
-            // match / step / filter / case, and the document itself on screen to edit.
+                "Parks, streets and hotels styled and labelled from the style document beside the map, editable while it runs, and exported from the same document to a vector PDF",
+                "GpuBasemap", SampleDraws.Style, typeof(Samples.RenderPointsLinesAndPolygons), () => new Samples.RenderPointsLinesAndPolygons(),
+                aliases: "Render Points, Render Lines, Render Areas, circle, line, fill, symbol, export PDF, PdfGeoCanvas, MapStyleFeatureAsyncLayer"),
+            // One row for ValueStyle, ClassBreakStyle, FilterStyle, boolean-expression styles
+            // and zoom-level styling (classic ZoomLevelSet): all are expressions in the document.
             new SampleEntry("Styling", "Render Based on Rules", "RenderBasedOnRules.xaml.cs",
-                "One dataset, four expressions: match, step, filter and case - the ValueStyle, ClassBreakStyle, FilterStyle and boolean-expression styles as one mechanism, editable while the map runs",
-                "SetStyleAsync", true, typeof(Samples.RenderBasedOnRules), () => new Samples.RenderBasedOnRules()),
-
-            // Labels as the subject rather than a side effect: several samples bend a
-            // name along a line or lose one to a collision incidentally; this is the
-            // one place each behavior is set up on data crafted to show it.
-            new SampleEntry("Styling", "Advanced Labels", "AdvancedLabels.xaml.cs",
-                "Six label lessons on crafted data: text bends along its line, anchors from its own column, yields to priority, wraps and recases, keeps its icon when crowded, and writes CJK vertically - each document editable while it runs",
-                "SetStyleAsync", true, typeof(Samples.AdvancedLabels), () => new Samples.AdvancedLabels()),
-            // The other half of the pair above: a rule the document CAN hold belongs in
-            // the document; what it does not have - the clock, or a C# lambda over the
-            // feature - is a code-built layer. It replaces "Render Based on Regex" and
-            // "Custom Styles", which customized conditions, not drawing, and carries
-            // the choropleth-in-C# lesson as its second choice rather than as a row.
-            new SampleEntry("Styling", "Render Based on Code", "RenderBasedOnCode.xaml.cs",
-                "Two things a style document cannot hold: the clock - day and night sweep the world's capitals with nothing rebuilt - and a paint lambda that reads each state's density into a choropleth ramp, inserted under the basemap's roads and labels",
-                "StyleLayer.CreateFill", true, typeof(Samples.RenderBasedOnCode), () => new Samples.RenderBasedOnCode()),
-            new SampleEntry("Styling", "Display Cluster Points", "DisplayClusterPoints.xaml.cs",
-                "Cluster points into markers recomputed for the view - clusters you can click, instead of clusters drawn into a tile",
-                "SimpleMarkerOverlay", false, typeof(Samples.DisplayClusterPoints), () => new Samples.DisplayClusterPoints()),
-            // Kept, and given the job only it can do. A single-variable dot density is
-            // a worse heatmap; two colors mixing inside one areal unit is a composition,
-            // which an intensity field cannot represent at all.
-            new SampleEntry("Styling", "Display Dot Density", "DisplayDotDensity.xaml.cs",
-                "Two colors of dot mixed inside each state - countable, and a composition a heatmap cannot show - with the dots generated once as data",
-                "GpuBasemap", true, typeof(Samples.DisplayDotDensity), () => new Samples.DisplayDotDensity()),
-            // The GPU heatmap stands where the classic HeatStyle row did. The CPU style
-            // and the GPU layer are two different algorithms - a flat-core kernel
-            // accumulated in 8-bit alpha, against MapLibre's gaussian splats summed in a
-            // float density target - and the GPU one is the model every current web map
-            // uses, so it is the one this gallery teaches.
-            new SampleEntry("Styling", "Heatmap", "Heatmap.xaml.cs",
-                "Render point observations as a heatmap, with radius, intensity, opacity and color ramp on live controls",
-                "SetHeatmapPaint", true, typeof(Samples.Heatmap), () => new Samples.Heatmap()),
-            // The GPU isolines sample stands where the classic DisplayISOLine row
-            // did: same mosquito data, same contours, but the field is generated and
-            // contoured on the GPU instead of re-running IDW plus marching squares
-            // on the CPU for every redraw. Beside the heatmap, because both draw
-            // a field out of scattered points; nothing in it moves.
-            new SampleEntry("Styling", "Isolines", "GpuIsolines.xaml.cs",
-                "Generate and label isolines (contour lines) from scattered point values, the field and the contours redrawn every frame",
-                "AddIsolines", true, typeof(Samples.GpuIsolines), () => new Samples.GpuIsolines()),
+                "One world map styled five ways - by value, by range, by filter, by condition and by zoom level - each document editable while the map runs",
+                "SetStyleAsync", SampleDraws.Style, typeof(Samples.RenderBasedOnRules), () => new Samples.RenderBasedOnRules(),
+                aliases: "ValueStyle, ClassBreakStyle, FilterStyle, match, step, filter, case, zoom, minzoom, maxzoom, interpolate, render based on zoom level, ZoomLevelSet"),
             new SampleEntry("Styling", "Hatch Styles", "HatchStyles.xaml.cs",
-                "Fill areas with the classic GeoHatchStyle patterns - each one stroked into an image, registered through style.Images, and named by fill-pattern",
-                "MapStyle.Images", true, typeof(Samples.HatchStyles), () => new Samples.HatchStyles()),
-            new SampleEntry("Styling", "Create a Multi-Column Text Style", "CreateAMultiColumnTextStyle.xaml.cs",
-                "Build a label out of several columns - a concat expression in text-field, where the classic TextStyle used a {COLUMN} template; the document sits beside the map, editable while it runs",
-                "GpuBasemap", true, typeof(Samples.CreateAMultiColumnTextStyle), () => new Samples.CreateAMultiColumnTextStyle()),
-
+                "Parks filled with any classic GeoHatchStyle pattern - the picked brush is registered through MapStyle.Images under the name the document's fill-pattern uses; hover a row to preview it",
+                "MapStyle.Images", SampleDraws.Style, typeof(Samples.HatchStyles), () => new Samples.HatchStyles(),
+                aliases: "GeoHatchStyle, GeoHatchBrush, HatchStyle, fill-pattern"),
+            // Labels as the subject: each behavior set up on data crafted to show it.
+            new SampleEntry("Styling", "Advanced Labels", "AdvancedLabels.xaml.cs",
+                "Seven label lessons on crafted data: text bends along its line, anchors from its own column, yields to priority, wraps and recases, keeps its icon when crowded, writes CJK vertically, and joins several columns into one label - each document editable while it runs",
+                "SetStyleAsync", SampleDraws.Style, typeof(Samples.AdvancedLabels), () => new Samples.AdvancedLabels(),
+                aliases: "Create a Multi-Column Text Style, CreateAMultiColumnTextStyle, multi-column, TextStyle {COLUMN}, concat, text-field, symbol-placement, text-anchor, symbol-sort-key, text-max-width, text-transform, text-optional"),
+            // What a document cannot hold - the clock, or a C# lambda over the feature - is a
+            // code-built layer. Replaces "Render Based on Regex" and "Custom Styles".
+            new SampleEntry("Styling", "Render Based on Code", "RenderBasedOnCode.xaml.cs",
+                "Day and night sweep the world's capitals as the clock switches code-built layers on and off, and a C# paint lambda shades the US states by population density under the basemap's roads and labels",
+                "StyleLayer.CreateFill", SampleDraws.Style, typeof(Samples.RenderBasedOnCode), () => new Samples.RenderBasedOnCode(),
+                aliases: "Custom Styles, Render Based on Regex, paint delegate, StyleLayer.CreateCircle, SetLayerVisibility, choropleth"),
             // The map's own style document, managed and composed at runtime.
-            // Grouped here because their subject is the style, not any source -
-            // a service is not intrinsically the ground, so these rows cannot
-            // hang off a source group.
             new SampleEntry("Styling", "Style Layer Toggles", "StyleLayerToggles.xaml.cs",
                 "Turn individual style.json layers on and off while the map is live",
-                "MapStyle.SetLayerVisibility", true, typeof(Samples.StyleLayerToggles), () => new Samples.StyleLayerToggles()),
+                "MapStyle.SetLayerVisibility", SampleDraws.Style, typeof(Samples.StyleLayerToggles), () => new Samples.StyleLayerToggles(),
+                aliases: "layer visibility, IsVisible"),
             new SampleEntry("Styling", "Insert a Layer Under the Labels", "InsertALayerUnderTheLabels.xaml.cs",
                 "Aerial imagery under vector streets and labels, with a translucent wash inserted above the roads and below the labels - a slot no overlay can reach, because an overlay is always above everything",
-                "GpuBasemap", true, typeof(Samples.InsertALayerUnderTheLabels), () => new Samples.InsertALayerUnderTheLabels()),
+                "GpuBasemap", SampleDraws.Style, typeof(Samples.InsertALayerUnderTheLabels), () => new Samples.InsertALayerUnderTheLabels(),
+                aliases: "StyleLayerSlot.UnderLabels, AddVectorTiles"),
+            new SampleEntry("Styling", "Heatmap", "Heatmap.xaml.cs",
+                "Render point observations as a heatmap, with radius, intensity, opacity and color ramp on live controls",
+                "SetHeatmapPaint", SampleDraws.Style, typeof(Samples.Heatmap), () => new Samples.Heatmap(),
+                aliases: "HeatStyle, HeatLayer"),
+            // Stands where the classic DisplayISOLine row did: the field is interpolated and
+            // contoured as the map draws, instead of IDW plus marching squares per redraw.
+            new SampleEntry("Styling", "Isolines", "Isolines.xaml.cs",
+                "Contour lines interpolated from mosquito counts at scattered points, labelled, with filled bands, levels, line width and interpolation on live controls",
+                "AddIsolines", SampleDraws.Style, typeof(Samples.Isolines), () => new Samples.Isolines(),
+                aliases: "GpuIsolines, DisplayISOLine, DynamicIsoLineLayer, IsoLineLayer, contour lines, PointValueSource, IsolineStyle"),
+            new SampleEntry("Styling", "Display Dot Density", "DisplayDotDensity.xaml.cs",
+                "Two colors of dot mixed inside each state - countable, and a composition a heatmap cannot show - with the dots generated once as data",
+                "GpuBasemap", SampleDraws.Style, typeof(Samples.DisplayDotDensity), () => new Samples.DisplayDotDensity(),
+                aliases: "DotDensityStyle"),
 
             // ---- Dynamic Data ----
-            // The source-object family: data lives in an object (DynamicPointSource,
-            // VectorFieldSource, GeoImageRasterTileSource, GridSource), the style registers how
-            // it draws once, and every animation frame after that is one Update call -
-            // no recompile, no tile rebuilds. They all happen to wear weather and
-            // traffic data because that is what naturally moves, but the group's
-            // subject is the channel, not the theme.
-            new SampleEntry("Dynamic Data", "Live Flights", "LiveFlights.xaml.cs",
-                "Every airborne aircraft, live from OpenSky, dead-reckoned forward through one DynamicSource - ten thousand moving markers, one SetPoint per aircraft per tick",
-                "DynamicSource", true, typeof(Samples.LiveFlights), () => new Samples.LiveFlights()),
-            new SampleEntry("Dynamic Data", "Wind as a Vector Field", "NdfdWindField.xaml.cs",
-                "The NDFD wind forecast through a VectorFieldSource: 65k tracer particles advected and faded every frame - the streaming weather-map look - or magnitude-scaled arrows from the same source",
-                "VectorFieldSource", true, typeof(Samples.NdfdWindField), () => new Samples.NdfdWindField()),
-            new SampleEntry("Dynamic Data", "NEXRAD Weather Radar", "NexradRadar.xaml.cs",
-                "One georeferenced PNG draped over the basemap as a GeoImageRasterTileSource - no tile protocol - with the last half hour animating through the source object",
-                "GeoImageRasterTileSource", true, typeof(Samples.NexradRadar), () => new Samples.NexradRadar()),
-            new SampleEntry("Dynamic Data", "Animate a Weather Grid", "NdfdSkyGridAnimation.xaml.cs",
-                "Animate an NDFD sky grid over the basemap - color ramps, resampling and projection",
-                "InMemoryGridSource", true, typeof(Samples.NdfdSkyGridAnimation), () => new Samples.NdfdSkyGridAnimation()),
-            // The GPU rewrite of the old CPU-overlay population sample: the circle is
-            // an IMAGE instanced by the marker batch, which is what makes any shape
-            // one registration instead of one renderer feature.
             new SampleEntry("Dynamic Data", "Dynamic Rendering", "DynamicRendering.xaml.cs",
-                "A century of state populations as animated circles: size and tint are data, the circle is one registered disc image drawn at every point, and a year change is one SetPoint per state",
-                "DynamicSource.SetPoint", true, typeof(Samples.DynamicRendering), () => new Samples.DynamicRendering()),
-            // Moved from Map Navigation, where "navigation" meant panning the map: a
-            // vehicle following GPS fixes is data that moves, which is this group.
+                "State populations from 1950 to 2020 as circles that grow and change color as you drag or play the year slider",
+                "DynamicSource.SetPoint", SampleDraws.Style, typeof(Samples.DynamicRendering), () => new Samples.DynamicRendering(),
+                aliases: "population, animated circles, marker image, Images.Add, PointStyle disc"),
+            new SampleEntry("Dynamic Data", "Live Flights", "LiveFlights.xaml.cs",
+                "Every aircraft OpenSky reports airborne, flying across the map at a speed you set; hover one for its callsign, altitude and trail",
+                "DynamicSource", SampleDraws.Style, typeof(Samples.LiveFlights), () => new Samples.LiveFlights(),
+                aliases: "aircraft, flights, dead reckoning, DynamicSource.SetPoint, DynamicSource.SetLine, moving markers",
+                service: "OpenSky"),
             new SampleEntry("Dynamic Data", "Vehicle Navigation", "VehicleNavigation.xaml.cs",
-                "Navigate to the Empire State Building using GPS points (vehicle tracking)",
-                "FeatureLayerWpfDrawingOverlay", false, typeof(Samples.VehicleNavigation), () => new Samples.VehicleNavigation()),
+                "A car drives a recorded GPS route to the Empire State Building, the camera following and turning with it, or holding still over the whole route",
+                "DynamicSource.SetLine", SampleDraws.Style, typeof(Samples.VehicleNavigation), () => new Samples.VehicleNavigation(),
+                aliases: "vehicle tracking, GPS track, follow camera, ZoomToAsync, CurrentExtentChangedInAnimation, DynamicSource.SetPoint, DynamicSource.SetArea"),
+            new SampleEntry("Dynamic Data", "NEXRAD Weather Radar", "NexradRadar.xaml.cs",
+                "The latest US radar composite over the basemap, looping through the last half hour",
+                "GeoImageRasterTileSource", SampleDraws.Style, typeof(Samples.NexradRadar), () => new Samples.NexradRadar(),
+                aliases: "radar, weather, georeferenced image, GeoImageRasterTileSource.Update, AddRaster",
+                service: "Iowa Environmental Mesonet"),
+            new SampleEntry("Dynamic Data", "Wind as a Vector Field", "NdfdWindField.xaml.cs",
+                "NDFD surface wind over the US as streaming particles colored by speed, or as arrows from the same field",
+                "VectorFieldSource", SampleDraws.Style, typeof(Samples.NdfdWindField), () => new Samples.NdfdWindField(),
+                aliases: "wind, NDFD, AddParticleFlow, AddVectorField, FlowVector, particles, arrows"),
+            new SampleEntry("Dynamic Data", "Animate a Weather Grid", "NdfdSkyGridAnimation.xaml.cs",
+                "An NDFD sky-cover forecast over the US, one forecast hour at a time with its valid time; play it, drag through the hours, or switch color ramps",
+                "InMemoryGridSource", SampleDraws.Style, typeof(Samples.NdfdSkyGridAnimation), () => new Samples.NdfdSkyGridAnimation(),
+                aliases: "GridSource, AddGridFill, SetValues, GdalGrid, NDFD, GRIB, sky cover, color ramp, ColorStop"),
 
             // ---- 3D & Camera ----
-            // What the camera can do once a GpuBasemap is the basemap. Grouped by the
-            // capability rather than by the renderer that provides it: nobody goes
-            // looking for "the GPU samples", they go looking for tilt, for extruded
-            // buildings, for terrain.
+            // 3D Buildings merged in: the check box draws or skips the fill-extrusion layer the
+            // basemap style already carries; it does not extrude footprints of your own.
             new SampleEntry("3D & Camera", "Perspective Tilt", "PerspectiveTilt.xaml.cs",
-                "Tilt the camera over vector tiles or over a raster basemap - the gestures are built into the MapView",
-                "TiltAngle", true, typeof(Samples.PerspectiveTilt), () => new Samples.PerspectiveTilt()),
-            new SampleEntry("3D & Camera", "3D Buildings", "Buildings3DInteractive.xaml.cs",
-                "Extrude building footprints and move the camera around them",
-                "GpuBasemap", true, typeof(Samples.Buildings3DInteractive), () => new Samples.Buildings3DInteractive()),
+                "Tilt the camera over midtown Manhattan in vector tiles, with the basemap style's buildings on or off, or over a raster basemap of the San Francisco Bay",
+                "TiltAngle", SampleDraws.Style, typeof(Samples.PerspectiveTilt), () => new Samples.PerspectiveTilt(),
+                aliases: "3D Buildings, Buildings3DInteractive, GpuBasemap, GpuBasemap.IsExtrusionDrawingEnabled, IsExtrusionDrawingEnabled, fill-extrusion, buildings, TiltToAsync, IsTiltEnabled, pitch"),
             new SampleEntry("3D & Camera", "3D Terrain", "Terrain3D.xaml.cs",
-                "Drape the map over elevation data",
-                "GpuBasemap", true, typeof(Samples.Terrain3D), () => new Samples.Terrain3D()),
-            // Moved from Map Navigation: what it shows is the camera - a follow camera
-            // the engine flies at street level, with buildings standing in front of
-            // the road - not panning the map.
+                "Aerial imagery draped over the Grand Canyon's terrain with relief shading; click two points for an elevation profile along the ground",
+                "MapStyle.SetTerrain", SampleDraws.Style, typeof(Samples.Terrain3D), () => new Samples.Terrain3D(),
+                aliases: "RasterDemSource, DemEncoding.Terrarium, hillshade, DEM, elevation profile, GetElevationProfileAsync, GetElevationAsync, RemoveTerrain, GpuBasemap",
+                service: "AWS Terrain Tiles"),
             new SampleEntry("3D & Camera", "Lane-Level Navigation", "LaneLevelNavigation.xaml.cs",
-                "In-car view over an OpenDRIVE HD map: every lane as surveyed with its paint, a follow camera the engine flies, the vehicle in the style's marker batch, 3D buildings in front of the road",
-                "FeatureSourceVectorTileSource", true, typeof(Samples.LaneLevelNavigation), () => new Samples.LaneLevelNavigation()),
-
-            // ---- Markers & Popups ----
-            // Three rows. "Markers and Popups on a Tilted Map" folded into Markers (its
-            // map tilts); "Text Marker" was a subset of these two (any WPF element as
-            // Content, dragging); "Custom Icon" pointed at the animated ellipse control
-            // Animated Marker uses as its content, not at a sample.
-            new SampleEntry("Markers & Popups", "Markers", "Markers.xaml.cs",
-                "Add, drag and remove markers on the map with the MarkerOverlay - and tilt the map, the markers keep their ground position",
-                "SimpleMarkerOverlay", false, typeof(Samples.Markers), () => new Samples.Markers()),
-            new SampleEntry("Markers & Popups", "Animated Marker", "AnimatedMarker.xaml.cs",
-                "A marker whose content is your own WPF control - here an animated icon",
-                "SimpleMarkerOverlay", false, typeof(Samples.AnimatedMarker), () => new Samples.AnimatedMarker()),
-            new SampleEntry("Markers & Popups", "Popups", "Popups.xaml.cs",
-                "Add, edit, or remove popups on the map using the PopupOverlay",
-                "PopupOverlay", false, typeof(Samples.Popups), () => new Samples.Popups()),
+                "An in-car view driving 3.7 km through the Wolfsburg OpenDRIVE HD map: every surveyed lane and its paint, a follow camera, the basemap's buildings, and a card with the current lane and the distance to the next lane change",
+                "FeatureSourceVectorTileSource", SampleDraws.Style, typeof(Samples.LaneLevelNavigation), () => new Samples.LaneLevelNavigation(),
+                aliases: "OpenDRIVE, HD map, lanes, Wolfsburg, follow camera, ZoomToAsync, CurrentExtentChangedInAnimation, StyleLayerType.FillExtrusion, InMemoryFeatureSource"),
 
             // ---- Map Navigation ----
             new SampleEntry("Map Navigation", "Map Navigation", "MapNavigation.xaml.cs",
-                "Zoom, pan, and rotate the map control",
-                "ZoomToAsync", true, typeof(Samples.MapNavigation), () => new Samples.MapNavigation()),
-            new SampleEntry("Map Navigation", "Zoom to the Black Hole", "ZoomToBlackHole.xaml.cs",
-                "Dive from the galaxy M87 down to its black hole, through ten pictures nested inside each other to illustrate the scale",
-                "GeoImageRasterTileSource", true, typeof(Samples.ZoomToBlackHole), () => new Samples.ZoomToBlackHole()),
-            new SampleEntry("Map Navigation", "Zoom to Extents", "ZoomToExtents.xaml.cs",
-                "Set the map extent in a variety of different ways",
-                "ZoomToAsync", false, typeof(Samples.ZoomToExtents), () => new Samples.ZoomToExtents()),
+                "Pan, zoom, rotate and tilt around the Empire State Building with the mouse - or with fingers once Touch screen is on - and watch MapClick, MapDoubleClick, CurrentScaleChanged and CurrentExtentChanged arrive in a log",
+                "ZoomToAsync", SampleDraws.StyleAndOverlay, typeof(Samples.MapNavigation), () => new Samples.MapNavigation(),
+                aliases: "pan, zoom, rotate, tilt, compass, reset north, touch, touch screen, Navigate on Touch Screen, NavigateOnTouchScreen, IsManipulationEnabled, map events, Basic Map Events, MapClick, MapDoubleClick, CurrentExtentChanged, CurrentScaleChanged, RotationAngle"),
+            new SampleEntry("Map Navigation", "Zoom to Extents and Scales", "ZoomToExtents.xaml.cs",
+                "Zoom in and out, to a typed scale, to the Frisco boundary's extent and to a point, rotate with a slider, and make the wheel stop at printed-map scales",
+                "ZoomToAsync", SampleDraws.Style, typeof(Samples.ZoomToExtents), () => new Samples.ZoomToExtents(),
+                aliases: "Zoom to Extents, ZoomToExtents, ZoomScales, CurrentExtent, CenterAtAsync, ZoomInAsync, ZoomOutAsync, GetBoundingBox, zoom to scale, zoom to layer"),
             new SampleEntry("Map Navigation", "Restrict Map Extent", "RestrictMapExtent.xaml.cs",
-                "Restrict the map's panning area and zoom range using RestrictExtent, MaximumScale, and MinimumScale",
-                "RestrictExtent", false, typeof(Samples.RestrictMapExtent), () => new Samples.RestrictMapExtent()),
+                "Pan and zoom inside a red box around Dallas: RestrictExtent keeps the view inside it, MaximumScale and MinimumScale bound the zoom, and each can be switched off",
+                "RestrictExtent", SampleDraws.Style, typeof(Samples.RestrictMapExtent), () => new Samples.RestrictMapExtent(),
+                aliases: "MaximumScale, MinimumScale, limit panning, zoom range, map bounds"),
             new SampleEntry("Map Navigation", "Resize the Map", "ResizeTheMap.xaml.cs",
-                "Resize the map while preserving the world extent with various map resize modes",
-                "MapResizeMode", false, typeof(Samples.ResizeTheMap), () => new Samples.ResizeTheMap()),
+                "Drag the bar beside the map to resize it and see what each MapResizeMode keeps: the scale, the scale and the center, or the extent",
+                "MapResizeMode", SampleDraws.Style, typeof(Samples.ResizeTheMap), () => new Samples.ResizeTheMap(),
+                aliases: "PreserveScale, PreserveScaleAndCenter, PreserveExtent, resize"),
             new SampleEntry("Map Navigation", "Overview Map", "OverviewMap.xaml.cs",
-                "Overview map with rotating frame; drag to recenter the main map",
-                "EditOverlay", false, typeof(Samples.OverviewMap), () => new Samples.OverviewMap()),
-            // Replaces "Wrap the DateLine", which taught the classic overlay's translated
-            // copies over geometry stored past the world edge. The GPU map wraps by
-            // itself; what is left to teach is the seam in the DATA, and a flight
-            // across the Pacific is where every reader meets it.
-            new SampleEntry("Map Navigation", "Cross the Dateline", "CrossTheDateline.xaml.cs",
-                "A flight from Los Angeles to Shanghai over the antimeridian: route, corridor and aircraft stored with continuous longitudes, whole on the globe and whole on both sides of the seam in Web Mercator",
-                "DisplayProjection.Globe", true, typeof(Samples.CrossTheDateline), () => new Samples.CrossTheDateline()),
+                "A small overview map whose red frame follows and turns with the main map's view; click the overview to recenter the main map there",
+                "CurrentExtentChanged", SampleDraws.Style, typeof(Samples.OverviewMap), () => new Samples.OverviewMap(),
+                aliases: "overview, mini map, inset map, locator map, DynamicSource, MapMouseDown, RotationAngleChanging"),
+            new SampleEntry("Map Navigation", "Zoom to the Black Hole", "ZoomToBlackHole.xaml.cs",
+                "Fly with an animated ZoomToAsync from the galaxy M87 down to the shadow of its black hole, through ten pictures nested inside each other",
+                "ZoomToAsync", SampleDraws.Style, typeof(Samples.ZoomToBlackHole), () => new Samples.ZoomToBlackHole(),
+                aliases: "fly to, animation, MapAnimationSettings, DefaultAnimationSettings, GeoImageRasterTileSource, powers of ten, M87"),
+
+            // ---- Markers & Popups ----
+            // Three rows. "Markers and Popups on a Tilted Map" and "Animated Marker" folded
+            // into Markers (its map tilts; one of its markers has an animated WPF control
+            // as Content); "Text Marker" was a subset of Markers and Popups. "Custom Icon"
+            // is the animated control Markers uses as that content, not a sample.
+            new SampleEntry("Markers & Popups", "Markers", "Markers.xaml.cs",
+                "Click the map to add a marker, drag one to move it, click one to remove it, beside a marker whose content is an animated WPF control - and tilt the map, the markers keep their ground position",
+                "SimpleMarkerOverlay", SampleDraws.StyleAndOverlay, typeof(Samples.Markers), () => new Samples.Markers(),
+                aliases: "Animated Marker, AnimatedMarker, Marker.Content, custom marker, WPF element marker, Text Marker, Markers and Popups on a Tilted Map, MarkerOverlay, MarkerDragMode, PositionChanged, MarkerDragged, remove marker"),
+            new SampleEntry("Markers & Popups", "Popups", "Popups.xaml.cs",
+                "Hotel names in popups you can turn off, and a popup that opens where you click the map with that point's latitude and longitude",
+                "PopupOverlay", SampleDraws.StyleAndOverlay, typeof(Samples.Popups), () => new Samples.Popups(),
+                aliases: "Popup, info window, callout, click to show popup, remove popup"),
+            // Moved from Styling: it is a SimpleMarkerOverlay with the clustering done in
+            // the sample, no styling API.
+            new SampleEntry("Markers & Popups", "Cluster Markers", "ClusterMarkers.xaml.cs",
+                "Points clustered into markers recomputed for the view: zoom and the clusters split, click one to zoom into it",
+                "SimpleMarkerOverlay", SampleDraws.StyleAndOverlay, typeof(Samples.ClusterMarkers), () => new Samples.ClusterMarkers(),
+                aliases: "Display Cluster Points, DisplayClusterPoints, cluster, clustering, point clustering, ClusterPointStyle"),
 
             // ---- Map Tools & Adornments ----
             new SampleEntry("Map Tools & Adornments", "Map Tool Controls", "MapToolControls.xaml.cs",
-                "Manage several built-in map tools (logo, mouse coordinates, scaleLine, and the PanZoomBar) from a single sample",
-                "MouseCoordinateMapTool", false, typeof(Samples.MapToolControls), () => new Samples.MapToolControls()),
+                "Turn the map's built-in tools on and off - pan zoom bar, logo, mouse coordinates - format the coordinates, and read how MapTools differ from adornment layers and the measure overlay",
+                "MapTools", SampleDraws.Style, typeof(Samples.MapToolControls), () => new Samples.MapToolControls(),
+                aliases: "MouseCoordinateMapTool, PanZoomBar, Logo, MouseCoordinateType, CustomFormatted, AdornmentLayer, MeasureInteractiveOverlay, map tools vs adornments"),
             new SampleEntry("Map Tools & Adornments", "Drag/Resize Adornments", "DragResizeAdornments.xaml.cs",
-                "Toggle drag and resize behavior for multiple adornments",
-                "AdornmentLayer", false, typeof(Samples.DragResizeAdornments), () => new Samples.DragResizeAdornments()),
+                "Let the user drag and resize the scale line, scale bar, logo, legend and a compass showing true north and magnetic north",
+                "AdornmentLayer", SampleDraws.StyleAndOverlay, typeof(Samples.DragResizeAdornments), () => new Samples.DragResizeAdornments(),
+                aliases: "Magnetic North, MagneticNorth, MagneticDeclinationAdornmentLayer, compass, north arrow, True North, Grid North, AdornmentDragMode, AdornmentResizeMode"),
+            new SampleEntry("Map Tools & Adornments", "ScaleLine and ScaleBar", "ScaleLineScaleBar.xaml.cs",
+                "A scale line and a scale bar given the map's projection so they report ground distance; switch the scale line's unit system and text styles",
+                "ScaleLineAdornmentLayer", SampleDraws.StyleAndOverlay, typeof(Samples.ScaleLineScaleBar), () => new Samples.ScaleLineScaleBar(),
+                aliases: "ScaleBarAdornmentLayer, ScaleLineUnitSystem, scale bar, scale line units"),
             // A legend is an adornment - it sits in the map's corner like the scale bar
             // and the north arrow, not in the style document - so it belongs here rather
             // than among the styling samples.
             new SampleEntry("Map Tools & Adornments", "Legend", "Legend.xaml.cs",
                 "Build a legend whose swatches are the styles the map draws with",
-                "LegendAdornmentLayer", false, typeof(Samples.Legend), () => new Samples.Legend()),
-            new SampleEntry("Map Tools & Adornments", "ScaleLine and ScaleBar", "ScaleLineScaleBar.xaml.cs",
-                "Render ScaleLine and ScaleBar, and give them the projection that makes the distance they report the real one",
-                "ScaleLineAdornmentLayer", false, typeof(Samples.ScaleLineScaleBar), () => new Samples.ScaleLineScaleBar()),
-            new SampleEntry("Map Tools & Adornments", "Magnetic North", "MagneticNorth.xaml.cs",
-                "Display a compass (north arrow) adornment showing Magnetic North / Grid North / True North",
-                "MagneticDeclinationAdornmentLayer", false, typeof(Samples.MagneticNorth), () => new Samples.MagneticNorth()),
+                "LegendAdornmentLayer", SampleDraws.StyleAndOverlay, typeof(Samples.Legend), () => new Samples.Legend(),
+                aliases: "LegendItem, ClassBreakStyle legend, map key"),
             new SampleEntry("Map Tools & Adornments", "Display Graticule Lines", "DisplayGraticuleLines.xaml.cs",
                 "Display graticule lines - a latitude/longitude grid",
-                "GraticuleLineStyle", false, typeof(Samples.DisplayGraticuleLines), () => new Samples.DisplayGraticuleLines()),
+                "GraticuleLineStyle", SampleDraws.StyleAndOverlay, typeof(Samples.DisplayGraticuleLines), () => new Samples.DisplayGraticuleLines(),
+                aliases: "GraticuleFeatureLayer, lat/lon grid, grid lines"),
             new SampleEntry("Map Tools & Adornments", "Measure Distance and Area", "MeasureDistanceAndArea.xaml.cs",
                 "Measure distance and area on the map with the overlay that annotates as you draw",
-                "MeasureInteractiveOverlay", false, typeof(Samples.MeasureDistanceAndArea), () => new Samples.MeasureDistanceAndArea()),
+                "MeasureInteractiveOverlay", SampleDraws.StyleAndOverlay, typeof(Samples.MeasureDistanceAndArea), () => new Samples.MeasureDistanceAndArea(),
+                aliases: "ruler, measure, TrackInteractiveOverlay, area, distance"),
 
             // ---- Draw & Edit ----
             // "Draw" is in the name because it is the first thing the group does:
             // its lead sample starts with drawing shapes, and "how do I let the
             // user draw on the map" is the question that brings people here.
             new SampleEntry("Draw & Edit", "Edit Features", "EditFeatures.xaml.cs",
-                "Draw, edit, or delete shapes",
-                "EditOverlay", false, typeof(Samples.EditFeatures), () => new Samples.EditFeatures()),
+                "Draw points, lines and polygons, edit them with handles and vertices, delete them, measure them, and watch the TrackOverlay and EditOverlay events in a log",
+                "EditOverlay", SampleDraws.StyleAndOverlay, typeof(Samples.EditFeatures), () => new Samples.EditFeatures(),
+                aliases: "Edit Map Events, EditMapEvents, TrackOverlay, TrackMode, TrackEnded, VertexMoved, FeatureDragged, FeatureResized, FeatureRotated, draw shapes, editing events"),
             new SampleEntry("Draw & Edit", "Edit Features with Snapping", "EditWithSnapping.xaml.cs",
                 "Drag a vertex into a circle, and it will snap to its center",
-                "VertexMovingEditInteractiveOverlayEventArgs", false, typeof(Samples.EditWithSnapping), () => new Samples.EditWithSnapping()),
+                "VertexMovingEditInteractiveOverlayEventArgs", SampleDraws.StyleAndOverlay, typeof(Samples.EditWithSnapping), () => new Samples.EditWithSnapping(),
+                aliases: "snap, snapping, VertexMoving, tolerance"),
             new SampleEntry("Draw & Edit", "Edit with Constraints", "EditWithConstraints.xaml.cs",
-                "Enforce minimum vertex spacing, keep a rectangle rectangular, type exact coordinates",
-                "VertexAddingEditInteractiveOverlayEventArgs", false, typeof(Samples.EditWithConstraints), () => new Samples.EditWithConstraints()),
-            new SampleEntry("Draw & Edit", "Edit Map Events", "EditMapEvents.xaml.cs",
-                "Recognize map editing events",
-                "EditOverlay", false, typeof(Samples.EditMapEvents), () => new Samples.EditMapEvents()),
+                "Keep vertices at least 300 m apart on the ground, keep a rectangle rectangular, type exact coordinates",
+                "VertexAddingEditInteractiveOverlayEventArgs", SampleDraws.StyleAndOverlay, typeof(Samples.EditWithConstraints), () => new Samples.EditWithConstraints(),
+                aliases: "VertexAdding, Cancel, minimum vertex spacing, rectangle constraint, exact coordinates"),
 
             // ---- Shapes & Spatial Queries ----
-            new SampleEntry("Shapes & Spatial Queries", "Get Data from One Feature", "GetDataFromOneFeature.xaml.cs",
-                "Get data from a feature in a ShapeFile",
-                "GetFeaturesContaining", false, typeof(Samples.GetDataFromOneFeature), () => new Samples.GetDataFromOneFeature()),
+            new SampleEntry("Shapes & Spatial Queries", "Get Data from Features", "GetDataFromFeatures.xaml.cs",
+                "Click a Frisco park to read its column values in a popup, or list every park's columns and pick one",
+                "ColumnValues", SampleDraws.StyleAndOverlay, typeof(Samples.GetDataFromFeatures), () => new Samples.GetDataFromFeatures(),
+                aliases: "identify feature on click, Get Data from One Feature, GetDataFromOneFeature, Get Data from All Features, GetDataFromAllFeatures, GetFeaturesContaining, SpatialQuery, GetAllFeatures, PopupOverlay, attributes"),
             new SampleEntry("Shapes & Spatial Queries", "Find Features by Spatial Relation", "FindFeaturesBySpatialRelation.xaml.cs",
-                "Query features by spatial relation - containing, crossing, disjoint, intersecting, overlapping, touching, within a shape, or within a distance",
-                "FeatureSource", true, typeof(Samples.FindFeaturesBySpatialRelation), () => new Samples.FindFeaturesBySpatialRelation()),
+                "Pick a relation and see which of Frisco's zoning parcels match the point, line or polygon you draw - and, for equal, which subdivision plats were recorded again with the same boundary",
+                "QueryTools", SampleDraws.StyleAndOverlay, typeof(Samples.FindFeaturesBySpatialRelation), () => new Samples.FindFeaturesBySpatialRelation(),
+                aliases: "Check if Features are Equal, CheckIfFeaturesAreEqual, GetFeaturesTopologicalEqual, topological equality, duplicate features, GetFeaturesContaining, GetFeaturesCrossing, GetFeaturesDisjointed, GetFeaturesIntersecting, GetFeaturesOverlapping, GetFeaturesTouching, GetFeaturesWithin, GetFeaturesWithinDistanceOf, spatial query"),
             new SampleEntry("Shapes & Spatial Queries", "Shape Operations", "ShapeOperations.xaml.cs",
                 "Transform a shape - union, buffer, simplify, rotate, scale, translate, convex hull, envelope, intersection or difference - each one a single call on the shape",
-                "BaseShape", false, typeof(Samples.ShapeOperations), () => new Samples.ShapeOperations()),
+                "BaseShape", SampleDraws.Style, typeof(Samples.ShapeOperations), () => new Samples.ShapeOperations(),
+                aliases: "Buffer, Simplify, Rotate, ScaleTo, TranslateByOffset, GetConvexHull, GetBoundingBox, GetIntersection, GetDifference, Union"),
             new SampleEntry("Shapes & Spatial Queries", "Shape Measurements", "ShapeMeasurements.xaml.cs",
-                "Measure a shape - area, length, center point, shortest line to somewhere else, or a stretch of a line starting a given distance along",
-                "BaseShape", true, typeof(Samples.ShapeMeasurements), () => new Samples.ShapeMeasurements()),
+                "Click a park or a trail and measure it - area, length, center point in longitude and latitude, the shortest line to the stadium, or a stretch of a line starting a given distance along",
+                "BaseShape", SampleDraws.Style, typeof(Samples.ShapeMeasurements), () => new Samples.ShapeMeasurements(),
+                aliases: "GetArea, GetLength, GetCenterPoint, GetShortestLineTo, GetLineOnALine"),
             new SampleEntry("Shapes & Spatial Queries", "Validate Topology", "ValidateTopology.xaml.cs",
                 "Every rule TopologyValidator checks - what points may touch, what lines may cross, what polygons may leave between them - on shapes small enough to see the answer",
-                "TopologyValidator", false, typeof(Samples.ValidateTopology), () => new Samples.ValidateTopology()),
-            new SampleEntry("Shapes & Spatial Queries", "Check if Features are Equal", "CheckIfFeaturesAreEqual.xaml.cs",
-                "Use layer query tools to find which features in a layer are topologically equal to a shape",
-                "GetFeaturesTopologicalEqual", false, typeof(Samples.CheckIfFeaturesAreEqual), () => new Samples.CheckIfFeaturesAreEqual()),
+                "TopologyValidator", SampleDraws.Style, typeof(Samples.ValidateTopology), () => new Samples.ValidateTopology()),
 
             // ---- Projections ----
-            // In route order: the four that project when the data is read, the
-            // three the GPU projects as it draws, then the two that answer "what
-            // if the shader has no family for mine" and "which should I use".
+            // Projected when the data is read first (features, rasters), then projected
+            // as the map is drawn (any projection, the globe, the dateline), then the two
+            // side by side.
             new SampleEntry("Projections", "Project Features", "ProjectFeatures.xaml.cs",
-                "Projected when the data is READ (CPU) - every vertex through proj4 as it comes off disk",
-                "ProjectionConverter", false, typeof(Samples.ProjectFeatures), () => new Samples.ProjectFeatures()),
-            new SampleEntry("Projections", "Project a Raster", "ProjectARaster.xaml.cs",
-                "Projected when the data is READ (CPU) - a raster has no vertices, so it is resampled pixel by pixel",
-                "GdalProjectionConverter", false, typeof(Samples.ProjectARaster), () => new Samples.ProjectARaster()),
-            new SampleEntry("Projections", "Setting the Projection of a Layer", "SettingTheProjectionOfALayer.xaml.cs",
-                "Projected when the data is READ (CPU) - the converter lives on the layer, so every fetch comes back projected",
-                "ProjectionConverter", false, typeof(Samples.SettingTheProjectionOfALayer), () => new Samples.SettingTheProjectionOfALayer()),
-            // Classic rendering on purpose: reprojection lives in the layer's draw
-            // path (native tiles are merged and warped as they draw), while the GPU
-            // source path serves native-grid tiles only. Moved here from the service
-            // groups when they went GPU-only - the lesson is the projection, not the
-            // server. One sample, two servers, and swapping the server never moves
-            // the view.
-            new SampleEntry("Projections", "Reproject a Raster Tile Service", "ReprojectRasterTiles.xaml.cs",
-                "Projected when the data is READ (CPU) - a tile service warped between EPSG:3857 and EPSG:4326, the warped tiles cached in their own second cache",
-                "GdalProjectionConverter", false, typeof(Samples.ReprojectRasterTiles), () => new Samples.ReprojectRasterTiles()),
-            new SampleEntry("Projections", "Any Projection, Vector Tiles", "MorphBetweenProjectionsMvt.xaml.cs",
-                "Projected when the map is DRAWN - a full map, zoom and pan and style, in any proj4 definition, from the same web-mercator tiles, and animated from one projection to the next",
-                "DisplayProjection", true, typeof(Samples.MorphBetweenProjectionsMvt), () => new Samples.MorphBetweenProjectionsMvt()),
-            new SampleEntry("Projections", "Any Projection, Satellite Imagery (ThinkGeo Cloud)", "AnyProjectionRaster.xaml.cs",
-                "Projected when the map is drawn - satellite tiles warped per vertex, with no CPU resampling",
-                "DisplayProjection", true, typeof(Samples.AnyProjectionRaster), () => new Samples.AnyProjectionRaster()),
+                "Frisco's subdivisions projected by their source as it reads them, or longitude/latitude WKT you type converted to web mercator by ProjectionConverter or by the ThinkGeo Cloud",
+                "ProjectionConverter", SampleDraws.Style, typeof(Samples.ProjectFeatures), () => new Samples.ProjectFeatures(),
+                aliases: "Setting the Projection of a Layer, SettingTheProjectionOfALayer, Projection (Cloud), ProjectionCloudServices, ProjectionCloudClient, ProjectAsync, ConvertToExternalProjection, reproject features"),
+            // Classic rendering on purpose: reprojection lives in the layer's draw path
+            // (the image is resampled, native tiles are merged and warped as they draw),
+            // while the basemap's raster sources serve native-grid tiles only.
+            new SampleEntry("Projections", "Reproject a Raster", "ReprojectARaster.xaml.cs",
+                "World.tif warped into EPSG:9311, or ThinkGeo Cloud or OpenStreetMap tiles warped into EPSG:4326 - the same GdalProjectionConverter on the layer either way",
+                "GdalProjectionConverter", SampleDraws.Classic, typeof(Samples.ReprojectARaster), () => new Samples.ReprojectARaster(),
+                aliases: "Project a Raster, ProjectARaster, Reproject a Raster Tile Service, ReprojectRasterTiles, GeoTiffRasterLayer, RasterXyzTileAsyncLayer, OpenStreetMapAsyncLayer, ThinkGeoRasterMapsAsyncLayer, SingleTile",
+                service: "OpenStreetMap"),
+            new SampleEntry("Projections", "Any Projection", "AnyProjection.xaml.cs",
+                "A vector or satellite map in any of ten projections - zoom and pan as usual - animated from one projection to the next",
+                "DisplayProjection", SampleDraws.Style, typeof(Samples.AnyProjection), () => new Samples.AnyProjection(),
+                aliases: "Any Projection, Vector Tiles, Any Projection, Satellite Imagery, MorphBetweenProjectionsMvt, AnyProjectionRaster, AnimateDisplayProjectionAsync, FromProjString, proj4, Robinson, Mollweide, Albers, morph"),
             new SampleEntry("Projections", "The Globe", "TheGlobe.xaml.cs",
-                "Projected when the map is drawn - the same tiles on a sphere, and what it does when you zoom in far enough to let go",
-                "DisplayProjection.Globe", true, typeof(Samples.TheGlobe), () => new Samples.TheGlobe()),
-            new SampleEntry("Projections", "CPU vs GPU projection, side by side", "CpuVsGpuProjection.xaml.cs",
-                "Both routes at once - the same shapefile projected at READ time on the left and at DRAW time on the right, with what each costs",
-                "ProjectionConverter", true, typeof(Samples.CpuVsGpuProjection), () => new Samples.CpuVsGpuProjection()),
+                "The same tiles on a sphere, and what it does when you zoom in far enough to let go",
+                "DisplayProjection.Globe", SampleDraws.Style, typeof(Samples.TheGlobe), () => new Samples.TheGlobe()),
+            // Replaces "Wrap the DateLine", which taught the classic overlay's translated
+            // copies over geometry stored past the world edge. What is left to teach is
+            // the seam in the DATA, and a flight across the Pacific is where every
+            // reader meets it.
+            new SampleEntry("Projections", "Cross the Dateline", "CrossTheDateline.xaml.cs",
+                "A flight from Los Angeles to Shanghai over the antimeridian: route, corridor and aircraft stored with continuous longitudes, whole on the globe and whole on both sides of the seam in Web Mercator",
+                "DisplayProjection.Globe", SampleDraws.Style, typeof(Samples.CrossTheDateline), () => new Samples.CrossTheDateline(),
+                aliases: "Wrap the DateLine, antimeridian, 180th meridian, great circle"),
+            new SampleEntry("Projections", "CPU vs GPU Projection", "CpuVsGpuProjection.xaml.cs",
+                "The same world shapefile projected by the CPU as it is read on the left and by the GPU as it is drawn on the right, with what each switch costs",
+                "ProjectionConverter", SampleDraws.SideBySide, typeof(Samples.CpuVsGpuProjection), () => new Samples.CpuVsGpuProjection(),
+                aliases: "CPU vs GPU projection, side by side, CpuVsGpuProjection, DisplayProjection, datum"),
 
             // ---- Cloud Services ----
             new SampleEntry("Cloud Services", "Geocoding", "Geocoding.xaml.cs",
-                "Use the GeocodingCloudClient to access the Geocoding APIs available from the ThinkGeo Cloud",
-                "GeocodingCloudClient", false, typeof(Samples.Geocoding), () => new Samples.Geocoding()),
-            new SampleEntry("Cloud Services", "Reverse Geocoding", "ReverseGeocoding.xaml.cs",
-                "Click anywhere on the map to use the ReverseGeocodingCloudClient to access the ReverseGeocoding APIs available from the ThinkGeo Cloud",
-                "ReverseGeocodingCloudClient", false, typeof(Samples.ReverseGeocoding), () => new Samples.ReverseGeocoding()),
+                "Type an address to see the matches listed and drawn on the map, or click the map to list the addresses and places around that point",
+                "GeocodingCloudClient", SampleDraws.Style, typeof(Samples.Geocoding), () => new Samples.Geocoding(),
+                aliases: "Reverse Geocoding, ReverseGeocoding, ReverseGeocodingCloudClient, SearchPointAsync, CloudGeocodingOptions, CloudReverseGeocodingOptions, address search, geocode, reverse geocode"),
             new SampleEntry("Cloud Services", "Routing", "Routing.xaml.cs",
-                "Use the RoutingCloudClient to route through a set of waypoints with the ThinkGeo Cloud",
-                "RoutingCloudClient", false, typeof(Samples.Routing), () => new Samples.Routing()),
-            new SampleEntry("Cloud Services", "Routing - Service Area", "RoutingServiceArea.xaml.cs",
-                "Use the RoutingCloudClient to find the service area of a location with the ThinkGeo Cloud",
-                "RoutingCloudClient", false, typeof(Samples.RoutingServiceArea), () => new Samples.RoutingServiceArea()),
-            new SampleEntry("Cloud Services", "Routing - Traveling Sales Person", "RoutingTravelingSalesPerson.xaml.cs",
-                "Use the RoutingCloudClient to find an optimized route through a set of waypoints with the ThinkGeo Cloud",
-                "RoutingCloudClient", false, typeof(Samples.RoutingTravelingSalesPerson), () => new Samples.RoutingTravelingSalesPerson()),
+                "Driving directions through five stops, in the order given or in the shortest order, or the areas you can reach in 15 to 60 minutes from a point you click",
+                "RoutingCloudClient", SampleDraws.Style, typeof(Samples.Routing), () => new Samples.Routing(),
+                aliases: "Routing - Service Area, RoutingServiceArea, GetServiceAreaAsync, service area, drive time, isochrone, Routing - Traveling Sales Person, RoutingTravelingSalesPerson, Traveling Salesperson, traveling salesman, TSP, GetOptimizedRouteAsync, optimized route, GetRouteAsync, turn-by-turn, directions"),
             new SampleEntry("Cloud Services", "Elevation", "Elevation.xaml.cs",
-                "Use the ElevationCloudClient class to get elevation data from the ThinkGeo Cloud",
-                "ElevationCloudClient", false, typeof(Samples.Elevation), () => new Samples.Elevation()),
-            new SampleEntry("Cloud Services", "Timezone", "Timezone.xaml.cs",
-                "Use the TimeZoneCloudClient to access the Timezone APIs available from the ThinkGeo Cloud",
-                "TimeZoneCloudClient", false, typeof(Samples.Timezone), () => new Samples.Timezone()),
-            new SampleEntry("Cloud Services", "Projection", "ProjectionCloudServices.xaml.cs",
-                "Use the ProjectionCloudClient to access the Projection APIs available from the ThinkGeo Cloud",
-                "ProjectionCloudClient", false, typeof(Samples.ProjectionCloudServices), () => new Samples.ProjectionCloudServices()),
+                "Draw a point, a line or an area and see the elevation along it, with the average, highest and lowest",
+                "ElevationCloudClient", SampleDraws.StyleAndOverlay, typeof(Samples.Elevation), () => new Samples.Elevation(),
+                aliases: "GetElevationOfLineAsync, GetElevationOfAreaAsync, GetElevationOfPointAsync, height, elevation profile"),
+            new SampleEntry("Cloud Services", "Time Zone", "Timezone.xaml.cs",
+                "Click anywhere to see its time zone drawn on the map, with the local time and whether daylight saving time is on",
+                "TimeZoneCloudClient", SampleDraws.StyleAndOverlay, typeof(Samples.Timezone), () => new Samples.Timezone(),
+                aliases: "Timezone, GetTimeZoneByCoordinateAsync, local time"),
             new SampleEntry("Cloud Services", "Color Utilities", "ColorUtilities.xaml.cs",
-                "Use the ColorCloudClient class to access the ColorUtilities APIs available from the ThinkGeo Cloud",
-                "ColorCloudClient", false, typeof(Samples.ColorUtilities), () => new Samples.ColorUtilities()),
-            new SampleEntry("Cloud Services", "World Maps Query", "WorldMapsQuery.xaml.cs",
-                "Use the MapsQueryCloudClient to query the WorldMaps dataset available from the ThinkGeo Cloud",
-                "MapsQueryCloudClient", false, typeof(Samples.WorldMapsQuery), () => new Samples.WorldMapsQuery()),
+                "Frisco's census blocks shaded by housing units in a family of colors - hue, triad, analogous and more - generated by the ThinkGeo Cloud",
+                "ColorCloudClient", SampleDraws.StyleAndOverlay, typeof(Samples.ColorUtilities), () => new Samples.ColorUtilities(),
+                aliases: "GetColorsInHueFamilyAsync, GetColorsInTriadFamilyAsync, color scheme, palette, color family, ClassBreakStyle"),
 
             // ---- Printing & Export ----
             new SampleEntry("Printing & Export", "Print the Map", "PrintTheMap.xaml.cs",
-                "Compose a page of map, legend, scale bar, title and data grid, then print it or export it as a vector PDF",
-                "PrinterLayoutDocument", false, typeof(Samples.PrintTheMap), () => new Samples.PrintTheMap()),
-            new SampleEntry("Printing & Export", "Draw the map on an Image", "DrawTheMapOnAnImage.xaml.cs",
-                "Draw your map onto an image file",
-                "ThinkGeoRasterMapsAsyncLayer", false, typeof(Samples.DrawTheMapOnAnImage), () => new Samples.DrawTheMapOnAnImage()),
-            new SampleEntry("Printing & Export", "Get Map SnapShot", "GetMapSnapShot.xaml.cs",
-                "Get a snapshot (screenshot) of the current map",
-                "GetSnapshot", false, typeof(Samples.GetMapSnapShot), () => new Samples.GetMapSnapShot()),
+                "A page of map, legend, scale bar, title and table you can rearrange on screen, then save as a PDF; the map can come from feature layers or from a style document",
+                "PrinterLayoutDocument", SampleDraws.StyleAndOverlay, typeof(Samples.PrintTheMap), () => new Samples.PrintTheMap(),
+                aliases: "ExportPdfAsync, PDF, MapPrinterLayoutAsyncLayer, MapStyleAsyncLayer, print style.json, LegendPrinterLayoutAsyncLayer, ScaleBarPrinterLayoutAsyncLayer, DataGridPrinterLayoutAsyncLayer, PrinterInteractiveOverlay"),
+            new SampleEntry("Printing & Export", "Export an Image", "ExportAnImage.xaml.cs",
+                "Save the map as a PNG - a snapshot of what is on screen, or layers drawn off screen into an image - with a world file if you want it placed in a GIS",
+                "GetSnapshot", SampleDraws.StyleAndOverlay, typeof(Samples.ExportAnImage), () => new Samples.ExportAnImage(),
+                aliases: "Get Map SnapShot, GetMapSnapShot, snapshot, screenshot, Draw the map on an Image, DrawTheMapOnAnImage, GeoCanvas, GeoImage, BeginDrawing, off-screen rendering, ThinkGeoRasterMapsAsyncLayer, world file, pgw, PNG"),
 
             // ---- Extending the SDK ----
-            new SampleEntry("Extending the SDK", "Custom Background", "CustomBackground.xaml.cs",
-                "Display a background overlay",
-                "GeoLinearGradientBrush", false, typeof(Samples.CustomBackground), () => new Samples.CustomBackground()),
-            new SampleEntry("Extending the SDK", "Custom Feature Sources", "CustomFeatureSources.xaml.cs",
-                "Use the FeatureSource base class to create your own custom Feature Source",
-                "SimpleCsvFeatureSource", false, typeof(Samples.CustomFeatureSources), () => new Samples.CustomFeatureSources()),
+            new SampleEntry("Extending the SDK", "Custom Feature Source", "CustomFeatureSources.xaml.cs",
+                "Points read from a CSV file by a FeatureSource subclass, drawn by the style document like any built-in source",
+                "GetAllFeaturesCore", SampleDraws.Style, typeof(Samples.CustomFeatureSources), () => new Samples.CustomFeatureSources(),
+                aliases: "Custom Feature Sources, SimpleCsvFeatureSource, FeatureSource, FeatureSourceVectorTileSource, CSV, custom data source"),
             // Deciding what happens when a tile fails is a hook into the SDK's own
-            // loop, the same kind of thing as the two rows above.
-            new SampleEntry("Extending the SDK", "Handle Exceptions", "HandleExceptions.xaml.cs",
-                "A raster layer whose key is wrong fails every tile: the map leaves each one out and raises TileLoadFailed with the exception, and the handler decides whether the tile is asked for again",
-                "TileLoadFailed", true, typeof(Samples.HandleExceptions), () => new Samples.HandleExceptions()),
-
+            // loop, the same kind of thing as the custom source and layer around it.
+            new SampleEntry("Extending the SDK", "Handle Tile Failures", "HandleTileFailures.xaml.cs",
+                "An aerial layer whose key is wrong fails every tile; TileLoadFailed reports each failure, raster and vector tiles alike (e.Kind), and the handler chooses what is drawn in its place and whether it is asked for again",
+                "TileLoadFailed", SampleDraws.Style, typeof(Samples.HandleTileFailures), () => new Samples.HandleTileFailures(),
+                aliases: "Handle Exceptions, HandleExceptions, TileLoadFailedEventArgs, TileLoadKind, DrawException, DrawExceptionCore, tile error, retry, blank tiles"),
+            new SampleEntry("Extending the SDK", "Custom Adornment Layer", "CustomAdornmentLayer.xaml.cs",
+                "Range rings around the center of the view, drawn over the map by an AdornmentLayer subclass that paints straight onto the canvas",
+                "AdornmentLayer", SampleDraws.StyleAndOverlay, typeof(Samples.CustomAdornmentLayer), () => new Samples.CustomAdornmentLayer(),
+                aliases: "DrawCore, RangeRingsAdornmentLayer, RadiusLayer, Custom Feature Layer, CustomFeatureLayer, custom layer, range rings"),
         };
 
         /// <summary>
@@ -493,10 +475,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             typeof(Samples.PerspectiveTilt),
             typeof(Samples.Terrain3D),
-            typeof(Samples.Buildings3DInteractive),
+            typeof(Samples.AnyProjection),
             typeof(Samples.TheGlobe),
             typeof(Samples.AdvancedLabels),
             typeof(Samples.LiveFlights),
+            typeof(Samples.NdfdWindField),
+            typeof(Samples.NdfdSkyGridAnimation),
         };
 
         /// <summary>The menu groups, in menu order.</summary>
@@ -508,15 +492,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         /// and the label the sidebar prints above that group. The stations of
         /// the journey - a programmer builds an application in roughly this
         /// order, and the groups in one flat column read better as a few
-        /// spans - plus a legacy addendum at the end. A category not named
-        /// here continues the chapter above it.
+        /// spans. A category not named here continues the chapter above it.
         /// </summary>
         internal static readonly IReadOnlyDictionary<string, string> ChapterStarts =
             new Dictionary<string, string>(StringComparer.Ordinal)
             {
-                ["Start Here"] = "GET A MAP ON SCREEN",
+                ["Start Here"] = "START HERE",
+                ["Maps from a Service - Vector"] = "GET A MAP ON SCREEN",
                 ["Styling"] = "MAKE IT LOOK RIGHT",
-                ["Markers & Popups"] = "INTERACT WITH THE MAP",
+                ["Map Navigation"] = "INTERACT WITH THE MAP",
                 ["Shapes & Spatial Queries"] = "WORK WITH GEOMETRY",
                 ["Cloud Services"] = "SERVICES, EXPORT & EXTENDING",
             };
@@ -557,12 +541,71 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 problems.Add("chapter starts at a category no sample is in: " + category);
             }
 
+            // A group moved above the one that opened its chapter takes the label's
+            // place without it: the first group has to open a chapter.
+            var first = All.Select(e => e.Category).FirstOrDefault();
+            if (first != null && !ChapterStarts.ContainsKey(first))
+            {
+                problems.Add("the first group opens no chapter: " + first);
+            }
+
             foreach (var type in Featured.Where(t => !listed.Contains(t)))
             {
                 problems.Add("featured but not in the catalog: " + type.Name);
             }
 
+            foreach (var entry in All.Where(e => e.Draws != SampleDraws.Page))
+            {
+                var found = DrawsFromSource(entry);
+                if (found != entry.Draws)
+                {
+                    problems.Add("Draws is " + entry.Draws + " but the code draws " + found + ": " + entry.Title);
+                }
+            }
+
             return problems;
+        }
+
+        private static readonly Regex StyleDocument = new Regex(@"\b(GpuBasemap|MapStyle)\b");
+
+        // Overlays that draw: built in code, the MapView's own track and edit
+        // overlays, and adornments. Map tools are controls, not drawing, and do
+        // not count.
+        private static readonly Regex DrawingOverlay = new Regex(
+            @"\bnew\s+\w*Overlay\b|\.(TrackOverlay|EditOverlay|AdornmentOverlay)\b|\w+AdornmentLayer\b");
+
+        private static readonly Regex MapViewElement = new Regex(@"<\w+:MapView[\s>]");
+
+        /// <summary>What the embedded source of a row says it draws with. Two maps
+        /// are not always a comparison - Overview Map has two - so side by side is
+        /// only confirmed for the rows that claim it.</summary>
+        private static SampleDraws DrawsFromSource(SampleEntry entry)
+        {
+            var code = ReadSource(entry.SourceFile);
+            if (entry.Draws == SampleDraws.SideBySide
+                && MapViewElement.Matches(ReadSource(Path.GetFileNameWithoutExtension(entry.SourceFile))).Count > 1)
+            {
+                return SampleDraws.SideBySide;
+            }
+
+            if (!StyleDocument.IsMatch(code))
+            {
+                return SampleDraws.Classic;
+            }
+
+            return DrawingOverlay.IsMatch(code) ? SampleDraws.StyleAndOverlay : SampleDraws.Style;
+        }
+
+        private static string ReadSource(string fileName)
+        {
+            using var stream = typeof(SampleCatalog).Assembly.GetManifestResourceStream("SampleSource." + fileName);
+            if (stream == null)
+            {
+                return string.Empty;
+            }
+
+            using var reader = new StreamReader(stream);
+            return reader.ReadToEnd();
         }
 
         /// <summary>
@@ -577,7 +620,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             // Pages the two provider samples show behind a radio button, not rows.
             "ThirdPartyBasemaps",
             "OtherVectorProviders",
-            // The animated icon Animated Marker puts inside its marker, not a sample.
+            // The animated icon Markers puts inside one of its markers, not a sample.
             "CustomIcon",
         };
     }

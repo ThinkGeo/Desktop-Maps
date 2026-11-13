@@ -1,0 +1,25 @@
+<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.WMS"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <DockPanel LastChildFill="True">
+        <Border DockPanel.Dock="Right" Width="300" Background="#F6F6F4" Padding="12,10"
+                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+            <StackPanel>
+                <RadioButton x:Name="AsyncLayer" Content="WmsAsyncLayer over a basemap" GroupName="Mode" IsChecked="True" Margin="0,2"
+                             Checked="Mode_Checked"/>
+                <RadioButton x:Name="Overlay" Content="WmsOverlay as the whole map" GroupName="Mode" Margin="0,2"
+                             Checked="Mode_Checked"/>
+
+                <TextBlock Margin="0,10,0,0" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"
+                           Text="A WmsAsyncLayer goes into a LayerOverlay with other layers: here the EurOBIS sampling grid from VLIZ, half transparent over ThinkGeo Cloud. A WmsOverlay is the same service as an overlay of its own: here the OpenStreetMap WMS from mundialis."/>
+            </StackPanel>
+        </Border>
+
+        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
+    </DockPanel>
+</UserControl>

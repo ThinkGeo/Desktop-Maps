@@ -9,55 +9,58 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="240"/>
-            <ColumnDefinition Width="420"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
 
-        <DockPanel Grid.Column="1" Background="#F6F6F4">
-            <TextBlock DockPanel.Dock="Top" Text="style.json - edit it and the map follows"
-                       FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
-            <TextBlock x:Name="Status" DockPanel.Dock="Bottom" FontSize="11" Margin="8,4,8,6"
-                       TextWrapping="Wrap" Foreground="DarkGreen"/>
-            <Button DockPanel.Dock="Bottom" Content="Export PDF" Click="ExportPdf_Click"
-                    HorizontalAlignment="Left" Padding="12,3" Margin="8,4,8,0"/>
-            <TextBox x:Name="Editor" TextChanged="Editor_TextChanged"
-                     AcceptsReturn="True" AcceptsTab="True"
-                     FontFamily="Consolas" FontSize="11.5" Padding="6"
-                     TextWrapping="NoWrap" BorderThickness="1,0,0,0" BorderBrush="#CCCCCC"
-                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
-                     xml:space="preserve">{
+        <Border Grid.Column="1" Style="{DynamicResource Shell.SamplePanel.Wide}">
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Top" Text="style.json - edit it and the map follows"
+                           FontWeight="SemiBold" FontSize="11.5" Margin="0,6,0,4"/>
+                <TextBlock x:Name="Status" DockPanel.Dock="Bottom" FontSize="11" Margin="0,4,0,6"
+                           TextWrapping="Wrap" Foreground="LightGreen"/>
+                <Button DockPanel.Dock="Bottom" Content="Export PDF" Click="ExportPdf_Click"
+                        HorizontalAlignment="Left" Padding="12,3" Margin="0,4,0,0"/>
+                <TextBox x:Name="Editor" TextChanged="Editor_TextChanged"
+                         AcceptsReturn="True" AcceptsTab="True"
+                         FontFamily="Consolas" FontSize="11.5" Padding="6"
+                         TextWrapping="NoWrap"
+                         VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                         xml:space="preserve">{
   "layers": [
 
     { "type": "background",
-      "paint": { "background-color": "#EAE8E2" } },
+      "paint": { "background-color": "#1E2329" } },
 
     { "type": "fill",
       "source-layer": "Parks",
       "paint": {
-          "fill-color": "#B4E0B6",
-          "fill-outline-color": "#696969" }
+          "fill-color": "#2E4A3B",
+          "fill-outline-color": "#4F7A5F" }
     },
 
     { "type": "line",
       "source-layer": "Streets",
       "paint": {
-          "line-color": "#696969",
+          "line-color": "#13171B",
           "line-width": 6 }
     },
 
     { "type": "line",
       "source-layer": "Streets",
       "paint": {
-          "line-color": "#F5F5F5",
+          "line-color": "#505A66",
           "line-width": 4 }
     },
 
     { "type": "circle",
       "source-layer": "Hotels",
       "paint": {
-          "circle-radius": 4,
-          "circle-color": "#A52A2A" }
+          "circle-radius": 4.5,
+          "circle-color": "#F2A65A",
+          "circle-stroke-color": "#1E2329",
+          "circle-stroke-width": 1 }
     },
 
     { "type": "symbol",
@@ -67,7 +70,10 @@
           "text-field": ["get", "FULL_NAME"],
           "text-font": ["Noto Sans Bold"],
           "text-size": 11 },
-      "paint": { "text-color": "#191970" }
+      "paint": {
+          "text-color": "#C9D1D9",
+          "text-halo-color": "#1E2329",
+          "text-halo-width": 1.5 }
     },
 
     { "type": "symbol",
@@ -76,7 +82,10 @@
           "text-field": ["get", "NAME"],
           "text-font": ["Noto Sans Bold"],
           "text-size": 11 },
-      "paint": { "text-color": "#006400" }
+      "paint": {
+          "text-color": "#9AD3A8",
+          "text-halo-color": "#1E2329",
+          "text-halo-width": 1.5 }
     },
 
     { "type": "symbol",
@@ -87,10 +96,14 @@
           "text-size": 11,
           "text-offset": [0, 0.5],
           "text-anchor": "top" },
-      "paint": { "text-color": "#8B0000" }
+      "paint": {
+          "text-color": "#F5C58E",
+          "text-halo-color": "#1E2329",
+          "text-halo-width": 1.5 }
     }
   ]
 }</TextBox>
-        </DockPanel>
+            </DockPanel>
+        </Border>
     </Grid>
 </UserControl>

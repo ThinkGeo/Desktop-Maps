@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using System.Windows;
 using ThinkGeo.Core;
 using ThinkGeo.Core.Styling;
@@ -7,18 +9,16 @@ using ThinkGeo.UI.Wpf;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// The perspective camera over a basemap, vector or raster. The tilt interaction is
-    /// built into the MapView - this sample adds no mouse code at all: right-drag tilts,
-    /// left-drag pans with the grabbed ground staying under the cursor, alt and
-    /// left-drag rotates, the wheel zooms.
+    /// The perspective camera over a vector or a raster basemap, with the vector style's own buildings on or off.
     /// </summary>
     public partial class PerspectiveTilt
     {
-        private static readonly RectangleShape Manhattan =
-            new RectangleShape(-8_240_000, 4_975_000, -8_228_000, 4_965_000);
+        private static readonly RectangleShape MidtownManhattan =
+            new RectangleShape(-8_236_900, 4_975_700, -8_235_100, 4_974_330);
 
         private static readonly PointShape SanFranciscoBay = new PointShape(-13_630_000, 4_540_000);
 
+        private GpuBasemap _basemap;
         private bool _ready;
 
         public PerspectiveTilt()
@@ -27,7 +27,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             Map.MapUnit = GeographyUnit.Meter;
             Map.IsTiltEnabled = true;
-
         }
 
         private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -43,19 +42,39 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             if (_ready) await ShowBasemapAsync();
         }
 
-        private async System.Threading.Tasks.Task ShowBasemapAsync()
+        private void BuildingCheckBox_Changed(object sender, RoutedEventArgs e)
+        {
+            if (_basemap == null) return;
+
+            // A renderer switch, not a restyle: no tile is rebuilt.
+            _basemap.IsExtrusionDrawingEnabled = BuildingCheckBox.IsChecked == true;
+            _ = Map.RefreshAsync();
+        }
+
+        private async Task ShowBasemapAsync()
         {
             var vector = TiltVector.IsChecked == true;
 
             // A raster basemap and a vector one are different styles over different
             // sources, so this is the one case where the basemap really is rebuilt.
-            Map.Basemap = new GpuBasemap(vector
-                ? new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) })
-                : new MapStyle().AddRaster(new ThinkGeoRasterTileSource(SampleShared.CloudApiKey), sourceId: "thinkgeo"));
+            _basemap = new GpuBasemap(vector
+                ? new MapStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) })
+                : new MapStyle().AddRaster(new ThinkGeoRasterTileSource(SampleShared.CloudApiKey, ThinkGeoCloudRasterMapsMapType.Dark_V2_X1), sourceId: "thinkgeo"));
+            _basemap.IsExtrusionDrawingEnabled = BuildingCheckBox.IsChecked == true;
+            Map.Basemap = _basemap;
 
             if (vector)
             {
-                Map.CurrentExtent = Manhattan;
+                Map.CurrentExtent = MidtownManhattan;
+                await Map.RefreshAsync();
+                try
+                {
+                    await Map.TiltToAsync(50, 600);
+                }
+                catch (OperationCanceledException)
+                {
+                    // The other basemap was picked before the tilt finished.
+                }
             }
             else
             {
@@ -63,8 +82,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 // crisp, a scale between two shrinks or stretches them.
                 Map.CenterPoint = SanFranciscoBay;
                 Map.CurrentScale = new ZoomLevelSet().ZoomLevel12.Scale;
+                await Map.RefreshAsync();
             }
-            await Map.RefreshAsync();
         }
     }
 }

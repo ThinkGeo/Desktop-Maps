@@ -10,7 +10,7 @@ using ThinkGeo.Gpu;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// Drag/Resize adornments sample.
+    /// Let the user drag and resize adornments: scale line, scale bar, logo, legend and a magnetic north compass.
     /// </summary>
     public partial class DragResizeAdornments
     {

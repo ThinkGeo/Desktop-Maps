@@ -11,9 +11,7 @@ using ThinkGeo.UI.Wpf;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// Aerial imagery under vector streets and labels, with a solid white wash
-    /// interleaved above the roads and below the labels. No overlay can express
-    /// that - an overlay is always above everything, labels included.
+    /// Aerial imagery under vector streets and labels, with a translucent white wash inserted above the roads and below the labels.
     /// </summary>
     public partial class InsertALayerUnderTheLabels
     {
@@ -46,7 +44,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             _initialized = true;
             Map.MapUnit = GeographyUnit.Meter;
-            Map.CenterPoint = new PointShape(-8238310, 4970071);
+            // Downtown Dallas.
+            Map.CenterPoint = new PointShape(-10775615, 3866073);
             Map.CurrentScale = 75000;
 
             _ = BuildMapAsync();

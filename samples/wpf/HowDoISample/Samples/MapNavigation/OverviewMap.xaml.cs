@@ -1,98 +1,42 @@
 using System;
 using System.Windows;
+using System.Windows.Media;
 using ThinkGeo.Core;
 using ThinkGeo.Core.Styling;
-using ThinkGeo.UI.Wpf;
 using ThinkGeo.Gpu;
 
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// Interaction logic for OverviewMap.xaml
+    /// A small overview map whose frame follows the main map's view as it pans, turns and tilts; click the overview to recenter the main map.
     /// </summary>
     public partial class OverviewMap
     {
+        private readonly DynamicSource _frame = new DynamicSource();
         private bool _initialized;
+        private (double X, double Y, double Scale, double Rotation, double Tilt) _shown;
 
         public OverviewMap()
         {
             InitializeComponent();
-
-            MainMap.MapTools.PanZoomBar.Visibility = Visibility.Collapsed;
-            PreviewMap.MapTools.PanZoomBar.Visibility = Visibility.Collapsed;
-
-            MainMap.CurrentExtentChanged += MainMapCurrentExtentChanged;
-            MainMap.RotationAngleChanging += MainMapRotationAngleChanging;
-            MainMap.SizeChanged += MainMapSizeChanged;
+            Loaded += (_, _) => CompositionTarget.Rendering += OnRendering;
+            Unloaded += (_, _) => CompositionTarget.Rendering -= OnRendering;
         }
 
-        private void InitializeMaps()
+        // The frame follows every move of the main map's camera, mid-drag included: a frame
+        // drawn only when an event says the extent has changed waits for the mouse button.
+        private void OnRendering(object sender, EventArgs e)
         {
-            InitPreviewMap();
-            double miniMapScaleRatio = 50.0;
-            InitializeMap(PreviewMap, 4622340 * miniMapScaleRatio, -10502930, 4330070);
+            if (!_initialized || MainMap.CenterPoint == null) return;
 
-            InitializeMap(MainMap, 4622340, -9338030, 3300450);
+            var now = (MainMap.CenterPoint.X, MainMap.CenterPoint.Y, MainMap.CurrentScale, MainMap.RotationAngle, MainMap.TiltAngle);
+            if (now == _shown) return;
 
-            _ = MainMap.RefreshAsync();
-            _ = PreviewMap.RefreshAsync();
+            _shown = now;
+            UpdateFrame();
         }
 
-        private void InitPreviewMap()
-        {
-            PreviewMap.MapTools.Logo.IsEnabled = false;
-            PreviewMap.MapTools.PanZoomBar.IsEnabled = false;
-
-            PreviewMap.ExtentOverlay.RotationMouseButton = MapMouseButton.None;
-            PreviewMap.ExtentOverlay.PanMode = MapPanMode.Disabled;
-            PreviewMap.ExtentOverlay.DoubleLeftClickMode = MapDoubleClickMode.Disabled;
-            PreviewMap.ExtentOverlay.MouseWheelMode = MapMouseWheelMode.Disabled;
-
-            PreviewMap.EditOverlay.CanAddVertex = false;
-            PreviewMap.EditOverlay.CanRemoveVertex = false;
-            PreviewMap.EditOverlay.CanReshape = false;
-            PreviewMap.EditOverlay.CanResize = false;
-            PreviewMap.EditOverlay.CanRotate = false;
-
-            PreviewMap.ExtentOverlay.MapMouseDown += PreviewMap_MapMouseDown;
-
-            PreviewMap.EditOverlay.DragControlPointsLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle =
-                PointStyle.CreateSimpleStarStyle(GeoColors.Red, 10);
-            PreviewMap.EditOverlay.DragControlPointsLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel =
-                ApplyUntilZoomLevel.Level20;
-
-            var boundingBoxStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromArgb(32, GeoColors.Red), GeoColors.Red);
-            PreviewMap.EditOverlay.EditShapesLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = boundingBoxStyle;
-            PreviewMap.EditOverlay.EditShapesLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-            PreviewMap.EditOverlay.EditShapesLayer.Open();
-        }
-
-        private void UpdatePreviewMap(PointShape centerPoint, double rotationAngle)
-        {
-            if (centerPoint == null || MainMap.ActualWidth <= 0 || MainMap.ActualHeight <= 0)
-            {
-                return;
-            }
-
-            var extentShape = GetExtentShape(centerPoint, rotationAngle);
-            PreviewMap.EditOverlay.EditShapesLayer.InternalFeatures.Clear();
-            PreviewMap.EditOverlay.EditShapesLayer.InternalFeatures.Add(new Feature(extentShape));
-            PreviewMap.EditOverlay.CalculateAllControlPoints();
-            _ = PreviewMap.EditOverlay.RefreshAsync();
-        }
-
-        private void InitializeMap(MapView map, double scale, double x, double y)
-        {
-            map.MapUnit = GeographyUnit.Meter;
-
-            var layerOverlay = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
-
-            map.Basemap = layerOverlay;
-            map.CenterPoint = new PointShape(x, y);
-            map.CurrentScale = scale;
-        }
-
-        private void MainMapSizeChanged(object sender, SizeChangedEventArgs e)
+        private void MainMap_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (!_initialized)
             {
@@ -103,78 +47,89 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 }
 
                 _initialized = true;
-                InitializeMaps();
+
+                MainMap.MapUnit = GeographyUnit.Meter;
+                // Tilt with the right mouse button; the frame shows the ground the tilted view covers.
+                MainMap.IsTiltEnabled = true;
+                MainMap.MapTools.PanZoomBar.Visibility = Visibility.Collapsed;
+                MainMap.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
+                MainMap.CenterPoint = new PointShape(-9338030, 3300450);
+                MainMap.CurrentScale = 4622340;
+
+                PreviewMap.MapUnit = GeographyUnit.Meter;
+                PreviewMap.MapTools.PanZoomBar.Visibility = Visibility.Collapsed;
+                PreviewMap.MapTools.Logo.IsEnabled = false;
+                PreviewMap.ExtentOverlay.RotationMouseButton = MapMouseButton.None;
+                PreviewMap.ExtentOverlay.PanMode = MapPanMode.Disabled;
+                PreviewMap.ExtentOverlay.DoubleLeftClickMode = MapDoubleClickMode.Disabled;
+                PreviewMap.ExtentOverlay.MouseWheelMode = MapMouseWheelMode.Disabled;
+
+                var previewStyle = new MapStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
+                previewStyle.AddDynamic(_frame);
+                PreviewMap.Basemap = new GpuBasemap(previewStyle);
+                PreviewMap.CenterPoint = new PointShape(-10502930, 4330070);
+                PreviewMap.CurrentScale = MainMap.CurrentScale * 50;
+
+                _ = MainMap.RefreshAsync();
+                _ = PreviewMap.RefreshAsync();
             }
 
-            UpdatePreviewMap(MainMap.CenterPoint, MainMap.RotationAngle);
+            UpdateFrame();
         }
 
-        private void MainMapCurrentExtentChanged(object sender, CurrentExtentChangedMapViewEventArgs e)
+        private void PreviewMap_MapMouseDown(object sender, MapMouseDownMapViewEventArgs e)
         {
             if (!_initialized) return;
 
-            UpdatePreviewMap(MainMap.CenterPoint, MainMap.RotationAngle);
-        }
-
-        private void MainMapRotationAngleChanging(object sender, RotationAngleChangingMapViewEventArgs e)
-        {
-            if (!_initialized) return;
-
-            UpdatePreviewMap(MainMap.CenterPoint, e.NewRotationAngle);
-        }
-
-        private void CompassButton_Click(object sender, RoutedEventArgs e)
-            => _ = MainMap.ZoomToAsync(MainMap.CenterPoint, MainMap.CurrentScale, 0);
-
-        private void PreviewMap_MapMouseDown(object sender, MapMouseDownInteractiveOverlayEventArgs e)
-        {
-            var worldLocation = new PointShape(e.InteractionArguments.WorldX, e.InteractionArguments.WorldY);
-            var extentShape = GetExtentShape(worldLocation, MainMap.RotationAngle);
-            PreviewMap.EditOverlay.EditShapesLayer.Clear();
-            PreviewMap.EditOverlay.EditShapesLayer.InternalFeatures.Add(new Feature(extentShape));
-            PreviewMap.EditOverlay.CalculateAllControlPoints();
-
-            _ = MainMap.ZoomToAsync(worldLocation, MainMap.CurrentScale, MainMap.RotationAngle,
+            _ = MainMap.ZoomToAsync(e.WorldLocation, MainMap.CurrentScale, MainMap.RotationAngle,
                 new MapAnimationSettings { Duration = 10 });
         }
 
-        private RingShape GetExtentShape(PointShape centerPoint, double rotationAngle)
+        private void CompassButton_Click(object sender, RoutedEventArgs e)
         {
-            var resolution = MapUtil.GetResolutionFromScale(MainMap.CurrentScale, MainMap.MapUnit);
-            var halfWidth = MainMap.ActualWidth / 2 * resolution;
-            var halfHeight = MainMap.ActualHeight / 2 * resolution;
-
-            return GetRotatedExtent(centerPoint.X, centerPoint.Y, halfWidth, halfHeight, rotationAngle);
+            _ = MainMap.ZoomToAsync(MainMap.CenterPoint, MainMap.CurrentScale, 0);
         }
 
-        private static RingShape GetRotatedExtent(double centerX, double centerY,
-            double halfWidth, double halfHeight,
-            double rotationDegrees)
+        // The ground the main map shows, drawn on the overview: a rectangle turned by the
+        // rotation, or, tilted, the trapezoid the four screen corners land on.
+        private void UpdateFrame()
         {
-            double rad = rotationDegrees * Math.PI / 180.0;
-            double cos = Math.Cos(rad);
-            double sin = Math.Sin(rad);
+            var centerPoint = MainMap.CenterPoint;
+            var width = MainMap.ActualWidth;
+            var height = MainMap.ActualHeight;
+            if (centerPoint == null || width <= 0 || height <= 0) return;
 
-            // Define unrotated corners relative to center
-            var corners = new (double x, double y)[]
+            var resolution = MapUtil.GetResolutionFromScale(MainMap.CurrentScale, MainMap.MapUnit);
+            var halfWidth = width / 2 * resolution;
+            var halfHeight = height / 2 * resolution;
+            var ring = new RingShape();
+            if (MainMap.TiltAngle > 0)
             {
-                (-halfWidth,  halfHeight), // UL
-                ( halfWidth,  halfHeight), // UR
-                ( halfWidth, -halfHeight), // LR
-                (-halfWidth, -halfHeight)  // LL
-            };
-
-            var rotated = new Vertex[4];
-            for (int i = 0; i < corners.Length; i++)
+                // Past the horizon a corner has no ground under it; the frame then stops a few
+                // views out rather than running off the overview.
+                var reach = 3 * Math.Sqrt(halfWidth * halfWidth + halfHeight * halfHeight);
+                foreach (var (x, y) in new[] { (0d, 0d), (width, 0d), (width, height), (0d, height), (0d, 0d) })
+                {
+                    var ground = MainMap.ToWorldCoordinate(x, y, 0);
+                    var dx = ground.X - centerPoint.X;
+                    var dy = ground.Y - centerPoint.Y;
+                    var distance = Math.Sqrt(dx * dx + dy * dy);
+                    var clip = distance > reach ? reach / distance : 1;
+                    ring.Vertices.Add(new Vertex(centerPoint.X + dx * clip, centerPoint.Y + dy * clip));
+                }
+            }
+            else
             {
-                double x = corners[i].x;
-                double y = corners[i].y;
-                double xr = x * cos - y * sin;
-                double yr = x * sin + y * cos;
-                rotated[i] = new Vertex(centerX + xr, centerY + yr);
+                var radians = MainMap.RotationAngle * Math.PI / 180.0;
+                var cos = Math.Cos(radians);
+                var sin = Math.Sin(radians);
+                foreach (var (x, y) in new[] { (-halfWidth, halfHeight), (halfWidth, halfHeight), (halfWidth, -halfHeight), (-halfWidth, -halfHeight), (-halfWidth, halfHeight) })
+                {
+                    ring.Vertices.Add(new Vertex(centerPoint.X + x * cos - y * sin, centerPoint.Y + x * sin + y * cos));
+                }
             }
 
-            return new RingShape(rotated);
+            _frame.SetArea("frame", new Feature(new PolygonShape(ring)), new GeoColor(32, GeoColors.Red), GeoColors.Red, 2f);
         }
     }
 }

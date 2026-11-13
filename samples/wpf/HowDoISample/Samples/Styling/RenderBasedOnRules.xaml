@@ -12,7 +12,7 @@
   "layers": [
 
     { "type": "background",
-      "paint": { "background-color": "#DDE8F0" } },
+      "paint": { "background-color": "#1F2226" } },
 
     { "type": "fill",
       "source-layer": "Countries02",
@@ -32,7 +32,7 @@
   "layers": [
 
     { "type": "background",
-      "paint": { "background-color": "#DDE8F0" } },
+      "paint": { "background-color": "#1F2226" } },
 
     { "type": "fill",
       "source-layer": "Countries02",
@@ -52,7 +52,7 @@
   "layers": [
 
     { "type": "background",
-      "paint": { "background-color": "#DDE8F0" } },
+      "paint": { "background-color": "#1F2226" } },
 
     { "type": "fill",
       "source-layer": "Countries02",
@@ -75,7 +75,7 @@
   "layers": [
 
     { "type": "background",
-      "paint": { "background-color": "#DDE8F0" } },
+      "paint": { "background-color": "#1F2226" } },
 
     { "type": "fill",
       "source-layer": "Countries02",
@@ -89,33 +89,80 @@
     }
   ]
 }</sys:String>
+
+        <sys:String x:Key="RuleZoom" xml:space="preserve">{
+  "layers": [
+
+    { "type": "background",
+      "paint": { "background-color": "#1F2226" } },
+
+    { "type": "fill",
+      "source-layer": "Countries02",
+      "paint": { "fill-color": "rgba(233,232,214,0.8)" } },
+
+    { "type": "line",
+      "source-layer": "Countries02",
+      "paint": {
+          "line-color": "#8C8C7A",
+          "line-width": ["interpolate", ["linear"], ["zoom"],
+              1, 0.5,
+              6, 4] }
+    },
+
+    { "type": "symbol",
+      "source-layer": "Countries02",
+      "minzoom": 2,
+      "maxzoom": 4,
+      "layout": {
+          "text-field": ["get", "ISO_3DIGIT"],
+          "text-font": ["Noto Sans Bold"],
+          "text-size": 11 },
+      "paint": { "text-color": "#5A5A50" }
+    },
+
+    { "type": "symbol",
+      "source-layer": "Countries02",
+      "minzoom": 4,
+      "layout": {
+          "text-field": ["get", "CNTRY_NAME"],
+          "text-font": ["Noto Sans Regular"],
+          "text-size": ["step", ["zoom"],
+              12,
+              6, 15] },
+      "paint": { "text-color": "#333333" }
+    }
+  ]
+}</sys:String>
     </UserControl.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="240"/>
-            <ColumnDefinition Width="420"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
 
-        <DockPanel Grid.Column="1" Background="#F6F6F4">
-            <TextBlock DockPanel.Dock="Top" Text="style.json - pick a rule, or edit it; the map follows"
-                       FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
-            <StackPanel DockPanel.Dock="Top" Margin="8,0,8,4">
-                <RadioButton x:Name="MatchRule" Content="Values - match" Tag="RuleMatch" IsChecked="True" Checked="Rule_Checked"/>
-                <RadioButton x:Name="StepRule" Content="Ranges - step" Tag="RuleStep" Checked="Rule_Checked"/>
-                <RadioButton x:Name="FilterRule" Content="Only what passes - filter" Tag="RuleFilter" Checked="Rule_Checked"/>
-                <RadioButton x:Name="CaseRule" Content="Any condition - case" Tag="RuleCase" Checked="Rule_Checked"/>
-            </StackPanel>
-            <TextBlock x:Name="Status" DockPanel.Dock="Bottom" FontSize="11" Margin="8,4,8,6"
-                       TextWrapping="Wrap" Foreground="DarkGreen"/>
-            <TextBox x:Name="Editor" TextChanged="Editor_TextChanged"
-                     Text="{StaticResource RuleMatch}"
-                     AcceptsReturn="True" AcceptsTab="True"
-                     FontFamily="Consolas" FontSize="11.5" Padding="6"
-                     TextWrapping="NoWrap" BorderThickness="1,0,0,0" BorderBrush="#CCCCCC"
-                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
-        </DockPanel>
+        <Border Grid.Column="1" Style="{DynamicResource Shell.SamplePanel.Wide}">
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Top" Text="style.json - pick a rule, or edit it; the map follows"
+                           FontWeight="SemiBold" FontSize="11.5" Margin="0,6,0,4"/>
+                <StackPanel DockPanel.Dock="Top" Margin="0,0,0,4">
+                    <RadioButton x:Name="MatchRule" Content="Values - match" Tag="RuleMatch" IsChecked="True" Checked="Rule_Checked"/>
+                    <RadioButton x:Name="StepRule" Content="Ranges - step" Tag="RuleStep" Checked="Rule_Checked"/>
+                    <RadioButton x:Name="FilterRule" Content="Only what passes - filter" Tag="RuleFilter" Checked="Rule_Checked"/>
+                    <RadioButton x:Name="CaseRule" Content="Any condition - case" Tag="RuleCase" Checked="Rule_Checked"/>
+                    <RadioButton x:Name="ZoomRule" Content="By zoom level - minzoom, maxzoom and zoom" Tag="RuleZoom" Checked="Rule_Checked"/>
+                </StackPanel>
+                <TextBlock x:Name="Status" DockPanel.Dock="Bottom" FontSize="11" Margin="0,4,0,6"
+                           TextWrapping="Wrap" Foreground="LightGreen"/>
+                <TextBox x:Name="Editor" TextChanged="Editor_TextChanged"
+                         Text="{StaticResource RuleMatch}"
+                         AcceptsReturn="True" AcceptsTab="True"
+                         FontFamily="Consolas" FontSize="11.5" Padding="6"
+                         TextWrapping="NoWrap"
+                         VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
+            </DockPanel>
+        </Border>
     </Grid>
 </UserControl>

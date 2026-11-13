@@ -6,24 +6,32 @@
              xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
-    <DockPanel LastChildFill="True">
-        <Border DockPanel.Dock="Top" Background="#F2F2F2" Padding="12,8"
-                BorderBrush="#CCCCCC" BorderThickness="0,0,0,1">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
+
+        <Border Grid.Column="1" Style="{DynamicResource Shell.SamplePanel}">
             <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <RadioButton x:Name="ModeClock" Content="The clock - day and night circles" Tag="Clock"
-                                 IsChecked="True" Checked="Mode_Checked" VerticalAlignment="Center"/>
-                    <RadioButton x:Name="ModeRamp" Content="The data - a choropleth ramp" Tag="Ramp"
-                                 Checked="Mode_Checked" VerticalAlignment="Center" Margin="18,0,0,0"/>
+                <RadioButton x:Name="ModeClock" Content="The clock - day and night circles" Tag="Clock"
+                             IsChecked="True" Checked="Mode_Checked" Margin="0,2"/>
+                <RadioButton x:Name="ModeRamp" Content="The data - a choropleth ramp" Tag="Ramp"
+                             Checked="Mode_Checked" Margin="0,2"/>
+                <StackPanel x:Name="ClockRow">
+                    <DockPanel Margin="0,8,0,0">
+                        <TextBlock Text="UTC:" FontSize="11.5" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                        <TextBlock x:Name="HourLabel" DockPanel.Dock="Right" Width="74" FontSize="11.5" VerticalAlignment="Center" Margin="6,0,0,0"/>
+                        <Slider x:Name="HourSlider" Minimum="0" Maximum="24" VerticalAlignment="Center"/>
+                    </DockPanel>
+                    <TextBlock Margin="0,8,0,0" FontSize="11" TextWrapping="Wrap"
+                               Text="A style document has no clock. Each timezone is a pair of circle layers built in code, one for day and one for night, and the UTC hour switches which of the two is visible. A paint is fixed once its tile is built, so switching visibility is how the map changes with time without rebuilding a tile. Drag the slider to take over."/>
                 </StackPanel>
-                <StackPanel x:Name="ClockRow" Orientation="Horizontal" Margin="0,6,0,0">
-                    <TextBlock Text="UTC:" FontSize="11.5" VerticalAlignment="Center" Margin="0,0,6,0"/>
-                    <Slider x:Name="HourSlider" Minimum="0" Maximum="24" Width="320" VerticalAlignment="Center"/>
-                    <TextBlock x:Name="HourLabel" Width="74" FontSize="11.5" VerticalAlignment="Center" Margin="6,0,0,0"/>
-                </StackPanel>
-                <TextBlock x:Name="Blurb" Margin="0,4,0,0" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"/>
+                <TextBlock x:Name="RampText" Visibility="Collapsed" Margin="0,8,0,0" FontSize="11" TextWrapping="Wrap"
+                           Text="A paint lambda reads each state's 1990 population density and answers with a color from a five-step ramp, with the column name checked by the compiler. It runs when the tiles are built, not on every frame. The fill and its white outline are inserted above the basemap's own fills, so the roads and labels stay on top."/>
             </StackPanel>
         </Border>
-        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
-    </DockPanel>
+    </Grid>
 </UserControl>

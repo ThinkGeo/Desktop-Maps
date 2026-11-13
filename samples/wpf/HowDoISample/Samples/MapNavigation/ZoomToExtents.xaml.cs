@@ -1,27 +1,20 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Threading;
 using ThinkGeo.Core;
 using ThinkGeo.Core.Styling;
-using ThinkGeo.UI.Wpf;
 using ThinkGeo.Gpu;
 
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// Learn how to set the map extent using a variety of different methods.
+    /// Zoom in and out, to a scale, to a layer's extent, to a point and to a rotation, and choose the scales the wheel stops at.
     /// </summary>
-    public partial class ZoomToExtents : IDisposable
+    public partial class ZoomToExtents
     {
-        private readonly ThinkGeoVectorTileSource _cloud = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) };
-        private readonly FeatureSourceVectorTileSource _boundary = new FeatureSourceVectorTileSource();
-        private readonly DispatcherTimer _applyTimer;
         private ShapeFileFeatureSource _friscoCityBoundary;
         private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
         private Collection<double> _defaultScales;
@@ -31,14 +24,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         public ZoomToExtents()
         {
             InitializeComponent();
-
-            _applyTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(400) };
-            _applyTimer.Tick += async (_, _) => { _applyTimer.Stop(); await ApplyEditorStyleAsync(); };
         }
 
-        /// <summary>
-        /// Set up the map with the GpuStyleOverlay to show a basic map and a shapefile with simple data to work with
-        /// </summary>
         private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
@@ -52,12 +39,13 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             // The boundary never changes, so it is cut into tiles and drawn with the
             // basemap in one pass rather than by an overlay above it.
-            _boundary.FeatureSources.Add("boundary", new ShapeFileFeatureSource(shapefilePath)
+            var boundary = new FeatureSourceVectorTileSource();
+            boundary.FeatureSources.Add("boundary", new ShapeFileFeatureSource(shapefilePath)
             {
-                // Convert the Frisco shapefile from its native projection to Spherical Mercator, to match the map
                 ProjectionConverter = new ProjectionConverter(2276, 3857),
             });
-            Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, _cloud).AddStyle(Editor.Text, _boundary));
+            var cloud = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) };
+            Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Dark, cloud).AddStyle((string)Resources["StyleJson"], boundary));
 
             // Read a second time, for the extent the zoom buttons target. Nothing draws
             // it, so it is a FeatureSource and not a layer.
@@ -73,44 +61,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _ = Map.RefreshAsync();
         }
 
-        private void Editor_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (!_initialized) return;
-            _applyTimer.Stop();
-            _applyTimer.Start();
-        }
-
-        // A document that does not compile changes nothing; the map keeps the last one that worked.
-        private async Task ApplyEditorStyleAsync()
-        {
-            if (!IsLoaded) return;
-
-            try
-            {
-                await Map.Basemap.SetStyleAsync(new MapStyle(ThinkGeoVectorStyles.Light, _cloud).AddStyle(Editor.Text, _boundary));
-                Status.Foreground = Brushes.DarkGreen;
-                Status.Text = FormattableString.Invariant($"applied at {DateTime.Now:HH:mm:ss}");
-            }
-            catch (Exception exception)
-            {
-                Status.Foreground = Brushes.Firebrick;
-                Status.Text = "not applied - " + exception.Message.Split('\n')[0].TrimEnd('\r');
-            }
-        }
-
-        /// <summary>
-        /// Zoom in on the map
-        /// The same effect can be achieved by using the ZoomPanBar bar on the upper left of the map, double left-clicking on the map, or by using the scroll wheel.
-        /// </summary>
         private void ZoomIn_Click(object sender, RoutedEventArgs e)
         {
             _ = Map.ZoomInAsync();
         }
 
-        /// <summary>
-        /// Zoom out on the map
-        /// The same effect can be achieved by using the ZoomPanBar bar on the upper left of the map, double right-clicking on the map, or by using the scroll wheel.
-        /// </summary>
         private void ZoomOut_Click(object sender, RoutedEventArgs e)
         {
             _ = Map.ZoomOutAsync();
@@ -236,16 +191,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 var binding = RotationTextBox.GetBindingExpression(TextBox.TextProperty);
                 binding?.UpdateSource();
             }
-        }
-
-        public void Dispose()
-        {
-            Map.CurrentExtentChanged -= Map_CurrentExtentChanged;
-            Map.RotationAngleChanging -= Map_RotationAngleChanging;
-            _cancellationTokenSource.Cancel();
-            _cancellationTokenSource.Dispose();
-            Map.Dispose();
-            GC.SuppressFinalize(this);
         }
     }
 }

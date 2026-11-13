@@ -1,51 +1,97 @@
-﻿<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.Samples.PrintTheMap"
+<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.Samples.PrintTheMap"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="Map" SizeChanged="Map_SizeChanged"/>
-        <Grid Grid.Column="1" Grid.Row="0">
-            <Label Grid.Column="1" Grid.Row="0" Content="Print Controls"/>
-            <Button Grid.Column="1" Grid.Row="1" x:Name="PrintMap" Content="Print Map" Click="PrintMap_OnClick"></Button>
-            <Button Grid.Column="1" Grid.Row="2" x:Name="ExportPdf" Content="Export PDF" Click="ExportPdf_OnClick" VerticalAlignment="Top"></Button>
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="5" />
-                <ColumnDefinition Width="240" />
-                <ColumnDefinition Width="5" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-        </Grid>
-
-        <!-- Grid Layout -->
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-    </Grid>
-    
     <UserControl.Resources>
-        <Style TargetType="Label">
-            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
-            <Setter Property="FontSize" Value="14"></Setter>
-        </Style>
-        <Style TargetType="Grid">
-            <Setter Property="Background" Value="DimGray"></Setter>
-        </Style>
-        <Style TargetType="Button">
-            <Setter Property="Height" Value="22"></Setter>
-            <Setter Property="Margin" Value="0,10,0,0"></Setter>
-        </Style>
+        <sys:String x:Key="StyleJson" xml:space="preserve">{
+  "layers": [
+
+    { "id": "Background",
+      "type": "background",
+      "paint": {
+          "background-color": "#F7F4EC" }
+    },
+
+    { "id": "Parks",
+      "type": "fill",
+      "source-layer": "Parks",
+      "paint": {
+          "fill-color": "#A3D7A0",
+          "fill-outline-color": "#6FB36B" }
+    },
+
+    { "id": "Major streets",
+      "type": "line",
+      "source-layer": "Streets",
+      "filter": ["&lt;=", ["to-number", ["get", "SUBTYPE"]], 6],
+      "paint": {
+          "line-color": "#E09A3C",
+          "line-width": 1.5 }
+    },
+
+    { "id": "City limits",
+      "type": "line",
+      "source-layer": "FriscoCityLimits",
+      "paint": {
+          "line-color": "#1F4E9C",
+          "line-width": 2 }
+    },
+
+    { "id": "Mosquito sites",
+      "type": "circle",
+      "source-layer": "Frisco_Mosquitos",
+      "filter": ["==", ["to-string", ["get", "DateCollec"]], "20200505"],
+      "paint": {
+          "circle-radius": 5,
+          "circle-color": "#D7263D",
+          "circle-stroke-color": "#FFFFFF",
+          "circle-stroke-width": 2 }
+    },
+
+    { "id": "Site names",
+      "type": "symbol",
+      "source-layer": "Frisco_Mosquitos",
+      "filter": ["==", ["to-string", ["get", "DateCollec"]], "20200505"],
+      "layout": {
+          "text-field": ["get", "TrapSite"],
+          "text-size": 11,
+          "text-offset": [0, 1.2] },
+      "paint": {
+          "text-color": "#1A1A1A",
+          "text-halo-color": "#FFFFFF",
+          "text-halo-width": 2 }
+    }
+  ]
+}</sys:String>
     </UserControl.Resources>
+
+    <DockPanel LastChildFill="True">
+        <Border DockPanel.Dock="Right" Style="{DynamicResource Shell.SamplePanel.Wide}">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Top">
+                    <TextBlock Text="The map on the page - edit its style document below; the map and the legend follow"
+                               FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,0,0,4"/>
+                    <TextBlock FontSize="11" TextWrapping="Wrap" Margin="0,2"
+                               Text="Click the map frame to select it. With Ctrl held, dragging pans the map inside the frame and the wheel zooms it. Without Ctrl, dragging moves the frame on the page and the wheel zooms the page."/>
+
+                    <TextBlock Text="Output" FontWeight="SemiBold" Margin="0,14,0,4"/>
+                    <Button Content="Export this page as a PDF..." Click="ExportPdf_Click" Margin="0,2" Padding="0,3"/>
+                </StackPanel>
+                <TextBlock x:Name="Status" DockPanel.Dock="Bottom" Margin="0,10,0,0" FontSize="11" TextWrapping="Wrap"/>
+                <TextBox x:Name="StyleEditor" TextChanged="StyleEditor_TextChanged" Margin="0,14,0,0"
+                         Text="{StaticResource StyleJson}"
+                         AcceptsReturn="True" AcceptsTab="True"
+                         FontFamily="Consolas" FontSize="11.5" Padding="6"
+                         TextWrapping="NoWrap"
+                         VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
+            </DockPanel>
+        </Border>
+
+        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
+    </DockPanel>
 </UserControl>

@@ -12,11 +12,7 @@ using ThinkGeo.UI.Wpf;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// One dataset, four expressions - match, step, filter and case: the classic
-    /// ValueStyle, ClassBreakStyle, FilterStyle and boolean-expression styles are one
-    /// mechanism, an expression in the layer's paint. Every rule ends in a default,
-    /// so a feature no condition matches still has a look. Pick a rule or edit it;
-    /// text that does not compile changes nothing.
+    /// Style one dataset by rules - match, step, filter, case and zoom level - written in the style document beside the map.
     /// </summary>
     public partial class RenderBasedOnRules
     {
@@ -77,12 +73,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             try
             {
                 await Map.Basemap.SetStyleAsync(new MapStyle(Editor.Text, _tiles));
-                Status.Foreground = Brushes.DarkGreen;
+                Status.Foreground = Brushes.LightGreen;
                 Status.Text = FormattableString.Invariant($"applied at {DateTime.Now:HH:mm:ss}");
             }
             catch (Exception exception)
             {
-                Status.Foreground = Brushes.Firebrick;
+                Status.Foreground = Brushes.Salmon;
                 Status.Text = "not applied - " + exception.Message.Split('\n')[0].TrimEnd('\r') +
                               "   (the map is still drawing the last document that worked)";
             }

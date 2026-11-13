@@ -18,13 +18,13 @@
       "filter": ["==", ["geometry-type"], "Polygon"],
       "paint": {
           "fill-color": "rgba(255,165,0,0.25)",
-          "fill-outline-color": "#8A6D3B" }
+          "fill-outline-color": "#E0A458" }
     },
 
     { "type": "line",
       "source-layer": "data",
       "paint": {
-          "line-color": "#8A6D3B",
+          "line-color": "#E0A458",
           "line-width": 2 }
     }
   ]
@@ -34,45 +34,36 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="240"/>
-            <ColumnDefinition Width="420"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
 
-        <DockPanel Grid.Column="1" Background="#F6F6F4">
-            <TextBlock DockPanel.Dock="Top" Text="Measurement" FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
-            <StackPanel DockPanel.Dock="Top" Margin="8,0,8,4">
-                <RadioButton x:Name="MeaArea" Content="Area" IsChecked="True" Checked="Measurement_Checked"/>
-                <RadioButton x:Name="MeaLength" Content="Length" Checked="Measurement_Checked"/>
-                <RadioButton x:Name="MeaCenter" Content="Center point" Checked="Measurement_Checked"/>
-                <RadioButton x:Name="MeaShortest" Content="Shortest line to the stadium" Checked="Measurement_Checked"/>
-                <RadioButton x:Name="MeaSubLine" Content="A line along a line" Checked="Measurement_Checked"/>
+        <Border Grid.Column="1" Style="{DynamicResource Shell.SamplePanel}">
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Top" Text="Measurement" FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
+                <StackPanel DockPanel.Dock="Top" Margin="8,0,8,4">
+                    <RadioButton x:Name="MeaArea" Content="Area" IsChecked="True" Checked="Measurement_Checked"/>
+                    <RadioButton x:Name="MeaLength" Content="Length" Checked="Measurement_Checked"/>
+                    <RadioButton x:Name="MeaCenter" Content="Center point" Checked="Measurement_Checked"/>
+                    <RadioButton x:Name="MeaShortest" Content="Shortest line to the stadium" Checked="Measurement_Checked"/>
+                    <RadioButton x:Name="MeaSubLine" Content="A line along a line" Checked="Measurement_Checked"/>
 
-                <StackPanel x:Name="SubLinePanel" Margin="0,8,0,0" Visibility="Collapsed">
-                    <TextBlock Text="Start this far along (meters)" FontSize="11.5"/>
-                    <TextBox x:Name="StartingOffset" Text="500" Height="22" TextChanged="Parameter_TextChanged"/>
-                    <TextBlock Text="and run this far (meters)" FontSize="11.5" Margin="0,6,0,0"/>
-                    <TextBox x:Name="RunLength" Text="1000" Height="22" TextChanged="Parameter_TextChanged"/>
+                    <StackPanel x:Name="SubLinePanel" Margin="0,8,0,0" Visibility="Collapsed">
+                        <TextBlock Text="Start this far along (meters)" FontSize="11.5"/>
+                        <TextBox x:Name="StartingOffset" Text="500" Height="22" TextChanged="Parameter_TextChanged"/>
+                        <TextBlock Text="and run this far (meters)" FontSize="11.5" Margin="0,6,0,0"/>
+                        <TextBox x:Name="RunLength" Text="1000" Height="22" TextChanged="Parameter_TextChanged"/>
+                    </StackPanel>
+
+                    <TextBlock x:Name="Result" FontWeight="SemiBold" FontSize="15" Margin="0,8,0,0" TextWrapping="Wrap"/>
+
+                    <TextBlock x:Name="Hint" TextWrapping="Wrap" FontSize="11" Margin="0,4,0,0"/>
+
+                    <TextBlock TextWrapping="Wrap" FontSize="11" Margin="0,6,0,0"
+                               Text="Orange is the data; green is what was measured. Every measurement here is one call on the shape you clicked - the map work around it is the same either way."/>
                 </StackPanel>
-
-                <TextBlock x:Name="Result" FontWeight="SemiBold" FontSize="15" Margin="0,8,0,0" TextWrapping="Wrap"/>
-
-                <TextBlock x:Name="Hint" Foreground="#444A52" TextWrapping="Wrap" FontSize="11" Margin="0,4,0,0"/>
-
-                <TextBlock Foreground="#444A52" TextWrapping="Wrap" FontSize="11" Margin="0,6,0,0"
-                           Text="Orange is the data; green is what was measured. Every measurement here is one call on the shape you clicked - the map work around it is the same either way."/>
-            </StackPanel>
-            <TextBlock DockPanel.Dock="Top" Text="style.json - edit it; the map follows"
-                       FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
-
-            <TextBlock x:Name="Status" DockPanel.Dock="Bottom" FontSize="11" Margin="8,4,8,6"
-                       TextWrapping="Wrap" Foreground="DarkGreen"/>
-            <TextBox x:Name="Editor" TextChanged="Editor_TextChanged"
-                     Text="{StaticResource StyleJson}"
-                     AcceptsReturn="True" AcceptsTab="True"
-                     FontFamily="Consolas" FontSize="11.5" Padding="6"
-                     TextWrapping="NoWrap" BorderThickness="1,0,0,0" BorderBrush="#CCCCCC"
-                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
-        </DockPanel>
+            </DockPanel>
+        </Border>
     </Grid>
 </UserControl>

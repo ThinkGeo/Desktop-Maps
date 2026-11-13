@@ -6,51 +6,18 @@
              xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <thinkGeoUi:MapView Grid.Column="0" Grid.Row="0" x:Name="Map" SizeChanged="Map_SizeChanged" />
-
-        <!-- Overlay radio buttons in bottom-left corner -->
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                    Margin="10" Background="Gray" Width="180" >
-            <Label Grid.Column="1" Grid.Row="0" Content="Map Resize Mode:" FontSize="16" FontWeight="Bold" Foreground="Black"></Label>
-            <RadioButton Content="PreserveScale" Checked="ToggleButton_OnChecked" IsChecked="True" Foreground="Black"/>
-            <RadioButton Content="PreserveScaleAndCenter" Checked="ToggleButton_OnChecked" Foreground="Black"/>
-            <RadioButton Content="PreserveExtent" Checked="ToggleButton_OnChecked" Foreground="Black"/>
-        </StackPanel>
-
-    </Grid>
-
-    <!-- Styles -->
-    <UserControl.Resources>
-        <Style TargetType="Grid">
-            <Setter Property="Background" Value="DimGray"></Setter>
-            <Setter Property="Margin" Value="8,8,8,8"></Setter>
-        </Style>
-        <Style TargetType="Border">
-            <Setter Property="BorderBrush" Value="Gray"></Setter>
-            <Setter Property="BorderThickness" Value="1"></Setter>
-        </Style>
-        <Style TargetType="Separator">
-            <Setter Property="Height" Value="12"></Setter>
-            <Setter Property="Background" Value="Transparent"></Setter>
-        </Style>
-        <Style TargetType="TextBlock">
-            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
-            <Setter Property="FontSize" Value="14"></Setter>
-            <Setter Property="FontWeight" Value="Bold"></Setter>
-            <Setter Property="Margin" Value="0,0,0,4"></Setter>
-        </Style>
-        <Style TargetType="Label">
-            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
-        </Style>
-        <Style TargetType="TextBox">
-            <Setter Property="Margin" Value="4"></Setter>
-        </Style>
-        <Style TargetType="ComboBox">
-            <Setter Property="Margin" Value="4"></Setter>
-        </Style>
-        <Style TargetType="Button">
-            <Setter Property="Margin" Value="4"></Setter>
-        </Style>
-    </UserControl.Resources>
+    <DockPanel LastChildFill="True">
+        <Border DockPanel.Dock="Right" Width="270" Background="#F6F6F4" Padding="12,10"
+                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+            <StackPanel>
+                <TextBlock Text="Map resize mode" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                <RadioButton Content="PreserveScale" IsChecked="True" Margin="0,2" Checked="ToggleButton_OnChecked"/>
+                <RadioButton Content="PreserveScaleAndCenter" Margin="0,2" Checked="ToggleButton_OnChecked"/>
+                <RadioButton Content="PreserveExtent" Margin="0,2" Checked="ToggleButton_OnChecked"/>
+                <TextBlock Margin="0,10,0,0" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"
+                           Text="Resize the window, or drag the splitter beside the code pane, and watch what the map keeps."/>
+            </StackPanel>
+        </Border>
+        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
+    </DockPanel>
 </UserControl>

@@ -1,0 +1,71 @@
+<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.ShapeOperations"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="Height" Value="22"/>
+            <Setter Property="Margin" Value="0,2,0,6"/>
+        </Style>
+    </UserControl.Resources>
+
+    <DockPanel LastChildFill="True">
+        <Border DockPanel.Dock="Right" Width="290" Background="#F6F6F4" Padding="12,10"
+                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+            <StackPanel>
+                <RadioButton Content="Union" Tag="union" GroupName="Operation" Margin="0,2" Checked="Operation_Checked"/>
+                <RadioButton Content="Buffer" Tag="buffer" GroupName="Operation" IsChecked="True" Margin="0,2" Checked="Operation_Checked"/>
+                <RadioButton Content="Simplify" Tag="simplify" GroupName="Operation" Margin="0,2" Checked="Operation_Checked"/>
+                <RadioButton Content="Rotate" Tag="rotate" GroupName="Operation" Margin="0,2" Checked="Operation_Checked"/>
+                <RadioButton Content="Scale" Tag="scale" GroupName="Operation" Margin="0,2" Checked="Operation_Checked"/>
+                <RadioButton Content="Translate by an offset" Tag="offset" GroupName="Operation" Margin="0,2" Checked="Operation_Checked"/>
+                <RadioButton Content="Translate by a distance and an angle" Tag="degree" GroupName="Operation" Margin="0,2" Checked="Operation_Checked"/>
+                <RadioButton Content="Clip (intersection with the blue area)" Tag="clip" GroupName="Operation" Margin="0,2" Checked="Operation_Checked"/>
+                <RadioButton Content="Difference from the blue area" Tag="difference" GroupName="Operation" Margin="0,2" Checked="Operation_Checked"/>
+                <RadioButton Content="Convex hull" Tag="convexHull" GroupName="Operation" Margin="0,2" Checked="Operation_Checked"/>
+                <RadioButton Content="Envelope" Tag="envelope" GroupName="Operation" Margin="0,2" Checked="Operation_Checked"/>
+
+                <StackPanel x:Name="BufferPanel" Margin="0,10,0,0" Visibility="Collapsed">
+                    <TextBlock Text="Buffer distance (meters)"/>
+                    <TextBox x:Name="BufferDistance" Text="1000"/>
+                </StackPanel>
+                <StackPanel x:Name="SimplifyPanel" Margin="0,10,0,0" Visibility="Collapsed">
+                    <TextBlock Text="Tolerance (map units, meters here)"/>
+                    <TextBox x:Name="Tolerance" Text="500"/>
+                </StackPanel>
+                <StackPanel x:Name="RotatePanel" Margin="0,10,0,0" Visibility="Collapsed">
+                    <TextBlock Text="Rotation (degrees)"/>
+                    <TextBox x:Name="RotateDegree" Text="90"/>
+                </StackPanel>
+                <StackPanel x:Name="ScalePanel" Margin="0,10,0,0" Visibility="Collapsed">
+                    <TextBlock Text="Scale factor"/>
+                    <TextBox x:Name="ScaleFactor" Text="0.5"/>
+                </StackPanel>
+                <StackPanel x:Name="OffsetPanel" Margin="0,10,0,0" Visibility="Collapsed">
+                    <TextBlock Text="X offset (meters)"/>
+                    <TextBox x:Name="TranslateX" Text="1000"/>
+                    <TextBlock Text="Y offset (meters)"/>
+                    <TextBox x:Name="TranslateY" Text="1000"/>
+                </StackPanel>
+                <StackPanel x:Name="DegreePanel" Margin="0,10,0,0" Visibility="Collapsed">
+                    <TextBlock Text="Distance (meters)"/>
+                    <TextBox x:Name="TranslateDistance" Text="1000"/>
+                    <TextBlock Text="Angle (degrees)"/>
+                    <TextBox x:Name="TranslateAngle" Text="120"/>
+                </StackPanel>
+
+                <Button Content="Run" Height="24" Margin="0,10,0,0" Click="Run_Click"/>
+
+                <TextBlock x:Name="Status" Margin="0,10,0,0" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"/>
+                <TextBlock Margin="0,6,0,0" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"
+                           Text="Orange is the shape the operation reads; green is the new shape it returns."/>
+            </StackPanel>
+        </Border>
+
+        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
+    </DockPanel>
+</UserControl>

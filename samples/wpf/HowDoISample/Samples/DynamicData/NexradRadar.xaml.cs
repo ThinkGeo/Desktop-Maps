@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Windows;
 using System.Windows.Threading;
@@ -11,33 +10,21 @@ using ThinkGeo.UI.Wpf;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// A live weather image draped over the basemap: one GeoImageRasterTileSource carries the
-    /// NEXRAD composite PNG that Iowa State's Mesonet publishes - a plain HTTP
-    /// download of one georeferenced image, no tile protocol - anchored by its WGS84
-    /// extent. The image arrives in degrees and the source resamples it against the
-    /// Mercator latitude curve, so the echoes land on the counties they are over.
-    ///
-    /// The last half hour animates by itself, and the animation is the point of the
-    /// source OBJECT: Update swaps the bitmap and announces its own refresh - the map
-    /// refetches, and nothing about the style changes. The same data-through-the-source
-    /// pattern the isoline and weather-grid samples use.
+    /// The NEXRAD radar composite, one georeferenced PNG per GeoImageRasterTileSource, looping through the last half hour.
     /// </summary>
     public partial class NexradRadar : IDisposable
     {
         private const string FrameUrlTemplate = "https://mesonet.agron.iastate.edu/data/gis/images/4326/USCOMP/n0q_{0}.png";
         private const int FrameCount = 6; // n0q_5 (25 minutes ago) .. n0q_0 (now), 5-minute steps
-        private const string RadarSourceId = "radar";
 
-        // The published CONUS composite: 0.005-degree pixels from (-126, 50) down to
-        // (-65, 23) - 12200 x 5400, about 2.7 MB a frame.
+        // The published CONUS composite: 0.005-degree pixels from (-126, 50) down to (-65, 23).
         private static readonly RectangleShape ImageExtent = new RectangleShape(-126, 50, -65, 23);
 
         private static readonly HttpClient HttpClient = new HttpClient();
 
         private readonly DispatcherTimer _timer;
-        private GpuBasemap _basemap;
-        private GeoImageRasterTileSource _radar;
-        private List<byte[]> _frames;
+        private readonly GeoImageRasterTileSource[] _frames = new GeoImageRasterTileSource[FrameCount];
+        private MapStyle _style;
         private int _frameIndex;
         private bool _built;
 
@@ -61,33 +48,29 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _built = true;
             try
             {
-                // The source object holds the image and where it lies; the style
-                // holds that it draws as a raster layer at this opacity. The
-                // mosaic is a black-backed palette PNG; black is its "no echo".
-                _radar = GeoImageRasterTileSource.FromUri(
-                    string.Format(FrameUrlTemplate, 0), ImageExtent, new Projection(4326));
-                _radar.TransparentColor = GeoColors.Black;
-
-                var style = new MapStyle();
-                style.AddStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
-                style.AddRaster(_radar, new RasterPaint(0.75f), RadarSourceId);
-                _basemap = new GpuBasemap(style);
-                Map.Basemap = _basemap;
-
-                // The lower 48, where the composite has coverage.
-                Map.CurrentExtent = new RectangleShape(-14026255, 6446275, -7235766, 2632018);
-                await Map.RefreshAsync();
-
-                // The newest frame is on screen; pull the last half hour behind it
-                // and loop as soon as the frames are in.
-                var frames = new List<byte[]>(FrameCount);
-                for (var i = FrameCount - 1; i >= 0; i--)
+                // One source and one layer per frame, oldest first. Stepping the loop only
+                // switches which layer is visible: a frame's tiles stay loaded, so nothing is
+                // fetched again and the map never shows a gap between two frames.
+                _style = new MapStyle();
+                _style.AddStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
+                for (var i = 0; i < FrameCount; i++)
                 {
-                    frames.Add(await HttpClient.GetByteArrayAsync(string.Format(FrameUrlTemplate, i)));
+                    var minutesAgo = (FrameCount - 1 - i) * 5;
+                    Status.Text = FormattableString.Invariant($"Loading the radar, {i + 1} of {FrameCount}…");
+                    var png = await HttpClient.GetByteArrayAsync(string.Format(FrameUrlTemplate, minutesAgo / 5));
+
+                    // The mosaic is a black-backed palette PNG; black is its "no echo".
+                    _frames[i] = new GeoImageRasterTileSource(png, ImageExtent, new Projection(4326)) { TransparentColor = GeoColors.Black };
+                    _style.AddRaster(_frames[i], new RasterPaint(0.75f), FrameId(i));
+                    _style.SetLayerVisibility(FrameId(i), i == FrameCount - 1);
                 }
 
-                _frames = frames;
-                _frameIndex = 0;
+                Map.Basemap = new GpuBasemap(_style);
+                Map.CurrentExtent = new RectangleShape(-14026255, 6446275, -7235766, 2632018);
+                ShowStatus(FrameCount - 1);
+                await Map.RefreshAsync();
+
+                _frameIndex = FrameCount - 1;
                 _timer.Start();
             }
             catch (Exception ex)
@@ -99,21 +82,32 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         private void ShowNextFrame()
         {
-            // One Update: the source announces its own refresh, every map drawing it
-            // refetches, and the style and its compiled state are untouched.
-            _radar.Update(_frames[_frameIndex]);
-            var minutesAgo = (_frames.Count - 1 - _frameIndex) * 5;
+            var next = (_frameIndex + 1) % FrameCount;
+            _style.SetLayerVisibility(FrameId(_frameIndex), false);
+            _style.SetLayerVisibility(FrameId(next), true);
+            _frameIndex = next;
+            ShowStatus(next);
+        }
+
+        private void ShowStatus(int frame)
+        {
+            var minutesAgo = (FrameCount - 1 - frame) * 5;
             Status.Text = minutesAgo == 0
                 ? "NEXRAD composite, courtesy of Iowa State Mesonet - now"
                 : FormattableString.Invariant($"NEXRAD composite, courtesy of Iowa State Mesonet - {minutesAgo} minutes ago");
-            _frameIndex = (_frameIndex + 1) % _frames.Count;
         }
+
+        private static string FrameId(int frame) => FormattableString.Invariant($"radar-{frame}");
 
         public void Dispose()
         {
             _timer.Stop();
             Map.Dispose();
-            _radar?.Dispose();
+            foreach (var frame in _frames)
+            {
+                frame?.Dispose();
+            }
+
             GC.SuppressFinalize(this);
         }
     }

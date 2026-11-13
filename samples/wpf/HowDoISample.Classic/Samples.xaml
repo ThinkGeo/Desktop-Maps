@@ -40,7 +40,7 @@
                         VerticalAlignment="Center"
                         Height="24">
                 <TextBlock local:HyperlinkHelper.LaunchBrowser="True" >
-                    <Hyperlink NavigateUri="https://docs.thinkgeo.com/products/desktop-maps/v12.0/quickstart/" 
+                    <Hyperlink NavigateUri="https://docs.thinkgeo.com/products/desktop-maps/quickstart-wpf/" 
                                Style="{DynamicResource LinkStyle}">Documentation</Hyperlink>
                 </TextBlock>
                 <Path Style="{DynamicResource VerticalSplitter}"></Path>

@@ -1,0 +1,35 @@
+<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.Samples.ReprojectARaster"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="240"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
+
+        <Border Grid.Column="1" Style="{DynamicResource Shell.SamplePanel}">
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Top" Text="Raster" FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
+                <StackPanel DockPanel.Dock="Top" Margin="8,0,8,4">
+                    <RadioButton x:Name="RasterFile" Content="A raster file - World.tif into EPSG:9311" Tag="file" IsChecked="True" Checked="Raster_Checked"/>
+                    <RadioButton x:Name="TileService" Content="A tile service - EPSG:3857 tiles into EPSG:4326" Tag="tiles" Checked="Raster_Checked"/>
+
+                    <StackPanel x:Name="ServerPanel" Margin="18,4,0,0" Visibility="Collapsed">
+                        <RadioButton x:Name="ServerThinkGeo" Content="ThinkGeo Cloud" GroupName="Server" Tag="thinkgeo" IsChecked="True" Checked="Server_Checked"/>
+                        <RadioButton x:Name="ServerOsm" Content="OpenStreetMap" GroupName="Server" Tag="osm" Checked="Server_Checked"/>
+                    </StackPanel>
+
+                    <TextBlock TextWrapping="Wrap" FontSize="11" Margin="0,8,0,0"
+                               Text="Both are the same recipe: a GdalProjectionConverter on the layer, in a SingleTile LayerOverlay. A raster has no vertices to convert, so the image is resampled pixel by pixel as the layer draws; the tile service is fetched on its own grid and the tiles are merged and warped. Switching the server keeps the view."/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+    </Grid>
+</UserControl>

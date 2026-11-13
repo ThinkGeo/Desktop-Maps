@@ -10,8 +10,9 @@ using ThinkGeo.UI.Wpf;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// Open a raster file - GeoTIFF, ECW, JPEG 2000, MrSID, or anything else GDAL
-    /// reads - and draw it. Each format has a classic raster source named after it;
+    /// Open a raster file - GeoTIFF, ECW, JPEG 2000, MrSID, or a format with no class
+    /// of its own such as a plain JPEG - and draw it. Each common format has a
+    /// classic raster source named after it, and GdalRasterSource reads the rest;
     /// WarpProjection warps the file once at open through a virtual dataset, and
     /// one ClassicRasterTileSource serves its windowed reads as tiles, so a
     /// multi-gigabyte image with overviews draws at every zoom without ever being
@@ -66,7 +67,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         /// <summary>
         /// The chosen file as a tile source, read by the class named after its
-        /// format, over the cloud basemap.
+        /// format - or by GdalRasterSource itself - over the cloud basemap.
         /// </summary>
         private MapStyle ComposeStyle()
         {
@@ -92,7 +93,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             }
 
             var style = new MapStyle();
-            style.AddStyle(ThinkGeoVectorStyles.Light, _cloud);
+            style.AddStyle(ThinkGeoVectorStyles.Dark, _cloud);
             if (_current != null)
             {
                 style.AddRaster(_current, sourceId: "raster");
@@ -116,17 +117,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             if (FmtMrSid.IsChecked == true)
                 // No projection in the file; its degree-shaped extent reads as WGS84.
                 return new MrSidRasterSource(Data("MrSid", "World.sid"));
-            if (FmtEcw.IsChecked == true)
-                // This ECW's own projection record is broken; its world file is degrees.
-                return new EcwGdalRasterSource(Data("Ecw", "World.ecw")) { SourceProjection = new Projection(4326) };
-
-            return new GdalRasterSource(Data("GeoTiff", "World.tif")) { SourceProjection = new Projection(4326) };
+            // This ECW's own projection record is broken; its world file is degrees.
+            return new EcwGdalRasterSource(Data("Ecw", "World.ecw")) { SourceProjection = new Projection(4326) };
         }
 
-        private RectangleShape StartExtent() =>
-            FmtGeoTiff.IsChecked == true || FmtJpeg2000.IsChecked == true || FmtJpeg.IsChecked == true
-                ? Frisco
-                : MaxExtents.SphericalMercator;
+        private RectangleShape StartExtent()
+        {
+            if (FmtGeoTiff.IsChecked == true || FmtJpeg2000.IsChecked == true || FmtJpeg.IsChecked == true) return Frisco;
+            return MaxExtents.SphericalMercator;
+        }
 
         private static string Data(string folder, string file) =>
             Path.Combine(AppContext.BaseDirectory, "Data", folder, file);

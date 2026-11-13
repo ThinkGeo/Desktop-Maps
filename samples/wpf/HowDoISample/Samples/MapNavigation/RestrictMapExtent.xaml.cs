@@ -2,7 +2,6 @@ using System;
 using System.Windows;
 using ThinkGeo.Core;
 using ThinkGeo.Core.Styling;
-using ThinkGeo.UI.Wpf;
 using ThinkGeo.Gpu;
 
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
@@ -12,7 +11,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
     /// </summary>
     public partial class RestrictMapExtent
     {
-        // Restrict extent: Dallas/Frisco, TX area in meters (EPSG:3857)
+        // Dallas, TX: latitude 32.58 to 33.04, longitude -97.10 to -96.54, in EPSG:3857.
         private readonly RectangleShape _restrictExtent = new RectangleShape(-10809000, 3900000, -10747000, 3840000);
         private const double MaxScale = 500000;
         private const double MinScale = 10000;
@@ -30,12 +29,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _initialized = true;
             Map.MapUnit = GeographyUnit.Meter;
 
-            // The red border marking the restricted extent goes to the GPU with the
-            // basemap. Drawn on an overlay it would be a raster, and this sample is
-            // about zooming - the one thing that would show the border stretching while
-            // the map under it stayed sharp.
+            // The red border is drawn with the basemap, so it stays sharp at every zoom.
             var boundary = new DynamicSource();
-            var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
+            var style = new MapStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
             style.AddDynamic(boundary);
             Map.Basemap = new GpuBasemap(style);
             // A border, not a shaded box - a fill is drawn unless one is asked not to be.

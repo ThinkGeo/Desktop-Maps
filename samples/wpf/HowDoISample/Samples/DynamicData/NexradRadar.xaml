@@ -6,11 +6,13 @@
              xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
-    <DockPanel LastChildFill="True">
-        <DockPanel DockPanel.Dock="Top" Background="#F2F2F2">
-            <TextBlock x:Name="Status" Text="Loading the latest composite…"
-                       VerticalAlignment="Center" Margin="12,6,12,6"/>
-        </DockPanel>
+    <Grid>
         <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
-    </DockPanel>
+
+        <!-- One line of status needs no panel: it sits on the map. -->
+        <Border HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="12" Padding="10,6"
+                Background="#CC26282C" CornerRadius="3" IsHitTestVisible="False">
+            <TextBlock x:Name="Status" Text="Loading the latest composite…" Foreground="#E7E9EC"/>
+        </Border>
+    </Grid>
 </UserControl>

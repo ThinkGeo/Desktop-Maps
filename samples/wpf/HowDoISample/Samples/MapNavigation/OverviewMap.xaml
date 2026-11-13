@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.Samples.OverviewMap"
+<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.Samples.OverviewMap"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -6,36 +6,33 @@
              xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
              mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800">
 
-    <UserControl.Resources>
-        <Style x:Key="ImageButtonNoHoverStyle" TargetType="Button">
-            <Setter Property="OverridesDefaultStyle" Value="True" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </UserControl.Resources>
-
     <Grid>
-        <thinkGeoUi:MapView x:Name="MainMap"/>
-
-        <Button x:Name="CompassButton"
-                Style="{StaticResource ImageButtonNoHoverStyle}"
-                Width="40" Height="40" Background="Transparent"
-                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10"
-                Click="CompassButton_Click" ToolTip="Reset North" RenderTransformOrigin="0.5,0.5">
-            <Button.RenderTransform>
-                <RotateTransform Angle="{Binding ElementName=MainMap, Path=RotationAngle}" />
-            </Button.RenderTransform>
-            <Image Source="/Resources/icon_north_arrow.png" Stretch="Fill" />
-        </Button>
+        <thinkGeoUi:MapView x:Name="MainMap" SizeChanged="MainMap_SizeChanged"/>
 
         <Border BorderBrush="#FF333333" BorderThickness="5" CornerRadius="6" Margin="8" Width="220" Height="220"
-                HorizontalAlignment="Left" VerticalAlignment="Bottom" >
-            <thinkGeoUi:MapView x:Name="PreviewMap" />
+                HorizontalAlignment="Left" VerticalAlignment="Bottom" ToolTip="Click to move the main map there">
+            <thinkGeoUi:MapView x:Name="PreviewMap" MapMouseDown="PreviewMap_MapMouseDown"/>
+        </Border>
+
+        <Border Style="{DynamicResource Shell.MapCard}" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <StackPanel>
+                <TextBlock FontSize="11" TextWrapping="Wrap" Margin="0,0,0,8"
+                           Text="The red frame on the overview follows the main map's view and turns with it. Click the overview to move the main map there."/>
+                <Button x:Name="CompassButton" HorizontalAlignment="Left" Padding="6,2" Click="CompassButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <!-- The icon is black; used as a mask over a light fill it reads on the dark card. -->
+                        <Rectangle Width="18" Height="18" Fill="#E7E9EC" RenderTransformOrigin="0.5,0.5">
+                            <Rectangle.OpacityMask>
+                                <ImageBrush ImageSource="pack://application:,,,/ThinkGeo.UI.Wpf.HowDoI.v15;component/Resources/icon_north_arrow.png"/>
+                            </Rectangle.OpacityMask>
+                            <Rectangle.RenderTransform>
+                                <RotateTransform Angle="{Binding ElementName=MainMap, Path=RotationAngle}"/>
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+                        <TextBlock Text="Reset north" VerticalAlignment="Center" Margin="6,0,0,0"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
         </Border>
     </Grid>
 </UserControl>

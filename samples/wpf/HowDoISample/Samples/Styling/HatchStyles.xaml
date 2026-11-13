@@ -6,53 +6,56 @@
              xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
-    <DockPanel LastChildFill="True">
-        <Border DockPanel.Dock="Top" Background="#F2F2F2" Padding="12,8"
-                BorderBrush="#CCCCCC" BorderThickness="0,0,0,1">
-            <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Hatch pattern:" FontSize="11.5" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                    <ComboBox x:Name="HatchPicker" Width="190" VerticalAlignment="Center"/>
-                    <Border x:Name="Swatch" Width="44" Height="26" Margin="10,0,0,0" VerticalAlignment="Center"
-                            BorderBrush="#AAAAAA" BorderThickness="1" Background="White"/>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="240"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
+
+        <Border Grid.Column="1" Style="{DynamicResource Shell.SamplePanel.Wide}">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Top" Margin="0,6,0,6">
+                    <TextBlock FontSize="11" TextWrapping="Wrap"
+                               Text="The picked GeoHatchStyle is stroked into a small image and registered with MapStyle.Images as &quot;hatch&quot;, the name the document's fill-pattern uses. The swatch is that image, tiled at the size the map draws it. Hover a row to preview it."/>
+                    <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                        <TextBlock Text="Hatch pattern:" FontSize="11.5" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <ComboBox x:Name="HatchPicker" Width="190" VerticalAlignment="Center"
+                                  SelectionChanged="HatchPicker_SelectionChanged" DropDownClosed="HatchPicker_DropDownClosed">
+                            <ComboBox.ItemContainerStyle>
+                                <Style TargetType="ComboBoxItem">
+                                    <EventSetter Event="PreviewMouseMove" Handler="HatchRow_PreviewMouseMove"/>
+                                </Style>
+                            </ComboBox.ItemContainerStyle>
+                        </ComboBox>
+                        <Border x:Name="Swatch" Width="44" Height="26" Margin="10,0,0,0" VerticalAlignment="Center"
+                                BorderBrush="#AAAAAA" BorderThickness="1"/>
+                    </StackPanel>
                 </StackPanel>
-                <TextBlock Margin="0,4,0,0" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"
-                           Text="Every GeoHatchStyle is stroked into a small image, registered with MapStyle.Images, and named by fill-pattern. The swatch is that image, tiled at the size the map draws it. Picking a row rewrites fill-pattern in the document beside the map."/>
-            </StackPanel>
-        </Border>
-
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" MinWidth="240"/>
-                <ColumnDefinition Width="420"/>
-            </Grid.ColumnDefinitions>
-
-            <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
-
-            <DockPanel Grid.Column="1" Background="#F6F6F4">
                 <TextBlock DockPanel.Dock="Top" Text="style.json - edit it and the map follows"
-                           FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
-                <TextBlock x:Name="Status" DockPanel.Dock="Bottom" FontSize="11" Margin="8,4,8,6"
-                           TextWrapping="Wrap" Foreground="DarkGreen"/>
+                           FontWeight="SemiBold" FontSize="11.5" Margin="0,6,0,4"/>
+                <TextBlock x:Name="Status" DockPanel.Dock="Bottom" FontSize="11" Margin="0,4,0,6"
+                           TextWrapping="Wrap" Foreground="LightGreen"/>
                 <TextBox x:Name="Editor" TextChanged="Editor_TextChanged"
                          AcceptsReturn="True" AcceptsTab="True"
                          FontFamily="Consolas" FontSize="11.5" Padding="6"
-                         TextWrapping="NoWrap" BorderThickness="1,0,0,0" BorderBrush="#CCCCCC"
+                         TextWrapping="NoWrap"
                          VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
                          xml:space="preserve">{
   "layers": [
 
     { "type": "background",
-      "paint": { "background-color": "#DDE8F0" } },
+      "paint": { "background-color": "#1F2226" } },
 
     { "type": "fill",
       "source-layer": "Parks",
-      "paint": { "fill-pattern": "hatch-cross" } },
+      "paint": { "fill-pattern": "hatch" } },
 
     { "type": "line",
       "source-layer": "Parks",
       "paint": {
-          "line-color": "#0000FF",
+          "line-color": "#5C8DFF",
           "line-width": 2.5 }
     },
 
@@ -62,11 +65,11 @@
           "text-field": ["get", "NAME"],
           "text-font": ["Noto Sans Bold"],
           "text-size": 11 },
-      "paint": { "text-color": "#145A28" }
+      "paint": { "text-color": "#8FD19E" }
     }
   ]
 }</TextBox>
             </DockPanel>
-        </Grid>
-    </DockPanel>
+        </Border>
+    </Grid>
 </UserControl>

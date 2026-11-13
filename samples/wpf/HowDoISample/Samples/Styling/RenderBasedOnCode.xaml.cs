@@ -13,22 +13,7 @@ using ThinkGeo.UI.Wpf;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// Two things a style document cannot hold, one style, one map.
-    ///
-    /// The clock: each timezone is a pair of code-built circle layers, day and night,
-    /// selected by a filter delegate; the rolling UTC hour flips their visibility at
-    /// runtime, so day and night sweep the globe with no tile rebuilt and no style
-    /// recompiled.
-    ///
-    /// The data: US states shaded by 1990 population density, where the paint is a
-    /// lambda that reads the feature - the choropleth ramp is ordinary C#. The
-    /// style-JSON equivalent would be
-    /// <c>["interpolate", ["linear"], ["get", "POP90_SQMI"], 0, "#eff3ff", 500, "#08519c"]</c>,
-    /// written as text with no compiler checking the column name. What a lambda gives
-    /// up is being DATA: it cannot be downloaded, hot-swapped or handed to a
-    /// cartographer, which is why the basemap underneath still arrives as a
-    /// style.json. The ramp is inserted above the basemap's fills, so its roads and
-    /// labels stay on top of the shading.
+    /// Two things a style document cannot hold: a clock that sweeps day and night across the world's capitals, and a choropleth painted by a C# lambda.
     /// </summary>
     public partial class RenderBasedOnCode : IDisposable
     {
@@ -37,12 +22,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private const string RampFillId = "states-fill";
         private const string RampOutlineId = "states-outline";
         private const string RampMode = "Ramp";
-
-        private const string ClockBlurb =
-            "A style document has no clock. Each timezone is a pair of code-built circle layers - day and night, selected by a C# filter delegate - and the rolling UTC hour flips their visibility at runtime, so the sweep never rebuilds a tile. Drag the slider to take over.";
-
-        private const string RampBlurb =
-            "A paint delegate reads each state's 1990 population density and answers with a color from a five-step ramp - the choropleth is ordinary C#, with the column name checked by the compiler. The fill and its white outline are inserted above the basemap's own fills, so the roads and labels stay on top.";
 
         // A full day sweeps by in about 24 seconds; drag the slider to take over.
         private readonly DispatcherTimer _clock = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(50) };
@@ -99,11 +78,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             var states = new FeatureSourceVectorTileSource();
             states.FeatureSources.Add(StatesLayer, new ShapeFileFeatureSource(SampleShared.Shapefile("USStates_3857.shp")));
 
-            // Paints - layer or per-feature - are baked into a tile's buffers when the
-            // tile is built, so a paint that read the clock would freeze at whatever
-            // hour each tile was cut. Visibility is the per-frame runtime channel:
-            // each zone gets a static day layer and a static night layer (same filter),
-            // and the clock only flips which one shows.
+            // A paint is baked into a tile when the tile is built, so a paint that read the
+            // clock would freeze at the hour each tile was cut. Each zone gets a fixed day
+            // layer and a fixed night layer instead, and the clock only switches which one
+            // is visible.
             var layers = new List<StyleLayer>();
             foreach (var offset in ReadTimeZoneOffsets())
             {
@@ -174,10 +152,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private void ShowMode()
         {
             var ramp = _mode == RampMode;
-            if (ClockRow != null)
+            if (RampText != null)
             {
                 ClockRow.Visibility = ramp ? Visibility.Collapsed : Visibility.Visible;
-                Blurb.Text = ramp ? RampBlurb : ClockBlurb;
+                RampText.Visibility = ramp ? Visibility.Visible : Visibility.Collapsed;
             }
 
             if (_style == null) return;

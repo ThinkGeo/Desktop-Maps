@@ -2,11 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Threading;
 using ThinkGeo.Core;
 using ThinkGeo.Core.Styling;
 using ThinkGeo.UI.Wpf;
@@ -15,10 +11,7 @@ using ThinkGeo.Gpu;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// Ask a layer which of its features stand in a given relation to a shape:
-    /// containing it, crossing it, disjoint from it, intersecting, overlapping,
-    /// touching, inside it, or within a distance of it. Each one is the same call on
-    /// the same QueryTools under a different name, so they are one sample.
+    /// Find the features that stand in a spatial relation to a shape - containing, crossing, disjoint, intersecting, overlapping, touching, within, within a distance, or equal.
     /// </summary>
     public partial class FindFeaturesBySpatialRelation
     {
@@ -35,19 +28,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private ShapeFileFeatureSource _native;
         private ProjectionConverter _outward;
 
-        private readonly ThinkGeoVectorTileSource _cloud = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) };
-        private readonly FeatureSourceVectorTileSource _tiles = new FeatureSourceVectorTileSource();
+        // Frisco's subdivision plats, also in state-plane coordinates: a lot platted again
+        // keeps its boundary under a new record, which is what equal finds.
+        private QueryTools _platsQuery;
+        private ShapeFileFeatureSource _plats;
+
         private readonly DynamicSource _query = new DynamicSource();
         private readonly DynamicSource _matches = new DynamicSource();
-        private readonly DispatcherTimer _applyTimer;
         private bool _ready;
 
         public FindFeaturesBySpatialRelation()
         {
             InitializeComponent();
-
-            _applyTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(400) };
-            _applyTimer.Tick += async (_, _) => { _applyTimer.Stop(); await ApplyEditorStyleAsync(); };
         }
 
         private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -62,13 +54,26 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             {
                 ProjectionConverter = new ProjectionConverter(2276, 3857),
             };
-            _tiles.FeatureSources.Add("zoning", zoning);
+            var tiles = new FeatureSourceVectorTileSource();
+            tiles.FeatureSources.Add("zoning", zoning);
             _zoning = zoning.ConcurrentAccess == ConcurrentAccess.Safe ? zoning : zoning.CloneDeep();
             _zoningQuery = new QueryTools(_zoning);
-            Map.Basemap = new GpuBasemap(ComposeStyle());
+
+            var style = new MapStyle();
+            style.AddStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
+            style.AddStyle((string)Resources["StyleJson"], tiles);
+
+            // A ringed circle is no shape the renderer has of its own, so it is drawn
+            // once and registered under the name the point marker asks for.
+            style.Images.Add("pin", PointStyle.CreateSimpleCircleStyle(GeoColors.White, 8, GeoColors.Black, 2));
+            style.AddDynamic(_matches);
+            style.AddDynamic(_query);
+            Map.Basemap = new GpuBasemap(style);
 
             _native = new ShapeFileFeatureSource(SampleShared.Shapefile("Zoning.shp"));
             _nativeQuery = new QueryTools(_native);
+            _plats = new ShapeFileFeatureSource(SampleShared.Shapefile("Subdivisions.shp"));
+            _platsQuery = new QueryTools(_plats);
             _outward = new ProjectionConverter(2276, 3857);
             _outward.Open();
 
@@ -86,52 +91,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             await Map.RefreshAsync();
         }
 
-        /// <summary>
-        /// The zoning under the document, over the cloud basemap, with the query shape
-        /// and its matches as geometry.
-        /// </summary>
-        private MapStyle ComposeStyle()
-        {
-            var style = new MapStyle();
-            style.AddStyle(ThinkGeoVectorStyles.Light, _cloud);
-            style.AddStyle(Editor.Text, _tiles);
-
-            // A ringed circle is no shape the renderer has of its own, so it is drawn
-            // once and registered under the name the point marker asks for.
-            style.Images.Add("pin", PointStyle.CreateSimpleCircleStyle(GeoColors.Black, 8, GeoColors.White, 2));
-            style.AddDynamic(_matches);
-            style.AddDynamic(_query);
-            return style;
-        }
-
         private void Relation_Checked(object sender, RoutedEventArgs e) => ShowRelation();
 
         private void Radius_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) => Run(_seed, fromSeed: true);
-
-        private void Editor_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (!_ready) return;
-            _applyTimer.Stop();
-            _applyTimer.Start();
-        }
-
-        // A document that does not compile changes nothing; the map keeps the last one that worked.
-        private async Task ApplyEditorStyleAsync()
-        {
-            if (!IsLoaded) return;
-
-            try
-            {
-                await Map.Basemap.SetStyleAsync(ComposeStyle());
-                Status.Foreground = Brushes.DarkGreen;
-                Status.Text = FormattableString.Invariant($"applied at {DateTime.Now:HH:mm:ss}");
-            }
-            catch (Exception exception)
-            {
-                Status.Foreground = Brushes.Firebrick;
-                Status.Text = "not applied - " + exception.Message.Split('\n')[0].TrimEnd('\r');
-            }
-        }
 
         /// <summary>
         /// Frames the chosen relation where it has something to show, seeds a query
@@ -141,10 +103,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             if (!_ready) return;
 
-            var pointQuery = RelContaining.IsChecked == true || RelWithinDistance.IsChecked == true;
+            var pointQuery = RelContaining.IsChecked == true || RelWithinDistance.IsChecked == true || RelEqual.IsChecked == true;
             var lineQuery = RelCrossing.IsChecked == true || RelTouching.IsChecked == true;
             RadiusPanel.Visibility = RelWithinDistance.IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
-            Hint.Text = pointQuery ? "Click the map to query somewhere else."
+            Hint.Text = RelEqual.IsChecked == true
+                    ? "Equal asks Frisco's subdivision plats, where a lot platted again keeps its exact boundary under a new record. Click to query the smallest plat there."
+                : pointQuery ? "Click the map to query somewhere else."
                 : RelTouching.IsChecked == true
                     ? "Touching is exact - the seed is one parcel's own edge. A line you draw yourself will almost always match nothing."
                 : lineQuery ? "Draw a line to query somewhere else."
@@ -169,6 +133,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             if (RelOverlapping.IsChecked == true) return (new PointShape(-10777891, 3914206), 26200);
             if (RelTouching.IsChecked == true) return (new PointShape(-10776520, 3919250), 18060);
             if (RelWithin.IsChecked == true) return (new PointShape(-10778569, 3914000), 33100);
+            if (RelEqual.IsChecked == true) return (new PointShape(-10779350, 3917407), 6000);
             return (new PointShape(-10779430, 3914970), 18060);
         }
 
@@ -190,6 +155,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 return TouchingSeed();
             if (RelWithin.IsChecked == true)
                 return new PolygonShape("POLYGON((-10779148 3916088,-10779960 3913862,-10777189 3911913,-10777179 3915754,-10779148 3916088))");
+            if (RelEqual.IsChecked == true)
+                return new PointShape(-10779350, 3917407);
             return new PointShape(-10779430, 3914970);
         }
 
@@ -198,7 +165,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// in the file's own state-plane coordinates, not the map's. A line lying along
         /// a polygon's boundary has nothing of its interior inside, which is exactly
         /// what touching asks for, but only while the coordinates still match bit for
-        /// bit. See <see cref="RunTouching"/>.
+        /// bit. See <see cref="FindTouchingFeatures"/>.
         /// </summary>
         private BaseShape TouchingSeed()
         {
@@ -220,7 +187,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// data in its own state-plane coordinates and converts only what it draws.
         /// </para>
         /// </summary>
-        private void RunTouching(BaseShape shape, bool alreadyNative)
+        private void FindTouchingFeatures(BaseShape shape, bool alreadyNative)
         {
             var asked = alreadyNative ? shape : _outward.ConvertToInternalProjection(shape);
 
@@ -232,6 +199,33 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 found.Select(feature => _outward.ConvertToExternalProjection(feature)).ToList());
 
             Result.Text = found.Count + " features touching the query shape";
+        }
+
+        /// <summary>
+        /// Equal, asked of the plats in the plane they are stored in. Equal compares the
+        /// geometry exactly, so like touching it is asked without a ProjectionConverter.
+        /// The query is the smallest plat under the clicked point, so it is equal at
+        /// least to itself; any other match is the same lot recorded again.
+        /// </summary>
+        private void FindEqualFeatures(PointShape clicked)
+        {
+            var asked = _outward.ConvertToInternalProjection(clicked);
+
+            _plats.Open();
+            var plat = _platsQuery.GetFeaturesContaining(asked, ReturningColumnsType.NoColumns)
+                .OrderBy(feature => ((AreaBaseShape)feature.GetShape()).GetArea(GeographyUnit.Feet, AreaUnit.SquareFeet))
+                .FirstOrDefault();
+            var found = plat == null
+                ? new List<Feature>()
+                : _platsQuery.GetFeaturesTopologicalEqual(plat.GetShape(), ReturningColumnsType.NoColumns).ToList();
+            _plats.Close();
+
+            Paint(_outward.ConvertToExternalProjection(plat?.GetShape() ?? asked),
+                found.Select(feature => _outward.ConvertToExternalProjection(feature)).ToList());
+
+            Result.Text = plat == null
+                ? "No plat under the click"
+                : found.Count + " plats equal to the query shape";
         }
 
         private BaseShape _seed;
@@ -250,8 +244,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _seed = shape;
             if (RelTouching.IsChecked == true)
             {
-                RunTouching(shape, fromSeed);
+                FindTouchingFeatures(shape, fromSeed);
                 Map.TrackOverlay.TrackShapeLayer.InternalFeatures.Clear();
+                return;
+            }
+
+            if (RelEqual.IsChecked == true)
+            {
+                FindEqualFeatures((PointShape)shape);
                 return;
             }
 
@@ -307,7 +307,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// <summary>
         /// Hands both results over. The query shape is whatever the relation reads - a
         /// point, a line or a polygon - so it is added by its kind: an outline with no
-        /// fill, a black line, or the pin.
+        /// fill, a white line, or the pin.
         /// </summary>
         private void Paint(BaseShape query, IEnumerable<Feature> matches)
         {
@@ -315,7 +315,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             var matchIndex = 0;
             foreach (var match in matches)
             {
-                _matches.SetArea("match-" + matchIndex++, match, new GeoColor(90, GeoColors.MidnightBlue), GeoColors.MidnightBlue, 2f);
+                _matches.SetArea("match-" + matchIndex++, match, new GeoColor(90, GeoColors.DodgerBlue), GeoColors.DodgerBlue, 2f);
             }
 
             _query.Clear();
@@ -323,10 +323,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             switch (query)
             {
                 case AreaBaseShape _:
-                    _query.SetArea("query", asked, GeoColors.Transparent, GeoColors.Black, 2f);
+                    _query.SetArea("query", asked, GeoColors.Transparent, GeoColors.White, 2f);
                     break;
                 case LineBaseShape _:
-                    _query.SetLine("query", asked, GeoColors.Black, 2f);
+                    _query.SetLine("query", asked, GeoColors.White, 2f);
                     break;
                 default:
                     _query.SetPoint("query", asked, sizeInPixel: 12f, iconName: "pin");

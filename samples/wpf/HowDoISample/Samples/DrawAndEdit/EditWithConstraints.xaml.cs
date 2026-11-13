@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Windows;
 using ThinkGeo.Core;
 using ThinkGeo.Core.Styling;
-using ThinkGeo.UI.Wpf;
 using ThinkGeo.Gpu;
 
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
@@ -17,7 +16,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
     /// </summary>
     public partial class EditWithConstraints
     {
-        // A vertex may not land closer than this to its neighbors, drawn or edited.
+        // A vertex may not land closer than this to its neighbors, drawn or edited,
+        // measured on the ground: in Frisco one Web Mercator unit is only about 0.84 m.
         private const double MinSpacingMeters = 300;
 
         private bool _initialized;
@@ -54,11 +54,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             Map.EditOverlay.VertexMoved += EditOverlay_VertexMoved;
             Map.TrackOverlay.VertexAdding += TrackOverlay_VertexAdding;
 
-            Instructions.Text =
-                "Edit Shapes Mode — The upper shape is tagged as a rectangle: drag any corner and its two neighbors follow. " +
-                "Click a segment to add a vertex; the click is rejected within 300 m of an existing vertex. " +
-                "After dragging a vertex, its coordinates appear on the right — correct them and click Apply to place it exactly.";
-
             _ = Map.RefreshAsync();
         }
 
@@ -70,7 +65,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             foreach (var vertex in VerticesOf(e.AffectedFeature.GetShape()))
             {
-                if (Distance(vertex, e.AddingVertex) < MinSpacingMeters)
+                if (new LineShape(new[] { vertex, e.AddingVertex }).GetLength(3857, DistanceUnit.Meter) < MinSpacingMeters)
                 {
                     e.Cancel = true;
                     return;
@@ -94,7 +89,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 }
             }
 
-            if (previous.HasValue && Distance(previous.Value, e.AddingVertex) < MinSpacingMeters)
+            if (previous.HasValue && new LineShape(new[] { previous.Value, e.AddingVertex }).GetLength(3857, DistanceUnit.Meter) < MinSpacingMeters)
             {
                 e.Cancel = true;
             }
@@ -304,20 +299,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             Map.TrackOverlay.TrackMode = TrackMode.None;
             Map.EditOverlay.CalculateAllControlPoints();
             _ = Map.RefreshAsync(new Overlay[] { Map.TrackOverlay, Map.EditOverlay });
-
-            Instructions.Text =
-                "Edit Shapes Mode — The upper shape is tagged as a rectangle: drag any corner and its two neighbors follow. " +
-                "Click a segment to add a vertex; the click is rejected within 300 m of an existing vertex. " +
-                "After dragging a vertex, its coordinates appear on the right — correct them and click Apply to place it exactly.";
         }
 
         private void DrawPolygon_Click(object sender, RoutedEventArgs e)
         {
             Map.TrackOverlay.TrackMode = TrackMode.Polygon;
-            Instructions.Text =
-                "Draw Polygon Mode — Click to add vertices; a click within 300 m of the previous vertex is rejected. " +
-                "Double-click to finish, Esc to cancel, right-click to undo the last vertex. " +
-                "Switch back to Edit Shapes to edit the result.";
         }
     }
 }

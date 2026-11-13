@@ -2,9 +2,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Threading;
 using ThinkGeo.Core;
 using ThinkGeo.Core.Styling;
 using ThinkGeo.Gpu;
@@ -20,27 +18,20 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
     /// </summary>
     public partial class VectorFileFormats
     {
-        /// <summary>The one source-layer name the style document draws.</summary>
-        private const string DataLayer = "data";
-
         // The basemap under the data. One source for the life of the sample: a
         // restyle keeps the sources it recognizes, so the map below holds still
         // while the layer above it changes file.
         private readonly ThinkGeoVectorTileSource _cloud =
             new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) };
 
-        private readonly DispatcherTimer _applyTimer;
-        private GpuBasemap _basemap;
         private FeatureSourceVectorTileSource _current;
+        private int _request;
         private bool _ready;
 
         public VectorFileFormats()
         {
             InitializeComponent();
             Map.MapUnit = GeographyUnit.Meter;
-
-            _applyTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(400) };
-            _applyTimer.Tick += async (_, _) => { _applyTimer.Stop(); await ApplyEditorStyleAsync(); };
         }
 
         private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -48,35 +39,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             if (_ready || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _ready = true;
-            var (style, extent) = await ComposeStyleAsync();
-            _basemap = new GpuBasemap(style);
-            Map.Basemap = _basemap;
-            if (extent != null)
-            {
-                Map.CurrentExtent = extent;
-            }
-
-            await Map.RefreshAsync();
+            await ShowChosenAsync();
         }
 
         private async void Format_Checked(object sender, RoutedEventArgs e)
         {
-            if (!_ready) return;
-
-            var retired = _current;
-            var (style, extent) = await ComposeStyleAsync();
-
-            // Restyling in place, not a new basemap: assigning a basemap starts from
-            // an empty scene, and that blank moment is the flash a viewer sees when
-            // switching files.
-            await _basemap.SetStyleAsync(style);
-            if (extent != null)
-            {
-                Map.CurrentExtent = extent;
-            }
-
-            await Map.RefreshAsync();
-            retired?.Dispose();
+            if (_ready) await ShowChosenAsync();
         }
 
         /// <summary>
@@ -84,41 +52,40 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         /// laid over the cloud basemap. The style never learns which format it was.
         /// </summary>
         /// <remarks>
-        /// Opening the file to ask where it is happens off the UI thread. A GeoPDF or a
-        /// DWG is tens of megabytes of parsing, and a sample that does it inline freezes
-        /// the window before it draws anything.
+        /// Opening the file to ask where it is happens off the UI thread: a GeoPDF or a
+        /// DWG is tens of megabytes of parsing. A click on another format while one is
+        /// still opening wins, and the late answer is dropped.
         /// </remarks>
-        private async Task<(MapStyle Style, RectangleShape Extent)> ComposeStyleAsync()
+        private async Task ShowChosenAsync()
         {
+            var request = ++_request;
             var style = new MapStyle();
-            style.AddStyle(ThinkGeoVectorStyles.Light, _cloud);
+            style.AddStyle(ThinkGeoVectorStyles.Dark, _cloud);
+            FeatureSourceVectorTileSource data = null;
+            RectangleShape bounds = null;
 
             try
             {
                 var source = OpenChosen();
-
-                _current = new FeatureSourceVectorTileSource();
-                _current.FeatureSources.Add(DataLayer, source);
-                style.AddStyle(Editor.Text, _current);
-
-                var bounds = await Task.Run(() =>
+                bounds = await Task.Run(() =>
                 {
                     source.Open();
                     var box = source.GetBoundingBox();
                     source.Close();
                     return box;
                 });
+                if (request != _request) return;
 
-                Status.Foreground = Brushes.DarkGreen;
+                data = new FeatureSourceVectorTileSource();
+                data.FeatureSources.Add("data", source);
+                style.AddStyle((string)Resources["StyleJson"], data);
+                Status.Foreground = Brushes.LightGreen;
                 Status.Text = source.GetType().Name;
-                if (bounds != null && bounds.Width > 0 && bounds.Height > 0)
-                {
-                    bounds.ScaleUp(20);
-                    return (style, bounds);
-                }
             }
             catch (Exception exception)
             {
+                if (request != _request) return;
+
                 // The data comes from the HowDoI sample repo; without it there is
                 // nothing to draw, and saying so beats an empty window. Formats read
                 // through a plugin wrap the real reason, so unwrap to it.
@@ -127,11 +94,36 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                     exception = exception.InnerException;
                 }
 
-                _current = null;
+                Status.Foreground = Brushes.Salmon;
                 Status.Text = "Unavailable: " + exception.Message.Split('\n')[0];
             }
 
-            return (style, null);
+            // Restyling in place, not a new basemap: assigning a basemap starts from
+            // an empty scene, and that blank moment is the flash a viewer sees when
+            // switching files.
+            var retired = _current;
+            _current = data;
+            if (Map.Basemap == null)
+            {
+                Map.Basemap = new GpuBasemap(style);
+            }
+            else
+            {
+                await Map.Basemap.SetStyleAsync(style);
+            }
+
+            if (request == _request)
+            {
+                if (bounds != null && bounds.Width > 0 && bounds.Height > 0)
+                {
+                    bounds.ScaleUp(20);
+                    Map.CurrentExtent = bounds;
+                }
+
+                await Map.RefreshAsync();
+            }
+
+            retired?.Dispose();
         }
 
         /// <summary>
@@ -177,48 +169,24 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         }
 
         /// <summary>
-        /// Features made in code rather than read from a file - the same shape of
-        /// source, so it draws through the identical style.
+        /// Features made in code rather than read from a file - a block, a street through
+        /// it and three points in Frisco, TX - drawn through the identical style.
         /// </summary>
         private static FeatureSource BuildInMemory()
         {
-            var mosquitoes = new ShapeFileFeatureSource(SampleShared.Shapefile("Frisco_Mosquitos.shp"));
-            mosquitoes.Open();
-            var features = mosquitoes.GetAllFeatures(ReturningColumnsType.NoColumns);
-            mosquitoes.Close();
+            var features = new[]
+            {
+                new Feature("POLYGON((-96.830 33.145, -96.820 33.145, -96.820 33.153, -96.830 33.153, -96.830 33.145))"),
+                new Feature("LINESTRING(-96.838 33.141, -96.825 33.149, -96.812 33.157)"),
+                new Feature("POINT(-96.834 33.150)"),
+                new Feature("POINT(-96.816 33.146)"),
+                new Feature("POINT(-96.825 33.158)"),
+            };
 
             return new InMemoryFeatureSource(Array.Empty<FeatureSourceColumn>(), features)
             {
-                ProjectionConverter = new ProjectionConverter(2276, 3857),
+                ProjectionConverter = new ProjectionConverter(4326, 3857),
             };
-        }
-
-        private void Editor_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (!_ready) return;
-            _applyTimer.Stop();
-            _applyTimer.Start();
-        }
-
-        // A document that does not compile changes nothing; the map keeps the last one that worked.
-        private async Task ApplyEditorStyleAsync()
-        {
-            if (_current == null) return;
-
-            try
-            {
-                var style = new MapStyle();
-                style.AddStyle(ThinkGeoVectorStyles.Light, _cloud);
-                style.AddStyle(Editor.Text, _current);
-                await _basemap.SetStyleAsync(style);
-                Status.Foreground = Brushes.DarkGreen;
-                Status.Text = FormattableString.Invariant($"applied at {DateTime.Now:HH:mm:ss}");
-            }
-            catch (Exception exception)
-            {
-                Status.Foreground = Brushes.Firebrick;
-                Status.Text = "not applied - " + exception.Message.Split('\n')[0].TrimEnd('\r');
-            }
         }
 
         private static string Data(string folder, string file) =>

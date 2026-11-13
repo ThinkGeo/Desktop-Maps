@@ -3,13 +3,12 @@ using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
 using ThinkGeo.Core.Styling;
-using ThinkGeo.UI.Wpf;
 using ThinkGeo.Gpu;
 
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// Learn to resize the map while preserving the world extent with various map resize modes.
+    /// Choose what the map keeps when it is resized: its scale, its scale and center, or its extent.
     /// </summary>
     public partial class ResizeTheMap
     {
@@ -20,9 +19,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             InitializeComponent();
         }
 
-        /// <summary>
-        /// Set up the map with the GpuStyleOverlay to show a basic map and a shapefile with simple data to work with
-        /// </summary>
         private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
@@ -30,9 +26,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _initialized = true;
             Map.MapUnit = GeographyUnit.Meter;
 
-            // Add GpuStyleOverlay as a background overlay
-            var gpuStyleOverlay = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
-            Map.Basemap = gpuStyleOverlay;
+            Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
 
             Map.CenterPoint = new PointShape(-10336000, 5260000);
             Map.CurrentScale = 37000000;

@@ -8,13 +8,7 @@ using ThinkGeo.Gpu;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// A legend, as the subject rather than as scenery.
-    ///
-    /// Six samples in this gallery already put a LegendAdornmentLayer on the map while
-    /// demonstrating something else, and none of them is findable by someone looking for
-    /// a legend. This one builds the legend and nothing else: a title, one item per
-    /// class, each item carrying the very style the layer draws with, so the swatches
-    /// cannot drift from the map.
+    /// A legend with a title and one item per class, each item carrying the style the layer draws with.
     /// </summary>
     public partial class Legend
     {
@@ -25,7 +19,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             InitializeComponent();
 
             Map.MapUnit = GeographyUnit.Meter;
-            Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
+            Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
         }
 
         private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)

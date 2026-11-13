@@ -8,8 +8,10 @@
         renders its own buttons in shell colors would be a port that no longer
         matches the classic sample it came from.
 
-        The palette is the classic HowDoI's - dark frame, light sample - because
-        that is what tells the shell apart from the sample it is hosting.
+        The palette is dark throughout: the frame, the code pane, and the panel on the
+        right of every sample (Shell.SamplePanel below). The panel style is keyed, not
+        implicit, and a sample asks for it with DynamicResource: copied into another
+        application, where no such key exists, the sample's panel is merely unstyled.
     -->
     <SolidColorBrush x:Key="Shell.Header" Color="#26282C" />
     <SolidColorBrush x:Key="Shell.Sidebar" Color="#2D3035" />
@@ -21,6 +23,8 @@
     <SolidColorBrush x:Key="Shell.Text" Color="#E7E9EC" />
     <SolidColorBrush x:Key="Shell.TextDim" Color="#9AA0A6" />
     <SolidColorBrush x:Key="Shell.Code.Background" Color="#1E1E1E" />
+    <!-- The pages about the gallery (Start here, GPU or Classic?) - dark like the rest of the shell. -->
+    <SolidColorBrush x:Key="Shell.Page" Color="#202225" />
     <SolidColorBrush x:Key="Shell.Code.Bar" Color="#26282C" />
     <SolidColorBrush x:Key="Shell.Code.Border" Color="#3B3F45" />
     <SolidColorBrush x:Key="Shell.Code.Text" Color="#9AA0A6" />
@@ -166,16 +170,6 @@
 
     <DataTemplate x:Key="Shell.SampleRow">
         <DockPanel LastChildFill="True" ToolTip="{Binding Focus}">
-            <!-- SampleEntry.GpuMark: a dot on the rows that draw through the GPU
-                 renderer rather than the classic overlays. Its own tooltip, or the
-                 mark means nothing to anyone who did not write the catalog. -->
-            <TextBlock DockPanel.Dock="Right"
-                       Text="{Binding GpuMark}"
-                       ToolTip="Draws through the GPU renderer"
-                       Foreground="{StaticResource Shell.Accent}"
-                       FontSize="9"
-                       Margin="6,0,0,0"
-                       VerticalAlignment="Center" />
             <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" />
         </DockPanel>
     </DataTemplate>
@@ -378,6 +372,127 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <!-- The panel on the right of every sample: what the user reads and operates. The
+         implicit styles inside it dress the controls it holds, and nothing outside it. -->
+    <SolidColorBrush x:Key="Shell.Panel" Color="#26282C" />
+    <SolidColorBrush x:Key="Shell.Panel.Input" Color="#1E1E1E" />
+
+    <Style x:Key="Shell.SamplePanel" TargetType="Border">
+        <Setter Property="Width" Value="340" />
+        <Setter Property="Padding" Value="12" />
+        <Setter Property="Background" Value="{StaticResource Shell.Panel}" />
+        <Setter Property="BorderBrush" Value="{StaticResource Shell.Divider}" />
+        <Setter Property="BorderThickness" Value="1,0,0,0" />
+        <Setter Property="TextElement.Foreground" Value="{StaticResource Shell.Text}" />
+        <Style.Resources>
+            <Style TargetType="TextBlock">
+                <Setter Property="Foreground" Value="{StaticResource Shell.Text}" />
+            </Style>
+            <Style TargetType="RadioButton">
+                <Setter Property="Foreground" Value="{StaticResource Shell.Text}" />
+            </Style>
+            <Style TargetType="CheckBox">
+                <Setter Property="Foreground" Value="{StaticResource Shell.Text}" />
+            </Style>
+            <Style TargetType="GroupBox">
+                <Setter Property="Foreground" Value="{StaticResource Shell.Text}" />
+                <Setter Property="BorderBrush" Value="{StaticResource Shell.Divider}" />
+            </Style>
+            <Style TargetType="Separator">
+                <Setter Property="Background" Value="{StaticResource Shell.Divider}" />
+            </Style>
+            <Style TargetType="TextBox">
+                <Setter Property="Background" Value="{StaticResource Shell.Panel.Input}" />
+                <Setter Property="Foreground" Value="#D4D4D4" />
+                <Setter Property="BorderBrush" Value="{StaticResource Shell.Divider}" />
+                <Setter Property="CaretBrush" Value="{StaticResource Shell.Text}" />
+                <Setter Property="SelectionBrush" Value="{StaticResource Shell.Accent}" />
+            </Style>
+            <Style TargetType="ListBox">
+                <Setter Property="Background" Value="{StaticResource Shell.Panel.Input}" />
+                <Setter Property="Foreground" Value="{StaticResource Shell.Text}" />
+                <Setter Property="BorderBrush" Value="{StaticResource Shell.Divider}" />
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="Foreground" Value="{StaticResource Shell.Text}" />
+                <Setter Property="Background" Value="{StaticResource Shell.Hover}" />
+                <Setter Property="BorderBrush" Value="{StaticResource Shell.Divider}" />
+                <Setter Property="Padding" Value="10,4" />
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="Bd" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="1" CornerRadius="3" Padding="{TemplateBinding Padding}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Bd" Property="Background" Value="{StaticResource Shell.Selected}" />
+                                    <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource Shell.Accent}" />
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="Bd" Property="Opacity" Value="0.45" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="ComboBox">
+                <Setter Property="Foreground" Value="#1F2226" />
+                <Style.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Foreground" Value="#1F2226" />
+                    </Style>
+                </Style.Resources>
+            </Style>
+            <Style TargetType="ToggleButton">
+                <Setter Property="Foreground" Value="{StaticResource Shell.Text}" />
+                <Setter Property="Background" Value="{StaticResource Shell.Hover}" />
+                <Setter Property="BorderBrush" Value="{StaticResource Shell.Divider}" />
+                <Setter Property="Padding" Value="10,4" />
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Border x:Name="Bd" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="1" CornerRadius="3" Padding="{TemplateBinding Padding}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource Shell.Accent}" />
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter TargetName="Bd" Property="Background" Value="{StaticResource Shell.Selected}" />
+                                    <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource Shell.Accent}" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Style.Resources>
+    </Style>
+
+    <!-- A sample with a button or two and a line of text needs no panel: they sit on the map
+         in a card, dressed like the panel, and the map keeps the whole width. -->
+    <Style x:Key="Shell.MapCard" TargetType="Border" BasedOn="{StaticResource Shell.SamplePanel}">
+        <Setter Property="Width" Value="Auto" />
+        <Setter Property="MaxWidth" Value="340" />
+        <Setter Property="Padding" Value="10,8" />
+        <Setter Property="Margin" Value="12" />
+        <Setter Property="Background" Value="#E626282C" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="4" />
+    </Style>
+
+    <!-- The same panel, wide enough for a style document beside the controls. -->
+    <Style x:Key="Shell.SamplePanel.Wide" TargetType="Border" BasedOn="{StaticResource Shell.SamplePanel}">
+        <Setter Property="Width" Value="420" />
     </Style>
 
 </ResourceDictionary>

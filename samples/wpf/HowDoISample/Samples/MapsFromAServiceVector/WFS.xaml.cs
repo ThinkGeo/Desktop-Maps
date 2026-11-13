@@ -1,9 +1,5 @@
-using System;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Threading;
 using ThinkGeo.Core;
 using ThinkGeo.Core.Styling;
 using ThinkGeo.Gpu;
@@ -17,21 +13,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
     /// </summary>
     public partial class WFS
     {
-        private readonly ThinkGeoVectorTileSource _cloud = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) };
-
-        // One query at a time: a public service is not a shapefile, and four
-        // concurrent bounding-box requests per screenful is not politeness.
-        private readonly FeatureSourceVectorTileSource _parcels = new FeatureSourceVectorTileSource { MinDataZoom = 15 };
-
-        private readonly DispatcherTimer _applyTimer;
         private bool _initialized;
 
         public WFS()
         {
             InitializeComponent();
-
-            _applyTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(400) };
-            _applyTimer.Tick += async (_, _) => { _applyTimer.Stop(); await ApplyEditorStyleAsync(); };
         }
 
         private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -46,11 +32,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         private async Task BuildMapAsync()
         {
+            // Below zoom 15 no tile asks the service: a tile there would be a
+            // bounding-box query for tens of thousands of parcels.
+            var parcels = new FeatureSourceVectorTileSource { MinDataZoom = 15 };
+
             // The service's own CRS is EPSG:28992, but it also publishes EPSG:3857 -
             // ask it for web mercator rather than converting afterwards: the server
             // holds the datum transformation for its national grid, and a generic
             // client-side conversion lands the parcels about 170 m off the basemap.
-            _parcels.FeatureSources.Add("parcels", new WfsV2AsyncFeatureSource(
+            parcels.FeatureSources.Add("parcels", new WfsV2AsyncFeatureSource(
                 "https://service.pdok.nl/kadaster/kadastralekaart/wfs/v5_0",
                 "kadastralekaart:Perceel")
             {
@@ -58,42 +48,15 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 Crs = "urn:ogc:def:crs:EPSG::3857",
             });
 
+            var basemapTiles = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) };
             var style = new MapStyle();
-            style.AddStyle(ThinkGeoVectorStyles.Light, _cloud);
-            style.AddStyle(Editor.Text, _parcels);
+            style.AddStyle(ThinkGeoVectorStyles.Dark, basemapTiles);
+            style.AddStyle((string)Resources["StyleJson"], parcels);
             Map.Basemap = new GpuBasemap(style);
 
             Map.CenterPoint = new PointShape(544950, 6867650);
             Map.CurrentScale = 4000;
             await Map.RefreshAsync();
-        }
-
-        private void Editor_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (!_initialized) return;
-            _applyTimer.Stop();
-            _applyTimer.Start();
-        }
-
-        // A document that does not compile changes nothing; the map keeps the last one that worked.
-        private async Task ApplyEditorStyleAsync()
-        {
-            if (!IsLoaded) return;
-
-            try
-            {
-                var style = new MapStyle();
-                style.AddStyle(ThinkGeoVectorStyles.Light, _cloud);
-                style.AddStyle(Editor.Text, _parcels);
-                await Map.Basemap.SetStyleAsync(style);
-                Status.Foreground = Brushes.DarkGreen;
-                Status.Text = FormattableString.Invariant($"applied at {DateTime.Now:HH:mm:ss}");
-            }
-            catch (Exception exception)
-            {
-                Status.Foreground = Brushes.Firebrick;
-                Status.Text = "not applied - " + exception.Message.Split('\n')[0].TrimEnd('\r');
-            }
         }
     }
 }

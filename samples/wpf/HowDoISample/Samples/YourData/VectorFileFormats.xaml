@@ -18,13 +18,13 @@
       "filter": ["==", ["geometry-type"], "Polygon"],
       "paint": {
           "fill-color": "rgba(90,140,200,0.35)",
-          "fill-outline-color": "#2A4A7A" }
+          "fill-outline-color": "#8AB4F0" }
     },
 
     { "type": "line",
       "source-layer": "data",
       "paint": {
-          "line-color": "#2A4A7A",
+          "line-color": "#8AB4F0",
           "line-width": 2 }
     },
 
@@ -43,38 +43,32 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" MinWidth="240"/>
-            <ColumnDefinition Width="420"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
 
-        <DockPanel Grid.Column="1" Background="#F6F6F4">
-            <TextBlock DockPanel.Dock="Top" Text="File" FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
-            <StackPanel DockPanel.Dock="Top" Margin="8,0,8,4">
-                <RadioButton x:Name="FmtShapefile" Content="Shapefile" IsChecked="True" Checked="Format_Checked"/>
-                <RadioButton x:Name="FmtGeoJson" Content="GeoJSON" Checked="Format_Checked"/>
-                <RadioButton x:Name="FmtKml" Content="KML" Checked="Format_Checked"/>
-                <RadioButton x:Name="FmtGpx" Content="GPX" Checked="Format_Checked"/>
-                <RadioButton x:Name="FmtTab" Content="MapInfo TAB" Checked="Format_Checked"/>
-                <RadioButton x:Name="FmtTinyGeo" Content="TinyGeo" Checked="Format_Checked"/>
-                <RadioButton x:Name="FmtCad" Content="CAD (DWG)" Checked="Format_Checked"/>
-                <RadioButton x:Name="FmtGeoPdf" Content="GeoPDF" Checked="Format_Checked"/>
-                <RadioButton x:Name="FmtInMemory" Content="In memory (built in code)" Checked="Format_Checked"/>
-            </StackPanel>
-            <TextBlock DockPanel.Dock="Top" Text="style.json - edit it; the map follows"
-                       FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
+        <Border Grid.Column="1" Style="{DynamicResource Shell.SamplePanel}">
+            <StackPanel>
+                <TextBlock Text="File" FontWeight="SemiBold" FontSize="11.5" Margin="0,6,0,4"/>
+                <StackPanel Margin="0,0,0,4">
+                    <RadioButton x:Name="FmtShapefile" Content="Shapefile" IsChecked="True" Checked="Format_Checked"/>
+                    <RadioButton x:Name="FmtGeoJson" Content="GeoJSON" Checked="Format_Checked"/>
+                    <RadioButton x:Name="FmtKml" Content="KML" Checked="Format_Checked"/>
+                    <RadioButton x:Name="FmtGpx" Content="GPX" Checked="Format_Checked"/>
+                    <RadioButton x:Name="FmtTab" Content="MapInfo TAB" Checked="Format_Checked"/>
+                    <RadioButton x:Name="FmtTinyGeo" Content="TinyGeo" Checked="Format_Checked"/>
+                    <RadioButton x:Name="FmtCad" Content="CAD (DWG)" Checked="Format_Checked"/>
+                    <RadioButton x:Name="FmtGeoPdf" Content="GeoPDF" Checked="Format_Checked"/>
+                    <RadioButton x:Name="FmtInMemory" Content="In memory (built in code)" Checked="Format_Checked"/>
+                </StackPanel>
 
-            <TextBlock DockPanel.Dock="Bottom" Foreground="#444A52" TextWrapping="Wrap" FontSize="11" Margin="8,0,8,6"
-                       Text="A FeatureSource reads the file, a FeatureSourceVectorTileSource cuts it into tiles, and the style draws them. Only the first line differs between these - swap the source and nothing else changes."/>
-            <TextBlock x:Name="Status" DockPanel.Dock="Bottom" FontSize="11" FontFamily="Consolas" Margin="8,4,8,6"
-                       TextWrapping="Wrap" Foreground="DarkGreen"/>
-            <TextBox x:Name="Editor" TextChanged="Editor_TextChanged"
-                     Text="{StaticResource StyleJson}"
-                     AcceptsReturn="True" AcceptsTab="True"
-                     FontFamily="Consolas" FontSize="11.5" Padding="6"
-                     TextWrapping="NoWrap" BorderThickness="1,0,0,0" BorderBrush="#CCCCCC"
-                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
-        </DockPanel>
+                <TextBlock x:Name="Status" FontFamily="Consolas" FontSize="11" Margin="0,10,0,0" TextWrapping="Wrap"/>
+
+                <TextBlock TextWrapping="Wrap" FontSize="11" Margin="0,10,0,6"
+                           Text="A FeatureSource reads the file, a FeatureSourceVectorTileSource cuts it into tiles, and the style draws them. Only the first line differs between these - swap the source and nothing else changes."/>
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>
