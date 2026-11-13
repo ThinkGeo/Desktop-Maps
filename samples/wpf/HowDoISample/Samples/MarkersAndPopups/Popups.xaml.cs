@@ -27,6 +27,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             _initialized = true;
             Map.MapUnit = GeographyUnit.Meter;
+            // Tilt with the right mouse button: a popup stays on its ground point under perspective.
+            Map.IsTiltEnabled = true;
             Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
 
             Map.CenterPoint = new PointShape(-10777290, 3908740);

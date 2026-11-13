@@ -40,7 +40,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _basemap = new GpuBasemap(_style);
             Map.Basemap = _basemap;
 
-            _timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(300) };
+            _timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(150) };
             _timer.Tick += (_, __) =>
             {
                 // A frame still being read holds the animation, so no hour is skipped.

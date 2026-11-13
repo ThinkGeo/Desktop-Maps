@@ -35,12 +35,12 @@
                     <RadioButton x:Name="DrawLine" Content="Draw lines" Margin="0,2" Click="DrawLine_Click"/>
                     <TextBlock Style="{StaticResource Instruction}"
                                Visibility="{Binding IsChecked, ElementName=DrawLine, Converter={StaticResource VisibleWhenChecked}}"
-                               Text="Click to add vertices, double-click to finish the line. Hold the middle mouse button to pan, and Shift to keep a segment north-south or east-west."/>
+                               Text="Click to add vertices, double-click to finish the line; right-click takes the last vertex back, Esc drops the line. Hold the middle mouse button to pan, and Shift to keep a segment north-south or east-west."/>
 
                     <RadioButton x:Name="DrawPolygon" Content="Draw polygons" Margin="0,2" Click="DrawPolygon_Click"/>
                     <TextBlock Style="{StaticResource Instruction}"
                                Visibility="{Binding IsChecked, ElementName=DrawPolygon, Converter={StaticResource VisibleWhenChecked}}"
-                               Text="Click to add vertices, double-click to finish the polygon. Hold the middle mouse button to pan, and Shift to keep a segment north-south or east-west."/>
+                               Text="Click to add vertices, double-click to finish the polygon; right-click takes the last vertex back, Esc drops the polygon. Hold the middle mouse button to pan, and Shift to keep a segment north-south or east-west."/>
 
                     <RadioButton x:Name="NavModeRadio" Content="Navigate" Margin="0,2" Click="NavMode_Click"/>
                     <StackPanel Visibility="{Binding IsChecked, ElementName=NavModeRadio, Converter={StaticResource VisibleWhenChecked}}">
