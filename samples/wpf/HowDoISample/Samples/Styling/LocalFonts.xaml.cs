@@ -13,6 +13,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
     /// Labels drawn with no network: from glyph files the style points at, from font files in a folder, or from the installed fonts.
+    /// Windows installs fonts for nearly every script, so there the three can look alike.
     /// </summary>
     public partial class LocalFonts
     {
