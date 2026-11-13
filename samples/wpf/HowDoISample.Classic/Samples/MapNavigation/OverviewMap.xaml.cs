@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Media;
 using ThinkGeo.Core;
 
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
 	/// <summary>
-	/// A small overview map that shows where the main map is looking; click it to move the main map there.
+	/// A small overview map that shows where the main map is looking as it pans and turns; click it to move the main map there.
 	/// </summary>
 	public partial class OverviewMap : IDisposable
 	{
 		private bool _initialized;
+		private (double X, double Y, double Scale, double Rotation) _shown;
 
 		public OverviewMap()
 		{
@@ -18,9 +20,22 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 			MainMap.MapTools.PanZoomBar.Visibility = Visibility.Collapsed;
 			PreviewMap.MapTools.PanZoomBar.Visibility = Visibility.Collapsed;
 
-			MainMap.CurrentExtentChanged += MainMapCurrentExtentChanged;
-			MainMap.RotationAngleChanging += MainMapRotationAngleChanging;
 			MainMap.SizeChanged += MainMapSizeChanged;
+			Loaded += (s, e) => CompositionTarget.Rendering += OnRendering;
+			Unloaded += (s, e) => CompositionTarget.Rendering -= OnRendering;
+		}
+
+		// The frame follows every move of the main map, mid-drag included: a frame drawn only
+		// when an event says the extent has changed waits for the mouse button.
+		private void OnRendering(object sender, EventArgs e)
+		{
+			if (!_initialized || MainMap.CenterPoint == null) return;
+
+			var now = (MainMap.CenterPoint.X, MainMap.CenterPoint.Y, MainMap.CurrentScale, MainMap.RotationAngle);
+			if (now == _shown) return;
+
+			_shown = now;
+			UpdatePreviewMap(MainMap.CenterPoint, MainMap.RotationAngle);
 		}
 
 		private void InitializeMaps()
@@ -104,20 +119,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 			}
 
 			UpdatePreviewMap(MainMap.CenterPoint, MainMap.RotationAngle);
-		}
-
-		private void MainMapCurrentExtentChanged(object sender, CurrentExtentChangedMapViewEventArgs e)
-		{
-			if (!_initialized) return;
-
-			UpdatePreviewMap(MainMap.CenterPoint, MainMap.RotationAngle);
-		}
-
-		private void MainMapRotationAngleChanging(object sender, RotationAngleChangingMapViewEventArgs e)
-		{
-			if (!_initialized) return;
-
-			UpdatePreviewMap(MainMap.CenterPoint, e.NewRotationAngle);
 		}
 
 		private void CompassButton_Click(object sender, RoutedEventArgs e)
