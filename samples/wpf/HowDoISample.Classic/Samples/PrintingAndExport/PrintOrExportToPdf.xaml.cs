@@ -17,12 +17,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI
     {
         private const string Title = "Frisco Mosquito Report - 5/5/2020";
 
-        private static readonly AreaStyle CityLimitsStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.Transparent, GeoColors.Black, 2);
-        private static readonly LineStyle MajorStreetsStyle = LineStyle.CreateSimpleLineStyle(GeoColors.DarkGray, 1, true);
-        private static readonly AreaStyle ParksStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.LightGray, GeoColors.Transparent);
+        private static readonly AreaStyle CityLimitsStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.Transparent, GeoColor.FromHtml("#1F4E9C"), 2);
+        private static readonly LineStyle MajorStreetsStyle = LineStyle.CreateSimpleLineStyle(GeoColor.FromHtml("#E09A3C"), 1.5f, true);
+        private static readonly AreaStyle ParksStyle = AreaStyle.CreateSimpleAreaStyle(GeoColor.FromHtml("#A3D7A0"), GeoColor.FromHtml("#6FB36B"));
         private static readonly string ShapefileFolder = Path.Combine(AppContext.BaseDirectory, "Data", "Shapefile");
 
-        private static readonly PointStyle TrapSiteStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Black, 10, GeoColors.White, 2);
+        private static readonly PointStyle TrapSiteStyle = PointStyle.CreateSimpleCircleStyle(GeoColor.FromHtml("#D7263D"), 10, GeoColors.White, 2);
 
         private bool _initialized;
         private PrinterInteractiveOverlay _printerOverlay;
@@ -170,7 +170,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             var mapPrinterLayer = new MapPrinterLayoutAsyncLayer(mapLayers, mapExtent, GeographyUnit.Meter)
             {
-                DrawingMode = MapPrinterDrawingMode.Vector
+                DrawingMode = MapPrinterDrawingMode.Vector,
+                // Click the map frame, then Ctrl+drag pans the map inside it and Ctrl+wheel zooms
+                // it; without Ctrl the page itself pans and zooms.
+                EnableInnerNavigation = true
             };
             mapPrinterLayer.SetPosition(7.5, 5, center.X, center.Y + 1.75, PrintingUnit.Inch);
             page.Layers.Add(mapPrinterLayer);

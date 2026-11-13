@@ -10,6 +10,8 @@
         <Border DockPanel.Dock="Right" Width="270" Background="#F6F6F4" Padding="12,10"
                 BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
             <StackPanel>
+                <TextBlock FontSize="11" Foreground="#555B62" TextWrapping="Wrap" Margin="0,0,0,10"
+                           Text="Click the map frame to select it. With Ctrl held, dragging pans the map inside the frame and the wheel zooms it. Without Ctrl, dragging moves the frame on the page and the wheel zooms the page."/>
                 <TextBlock Text="Move or resize anything on the page, then" TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,0,0,4"/>
                 <Button Content="Export this page as a PDF..." Click="ExportPdf_Click" Margin="0,2" Padding="0,3"/>
                 <TextBlock x:Name="Status" Margin="0,10,0,0" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"/>
