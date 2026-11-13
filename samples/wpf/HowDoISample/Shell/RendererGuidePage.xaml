@@ -4,24 +4,24 @@
              Background="{StaticResource Shell.Page}" Foreground="{StaticResource Shell.Text}">
     <UserControl.Resources>
         <Style x:Key="H1" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontSize" Value="24"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="Foreground" Value="#FFFFFF"/>
         </Style>
         <Style x:Key="H2" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontSize" Value="17"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="Margin" Value="0,16,0,4"/>
             <Setter Property="Foreground" Value="#FFFFFF"/>
         </Style>
         <Style x:Key="Body" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="12.5"/>
+            <Setter Property="FontSize" Value="14"/>
             <Setter Property="TextWrapping" Value="Wrap"/>
             <Setter Property="Foreground" Value="{StaticResource Shell.Text}"/>
-            <Setter Property="LineHeight" Value="19"/>
+            <Setter Property="LineHeight" Value="22"/>
         </Style>
         <Style x:Key="Cell" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontSize" Value="13"/>
             <Setter Property="TextWrapping" Value="Wrap"/>
             <Setter Property="Margin" Value="8,5"/>
             <Setter Property="Foreground" Value="{StaticResource Shell.Text}"/>
