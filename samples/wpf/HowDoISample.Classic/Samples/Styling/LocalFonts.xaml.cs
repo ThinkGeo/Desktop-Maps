@@ -19,6 +19,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         private bool _initialized;
         private bool _useFolderFonts;
         private SKTypeface[] _typefaces = new SKTypeface[0];
+        // _fonts[i] is _typefaces[i]; an SKFont answers which characters the file has.
+        private SKFont[] _fonts = new SKFont[0];
 
         public LocalFonts()
         {
@@ -48,8 +50,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         {
             if (!_useFolderFonts) return;
 
-            var typeface = _typefaces.FirstOrDefault(t => t.IsBold == e.Font.IsBold && t.ContainsGlyph(e.Character))
-                ?? _typefaces.FirstOrDefault(t => t.ContainsGlyph(e.Character));
+            var typeface = _typefaces.Where((t, i) => t.IsBold == e.Font.IsBold && _fonts[i].ContainsGlyph(e.Character)).FirstOrDefault()
+                ?? _typefaces.Where((t, i) => _fonts[i].ContainsGlyph(e.Character)).FirstOrDefault();
             if (typeface != null)
             {
                 e.Typeface = typeface;
@@ -78,6 +80,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                     .Select(file => SKTypeface.FromFile(file))
                     .Where(typeface => typeface != null)
                     .ToArray();
+                _fonts = _typefaces.Select(typeface => typeface.ToFont()).ToArray();
             }
 
             _useFolderFonts = _typefaces.Length > 0;
@@ -102,6 +105,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI
         public void Dispose()
         {
             Map.Dispose();
+            foreach (var font in _fonts)
+            {
+                font.Dispose();
+            }
             foreach (var typeface in _typefaces)
             {
                 typeface.Dispose();
