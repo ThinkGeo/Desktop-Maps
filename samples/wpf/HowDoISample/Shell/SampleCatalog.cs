@@ -193,6 +193,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 "Seven label lessons on crafted data: text bends along its line, anchors from its own column, yields to priority, wraps and recases, keeps its icon when crowded, writes CJK vertically, and joins several columns into one label - each document editable while it runs",
                 "SetStyleAsync", SampleDraws.Style, typeof(Samples.AdvancedLabels), () => new Samples.AdvancedLabels(),
                 aliases: "Create a Multi-Column Text Style, CreateAMultiColumnTextStyle, multi-column, TextStyle {COLUMN}, concat, text-field, symbol-placement, text-anchor, symbol-sort-key, text-max-width, text-transform, text-optional"),
+            // Text with no network: the order the engine looks for glyphs in, one source at a time.
+            new SampleEntry("Styling", "Local Fonts", "LocalFonts.xaml.cs",
+                "Labels in six scripts drawn offline from glyph files the style points at, from font files in a folder, or from the installed fonts and the built-in Noto Sans - each source drawing what the one before it lacks",
+                "GpuBasemap.LocalFontsDirectory", SampleDraws.Style, typeof(Samples.LocalFonts), () => new Samples.LocalFonts(),
+                aliases: "MVT with Local Fonts, MVTWithLocalFonts, glyphs, offline glyphs, pbf, font folder, CJK, Noto Sans SC, GoNoto, text-font"),
             // What a document cannot hold - the clock, or a C# lambda over the feature - is a
             // code-built layer. Replaces "Render Based on Regex" and "Custom Styles".
             new SampleEntry("Styling", "Render Based on Code", "RenderBasedOnCode.xaml.cs",

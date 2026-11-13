@@ -223,6 +223,16 @@
         "service": ""
       },
       {
+        "id": "LocalFonts",
+        "title": "Local Fonts",
+        "description": "Labels in six scripts drawn offline from glyph files the style points at, from font files in a folder, or from the installed fonts and the built-in Noto Sans - each source drawing what the one before it lacks",
+        "source": "Samples/Styling/LocalFonts",
+        "keyApi": "GpuBasemap.LocalFontsDirectory",
+        "aliases": "MVT with Local Fonts, MVTWithLocalFonts, glyphs, offline glyphs, pbf, font folder, CJK, Noto Sans SC, GoNoto, text-font",
+        "draws": "Style",
+        "service": ""
+      },
+      {
         "id": "RenderBasedOnCode",
         "title": "Render Based on Code",
         "description": "Day and night sweep the world's capitals as the clock switches code-built layers on and off, and a C# paint lambda shades the US states by population density under the basemap's roads and labels",
