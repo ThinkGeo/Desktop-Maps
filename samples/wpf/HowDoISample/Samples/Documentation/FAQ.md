@@ -10,7 +10,7 @@ Common questions about the samples and about ThinkGeo Desktop Maps for WPF. In t
 
 ### Which gallery should I open?
 
-This one if your application runs on .NET 8 or later. If it runs on .NET Framework 4.8, or it keeps v14 code built on `LayerOverlay`, `FeatureLayer` and `ZoomLevelSet` styles, open the Classic gallery (`HowDoISample.Classic`) instead: it builds for both .NET Framework 4.8 and .NET 8, and it is the reference for those classic APIs.
+This one if your application runs on .NET 8 or later. If it runs on .NET Framework 4.8, or it keeps v14 code built on `LayerOverlay`, `FeatureLayer` and `ZoomLevelSet` styles, open the Classic gallery (`HowDoISample.Classic`) instead: it builds for both .NET Framework 4.8 and .NET 10, and it is the reference for those classic APIs.
 
 ### Where does the ThinkGeo Cloud key go, and how do I use my own?
 

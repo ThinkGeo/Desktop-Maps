@@ -10,7 +10,7 @@ Common questions about the samples and about ThinkGeo Desktop Maps for WPF with 
 
 ### Which gallery should I open?
 
-This one if your application runs on .NET Framework 4.8, or keeps code built on `LayerOverlay`, `FeatureLayer`, `ZoomLevelSet` and the `Style` classes: this gallery builds for both .NET Framework 4.8 and .NET 8, and it is the reference for those classes.
+This one if your application runs on .NET Framework 4.8, or keeps code built on `LayerOverlay`, `FeatureLayer`, `ZoomLevelSet` and the `Style` classes: this gallery builds for both .NET Framework 4.8 and .NET 10, and it is the reference for those classes.
 
 Starting a new application on .NET 8 or later? Open the ThinkGeo 15 gallery (`HowDoISample`) instead. It draws the map from a style document, with tilt, terrain and the globe, and it has a page on bringing classic layers across.
 
