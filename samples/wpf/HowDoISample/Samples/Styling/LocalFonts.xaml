@@ -21,16 +21,6 @@
       "paint": {
           "fill-color": "#EFEBE4",
           "fill-outline-color": "#B9B2A5" }
-    },
-
-    { "type": "symbol",
-      "source-layer": "centroids",
-      "layout": {
-          "text-field": "{NAME}",
-          "text-font": ["Open Sans Semibold"],
-          "text-size": 12 },
-      "paint": {
-          "text-color": "#6B6355" }
     }
   ]
 }</sys:String>
