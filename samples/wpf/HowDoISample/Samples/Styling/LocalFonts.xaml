@@ -14,11 +14,9 @@
 }</sys:String>
 
         <sys:String x:Key="WorldStyle" xml:space="preserve">{
-  "sources": { "world": { "type": "vector" } },
   "layers": [
 
     { "type": "fill",
-      "source": "world",
       "source-layer": "countries",
       "paint": {
           "fill-color": "#EFEBE4",
@@ -26,7 +24,6 @@
     },
 
     { "type": "symbol",
-      "source": "world",
       "source-layer": "centroids",
       "layout": {
           "text-field": "{NAME}",
