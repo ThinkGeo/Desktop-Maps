@@ -7,9 +7,7 @@
              mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800">
 
     <Grid>
-        <thinkGeoUi:MapView x:Name="MainMap" SizeChanged="MainMap_SizeChanged"
-                            CurrentExtentChanged="MainMap_CurrentExtentChanged"
-                            RotationAngleChanging="MainMap_RotationAngleChanging"/>
+        <thinkGeoUi:MapView x:Name="MainMap" SizeChanged="MainMap_SizeChanged"/>
 
         <Border BorderBrush="#FF333333" BorderThickness="5" CornerRadius="6" Margin="8" Width="220" Height="220"
                 HorizontalAlignment="Left" VerticalAlignment="Bottom" ToolTip="Click to move the main map there">
