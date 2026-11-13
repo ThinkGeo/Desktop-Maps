@@ -65,7 +65,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             var cities = new InMemoryFeatureSource(new[] { new FeatureSourceColumn("name") }, new[]
             {
                 City("ᐃᖃᓗᐃᑦ", -68.517, 63.747),
-                City("Reykjavík", -21.942, 64.146),
+                City("São Paulo", -46.633, -23.550),
                 City("Москва", 37.618, 55.751),
                 City("Αθήνα", 23.728, 37.984),
                 City("香港", 114.169, 22.319),
