@@ -412,6 +412,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 "A flight from Los Angeles to Shanghai over the antimeridian: route, corridor and aircraft stored with continuous longitudes, whole on the globe and whole on both sides of the seam in Web Mercator",
                 "DisplayProjection.Globe", SampleDraws.Style, typeof(Samples.CrossTheDateline), () => new Samples.CrossTheDateline(),
                 aliases: "Wrap the DateLine, antimeridian, 180th meridian, great circle"),
+            // From the WebAPI gallery: the area every Web Mercator map gets wrong, made something to watch.
+            new SampleEntry("Projections", "Measure in the Right Projection", "MeasureInTheRightProjection.xaml.cs",
+                "Drag Greenland toward the equator: the ground it covers never changes, the area Web Mercator gives it falls from several times too big to the truth",
+                "ProjectionConverter", SampleDraws.Style, typeof(Samples.MeasureInTheRightProjection), () => new Samples.MeasureInTheRightProjection(),
+                aliases: "Greenland, true size, area distortion, Web Mercator, equal area, Lambert azimuthal equal area, laea, measure area"),
             new SampleEntry("Projections", "CPU vs GPU Projection", "CpuVsGpuProjection.xaml.cs",
                 "The same world shapefile projected by the CPU as it is read on the left and by the GPU as it is drawn on the right, with what each switch costs",
                 "ProjectionConverter", SampleDraws.SideBySide, typeof(Samples.CpuVsGpuProjection), () => new Samples.CpuVsGpuProjection(),

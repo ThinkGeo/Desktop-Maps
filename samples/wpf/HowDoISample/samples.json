@@ -693,6 +693,16 @@
         "service": ""
       },
       {
+        "id": "MeasureInTheRightProjection",
+        "title": "Measure in the Right Projection",
+        "description": "Drag Greenland toward the equator: the ground it covers never changes, the area Web Mercator gives it falls from several times too big to the truth",
+        "source": "Samples/Projections/MeasureInTheRightProjection",
+        "keyApi": "ProjectionConverter",
+        "aliases": "Greenland, true size, area distortion, Web Mercator, equal area, Lambert azimuthal equal area, laea, measure area",
+        "draws": "Style",
+        "service": ""
+      },
+      {
         "id": "CpuVsGpuProjection",
         "title": "CPU vs GPU Projection",
         "description": "The same world shapefile projected by the CPU as it is read on the left and by the GPU as it is drawn on the right, with what each switch costs",

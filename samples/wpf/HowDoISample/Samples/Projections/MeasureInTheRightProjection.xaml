@@ -1,0 +1,72 @@
+<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.Samples.MeasureInTheRightProjection"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <sys:String x:Key="StyleJson" xml:space="preserve">{
+  "layers": [
+
+    { "type": "fill",
+      "source-layer": "Countries02",
+      "paint": {
+          "fill-color": "#F2EFE9",
+          "fill-outline-color": "#B8B2A7" }
+    }
+  ]
+}</sys:String>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="240"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"
+                            MapMouseDown="Map_MapMouseDown" MapMouseMove="Map_MapMouseMove" MapMouseUp="Map_MapMouseUp"/>
+
+        <Border Grid.Column="1" Style="{DynamicResource Shell.SamplePanel}">
+            <StackPanel Margin="8,6,8,6">
+                <TextBlock Text="Drag Greenland south" FontWeight="SemiBold" FontSize="11.5"/>
+                <TextBlock TextWrapping="Wrap" FontSize="11" Margin="0,4,0,0"
+                           Text="The red copy always covers the same ground as the grey outline at home. Only what Web Mercator makes of it changes."/>
+
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <Button Content="To the equator" Padding="8,3" Click="Equator_Click"/>
+                    <Button Content="Put it back" Padding="8,3" Margin="6,0,0,0" Click="Home_Click"/>
+                    <TextBlock x:Name="Where" VerticalAlignment="Center" Margin="10,0,0,0" FontFamily="Consolas"/>
+                </StackPanel>
+
+                <Grid Margin="0,12,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="On the ground, always" FontSize="11" Margin="0,2"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1" x:Name="Truth" FontFamily="Consolas" Margin="0,2"/>
+                    <TextBlock Grid.Row="1" Text="Web Mercator says, here" FontSize="11" Margin="0,2"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1" x:Name="Here" FontFamily="Consolas" Margin="0,2"/>
+                    <TextBlock Grid.Row="2" Text="Web Mercator says, at home" FontSize="11" Margin="0,2"/>
+                    <TextBlock Grid.Row="2" Grid.Column="1" x:Name="AtHome" FontFamily="Consolas" Margin="0,2"/>
+                </Grid>
+
+                <TextBlock x:Name="Blow" FontFamily="Consolas" FontSize="22" FontWeight="Bold" Foreground="#C0392B"
+                           HorizontalAlignment="Center" Margin="0,12,0,0"/>
+                <TextBlock x:Name="BlowNote" FontSize="11" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center"/>
+
+                <TextBlock TextWrapping="Wrap" FontSize="11" Margin="0,12,0,0"
+                           Text="Measure areas and distances in an equal-area or local projection, never in Web Mercator."/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>
