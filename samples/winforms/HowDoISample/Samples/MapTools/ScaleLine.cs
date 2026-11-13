@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows;
 using System.Windows.Forms;
 using ThinkGeo.Core;
 
@@ -21,8 +20,11 @@ namespace ThinkGeo.UI.WinForms.HowDoI
             var thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey);
             mapView.Overlays.Add(thinkGeoVectorTileOverlay);
 
-            mapView.MapTools.ScaleLine.IsEnabled = true;
-            mapView.MapTools.ScaleLine.Margin = new Thickness(5, 0, 0, 20);
+            mapView.AdornmentOverlay.Layers.Add("ScaleLine", new ScaleLineAdornmentLayer
+            {
+                Projection = new Projection(3857),
+                Location = AdornmentLocation.LowerLeft
+            });
 
             // Set the map extent
             mapView.CurrentExtent = new RectangleShape(-10786436, 3918518, -10769429, 3906002);
@@ -34,8 +36,8 @@ namespace ThinkGeo.UI.WinForms.HowDoI
         {
             if (sender is CheckBox checkbox)
             {
-                mapView.MapTools.ScaleLine.IsEnabled = checkbox.Checked;
-                _ = mapView.RefreshAsync();
+                mapView.AdornmentOverlay.Layers["ScaleLine"].IsVisible = checkbox.Checked;
+                _ = mapView.AdornmentOverlay.RefreshAsync();
             }
         }
 
