@@ -11,38 +11,50 @@
         <sys:String x:Key="StyleJson" xml:space="preserve">{
   "layers": [
 
-    { "type": "fill",
-      "source-layer": "Parks",
+    { "id": "Background",
+      "type": "background",
       "paint": {
-          "fill-color": "#D3D3D3" }
+          "background-color": "#F7F4EC" }
     },
 
-    { "type": "line",
+    { "id": "Parks",
+      "type": "fill",
+      "source-layer": "Parks",
+      "paint": {
+          "fill-color": "#A3D7A0",
+          "fill-outline-color": "#6FB36B" }
+    },
+
+    { "id": "Major streets",
+      "type": "line",
       "source-layer": "Streets",
       "filter": ["&lt;=", ["to-number", ["get", "SUBTYPE"]], 6],
       "paint": {
-          "line-color": "#A9A9A9",
-          "line-width": 1 }
+          "line-color": "#E09A3C",
+          "line-width": 1.5 }
     },
 
-    { "type": "line",
+    { "id": "City limits",
+      "type": "line",
       "source-layer": "FriscoCityLimits",
       "paint": {
-          "line-color": "#000000",
+          "line-color": "#1F4E9C",
           "line-width": 2 }
     },
 
-    { "type": "circle",
+    { "id": "Mosquito sites",
+      "type": "circle",
       "source-layer": "Frisco_Mosquitos",
       "filter": ["==", ["to-string", ["get", "DateCollec"]], "20200505"],
       "paint": {
           "circle-radius": 5,
-          "circle-color": "#000000",
+          "circle-color": "#D7263D",
           "circle-stroke-color": "#FFFFFF",
           "circle-stroke-width": 2 }
     },
 
-    { "type": "symbol",
+    { "id": "Site names",
+      "type": "symbol",
       "source-layer": "Frisco_Mosquitos",
       "filter": ["==", ["to-string", ["get", "DateCollec"]], "20200505"],
       "layout": {
@@ -50,7 +62,7 @@
           "text-size": 11,
           "text-offset": [0, 1.2] },
       "paint": {
-          "text-color": "#000000",
+          "text-color": "#1A1A1A",
           "text-halo-color": "#FFFFFF",
           "text-halo-width": 2 }
     }
@@ -59,18 +71,25 @@
     </UserControl.Resources>
 
     <DockPanel LastChildFill="True">
-        <Border DockPanel.Dock="Right" Style="{DynamicResource Shell.SamplePanel}">
-            <StackPanel>
-                <TextBlock Text="Draw the map on the page with" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                <RadioButton x:Name="ContentLayers" Content="Feature layers styled in code" Tag="layers" GroupName="MapContent" IsChecked="True" Margin="0,2"
-                             Checked="MapContent_Checked"/>
-                <RadioButton x:Name="ContentStyle" Content="A style document (style.json)" Tag="style" GroupName="MapContent" Margin="0,2"
-                             Checked="MapContent_Checked"/>
+        <Border DockPanel.Dock="Right" Style="{DynamicResource Shell.SamplePanel.Wide}">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Top">
+                    <TextBlock Text="The map on the page - edit its style document below; the map and the legend follow"
+                               FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,0,0,4"/>
+                    <TextBlock FontSize="11" TextWrapping="Wrap" Margin="0,2"
+                               Text="Click the map frame to select it. With Ctrl held, dragging pans the map inside the frame and the wheel zooms it. Without Ctrl, dragging moves the frame on the page and the wheel zooms the page."/>
 
-                <TextBlock Text="Output" FontWeight="SemiBold" Margin="0,14,0,4"/>
-                <Button Content="Export this page as a PDF..." Click="ExportPdf_Click" Margin="0,2" Padding="0,3"/>
-                <TextBlock x:Name="Status" Margin="0,10,0,0" FontSize="11" TextWrapping="Wrap"/>
-            </StackPanel>
+                    <TextBlock Text="Output" FontWeight="SemiBold" Margin="0,14,0,4"/>
+                    <Button Content="Export this page as a PDF..." Click="ExportPdf_Click" Margin="0,2" Padding="0,3"/>
+                </StackPanel>
+                <TextBlock x:Name="Status" DockPanel.Dock="Bottom" Margin="0,10,0,0" FontSize="11" TextWrapping="Wrap"/>
+                <TextBox x:Name="StyleEditor" TextChanged="StyleEditor_TextChanged" Margin="0,14,0,0"
+                         Text="{StaticResource StyleJson}"
+                         AcceptsReturn="True" AcceptsTab="True"
+                         FontFamily="Consolas" FontSize="11.5" Padding="6"
+                         TextWrapping="NoWrap"
+                         VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
+            </DockPanel>
         </Border>
 
         <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>

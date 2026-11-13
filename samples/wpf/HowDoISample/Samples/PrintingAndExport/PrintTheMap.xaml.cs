@@ -4,9 +4,12 @@ using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Threading;
 using ThinkGeo.Core;
 using ThinkGeo.Core.Styling;
 using ThinkGeo.Gpu;
@@ -21,20 +24,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
     {
         private const string Title = "Frisco Mosquito Report - 5/5/2020";
 
-        private static readonly AreaStyle CityLimitsStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.Transparent, GeoColors.Black, 2);
-        private static readonly LineStyle MajorStreetsStyle = LineStyle.CreateSimpleLineStyle(GeoColors.DarkGray, 1, true);
-        private static readonly AreaStyle ParksStyle = AreaStyle.CreateSimpleAreaStyle(GeoColors.LightGray, GeoColors.Transparent);
-        private static readonly PointStyle TrapSiteStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Black, 10, GeoColors.White, 2);
-
+        private readonly DispatcherTimer _applyTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(400) };
         private bool _initialized;
-        private bool _useStyleDocument;
         private PrinterInteractiveOverlay _printerOverlay;
         private MapPrinterLayoutAsyncLayer _mapPrinterLayer;
+        private LegendPrinterLayoutAsyncLayer _legendLayer;
         private RectangleShape _cityExtent;
 
         public PrintTheMap()
         {
             InitializeComponent();
+            // Edits land once typing pauses, not on every keystroke.
+            _applyTimer.Tick += async (_, _) => { _applyTimer.Stop(); await ApplyStyleAsync(); };
         }
 
         private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -59,12 +60,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             };
             _printerOverlay = new PrinterInteractiveOverlay { IsEditable = true };
             _printerOverlay.PrinterLayoutAsyncLayers.Add(pageLayer);
-            var page = CreatePage(pageLayer, CreateMapLayers(), _cityExtent, Title);
+            var page = CreatePage(pageLayer, MapLayers(), LegendItems(), _cityExtent, Title);
             foreach (var layer in page.Layers)
             {
                 _printerOverlay.PrinterLayoutAsyncLayers.Add(layer);
             }
             _mapPrinterLayer = page.Layers.OfType<MapPrinterLayoutAsyncLayer>().First();
+            _legendLayer = page.Layers.OfType<LegendPrinterLayoutAsyncLayer>().First();
+            // Click the map frame, then Ctrl+drag pans the map inside it and Ctrl+wheel zooms
+            // it; without Ctrl the page itself pans and zooms.
+            _mapPrinterLayer.EnableInnerNavigation = true;
             Map.InteractiveOverlays.Add(_printerOverlay);
 
             var pageExtent = pageLayer.GetPosition().GetBoundingBox();
@@ -74,24 +79,40 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             _ = Map.RefreshAsync();
         }
 
-        private async void MapContent_Checked(object sender, RoutedEventArgs e)
+        private void StyleEditor_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (!_initialized) return;
 
+            _applyTimer.Stop();
+            _applyTimer.Start();
+        }
+
+        // The map frame draws from a cached picture; a new style means a new picture.
+        private async Task ApplyStyleAsync()
+        {
             try
             {
-                _useStyleDocument = (string)((RadioButton)sender).Tag == "style";
+                // Both read the document first: one that does not parse leaves the page as it is.
+                var layers = MapLayers().ToList();
+                var items = LegendItems().ToList();
                 _mapPrinterLayer.Layers.Clear();
-                foreach (var layer in CreateMapLayers())
+                foreach (var layer in layers)
                 {
                     _mapPrinterLayer.Layers.Add(layer);
                 }
+                _legendLayer.LegendItems.Clear();
+                foreach (var item in items)
+                {
+                    _legendLayer.LegendItems.Add(item);
+                }
                 _mapPrinterLayer.InvalidateInnerContentCache();
+                Status.Text = string.Empty;
                 await Map.RefreshAsync();
             }
             catch (Exception ex)
             {
-                Status.Text = ex.Message;
+                Status.Foreground = Brushes.Salmon;
+                Status.Text = ex.Message.Split('\n')[0].TrimEnd('\r');
             }
         }
 
@@ -145,56 +166,63 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         }
 
         /// <summary>
-        /// The map's content: the Frisco shapefiles, styled in code or by the style document.
+        /// The map's content: the Frisco shapefiles, drawn by the style document in the editor.
         /// </summary>
-        private IEnumerable<LayerBase> CreateMapLayers()
+        private IEnumerable<LayerBase> MapLayers()
         {
             // The shapefiles are in Texas North Central (2276); the page is in Spherical Mercator (3857).
-            if (_useStyleDocument)
+            var sources = new GeoCollection<FeatureSource>();
+            foreach (var name in new[] { "Parks", "Streets", "FriscoCityLimits", "Frisco_Mosquitos" })
             {
-                var sources = new GeoCollection<FeatureSource>();
-                foreach (var name in new[] { "Parks", "Streets", "FriscoCityLimits", "Frisco_Mosquitos" })
+                sources.Add(name, new ShapeFileFeatureSource(SampleShared.Shapefile(name + ".shp")) { ProjectionConverter = new ProjectionConverter(2276, 3857) });
+            }
+            return new LayerBase[] { new MapStyleAsyncLayer(new MapStyle(StyleEditor.Text), sources) };
+        }
+
+        /// <summary>
+        /// One legend item per fill, line and circle layer of the style document, in its colors. Labels have no swatch.
+        /// </summary>
+        private IEnumerable<LegendItem> LegendItems()
+        {
+            using (var document = JsonDocument.Parse(StyleEditor.Text))
+            {
+                foreach (var layer in document.RootElement.GetProperty("layers").EnumerateArray())
                 {
-                    sources.Add(name, new ShapeFileFeatureSource(SampleShared.Shapefile(name + ".shp")) { ProjectionConverter = new ProjectionConverter(2276, 3857) });
+                    var paint = layer.TryGetProperty("paint", out var p) ? p : default;
+                    ThinkGeo.Core.Style swatch = layer.GetProperty("type").GetString() switch
+                    {
+                        "fill" => AreaStyle.CreateSimpleAreaStyle(PaintColor(paint, "fill-color"), PaintColor(paint, "fill-outline-color")),
+                        "line" => LineStyle.CreateSimpleLineStyle(PaintColor(paint, "line-color"), PaintNumber(paint, "line-width", 1), true),
+                        "circle" => PointStyle.CreateSimpleCircleStyle(PaintColor(paint, "circle-color"), PaintNumber(paint, "circle-radius", 5) * 2, PaintColor(paint, "circle-stroke-color"), PaintNumber(paint, "circle-stroke-width", 0)),
+                        _ => null
+                    };
+                    if (swatch == null) continue;
+
+                    var text = layer.TryGetProperty("id", out var id) ? id.GetString() : layer.GetProperty("source-layer").GetString();
+                    yield return CreateLegendItem(text, swatch);
                 }
-                return new LayerBase[] { new MapStyleAsyncLayer(new MapStyle((string)FindResource("StyleJson")), sources) };
             }
+        }
 
-            var cityLimits = new ShapeFileFeatureLayer(SampleShared.Shapefile("FriscoCityLimits.shp"));
-            cityLimits.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = CityLimitsStyle;
-            cityLimits.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle.DrawingLevel = DrawingLevel.LevelFour;
+        private static GeoColor PaintColor(JsonElement paint, string name)
+        {
+            return paint.ValueKind == JsonValueKind.Object && paint.TryGetProperty(name, out var value) && value.ValueKind == JsonValueKind.String
+                ? GeoColor.FromHtml(value.GetString())
+                : GeoColors.Transparent;
+        }
 
-            var streets = new ShapeFileFeatureLayer(SampleShared.Shapefile("Streets.shp"));
-            var majorStreets = new FilterStyle();
-            majorStreets.Conditions.Add(new FilterCondition("SUBTYPE", "<= 6"));
-            majorStreets.Styles.Add(MajorStreetsStyle);
-            streets.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(majorStreets);
-
-            var parks = new ShapeFileFeatureLayer(SampleShared.Shapefile("Parks.shp"));
-            parks.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = ParksStyle;
-
-            var trapSites = new ShapeFileFeatureLayer(SampleShared.Shapefile("Frisco_Mosquitos.shp"));
-            var mayFifth = new FilterStyle();
-            mayFifth.Conditions.Add(new FilterCondition("DateCollec", "20200505"));
-            mayFifth.Styles.Add(TrapSiteStyle);
-            mayFifth.Styles.Add(TextStyle.CreateSimpleTextStyle("TrapSite", "Verdana", 8, DrawingFontStyles.Bold, GeoColors.Black, GeoColors.White, 2, 0, 6));
-            trapSites.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(mayFifth);
-            trapSites.ZoomLevelSet.ZoomLevel01.DefaultPointStyle.DrawingLevel = DrawingLevel.LevelFour;
-
-            var layers = new[] { cityLimits, streets, parks, trapSites };
-            foreach (var layer in layers)
-            {
-                layer.FeatureSource.ProjectionConverter = new ProjectionConverter(2276, 3857);
-                layer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
-            }
-            return layers;
+        private static float PaintNumber(JsonElement paint, string name, float fallback)
+        {
+            return paint.ValueKind == JsonValueKind.Object && paint.TryGetProperty(name, out var value) && value.ValueKind == JsonValueKind.Number
+                ? value.GetSingle()
+                : fallback;
         }
 
         /// <summary>
         /// One page: the title, the map of the extent, its legend and scale bar, and the table of trap sites.
         /// Positions are in inches from the centre of the sheet.
         /// </summary>
-        private static PrinterLayoutPage CreatePage(PagePrinterLayoutAsyncLayer sheet, IEnumerable<LayerBase> mapLayers, RectangleShape mapExtent, string title)
+        private static PrinterLayoutPage CreatePage(PagePrinterLayoutAsyncLayer sheet, IEnumerable<LayerBase> mapLayers, IEnumerable<LegendItem> legendItems, RectangleShape mapExtent, string title)
         {
             var center = sheet.GetPosition().GetCenterPoint();
             var page = new PrinterLayoutPage(sheet);
@@ -213,7 +241,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             mapPrinterLayer.SetPosition(7.5, 5, center.X, center.Y + 1.75, PrintingUnit.Inch);
             page.Layers.Add(mapPrinterLayer);
 
-            var legend = CreateLegend();
+            var legend = CreateLegend(legendItems);
             legend.SetPosition(1.40, 1.05, center.X + 2.95, center.Y - 0.12, PrintingUnit.Inch);
             page.Layers.Add(legend);
 
@@ -234,7 +262,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             return page;
         }
 
-        private static LegendPrinterLayoutAsyncLayer CreateLegend()
+        private static LegendPrinterLayoutAsyncLayer CreateLegend(IEnumerable<LegendItem> items)
         {
             var legendAdornment = new LegendAdornmentLayer
             {
@@ -252,10 +280,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 }
             };
 
-            legendAdornment.LegendItems.Add(CreateLegendItem("City Limits", CityLimitsStyle));
-            legendAdornment.LegendItems.Add(CreateLegendItem("Major Streets", MajorStreetsStyle));
-            legendAdornment.LegendItems.Add(CreateLegendItem("Parks", ParksStyle));
-            legendAdornment.LegendItems.Add(CreateLegendItem("Mosquito Site", TrapSiteStyle));
+            foreach (var item in items)
+            {
+                legendAdornment.LegendItems.Add(item);
+            }
 
             return new LegendPrinterLayoutAsyncLayer(legendAdornment);
         }
