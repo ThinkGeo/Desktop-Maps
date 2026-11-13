@@ -30,27 +30,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             var basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
             Map.Basemap = basemap;
 
-            // Deliberately the per-frame WPF overlay, not the GPU tile path: a graticule
-            // generates its grid per EXTENT (line density follows the whole view, and the
-            // degree labels sit at the screen edges), which a per-tile cutter cannot
-            // express - each tile would pick its own density and no tile owns the edge.
-            var layerOverlay = new FeatureLayerWpfDrawingOverlay();
-            Map.Overlays.Add(layerOverlay);
-
-            // Create the new layer and set the projection as the data is in srid 4326 and our background is srid 3857 (spherical mercator).
-            var graticuleFeatureLayer = new GraticuleFeatureLayer
+            // The graticule is computed in EPSG:4326; the projection tells it the map is in EPSG:3857.
+            var graticuleLayer = new GraticuleAdornmentLayer
             {
-                
-                FeatureSource =
-                {
-                    ProjectionConverter = new ProjectionConverter(4326, 3857)
-                }
+                Projection = new Projection(3857)
             };
-            // We set the pen color to the graticule layer.
-            graticuleFeatureLayer.GraticuleLineStyle.OuterPen.Color = GeoColor.FromArgb(125, GeoColors.Navy);
+            graticuleLayer.GraticuleLineStyle.OuterPen.Color = GeoColor.FromArgb(125, GeoColors.Navy);
 
-            // Add the layer to the overlay we created earlier.
-            layerOverlay.FeatureLayers.Add("graticule", graticuleFeatureLayer);
+            // On the adornment overlay the grid is redrawn on every pan tick and the degree
+            // labels stay pinned to the map's edges.
+            Map.AdornmentOverlay.Layers.Add("graticule", graticuleLayer);
 
             Map.CenterPoint = new PointShape(-10777200, 3911500);
             Map.CurrentScale = 36200;
