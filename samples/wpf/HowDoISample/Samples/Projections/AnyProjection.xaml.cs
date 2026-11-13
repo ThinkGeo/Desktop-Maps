@@ -132,7 +132,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             // The animation waits for the camera writes below: they decide where the new
             // projection frames the ground, and animating before them would unroll the
             // world and then jump it.
-            var animate = _ready && ChkMorph.IsChecked == true;
+            var animate = _ready;
             if (!animate)
             {
                 Map.Basemap.DisplayProjection = target;

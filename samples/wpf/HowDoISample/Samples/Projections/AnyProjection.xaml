@@ -48,9 +48,8 @@
                         <RadioButton x:Name="RdoAlbers" Content="Equal Area - Albers Conic (US)" GroupName="Projection" Checked="Projection_Checked" Margin="0,3" />
                         <RadioButton x:Name="RdoMga55" Content="MGA Zone 55 (E Australia)" GroupName="Projection" Checked="Projection_Checked" Margin="0,3" />
 
-                        <CheckBox x:Name="ChkMorph" Content="Animate the change" IsChecked="True" Margin="0,12,0,0" />
-                        <TextBlock TextWrapping="Wrap" Margin="0,2,0,0" FontSize="11"
-                                   Text="The map changes projection smoothly. Loaded tiles are reused; moving to a regional view loads tiles for that area." />
+                        <TextBlock TextWrapping="Wrap" Margin="0,12,0,0" FontSize="11"
+                                   Text="The map animates from one projection to the next. Loaded tiles are reused; moving to a regional view loads tiles for that area." />
 
                         <TextBlock x:Name="WarningText" TextWrapping="Wrap" Margin="0,10,0,0" FontSize="11"
                                    Foreground="#FA8072" Visibility="Collapsed" />

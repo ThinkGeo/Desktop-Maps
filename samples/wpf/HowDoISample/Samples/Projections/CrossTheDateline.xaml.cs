@@ -143,6 +143,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
                 _introSwitching = true;
                 ProjMercator.IsChecked = true;   // the same path the button takes
+                _introSwitching = false;
+
+                // Once the map is flat the flight takes off by itself.
+                await Task.Delay(MorphDuration + IntroHold, cancel);
+                StartFlight();
             }
             catch (OperationCanceledException)
             {
@@ -230,6 +235,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 return;
             }
 
+            StartFlight();
+        }
+
+        private void StartFlight()
+        {
             if (_flownMeters >= _routeLengthMeters)
             {
                 _flownMeters = 0;

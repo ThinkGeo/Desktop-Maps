@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,9 +19,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private const double WorldHalfSize = 20037508.342789244;
 
         private static readonly TimeSpan MorphDuration = TimeSpan.FromMilliseconds(900);
-        private static readonly TimeSpan ZoomDuration = TimeSpan.FromMilliseconds(1500);
 
-        // Italy, so the zooms below land on a coast. Open ocean has no detail to show:
+        // Italy, so zooming in lands on a coast. Open ocean has no detail to show:
         // past zoom 8 the satellite tiles there are a flat, black sea.
         private static readonly PointShape Center = new PointShape(1390000, 5160000);
 
@@ -36,7 +34,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private ThinkGeoRasterTileSource _source;
         private string _choice = "globe";
         private bool _ready;
-        private CancellationTokenSource _zoomCancellation;
 
         public TheGlobe()
         {
@@ -86,8 +83,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 return;
             }
 
-            // Changing projection supersedes any zoom started by this sample.
-            _zoomCancellation?.Cancel();
             _choice = definition;
 
             var target = definition switch
@@ -103,22 +98,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             Map.MaximumScale = definition == "3857" ? double.MaxValue : WorldFillScale();
             Map.CurrentExtent = before;
 
-            if (ChkMorph?.IsChecked == true)
+            await Map.RefreshAsync();
+            try
             {
-                await Map.RefreshAsync();
-                try
-                {
-                    await Map.Basemap.AnimateDisplayProjectionAsync(target, MorphDuration);
-                }
-                catch (OperationCanceledException)
-                {
-                    return;
-                }
+                await Map.Basemap.AnimateDisplayProjectionAsync(target, MorphDuration);
             }
-            else
+            catch (OperationCanceledException)
             {
-                Map.Basemap.DisplayProjection = target;
-                await Map.RefreshAsync();
+                return;
             }
 
             ShowStatus();
@@ -129,49 +116,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         {
             var world = new RectangleShape(-WorldHalfSize, WorldHalfSize, WorldHalfSize, -WorldHalfSize);
             return MapUtil.GetScale(world, Math.Max(1, Map.ActualWidth), GeographyUnit.Meter) * 1.05;
-        }
-
-        private async void World_Click(object sender, RoutedEventArgs e) => await FrameAsync(2.0 * WorldHalfSize);
-
-        /// <summary>Into the handover band, where the ball is already half flat.</summary>
-        private async void Band_Click(object sender, RoutedEventArgs e) => await FrameAsync(1500000);
-
-        /// <summary>Past it, where the globe has switched itself off entirely.</summary>
-        private async void Street_Click(object sender, RoutedEventArgs e) => await FrameAsync(400000);
-
-        // When animation is enabled, zoom about the view center so the ball can be watched
-        // easing into flat mercator on the way.
-        private async Task FrameAsync(double widthInMeters)
-        {
-            if (!_ready)
-            {
-                return;
-            }
-
-            var previous = _zoomCancellation;
-            var cancellation = new CancellationTokenSource();
-            _zoomCancellation = cancellation;
-            previous?.Cancel();
-
-            try
-            {
-                var scale = Map.CurrentScale * widthInMeters / Map.CurrentExtent.Width;
-                await Map.ZoomToAsync(Map.CenterPoint, scale, Map.RotationAngle,
-                    new MapAnimationSettings { Duration = ChkMorph?.IsChecked == true ? (uint)ZoomDuration.TotalMilliseconds : 0u, Type = MapAnimationType.DrawWithAnimation },
-                    cancellation.Token);
-                ShowStatus();
-            }
-            catch (OperationCanceledException) when (cancellation.IsCancellationRequested)
-            {
-                // A newer zoom, projection change or closing the sample superseded
-                // this request. Other cancellations and failures still propagate.
-            }
-            finally
-            {
-                if (ReferenceEquals(_zoomCancellation, cancellation))
-                    _zoomCancellation = null;
-                cancellation.Dispose();
-            }
         }
 
         /// <summary>
@@ -204,7 +148,6 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private void Sample_Unloaded(object sender, RoutedEventArgs e)
         {
             _ready = false;
-            _zoomCancellation?.Cancel();
         }
     }
 }

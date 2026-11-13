@@ -23,17 +23,10 @@
                     <RadioButton x:Name="RdoGlobe" Content="Globe" IsChecked="True" Checked="Projection_Checked" Margin="0,3" />
                     <RadioButton x:Name="RdoMercator" Content="Web Mercator (what it flattens into)" Checked="Projection_Checked" Margin="0,3" />
                     <RadioButton x:Name="RdoRobinson" Content="Robinson (reached through mercator)" Checked="Projection_Checked" Margin="0,3" />
-                    <CheckBox x:Name="ChkMorph" Content="Animate the change" IsChecked="True" Margin="0,8,0,0" />
 
                     <Separator Margin="0,12,0,8" />
-                    <TextBlock Text="Zoom in and watch it let go" FontWeight="SemiBold" Margin="0,0,0,4" />
                     <TextBlock TextWrapping="Wrap" FontSize="11" Margin="0,0,0,6"
-                               Text="Between zoom 5 and 6 the ball eases into flat web mercator, then hands over to it completely." />
-                    <StackPanel Orientation="Horizontal">
-                        <Button x:Name="BtnWorld" Content="world" Click="World_Click" Padding="8,3" Margin="0,0,4,0" />
-                        <Button x:Name="BtnBand" Content="the band" Click="Band_Click" Padding="8,3" Margin="0,0,4,0" />
-                        <Button x:Name="BtnStreet" Content="past it" Click="Street_Click" Padding="8,3" />
-                    </StackPanel>
+                               Text="Zoom in: between zoom 5 and 6 the ball eases into flat web mercator and hands over to it completely. Zoom out and it comes back." />
 
                     <Separator Margin="0,12,0,8" />
                     <TextBlock TextWrapping="Wrap" FontSize="11"
