@@ -76,13 +76,13 @@
     <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3800.47" />
     <PackageReference Include="System.Text.Json" Version="10.0.9" />
-    <PackageReference Include="ThinkGeo.Cad" Version="15.1.0-beta009" />
-    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="15.1.0-beta009" />
-    <PackageReference Include="ThinkGeo.Gdal" Version="15.1.0-beta009" />
-    <PackageReference Include="ThinkGeo.NauticalCharts" Version="15.1.0-beta009" />
-    <PackageReference Include="ThinkGeo.PostgreSql" Version="15.1.0-beta009" />
-    <PackageReference Include="ThinkGeo.SqlServer" Version="15.1.0-beta009" />
-    <PackageReference Include="ThinkGeo.UI.Wpf" Version="15.1.0-beta009" />
+    <PackageReference Include="ThinkGeo.Cad" Version="15.1.0-beta010" />
+    <PackageReference Include="ThinkGeo.FileGeoDatabase" Version="15.1.0-beta010" />
+    <PackageReference Include="ThinkGeo.Gdal" Version="15.1.0-beta010" />
+    <PackageReference Include="ThinkGeo.NauticalCharts" Version="15.1.0-beta010" />
+    <PackageReference Include="ThinkGeo.PostgreSql" Version="15.1.0-beta010" />
+    <PackageReference Include="ThinkGeo.SqlServer" Version="15.1.0-beta010" />
+    <PackageReference Include="ThinkGeo.UI.Wpf" Version="15.1.0-beta010" />
   </ItemGroup>
 
   <ItemGroup>
