@@ -129,7 +129,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 }
             }
 
-            _frame.SetArea("frame", new Feature(new PolygonShape(ring)), new GeoColor(32, GeoColors.Red), GeoColors.Red, 2f);
+            _frame.SetArea("frame", new Feature(new PolygonShape(ring)), new GeoColor(32, GeoColors.Red), GeoColors.Red, 1f);
+
+            // The near edge, the bottom of the screen, drawn thick: the main map looks from it
+            // toward the thin far edge.
+            var v = ring.Vertices;
+            _frame.SetLine("near", new Feature(new LineShape(new[] { v[3], v[2] })), GeoColors.Red, 5f);
         }
     }
 }
