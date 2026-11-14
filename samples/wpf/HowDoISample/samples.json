@@ -1,0 +1,842 @@
+[
+  {
+    "title": "Start Here",
+    "children": [
+      {
+        "id": "HomePage",
+        "title": "Start here",
+        "description": "Every sample in one table, with what it does, the API to search for and what it draws with",
+        "source": "Shell/HomePage",
+        "keyApi": "SampleCatalog",
+        "aliases": "home, index, which gallery, .NET Framework, Classic gallery",
+        "draws": "",
+        "service": ""
+      },
+      {
+        "id": "RendererGuidePage",
+        "title": "GPU or Classic?",
+        "description": "Why a map is drawn with a style document, which way each kind of data goes, where the classic overlays still belong, and what overlays do when the map tilts",
+        "source": "Shell/RendererGuidePage",
+        "keyApi": "GpuBasemap",
+        "aliases": "renderer, style document, classic overlay, DynamicSource, paint delegate, tilt, drape",
+        "draws": "",
+        "service": ""
+      },
+      {
+        "id": "MigrateAClassicLayer",
+        "title": "Migrate a Classic Layer",
+        "description": "Translate FeatureLayers styled on their ZoomLevelSets and add them to a MapStyle, beside the classic renderer drawing the same layers, with what does not translate listed",
+        "source": "Samples/StartHere/MigrateAClassicLayer",
+        "keyApi": "AddFeatureLayer",
+        "aliases": "FeatureLayerTranslator, Translate, Warnings, ZoomLevelSet, LayerOverlay, migrate, v14, Custom Background, CustomBackground, background, BackgroundOverlay, SetBackground, GeoLinearGradientBrush",
+        "draws": "Side by side",
+        "service": ""
+      },
+      {
+        "id": "FaqViewer",
+        "title": "Frequently Asked Questions",
+        "description": "Which gallery to open, API keys, tile caches, blank maps, style.json errors, touch, cancelling async calls and click events",
+        "source": "Samples/StartHere/FaqViewer",
+        "keyApi": "MarkdownDocumentViewer",
+        "aliases": "FAQ, CloudApiKey, ClientId, ClientSecret, VectorTileCache, FileTileCache, TileLoadFailed, OperationCanceledException, MapClickDoubleClickMode",
+        "draws": "",
+        "service": ""
+      }
+    ]
+  },
+  {
+    "title": "Maps from a Service - Vector",
+    "children": [
+      {
+        "id": "VectorMapProviders",
+        "title": "Vector Map Providers",
+        "description": "ThinkGeo Cloud (light, dark) and OpenFreeMap's free keyless styles, any MVT server by the URL of its style document, and the keyed providers - Mapbox, Esri, TomTom and more - as a page of their style URLs",
+        "source": "Samples/MapsFromAServiceVector/VectorMapProviders",
+        "keyApi": "ThinkGeoVectorTileSource",
+        "aliases": "ThinkGeo Vector Map, MVT Server, MapStyle, style.json, style URL, OpenFreeMap, Mapbox, Esri, TomTom, MapTiler, Stadia, dark, dark theme, light theme, switch style, ThinkGeoVectorStyles, SetStyleAsync",
+        "draws": "Style",
+        "service": "OpenFreeMap"
+      },
+      {
+        "id": "WFS",
+        "title": "WFS",
+        "description": "Dutch cadastral parcels from PDOK's WFS V2 service merged into the basemap style, numbered from their own attributes once you zoom in",
+        "source": "Samples/MapsFromAServiceVector/WFS",
+        "keyApi": "WfsV2AsyncFeatureSource",
+        "aliases": "Web Feature Service, WfsV2AsyncFeatureSource, WfsV2FeatureSource, MinDataZoom, FeatureSourceVectorTileSource, PDOK, cadastre",
+        "draws": "Style",
+        "service": "PDOK"
+      },
+      {
+        "id": "OGCAPIFeatureServer",
+        "title": "OGC API Feature Server",
+        "description": "The named places of Spain from IGN's OGC API Features service, merged into the basemap style as dots labeled from their own attributes",
+        "source": "Samples/MapsFromAServiceVector/OGCAPIFeatureServer",
+        "keyApi": "OgcApiAsyncFeatureSource",
+        "aliases": "OGC API Features, OgcApiAsyncFeatureSource, OgcApiFeatureSource, MinDataZoom, IGN, named places",
+        "draws": "Style",
+        "service": "IGN Spain"
+      },
+      {
+        "id": "NOAAWeather",
+        "title": "NOAA Weather",
+        "description": "NOAA's live feeds over the basemap - weather stations as dots colored by their current temperature, or the active weather warnings as areas colored by severity",
+        "source": "Samples/MapsFromAServiceVector/NOAAWeather",
+        "keyApi": "NoaaWeatherStationFeatureSource",
+        "aliases": "NOAA Weather Stations, NOAA Weather Warnings, NOAAWeatherStations, NOAAWeatherWarnings, NoaaWeatherStationFeatureSource, NoaaWeatherWarningsFeatureSource, temperature, step, circle-color, severity, match",
+        "draws": "Style",
+        "service": "NOAA"
+      }
+    ]
+  },
+  {
+    "title": "Maps from a Service - Raster",
+    "children": [
+      {
+        "id": "RasterMapProviders",
+        "title": "Raster Map Providers",
+        "description": "ThinkGeo Cloud (light, dark, aerial, hybrid), OpenStreetMap and any {z}/{x}/{y} tile server you type the URL of, one tile source each, and the keyed providers - Azure Maps, Google Maps, HERE and Mapbox - as a page of their classes and one-line usage",
+        "source": "Samples/MapsFromAServiceRaster/RasterMapProviders",
+        "keyApi": "ThinkGeoRasterTileSource",
+        "aliases": "XYZ Tile Server, XyzTileServer, XyzRasterTileSource, OpenStreetMapRasterTileSource, custom XYZ URL, tile URL template, UserAgent, AddRaster, ThinkGeo Raster Map, Azure Maps, Google Maps, HERE, Mapbox",
+        "draws": "Style",
+        "service": "OpenStreetMap"
+      },
+      {
+        "id": "WMS",
+        "title": "WMS",
+        "description": "NASA GIBS true-color imagery of the Earth two days ago over the basemap - one GetMap request per web-mercator tile",
+        "source": "Samples/MapsFromAServiceRaster/WMS",
+        "keyApi": "WmsRasterTileSource",
+        "aliases": "Web Map Service, WmsRasterTileSource, WmsClient, SendingHttpRequest, authentication, credentials, StyleLayerSlot, NASA GIBS",
+        "draws": "Style",
+        "service": "NASA GIBS"
+      },
+      {
+        "id": "WMTS",
+        "title": "WMTS",
+        "description": "The Swiss national map from swisstopo's WMTS server as the basemap, read through its web-mercator tile matrix set",
+        "source": "Samples/MapsFromAServiceRaster/WMTS",
+        "keyApi": "WmtsRasterTileSource",
+        "aliases": "Web Map Tile Service, WmtsRasterTileSource, TileMatrixSetName, swisstopo",
+        "draws": "Style",
+        "service": "swisstopo"
+      }
+    ]
+  },
+  {
+    "title": "Your Data",
+    "children": [
+      {
+        "id": "VectorFileFormats",
+        "title": "Vector File Formats",
+        "description": "Open a vector file - a shapefile, GeoJSON, KML, GPX, MapInfo TAB, TinyGeo, CAD, a GeoPDF - or features built in code, all drawn by one style; reading the format is the only line that differs",
+        "source": "Samples/YourData/VectorFileFormats",
+        "keyApi": "FeatureSourceVectorTileSource",
+        "aliases": "ShapeFileFeatureSource, GeoJsonFeatureSource, KmlGdalFeatureSource, GpxFeatureSource, TabFeatureSource, TinyGeoFeatureSource, CadFeatureSource, DWG, GeoPdfGdalFeatureSource, InMemoryFeatureSource, shapefile, build features in code",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "RasterFileFormats",
+        "title": "Raster File Formats",
+        "description": "Open a raster file - GeoTIFF, JPEG 2000, a plain JPEG, MrSID or ECW, or a plain JPEG read by GdalRasterSource itself - warped to Web Mercator once and served as tiles",
+        "source": "Samples/YourData/RasterFileFormats",
+        "keyApi": "ClassicRasterTileSource",
+        "aliases": "GdalRasterSource, GeoTiffGdalRasterSource, Jpeg2000GdalRasterSource, MrSidRasterSource, EcwGdalRasterSource, WarpProjection, world file, GeoTIFF",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "Databases",
+        "title": "Databases",
+        "description": "Open a table from a database - SQLite, a GeoPackage, an Esri file geodatabase, PostgreSQL / PostGIS or SQL Server; the connection is the only line that differs",
+        "source": "Samples/YourData/Databases",
+        "keyApi": "FeatureSourceVectorTileSource",
+        "aliases": "SqliteFeatureSource, GdalFeatureSource, GeoPackage, FileGeoDatabaseFeatureSource, PostgreSqlFeatureSource, PostGIS, SqlServerFeatureSource, connection string",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "OfflineTiles",
+        "title": "Offline Tiles",
+        "description": "Serve tiles off disk with no network - an MBTiles or PMTiles archive, vector or raster, or a folder of z/x/y images written by QGIS; opening the archive is the only line that differs",
+        "source": "Samples/YourData/OfflineTiles",
+        "keyApi": "MbTilesVectorTileSource",
+        "aliases": "Offline Basemap from Files, Offline Vector Tiles, Offline Raster Tiles, MbTilesVectorTileSource, PmTilesVectorTileSource, MbTilesRasterTileSource, PmTilesRasterTileSource, MBTiles, PMTiles, z/x/y folder, RasterTileSource",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "NauticalCharts",
+        "title": "Nautical Charts",
+        "description": "Draw an S-57 chart with its embedded S-52 styling, colored for the ship's draft, and ask it at every step of a ship's route about the depth under her keel, the aids to navigation and hazards nearby, and the restricted areas she is in",
+        "source": "Samples/YourData/NauticalCharts",
+        "keyApi": "NauticalChartsFeatureLayer",
+        "aliases": "NauticalChartsFeatureSource, S-57, S-52, ENC, safety contour, safety depth, draft, under-keel clearance",
+        "draws": "Style + overlay",
+        "service": ""
+      }
+    ]
+  },
+  {
+    "title": "Styling",
+    "children": [
+      {
+        "id": "RenderPointsLinesAndPolygons",
+        "title": "Render Points, Lines and Polygons",
+        "description": "Parks, streets and hotels styled and labelled from the style document beside the map, editable while it runs, and exported from the same document to a vector PDF",
+        "source": "Samples/Styling/RenderPointsLinesAndPolygons",
+        "keyApi": "GpuBasemap",
+        "aliases": "Render Points, Render Lines, Render Areas, circle, line, fill, symbol, export PDF, PdfGeoCanvas, MapStyleFeatureAsyncLayer",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "RenderBasedOnRules",
+        "title": "Render Based on Rules",
+        "description": "One world map styled five ways - by value, by range, by filter, by condition and by zoom level - each document editable while the map runs",
+        "source": "Samples/Styling/RenderBasedOnRules",
+        "keyApi": "SetStyleAsync",
+        "aliases": "ValueStyle, ClassBreakStyle, FilterStyle, match, step, filter, case, zoom, minzoom, maxzoom, interpolate, render based on zoom level, ZoomLevelSet",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "HatchStyles",
+        "title": "Hatch Styles",
+        "description": "Parks filled with any classic GeoHatchStyle pattern - the picked brush is registered through MapStyle.Images under the name the document's fill-pattern uses; hover a row to preview it",
+        "source": "Samples/Styling/HatchStyles",
+        "keyApi": "MapStyle.Images",
+        "aliases": "GeoHatchStyle, GeoHatchBrush, HatchStyle, fill-pattern",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "AdvancedLabels",
+        "title": "Advanced Labels",
+        "description": "Seven label lessons on crafted data: text bends along its line, anchors from its own column, yields to priority, wraps and recases, keeps its icon when crowded, writes CJK vertically, and joins several columns into one label - each document editable while it runs",
+        "source": "Samples/Styling/AdvancedLabels",
+        "keyApi": "SetStyleAsync",
+        "aliases": "Create a Multi-Column Text Style, CreateAMultiColumnTextStyle, multi-column, TextStyle {COLUMN}, concat, text-field, symbol-placement, text-anchor, symbol-sort-key, text-max-width, text-transform, text-optional",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "LocalFonts",
+        "title": "Local Fonts",
+        "description": "Labels in six scripts drawn offline from glyph files the style points at, from font files in a folder, or from the installed fonts and the built-in Noto Sans - each source drawing what the one before it lacks",
+        "source": "Samples/Styling/LocalFonts",
+        "keyApi": "GpuBasemap.LocalFontsDirectory",
+        "aliases": "MVT with Local Fonts, MVTWithLocalFonts, glyphs, offline glyphs, pbf, font folder, CJK, Noto Sans SC, GoNoto, text-font",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "RenderBasedOnCode",
+        "title": "Render Based on Code",
+        "description": "Day and night sweep the world's capitals as the clock switches code-built layers on and off, and a C# paint lambda shades the US states by population density under the basemap's roads and labels",
+        "source": "Samples/Styling/RenderBasedOnCode",
+        "keyApi": "StyleLayer.CreateFill",
+        "aliases": "Custom Styles, Render Based on Regex, paint delegate, StyleLayer.CreateCircle, SetLayerVisibility, choropleth",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "StyleLayerToggles",
+        "title": "Style Layer Toggles",
+        "description": "Turn individual style.json layers on and off while the map is live",
+        "source": "Samples/Styling/StyleLayerToggles",
+        "keyApi": "MapStyle.SetLayerVisibility",
+        "aliases": "layer visibility, IsVisible",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "InsertALayerUnderTheLabels",
+        "title": "Insert a Layer Under the Labels",
+        "description": "Aerial imagery under vector streets and labels, with a translucent wash inserted above the roads and below the labels - a slot no overlay can reach, because an overlay is always above everything",
+        "source": "Samples/Styling/InsertALayerUnderTheLabels",
+        "keyApi": "GpuBasemap",
+        "aliases": "StyleLayerSlot.UnderLabels, AddVectorTiles",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "Heatmap",
+        "title": "Heatmap",
+        "description": "Render point observations as a heatmap, with radius, intensity, opacity and color ramp on live controls",
+        "source": "Samples/Styling/Heatmap",
+        "keyApi": "SetHeatmapPaint",
+        "aliases": "HeatStyle, HeatLayer",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "Isolines",
+        "title": "Isolines",
+        "description": "Contour lines interpolated from mosquito counts at scattered points, labelled, with filled bands, levels, line width and interpolation on live controls",
+        "source": "Samples/Styling/Isolines",
+        "keyApi": "AddIsolines",
+        "aliases": "GpuIsolines, DisplayISOLine, DynamicIsoLineLayer, IsoLineLayer, contour lines, PointValueSource, IsolineStyle",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "DisplayDotDensity",
+        "title": "Display Dot Density",
+        "description": "Two colors of dot mixed inside each state - countable, and a composition a heatmap cannot show - with the dots generated once as data",
+        "source": "Samples/Styling/DisplayDotDensity",
+        "keyApi": "GpuBasemap",
+        "aliases": "DotDensityStyle",
+        "draws": "Style",
+        "service": ""
+      }
+    ]
+  },
+  {
+    "title": "Dynamic Data",
+    "children": [
+      {
+        "id": "DynamicRendering",
+        "title": "Dynamic Rendering",
+        "description": "State populations from 1950 to 2020 as circles that grow and change color as you drag or play the year slider",
+        "source": "Samples/DynamicData/DynamicRendering",
+        "keyApi": "DynamicSource.SetPoint",
+        "aliases": "population, animated circles, marker image, Images.Add, PointStyle disc",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "LiveFlights",
+        "title": "Live Flights",
+        "description": "Every aircraft OpenSky reports airborne, flying across the map at a speed you set; hover one for its callsign, altitude and trail",
+        "source": "Samples/DynamicData/LiveFlights",
+        "keyApi": "DynamicSource",
+        "aliases": "aircraft, flights, dead reckoning, DynamicSource.SetPoint, DynamicSource.SetLine, moving markers",
+        "draws": "Style",
+        "service": "OpenSky"
+      },
+      {
+        "id": "VehicleNavigation",
+        "title": "Vehicle Navigation",
+        "description": "A car drives a recorded GPS route to the Empire State Building, the camera following and turning with it, or holding still over the whole route",
+        "source": "Samples/DynamicData/VehicleNavigation",
+        "keyApi": "DynamicSource.SetLine",
+        "aliases": "vehicle tracking, GPS track, follow camera, ZoomToAsync, CurrentExtentChangedInAnimation, DynamicSource.SetPoint, DynamicSource.SetArea",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "NexradRadar",
+        "title": "NEXRAD Weather Radar",
+        "description": "The latest US radar composite over the basemap, looping through the last half hour",
+        "source": "Samples/DynamicData/NexradRadar",
+        "keyApi": "GeoImageRasterTileSource",
+        "aliases": "radar, weather, georeferenced image, GeoImageRasterTileSource.Update, AddRaster",
+        "draws": "Style",
+        "service": "Iowa Environmental Mesonet"
+      },
+      {
+        "id": "NdfdWindField",
+        "title": "Wind as a Vector Field",
+        "description": "NDFD surface wind over the US as streaming particles colored by speed, or as arrows from the same field",
+        "source": "Samples/DynamicData/NdfdWindField",
+        "keyApi": "VectorFieldSource",
+        "aliases": "wind, NDFD, AddParticleFlow, AddVectorField, FlowVector, particles, arrows",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "NdfdSkyGridAnimation",
+        "title": "Animate a Weather Grid",
+        "description": "An NDFD sky-cover forecast over the US, one forecast hour at a time with its valid time; play it, drag through the hours, or switch color ramps",
+        "source": "Samples/DynamicData/NdfdSkyGridAnimation",
+        "keyApi": "InMemoryGridSource",
+        "aliases": "GridSource, AddGridFill, SetValues, GdalGrid, NDFD, GRIB, sky cover, color ramp, ColorStop",
+        "draws": "Style",
+        "service": ""
+      }
+    ]
+  },
+  {
+    "title": "3D & Camera",
+    "children": [
+      {
+        "id": "PerspectiveTilt",
+        "title": "Perspective Tilt",
+        "description": "Tilt the camera over midtown Manhattan in vector tiles, with the basemap style's buildings on or off, or over a raster basemap of the San Francisco Bay",
+        "source": "Samples/3DAndCamera/PerspectiveTilt",
+        "keyApi": "TiltAngle",
+        "aliases": "3D Buildings, Buildings3DInteractive, GpuBasemap, GpuBasemap.IsExtrusionDrawingEnabled, IsExtrusionDrawingEnabled, fill-extrusion, buildings, TiltToAsync, IsTiltEnabled, pitch",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "Terrain3D",
+        "title": "3D Terrain",
+        "description": "Aerial imagery draped over the Grand Canyon's terrain with relief shading; click two points for an elevation profile along the ground",
+        "source": "Samples/3DAndCamera/Terrain3D",
+        "keyApi": "MapStyle.SetTerrain",
+        "aliases": "RasterDemSource, DemEncoding.Terrarium, hillshade, DEM, elevation profile, GetElevationProfileAsync, GetElevationAsync, RemoveTerrain, GpuBasemap",
+        "draws": "Style",
+        "service": "AWS Terrain Tiles"
+      },
+      {
+        "id": "LaneLevelNavigation",
+        "title": "Lane-Level Navigation",
+        "description": "An in-car view driving 3.7 km through the Wolfsburg OpenDRIVE HD map: every surveyed lane and its paint, a follow camera, the basemap's buildings, and a card with the current lane and the distance to the next lane change",
+        "source": "Samples/3DAndCamera/LaneLevelNavigation",
+        "keyApi": "FeatureSourceVectorTileSource",
+        "aliases": "OpenDRIVE, HD map, lanes, Wolfsburg, follow camera, ZoomToAsync, CurrentExtentChangedInAnimation, StyleLayerType.FillExtrusion, InMemoryFeatureSource",
+        "draws": "Style",
+        "service": ""
+      }
+    ]
+  },
+  {
+    "title": "Map Navigation",
+    "children": [
+      {
+        "id": "MapNavigation",
+        "title": "Map Navigation",
+        "description": "Pan, zoom, rotate and tilt around the Empire State Building with the mouse - or with fingers once Touch screen is on - and watch MapClick, MapDoubleClick, CurrentScaleChanged and CurrentExtentChanged arrive in a log",
+        "source": "Samples/MapNavigation/MapNavigation",
+        "keyApi": "ZoomToAsync",
+        "aliases": "pan, zoom, rotate, tilt, compass, reset north, touch, touch screen, Navigate on Touch Screen, NavigateOnTouchScreen, IsManipulationEnabled, map events, Basic Map Events, MapClick, MapDoubleClick, CurrentExtentChanged, CurrentScaleChanged, RotationAngle",
+        "draws": "Style + overlay",
+        "service": ""
+      },
+      {
+        "id": "ZoomToExtents",
+        "title": "Zoom to Extents and Scales",
+        "description": "Zoom in and out, to a typed scale, to the Frisco boundary's extent and to a point, rotate with a slider, and make the wheel stop at printed-map scales",
+        "source": "Samples/MapNavigation/ZoomToExtents",
+        "keyApi": "ZoomToAsync",
+        "aliases": "Zoom to Extents, ZoomToExtents, ZoomScales, CurrentExtent, CenterAtAsync, ZoomInAsync, ZoomOutAsync, GetBoundingBox, zoom to scale, zoom to layer",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "RestrictMapExtent",
+        "title": "Restrict Map Extent",
+        "description": "Pan and zoom inside a red box around Dallas: RestrictExtent keeps the view inside it, MaximumScale and MinimumScale bound the zoom, and each can be switched off",
+        "source": "Samples/MapNavigation/RestrictMapExtent",
+        "keyApi": "RestrictExtent",
+        "aliases": "MaximumScale, MinimumScale, limit panning, zoom range, map bounds",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "ResizeTheMap",
+        "title": "Resize the Map",
+        "description": "Drag the bar beside the map to resize it and see what each MapResizeMode keeps: the scale, the scale and the center, or the extent",
+        "source": "Samples/MapNavigation/ResizeTheMap",
+        "keyApi": "MapResizeMode",
+        "aliases": "PreserveScale, PreserveScaleAndCenter, PreserveExtent, resize",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "OverviewMap",
+        "title": "Overview Map",
+        "description": "A small overview map whose red frame follows and turns with the main map's view; click the overview to recenter the main map there",
+        "source": "Samples/MapNavigation/OverviewMap",
+        "keyApi": "CurrentExtentChanged",
+        "aliases": "overview, mini map, inset map, locator map, DynamicSource, MapMouseDown, RotationAngleChanging",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "ZoomToBlackHole",
+        "title": "Zoom to the Black Hole",
+        "description": "Fly with an animated ZoomToAsync from the galaxy M87 down to the shadow of its black hole, through ten pictures nested inside each other",
+        "source": "Samples/MapNavigation/ZoomToBlackHole",
+        "keyApi": "ZoomToAsync",
+        "aliases": "fly to, animation, MapAnimationSettings, DefaultAnimationSettings, GeoImageRasterTileSource, powers of ten, M87",
+        "draws": "Style",
+        "service": ""
+      }
+    ]
+  },
+  {
+    "title": "Markers & Popups",
+    "children": [
+      {
+        "id": "Markers",
+        "title": "Markers",
+        "description": "Click the map to add a marker, drag one to move it, click one to remove it, beside a marker whose content is an animated WPF control - and tilt the map, the markers keep their ground position",
+        "source": "Samples/MarkersAndPopups/Markers",
+        "keyApi": "SimpleMarkerOverlay",
+        "aliases": "Animated Marker, AnimatedMarker, Marker.Content, custom marker, WPF element marker, Text Marker, Markers and Popups on a Tilted Map, MarkerOverlay, MarkerDragMode, PositionChanged, MarkerDragged, remove marker",
+        "draws": "Style + overlay",
+        "service": ""
+      },
+      {
+        "id": "Popups",
+        "title": "Popups",
+        "description": "Hotel names in popups you can turn off, and a popup that opens where you click the map with that point's latitude and longitude",
+        "source": "Samples/MarkersAndPopups/Popups",
+        "keyApi": "PopupOverlay",
+        "aliases": "Popup, info window, callout, click to show popup, remove popup",
+        "draws": "Style + overlay",
+        "service": ""
+      },
+      {
+        "id": "ClusterMarkers",
+        "title": "Cluster Markers",
+        "description": "Points clustered into markers recomputed for the view: zoom and the clusters split, click one to zoom into it",
+        "source": "Samples/MarkersAndPopups/ClusterMarkers",
+        "keyApi": "SimpleMarkerOverlay",
+        "aliases": "Display Cluster Points, DisplayClusterPoints, cluster, clustering, point clustering, ClusterPointStyle",
+        "draws": "Style + overlay",
+        "service": ""
+      }
+    ]
+  },
+  {
+    "title": "Map Tools & Adornments",
+    "children": [
+      {
+        "id": "MapToolControls",
+        "title": "Map Tool Controls",
+        "description": "Turn the map's built-in tools on and off - pan zoom bar, logo, mouse coordinates - format the coordinates, and read how MapTools differ from adornment layers and the measure overlay",
+        "source": "Samples/MapToolsAndAdornments/MapToolControls",
+        "keyApi": "MapTools",
+        "aliases": "MouseCoordinateMapTool, PanZoomBar, Logo, MouseCoordinateType, CustomFormatted, AdornmentLayer, MeasureInteractiveOverlay, map tools vs adornments",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "DragResizeAdornments",
+        "title": "Drag/Resize Adornments",
+        "description": "Let the user drag and resize the scale line, scale bar, logo, legend and a compass showing true north and magnetic north",
+        "source": "Samples/MapToolsAndAdornments/DragResizeAdornments",
+        "keyApi": "AdornmentLayer",
+        "aliases": "Magnetic North, MagneticNorth, MagneticDeclinationAdornmentLayer, compass, north arrow, True North, Grid North, AdornmentDragMode, AdornmentResizeMode",
+        "draws": "Style + overlay",
+        "service": ""
+      },
+      {
+        "id": "ScaleLineScaleBar",
+        "title": "ScaleLine and ScaleBar",
+        "description": "A scale line and a scale bar given the map's projection so they report ground distance; switch the scale line's unit system and text styles",
+        "source": "Samples/MapToolsAndAdornments/ScaleLineScaleBar",
+        "keyApi": "ScaleLineAdornmentLayer",
+        "aliases": "ScaleBarAdornmentLayer, ScaleLineUnitSystem, scale bar, scale line units",
+        "draws": "Style + overlay",
+        "service": ""
+      },
+      {
+        "id": "Legend",
+        "title": "Legend",
+        "description": "Build a legend whose swatches are the styles the map draws with",
+        "source": "Samples/MapToolsAndAdornments/Legend",
+        "keyApi": "LegendAdornmentLayer",
+        "aliases": "LegendItem, ClassBreakStyle legend, map key",
+        "draws": "Style + overlay",
+        "service": ""
+      },
+      {
+        "id": "DisplayGraticuleLines",
+        "title": "Display Graticule Lines",
+        "description": "Display graticule lines - a latitude/longitude grid",
+        "source": "Samples/MapToolsAndAdornments/DisplayGraticuleLines",
+        "keyApi": "GraticuleLineStyle",
+        "aliases": "GraticuleFeatureLayer, lat/lon grid, grid lines",
+        "draws": "Style + overlay",
+        "service": ""
+      },
+      {
+        "id": "MeasureDistanceAndArea",
+        "title": "Measure Distance and Area",
+        "description": "Measure distance and area on the map with the overlay that annotates as you draw",
+        "source": "Samples/MapToolsAndAdornments/MeasureDistanceAndArea",
+        "keyApi": "MeasureInteractiveOverlay",
+        "aliases": "ruler, measure, TrackInteractiveOverlay, area, distance",
+        "draws": "Style + overlay",
+        "service": ""
+      }
+    ]
+  },
+  {
+    "title": "Draw & Edit",
+    "children": [
+      {
+        "id": "EditFeatures",
+        "title": "Edit Features",
+        "description": "Draw points, lines and polygons, edit them with handles and vertices, delete them, measure them, and watch the TrackOverlay and EditOverlay events in a log",
+        "source": "Samples/DrawAndEdit/EditFeatures",
+        "keyApi": "EditOverlay",
+        "aliases": "Edit Map Events, EditMapEvents, TrackOverlay, TrackMode, TrackEnded, VertexMoved, FeatureDragged, FeatureResized, FeatureRotated, draw shapes, editing events",
+        "draws": "Style + overlay",
+        "service": ""
+      },
+      {
+        "id": "EditWithSnapping",
+        "title": "Edit Features with Snapping",
+        "description": "Drag a vertex into a circle, and it will snap to its center",
+        "source": "Samples/DrawAndEdit/EditWithSnapping",
+        "keyApi": "VertexMovingEditInteractiveOverlayEventArgs",
+        "aliases": "snap, snapping, VertexMoving, tolerance",
+        "draws": "Style + overlay",
+        "service": ""
+      },
+      {
+        "id": "EditWithConstraints",
+        "title": "Edit with Constraints",
+        "description": "Keep vertices at least 300 m apart on the ground, keep a rectangle rectangular, type exact coordinates",
+        "source": "Samples/DrawAndEdit/EditWithConstraints",
+        "keyApi": "VertexAddingEditInteractiveOverlayEventArgs",
+        "aliases": "VertexAdding, Cancel, minimum vertex spacing, rectangle constraint, exact coordinates",
+        "draws": "Style + overlay",
+        "service": ""
+      }
+    ]
+  },
+  {
+    "title": "Shapes & Spatial Queries",
+    "children": [
+      {
+        "id": "GetDataFromFeatures",
+        "title": "Get Data from Features",
+        "description": "Click a Frisco park to read its column values in a popup, or list every park's columns and pick one",
+        "source": "Samples/ShapesAndSpatialQueries/GetDataFromFeatures",
+        "keyApi": "ColumnValues",
+        "aliases": "identify feature on click, Get Data from One Feature, GetDataFromOneFeature, Get Data from All Features, GetDataFromAllFeatures, GetFeaturesContaining, SpatialQuery, GetAllFeatures, PopupOverlay, attributes",
+        "draws": "Style + overlay",
+        "service": ""
+      },
+      {
+        "id": "FindFeaturesBySpatialRelation",
+        "title": "Find Features by Spatial Relation",
+        "description": "Pick a relation and see which of Frisco's zoning parcels match the point, line or polygon you draw - and, for equal, which subdivision plats were recorded again with the same boundary",
+        "source": "Samples/ShapesAndSpatialQueries/FindFeaturesBySpatialRelation",
+        "keyApi": "QueryTools",
+        "aliases": "Check if Features are Equal, CheckIfFeaturesAreEqual, GetFeaturesTopologicalEqual, topological equality, duplicate features, GetFeaturesContaining, GetFeaturesCrossing, GetFeaturesDisjointed, GetFeaturesIntersecting, GetFeaturesOverlapping, GetFeaturesTouching, GetFeaturesWithin, GetFeaturesWithinDistanceOf, spatial query",
+        "draws": "Style + overlay",
+        "service": ""
+      },
+      {
+        "id": "ShapeOperations",
+        "title": "Shape Operations",
+        "description": "Transform a shape - union, buffer, simplify, rotate, scale, translate, convex hull, envelope, intersection or difference - each one a single call on the shape",
+        "source": "Samples/ShapesAndSpatialQueries/ShapeOperations",
+        "keyApi": "BaseShape",
+        "aliases": "Buffer, Simplify, Rotate, ScaleTo, TranslateByOffset, GetConvexHull, GetBoundingBox, GetIntersection, GetDifference, Union",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "ShapeMeasurements",
+        "title": "Shape Measurements",
+        "description": "Click a park or a trail and measure it - area, length, center point in longitude and latitude, the shortest line to the stadium, or a stretch of a line starting a given distance along",
+        "source": "Samples/ShapesAndSpatialQueries/ShapeMeasurements",
+        "keyApi": "BaseShape",
+        "aliases": "GetArea, GetLength, GetCenterPoint, GetShortestLineTo, GetLineOnALine",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "ValidateTopology",
+        "title": "Validate Topology",
+        "description": "Every rule TopologyValidator checks - what points may touch, what lines may cross, what polygons may leave between them - on shapes small enough to see the answer",
+        "source": "Samples/ShapesAndSpatialQueries/ValidateTopology",
+        "keyApi": "TopologyValidator",
+        "aliases": "",
+        "draws": "Style",
+        "service": ""
+      }
+    ]
+  },
+  {
+    "title": "Projections",
+    "children": [
+      {
+        "id": "ProjectFeatures",
+        "title": "Project Features",
+        "description": "Frisco's subdivisions projected by their source as it reads them, or longitude/latitude WKT you type converted to web mercator by ProjectionConverter or by the ThinkGeo Cloud",
+        "source": "Samples/Projections/ProjectFeatures",
+        "keyApi": "ProjectionConverter",
+        "aliases": "Setting the Projection of a Layer, SettingTheProjectionOfALayer, Projection (Cloud), ProjectionCloudServices, ProjectionCloudClient, ProjectAsync, ConvertToExternalProjection, reproject features",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "ReprojectARaster",
+        "title": "Reproject a Raster",
+        "description": "World.tif warped into EPSG:9311, or ThinkGeo Cloud or OpenStreetMap tiles warped into EPSG:4326 - the same GdalProjectionConverter on the layer either way",
+        "source": "Samples/Projections/ReprojectARaster",
+        "keyApi": "GdalProjectionConverter",
+        "aliases": "Project a Raster, ProjectARaster, Reproject a Raster Tile Service, ReprojectRasterTiles, GeoTiffRasterLayer, RasterXyzTileAsyncLayer, OpenStreetMapAsyncLayer, ThinkGeoRasterMapsAsyncLayer, SingleTile",
+        "draws": "Classic",
+        "service": "OpenStreetMap"
+      },
+      {
+        "id": "AnyProjection",
+        "title": "Any Projection",
+        "description": "A vector or satellite map in any of ten projections - zoom and pan as usual - animated from one projection to the next",
+        "source": "Samples/Projections/AnyProjection",
+        "keyApi": "DisplayProjection",
+        "aliases": "Any Projection, Vector Tiles, Any Projection, Satellite Imagery, MorphBetweenProjectionsMvt, AnyProjectionRaster, AnimateDisplayProjectionAsync, FromProjString, proj4, Robinson, Mollweide, Albers, morph",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "TheGlobe",
+        "title": "The Globe",
+        "description": "The same tiles on a sphere, and what it does when you zoom in far enough to let go",
+        "source": "Samples/Projections/TheGlobe",
+        "keyApi": "DisplayProjection.Globe",
+        "aliases": "",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "CrossTheDateline",
+        "title": "Cross the Dateline",
+        "description": "A flight from Los Angeles to Shanghai over the antimeridian: route, corridor and aircraft stored with continuous longitudes, whole on the globe and whole on both sides of the seam in Web Mercator",
+        "source": "Samples/Projections/CrossTheDateline",
+        "keyApi": "DisplayProjection.Globe",
+        "aliases": "Wrap the DateLine, antimeridian, 180th meridian, great circle",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "MeasureInTheRightProjection",
+        "title": "Measure in the Right Projection",
+        "description": "Drag Greenland toward the equator: the ground it covers never changes, the area Web Mercator gives it falls from several times too big to the truth",
+        "source": "Samples/Projections/MeasureInTheRightProjection",
+        "keyApi": "ProjectionConverter",
+        "aliases": "Greenland, true size, area distortion, Web Mercator, equal area, Lambert azimuthal equal area, laea, measure area",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "CpuVsGpuProjection",
+        "title": "CPU vs GPU Projection",
+        "description": "The same world shapefile projected by the CPU as it is read on the left and by the GPU as it is drawn on the right, with what each switch costs",
+        "source": "Samples/Projections/CpuVsGpuProjection",
+        "keyApi": "ProjectionConverter",
+        "aliases": "CPU vs GPU projection, side by side, CpuVsGpuProjection, DisplayProjection, datum",
+        "draws": "Side by side",
+        "service": ""
+      }
+    ]
+  },
+  {
+    "title": "Cloud Services",
+    "children": [
+      {
+        "id": "Geocoding",
+        "title": "Geocoding",
+        "description": "Type an address to see the matches listed and drawn on the map, or click the map to list the addresses and places around that point",
+        "source": "Samples/CloudServices/Geocoding",
+        "keyApi": "GeocodingCloudClient",
+        "aliases": "Reverse Geocoding, ReverseGeocoding, ReverseGeocodingCloudClient, SearchPointAsync, CloudGeocodingOptions, CloudReverseGeocodingOptions, address search, geocode, reverse geocode",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "Routing",
+        "title": "Routing",
+        "description": "Driving directions through five stops, in the order given or in the shortest order, or the areas you can reach in 15 to 60 minutes from a point you click",
+        "source": "Samples/CloudServices/Routing",
+        "keyApi": "RoutingCloudClient",
+        "aliases": "Routing - Service Area, RoutingServiceArea, GetServiceAreaAsync, service area, drive time, isochrone, Routing - Traveling Sales Person, RoutingTravelingSalesPerson, Traveling Salesperson, traveling salesman, TSP, GetOptimizedRouteAsync, optimized route, GetRouteAsync, turn-by-turn, directions",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "Elevation",
+        "title": "Elevation",
+        "description": "Draw a point, a line or an area and see the elevation along it, with the average, highest and lowest",
+        "source": "Samples/CloudServices/Elevation",
+        "keyApi": "ElevationCloudClient",
+        "aliases": "GetElevationOfLineAsync, GetElevationOfAreaAsync, GetElevationOfPointAsync, height, elevation profile",
+        "draws": "Style + overlay",
+        "service": ""
+      },
+      {
+        "id": "Timezone",
+        "title": "Time Zone",
+        "description": "Click anywhere to see its time zone drawn on the map, with the local time and whether daylight saving time is on",
+        "source": "Samples/CloudServices/Timezone",
+        "keyApi": "TimeZoneCloudClient",
+        "aliases": "Timezone, GetTimeZoneByCoordinateAsync, local time",
+        "draws": "Style + overlay",
+        "service": ""
+      },
+      {
+        "id": "ColorUtilities",
+        "title": "Color Utilities",
+        "description": "Frisco's census blocks shaded by housing units in a family of colors - hue, triad, analogous and more - generated by the ThinkGeo Cloud",
+        "source": "Samples/CloudServices/ColorUtilities",
+        "keyApi": "ColorCloudClient",
+        "aliases": "GetColorsInHueFamilyAsync, GetColorsInTriadFamilyAsync, color scheme, palette, color family, ClassBreakStyle",
+        "draws": "Style + overlay",
+        "service": ""
+      }
+    ]
+  },
+  {
+    "title": "Printing & Export",
+    "children": [
+      {
+        "id": "PrintTheMap",
+        "title": "Print the Map",
+        "description": "A page of map, legend, scale bar, title and table you can rearrange on screen, then save as a PDF; the map can come from feature layers or from a style document",
+        "source": "Samples/PrintingAndExport/PrintTheMap",
+        "keyApi": "PrinterLayoutDocument",
+        "aliases": "ExportPdfAsync, PDF, MapPrinterLayoutAsyncLayer, MapStyleAsyncLayer, print style.json, LegendPrinterLayoutAsyncLayer, ScaleBarPrinterLayoutAsyncLayer, DataGridPrinterLayoutAsyncLayer, PrinterInteractiveOverlay",
+        "draws": "Style + overlay",
+        "service": ""
+      },
+      {
+        "id": "ExportAnImage",
+        "title": "Export an Image",
+        "description": "Save the map as a PNG - a snapshot of what is on screen, or layers drawn off screen into an image - with a world file if you want it placed in a GIS",
+        "source": "Samples/PrintingAndExport/ExportAnImage",
+        "keyApi": "GetSnapshot",
+        "aliases": "Get Map SnapShot, GetMapSnapShot, snapshot, screenshot, Draw the map on an Image, DrawTheMapOnAnImage, GeoCanvas, GeoImage, BeginDrawing, off-screen rendering, ThinkGeoRasterMapsAsyncLayer, world file, pgw, PNG",
+        "draws": "Style + overlay",
+        "service": ""
+      }
+    ]
+  },
+  {
+    "title": "Extending the SDK",
+    "children": [
+      {
+        "id": "CustomFeatureSources",
+        "title": "Custom Feature Source",
+        "description": "Points read from a CSV file by a FeatureSource subclass, drawn by the style document like any built-in source",
+        "source": "Samples/ExtendingTheSdk/CustomFeatureSources",
+        "keyApi": "GetAllFeaturesCore",
+        "aliases": "Custom Feature Sources, SimpleCsvFeatureSource, FeatureSource, FeatureSourceVectorTileSource, CSV, custom data source",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "HandleTileFailures",
+        "title": "Handle Tile Failures",
+        "description": "An aerial layer whose key is wrong fails every tile; TileLoadFailed reports each failure, raster and vector tiles alike (e.Kind), and the handler chooses what is drawn in its place and whether it is asked for again",
+        "source": "Samples/ExtendingTheSdk/HandleTileFailures",
+        "keyApi": "TileLoadFailed",
+        "aliases": "Handle Exceptions, HandleExceptions, TileLoadFailedEventArgs, TileLoadKind, DrawException, DrawExceptionCore, tile error, retry, blank tiles",
+        "draws": "Style",
+        "service": ""
+      },
+      {
+        "id": "CustomAdornmentLayer",
+        "title": "Custom Adornment Layer",
+        "description": "Range rings around the center of the view, drawn over the map by an AdornmentLayer subclass that paints straight onto the canvas",
+        "source": "Samples/ExtendingTheSdk/CustomAdornmentLayer",
+        "keyApi": "AdornmentLayer",
+        "aliases": "DrawCore, RangeRingsAdornmentLayer, RadiusLayer, Custom Feature Layer, CustomFeatureLayer, custom layer, range rings",
+        "draws": "Style + overlay",
+        "service": ""
+      }
+    ]
+  }
+]

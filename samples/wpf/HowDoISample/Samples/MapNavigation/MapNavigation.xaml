@@ -7,96 +7,67 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800" x:Name="ThisControl">
 
-    <UserControl.Resources>
-        <Style x:Key="ImageButtonNoHoverStyle" TargetType="Button">
-            <Setter Property="OverridesDefaultStyle" Value="True"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style TargetType="CheckBox">
-            <Setter Property="Foreground" Value="WhiteSmoke"/>
-        </Style>
-    </UserControl.Resources>
+    <DockPanel LastChildFill="True">
+        <Border DockPanel.Dock="Right" Style="{DynamicResource Shell.SamplePanel}">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Top">
+                    <TextBlock FontSize="11" TextWrapping="Wrap" Margin="0,0,0,12"
+                               Text="Drag to pan, use the wheel to zoom, and right-drag to turn and tilt the map. Every event the map raises is listed below."/>
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="260"/>
-        </Grid.ColumnDefinitions>
+                    <TextBlock Text="View" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="CompassButton" Padding="6,2" Click="CompassButton_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <!-- The icon is black; used as a mask over a light fill it reads on the dark button. -->
+                                <Rectangle Width="18" Height="18" Fill="#E7E9EC" RenderTransformOrigin="0.5,0.5">
+                                    <Rectangle.OpacityMask>
+                                        <ImageBrush ImageSource="pack://application:,,,/ThinkGeo.UI.Wpf.HowDoI.v15;component/Resources/icon_north_arrow.png"/>
+                                    </Rectangle.OpacityMask>
+                                    <Rectangle.RenderTransform>
+                                        <RotateTransform Angle="{Binding ElementName=Map, Path=RotationAngle}"/>
+                                    </Rectangle.RenderTransform>
+                                </Rectangle>
+                                <TextBlock Text="Reset north" VerticalAlignment="Center" Margin="6,0,0,0"/>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="DefaultExtentButton" Padding="6,2" Margin="8,0,0,0" Click="DefaultExtentButton_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle Width="18" Height="18" Fill="#E7E9EC">
+                                    <Rectangle.OpacityMask>
+                                        <ImageBrush ImageSource="pack://application:,,,/ThinkGeo.UI.Wpf.HowDoI.v15;component/Resources/icon_globe_black.png"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock Text="Back to the start" VerticalAlignment="Center" Margin="6,0,0,0"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
 
-        <Grid Grid.Column="0">
-            <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"/>
+                    <TextBlock Text="Touch" FontWeight="SemiBold" Margin="0,14,0,6"/>
+                    <CheckBox x:Name="TouchScreen" Content="Touch screen"
+                              IsChecked="{Binding IsManipulationEnabled, ElementName=Map}"/>
+                    <TextBlock FontSize="11" TextWrapping="Wrap" Margin="0,4,0,0"
+                               Text="Sets IsManipulationEnabled, so the map takes touch gestures. It is off by default."/>
 
-            <!-- Compass Button -->
-            <Button x:Name="CompassButton"
-                    Style="{StaticResource ImageButtonNoHoverStyle}"
-                    Width="40" Height="40"
-                    Background="Transparent"
-                    BorderThickness="0"
-                    HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,10,0"
-                    RenderTransformOrigin="0.5,0.5"
-                    Click="CompassButton_Click">
-                <Button.RenderTransform>
-                    <RotateTransform Angle="{Binding ElementName=Map, Path=RotationAngle}"/>
-                </Button.RenderTransform>
-                <Image Source="/Resources/icon_north_arrow.png" Stretch="Fill"/>
-            </Button>
-
-            <!-- Default Extent Button -->
-            <Button x:Name="DefaultExtentButton"
-                    Style="{StaticResource ImageButtonNoHoverStyle}"
-                    Width="40" Height="40"
-                    Background="Transparent"
-                    BorderThickness="0"
-                    HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,60,10,0"
-                    Click="DefaultExtentButton_Click">
-                <Image Source="/Resources/icon_globe_black.png"/>
-            </Button>
-
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10">
-                <TextBlock Background="LightGray" IsEnabled="False"
-                           VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="0,0,0,5"
-                           Height="30" Width="400" FontSize="20" TextAlignment="Center"
-                           Text="{Binding ElementName=ThisControl, Path=TxtCoordinates}"/>
-
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock Background="LightGray" VerticalAlignment="Bottom"
-                               Width="140" Height="30" FontSize="20"
+                    <TextBlock Text="Map events" FontWeight="SemiBold" Margin="0,14,0,6"/>
+                </StackPanel>
+                <StackPanel DockPanel.Dock="Bottom" Margin="0,8,0,0">
+                    <TextBlock FontFamily="Consolas" FontSize="11" TextWrapping="Wrap"
+                               Text="{Binding ElementName=ThisControl, Path=TxtCoordinates}"/>
+                    <TextBlock FontFamily="Consolas" FontSize="11"
                                Text="{Binding ElementName=Map, Path=RotationAngle, StringFormat={}Rotation: {0:N0}}"/>
-                    <TextBlock Background="LightGray" VerticalAlignment="Bottom"
-                               Width="140" Height="30" FontSize="20"
+                    <TextBlock FontFamily="Consolas" FontSize="11"
                                Text="{Binding ElementName=Map, Path=CurrentZoom, StringFormat={}Zoom: {0:N2}}"/>
-                    <TextBlock Background="LightGray" VerticalAlignment="Bottom"
-                               Width="180" Height="30" FontSize="20"
+                    <TextBlock FontFamily="Consolas" FontSize="11"
                                Text="{Binding ElementName=Map, Path=CurrentScale, StringFormat={}Scale: {0:N0}}"/>
                 </StackPanel>
-            </StackPanel>
-        </Grid>
+                <Button DockPanel.Dock="Bottom" Content="Clear" HorizontalAlignment="Right" Padding="12,2" Margin="0,6,0,0"
+                        Click="ClearLog_Click"/>
+                <ListBox x:Name="LogListBox" ItemsSource="{Binding LogMessages}" FontSize="11"/>
+            </DockPanel>
+        </Border>
 
-        <StackPanel Grid.Column="1" Background="DimGray" Margin="10">
-            <TextBlock Text="Camera" FontSize="16" FontWeight="Bold" Foreground="WhiteSmoke" Margin="0,0,0,6"/>
-
-            <CheckBox x:Name="BuildingCheckBox"
-                      Content="3D Buildings"
-                      IsChecked="True"
-                      Checked="BuildingCheckBox_CheckedChanged"
-                      Unchecked="BuildingCheckBox_CheckedChanged"/>
-
-            <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
-                <TextBlock Text="Pitch" Foreground="WhiteSmoke" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                <Slider x:Name="PitchSlider" Minimum="0" Maximum="80" Value="0" Width="150"
-                        VerticalAlignment="Center" ValueChanged="PitchSlider_ValueChanged"/>
-                <TextBlock x:Name="PitchValueText" Text="0°" Foreground="WhiteSmoke" Width="36"
-                           VerticalAlignment="Center" Margin="8,0,0,0"/>
-            </StackPanel>
-
-            <Button x:Name="DarkThemeButton" Content="Dark Theme" Height="28" Margin="0,10,0,0"
-                    Click="DarkThemeButton_OnClick"/>
-        </StackPanel>
-    </Grid>
+        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged"
+                            MapClick="Map_MapClick" MapDoubleClick="Map_MapDoubleClick"
+                            CurrentExtentChanged="Map_CurrentExtentChanged" CurrentScaleChanged="Map_CurrentScaleChanged"/>
+    </DockPanel>
 </UserControl>

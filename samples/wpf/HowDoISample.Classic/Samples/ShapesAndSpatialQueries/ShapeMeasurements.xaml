@@ -1,0 +1,46 @@
+<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.ShapeMeasurements"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="Height" Value="22"/>
+            <Setter Property="Margin" Value="0,2,0,6"/>
+        </Style>
+    </UserControl.Resources>
+
+    <DockPanel LastChildFill="True">
+        <Border DockPanel.Dock="Right" Width="290" Background="#F6F6F4" Padding="12,10"
+                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+            <StackPanel>
+                <RadioButton Content="Area of a park" Tag="area" GroupName="Measurement" IsChecked="True" Margin="0,2" Checked="Measurement_Checked"/>
+                <RadioButton Content="Length of a trail" Tag="length" GroupName="Measurement" Margin="0,2" Checked="Measurement_Checked"/>
+                <RadioButton Content="Center point of a census block" Tag="center" GroupName="Measurement" Margin="0,2" Checked="Measurement_Checked"/>
+                <RadioButton Content="Shortest line from a park to the stadium" Tag="shortest" GroupName="Measurement" Margin="0,2" Checked="Measurement_Checked"/>
+                <RadioButton Content="Line on a line (part of a railway)" Tag="lineOnALine" GroupName="Measurement" Margin="0,2" Checked="Measurement_Checked"/>
+
+                <StackPanel x:Name="CenterPanel" Margin="0,10,0,0" Visibility="Collapsed">
+                    <RadioButton x:Name="CentroidCenter" Content="Centroid" GroupName="CenterKind" IsChecked="True" Margin="0,2" Checked="CenterKind_Checked"/>
+                    <RadioButton Content="Center of the bounding box" GroupName="CenterKind" Margin="0,2" Checked="CenterKind_Checked"/>
+                </StackPanel>
+
+                <StackPanel x:Name="LineOnALinePanel" Margin="0,10,0,0" Visibility="Collapsed">
+                    <TextBlock Text="Starting offset (meters)"/>
+                    <TextBox x:Name="StartingOffset" Text="5000"/>
+                    <TextBlock Text="Distance (meters)"/>
+                    <TextBox x:Name="Distance" Text="10000"/>
+                    <Button Content="Get the line" Height="24" Click="GetLineOnALine_Click"/>
+                </StackPanel>
+
+                <TextBlock x:Name="Result" Margin="0,10,0,0" FontWeight="SemiBold" TextWrapping="Wrap"/>
+                <TextBlock x:Name="Status" Margin="0,6,0,0" FontSize="11" Foreground="#555B62" TextWrapping="Wrap"/>
+            </StackPanel>
+        </Border>
+
+        <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged" MapClick="Map_MapClick"/>
+    </DockPanel>
+</UserControl>

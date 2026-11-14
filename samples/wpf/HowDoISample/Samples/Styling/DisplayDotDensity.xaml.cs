@@ -50,7 +50,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             states.Close();
 
             _tiles = new FeatureSourceVectorTileSource();
-            _tiles.FeatureSources.Add(new ShapeFileFeatureSource(SampleShared.Shapefile("USStates_3857.shp")));
+            _tiles.FeatureSources.Add(states);
             _tiles.FeatureSources.Add("owner", Scatter(features, "OWNER_OCC", seed: 1));
             _tiles.FeatureSources.Add("renter", Scatter(features, "RENTER_OCC", seed: 2));
 
@@ -79,12 +79,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             try
             {
                 await Map.Basemap.SetStyleAsync(new MapStyle(Editor.Text, _tiles));
-                Status.Foreground = Brushes.DarkGreen;
+                Status.Foreground = Brushes.LightGreen;
                 Status.Text = FormattableString.Invariant($"applied at {DateTime.Now:HH:mm:ss}");
             }
             catch (Exception exception)
             {
-                Status.Foreground = Brushes.Firebrick;
+                Status.Foreground = Brushes.Salmon;
                 Status.Text = "not applied - " + exception.Message.Split('\n')[0].TrimEnd('\r');
             }
         }

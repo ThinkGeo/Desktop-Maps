@@ -9,13 +9,16 @@ using ThinkGeo.UI.Wpf;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// The hosted raster maps: ThinkGeo Cloud and OpenStreetMap, one tile source each -
-    /// pick one and the registration is the same line. The commercial providers need
-    /// your own API key, so they are a page of their classes and one-line usage rather
-    /// than a map.
+    /// The hosted raster maps: ThinkGeo Cloud, OpenStreetMap and any {z}/{x}/{y} tile
+    /// server, one tile source each - pick one and the registration is the same line.
+    /// The commercial providers need your own API key, so they are a page of their
+    /// classes and one-line usage rather than a map.
     /// </summary>
     public partial class RasterMapProviders
     {
+        // OpenStreetMap's tile policy asks every application for a descriptive user agent.
+        private const string UserAgent = "ThinkGeo HowDoI Sample (support@thinkgeo.com)";
+
         private bool _ready;
 
         public RasterMapProviders()
@@ -41,12 +44,18 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             if (_ready) await ShowChosenAsync();
         }
 
+        private async void Load_Click(object sender, RoutedEventArgs e)
+        {
+            if (_ready) await ShowChosenAsync();
+        }
+
         /// <summary>
         /// A new provider is a new style over the same map: the raster registration is
         /// swapped in place, the camera holds.
         /// </summary>
         private async Task ShowChosenAsync()
         {
+            CustomXyzPanel.Visibility = CustomXyz.IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
             if (KeyedProviders.IsChecked == true)
             {
                 KeyedProvidersPage.Content ??= new ThirdPartyBasemaps();
@@ -56,18 +65,26 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             }
 
             KeyedProvidersPage.Visibility = Visibility.Collapsed;
-            var source = OpenChosen();
-            var style = new MapStyle().AddRaster(source);
-            if (Map.Basemap == null)
+            try
             {
-                Map.Basemap = new GpuBasemap(style);
+                var source = OpenChosen();
+                var style = new MapStyle().AddRaster(source);
+                if (Map.Basemap == null)
+                {
+                    Map.Basemap = new GpuBasemap(style);
+                }
+                else
+                {
+                    await Map.Basemap.SetStyleAsync(style);
+                }
+
+                Status.Text = source.GetType().Name;
             }
-            else
+            catch (Exception exception)
             {
-                await Map.Basemap.SetStyleAsync(style);
+                Status.Text = "Unavailable: " + exception.Message.Split('\n')[0];
             }
 
-            Status.Text = source.GetType().Name;
             await Map.RefreshAsync();
         }
 
@@ -82,9 +99,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 return new ThinkGeoRasterTileSource(SampleShared.CloudApiKey, ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1);
             if (ThinkGeoHybrid.IsChecked == true)
                 return new ThinkGeoRasterTileSource(SampleShared.CloudApiKey, ThinkGeoCloudRasterMapsMapType.Hybrid_V2_X1);
+            if (Osm.IsChecked == true)
+                return new OpenStreetMapRasterTileSource(UserAgent);
 
-            // OpenStreetMap's tile policy asks every application for a descriptive user agent.
-            return new OpenStreetMapRasterTileSource("ThinkGeo HowDoI Sample (support@thinkgeo.com)");
+            return new XyzRasterTileSource(XyzUrlBox.Text.Trim()) { UserAgent = UserAgent };
         }
     }
 }

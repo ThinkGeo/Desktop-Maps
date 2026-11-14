@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -24,49 +23,30 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             InitializeComponent();
         }
 
-        private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
+        private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
             Map.MapUnit = GeographyUnit.Meter;
 
-            _style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
+            _style = new MapStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
             Map.Basemap = new GpuBasemap(_style);
             Map.CurrentExtent = new RectangleShape(-8_240_000, 4_975_000, -8_228_000, 4_965_000); // Manhattan
 
-            _ = BuildTogglesAsync();
-        }
-
-        private async Task BuildTogglesAsync()
-        {
             await Map.RefreshAsync();
 
             // The style lists its layers in style order once the map has opened it.
             var layers = _style.StyleLayers.ToList();
-            LayerPanel.Children.Add(new TextBlock
-            {
-                Text = FormattableString.Invariant($"{layers.Count} layers"),
-                FontWeight = FontWeights.SemiBold,
-                Margin = new Thickness(2, 0, 0, 6),
-            });
+            LayerCount.Text = FormattableString.Invariant($"{layers.Count} layers");
+            LayerList.ItemsSource = layers;
+        }
 
-            foreach (var layer in layers)
+        private void Layer_Changed(object sender, RoutedEventArgs e)
+        {
+            if (sender is CheckBox { DataContext: StyleLayer layer } box)
             {
-                var box = new CheckBox
-                {
-                    IsChecked = true,
-                    Margin = new Thickness(2, 1, 0, 1),
-                    Content = new TextBlock
-                    {
-                        Text = FormattableString.Invariant($"{layer.Id}  ({layer.Type})"),
-                        TextTrimming = TextTrimming.CharacterEllipsis,
-                    },
-                };
-                var layerId = layer.Id;
-                box.Checked += (_, _) => _style.SetLayerVisibility(layerId, true);
-                box.Unchecked += (_, _) => _style.SetLayerVisibility(layerId, false);
-                LayerPanel.Children.Add(box);
+                _style.SetLayerVisibility(layer.Id, box.IsChecked == true);
             }
         }
     }

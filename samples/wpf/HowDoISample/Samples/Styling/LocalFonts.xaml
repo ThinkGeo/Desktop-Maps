@@ -1,0 +1,92 @@
+﻿<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.Samples.LocalFonts"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <sys:String x:Key="GlyphsJson" xml:space="preserve">{
+  "glyphs": "Data/Glyphs/{fontstack}/{range}.pbf",
+  "layers": []
+}</sys:String>
+
+        <sys:String x:Key="WorldStyle" xml:space="preserve">{
+  "layers": [
+
+    { "type": "fill",
+      "source-layer": "countries",
+      "paint": {
+          "fill-color": "#EFEBE4",
+          "fill-outline-color": "#B9B2A5" }
+    }
+  ]
+}</sys:String>
+
+        <sys:String x:Key="CitiesStyle" xml:space="preserve">{
+  "layers": [
+
+    { "type": "circle",
+      "source-layer": "cities",
+      "paint": {
+          "circle-radius": 4,
+          "circle-color": "#C0392B" }
+    },
+
+    { "type": "symbol",
+      "source-layer": "cities",
+      "layout": {
+          "text-field": "{name}",
+          "text-font": ["Open Sans Semibold"],
+          "text-size": 18,
+          "text-variable-anchor": ["top", "bottom", "left", "right"],
+          "text-radial-offset": 0.6 },
+      "paint": {
+          "text-color": "#1A1A1A",
+          "text-halo-color": "#FFFFFF",
+          "text-halo-width": 2 }
+    }
+  ]
+}</sys:String>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="240"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
+
+        <Border Grid.Column="1" Style="{DynamicResource Shell.SamplePanel}">
+            <StackPanel Margin="8,6,8,6">
+                <TextBlock Text="Where the text is drawn from" FontWeight="SemiBold" FontSize="11.5"/>
+                <TextBlock TextWrapping="Wrap" FontSize="11" Margin="0,4,0,6"
+                           Text="Each source comes before the next: what one lacks, the next draws. Nothing here needs the network."/>
+
+                <RadioButton x:Name="FromGlyphFiles" Content="Glyph files beside the app" Margin="0,2" Checked="Source_Checked"/>
+                <TextBlock TextWrapping="Wrap" FontSize="11" Margin="18,0,0,4"
+                           Text="The style's glyphs point at Data/Glyphs, which holds Open Sans Semibold for the Latin letters only. The other scripts fall through."/>
+
+                <RadioButton x:Name="FromFolder" Content="Font files from a folder" Margin="0,2" Checked="Source_Checked"/>
+                <TextBlock TextWrapping="Wrap" FontSize="11" Margin="18,0,0,2"
+                           Text="GpuBasemap.LocalFontsDirectory. A file whose family the style names draws that text; any file draws the characters the others lack."/>
+                <TextBlock x:Name="FontsFolderText" TextWrapping="Wrap" FontSize="10.5" FontFamily="Consolas" Margin="18,0,0,2"/>
+                <StackPanel Orientation="Horizontal" Margin="18,0,0,4">
+                    <Button Content="Open the folder" Padding="8,2" Click="OpenFolder_Click"/>
+                    <TextBlock VerticalAlignment="Center" Margin="10,0,0,0" FontSize="11">
+                        <Hyperlink NavigateUri="https://cdn.thinkgeo.com/downloads/howdoi_fonts_12162025.zip" RequestNavigate="Hyperlink_RequestNavigate">Download Noto fonts (zip)</Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+
+                <RadioButton x:Name="FromInstalled" Content="Installed fonts and the built-in Noto Sans" IsChecked="True" Margin="0,2" Checked="Source_Checked"/>
+                <TextBlock TextWrapping="Wrap" FontSize="11" Margin="18,0,0,4"
+                           Text="No glyphs and no folder: the font of that name if it is installed, else the Noto Sans built into ThinkGeo, and characters neither has from whatever installed font has them."/>
+
+                <TextBlock x:Name="Status" TextWrapping="Wrap" FontSize="11" Margin="0,8,0,0"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

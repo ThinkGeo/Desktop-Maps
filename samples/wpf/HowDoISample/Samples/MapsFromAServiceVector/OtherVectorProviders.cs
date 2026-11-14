@@ -3,12 +3,9 @@ using System;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// The vector-tile counterpart of "Azure, Google &amp; Other Providers": Mapbox,
-    /// Esri, TomTom, MapTiler, Stadia, AWS and OpenFreeMap all publish MVT tiles
-    /// behind a Mapbox-spec style document, so with your own key they load through the
-    /// same two objects every vector sample here uses - a style document and a
-    /// VectorTileSource. A documentation page rather than a running map: without a key
-    /// most of them draw nothing.
+    /// The keyed vector-tile providers - Mapbox, Esri, TomTom, MapTiler, Stadia, AWS - as a
+    /// page of their style URLs. A page rather than a map: without your key most of them
+    /// draw nothing.
     /// </summary>
     public class OtherVectorProviders : MarkdownDocumentViewer
     {
@@ -17,13 +14,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         { }
         private const string PageMarkdown = @"# Mapbox, Esri, TomTom and More
 
-The MVT protocol is the protocol - it does not care who runs the server. Any provider
-that publishes vector tiles behind a Mapbox-spec style document loads through the same
-two objects the other vector samples use: a **style document** and a **VectorTileSource**.
-These are hosted tile services: point at the style URL with **your own API key** and
-the tiles stream from the provider's servers. (Self-hosted data is covered elsewhere:
-a downloaded .mbtiles archive goes straight into `MbTilesVectorTileSource` - see the
-Offline Vector Tiles sample.)
+Any provider that publishes vector tiles behind a Mapbox-spec style document loads the
+way OpenFreeMap does in this sample: its style URL, handed to a `MapStyle`. These are
+hosted tile services - put your own API key on the style URL and the tiles stream from
+the provider's servers. A downloaded .mbtiles or .pmtiles archive is not a service: see
+the Offline Tiles sample.
 
 | Provider | Style document |
 |---|---|
@@ -40,31 +35,31 @@ Map.MapUnit = GeographyUnit.Meter;
 
 // Mapbox - mapbox:// source, sprite and glyph references resolve natively;
 // the access token on the style URL is carried onto every sub-request
-Map.Basemap = new GpuBasemap(new MapStyle().AddStyle(
+Map.Basemap = new GpuBasemap(new MapStyle(
     ""https://api.mapbox.com/styles/v1/mapbox/streets-v12?access_token=your-mapbox-token""));
 
 // Esri - ArcGIS basemap styles are Mapbox-spec documents over a VectorTileServer
-Map.Basemap = new GpuBasemap(new MapStyle().AddStyle(
+Map.Basemap = new GpuBasemap(new MapStyle(
     ""https://basemapstyles-api.arcgis.com/arcgis/rest/services/styles/v2/styles/arcgis/streets?token=your-arcgis-key""));
 
 // TomTom - key rides the querystring, URLs in the document are absolute
-Map.Basemap = new GpuBasemap(new MapStyle().AddStyle(
+Map.Basemap = new GpuBasemap(new MapStyle(
     ""https://api.tomtom.com/style/1/style/22.2.1-9?map=2/basic_street-light&key=your-tomtom-key""));
 
 // MapTiler
-Map.Basemap = new GpuBasemap(new MapStyle().AddStyle(
+Map.Basemap = new GpuBasemap(new MapStyle(
     ""https://api.maptiler.com/maps/streets-v2/style.json?key=your-maptiler-key""));
 
 // Stadia Maps
-Map.Basemap = new GpuBasemap(new MapStyle().AddStyle(
+Map.Basemap = new GpuBasemap(new MapStyle(
     ""https://tiles.stadiamaps.com/styles/alidade_smooth.json?api_key=your-stadia-key""));
 
 // AWS Location Service
-Map.Basemap = new GpuBasemap(new MapStyle().AddStyle(
+Map.Basemap = new GpuBasemap(new MapStyle(
     ""https://maps.geo.us-east-1.amazonaws.com/v2/styles/Standard/descriptor?key=your-aws-key""));
 
 // OpenFreeMap - free, no key at all
-Map.Basemap = new GpuBasemap(new MapStyle().AddStyle(
+Map.Basemap = new GpuBasemap(new MapStyle(
     ""https://tiles.openfreemap.org/styles/liberty""));
 
 _ = Map.RefreshAsync();

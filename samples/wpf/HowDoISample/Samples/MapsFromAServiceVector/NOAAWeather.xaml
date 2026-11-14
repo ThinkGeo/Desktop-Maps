@@ -1,0 +1,108 @@
+<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.Samples.NOAAWeather"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <sys:String x:Key="StationsStyle" xml:space="preserve">{
+  "layers": [
+
+    { "type": "circle",
+      "source-layer": "stations",
+      "paint": {
+          "circle-radius": 4.5,
+          "circle-color": ["step", ["to-number", ["get", "Temperature"]],
+              "rgba(69,117,180,1)",
+              32, "rgba(145,191,219,1)",
+              50, "rgba(255,255,191,1)",
+              70, "rgba(252,141,89,1)",
+              85, "rgba(215,48,39,1)"],
+          "circle-stroke-color": "rgba(120,120,120,1)",
+          "circle-stroke-width": 1 }
+    },
+
+    { "type": "symbol",
+      "source-layer": "stations",
+      "layout": {
+          "text-field": ["concat", ["get", "Temperature"], "°"],
+          "text-font": ["Segoe UI Bold"],
+          "text-size": 11,
+          "text-offset": [0, -0.9],
+          "text-anchor": "bottom" },
+      "paint": {
+          "text-color": "rgba(235,235,235,1)",
+          "text-halo-color": "rgba(20,20,20,1)",
+          "text-halo-width": 1.5 }
+    }
+  ]
+}</sys:String>
+
+        <sys:String x:Key="WarningsStyle" xml:space="preserve">{
+  "layers": [
+
+    { "type": "fill",
+      "source-layer": "warnings",
+      "paint": {
+          "fill-color": ["match", ["get", "SEVERITY"],
+              "Extreme", "rgba(215,25,28,0.40)",
+              "Severe", "rgba(244,109,67,0.40)",
+              "Moderate", "rgba(253,174,97,0.35)",
+              "Minor", "rgba(171,217,233,0.35)",
+              "rgba(150,150,150,0.30)"] }
+    },
+
+    { "type": "line",
+      "source-layer": "warnings",
+      "paint": {
+          "line-color": ["match", ["get", "SEVERITY"],
+              "Extreme", "rgba(215,25,28,1)",
+              "Severe", "rgba(244,109,67,1)",
+              "Moderate", "rgba(253,174,97,1)",
+              "Minor", "rgba(171,217,233,1)",
+              "rgba(150,150,150,1)"],
+          "line-width": 1.5 }
+    },
+
+    { "type": "symbol",
+      "source-layer": "warnings",
+      "layout": {
+          "text-field": ["get", "EVENT"],
+          "text-font": ["Segoe UI Bold"],
+          "text-size": 11 },
+      "paint": {
+          "text-color": "rgba(235,235,235,1)",
+          "text-halo-color": "rgba(20,20,20,1)",
+          "text-halo-width": 1.5 }
+    }
+  ]
+}</sys:String>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
+
+        <Border Grid.Column="1" Style="{DynamicResource Shell.SamplePanel}">
+            <StackPanel>
+                <TextBlock Text="NOAA feed" FontWeight="SemiBold" FontSize="11.5" Margin="0,6,0,4"/>
+                <StackPanel Margin="0,0,0,4">
+                    <RadioButton x:Name="Stations" Content="Weather stations - temperature" IsChecked="True" Checked="Feed_Checked"/>
+                    <RadioButton x:Name="Warnings" Content="Weather warnings - by severity" Checked="Feed_Checked"/>
+                </StackPanel>
+
+                <TextBlock x:Name="Status" FontFamily="Consolas" FontSize="11" Margin="0,10,0,0" TextWrapping="Wrap"/>
+
+                <TextBlock TextWrapping="Wrap" FontSize="11" Margin="0,10,0,6"
+                           Text="Each feed is a FeatureSource that downloads NOAA's current data when it opens. It is cut into tiles and drawn by a style document, with the colors taken from the feed's own attributes."/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

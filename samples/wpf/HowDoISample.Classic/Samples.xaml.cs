@@ -38,8 +38,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
 		private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
 		{
-			// Dynamically read the samples to load into the tree view
-			var json = File.ReadAllText(@"./Samples/samples.json");
+			// The menu, from the copy beside the executable - not from the working directory,
+			// which is wherever the app was started from.
+			var json = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "Samples", "samples.json"));
 
 			_menus = JsonSerializer.Deserialize<List<MenuModel>>(json, JsonOptions) ?? new List<MenuModel>();
 
@@ -170,8 +171,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
 			// Update the CS & XAML code windows
 			UpdateCodeViewerLayout();
-			CsharpCodeViewer.Text = GetFileContent($"../../../{_selectedMenu?.Source}.xaml.cs");
-			XamlCodeViewer.Text = GetFileContent($"../../../{_selectedMenu?.Source}.xaml");
+			CsharpCodeViewer.Text = GetSampleSource(_selectedMenu?.Source, ".xaml.cs");
+			XamlCodeViewer.Text = GetSampleSource(_selectedMenu?.Source, ".xaml");
 		}
 
 		private void UpdateCodeViewerLayout()
@@ -257,20 +258,23 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 			UpdateCodeViewerVisibility();
 		}
 
-		internal static string GetFileContent(string path)
+		/// <summary>
+		/// A sample's own source, from the copy embedded in this assembly: the files are not
+		/// beside the executable, and reading them from the source tree worked only when the
+		/// app was started from it.
+		/// </summary>
+		internal static string GetSampleSource(string source, string extension)
 		{
-			// Reads a file and returns the text inside
-			if (!File.Exists(path)) return string.Empty;
-			return File.ReadAllText(path);
-		}
-
-		// TODO: Load xaml from assembly.
-		internal static string GetResourceContent(string path)
-		{
-			var source = path.Replace("\\", "/");
-
-
-			return string.Empty;
+			if (string.IsNullOrEmpty(source)) return string.Empty;
+			var name = "SampleSource." + Path.GetFileName(source) + extension;
+			using (var stream = typeof(Samples).Assembly.GetManifestResourceStream(name))
+			{
+				if (stream == null) return string.Empty;
+				using (var reader = new StreamReader(stream))
+				{
+					return reader.ReadToEnd();
+				}
+			}
 		}
 
 		private void UpdateCodeViewerVisibility()
@@ -368,9 +372,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 						searchTermFound = true;
 						foundAllSearchTerms = true;
 					}
-					if (menuModel.Description != null)
+					// The key API and the aliases - the titles and classes of the samples merged
+					// into this one - find a row as well as its title does.
+					foreach (var text in new[] { menuModel.Description, menuModel.KeyApi, menuModel.Aliases })
 					{
-						if (menuModel.Description.ToLower().Contains(searchTerm.ToLower()))
+						if (text != null && text.ToLower().Contains(searchTerm.ToLower()))
 						{
 							searchTermFound = true;
 							foundAllSearchTerms = true;
@@ -437,6 +443,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 		public string Title { get; set; }
 		public string Description { get; set; }
 		public string Source { get; set; }
+		public string KeyApi { get; set; }
+		public string Aliases { get; set; }
 		public List<MenuModel> Children { get; set; }
 	}
 

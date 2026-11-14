@@ -9,7 +9,8 @@ using ThinkGeo.UI.Wpf;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// A WMTS server through the renderer.
+    /// The Swiss national map from swisstopo's WMTS server as the basemap, read through
+    /// the server's web-mercator tile matrix set.
     /// </summary>
     public partial class WMTS
     {

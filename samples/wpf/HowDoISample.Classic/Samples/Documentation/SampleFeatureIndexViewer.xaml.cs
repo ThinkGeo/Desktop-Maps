@@ -20,32 +20,14 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             PropertyNameCaseInsensitive = true
         };
 
-        private readonly string[] _candidateMarkdownPaths;
         private readonly string[] _candidateSamplesJsonPaths;
         private bool _webMessageAttached;
 
         public SampleFeatureIndexViewer()
         {
             InitializeComponent();
-            _candidateMarkdownPaths = BuildCandidatePaths(Path.Combine("Samples", "Documentation"), "README.md")
-                .Concat(BuildCandidatePaths(Path.Combine("Samples", "Documentation"), "SampleFeatureIndex.md"))
-                .Distinct(StringComparer.OrdinalIgnoreCase)
-                .ToArray();
-            _candidateSamplesJsonPaths = BuildCandidatePaths("Samples", "samples.json");
+            _candidateSamplesJsonPaths = new[] { Path.Combine(AppContext.BaseDirectory, "Samples", "samples.json") };
             Loaded += SampleFeatureIndexViewer_OnLoaded;
-        }
-
-        private static string[] BuildCandidatePaths(string relativeFolder, string fileName)
-        {
-            var baseDirectory = AppContext.BaseDirectory;
-
-            return new[]
-            {
-                Path.Combine(baseDirectory, relativeFolder, fileName),
-                Path.GetFullPath(Path.Combine(baseDirectory, @"..\..\..\..", relativeFolder, fileName)),
-                Path.GetFullPath(Path.Combine(baseDirectory, @"..\..\..", relativeFolder, fileName)),
-                Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, relativeFolder, fileName))
-            };
         }
 
         private async void SampleFeatureIndexViewer_OnLoaded(object sender, RoutedEventArgs e)
@@ -56,17 +38,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private async Task LoadMarkdownAsync()
         {
-            var markdownPath = _candidateMarkdownPaths.FirstOrDefault(File.Exists);
-            if (string.IsNullOrEmpty(markdownPath))
-            {
-                ShowPlainText(
-                    "# Missing file\n\nUnable to find `Samples/Documentation/README.md`.\n" +
-                    "Please build or run from the project root so the file is copied to output.");
-                return;
-            }
-
-            var markdownText = File.ReadAllText(markdownPath);
             var sampleCatalog = LoadSampleCatalog();
+            var markdownText = BuildIndexMarkdown(sampleCatalog);
 
             var renderedInWebView = await TryRenderMarkdownWithWebViewAsync(markdownText, sampleCatalog);
 
@@ -101,7 +74,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                             Id = sample.Id,
                             Title = sample.Title ?? string.Empty,
                             Category = category?.Title ?? string.Empty,
-                            Description = sample.Description ?? string.Empty
+                            Description = sample.Description ?? string.Empty,
+                            KeyApi = sample.KeyApi ?? string.Empty
                         });
                     }
                 }
@@ -113,6 +87,38 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 return Array.Empty<SampleCatalogEntry>();
             }
         }
+
+        /// <summary>
+        /// The page itself, written from the same samples.json the menu is: one table per
+        /// group, so it cannot fall behind the menu the way a hand-written index did.
+        /// </summary>
+        private static string BuildIndexMarkdown(IReadOnlyList<SampleCatalogEntry> sampleCatalog)
+        {
+            var markdown = new StringBuilder();
+            markdown.AppendLine("## Which gallery?");
+            markdown.AppendLine();
+            markdown.AppendLine("This gallery builds for .NET Framework 4.8 and .NET 8, and shows the classic API: LayerOverlay, FeatureLayer, ZoomLevelSet and the Style classes. Use it when your application runs on .NET Framework, or keeps code built on those classes.");
+            markdown.AppendLine();
+            markdown.AppendLine("Starting on .NET 8 or later? Open the ThinkGeo 15 gallery (HowDoISample) instead: it draws the map from a style document, with tilt, terrain and the globe.");
+            markdown.AppendLine();
+            markdown.AppendLine("## Category Tables");
+            foreach (var category in sampleCatalog.GroupBy(e => e.Category))
+            {
+                markdown.AppendLine();
+                markdown.AppendLine("### " + category.Key + " (" + category.Count() + ")");
+                markdown.AppendLine();
+                markdown.AppendLine("| Title | Focus | Key API |");
+                markdown.AppendLine("| --- | --- | --- |");
+                foreach (var entry in category)
+                {
+                    markdown.AppendLine("| " + Cell(entry.Title) + " | " + Cell(entry.Description) + " | " + Cell(entry.KeyApi) + " |");
+                }
+            }
+
+            return markdown.ToString();
+        }
+
+        private static string Cell(string text) => (text ?? string.Empty).Replace("|", "\\|").Replace("\n", " ");
 
         private static string StripLineComments(string json)
         {
@@ -593,6 +599,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             public string Title { get; set; }
             public string Category { get; set; }
             public string Description { get; set; }
+            public string KeyApi { get; set; }
         }
 
         private sealed class SampleCatalogCategory
@@ -614,6 +621,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
             [JsonPropertyName("description")]
             public string Description { get; set; }
+
+            [JsonPropertyName("keyApi")]
+            public string KeyApi { get; set; }
         }
     }
 }

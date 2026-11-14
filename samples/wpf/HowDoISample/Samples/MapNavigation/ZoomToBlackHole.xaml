@@ -96,17 +96,6 @@
     }
   ]
 }</sys:String>
-
-        <Style x:Key="ImageButtonNoHoverStyle" TargetType="Button">
-            <Setter Property="OverridesDefaultStyle" Value="True"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </UserControl.Resources>
 
     <Grid>
@@ -116,18 +105,24 @@
             </thinkGeoUi:MapView.DefaultAnimationSettings>
         </thinkGeoUi:MapView>
 
-        <Button x:Name="StartButton"
-                Style="{StaticResource ImageButtonNoHoverStyle}"
-                Width="40" Height="40" Margin="10"
-                HorizontalAlignment="Right" VerticalAlignment="Top"
-                Click="StartButton_Click">
-            <Image Source="/Resources/icon_globe_black.png" Stretch="Fill"/>
-        </Button>
-
-        <Button x:Name="DiveButton"
-                HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10"
-                Height="40" Padding="12,0" FontSize="20"
-                Content="Zoom To M87 Black Hole"
-                Click="DiveButton_Click"/>
+        <Border Style="{DynamicResource Shell.MapCard}" Margin="72,12,12,12"
+                HorizontalAlignment="Left" VerticalAlignment="Top">
+            <StackPanel>
+                <TextBlock FontSize="11" TextWrapping="Wrap" Margin="0,0,0,8"
+                           Text="ZoomToAsync flies from galaxy M87 down to the shadow of its black hole, through ten nested pictures."/>
+                <Button x:Name="DiveButton" Content="Zoom To M87 Black Hole" Padding="0,3" Click="DiveButton_Click"/>
+                <Button x:Name="StartButton" Margin="0,4,0,0" Padding="0,3" Click="StartButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <!-- The icon is black; used as a mask over a light fill it reads on the dark card. -->
+                        <Rectangle Width="18" Height="18" Fill="#E7E9EC">
+                            <Rectangle.OpacityMask>
+                                <ImageBrush ImageSource="pack://application:,,,/ThinkGeo.UI.Wpf.HowDoI.v15;component/Resources/icon_globe_black.png"/>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                        <TextBlock Text="Back to the start" VerticalAlignment="Center" Margin="6,0,0,0"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>

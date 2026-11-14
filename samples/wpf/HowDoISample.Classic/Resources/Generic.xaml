@@ -1,6 +1,13 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit">
+                    xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
+                    xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf">
+
+    <!-- Where a map has nothing to draw - beyond the world's edge, or before its tiles arrive - it
+         shows this instead of the dark shell behind it. A sample sets its own where it wants one. -->
+    <Style TargetType="{x:Type thinkGeoUi:MapView}">
+        <Setter Property="Background" Value="#E6E8EB"/>
+    </Style>
 
     <SolidColorBrush x:Key="NavBackgroundBrush" Color="#26282c"></SolidColorBrush>
     <SolidColorBrush x:Key="SidebarBackgroundBrush" Color="#2D3035"></SolidColorBrush>

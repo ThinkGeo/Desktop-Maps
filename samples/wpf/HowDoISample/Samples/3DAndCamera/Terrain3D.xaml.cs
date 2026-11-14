@@ -1,10 +1,9 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Threading;
+using System.Windows.Media;
 using ThinkGeo.Core;
 using ThinkGeo.Core.Styling;
 using ThinkGeo.Gpu;
@@ -13,14 +12,7 @@ using ThinkGeo.UI.Wpf;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// 3D terrain over the Grand Canyon: an elevation source shapes the ground and aerial
-    /// imagery drapes over it. The elevation source is built IN CODE - a RasterDemSource handed
-    /// to SetTerrain, no style document declaring it - and lands in the style under the id
-    /// <c>terrain-dem</c>, which the relief layer in the editor references. (A style
-    /// document carrying its own <c>raster-dem</c> and root <c>terrain</c> lights up
-    /// exactly the same with no code at all.) The checkbox flips terrain at runtime
-    /// through SetTerrain / RemoveTerrain and one SetStyleAsync. Click two points for an
-    /// elevation profile read from the same DEM.
+    /// Aerial imagery draped over terrain at the Grand Canyon, with relief shading and an elevation profile between two clicks.
     /// </summary>
     public partial class Terrain3D
     {
@@ -28,25 +20,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private static readonly RectangleShape StartExtent =
             new RectangleShape(-12_534_000, 4_346_000, -12_484_000, 4_314_000);
 
-        private readonly ThinkGeoRasterTileSource _aerial =
-            new ThinkGeoRasterTileSource(SampleShared.CloudApiKey, ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1);
-
-        // The AWS open terrarium tiles (no key), as a code-built RasterDemSource.
-        private readonly RasterDemSource _dem = new RasterDemSource(
-            "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png",
-            DemEncoding.Terrarium);
-
         private readonly GpuBasemap _basemap;
-        private readonly DispatcherTimer _applyTimer;
-        private MapStyle _style;
+        private readonly MapStyle _style;
 
-        /// <summary>
-        /// The line being measured, drawn by the renderer rather than by an overlay
-        /// above it: an overlay draws flat, and on a map tilted to 63 degrees a flat
-        /// line lies across the picture instead of along the ground it measures. The
-        /// renderer puts every vertex at the terrain height under it, so the line
-        /// climbs the ridges it crosses and hides where one stands in front of it.
-        /// </summary>
+        // The measured line is drawn by the renderer, not by an overlay, so each vertex
+        // sits on the terrain under it instead of lying flat across the tilted picture.
         private readonly DynamicSource _profileLine = new DynamicSource();
 
         private bool _initialized;
@@ -59,19 +37,20 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             Map.MapUnit = GeographyUnit.Meter;
             Map.IsTiltEnabled = true;
 
-            // The profile is two clicks, and two clicks arriving quickly are a double
-            // click: under the default MutuallyExclusive the pair raises MapDoubleClick
-            // and no MapClick at all, so the second point never lands and the map zooms
-            // instead. Asking for both clicks to be reported is what makes the gesture
-            // this sample describes actually work.
+            // Two quick clicks are a double click: under the default MutuallyExclusive the
+            // second click raises only MapDoubleClick, so the profile would never get its end.
             Map.ClickDoubleClickMode = MapClickDoubleClickMode.RaiseClickThenDoubleClick;
 
-            _style = ComposeStyle();
+            // The AWS open terrarium tiles (no key), as a code-built RasterDemSource. SetTerrain
+            // adds it under the id "terrain-dem", which the relief layer in the resources reads.
+            var dem = new RasterDemSource("https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png", DemEncoding.Terrarium);
+            _style = new MapStyle()
+                .AddRaster(new ThinkGeoRasterTileSource(SampleShared.CloudApiKey, ThinkGeoCloudRasterMapsMapType.Aerial_V2_X1), sourceId: "thinkgeo")
+                .SetTerrain(dem, 1.35)
+                .AddStyle((string)Resources["StyleJson"]);
+            _style.AddDynamic(_profileLine);
             _basemap = new GpuBasemap(_style);
             Map.Basemap = _basemap;
-
-            _applyTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(400) };
-            _applyTimer.Tick += async (_, _) => { _applyTimer.Stop(); await ApplyEditorStyleAsync(); };
         }
 
         private async void Map_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -87,54 +66,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             await Map.RefreshAsync();
         }
 
-        /// <summary>
-        /// The aerial imagery goes in first (bottom of the layer order), the DEM lands
-        /// under its id, and the relief layer in the editor reads that id. The checkbox
-        /// decides whether the terrain it declares is also raised.
-        /// </summary>
-        private MapStyle ComposeStyle()
-        {
-            var style = new MapStyle()
-                .AddRaster(_aerial, sourceId: "thinkgeo")
-                .SetTerrain(_dem, 1.35)
-                .AddStyle(Editor.Text);
-            if (TerrainToggle.IsChecked != true)
-            {
-                style.RemoveTerrain();
-            }
-
-            style.AddDynamic(_profileLine);
-            return style;
-        }
-
-        private void Editor_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (!_initialized) return;
-            _applyTimer.Stop();
-            _applyTimer.Start();
-        }
-
-        // A document that does not compile changes nothing; the map keeps the last one that worked.
-        private async Task ApplyEditorStyleAsync()
-        {
-            if (!IsLoaded) return;
-
-            try
-            {
-                _style = ComposeStyle();
-                await _basemap.SetStyleAsync(_style);
-                Status.Foreground = System.Windows.Media.Brushes.DarkGreen;
-                Status.Text = FormattableString.Invariant($"applied at {DateTime.Now:HH:mm:ss}");
-            }
-            catch (Exception exception)
-            {
-                Status.Foreground = System.Windows.Media.Brushes.Firebrick;
-                Status.Text = "not applied - " + exception.Message.Split('\n')[0].TrimEnd('\r');
-            }
-        }
-
-        // Terrain lives on the style; re-handing the style applies the toggle
-        // without rebuilding a tile (the document itself did not change).
+        // Terrain lives on the style; re-handing the style applies the toggle without
+        // rebuilding a tile.
         private async void TerrainToggle_Checked(object sender, RoutedEventArgs e)
         {
             if (!_initialized)
@@ -155,14 +88,12 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         }
 
         private async void Map_MapClick(object sender, MapClickMapViewEventArgs e)
-            => await AddProfilePointAsync(new PointShape(e.WorldLocation.X, e.WorldLocation.Y));
-
-        private async Task AddProfilePointAsync(PointShape clicked)
         {
+            var clicked = new PointShape(e.WorldLocation.X, e.WorldLocation.Y);
             var elevation = await _basemap.GetElevationAsync(clicked, 3857);
             if (elevation == null)
             {
-                ProfileText.Text = "no elevation here - the DEM does not cover this point";
+                ProfileText.Text = "No elevation here - the DEM does not cover this point.";
                 _profileStart = null;
                 return;
             }
@@ -170,11 +101,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
             if (_profileStart == null)
             {
                 _profileStart = clicked;
-                // The first click on its own is a point, so there is something on the
-                // ground to aim the second one from. The last profile goes with it.
                 _profileLine.Clear();
                 _profileLine.SetPoint("start", new Feature(_profileStart), color: GeoColors.Yellow, sizeInPixel: 9f);
-                ProfileText.Text = string.Format(CultureInfo.InvariantCulture, "start {0:0} m - click a second point", elevation.Value);
+                ProfileText.Text = string.Format(CultureInfo.InvariantCulture, "Start {0:0} m - click a second point.", elevation.Value);
                 return;
             }
 
@@ -184,9 +113,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         }
 
         /// <summary>
-        /// One call gives the whole profile: the line goes in with its srid, the samples
-        /// come back evenly spaced on the ground with the extremes precomputed. The
-        /// tiles are the ones the terrain is already drawn from.
+        /// One call gives the whole profile, read from the tiles the terrain is already drawn from.
         /// </summary>
         private async Task ShowProfileAsync(PointShape from, PointShape to)
         {
@@ -195,42 +122,28 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             if (profile.MinElevationInMeters == null)
             {
-                ProfileText.Text = "not enough elevation along that line";
+                ProfileText.Text = "Not enough elevation along that line.";
                 _profileLine.SetLine("profile", new Feature(line), GeoColors.Yellow, 3f);
                 ChartPanel.Visibility = Visibility.Collapsed;
                 return;
             }
 
-            // Drawn as the profile's own samples rather than as the two clicks: each
-            // vertex is put on the ground under it, so a two-point line would be lifted
-            // only at its ends and tunnel through everything in between.
+            // Drawn through the profile's own samples rather than the two clicks: a
+            // two-point line would sit on the ground only at its ends.
             var samples = profile.Points.Select(sample => new Vertex(sample.Longitude, sample.Latitude));
             _profileLine.SetLine("profile", new Feature(new LineShape(ProjectionConverter.Convert(4326, 3857, samples))), GeoColors.Yellow, 3f);
 
+            var min = profile.MinElevationInMeters.Value;
+            var max = profile.MaxElevationInMeters.Value;
             ProfileText.Text = string.Format(
                 CultureInfo.InvariantCulture,
                 "{0:0.0} km - min {1:0} m, max {2:0} m, relief {3:0} m",
-                profile.LengthInMeters / 1000.0,
-                profile.MinElevationInMeters,
-                profile.MaxElevationInMeters,
-                profile.MaxElevationInMeters - profile.MinElevationInMeters);
+                profile.LengthInMeters / 1000.0, min, max, max - min);
 
-            DrawChart(profile);
-        }
-
-        /// <summary>
-        /// The profile as a chart: distance along the line across, elevation up, scaled
-        /// to the samples' own range so a canyon and a plain both fill the box.
-        /// </summary>
-        private void DrawChart(ElevationProfile profile)
-        {
-            Chart.Children.Clear();
-
-            var min = profile.MinElevationInMeters.Value;
-            var max = profile.MaxElevationInMeters.Value;
+            // Distance across, elevation up, scaled to the samples' own range so a
+            // canyon and a plain both fill the box.
             var span = Math.Max(1, max - min);
-
-            var points = new System.Windows.Media.PointCollection();
+            var points = new PointCollection();
             foreach (var sample in profile.Points)
             {
                 if (sample.ElevationInMeters is not { } elevation)
@@ -240,16 +153,10 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
                 var x = sample.DistanceInMeters / profile.LengthInMeters * Chart.Width;
                 var y = Chart.Height - ((elevation - min) / span * (Chart.Height - 8)) - 4;
-                points.Add(new System.Windows.Point(x, y));
+                points.Add(new Point(x, y));
             }
 
-            Chart.Children.Add(new System.Windows.Shapes.Polyline
-            {
-                Points = points,
-                Stroke = System.Windows.Media.Brushes.DarkGreen,
-                StrokeThickness = 1.5,
-            });
-
+            ChartLine.Points = points;
             ChartTitle.Text = string.Format(
                 CultureInfo.InvariantCulture,
                 "{0:0.0} km, {1:0} - {2:0} m",

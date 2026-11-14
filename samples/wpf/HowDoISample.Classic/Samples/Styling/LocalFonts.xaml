@@ -1,0 +1,56 @@
+<UserControl x:Class="ThinkGeo.UI.Wpf.HowDoI.LocalFonts"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:thinkGeoUi="clr-namespace:ThinkGeo.UI.Wpf;assembly=ThinkGeo.UI.Wpf"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="260" />
+        </Grid.ColumnDefinitions>
+
+        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged" />
+
+        <StackPanel Grid.Column="1" Background="DimGray">
+            <Label Content="Label fonts" />
+            <RadioButton Content="System fonts" IsChecked="True" Checked="SystemFonts_Checked" />
+            <RadioButton Content="Font files from a folder" Checked="FolderFonts_Checked" />
+
+            <TextBlock Text="Put .ttf or .otf files in this folder, then pick &quot;Font files from a folder&quot;. A character found in one of the files is drawn with it; the rest keep the system fonts." />
+            <TextBlock x:Name="FontsFolderText" FontFamily="Consolas" />
+            <Button Content="Open the folder" Click="OpenFolder_Click" />
+            <TextBlock>
+                <Hyperlink NavigateUri="https://cdn.thinkgeo.com/downloads/howdoi_fonts_12162025.zip" RequestNavigate="Hyperlink_RequestNavigate">Download a set of Noto fonts (zip)</Hyperlink>
+            </TextBlock>
+            <TextBlock x:Name="Status" />
+        </StackPanel>
+    </Grid>
+
+    <UserControl.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="WhiteSmoke" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Margin" Value="4,8,4,0" />
+        </Style>
+        <Style TargetType="RadioButton">
+            <Setter Property="Foreground" Value="WhiteSmoke" />
+            <Setter Property="Margin" Value="12,4,4,0" />
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="WhiteSmoke" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Margin" Value="8,12,8,0" />
+        </Style>
+        <Style TargetType="Hyperlink">
+            <Setter Property="Foreground" Value="LightSkyBlue" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="8,8,8,0" />
+            <Setter Property="Padding" Value="0,3" />
+        </Style>
+    </UserControl.Resources>
+</UserControl>

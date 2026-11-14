@@ -27,6 +27,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private static readonly HashSet<string> Hazards = new HashSet<string> { "UWTROC", "WRECKS", "OBSTRN" };
         private static readonly GeoColor Navy = GeoColor.FromHtml("#1F3A93");
         private const double StepInMeters = 60;
+        private const double ClearanceInMeters = 2;
 
         private readonly DispatcherTimer _timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(250) };
         private readonly ProjectionConverter _toMeters = new ProjectionConverter(4326, 3857);
@@ -36,6 +37,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
         private readonly PointStyle _shipStyle = new PointStyle(PointSymbolType.Triangle, 22, new GeoSolidBrush(Navy), new GeoPen(GeoColors.White, 2));
         private readonly object _helm = new object();
 
+        private readonly LayerOverlay _chartOverlay = new LayerOverlay();
+        private NauticalChartsFeatureLayer _chartLayer;
         private NauticalChartsFeatureSource _chart;
         private PointShape[] _routeInDegrees;
         private PointShape _lastPosition;
@@ -71,7 +74,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             Map.Basemap = new GpuBasemap(new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) }));
 
-            var chart = new NauticalChartsFeatureLayer(ChartFile)
+            _chartLayer = new NauticalChartsFeatureLayer(ChartFile)
             {
                 IsDepthContourTextVisible = true,
                 IsLightDescriptionVisible = true,
@@ -85,16 +88,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 IsFullLightLineVisible = true,
                 IsMetaObjectsVisible = false,
             };
-            // The depths that decide the colour of the water, in meters.
-            chart.SafetyDepthInMeter = NauticalChartsFeatureLayer.ConvertDistanceToMeters(28, NauticalChartsDepthUnit.Meter);
-            chart.ShallowDepthInMeter = NauticalChartsFeatureLayer.ConvertDistanceToMeters(3, NauticalChartsDepthUnit.Meter);
-            chart.DeepDepthInMeter = NauticalChartsFeatureLayer.ConvertDistanceToMeters(10, NauticalChartsDepthUnit.Meter);
-            chart.SafetyContourDepthInMeter = NauticalChartsFeatureLayer.ConvertDistanceToMeters(10, NauticalChartsDepthUnit.Meter);
+            SetDepths(double.Parse(DraftBox.Text, CultureInfo.InvariantCulture));
             // The chart is in latitude and longitude; the map is in meters.
-            chart.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 3857);
-            var chartOverlay = new LayerOverlay();
-            chartOverlay.Layers.Add(chart);
-            Map.Overlays.Add(chartOverlay);
+            _chartLayer.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 3857);
+            _chartOverlay.Layers.Add(_chartLayer);
+            Map.Overlays.Add(_chartOverlay);
 
             // The route, the wake coloured by what the chart said there, and the ship, over the chart.
             _track.FeatureSource.ProjectionConverter = new ProjectionConverter(4326, 3857);
@@ -132,6 +130,25 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 new PointShape(-87.560, 41.864), new PointShape(-87.586, 41.871), new PointShape(-87.597, 41.893),
             });
             _timer.Start();
+        }
+
+        // The water is coloured for this ship: shallower than her draft is where she grounds,
+        // her draft plus the clearance the helm calls "caution" is her safety contour, and
+        // twice that is deep water.
+        private void SetDepths(double draft)
+        {
+            _chartLayer.ShallowDepthInMeter = draft;
+            _chartLayer.SafetyDepthInMeter = draft + ClearanceInMeters;
+            _chartLayer.SafetyContourDepthInMeter = draft + ClearanceInMeters;
+            _chartLayer.DeepDepthInMeter = 2 * (draft + ClearanceInMeters);
+        }
+
+        private void DraftBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            if (_chartLayer == null || !double.TryParse(DraftBox.Text, NumberStyles.Float, CultureInfo.InvariantCulture, out var draft) || draft <= 0) return;
+
+            SetDepths(draft);
+            _ = _chartOverlay.RefreshAsync();
         }
 
         private void SetRoute(PointShape[] routeInDegrees)
@@ -238,7 +255,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 reading.UnderKeel = reading.Shallowest == null ? (double?)null : Math.Round(reading.Shallowest.Value - draft, 1);
                 reading.Status = reading.Shallowest == null ? "unknown"
                     : reading.UnderKeel < 0 ? "danger"
-                    : reading.UnderKeel < 2 || nearestHazard < 300 ? "caution" : "ok";
+                    : reading.UnderKeel < ClearanceInMeters || nearestHazard < 300 ? "caution" : "ok";
                 reading.Aids = aids.OrderBy(aid => aid.distance).Take(3).Select(aid => $"{aid.name} - {aid.distance:0} m").ToList();
                 reading.Hazards = hazards.OrderBy(hazard => hazard.distance).Take(3).Select(hazard => $"{hazard.name} - {hazard.distance:0} m").ToList();
             }

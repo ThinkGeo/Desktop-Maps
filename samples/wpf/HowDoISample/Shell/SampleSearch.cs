@@ -16,8 +16,9 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         /// <summary>
         /// Every term has to match something, so two words narrow instead of widen.
-        /// Title, focus, key API and group all count: a developer looks for
-        /// <c>LegendAdornmentLayer</c>, not for a category.
+        /// Title, focus, key API, aliases and group all count: a developer looks for
+        /// <c>LegendAdornmentLayer</c>, not for a category, and one who remembers
+        /// "Reverse Geocoding" from an older gallery finds the row it was merged into.
         /// </summary>
         public static bool Matches(SampleEntry entry, string[] terms)
         {
@@ -26,6 +27,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
                 var hit = Contains(entry.Title, term)
                           || Contains(entry.Focus, term)
                           || Contains(entry.KeyApi, term)
+                          || Contains(entry.Aliases, term)
                           || Contains(entry.Category, term);
                 if (!hit)
                 {

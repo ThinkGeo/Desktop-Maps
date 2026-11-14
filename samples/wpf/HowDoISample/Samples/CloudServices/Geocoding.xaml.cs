@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -11,22 +12,25 @@ using ThinkGeo.Gpu;
 namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 {
     /// <summary>
-    /// Learn how to use the GeocodingCloudClient to access the Geocoding APIs available from the ThinkGeo Cloud
+    /// Find addresses and places by name, or click the map to find the addresses and places around a point.
     /// </summary>
     public partial class Geocoding
     {
         private bool _initialized;
+        private bool _reverse;
         private GeocodingCloudClient _geocodingCloudClient;
+        private ReverseGeocodingCloudClient _reverseGeocodingCloudClient;
+        private readonly DynamicSource _searchedArea = new DynamicSource();
         private readonly DynamicSource _selectedResult = new DynamicSource();
+
+        // The map is in Spherical Mercator (3857); people read and type latitude and longitude (4326).
+        private readonly ProjectionConverter _latLon = new ProjectionConverter(3857, 4326);
 
         public Geocoding()
         {
             InitializeComponent();
         }
 
-        /// <summary>
-        /// Set up the map with the ThinkGeo Cloud Maps basemap
-        /// </summary>
         private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
@@ -34,38 +38,114 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
             Map.MapUnit = GeographyUnit.Meter;
 
-            // The location picked out of the results is drawn with the basemap: a star for a
-            // point, and a street or a boundary as the line or area it is.
-            var style = new MapStyle(ThinkGeoVectorStyles.Light, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
+            var style = new MapStyle(ThinkGeoVectorStyles.Dark, new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) });
+            style.Images.Add("center", new PointStyle(PointSymbolType.Cross, 20, GeoBrushes.Red));
             style.Images.Add("match", new PointStyle(PointSymbolType.Star, 24, GeoBrushes.MediumPurple, GeoPens.Purple));
+            style.AddDynamic(_searchedArea);
             style.AddDynamic(_selectedResult);
             Map.Basemap = new GpuBasemap(style);
 
-            // Set the map extent to Frisco, TX
             Map.CenterPoint = new PointShape(-10778720, 3915154);
             Map.CurrentScale = 202090;
 
-            // Initialize the GeocodingCloudClient using our ThinkGeo Cloud credentials
             _geocodingCloudClient = new GeocodingCloudClient
             {
                 ClientId = SampleShared.ClientId,
                 ClientSecret = SampleShared.ClientSecret,
             };
+            _reverseGeocodingCloudClient = new ReverseGeocodingCloudClient
+            {
+                ClientId = SampleShared.ClientId,
+                ClientSecret = SampleShared.ClientSecret,
+            };
+            _latLon.Open();
 
             _ = Map.RefreshAsync();
         }
 
-        /// <summary>
-        /// Search for an address using the GeocodingCloudClient
-        /// </summary>
-        private async Task<CloudGeocodingResult> PerformGeocodingQuery()
+        private void Mode_Checked(object sender, RoutedEventArgs e)
         {
-            // Show a loading graphic to let users know the request is running
-            LoadingImage.Visibility = Visibility.Visible;
+            if (!_initialized) return;
+
+            _reverse = (string)((RadioButton)sender).Tag == "reverse";
+            SearchOptions.Visibility = _reverse ? Visibility.Collapsed : Visibility.Visible;
+            ReverseOptions.Visibility = _reverse ? Visibility.Visible : Visibility.Collapsed;
+            Status.Text = _reverse ? "Click the map, or type a location and search." : string.Empty;
+
+            Results.ItemsSource = null;
+            _searchedArea.Clear();
+            _selectedResult.Clear();
+        }
+
+        private async void Search_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                await SearchAsync();
+            }
+            catch (Exception ex)
+            {
+                LoadingImage.Visibility = Visibility.Hidden;
+                Status.Text = ex.Message;
+            }
+        }
+
+        private async void SearchHere_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var coordinates = TxtCoordinates.Text.Split(',');
+                if (coordinates.Length != 2
+                    || !double.TryParse(coordinates[0], NumberStyles.Float, CultureInfo.InvariantCulture, out var latitude)
+                    || !double.TryParse(coordinates[1], NumberStyles.Float, CultureInfo.InvariantCulture, out var longitude))
+                {
+                    Status.Text = "Type the location as latitude, longitude - for example 33.150076, -96.834530.";
+                    return;
+                }
+
+                var point = _latLon.ConvertToInternalProjection(longitude, latitude);
+                await ReverseGeocodeAsync(new PointShape(point.X, point.Y));
+            }
+            catch (Exception ex)
+            {
+                LoadingImage.Visibility = Visibility.Hidden;
+                Status.Text = ex.Message;
+            }
+        }
+
+        private async void Map_MapClick(object sender, MapClickMapViewEventArgs e)
+        {
+            if (!_reverse || e.MouseButton != MapMouseButton.Left) return;
+
+            try
+            {
+                var latLon = _latLon.ConvertToExternalProjection(e.WorldLocation.X, e.WorldLocation.Y);
+                TxtCoordinates.Text = FormattableString.Invariant($"{latLon.Y:0.000000}, {latLon.X:0.000000}");
+                await ReverseGeocodeAsync(e.WorldLocation);
+            }
+            catch (Exception ex)
+            {
+                LoadingImage.Visibility = Visibility.Hidden;
+                Status.Text = ex.Message;
+            }
+        }
+
+        private async Task SearchAsync()
+        {
+            if (string.IsNullOrWhiteSpace(TxtSearchString.Text))
+            {
+                Status.Text = "Type an address or a place to search for.";
+                return;
+            }
+            if (!int.TryParse(TxtMaxResults.Text, out var maxResults) || maxResults < 1 || maxResults > 100)
+            {
+                Status.Text = "Maximum results is a number from 1 to 100.";
+                return;
+            }
 
             var options = new CloudGeocodingOptions
             {
-                MaxResults = int.Parse(TxtMaxResults.Text),
+                MaxResults = maxResults,
                 Autocomplete = ChkAutocomplete.IsChecked == true,
                 ResultProjectionInSrid = 3857,
             };
@@ -74,153 +154,134 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
                 options.BBox = Map.CurrentExtent;
             }
 
-            var countries = (TxtCountryCodes.Text ?? string.Empty)
-                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(s => s.Trim())
-                .Where(s => s.Length > 0)
-                .ToArray();
+            var countries = TxtCountryCodes.Text.Split(',').Select(s => s.Trim()).Where(s => s.Length > 0).ToArray();
             if (countries.Length > 0)
             {
                 options.Countries = countries;
             }
-
-            var languages = (TxtLanguage.Text ?? string.Empty)
-                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(s => s.Trim())
-                .Where(s => s.Length > 0)
-                .ToArray();
+            var languages = TxtLanguage.Text.Split(',').Select(s => s.Trim()).Where(s => s.Length > 0).ToArray();
             if (languages.Length > 0)
             {
                 options.Language = languages;
             }
 
-            // Run the geocode
-            var searchString = TxtSearchString.Text.Trim();
-            var searchResult = await _geocodingCloudClient.SearchAsync(searchString, options);
-
-            // Hide the loading graphic
+            LoadingImage.Visibility = Visibility.Visible;
+            var result = await _geocodingCloudClient.SearchAsync(TxtSearchString.Text.Trim(), options);
             LoadingImage.Visibility = Visibility.Hidden;
 
-            return searchResult;
-        }
-
-        /// <summary>
-        /// Update the UI based on the results of a Cloud Geocoding Query
-        /// </summary>
-        private void UpdateSearchResultsOnUI(CloudGeocodingResult searchResult)
-        {
-            // Clear the locations list and the location drawn on the map
             _selectedResult.Clear();
-            LsbLocations.ItemsSource = null;
-
-            if (searchResult.Locations != null)
+            if (result.Exception != null)
             {
-                // Update the UI with the number of results found and the list of locations found
-                TxtSearchResultsDescription.Text = $"Found {searchResult.Locations.Count} matching locations.";
-                LsbLocations.ItemsSource = searchResult.Locations;
-                if (searchResult.Locations.Count > 0)
-                {
-                    LsbLocations.Visibility = Visibility.Visible;
-                    LsbLocations.SelectedIndex = 0;
-                }
+                Status.Text = result.Exception.Message;
+                Results.ItemsSource = null;
+                return;
+            }
+
+            Status.Text = $"Found {result.Locations.Count} matching locations.";
+            Results.ItemsSource = result.Locations;
+            if (result.Locations.Count > 0)
+            {
+                Results.SelectedIndex = 0;
             }
         }
 
-        /// <summary>
-        /// Search for an address using the GeocodingCloudClient and update the UI
-        /// </summary>
-        private async void Search_Click(object sender, RoutedEventArgs e)
+        private async Task ReverseGeocodeAsync(PointShape point)
         {
-            try
+            if (!int.TryParse(TxtSearchRadius.Text, out var searchRadius) || searchRadius <= 0)
             {
-                // Perform some simple validation on the input text boxes
-                if (ValidateSearchParameters())
-                {
-                    // Run the Cloud Geocoding query
-                    var searchResult = await PerformGeocodingQuery();
-
-                    // Handle an error returned from the geocoding service
-                    if (searchResult.Exception != null)
-                    {
-                        MessageBox.Show(searchResult.Exception.Message, "Error");
-                        return;
-                    }
-
-                    // Update the UI based on the results
-                    UpdateSearchResultsOnUI(searchResult);
-                }
+                Status.Text = "The search radius is a whole number of meters, greater than 0.";
+                return;
             }
-            catch
+            if (!int.TryParse(TxtReverseMaxResults.Text, out var maxResults) || maxResults <= 0)
             {
-                LoadingImage.Visibility = Visibility.Hidden;
-                // Because async void methods don't return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it's good practice to catch and handle (or log) all exceptions within these "fire-and-forget" methods.
+                Status.Text = "Maximum results is a whole number greater than 0.";
+                return;
             }
+
+            var options = new CloudReverseGeocodingOptions { MaxResults = maxResults };
+            if (CbDataOsm.IsChecked == true) options.DataSources.Add("osm");
+            if (CbDataOa.IsChecked == true) options.DataSources.Add("oa");
+            if (CbDataWof.IsChecked == true) options.DataSources.Add("wof");
+            if (CbDataGn.IsChecked == true) options.DataSources.Add("gn");
+            if (CbDataOt.IsChecked == true) options.DataSources.Add("ot");
+
+            var searched = new EllipseShape(point, searchRadius);
+            _searchedArea.Clear();
+            _searchedArea.SetArea("searched", new Feature(searched), new GeoColor(10, GeoColors.DodgerBlue), new GeoColor(100, GeoColors.DodgerBlue), 2f);
+            _searchedArea.SetPoint("center", new Feature(point), sizeInPixel: 20f, iconName: "center");
+            _selectedResult.Clear();
+
+            LoadingImage.Visibility = Visibility.Visible;
+            var result = await _reverseGeocodingCloudClient.SearchPointAsync(point.X, point.Y, 3857, searchRadius, DistanceUnit.Meter, options);
+            LoadingImage.Visibility = Visibility.Hidden;
+
+            if (result.Exception != null)
+            {
+                Status.Text = result.Exception.Message;
+                Results.ItemsSource = null;
+                return;
+            }
+
+            // Addresses first, then the other places; intersections are left out. A place
+            // with no address of its own is listed by its name.
+            var nearby = result.NearbyLocations
+                .Where(location => !string.Equals(location.LocationCategory, "intersection", StringComparison.OrdinalIgnoreCase))
+                .OrderBy(location => (location.LocationCategory ?? string.Empty).IndexOf("address", StringComparison.OrdinalIgnoreCase) >= 0 ? 0 : 1)
+                .ToList();
+            foreach (var location in nearby.Where(location => string.IsNullOrWhiteSpace(location.Address)))
+            {
+                location.Address = location.LocationName;
+            }
+
+            Status.Text = result.BestMatchLocation == null
+                ? "No address or place was found within the search radius."
+                : "Best match: " + result.BestMatchLocation.Address;
+            Results.ItemsSource = nearby;
+
+            await ZoomToAsync(searched.GetBoundingBox());
         }
 
-        /// <summary>
-        /// When a location is selected in the UI, draw it on the map and center the map on it
-        /// </summary>
-        private async void lsbLocations_SelectionChanged(object sender, RoutedEventArgs e)
+        private async void Results_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
             {
-                // Get the selected location
-                var chosenLocation = LsbLocations.SelectedItem as CloudGeocodingLocation;
-                if (chosenLocation == null) return;
+                var feature = Results.SelectedItem switch
+                {
+                    CloudGeocodingLocation found => new Feature(found.Shape),
+                    CloudReverseGeocodingLocation nearby => nearby.LocationFeature,
+                    _ => null,
+                };
+                if (feature == null) return;
 
-                // A found location can be a point, a street or a boundary, so it is drawn
-                // the way its kind is drawn.
+                // A location can be a point, a street or a boundary; each is drawn the way its kind is.
                 _selectedResult.Clear();
-                var locationFeature = new Feature(chosenLocation.Shape);
-                switch (chosenLocation.Shape)
+                switch (feature.GetShape())
                 {
                     case AreaBaseShape _:
-                        _selectedResult.SetArea("found", locationFeature, new GeoColor(80, GeoColors.MediumPurple), GeoColors.MediumPurple, 2f);
+                        _selectedResult.SetArea("found", feature, new GeoColor(80, GeoColors.MediumPurple), GeoColors.MediumPurple, 2f);
                         break;
                     case LineBaseShape _:
-                        _selectedResult.SetLine("found", locationFeature, GeoColors.MediumPurple, 6f);
+                        _selectedResult.SetLine("found", feature, GeoColors.MediumPurple, 6f);
                         break;
                     case PointBaseShape _:
-                        _selectedResult.SetPoint("found", locationFeature, sizeInPixel: 24f, iconName: "match");
+                        _selectedResult.SetPoint("found", feature, sizeInPixel: 24f, iconName: "match");
                         break;
                 }
 
-                // Center the map on the chosen location
-                var chosenLocationBBox = chosenLocation.BoundingBox;
-                Map.CenterPoint = chosenLocationBBox.GetCenterPoint();
-                Map.CurrentScale = MapUtil.GetScale(Map.MapUnit, chosenLocationBBox, Map.MapWidth, Map.MapHeight);
-                var standardZoomLevelSet = new ZoomLevelSet();
-                await Map.ZoomToAsync(standardZoomLevelSet.ZoomLevel18.Scale);
-                await Map.RefreshAsync();
+                await ZoomToAsync(feature.GetBoundingBox());
             }
-            catch
+            catch (Exception ex)
             {
-                LoadingImage.Visibility = Visibility.Hidden;
-                // Because async void methods don't return a Task, unhandled exceptions cannot be awaited or caught from outside.
-                // Therefore, it's good practice to catch and handle (or log) all exceptions within these "fire-and-forget" methods.
+                Status.Text = ex.Message;
             }
         }
 
-        /// <summary>
-        /// Helper function to perform simple validation on the input text boxes
-        /// </summary>
-        private bool ValidateSearchParameters()
+        // Fits the extent with a margin, but never closer than street level: a point has no size.
+        private Task ZoomToAsync(RectangleShape extent)
         {
-            // Check if the address text box is empty
-            if (string.IsNullOrWhiteSpace(TxtSearchString.Text))
-            {
-                TxtSearchString.Focus();
-                MessageBox.Show("Please enter an address to search", "Error");
-                return false;
-            }
-
-            // Check if the 'Max Results' text box has a valid value
-            if (!string.IsNullOrWhiteSpace(TxtMaxResults.Text) &&
-                (int.TryParse(TxtMaxResults.Text, out var result) && result > 0 && result < 101)) return true;
-            TxtMaxResults.Focus();
-            MessageBox.Show("Please enter a number between 1 - 100", "Error");
-            return false;
+            var fit = MapUtil.GetScale(Map.MapUnit, extent, Map.MapWidth, Map.MapHeight) * 1.5;
+            var streetLevel = new ZoomLevelSet().ZoomLevel17.Scale;
+            return Map.ZoomToAsync(extent.GetCenterPoint(), Math.Max(fit, streetLevel));
         }
     }
 }

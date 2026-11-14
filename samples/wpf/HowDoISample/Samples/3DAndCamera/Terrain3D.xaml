@@ -22,40 +22,32 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="240"/>
-            <ColumnDefinition Width="420"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0">
-            <thinkGeoUi:MapView x:Name="Map" SizeChanged="Map_SizeChanged" MapClick="Map_MapClick"/>
+        <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged" MapClick="Map_MapClick"/>
 
-            <!-- The profile chart: distance along the line across, elevation up. -->
-            <Border x:Name="ChartPanel" Visibility="Collapsed"
-                    HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                    Margin="0,0,12,12" Padding="8" Background="#E6FFFFFF" CornerRadius="4">
-                <StackPanel>
-                    <TextBlock x:Name="ChartTitle" FontSize="11" Margin="0,0,0,4"/>
-                    <Canvas x:Name="Chart" Width="320" Height="110" ClipToBounds="True"/>
-                </StackPanel>
-            </Border>
-        </Grid>
-
-        <DockPanel Grid.Column="1" Background="#F6F6F4">
-            <TextBlock DockPanel.Dock="Top" Text="style.json - edit it; the map follows"
-                       FontWeight="SemiBold" FontSize="11.5" Margin="8,6,8,4"/>
-            <StackPanel DockPanel.Dock="Top" Margin="8,0,8,4">
-                <CheckBox x:Name="TerrainToggle" Content="terrain" IsChecked="True"
+        <Border Grid.Column="1" Style="{DynamicResource Shell.SamplePanel}">
+            <StackPanel>
+                <CheckBox x:Name="TerrainToggle" Content="Terrain" IsChecked="True"
                           Checked="TerrainToggle_Checked" Unchecked="TerrainToggle_Unchecked"/>
-                <TextBlock x:Name="ProfileText" Text="click two points for an elevation profile"
-                           FontSize="11.5" TextWrapping="Wrap" Margin="0,6,0,0"/>
+                <TextBlock x:Name="ProfileText" Text="Click two points for an elevation profile."
+                           TextWrapping="Wrap" Margin="0,8,0,0"/>
+
+                <!-- The profile chart: distance along the line across, elevation up. -->
+                <Border x:Name="ChartPanel" Visibility="Collapsed" HorizontalAlignment="Left"
+                        Margin="0,8,0,0" Padding="8" Background="{DynamicResource Shell.Panel.Input}" BorderBrush="{DynamicResource Shell.Divider}" BorderThickness="1">
+                    <StackPanel>
+                        <TextBlock x:Name="ChartTitle" FontSize="11" Margin="0,0,0,4"/>
+                        <Canvas x:Name="Chart" Width="296" Height="110" ClipToBounds="True">
+                            <Polyline x:Name="ChartLine" Stroke="LightGreen" StrokeThickness="1.5"/>
+                        </Canvas>
+                    </StackPanel>
+                </Border>
+
+                <TextBlock TextWrapping="Wrap" FontSize="11" Margin="0,16,0,0"
+                           Text="Elevation: AWS open terrain tiles (terrarium encoding). Imagery: ThinkGeo Cloud aerial."/>
             </StackPanel>
-            <TextBlock x:Name="Status" DockPanel.Dock="Bottom" FontSize="11" Margin="8,4,8,6"
-                       TextWrapping="Wrap" Foreground="DarkGreen"/>
-            <TextBox x:Name="Editor" TextChanged="Editor_TextChanged"
-                     Text="{StaticResource StyleJson}"
-                     AcceptsReturn="True" AcceptsTab="True"
-                     FontFamily="Consolas" FontSize="11.5" Padding="6"
-                     TextWrapping="NoWrap" BorderThickness="1,0,0,0" BorderBrush="#CCCCCC"
-                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
-        </DockPanel>
+        </Border>
     </Grid>
 </UserControl>

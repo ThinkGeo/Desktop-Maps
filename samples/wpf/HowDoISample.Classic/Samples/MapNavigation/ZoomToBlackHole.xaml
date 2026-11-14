@@ -7,7 +7,18 @@
              xmlns:tgCore="clr-namespace:ThinkGeo.Core;assembly=ThinkGeo.Core"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <DockPanel LastChildFill="True">
+        <Border DockPanel.Dock="Right" Width="270" Background="#F6F6F4" Padding="12,10"
+                BorderBrush="#CCCCCC" BorderThickness="1,0,0,0">
+            <StackPanel>
+                <TextBlock Text="Fly to the black hole" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                <TextBlock FontSize="11" Foreground="#555B62" TextWrapping="Wrap" Margin="0,0,0,8"
+                           Text="ZoomToAsync flies from galaxy M87 down to the shadow of its black hole, through ten pictures nested inside each other."/>
+                <Button Content="Zoom To M87 Black Hole" Padding="0,3" Click="ZoomToBlackHoleButton_Click"/>
+                <Button Content="Back to the start" Padding="0,3" Margin="0,4,0,0" Click="DefaultExtentButton_Click"/>
+                <TextBlock Margin="0,10,0,0" Text="{Binding ElementName=Map, Path=CurrentScale, StringFormat='Scale: {0:N2}'}"/>
+            </StackPanel>
+        </Border>
         <tgWpf:MapView x:Name="Map"
                         Background="Black"
                         MinimumScale="0"
@@ -78,35 +89,5 @@
                 </tgWpf:LayerOverlay>
             </tgWpf:MapView.Overlays>
         </tgWpf:MapView>
-
-        <Button Background="Transparent"
-                VerticalAlignment="Top" HorizontalAlignment="Right"
-                Width="40" Height="40" Margin="10"
-                Click="DefaultExtentButton_Click">
-            <Button.Style>
-                <Style TargetType="Button">
-                    <Setter Property="OverridesDefaultStyle" Value="True"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="Button">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Button.Style>
-            <Image Source="/Resources/icon_globe_black.png" Stretch="Fill"></Image>
-        </Button>
-
-        <Button HorizontalAlignment="Center" VerticalAlignment="Bottom"
-                Background="Gray" Height="40" Foreground="Black" 
-                Click="ZoomToBlackHoleButton_Click" FontSize="20"
-                Content="Zoom To M87 Black Hole"/>
-
-        <TextBlock HorizontalAlignment="Center"
-                   VerticalAlignment="Top"
-                   Foreground="White"
-                   FontSize="20"
-                   Text="{Binding ElementName=Map, Path=CurrentScale, StringFormat='Scale: {0:N2}'}"/>
-    </Grid>
+    </DockPanel>
 </UserControl>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using ThinkGeo.Core;
@@ -6,7 +6,7 @@ using ThinkGeo.Core;
 namespace ThinkGeo.UI.Wpf.HowDoI
 {
     /// <summary>
-    /// Learn to resize the map while preserving the world extent with various map resize modes.
+    /// Choose what the map keeps when it is resized: its scale, its scale and center, or its extent.
     /// </summary>
     public partial class ResizeTheMap : IDisposable
     {
@@ -17,26 +17,16 @@ namespace ThinkGeo.UI.Wpf.HowDoI
             InitializeComponent();
         }
 
-        /// <summary>
-        /// Set up the map with the ThinkGeo Cloud Maps overlay to show a basic map and a shapefile with simple data to work with
-        /// </summary>
         private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_initialized || e.NewSize.Width <= 0 || e.NewSize.Height <= 0) return;
 
             _initialized = true;
-            // Set the map's unit of measurement to meters(Spherical Mercator)
             Map.MapUnit = GeographyUnit.Meter;
+            Map.MapResizeMode = MapResizeMode.PreserveScale;
 
-            // Add Cloud Maps as a background overlay
-            var thinkGeoVectorTileOverlay = new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey)
-            {
-                // Set up the tile cache for the ThinkGeoVectorTileOverlay, passing in the location and an ID to distinguish the cache. 
-                TileCache = new FileRasterTileCache(@".\cache", "thinkgeo_vector_tile_light")
-            };
-            Map.Overlays.Add(thinkGeoVectorTileOverlay);
+            Map.Overlays.Add(new ThinkGeoVectorTileOverlay(SampleKeys.ApiKey));
 
-            // Set the map extent
             Map.CenterPoint = new PointShape(-10336000, 5260000);
             Map.CurrentScale = 37000000;
 
@@ -45,6 +35,8 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
         {
+            if (!_initialized) return;
+
             var radioButton = sender as RadioButton;
             if (radioButton == null)
                 return;
@@ -64,9 +56,7 @@ namespace ThinkGeo.UI.Wpf.HowDoI
 
         public void Dispose()
         {
-            // Dispose of unmanaged resources.
             Map.Dispose();
-            // Suppress finalization.
             GC.SuppressFinalize(this);
         }
     }

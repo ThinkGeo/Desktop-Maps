@@ -1,9 +1,5 @@
-using System;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Threading;
 using ThinkGeo.Core;
 using ThinkGeo.Core.Styling;
 using ThinkGeo.Gpu;
@@ -17,21 +13,11 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
     /// </summary>
     public partial class OGCAPIFeatureServer
     {
-        private readonly ThinkGeoVectorTileSource _cloud = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) };
-
-        // One query at a time: a public service is not a shapefile, and four
-        // concurrent bounding-box requests per screenful is not politeness.
-        private readonly FeatureSourceVectorTileSource _places = new FeatureSourceVectorTileSource { MinDataZoom = 12 };
-
-        private readonly DispatcherTimer _applyTimer;
         private bool _initialized;
 
         public OGCAPIFeatureServer()
         {
             InitializeComponent();
-
-            _applyTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(400) };
-            _applyTimer.Tick += async (_, _) => { _applyTimer.Stop(); await ApplyEditorStyleAsync(); };
         }
 
         private void Map_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -46,48 +32,24 @@ namespace ThinkGeo.UI.Wpf.HowDoI.Samples
 
         private async Task BuildMapAsync()
         {
-            _places.FeatureSources.Add("places", new OgcApiAsyncFeatureSource(
+            // Below zoom 12 no tile asks the service: a tile there would be a
+            // bounding-box query for the places of a whole province.
+            var places = new FeatureSourceVectorTileSource { MinDataZoom = 12 };
+            places.FeatureSources.Add("places", new OgcApiAsyncFeatureSource(
                 "https://api-features.ign.es", "namedplace")
             {
                 ProjectionConverter = new ProjectionConverter(4326, 3857)
             });
 
+            var basemapTiles = new ThinkGeoVectorTileSource(SampleShared.CloudApiKey) { VectorTileCache = new FileTileCache(SampleShared.VectorTileCacheFolder) };
             var style = new MapStyle();
-            style.AddStyle(ThinkGeoVectorStyles.Light, _cloud);
-            style.AddStyle(Editor.Text, _places);
+            style.AddStyle(ThinkGeoVectorStyles.Dark, basemapTiles);
+            style.AddStyle((string)Resources["StyleJson"], places);
             Map.Basemap = new GpuBasemap(style);
 
             Map.CenterPoint = new PointShape(235690, 5057360);
             Map.CurrentScale = 36200;
             await Map.RefreshAsync();
-        }
-
-        private void Editor_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (!_initialized) return;
-            _applyTimer.Stop();
-            _applyTimer.Start();
-        }
-
-        // A document that does not compile changes nothing; the map keeps the last one that worked.
-        private async Task ApplyEditorStyleAsync()
-        {
-            if (!IsLoaded) return;
-
-            try
-            {
-                var style = new MapStyle();
-                style.AddStyle(ThinkGeoVectorStyles.Light, _cloud);
-                style.AddStyle(Editor.Text, _places);
-                await Map.Basemap.SetStyleAsync(style);
-                Status.Foreground = Brushes.DarkGreen;
-                Status.Text = FormattableString.Invariant($"applied at {DateTime.Now:HH:mm:ss}");
-            }
-            catch (Exception exception)
-            {
-                Status.Foreground = Brushes.Firebrick;
-                Status.Text = "not applied - " + exception.Message.Split('\n')[0].TrimEnd('\r');
-            }
         }
     }
 }

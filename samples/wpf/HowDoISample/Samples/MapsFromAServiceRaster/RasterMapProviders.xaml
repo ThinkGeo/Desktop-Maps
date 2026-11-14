@@ -9,28 +9,37 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="260"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <thinkGeoUi:MapView x:Name="Map" Grid.Column="0" SizeChanged="Map_SizeChanged"/>
         <!-- The keyed providers are a page over the map: without your key none of them draws. -->
         <ContentControl x:Name="KeyedProvidersPage" Grid.Column="0" Visibility="Collapsed"/>
 
-        <StackPanel Grid.Column="1" Background="DimGray" Margin="10">
-            <TextBlock Text="Provider" FontSize="16" FontWeight="Bold" Foreground="WhiteSmoke" Margin="0,0,0,6"/>
+        <Border Grid.Column="1" Style="{DynamicResource Shell.SamplePanel}">
+            <StackPanel>
+                <TextBlock Text="Provider" FontWeight="SemiBold" FontSize="11.5" Margin="0,6,0,4"/>
+                <StackPanel Margin="0,0,0,4">
+                    <RadioButton x:Name="ThinkGeoDark" Content="ThinkGeo Cloud - Dark" IsChecked="True" Checked="Provider_Checked"/>
+                    <RadioButton x:Name="ThinkGeoLight" Content="ThinkGeo Cloud - Light" Checked="Provider_Checked"/>
+                    <RadioButton x:Name="ThinkGeoAerial" Content="ThinkGeo Cloud - Aerial" Checked="Provider_Checked"/>
+                    <RadioButton x:Name="ThinkGeoHybrid" Content="ThinkGeo Cloud - Hybrid" Checked="Provider_Checked"/>
+                    <RadioButton x:Name="Osm" Content="OpenStreetMap" Checked="Provider_Checked"/>
+                    <RadioButton x:Name="KeyedProviders" Content="Azure Maps, Google Maps, HERE and Mapbox" Checked="Provider_Checked"/>
+                    <RadioButton x:Name="CustomXyz" Content="Custom XYZ URL" Checked="Provider_Checked"/>
+                </StackPanel>
 
-            <RadioButton x:Name="ThinkGeoLight" Content="ThinkGeo Cloud - Light" IsChecked="True" Checked="Provider_Checked"/>
-            <RadioButton x:Name="ThinkGeoDark" Content="ThinkGeo Cloud - Dark" Checked="Provider_Checked"/>
-            <RadioButton x:Name="ThinkGeoAerial" Content="ThinkGeo Cloud - Aerial" Checked="Provider_Checked"/>
-            <RadioButton x:Name="ThinkGeoHybrid" Content="ThinkGeo Cloud - Hybrid" Checked="Provider_Checked"/>
-            <RadioButton x:Name="Osm" Content="OpenStreetMap" Checked="Provider_Checked"/>
-            <RadioButton x:Name="KeyedProviders" Content="Azure Maps, Google Maps, HERE and Mapbox" Checked="Provider_Checked"/>
+                <StackPanel x:Name="CustomXyzPanel" Visibility="Collapsed" Margin="0,6,0,0">
+                    <TextBlock Text="Tile URL with {z}, {x} and {y}" Margin="0,0,0,4"/>
+                    <TextBox x:Name="XyzUrlBox" Text="https://tile.openstreetmap.org/{z}/{x}/{y}.png" TextWrapping="Wrap" MinHeight="48"/>
+                    <Button Content="Load" Click="Load_Click" Margin="0,6,0,0"/>
+                </StackPanel>
 
-            <TextBlock x:Name="Status" Foreground="#DDDDDD" FontFamily="Consolas" FontSize="11"
-                       Margin="0,12,0,0" TextWrapping="Wrap"/>
+                <TextBlock x:Name="Status" FontFamily="Consolas" FontSize="11" Margin="0,10,0,0" TextWrapping="Wrap"/>
 
-            <TextBlock Foreground="#DDDDDD" TextWrapping="Wrap" FontSize="11" Margin="0,12,0,0"
-                       Text="ThinkGeo Cloud and OpenStreetMap are one tile source each, handed to the style. The commercial providers need your own API key, so they are a page of their classes and one-line usage rather than a map."/>
-        </StackPanel>
+                <TextBlock TextWrapping="Wrap" FontSize="11" Margin="0,10,0,6"
+                           Text="ThinkGeo Cloud, OpenStreetMap and any {z}/{x}/{y} tile server are one tile source each, handed to the style. The commercial providers need your own API key, so they are a page of their classes and one-line usage rather than a map."/>
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>
